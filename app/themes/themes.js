@@ -2,7 +2,7 @@ export const  themes={
 
 color:{
     primary: "blue",
-    secondary: "silver",
+    secondary: "#d9d9d9",
     textPrimary: "",
     textSecondary: "",
     modernaRed: "#d22630",
