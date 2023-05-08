@@ -6,20 +6,15 @@ import { Divider } from '@rneui/themed';
 import theme from '../../theme/theme'
 import StyledButton from '../../components/StyledButton';
 import DoubleStyledButton from '../../components/DoubleStyledButton';
+import ScreenInformation from '../../components/ScreenInformation';
 
 const Briefcase_Review = () => {
   return (
     <View style={styles.container}>
       <ModernaHeader/>
-      <ScrollView style={{width:theme.dimensions.maxWidth,marginTop:theme.dimensions.maxHeight/10.6}}>
+      <ScrollView style={{width:theme.dimensions.maxWidth,marginTop:theme.dimensions.maxHeight/10}}>
         <><ReviewBanner/></>
-        <View style={{width:theme.dimensions.maxWidth,justifyContent:'center',alignItems:'center'}}>
-          <Text style={{fontSize:20, marginTop:20,fontWeight:theme.fontWeight.bolder}}>Cliente-Sucursal</Text>
-          <View style={{width:theme.dimensions.maxWidth/1.1,marginVertical:20}}> 
-            <Divider width={2} color={'#D9D9D9'} style={{backgroundColor:'blue'}}/>
-          </View>
-          <Text style={{fontSize:14}}>A continuación se enlistan los precios de los productos registrados</Text>
-        </View>
+        <ScreenInformation title={'Cliente-Sucursal'} text={'A continuación se enlistan los precios de los productos registrados'}/>
         <DoubleStyledButton
           titleLeft={'Cancelar'} 
           sizeLeft={theme.buttonSize.df} 

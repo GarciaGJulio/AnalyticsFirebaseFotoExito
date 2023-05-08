@@ -38,14 +38,14 @@ const styles = StyleSheet.create({
     alignContent:'center',
     margin: 5,
     shadowColor: 'black',
-        shadowOffset: {
+      shadowOffset: {
         width: 0,
         height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 6,
-        padding: 10,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 6,
+      padding: 10,
   },
   buttonText:{
     flex:1,

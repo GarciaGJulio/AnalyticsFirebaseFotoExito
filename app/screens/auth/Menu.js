@@ -1,26 +1,33 @@
 import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import theme from '../../theme/theme'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
 import SYNC_BACKGROUND from '../../../assets/resources/sync_background.jpg'
+import LoaderModal from '../../components/LoaderModal'
 
 const Menu = ({navigation}) => {
-    const log = () => {
-        console.log("NAVEGANDO A LOGIN")
-        navigation.navigate('login')
-    }
+   const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+    };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
+      <LoaderModal visible={isModalVisible} onClose={handleCloseModal} warning={'Al presionar el boton Aceptar se va a cancelar su progreso.'}/>
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image}/>
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover' imageStyle={{opacity:0.20}}>
             <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
-            <StyledButton title={'Sincronizar Datos'} buttonColor={theme.colors.modernaYellow} onPress={() => log()} size={theme.buttonSize.lg} iconName={'cloud-sync'} iconType={'material-community'}/>
+            <StyledButton title={'Sincronizar Datos'} buttonColor={theme.colors.modernaYellow} onPress={handleOpenModal} size={theme.buttonSize.lg} iconName={'cloud-sync'} iconType={'material-community'}/>
         </ImageBackground>
         <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover'  imageStyle={{opacity:0.20}}>
             <Text style={styles.text}>Desacarga los datos para empezar una nueva auditoría.</Text>

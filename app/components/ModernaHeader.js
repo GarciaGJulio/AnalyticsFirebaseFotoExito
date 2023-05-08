@@ -19,7 +19,6 @@ const ModernaHeader = () => {
 
   return (
     <View style={[styles.statusbar]}>
-        <StatusBar style="auto" />
         <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} warning={'Al presionar el boton Aceptar se va a cancelar su progreso.'}/>
         <View style={styles.userInfo}>
             <Icon name='user-tag' type='font-awesome-5' size={23} color={'white'} />
@@ -44,20 +43,11 @@ const ModernaHeader = () => {
 export default ModernaHeader
 
 const styles = StyleSheet.create({
-    container:{
-        width: theme.dimensions.maxWidth,
-        height:50,
-        backgroundColor:theme.colors.modernaRed,
-        justifyContent:'space-between',
-        alignItems:'center',
-        flexDirection:'row',
-        paddingHorizontal:10,
-    },
     statusbar: {
         width: theme.dimensions.maxWidth,
-        height:50,
+        height:55,
         flexDirection:'row',
-        paddingHorizontal:10,
+        //paddingHorizontal:10,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: theme.colors.modernaRed,

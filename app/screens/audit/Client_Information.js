@@ -1,13 +1,38 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Image, ImageBackground, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
 import theme from '../../theme/theme'
 import DoubleStyledButton from '../../components/DoubleStyledButton'
 import ScreenInformation from '../../components/ScreenInformation'
+import Dropdown from '../../components/Dropdown'
+import StyledInput from '../../components/StyledInput'
 
-const Briefcase = ({navigation}) => {
+const Client_Information = ({navigation}) => {
+  const [selected, setSelected] = useState("");
+  const [sucursal, setSucursal] = useState("");
+
+  const [type, setType] = useState("");
+  const clientsType = [
+    {client:'Cameras',type:'ASI'},
+    {client:'Appliances',type:'ASI'},
+    {client:'Vegetables',type:'MAYORISTA'},
+    {client:'Drinks',type:'MAYORISTA'},
+
+  ]
+
+  useEffect(()=>{
+    validateType(selected)
+  },[selected])
+  const validateType = (client) => {
+    clientsType.forEach((type)=> {
+      if(type.client == selected){
+          setType(type.type)
+      }
+    })
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
@@ -15,7 +40,30 @@ const Briefcase = ({navigation}) => {
         <Image source={Logotipo} style={styles.image}/>
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <ScreenInformation title={'Portafolio'} text={'Selecciona el cliente para empezar la auditoría'}/>
+        <ScreenInformation title={'Información del Cliente'} text={''}/>
+        <View style={{flexDirection:'row', marginHorizontal:20}}>
+          <Dropdown placeholder={'Seleccione un cliente'} setSelected={setSelected}/>
+          <View style={{width:150,marginLeft:10}}>
+            <Text style={{paddingBottom:5}}>Tipo de cliente</Text>
+            <View style={{width:'100%',height:45,borderWidth:2,borderColor:'black',borderRadius:10, padding:10,alignItems:'center'}}>
+              <Text style={{fontSize:15}}>{type}</Text>
+            </View>
+          </View>
+        </View>
+        <Text>{selected} {type}</Text>
+        <StyledInput
+              onChangeText={txt => 
+                setSucursal(txt.toUpperCase())
+              }
+              label="Sucursal"
+              placeholder="Ingresa el nombre de la sucursal"
+              maxLength={30}
+              //error={errorEmail}
+              keyboard='default'
+              editable={true}
+              value={sucursal}
+            />
+          <Text>{sucursal}</Text>
       <DoubleStyledButton 
             titleLeft={'Cancelar'} 
             sizeLeft={theme.buttonSize.df} 
@@ -33,7 +81,7 @@ const Briefcase = ({navigation}) => {
   )
 }
 
-export default Briefcase
+export default Client_Information
 
 const styles = StyleSheet.create({
     container: {
@@ -51,6 +99,7 @@ const styles = StyleSheet.create({
         bottom:'35%'
     },
     contentContainer:{
+        flex: 1,
         width:theme.dimensions.maxWidth,
         height:570,
         backgroundColor:'white',

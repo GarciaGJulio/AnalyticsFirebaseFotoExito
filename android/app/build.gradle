@@ -139,7 +139,7 @@ def reactNativeArchitectures() {
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId 'com.moneyblinks01.modernamobile'
