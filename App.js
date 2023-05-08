@@ -1,34 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import TarjPercha from './app/components/TarjetaPercha';
 import { useState } from 'react';
 import TarjPromo from './app/components/TarjetaPromo';
+import { NavigationContainer } from '@react-navigation/native';
+import Navigation from './app/navigation/Navigation';
 
 export default function App() {
-  const [valueGeneral, setValueGeneral] = useState();
-  const [valueModerna, setValueModerna] = useState();
-  const [checked, setChecked] = useState(false);
+ 
 
   return (
-    <View style={styles.container}>
-
-      <TarjPromo exhibidorNombre={"Exhibidor 1"} onChangeStatus={setChecked} />
-
-      <TarjPercha categoriaNombre={"PAN"} oncha onChangeTextModerna={setValueModerna} onChangeTextGeneral={setValueGeneral} />
-      <Text>General:{valueGeneral}</Text>
-      <Text>Moderna:{valueModerna}</Text>
-      <Text>Status:{ checked ? "si" : "no"}</Text>
-
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Navigation/>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
+    backgroundColor: 'white',
+    alignItems: 'center',
     justifyContent: 'center',
   },
 });
