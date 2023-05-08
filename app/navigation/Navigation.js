@@ -3,7 +3,8 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/auth/Login';
 import Menu from '../screens/auth/Menu';
-import TabsNavigation from '../components/TabsNavigation';
+import TabsNavigation from './TabsNavigation.js';
+import AuditNavigation from './AuditNavigation';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,7 @@ const Navigation = () => {
         <Stack.Screen name='login' component={Login}/>
         <Stack.Screen name='menu' component={Menu}/>
         <Stack.Screen name='review' component={TabsNavigation}/>
+        <Stack.Screen name='audit' component={AuditNavigation}/>
     </Stack.Navigator>
   )
 }

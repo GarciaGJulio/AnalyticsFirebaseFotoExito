@@ -24,7 +24,7 @@ const Menu = ({navigation}) => {
         </ImageBackground>
         <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover'  imageStyle={{opacity:0.20}}>
             <Text style={styles.text}>Desacarga los datos para empezar una nueva auditoría.</Text>
-            <StyledButton title={'Realizar Auditoria'} buttonColor={theme.colors.modernaRed} onPress={() => log()} size={theme.buttonSize.lg} iconName={'clipboard'} iconType={'entypo'}/>
+            <StyledButton title={'Realizar Auditoria'} buttonColor={theme.colors.modernaRed} onPress={() => navigation.navigate('audit')} size={theme.buttonSize.lg} iconName={'clipboard'} iconType={'entypo'}/>
         </ImageBackground>
         <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover'  imageStyle={{opacity:0.20}}>
             <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
