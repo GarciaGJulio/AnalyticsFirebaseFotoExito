@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         height:55,
         flexDirection:'row',
         //paddingHorizontal:10,
-        justifyContent: "center",
+        justifyContent: "center", 
         alignItems: "center",
         backgroundColor: theme.colors.modernaRed,
         position: 'absolute',

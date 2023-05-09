@@ -1,5 +1,5 @@
 import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
@@ -7,13 +7,37 @@ import theme from '../../theme/theme'
 import DoubleStyledButton from '../../components/DoubleStyledButton'
 import ScreenInformation from '../../components/ScreenInformation'
 import ModernaHeader from '../../components/ModernaHeader';
+import BriefcaseList from '../../components/BriefcaseList'
+import { ScrollView } from 'react-native'
+import { MultipleSelectList } from 'react-native-dropdown-select-list'
 
 const Briefcase = ({navigation}) => {
+  const [selected, setSelected] = useState([]);
+  
+  const data = [
+      {key:'1', value:'Mobiles', disabled:true},
+      {key:'2', value:'Appliances'},
+      {key:'3', value:'Cameras'},
+      {key:'4', value:'Computers', disabled:true},
+      {key:'5', value:'Vegetables'},
+      {key:'6', value:'Diary Products'},
+      {key:'7', value:'Drinks'},
+  ]
+
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
       <ModernaHeader/>
       <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
+      <BriefcaseList productList={'Harina'}/>
+      <MultipleSelectList 
+        setSelected={(val) => setSelected(val)} 
+        data={data} 
+        save="value"
+        onSelect={() => alert(selected)} 
+        label="Categories"
+    />
       <DoubleStyledButton 
             titleLeft={'Cancelar'} 
             sizeLeft={theme.buttonSize.df} 
