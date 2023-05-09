@@ -17,7 +17,7 @@ export default function App() {
       <TarjPercha categoriaNombre={"PAN"} oncha onChangeTextModerna={setValueModerna} onChangeTextGeneral={setValueGeneral} />
       <Text>General:{valueGeneral}</Text>
       <Text>Moderna:{valueModerna}</Text>
-      <Text>Status:{ checked ? "si" : "no"}</Text>
+      <Text>Status:{checked ? "si" : "no"}</Text>
 
       <StatusBar style="auto" />
     </View>

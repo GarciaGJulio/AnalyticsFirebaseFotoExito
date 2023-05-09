@@ -11,22 +11,22 @@ import ScreenInformation from '../../components/ScreenInformation';
 const Briefcase_Review = () => {
   return (
     <View style={styles.container}>
-      <ModernaHeader/>
-      <ScrollView style={{width:theme.dimensions.maxWidth,marginTop:theme.dimensions.maxHeight/10}}>
-        <><ReviewBanner/></>
-        <ScreenInformation title={'Cliente-Sucursal'} text={'A continuación se enlistan los precios de los productos registrados'}/>
+      <ModernaHeader />
+      <ScrollView style={{ width: theme.dimensions.maxWidth, marginTop: theme.dimensions.maxHeight / 10 }}>
+        <><ReviewBanner /></>
+        <ScreenInformation title={'Cliente-Sucursal'} text={'A continuación se enlistan los precios de los productos registrados'} />
         <DoubleStyledButton
-          titleLeft={'Cancelar'} 
-          sizeLeft={theme.buttonSize.df} 
+          titleLeft={'Cancelar'}
+          sizeLeft={theme.buttonSize.df}
           colorLeft={theme.colors.modernaYellow}
           iconLeft={"content-save-all-outline"}
           typeLeft={"material-community"}
-          titleRigth={'Guardar'} 
-          sizeRigth={theme.buttonSize.df} 
+          titleRigth={'Guardar'}
+          sizeRigth={theme.buttonSize.df}
           colorRigth={theme.colors.modernaRed}
           iconRigth={"content-save-all-outline"}
           typeRigth={"material-community"}
-          //onPressRigth={}
+        //onPressRigth={}
         />
       </ScrollView>
     </View>

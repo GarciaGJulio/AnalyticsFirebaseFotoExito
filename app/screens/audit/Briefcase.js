@@ -7,27 +7,27 @@ import theme from '../../theme/theme'
 import DoubleStyledButton from '../../components/DoubleStyledButton'
 import ScreenInformation from '../../components/ScreenInformation'
 
-const Briefcase = ({navigation}) => {
+const Briefcase = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
       <View style={styles.imageContainer}>
-        <Image source={Logotipo} style={styles.image}/>
+        <Image source={Logotipo} style={styles.image} />
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <ScreenInformation title={'Portafolio'} text={'Selecciona el cliente para empezar la auditoría'}/>
-      <DoubleStyledButton 
-            titleLeft={'Cancelar'} 
-            sizeLeft={theme.buttonSize.df} 
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => navigation.goBack()}
-            titleRigth={'Iniciar visita'} 
-            sizeRigth={theme.buttonSize.df} 
-            colorRigth={theme.colors.modernaRed}
-            //onPressRigth={onClose}
-            />
+        <ScreenInformation title={'Portafolio'} text={'Selecciona el cliente para empezar la auditoría'} />
+        <DoubleStyledButton
+          titleLeft={'Cancelar'}
+          sizeLeft={theme.buttonSize.df}
+          colorLeft={theme.colors.modernaYellow}
+          iconLeft={"cancel"}
+          typeLeft={"material-icon"}
+          onPressLeft={() => navigation.goBack()}
+          titleRigth={'Iniciar visita'}
+          sizeRigth={theme.buttonSize.df}
+          colorRigth={theme.colors.modernaRed}
+        //onPressRigth={onClose}
+        />
       </Animatable.View>
     </View>
   )
@@ -36,43 +36,43 @@ const Briefcase = ({navigation}) => {
 export default Briefcase
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.colors.modernaRed,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-    image: {
-        width:313,
-        height:112,
-        resizeMode:'cover'
-    },
-    imageContainer:{
-        bottom:'35%'
-    },
-    contentContainer:{
-        width:theme.dimensions.maxWidth,
-        height:570,
-        backgroundColor:'white',
-        position: 'absolute',
-        bottom: 0,
-        borderTopStartRadius:15,
-        borderTopEndRadius:15,
-        //justifyContent:'center',
-        alignItems:'center'
-    },
-    cardContainer:{
-        width:320,
-        height:160,
-        overflow:'hidden',
-        borderWidth:1,
-        marginVertical:5,
-        borderRadius:15,
-        justifyContent:'space-around',
-        alignItems:'center',
-        padding:5,
-    },
-    text:{
-        fontWeight:theme.fontWeight.bold,
-    }
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.modernaRed,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 313,
+    height: 112,
+    resizeMode: 'cover'
+  },
+  imageContainer: {
+    bottom: '35%'
+  },
+  contentContainer: {
+    width: theme.dimensions.maxWidth,
+    height: 570,
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    //justifyContent:'center',
+    alignItems: 'center'
+  },
+  cardContainer: {
+    width: 320,
+    height: 160,
+    overflow: 'hidden',
+    borderWidth: 1,
+    marginVertical: 5,
+    borderRadius: 15,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 5,
+  },
+  text: {
+    fontWeight: theme.fontWeight.bold,
+  }
 })
