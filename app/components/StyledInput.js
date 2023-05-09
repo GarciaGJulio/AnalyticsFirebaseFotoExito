@@ -6,11 +6,11 @@ import theme from '../theme/theme';
 //import { useFonts } from '@expo-google-fonts/dev';
 //import { colors } from '../const/CONST';
 
-const StyledInput = ({label,onChangeText,maxLength,keyboard,editable,value = () => {},...props}) => {
+const StyledInput = ({label,onChangeText,maxLength,keyboard,editable,width,information,value = () => {},...props}) => {
     const [isFocused, setIsFocused] = React.useState(false);
   
     return (
-      <View style={{marginBottom: 10,width:theme.dimensions.maxWidth/1.1}}>
+      <View style={{marginBottom: 10,width:width}}>
         <Text style={style.label}>{label}</Text>
         <View
           style={[
@@ -40,7 +40,7 @@ const StyledInput = ({label,onChangeText,maxLength,keyboard,editable,value = () 
           />
         </View>
           <Text style={{marginTop: 7, fontSize: 12}}>
-            Solo puede registrar una sucursal por día
+            {information}
           </Text>
       </View>
       );

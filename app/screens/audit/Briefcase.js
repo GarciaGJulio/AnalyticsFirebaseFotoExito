@@ -6,16 +6,14 @@ import * as Animatable from 'react-native-animatable'
 import theme from '../../theme/theme'
 import DoubleStyledButton from '../../components/DoubleStyledButton'
 import ScreenInformation from '../../components/ScreenInformation'
+import ModernaHeader from '../../components/ModernaHeader';
 
 const Briefcase = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <View style={styles.imageContainer}>
-        <Image source={Logotipo} style={styles.image}/>
-      </View>
-      <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <ScreenInformation title={'Portafolio'} text={'Selecciona el cliente para empezar la auditoría'}/>
+      <ModernaHeader/>
+      <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
       <DoubleStyledButton 
             titleLeft={'Cancelar'} 
             sizeLeft={theme.buttonSize.df} 
@@ -23,12 +21,13 @@ const Briefcase = ({navigation}) => {
             iconLeft={"cancel"}
             typeLeft={"material-icon"}
             onPressLeft={() => navigation.goBack()}
-            titleRigth={'Iniciar visita'} 
+            titleRigth={'Siguiente'} 
             sizeRigth={theme.buttonSize.df} 
+            iconRigth={'arrow-right-circle'}
+            typeRigth={'feather'}
             colorRigth={theme.colors.modernaRed}
-            //onPressRigth={onClose}
+            onPressRigth={() => navigation.navigate('prices')} 
             />
-      </Animatable.View>
     </View>
   )
 }
@@ -38,7 +37,7 @@ export default Briefcase
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.modernaRed,
+        backgroundColor: theme.colors.white,
         alignItems: 'center',
         justifyContent: 'center',
       },

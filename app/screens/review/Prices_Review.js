@@ -1,15 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ModernaHeader from '../../components/ModernaHeader'
+import TakeImage from '../../components/TakeImage'
+import FlashListPrices from '../../components/FlashListPrices'
+import { ScrollView } from 'react-native'
 
 const Prices_Review = () => {
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
       <ModernaHeader/>
-      <Text>Prices_Review</Text>
     </View>
   )
 }
+
 
 export default Prices_Review
 

@@ -6,12 +6,16 @@ import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
 import SYNC_BACKGROUND from '../../../assets/resources/sync_background.jpg'
 import LoaderModal from '../../components/LoaderModal'
+import SYNC_ANIMATION from '../../../assets/sync-data.json'
+import SUCCESS_ANIMATION from '../../../assets/sync-success.json'
 
 const Menu = ({navigation}) => {
    const [isModalVisible, setIsModalVisible] = useState(false);
+   const [animation,setAnimation] = useState("");
 
     const handleOpenModal = () => {
-        setIsModalVisible(true);
+      setAnimation(SYNC_ANIMATION)
+      setIsModalVisible(true);
     };
 
     const handleCloseModal = () => {
@@ -20,7 +24,7 @@ const Menu = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <LoaderModal visible={isModalVisible} onClose={handleCloseModal} warning={'Al presionar el boton Aceptar se va a cancelar su progreso.'}/>
+      <LoaderModal animation={animation} visible={isModalVisible} onClose={handleCloseModal} warning={'Sincronizando datos, por favor espere...'} onPress={() => setAnimation(SUCCESS_ANIMATION)}/>
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image}/>
       </View>

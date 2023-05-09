@@ -62,9 +62,11 @@ const Client_Information = ({navigation}) => {
               keyboard='default'
               editable={true}
               value={sucursal}
+              width={'90%'}
+              information={'Solo se puede ingresar una sucursal por día'}
             />
           <Text>{sucursal}</Text>
-      <DoubleStyledButton 
+        <DoubleStyledButton 
             titleLeft={'Cancelar'} 
             sizeLeft={theme.buttonSize.df} 
             colorLeft={theme.colors.modernaYellow}
@@ -74,7 +76,7 @@ const Client_Information = ({navigation}) => {
             titleRigth={'Iniciar visita'} 
             sizeRigth={theme.buttonSize.df} 
             colorRigth={theme.colors.modernaRed}
-            //onPressRigth={onClose}
+            onPressRigth={() => navigation.navigate('briefcase')} 
             />
       </Animatable.View>
     </View>

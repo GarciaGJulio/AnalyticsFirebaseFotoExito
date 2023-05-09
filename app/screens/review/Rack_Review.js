@@ -6,7 +6,6 @@ const Rack_Review = () => {
   return (
     <View style={styles.container}>
       <ModernaHeader/>
-      <Text>Rack_Review</Text>
     </View>
   )
 }

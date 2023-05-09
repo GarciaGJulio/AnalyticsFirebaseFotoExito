@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import DoubleStyledButton from './DoubleStyledButton'
 import LOGOTIPO from '../../assets/moderna/Logotipo-original.png'
 import theme from '../theme/theme'
+import AnimatedLottieView from 'lottie-react-native'
 
 
-const LoaderModal = ({visible, onClose, children,warning }) => {
+const LoaderModal = ({visible, onClose, children,warning,animation,onPress }) => {
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -19,12 +20,15 @@ const LoaderModal = ({visible, onClose, children,warning }) => {
             alignItems:'center'
           }}
         >
-          <Image source={LOGOTIPO} style={{width:200,height:70}}/>
           <Text style={{margin:20,fontSize:20}}>{warning}</Text>
+          <View style={{height:200,width:500}}>
+            <AnimatedLottieView source={animation} autoPlay loop />
+          </View>
           <DoubleStyledButton 
             titleLeft={'Aceptar'} 
             sizeLeft={theme.buttonSize.sm} 
             colorLeft={theme.colors.modernaRed}
+            onPressLeft={onPress}
             titleRigth={'Cancelar'} 
             sizeRigth={theme.buttonSize.sm} 
             colorRigth={theme.colors.modernaYellow}
