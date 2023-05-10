@@ -10,9 +10,24 @@ import ModernaHeader from '../../components/ModernaHeader';
 import BriefcaseList from '../../components/BriefcaseList'
 import { ScrollView } from 'react-native'
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
+import LOADER_ANIMATION from '../../../assets/loader.json'
+import LoaderModal from '../../components/LoaderModal'
 
 const Briefcase = ({navigation}) => {
   const [selected, setSelected] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  //const [animation,setAnimation] = useState("");
+
+
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+    /*setTimeout(() => {
+      setIsModalVisible(false);
+      navigation.navigate('prices')
+    }, 10000);*/
+    //navigation.navigate('prices')
+  };
+
   
   const data = [
       {key:'1', value:'Mobiles', disabled:true},
@@ -45,10 +60,10 @@ const Briefcase = ({navigation}) => {
             iconLeft={"cancel"}
             typeLeft={"material-icon"}
             onPressLeft={() => navigation.goBack()}
-            titleRigth={'Siguiente'} 
+            titleRigth={'Guardar'} 
             sizeRigth={theme.buttonSize.df} 
-            iconRigth={'arrow-right-circle'}
-            typeRigth={'feather'}
+            iconRigth={'content-save-all-outline'}
+            typeRigth={'material-community'}
             colorRigth={theme.colors.modernaRed}
             onPressRigth={() => navigation.navigate('prices')} 
             />

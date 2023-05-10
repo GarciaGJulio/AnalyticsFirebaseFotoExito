@@ -5,9 +5,11 @@ import Constants from "expo-constants";
 import { Icon } from '@rneui/base';
 import Logotipo from '../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import ConfirmationModal from './ConfirmationModal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ModernaHeader = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const insets = useSafeAreaInsets();
 
     const handleOpenModal = () => {
         setIsModalVisible(true);
@@ -18,7 +20,8 @@ const ModernaHeader = () => {
     };
 
   return (
-    <View style={[styles.statusbar]}>
+    
+    <View style={[styles.statusbar,{ top: insets.top }]}>
         <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} warning={'Al presionar el boton Aceptar se va a cancelar su progreso.'}/>
         <View style={styles.userInfo}>
             <Icon name='user-tag' type='font-awesome-5' size={23} color={'white'} />
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: theme.colors.modernaRed,
         position: 'absolute',
-        top: Constants.statusBarHeight,
+        //top: Constants.statusBarHeight,
       },
     modernaLogo:{
         width:132,

@@ -6,7 +6,7 @@ import theme from '../theme/theme'
 import AnimatedLottieView from 'lottie-react-native'
 
 
-const LoaderModal = ({visible, onClose, children,warning,animation,onPress }) => {
+const LoaderModal = ({visible, children,warning,animation }) => {
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -21,19 +21,9 @@ const LoaderModal = ({visible, onClose, children,warning,animation,onPress }) =>
           }}
         >
           <Text style={{margin:20,fontSize:20}}>{warning}</Text>
-          <View style={{height:200,width:500}}>
+          <View style={{height:150,width:450}}>
             <AnimatedLottieView source={animation} autoPlay loop />
           </View>
-          <DoubleStyledButton 
-            titleLeft={'Aceptar'} 
-            sizeLeft={theme.buttonSize.sm} 
-            colorLeft={theme.colors.modernaRed}
-            onPressLeft={onPress}
-            titleRigth={'Cancelar'} 
-            sizeRigth={theme.buttonSize.sm} 
-            colorRigth={theme.colors.modernaYellow}
-            onPressRigth={onClose}
-            />
           {children}
         </View>
       </View>

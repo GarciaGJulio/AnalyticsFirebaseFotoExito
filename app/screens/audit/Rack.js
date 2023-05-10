@@ -6,16 +6,16 @@ import * as Animatable from 'react-native-animatable'
 import theme from '../../theme/theme'
 import DoubleStyledButton from '../../components/DoubleStyledButton'
 import ScreenInformation from '../../components/ScreenInformation'
+import ModernaHeader from '../../components/ModernaHeader'
+import ProgressBar from '../../components/ProgressBar'
 
 const Racks = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <View style={styles.imageContainer}>
-        <Image source={Logotipo} style={styles.image}/>
-      </View>
-      <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <ScreenInformation title={'Perchas'} text={'Selecciona la percha'}/>
+      <ModernaHeader/>
+      <ScreenInformation title={'Perchas'} text={'Selecciona las perchas'}/>
+      <ProgressBar currentStep={1}/>
       <DoubleStyledButton 
             titleLeft={'Cancelar'} 
             sizeLeft={theme.buttonSize.df} 
@@ -30,7 +30,6 @@ const Racks = ({navigation}) => {
             colorRigth={theme.colors.modernaRed}
             onPressRigth={() => navigation.navigate('promos')} 
             />
-      </Animatable.View>
     </View>
   )
 }
@@ -40,7 +39,7 @@ export default Racks
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.modernaRed,
+        backgroundColor: theme.colors.white,
         alignItems: 'center',
         justifyContent: 'center',
       },

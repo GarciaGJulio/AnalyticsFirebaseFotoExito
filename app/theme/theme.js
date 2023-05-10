@@ -8,7 +8,7 @@ const theme = {
     textSecondary: "",
     modernaRed: "#d22630",
     modernaYellow: "#ecaa20",
-    modernaGreen: "#1AA10E",
+    modernaGreen: "#5BC2A7",
     modernaAqua: "#5BC2A7",
     lightgray: "rgba(217,217,217,0.70)",
     active: "#5BC2A7",

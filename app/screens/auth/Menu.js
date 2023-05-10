@@ -1,5 +1,5 @@
 import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import theme from '../../theme/theme'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
@@ -7,15 +7,39 @@ import * as Animatable from 'react-native-animatable'
 import SYNC_BACKGROUND from '../../../assets/resources/sync_background.jpg'
 import LoaderModal from '../../components/LoaderModal'
 import SYNC_ANIMATION from '../../../assets/sync-data.json'
-import SUCCESS_ANIMATION from '../../../assets/sync-success.json'
+import SUCCESS_ANIMATION from '../../../assets/success.json'
+import FAILED_ANIMATION from '../../../assets/failed.json'
+import NetInfo from '@react-native-community/netinfo';
 
 const Menu = ({navigation}) => {
    const [isModalVisible, setIsModalVisible] = useState(false);
    const [animation,setAnimation] = useState("");
+   const [isConnected, setIsConnected] = useState(false);
+  
+   useEffect(() => {
+     const unsubscribe = NetInfo.addEventListener((state) => {
+       setIsConnected(state.isConnected);
+     });
+ 
+     return () => {
+       unsubscribe();
+     };
+   }, []);
 
     const handleOpenModal = () => {
       setAnimation(SYNC_ANIMATION)
       setIsModalVisible(true);
+      setTimeout(() => {
+        setAnimation(SUCCESS_ANIMATION)
+        isConnected 
+        ? ( setAnimation(SUCCESS_ANIMATION), 
+        setTimeout(() => {
+          setIsModalVisible(false);
+          }, 2000))
+        : ( setAnimation(FAILED_ANIMATION), setTimeout(() => {
+          setIsModalVisible(false);
+        }, 2000))
+      }, 8000);
     };
 
     const handleCloseModal = () => {
@@ -24,7 +48,7 @@ const Menu = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <LoaderModal animation={animation} visible={isModalVisible} onClose={handleCloseModal} warning={'Sincronizando datos, por favor espere...'} onPress={() => setAnimation(SUCCESS_ANIMATION)}/>
+      <LoaderModal animation={animation} visible={isModalVisible}  warning={'Sincronizando datos, por favor espere...'}/>
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image}/>
       </View>

@@ -10,6 +10,7 @@ import CheckBoxContainer from '../../components/CheckBoxContainer'
 import ModernaHeader from '../../components/ModernaHeader'
 import FlashListPrices from '../../components/FlashListPrices'
 import { ScrollView } from 'react-native'
+import ProgressBar from '../../components/ProgressBar'
 
 const Prices = ({navigation}) => {
   return (
@@ -17,8 +18,17 @@ const Prices = ({navigation}) => {
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
       <ModernaHeader/>
       <ScreenInformation title={'Precios'} text={'Selecciona los productos que poseen preciador'}/>
-      <FlashListPrices/>
-      <FlashListPrices/>
+      
+      <ScrollView style={{width:'100%', height:10,marginBottom:5}}>
+        <View style={{alignItems:'center'}}>
+          <FlashListPrices/>
+        </View>
+      </ScrollView>
+      <ScrollView style={{width:'100%',height:'0%'}}>
+        <View style={{alignItems:'center'}}>
+          <FlashListPrices/>
+        </View>
+      </ScrollView>
       <DoubleStyledButton 
             titleLeft={'Cancelar'} 
             sizeLeft={theme.buttonSize.df} 

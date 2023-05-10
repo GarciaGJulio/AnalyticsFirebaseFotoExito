@@ -7,6 +7,7 @@ import Rack from '../screens/audit/Rack';
 import Promos from '../screens/audit/Promos';
 import Menu from '../screens/auth/Menu';
 import Client_Information from '../screens/audit/Client_Information';
+import Navigation from './Navigation';
 
 const Stack = createStackNavigator();
 
@@ -18,7 +19,7 @@ const AuditNavigation = () => {
         <Stack.Screen name='prices' component={Prices}/>
         <Stack.Screen name='rack' component={Rack}/>
         <Stack.Screen name='promos' component={Promos}/>
-        <Stack.Screen name='menu' component={Menu}/>
+        <Stack.Screen name='begin' component={Navigation}/>
     </Stack.Navigator>
   )
 }

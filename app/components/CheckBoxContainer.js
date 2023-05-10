@@ -6,15 +6,36 @@ import HARINA from '.././../assets/resources/harina.png'
 import { CheckBox } from '@rneui/themed';
 import StyledInput from './StyledInput'
 import TakeImage from './TakeImage'
+import ConfirmationModal from './ConfirmationModal'
 
 const CheckBoxContainer = ({productName}) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [price, setPrice] = useState('');
-  const toggleCheckbox = () => setCheck1(!check1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [disabled1, setDisabled1] = useState(false);
+  const [disabled2, setDisabled2] = useState(false);
+
+
+    const handleOpenModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+    };
+
+    const acceptModal = () => {
+      setCheck1(!check1)
+      setCheck2(!check2)
+      setIsModalVisible(false);
+      setDisabled1(!disabled1);
+      setDisabled2(!disabled2);
+    }
 
   return (
     <View style={[styles.container,{height:check1 ? 460:150}]}>
+      <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} onPress={acceptModal} warning={'Al presionar el boton Aceptar se va a eliminar el registro ingresado.'}/>
       <View style={styles.primaryContainer}>
         <Image source={HARINA} style={{width:100,height:100}}/>
         <View style={styles.descriptionContainer}>
@@ -23,23 +44,36 @@ const CheckBoxContainer = ({productName}) => {
           <View style={{flexDirection:'row', alignItems:'center',right:10}}>
             <CheckBox
               checked={check1}
-              onPress={() => setCheck1(!check1)}
+              onPress={() => {
+                check2 ? (setCheck2(!check2),setDisabled2(!disabled2),setCheck1(!check1),
+                setDisabled1(!disabled1) ):(
+                  setCheck1(!check1),
+                  setDisabled1(!disabled1)
+                )
+              }}
               // Use ThemeProvider to make change for all checkbox
               iconType="material-community"
               checkedIcon="checkbox-marked"
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
               containerStyle={{backgroundColor:'transparent'}}
+              disabled={disabled1}
             />
             <Text>Si</Text>
             <CheckBox
               checked={check2}
-              onPress={() => setCheck2(!check2)}
+              onPress={() => {
+                check1 ? handleOpenModal(): (
+                  setCheck2(!check2),
+                  setDisabled2(!disabled2)
+                )}}
+          
               iconType="material-community"
               checkedIcon="checkbox-marked"
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
               containerStyle={{backgroundColor:'transparent'}}
+              disabled={disabled2}
             />
             <Text>No</Text>
           </View>

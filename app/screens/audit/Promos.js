@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
@@ -6,16 +6,22 @@ import * as Animatable from 'react-native-animatable'
 import theme from '../../theme/theme'
 import DoubleStyledButton from '../../components/DoubleStyledButton'
 import ScreenInformation from '../../components/ScreenInformation'
+import ModernaHeader from '../../components/ModernaHeader'
+import FlashListPrices from '../../components/FlashListPrices'
+import Dropdown from '../../components/Dropdown'
 
 const Promos = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <View style={styles.imageContainer}>
-        <Image source={Logotipo} style={styles.image}/>
-      </View>
-      <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <ScreenInformation title={'Promociones'} text={'Selecciona la sucursal que aplica promociones'}/>
+      <ModernaHeader/>
+      <ScreenInformation title={'Promociones'} text={'Selecciona la sucursal que aplica promociones'}/>
+      <Dropdown/>
+      <ScrollView style={{width:'100%', height:10,marginBottom:5}}>
+        <View style={{alignItems:'center'}}>
+          <FlashListPrices/>
+        </View>
+      </ScrollView>
       <DoubleStyledButton 
             titleLeft={'Cancelar'} 
             sizeLeft={theme.buttonSize.df} 
@@ -28,9 +34,8 @@ const Promos = ({navigation}) => {
             iconRigth={'arrow-right-circle'}
             typeRigth={'feather'}
             colorRigth={theme.colors.modernaRed}
-            onPressRigth={() => navigation.navigate('rack')} 
+            onPressRigth={() => navigation.navigate('begin')} 
             />
-      </Animatable.View>
     </View>
   )
 }
@@ -40,7 +45,7 @@ export default Promos
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.modernaRed,
+        backgroundColor: theme.colors.white,
         alignItems: 'center',
         justifyContent: 'center',
       },
