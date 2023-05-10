@@ -6,8 +6,6 @@ import Menu from '../screens/auth/Menu';
 import TabsNavigation from './TabsNavigation.js';
 import AuditNavigation from './AuditNavigation';
 import ListBranch from '../screens/review/ListBranch';
-import Briefcase_Review from '../screens/review/Briefcase_Review';
-import ItemBranch from '../components/ItemBranch';
 
 const Stack = createStackNavigator();
 
