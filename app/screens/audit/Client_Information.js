@@ -57,7 +57,7 @@ const Client_Information = ({ navigation }) => {
     setIsModalVisible(true)
     capturarCoordenadas(setLatitude, handleLocations, ()=>{
       setIsModalVisible(false)
-     // navigation.navigate('briefcase');
+      navigation.navigate('briefcase');
     },()=>{
       setIsModalVisible(false)
     })
