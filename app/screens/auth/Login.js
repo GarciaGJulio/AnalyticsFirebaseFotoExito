@@ -1,10 +1,16 @@
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
 import React,{useContext} from 'react'
+import React, { useState } from 'react'
 import theme from '../../theme/theme'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
+<<<<<<< HEAD
 import ModernaContext from '../../context/ModernaContext'
+=======
+import TarjPercha from '../../components/TarjetaPercha'
+import TarjPromo from '../../components/TarjetaPromo'
+>>>>>>> a2218c1740c025d1938894fdbe2a1f951fe344bc
 
 const Login = ({navigation}) => {
 
@@ -14,6 +20,7 @@ const Login = ({navigation}) => {
         //login()
         navigation.navigate('menu')
     }
+<<<<<<< HEAD
 
     const funcionQA = (user) => {
   
@@ -31,8 +38,17 @@ const Login = ({navigation}) => {
         handleLoading(false);
       }
     };
+=======
+    const [valueGeneral, setValueGeneral] = useState();
+    const [valueModerna, setValueModerna] = useState();
+    const [checked, setChecked] = useState(false);
+>>>>>>> a2218c1740c025d1938894fdbe2a1f951fe344bc
   return (
     <View style={styles.container}>
+  
+
+
+
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
       <Animatable.View animation={"fadeInDown"} style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image}/>

@@ -9,46 +9,46 @@ export default function ComponentsTest() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <ModernaHeader/>
+      <ModernaHeader />
       <View style={styles.container}>
         <Text>MODO DE prueba</Text>
         <StyledButton
-          title={'Guardar'} 
-          buttonColor={theme.colors.modernaRed} 
+          title={'Guardar'}
+          buttonColor={theme.colors.modernaRed}
           iconName={"content-save-all-outline"}
           iconType={"material-community"}
           size={theme.buttonSize.df}
-          />
-        <StyledButton 
-          title={'Cancelar'} 
-          buttonColor={theme.colors.modernaYellow} 
+        />
+        <StyledButton
+          title={'Cancelar'}
+          buttonColor={theme.colors.modernaYellow}
           iconName={"cancel"}
           iconType={"material-icon"}
           size={theme.buttonSize.df}
-          />
-        <StyledButton 
-          title={'Siguiente'} 
-          buttonColor={theme.colors.modernaRed} 
+        />
+        <StyledButton
+          title={'Siguiente'}
+          buttonColor={theme.colors.modernaRed}
           iconName={"arrow-right-circle"}
           iconType={"feather"}
           size={theme.buttonSize.df}
-          />
-          <View style={{flexDirection:'row',width:theme.dimensions.maxWidth,justifyContent:'space-evenly'}}>
-            <StyledButton 
-            title={'Cancelar'} 
-            buttonColor={theme.colors.modernaYellow} 
+        />
+        <View style={{ flexDirection: 'row', width: theme.dimensions.maxWidth, justifyContent: 'space-evenly' }}>
+          <StyledButton
+            title={'Cancelar'}
+            buttonColor={theme.colors.modernaYellow}
             iconName={"cancel"}
             iconType={"material-icon"}
             size={theme.buttonSize.df}
-            />
-          <StyledButton 
-            title={'Siguiente'} 
-            buttonColor={theme.colors.modernaRed} 
+          />
+          <StyledButton
+            title={'Siguiente'}
+            buttonColor={theme.colors.modernaRed}
             iconName={"arrow-right-circle"}
             iconType={"feather"}
             size={theme.buttonSize.df}
-            />
-          </View>
+          />
+        </View>
       </View>
     </View>
   );

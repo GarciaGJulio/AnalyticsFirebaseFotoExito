@@ -5,16 +5,18 @@ import Login from '../screens/auth/Login';
 import Menu from '../screens/auth/Menu';
 import TabsNavigation from './TabsNavigation.js';
 import AuditNavigation from './AuditNavigation';
+import ListBranch from '../screens/review/ListBranch';
 
 const Stack = createStackNavigator();
 
 const Navigation = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name='login' component={Login}/>
-        <Stack.Screen name='menu' component={Menu}/>
-        <Stack.Screen name='review' component={TabsNavigation}/>
-        <Stack.Screen name='audit' component={AuditNavigation}/>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='login' component={Login} />
+      <Stack.Screen name='menu' component={Menu} />
+      <Stack.Screen name='listBranch' component={ListBranch} />
+      <Stack.Screen name='review' component={TabsNavigation} />
+      <Stack.Screen name='audit' component={AuditNavigation} />
     </Stack.Navigator>
   )
 }

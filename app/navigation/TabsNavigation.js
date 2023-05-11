@@ -8,12 +8,14 @@ import ComponentsTest from '../screens/review/ComponentsTest';
 import Prices_Review from '../screens/review/Prices_Review';
 import Rack_Review from '../screens/review/Rack_Review';
 import theme from '../theme/theme';
+import Briefcase_branch_review from '../screens/review/Briefcase_branch_review';
 
 const TabArr = [
-  { route: 'Portafolio', label: 'Portafolio', type: 'octicon', icon: 'briefcase', component: Briefcase_Review,color:theme.colors.modernaGreen },
-  { route: 'Precio', label: 'Precio', type: 'feather', icon: 'shopping-bag', component: ComponentsTest,color:theme.colors.modernaGreen },
-  { route: 'Percha', label: 'Percha', type: 'material-community', icon: 'application-brackets-outline', component: Prices_Review,color:theme.colors.modernaGreen },
-  { route: 'Promociones', label: 'Promociones', type: 'material-icons', icon: 'local-offer', component: Rack_Review,color:theme.colors.modernaGreen },
+  // { route: 'Portafolio', label: 'Portafolio', type: 'octicon', icon: 'briefcase', component: Briefcase_Review, color: theme.colors.modernaGreen },
+  { route: 'Portafolio', label: 'Portafolio', type: 'octicon', icon: 'briefcase', component: Briefcase_branch_review, color: theme.colors.modernaGreen },
+  { route: 'Precio', label: 'Precio', type: 'feather', icon: 'shopping-bag', component: ComponentsTest, color: theme.colors.modernaGreen },
+  { route: 'Percha', label: 'Percha', type: 'material-community', icon: 'application-brackets-outline', component: Prices_Review, color: theme.colors.modernaGreen },
+  { route: 'Promociones', label: 'Promociones', type: 'material-icons', icon: 'local-offer', component: Rack_Review, color: theme.colors.modernaGreen },
 ];
 
 const Tab = createBottomTabNavigator();
@@ -27,10 +29,10 @@ const TabButton = (props) => {
   useEffect(() => {
     if (focused) { // 0.3: { scale: .7 }, 0.5: { scale: .3 }, 0.8: { scale: .7 },
       viewRef.current.animate({ 0: { scale: 0 }, 1: { scale: 1 } });
-      textViewRef.current.animate({0: {scale: 0}, 1: {scale: 1}});
+      textViewRef.current.animate({ 0: { scale: 0 }, 1: { scale: 1 } });
     } else {
       viewRef.current.animate({ 0: { scale: 1, }, 1: { scale: 0, } });
-      textViewRef.current.animate({0: {scale: 1}, 1: {scale: 0}});
+      textViewRef.current.animate({ 0: { scale: 1 }, 1: { scale: 0 } });
     }
   }, [focused])
 
@@ -38,12 +40,12 @@ const TabButton = (props) => {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={1}
-      style={[styles.container, {flex: focused ? 1 : 0.65}]}>
+      style={[styles.container, { flex: focused ? 1 : 0.65 }]}>
       <View>
         <Animatable.View
           ref={viewRef}
           style={[StyleSheet.absoluteFillObject, { backgroundColor: item.color, borderRadius: 16 }]} />
-        <View style={[styles.btn, { backgroundColor: focused  }]}>
+        <View style={[styles.btn, { backgroundColor: focused }]}>
           <Icon type={item.type} name={item.icon} color={'white'} />
           <Animatable.View
             ref={textViewRef}>
@@ -65,8 +67,8 @@ export default function TabsNavigation() {
         tabBarStyle: {
           height: 60,
           position: 'absolute',
-          borderRadius: 16,
-          backgroundColor:theme.colors.modernaRed
+          // borderRadius: 16,
+          backgroundColor: theme.colors.modernaRed
         }
       }}
     >

@@ -4,7 +4,7 @@ import { Divider } from '@rneui/base'
 import theme from '../theme/theme'
 import WifiIndicator from './WifiIndicator'
 
-const ScreenInformation = ({title,text}) => {
+const ScreenInformation = ({ title, text }) => {
   return (
     <View style={{width:theme.dimensions.maxWidth,justifyContent:'center',alignItems:'center',marginTop:10}}>
       <View style={{flexDirection: 'row',justifyContent:'center',alignItems:'center',width:theme.dimensions.maxWidth}}>
@@ -23,6 +23,6 @@ const ScreenInformation = ({title,text}) => {
   )
 }
 
-export default ScreenInformation
+export default ScreenInformation;
 
 const styles = StyleSheet.create({})
