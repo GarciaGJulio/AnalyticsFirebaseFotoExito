@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Navigation from './app/navigation/Navigation';
+import ModernaProvider from './app/context/ModernaProvider';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Navigation/>
-    </NavigationContainer>
+    <ModernaProvider>
+      <NavigationContainer>
+        <Navigation/>
+      </NavigationContainer>
+    </ModernaProvider>
   );
 }
 

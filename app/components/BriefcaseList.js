@@ -21,6 +21,14 @@ const DATA = [
       name: "Harinas Ya",
       id:'ID001',
     },
+    {
+      name: "Harina Ya con",
+      id:'ID001',
+    },
+    {
+      name: "Harinas Ya",
+      id:'ID001',
+    },
   ];
 
 const RenderItem = ({name,id}) => {
@@ -47,7 +55,7 @@ const RenderItem = ({name,id}) => {
 
 const BriefcaseList = ({productList}) => {
   return (
-    <View style={{ height: '25%', width: '90%', margin:10,borderWidth:1, borderRadius:20,overflow: 'hidden' }}>
+    <View style={{flex:1, margin:10,borderWidth:1, borderRadius:20,overflow: 'hidden' }}>
       <Text style={{fontWeight:theme.fontWeight.bolder,fontSize:theme.fontSize.subtitle, paddingLeft:15,backgroundColor:theme.colors.modernaYellow,height:30,justifyContent: 'center',borderWidth:0.5,color:theme.colors.white}}>{productList}</Text>
       <FlashList
         data={DATA}

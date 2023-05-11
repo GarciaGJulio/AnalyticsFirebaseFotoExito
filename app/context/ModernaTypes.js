@@ -1,0 +1,1 @@
+export const LOAD_LOCATIONS="LOAD_LOCATIONS"

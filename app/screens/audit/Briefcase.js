@@ -1,72 +1,78 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
-import StyledButton from '../../components/StyledButton'
-import * as Animatable from 'react-native-animatable'
-import theme from '../../theme/theme'
-import DoubleStyledButton from '../../components/DoubleStyledButton'
-import ScreenInformation from '../../components/ScreenInformation'
+import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
+import React, { useState,useContext } from 'react';
+import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
+import StyledButton from '../../components/StyledButton';
+import * as Animatable from 'react-native-animatable';
+import theme from '../../theme/theme';
+import DoubleStyledButton from '../../components/DoubleStyledButton';
+import ScreenInformation from '../../components/ScreenInformation';
 import ModernaHeader from '../../components/ModernaHeader';
-import BriefcaseList from '../../components/BriefcaseList'
-import { ScrollView } from 'react-native'
-import { MultipleSelectList } from 'react-native-dropdown-select-list'
-import LOADER_ANIMATION from '../../../assets/loader.json'
-import LoaderModal from '../../components/LoaderModal'
+import BriefcaseList from '../../components/BriefcaseList';
+import { ScrollView } from 'react-native';
+import { MultipleSelectList } from 'react-native-dropdown-select-list';
+import LOADER_ANIMATION from '../../../assets/loader.json';
+import LoaderModal from '../../components/LoaderModal';
+import ProgressBar from '../../components/ProgressBar';
+import MultiSelectList from '../../components/MultiSelectList';
+import FlashListC from '../../components/FlashListC';
 
-const Briefcase = ({navigation}) => {
+const Briefcase = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  //const [animation,setAnimation] = useState("");
-
+  const [currentStep] = useState(0);
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
-    /*setTimeout(() => {
+    setTimeout(() => {
       setIsModalVisible(false);
-      navigation.navigate('prices')
-    }, 10000);*/
-    //navigation.navigate('prices')
+      navigation.navigate('prices', { currentStep });
+    }, 2000);
   };
 
-  
   const data = [
-      {key:'1', value:'Mobiles', disabled:true},
-      {key:'2', value:'Appliances'},
-      {key:'3', value:'Cameras'},
-      {key:'4', value:'Computers', disabled:true},
-      {key:'5', value:'Vegetables'},
-      {key:'6', value:'Diary Products'},
-      {key:'7', value:'Drinks'},
-  ]
-
+    { key: '1', value: 'Mobiles', disabled: true },
+    { key: '2', value: 'Appliances' },
+    { key: '3', value: 'Cameras' },
+    { key: '4', value: 'Computers', disabled: true },
+    { key: '5', value: 'Vegetables' },
+    { key: '6', value: 'Diary Products' },
+    { key: '7', value: 'Drinks' },
+  ];
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <ModernaHeader/>
-      <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
-      <BriefcaseList productList={'Harina'}/>
-      <MultipleSelectList 
-        setSelected={(val) => setSelected(val)} 
-        data={data} 
-        save="value"
-        onSelect={() => alert(selected)} 
-        label="Categories"
-    />
-      <DoubleStyledButton 
-            titleLeft={'Cancelar'} 
-            sizeLeft={theme.buttonSize.df} 
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => navigation.goBack()}
-            titleRigth={'Guardar'} 
-            sizeRigth={theme.buttonSize.df} 
-            iconRigth={'content-save-all-outline'}
-            typeRigth={'material-community'}
-            colorRigth={theme.colors.modernaRed}
-            onPressRigth={() => navigation.navigate('prices')} 
+      <View style={styles.headerContainer}>
+        <ModernaHeader />
+      </View>
+      <LoaderModal animation={LOADER_ANIMATION} visible={isModalVisible} warning={'Almacenando datos, por favor espere...'} />
+      <View style={styles.contentContainer}>
+        <ProgressBar currentStep={currentStep}/>
+        <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
+        <View style={{flex:4,width:'100%',alignItems:'center'}}>
+            <FlashListC/>
+        </View>
+        <View style={{flex:3}}>
+          <MultiSelectList/>
+        </View>
+        <View style={{flex:1, justifyContent:'center'}}>
+          <DoubleStyledButton 
+              titleLeft={'Cancelar'} 
+              sizeLeft={theme.buttonSize.df} 
+              colorLeft={theme.colors.modernaYellow}
+              iconLeft={"cancel"}
+              typeLeft={"material-icon"}
+              onPressLeft={() => navigation.goBack()}
+              titleRigth={'Guardar'} 
+              sizeRigth={theme.buttonSize.df} 
+              iconRigth={'content-save-all-outline'}
+              typeRigth={'material-community'}
+              colorRigth={theme.colors.modernaRed}
+              onPressRigth={handleOpenModal} 
             />
+        </View>
+        
+      </View>
     </View>
   )
 }
@@ -80,37 +86,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
-    image: {
-        width:313,
-        height:112,
-        resizeMode:'cover'
-    },
-    imageContainer:{
-        bottom:'35%'
+    headerContainer: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: 'blue',
     },
     contentContainer:{
-        width:theme.dimensions.maxWidth,
-        height:570,
-        backgroundColor:'white',
-        position: 'absolute',
-        bottom: 0,
-        borderTopStartRadius:15,
-        borderTopEndRadius:15,
-        //justifyContent:'center',
-        alignItems:'center'
-    },
-    cardContainer:{
-        width:320,
-        height:160,
-        overflow:'hidden',
-        borderWidth:1,
-        marginVertical:5,
-        borderRadius:15,
-        justifyContent:'space-around',
-        alignItems:'center',
-        padding:5,
+        flex: 14,
+        width: theme.dimensions.maxWidth,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        paddingVertical: 5,
     },
     text:{
         fontWeight:theme.fontWeight.bold,
-    }
+    },
+    scrollView: {
+      //flex:7,
+      backgroundColor:'blue',
+      width: theme.dimensions.maxWidth,
+      //height:'30%',
+      marginBottom: 5,
+    },
 })

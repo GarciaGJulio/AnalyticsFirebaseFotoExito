@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import NetInfo from '@react-native-community/netinfo';
 import theme from '../theme/theme'
 import { Icon } from '@rneui/base'
+import ModernaContext from '../context/ModernaContext';
 
 const WifiIndicator = () => {
 
-  const [isConnected, setIsConnected] = useState(false);
+  const {isConnected} = useContext(ModernaContext)
+
+  /*const [isConnected, setIsConnected] = useState(false);
   
     useEffect(() => {
       const unsubscribe = NetInfo.addEventListener((state) => {
@@ -16,7 +19,7 @@ const WifiIndicator = () => {
       return () => {
         unsubscribe();
       };
-    }, []);
+    }, []);*/
   
 
   

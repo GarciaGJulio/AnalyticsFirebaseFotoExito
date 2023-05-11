@@ -1,31 +1,31 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import CheckBoxContainer from "./CheckBoxContainer";
 import theme from "../theme/theme";
+import BriefcaseList from "./BriefcaseList";
 
 const DATA = [
   {
-    name: "Harina Ya",
+    name: "Harina",
   },
   {
-    name: "Harina Ya sin polvo de hornear",
+    name: "Avena",
   },
   {
-    name: "Harina Ya con",
+    name: "Fideos",
   },
   {
-    name: "Harinas Ya",
+    name: "Arrocito",
   },
 ];
 
-const FlashListPrices = ({title}) => {
+const FlashListC = ({title}) => {
   return (
     <View style={{ flex:1, width:'90%',marginBottom:10 }}>
       <Text style={{fontWeight:theme.fontWeight.bolder,fontSize:theme.fontSize.subtitle}}>{title}</Text>
       <FlashList
         data={DATA}
-        renderItem={({ item }) => <CheckBoxContainer productName={item.name}/>}
+        renderItem={({ item }) => <BriefcaseList productList={item.name}/>}
         estimatedItemSize={4}
         showsVerticalScrollIndicator={false}
       />
@@ -34,4 +34,4 @@ const FlashListPrices = ({title}) => {
   );
 };
 
-export default FlashListPrices;
+export default FlashListC;

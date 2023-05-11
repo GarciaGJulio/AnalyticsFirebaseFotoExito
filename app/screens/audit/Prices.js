@@ -11,38 +11,42 @@ import ModernaHeader from '../../components/ModernaHeader'
 import FlashListPrices from '../../components/FlashListPrices'
 import { ScrollView } from 'react-native'
 import ProgressBar from '../../components/ProgressBar'
+import { Divider } from '@rneui/base'
 
 const Prices = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <ModernaHeader/>
-      <ScreenInformation title={'Precios'} text={'Selecciona los productos que poseen preciador'}/>
-      
-      <ScrollView style={{width:'100%', height:10,marginBottom:5}}>
-        <View style={{alignItems:'center'}}>
-          <FlashListPrices/>
+      <View style={styles.headerContainer}>
+        <ModernaHeader/>
+      </View>
+      <View style={styles.contentContainer}>
+        <ScreenInformation title={'Precios'} text={'Selecciona los productos que poseen preciador'}/>
+        <ProgressBar currentStep={ 1 }/>
+        <View style={{flex:2,width:'100%', alignItems:'center'}}>
+            <FlashListPrices title={'Portafolio Ideal'}/>
         </View>
-      </ScrollView>
-      <ScrollView style={{width:'100%',height:'0%'}}>
-        <View style={{alignItems:'center'}}>
-          <FlashListPrices/>
+        <View style={{width:theme.dimensions.maxWidth/1.1,marginVertical:5}}> 
+            <Divider width={2} color={'#D9D9D9'} style={{backgroundColor:'blue'}}/>
         </View>
-      </ScrollView>
-      <DoubleStyledButton 
-            titleLeft={'Cancelar'} 
-            sizeLeft={theme.buttonSize.df} 
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => navigation.goBack()}
-            titleRigth={'Siguiente'} 
-            sizeRigth={theme.buttonSize.df} 
-            iconRigth={'arrow-right-circle'}
-            typeRigth={'feather'}
-            colorRigth={theme.colors.modernaRed}
-            onPressRigth={() => navigation.navigate('rack')} 
-            />
+        <View style={{flex:2,width:'100%', alignItems:'center'}}>
+            <FlashListPrices title={'Portafolio Complementario'}/>
+        </View>
+        <DoubleStyledButton 
+              titleLeft={'Cancelar'} 
+              sizeLeft={theme.buttonSize.df} 
+              colorLeft={theme.colors.modernaYellow}
+              iconLeft={"cancel"}
+              typeLeft={"material-icon"}
+              onPressLeft={() => navigation.goBack()}
+              titleRigth={'Siguiente'} 
+              sizeRigth={theme.buttonSize.df} 
+              iconRigth={'arrow-right-circle'}
+              typeRigth={'feather'}
+              colorRigth={theme.colors.modernaRed}
+              onPressRigth={() => navigation.navigate('rack')} 
+              />
+      </View>
     </View>
   )
 }
@@ -53,9 +57,27 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width:theme.dimensions.maxWidth,
-        height:600,
+        //height:600,
         backgroundColor: theme.colors.white,
         alignItems: 'center',
         justifyContent: 'center',
       },
+      container: {
+        flex: 1,
+        backgroundColor: theme.colors.white,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+    headerContainer: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: 'blue',
+    },
+    contentContainer:{
+        flex: 14,
+        width: theme.dimensions.maxWidth,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        paddingVertical: 5,
+    },
 })

@@ -1,15 +1,36 @@
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React,{useContext} from 'react'
 import theme from '../../theme/theme'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
+import ModernaContext from '../../context/ModernaContext'
 
 const Login = ({navigation}) => {
+
+  const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
     const log = () => {
-        console.log("NAVEGANDO A MENU")
+        console.log("DISPARANDO LOGIN DE AD")
+        //login()
         navigation.navigate('menu')
     }
+
+    const funcionQA = (user) => {
+  
+      navigation.navigate('menu');
+
+  }
+
+    const login = async () => {
+      try {
+       // handleCanSelectEnvironment(funcionQA, functionProduction)
+         //handleLoading(true);
+         handleLoginAzure(funcionQA);
+      } catch (error) {
+        console.log(error);
+        handleLoading(false);
+      }
+    };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
