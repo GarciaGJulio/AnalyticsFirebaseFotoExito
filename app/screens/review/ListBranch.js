@@ -19,7 +19,6 @@ const ListBranch = ({ navigation }) => {
         navigation.navigate("review");
     }
 
-
     const ItemBranch = ({ branch }) => {
         return (
             <TouchableOpacity onPress={goToReview} activeOpacity={0.85} bottomDivider style={{ margin: 0.5 }}>
@@ -56,8 +55,7 @@ const ListBranch = ({ navigation }) => {
                 <Image source={Logotipo} style={styles.image} />
             </View>
             <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-                <Text style={styles.title}>Puedes revisar las visitas ya realizadas presionando
-                    en una sucursal de interés.</Text>
+                <Text style={styles.title}>Puedes revisar las visitas ya realizadas presionando en una sucursal de interés.</Text>
                 <View style={styles.contentContainerBranch}>
                     <FlatList showsVerticalScrollIndicator={false}
                         data={sucursal}
@@ -78,7 +76,6 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.modernaRed,
         alignItems: 'center',
         justifyContent: 'center',
-        // height: theme.dimensions.maxHeight,
     },
     image: {
         width: 313,
@@ -102,11 +99,12 @@ const styles = StyleSheet.create({
     contentContainerBranch: {
         margin: 1,
         width: 320,
-        height: '85%'
+        height: '80%'
     },
     title: {
         marginTop: 10,
         padding: 13,
         fontSize: theme.fontSize.subtitle,
+        marginBottom: 25,
     },
 });

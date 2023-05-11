@@ -8,9 +8,11 @@ import ComponentsTest from '../screens/review/ComponentsTest';
 import Prices_Review from '../screens/review/Prices_Review';
 import Rack_Review from '../screens/review/Rack_Review';
 import theme from '../theme/theme';
+import Briefcase_branch_review from '../screens/review/Briefcase_branch_review';
 
 const TabArr = [
-  { route: 'Portafolio', label: 'Portafolio', type: 'octicon', icon: 'briefcase', component: Briefcase_Review, color: theme.colors.modernaGreen },
+  // { route: 'Portafolio', label: 'Portafolio', type: 'octicon', icon: 'briefcase', component: Briefcase_Review, color: theme.colors.modernaGreen },
+  { route: 'Portafolio', label: 'Portafolio', type: 'octicon', icon: 'briefcase', component: Briefcase_branch_review, color: theme.colors.modernaGreen },
   { route: 'Precio', label: 'Precio', type: 'feather', icon: 'shopping-bag', component: ComponentsTest, color: theme.colors.modernaGreen },
   { route: 'Percha', label: 'Percha', type: 'material-community', icon: 'application-brackets-outline', component: Prices_Review, color: theme.colors.modernaGreen },
   { route: 'Promociones', label: 'Promociones', type: 'material-icons', icon: 'local-offer', component: Rack_Review, color: theme.colors.modernaGreen },
