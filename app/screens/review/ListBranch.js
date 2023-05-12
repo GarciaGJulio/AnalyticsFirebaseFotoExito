@@ -16,6 +16,7 @@ const ListBranch = ({ navigation }) => {
     ]
 
     const goToReview = () => {
+        console.log("Ir a visitas");
         navigation.navigate("review");
     }
 
