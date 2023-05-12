@@ -4,6 +4,7 @@ import ModernaHeader from '../../components/ModernaHeader'
 import ReviewBanner from '../../components/ReviewBanner'
 import theme from '../../theme/theme'
 import ScreenInformation from '../../components/ScreenInformation';
+import { PromosItems_Review } from '../../components/PromosItems_Review'
 
 const Promos_Review = () => {
   return (
@@ -13,6 +14,7 @@ const Promos_Review = () => {
         <ReviewBanner />
         <ScreenInformation title={'Cliente - Sucursal'} text={'A continuación se enlistan los exhibidores registrados'} />
       </View>
+      <PromosItems_Review />
     </View>
   )
 }
@@ -23,5 +25,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    alignItems: 'center',
   },
 })

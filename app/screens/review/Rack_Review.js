@@ -13,6 +13,7 @@ const Rack_Review = () => {
         <ReviewBanner />
         <ScreenInformation title={'Cliente - Sucursal'} text={'A continuación se enlistan los perchas registrados'} />
       </View>
+
     </View>
   )
 }
@@ -24,5 +25,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    alignItems: 'center',
   },
 })
