@@ -10,6 +10,7 @@ import ModernaHeader from '../../components/ModernaHeader';
 import FlashListPrices from '../../components/FlashListPrices';
 import Dropdown from '../../components/Dropdown';
 import ProgressBar from '../../components/ProgressBar';
+import FlashListPromos from '../../components/FlashListPromos';
 
 const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState("");
@@ -20,14 +21,15 @@ const Promos = ({ navigation }) => {
       <ModernaHeader />
       </View>
       <View style={styles.contentContainer}>
-        <ScreenInformation title={'Promociones'} text={'Selecciona la sucursal que aplica promociones'} />
         <ProgressBar currentStep={3} />
+        <ScreenInformation title={'Promociones'} text={'Selecciona la sucursal que aplica promociones'} />
+        <View style={{flex:1, marginTop:10}}>
         <Dropdown placeholder={'Seleccione una sucursal'} setSelected={setSelected}/>
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.scrollViewContent}>
-            <FlashListPrices />
-          </View>
-        </ScrollView>
+        </View>
+
+        <View style={styles.promosContent}>
+            <FlashListPromos />
+        </View>
       </View>
       <DoubleStyledButton
         titleLeft={'Cancelar'}
@@ -64,11 +66,18 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   scrollView: {
+    flex: 2,
     width: theme.dimensions.maxWidth,
-    height:'20%',
+    //height:'100%',
     marginBottom: 5,
+    //backgroundColor:'blue'
   },
-  scrollViewContent: {
-    alignItems: 'center',
+  promosContent: {
+    flex: 2,
+    width: theme.dimensions.maxWidth,
+    //height:'100%',
+    //marginBottom: 5,
+    //backgroundColor:'blue',
+    alignItems:'center'
   },
 });

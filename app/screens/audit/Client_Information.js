@@ -32,10 +32,10 @@ const Client_Information = ({ navigation }) => {
   ]
   useEffect(()=>{
     console.log("location from context",location)
-    if(location){
+    /*if(location){
       Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
     
-    }
+    }*/
   },[
     location
   ])
