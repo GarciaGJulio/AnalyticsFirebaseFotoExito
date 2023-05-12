@@ -1,26 +1,45 @@
 import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import theme from '../../theme/theme'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
 import SYNC_BACKGROUND from '../../../assets/resources/sync_background.jpg'
 import LoaderModal from '../../components/LoaderModal'
+import SYNC_ANIMATION from '../../../assets/sync-data.json'
+import SUCCESS_ANIMATION from '../../../assets/success.json'
+import FAILED_ANIMATION from '../../../assets/failed.json'
+import NetInfo from '@react-native-community/netinfo';
+import ModernaContext from '../../context/ModernaContext'
 
 const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [animation, setAnimation] = useState("");
+  const { isConnected } = useContext(ModernaContext);
+
 
   const handleOpenModal = () => {
+    setAnimation(SYNC_ANIMATION);
     setIsModalVisible(true);
+    setTimeout(() => {
+      setAnimation(SUCCESS_ANIMATION);
+      if (isConnected) {
+        setTimeout(() => {
+          setIsModalVisible(false);
+        }, 2000);
+      } else {
+        setAnimation(FAILED_ANIMATION);
+        setTimeout(() => {
+          setIsModalVisible(false);
+        }, 4000);
+      }
+    }, 5000);
   };
 
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <LoaderModal visible={isModalVisible} onClose={handleCloseModal} warning={'Al presionar el boton Aceptar se va a cancelar su progreso.'} />
+      <LoaderModal animation={animation} visible={isModalVisible} warning={'Sincronizando datos, por favor espere...'} />
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>

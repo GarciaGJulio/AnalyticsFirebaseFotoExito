@@ -10,7 +10,7 @@ const theme = {
     modernaYellow: "#ecaa20",
     modernaGreen: "#5BC2A7",
     modernaAqua: "#5BC2A7",
-    lightgray: "#9D9D9D",
+    lightgray: "rgba(217,217,217,0.70)",
     active: "#5BC2A7",
     inactive: "#9D9D9D",
     inputcolor: "#CCCCCC",

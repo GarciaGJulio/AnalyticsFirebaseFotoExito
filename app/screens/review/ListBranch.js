@@ -10,19 +10,22 @@ import { commonStyles } from '../../theme/stylesBranch';
 const ListBranch = ({ navigation }) => {
 
     let sucursal = [
-        { id: 1, name: "Cliente - Sucursal" },
-        { id: 2, name: "Cliente - Sucursal" },
-        { id: 3, name: "Cliente - Sucursal" },
+        { id: 1, name: "Cliente1 - Sucursal1" },
+        { id: 2, name: "Cliente2 - Sucursal2" },
+        { id: 3, name: "Cliente3 - Sucursal3" },
     ]
 
-    const goToReview = () => {
+    const goToReview = (value) => {
         console.log("Ir a visitas");
-        navigation.navigate("review");
+        console.log(value);
+        navigation.navigate("review", { branch: value });
     }
 
     const ItemBranch = ({ branch }) => {
         return (
-            <TouchableOpacity onPress={goToReview} activeOpacity={0.85} bottomDivider style={{ margin: 0.5 }}>
+            <TouchableOpacity onPress={() => {
+                goToReview(branch.name);
+            }} activeOpacity={0.85} bottomDivider style={{ margin: 0.5 }}>
                 <ListItem containerStyle={[commonStyles.containerList, commonStyles.shadow]}>
                     <ListItem.Content>
                         <View style={[commonStyles.container, { elevation: 2 }]}>

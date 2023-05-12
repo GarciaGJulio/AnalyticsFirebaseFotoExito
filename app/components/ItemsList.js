@@ -25,14 +25,15 @@ const ItemsList = ({ text }) => {
     ];
 
     return (
-        <ScrollView>
+        <View style={{ flex: 1, width: '100%', marginBottom: 10, }}>
             {text ? <Text style={[styles.title, { marginVertical: 18, }]}>{text}</Text> : <></>}
             <FlatList
                 data={DATA}
                 renderItem={({ item }) => (<DetailProduct title={item.title} data={item.data} />)}
                 keyExtractor={(item) => item.title}
+                showsVerticalScrollIndicator={false}
             />
-        </ScrollView>
+        </View>
     );
 }
 

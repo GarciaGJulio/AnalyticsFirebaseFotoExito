@@ -4,7 +4,7 @@ import DoubleStyledButton from './DoubleStyledButton'
 import LOGOTIPO from '../../assets/moderna/Logotipo-original.png'
 import theme from '../theme/theme'
 
-const ConfirmationModal = ({ visible, onClose, children,warning }) => {
+const ConfirmationModal = ({ visible, onClose,onPress, children,warning }) => {
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -24,6 +24,7 @@ const ConfirmationModal = ({ visible, onClose, children,warning }) => {
             titleLeft={'Aceptar'} 
             sizeLeft={theme.buttonSize.sm} 
             colorLeft={theme.colors.modernaRed}
+            onPressLeft={onPress}
             titleRigth={'Cancelar'} 
             sizeRigth={theme.buttonSize.sm} 
             colorRigth={theme.colors.modernaYellow}

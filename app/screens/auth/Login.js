@@ -1,17 +1,38 @@
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React,{useContext,useState} from 'react'
 import theme from '../../theme/theme'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
+import ModernaContext from '../../context/ModernaContext'
 import TarjPercha from '../../components/TarjetaPercha'
 import TarjPromo from '../../components/TarjetaPromo'
 
 const Login = ({navigation}) => {
+
+  const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
     const log = () => {
-        console.log("NAVEGANDO A MENU")
+        console.log("DISPARANDO LOGIN DE AD")
+        //login()
         navigation.navigate('menu')
     }
+
+    const funcionQA = (user) => {
+  
+      navigation.navigate('menu');
+
+  }
+
+    const login = async () => {
+      try {
+       // handleCanSelectEnvironment(funcionQA, functionProduction)
+         //handleLoading(true);
+         handleLoginAzure(funcionQA);
+      } catch (error) {
+        console.log(error);
+        handleLoading(false);
+      }
+    };
     const [valueGeneral, setValueGeneral] = useState();
     const [valueModerna, setValueModerna] = useState();
     const [checked, setChecked] = useState(false);

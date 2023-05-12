@@ -13,7 +13,6 @@ const Briefcase_Review = () => {
     <View style={styles.container}>
       <ModernaHeader/>
       <ScrollView style={{width:theme.dimensions.maxWidth,marginTop:theme.dimensions.maxHeight/10}}>
-        <><ReviewBanner/></>
         <ScreenInformation title={'Cliente-Sucursal'} text={'A continuación se enlistan los precios de los productos registrados'}/>
         <DoubleStyledButton
           titleLeft={'Cancelar'} 

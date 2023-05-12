@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
         width:theme.dimensions.maxWidth,
         paddingHorizontal:5,
         justifyContent:'space-evenly',
-        marginVertical:10
+        marginVertical:10,
     }
 })

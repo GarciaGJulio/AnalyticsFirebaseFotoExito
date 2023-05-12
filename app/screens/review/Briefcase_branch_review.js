@@ -6,8 +6,9 @@ import theme from '../../theme/theme'
 import ScreenInformation from '../../components/ScreenInformation';
 import ItemsList from '../../components/ItemsList'
 
-const Briefcase_branch_review = () => {
-
+const Briefcase_branch_review = ({ route }) => {
+    // const { branch } = route.params;
+    // console.log("En Brief ", branch);
     return (
         <View style={styles.container}>
             <ModernaHeader />
@@ -25,6 +26,6 @@ export default Briefcase_branch_review;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: theme.colors.white,
     },
 })
