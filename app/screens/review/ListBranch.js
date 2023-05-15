@@ -10,9 +10,9 @@ import { commonStyles } from '../../theme/stylesBranch';
 const ListBranch = ({ navigation }) => {
 
     let sucursal = [
-        { id: 1, name: "Cliente1 - Sucursal1" },
-        { id: 2, name: "Cliente2 - Sucursal2" },
-        { id: 3, name: "Cliente3 - Sucursal3" },
+        { id: 1, name: "Cliente1 - Sucursal1", state: true },
+        { id: 2, name: "Cliente2 - Sucursal2", state: false },
+        { id: 3, name: "Cliente3 - Sucursal3", state: true },
     ]
 
     const goToReview = (value) => {
@@ -30,13 +30,23 @@ const ListBranch = ({ navigation }) => {
                     <ListItem.Content>
                         <View style={[commonStyles.container, { elevation: 2 }]}>
                             <View style={commonStyles.iconContainer}>
-                                <Icon
-                                    name='sync-circle-sharp'
-                                    type='ionicon'
-                                    color='green'
-                                    size={32}
-                                    style={commonStyles.icon}
-                                />
+                                {
+                                    branch.state ? (
+                                        <Icon
+                                            name='sync-circle-sharp'
+                                            type='ionicon'
+                                            color='green'
+                                            size={32}
+                                            style={commonStyles.icon}
+                                        />) : (
+                                        <Icon
+                                            name='sync-circle-sharp'
+                                            type='ionicon'
+                                            color='red'
+                                            size={32}
+                                            style={commonStyles.icon}
+                                        />)
+                                }
                             </View>
                             <ImageBackground
                                 style={commonStyles.cardContainer}
