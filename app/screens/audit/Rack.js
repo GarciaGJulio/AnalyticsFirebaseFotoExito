@@ -10,12 +10,19 @@ import ModernaHeader from '../../components/ModernaHeader';
 import ProgressBar from '../../components/ProgressBar';
 import TarjPercha from '../../components/TarjetaPercha';
 import RackCheckbox from '../../components/RackCheckbox';
-
+import { db_insertPercha } from '../../services/SqliteService';
+import { lookForPerchas } from '../../services/SeleccionesService';
 const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
   const [valueModerna, setValueModerna] = useState();
   const [checked, setChecked] = useState(false);
+  const [pedidos,setPedidos] =useState([]);
+  const EnviaDatosLocal=async() =>{
+    db_insertPercha(1,checked);
+   await lookForPerchas(setPedidos);
+    console.log("Pedidos desde Screen:",pedidos)
 
+  }
 
 
   return (
@@ -44,8 +51,12 @@ const Racks = ({ navigation }) => {
         iconRigth={'arrow-right-circle'}
         typeRigth={'feather'}
         colorRigth={theme.colors.modernaRed}
-        onPressRigth={() => navigation.navigate('promos')}
+        onPressRigth={() =>{
+          EnviaDatosLocal();
+           navigation.navigate('promos')
+          }}
       />
+
     </View>
   );
 };
