@@ -16,11 +16,11 @@ const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
   const [valueModerna, setValueModerna] = useState();
   const [checked, setChecked] = useState(false);
-  const [pedidos,setPedidos] =useState([]);
-  const EnviaDatosLocal=async() =>{
-    db_insertPercha(1,checked);
-   await lookForPerchas(setPedidos);
-    console.log("Pedidos desde Screen:",pedidos)
+  const [pedidos, setPedidos] = useState([]);
+  const EnviaDatosLocal = async () => {
+    db_insertPercha(1, checked);
+    await lookForPerchas(setPedidos);
+    console.log("Pedidos desde Screen:", pedidos)
 
   }
 
@@ -28,15 +28,15 @@ const Racks = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <View style={{flex:1, width:'100%',backgroundColor:'blue'}}>
-      <ModernaHeader />
+      <View style={{ flex: 1, width: '100%', backgroundColor: 'blue' }}>
+        <ModernaHeader />
       </View>
-      
+
       <View style={styles.contentContainer}>
-      <ProgressBar currentStep={2} />
+        <ProgressBar currentStep={2} />
         <ScreenInformation title={'Perchas'} text={'Selecciona las perchas de los productos disponibles en el punto de venta actual'} />
         <View style={styles.cardContainer}>
-          <TarjPercha/>
+          <TarjPercha />
         </View>
       </View>
       <DoubleStyledButton
@@ -51,10 +51,10 @@ const Racks = ({ navigation }) => {
         iconRigth={'arrow-right-circle'}
         typeRigth={'feather'}
         colorRigth={theme.colors.modernaRed}
-        onPressRigth={() =>{
+        onPressRigth={() => {
           EnviaDatosLocal();
-           navigation.navigate('promos')
-          }}
+          navigation.navigate('promos')
+        }}
       />
 
     </View>
@@ -80,10 +80,10 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   cardContainer: {
-    flex:9,
+    flex: 9,
     //height: 160,
     //borderWidth: 1,
-    width:'100%',
+    width: '100%',
     marginVertical: 5,
     //marginHorizontal:10,
     borderRadius: 15,
