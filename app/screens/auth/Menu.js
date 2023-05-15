@@ -1,5 +1,5 @@
 import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState,useContext} from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import theme from '../../theme/theme'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
@@ -12,13 +12,13 @@ import FAILED_ANIMATION from '../../../assets/failed.json'
 import NetInfo from '@react-native-community/netinfo';
 import ModernaContext from '../../context/ModernaContext'
 
-const Menu = ({navigation}) => {
-   const [isModalVisible, setIsModalVisible] = useState(false);
-   const [animation,setAnimation] = useState("");
-   const {isConnected} = useContext(ModernaContext);
-  
+const Menu = ({ navigation }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [animation, setAnimation] = useState("");
+  const { isConnected } = useContext(ModernaContext);
 
-   const handleOpenModal = () => {
+
+  const handleOpenModal = () => {
     setAnimation(SYNC_ANIMATION);
     setIsModalVisible(true);
     setTimeout(() => {
@@ -35,11 +35,11 @@ const Menu = ({navigation}) => {
       }
     }, 5000);
   };
-  
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <LoaderModal animation={animation} visible={isModalVisible}  warning={'Sincronizando datos, por favor espere...'}/>
+      <LoaderModal animation={animation} visible={isModalVisible} warning={'Sincronizando datos, por favor espere...'} />
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
