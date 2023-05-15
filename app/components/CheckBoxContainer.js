@@ -8,7 +8,7 @@ import StyledInput from './StyledInput'
 import TakeImage from './TakeImage'
 import ConfirmationModal from './ConfirmationModal'
 
-const CheckBoxContainer = ({productName}) => {
+const CheckBoxContainer = ({ productName }) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [price, setPrice] = useState('');
@@ -17,36 +17,36 @@ const CheckBoxContainer = ({productName}) => {
   const [disabled2, setDisabled2] = useState(false);
 
 
-    const handleOpenModal = () => {
-        setIsModalVisible(true);
-    };
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
 
-    const handleCloseModal = () => {
-        setIsModalVisible(false);
-    };
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
 
-    const acceptModal = () => {
-      setCheck1(!check1)
-      setCheck2(!check2)
-      setIsModalVisible(false);
-      setDisabled1(!disabled1);
-      setDisabled2(!disabled2);
-    }
+  const acceptModal = () => {
+    setCheck1(!check1)
+    setCheck2(!check2)
+    setIsModalVisible(false);
+    setDisabled1(!disabled1);
+    setDisabled2(!disabled2);
+  }
 
   return (
-    <View style={[styles.container,{height:check1 ? 460:150}]}>
-      <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} onPress={acceptModal} warning={'Al presionar el boton Aceptar se va a eliminar el registro ingresado.'}/>
+    <View style={[styles.container, { height: check1 ? 460 : 150 }]}>
+      <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} onPress={acceptModal} warning={'Al presionar el boton Aceptar se va a eliminar el registro ingresado.'} />
       <View style={styles.primaryContainer}>
-        <Image source={HARINA} style={{width:100,height:100}}/>
+        <Image source={HARINA} style={{ width: 100, height: 100 }} />
         <View style={styles.descriptionContainer}>
-          <Text style={{fontSize:13}}>{productName}</Text>
-          <Text style={{marginHorizontal:10,marginTop:5,fontSize:11}}>Precio disponible</Text>
-          <View style={{flexDirection:'row', alignItems:'center',right:10}}>
+          <Text style={{ fontSize: 13 }}>{productName}</Text>
+          <Text style={{ marginHorizontal: 10, marginTop: 5, fontSize: 11 }}>Precio disponible</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', right: 10 }}>
             <CheckBox
               checked={check1}
               onPress={() => {
-                check2 ? (setCheck2(!check2),setDisabled2(!disabled2),setCheck1(!check1),
-                setDisabled1(!disabled1) ):(
+                check2 ? (setCheck2(!check2), setDisabled2(!disabled2), setCheck1(!check1),
+                  setDisabled1(!disabled1)) : (
                   setCheck1(!check1),
                   setDisabled1(!disabled1)
                 )
@@ -56,55 +56,56 @@ const CheckBoxContainer = ({productName}) => {
               checkedIcon="checkbox-marked"
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
-              containerStyle={{backgroundColor:'transparent'}}
+              containerStyle={{ backgroundColor: 'transparent' }}
               disabled={disabled1}
             />
             <Text>Si</Text>
             <CheckBox
               checked={check2}
               onPress={() => {
-                check1 ? handleOpenModal(): (
+                check1 ? handleOpenModal() : (
                   setCheck2(!check2),
                   setDisabled2(!disabled2)
-                )}}
-          
+                )
+              }}
+
               iconType="material-community"
               checkedIcon="checkbox-marked"
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
-              containerStyle={{backgroundColor:'transparent'}}
+              containerStyle={{ backgroundColor: 'transparent' }}
               disabled={disabled2}
             />
             <Text>No</Text>
           </View>
-          </View>
         </View>
-        {
-          check1 ? (
-            <View style={styles.secondaryContainer}>
-              <View style={{padding:10}}>
-                <StyledInput
-                  onChangeText={txt => 
-                    setPrice(txt)
-                  }
-                  label="Precio del producto"
-                  placeholder="Ingresa el precio del producto"
-                  maxLength={30}
-                  keyboard='numeric'
-                  editable={true}
-                  value={price}
-                  width={'100%'}
-                  information={'Este campo es obligatorio'}
-                />
-                <View style={{marginTop:15}}>
-                  <Text style={{fontSize:15,fontWeight:'500'}}>Foto del precio del producto respectivo</Text>
-                  <Text style={{fontSize:13,marginTop:10}}>Proporcione una foto del producto respectivo</Text>
-                  <TakeImage/>
-                </View>
+      </View>
+      {
+        check1 ? (
+          <View style={styles.secondaryContainer}>
+            <View style={{ padding: 10 }}>
+              <StyledInput
+                onChangeText={txt =>
+                  setPrice(txt)
+                }
+                label="Precio del producto"
+                placeholder="Ingresa el precio del producto"
+                maxLength={30}
+                keyboard='numeric'
+                editable={true}
+                value={price}
+                width={'100%'}
+                information={'Este campo es obligatorio'}
+              />
+              <View style={{ marginTop: 15 }}>
+                <Text style={{ fontSize: 15, fontWeight: '500' }}>Foto del precio del producto respectivo</Text>
+                <Text style={{ fontSize: 13, marginTop: 10 }}>Proporcione una foto del producto respectivo</Text>
+                <TakeImage />
               </View>
             </View>
-          ) : <></>
-        }
+          </View>
+        ) : <></>
+      }
     </View>
   )
 }
@@ -113,28 +114,28 @@ export default CheckBoxContainer
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius:20,
-    marginVertical:10,
-    borderWidth:2,
+    borderRadius: 20,
+    marginVertical: 10,
+    borderWidth: 2,
     backgroundColor: theme.colors.lightgray,
     alignItems: 'center',
     justifyContent: 'center',
-    width:"100%"
+    width: "100%"
   },
-  descriptionContainer:{
-    marginLeft:5,
+  descriptionContainer: {
+    marginLeft: 5,
     //backgroundColor:'orange',
-    flex:1, 
-    padding:10
+    flex: 1,
+    padding: 10
   },
-  primaryContainer:{
-    flexDirection:'row',
+  primaryContainer: {
+    flexDirection: 'row',
     //backgroundColor:'blue',
-    width:"90%"
+    width: "90%"
   },
-  secondaryContainer:{
+  secondaryContainer: {
     //backgroundColor:'brown', 
-    height:290, 
-    width:'90%'
+    height: 290,
+    width: '90%'
   }
 });

@@ -1,5 +1,5 @@
 import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
 import StyledButton from '../../components/StyledButton';
 import * as Animatable from 'react-native-animatable';
@@ -8,20 +8,28 @@ import DoubleStyledButton from '../../components/DoubleStyledButton';
 import ScreenInformation from '../../components/ScreenInformation';
 import ModernaHeader from '../../components/ModernaHeader';
 import ProgressBar from '../../components/ProgressBar';
+import TarjPercha from '../../components/TarjetaPercha';
+import RackCheckbox from '../../components/RackCheckbox';
 
 const Racks = ({ navigation }) => {
+  const [valueGeneral, setValueGeneral] = useState();
+  const [valueModerna, setValueModerna] = useState();
+  const [checked, setChecked] = useState(false);
+
+
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <View style={{flex:1, width:'100%',backgroundColor:'blue'}}>
-      <ModernaHeader />
+      <View style={{ flex: 1, width: '100%', backgroundColor: 'blue' }}>
+        <ModernaHeader />
       </View>
-      
+
       <View style={styles.contentContainer}>
-        <ScreenInformation title={'Perchas'} text={'Selecciona las perchas'} />
         <ProgressBar currentStep={2} />
+        <ScreenInformation title={'Perchas'} text={'Selecciona las perchas de los productos disponibles en el punto de venta actual'} />
         <View style={styles.cardContainer}>
-          {/* Contenido de la tarjeta */}
+          <TarjPercha view={'audit'} />
         </View>
       </View>
       <DoubleStyledButton
@@ -61,13 +69,16 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   cardContainer: {
+    flex: 9,
+    //height: 160,
+    //borderWidth: 1,
     width: '100%',
-    height: 160,
-    borderWidth: 1,
     marginVertical: 5,
+    //marginHorizontal:10,
     borderRadius: 15,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 5,
+    //backgroundColor:'blue',
   },
 });
+

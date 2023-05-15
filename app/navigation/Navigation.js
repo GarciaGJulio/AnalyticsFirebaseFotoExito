@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/auth/Login';
@@ -6,6 +6,7 @@ import Menu from '../screens/auth/Menu';
 import TabsNavigation from './TabsNavigation.js';
 import AuditNavigation from './AuditNavigation';
 import ListBranch from '../screens/review/ListBranch';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Stack = createStackNavigator();
 

@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useRef } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import { Icon } from '@rneui/base';
 import Prices_Review from '../screens/review/Prices_Review';
@@ -8,6 +8,7 @@ import Rack_Review from '../screens/review/Rack_Review';
 import theme from '../theme/theme';
 import Briefcase_branch_review from '../screens/review/Briefcase_branch_review';
 import Promos_Review from '../screens/review/Promos_Review';
+import SafeAreaView from 'react-native-safe-area-view';
 
 const TabArr = [
   // { route: 'Portafolio', label: 'Portafolio', type: 'octicon', icon: 'briefcase', component: Briefcase_Review, color: theme.colors.modernaGreen },
@@ -20,10 +21,12 @@ const TabArr = [
 const Tab = createBottomTabNavigator();
 
 const TabButton = (props) => {
-  const { item, onPress, accessibilityState } = props;
+  const { item, param, onPress, accessibilityState } = props;
   const focused = accessibilityState.selected;
   const viewRef = useRef(null);
   const textViewRef = useRef(null);
+
+  // console.log(param);
 
   useEffect(() => {
     if (focused) { // 0.3: { scale: .7 }, 0.5: { scale: .3 }, 0.8: { scale: .7 },
@@ -60,6 +63,7 @@ const TabButton = (props) => {
 
 export default function TabsNavigation({ route }) {
   const { branch } = route.params;
+  // console.log(branch, "TabsNavigation");
   return (
     <Tab.Navigator
       screenOptions={{
@@ -71,23 +75,27 @@ export default function TabsNavigation({ route }) {
           backgroundColor: theme.colors.modernaRed
         }
       }}
+
     >
       {TabArr.map((item, index) => {
         return (
           <Tab.Screen key={index} name={item.route} component={item.component}
             options={{
               tabBarShowLabel: false,
-              tabBarButton: (props) => <TabButton {...props} item={item} branch={branch} />
+              tabBarButton: (props) => (
+                <TabButton {...props} item={item} param={branch} />
+              ),
             }}
           />
-        )
+        );
       })}
     </Tab.Navigator>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

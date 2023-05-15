@@ -10,7 +10,7 @@ import { AuthConfig } from './AuthConfig';
 
 const config: AuthConfiguration = {
   clientId: AuthConfig.appId,
-  redirectUrl: 'graph-modernaAudit://react-native-auth/',
+  redirectUrl: 'graph-moderna://react-native-auth/',
   scopes: AuthConfig.appScopes,
   additionalParameters: { prompt: 'select_account' },
   serviceConfiguration: {

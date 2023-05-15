@@ -21,8 +21,8 @@ const Prices = ({ navigation }) => {
         <ModernaHeader />
       </View>
       <View style={styles.contentContainer}>
-        <ScreenInformation title={'Precios'} text={'Selecciona los productos que poseen preciador'} />
         <ProgressBar currentStep={1} />
+        <ScreenInformation title={'Preciador'} text={'Selecciona los productos que poseen preciador'} />
         <View style={{ flex: 2, width: '100%', alignItems: 'center' }}>
           <FlashListPrices title={'Portafolio Ideal'} />
         </View>

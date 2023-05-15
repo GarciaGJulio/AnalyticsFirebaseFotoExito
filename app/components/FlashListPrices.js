@@ -19,13 +19,13 @@ const DATA = [
   },
 ];
 
-const FlashListPrices = ({title}) => {
+const FlashListPrices = ({ title }) => {
   return (
-    <View style={{ flex:1, width:'90%',marginBottom:10 }}>
-      <Text style={{fontWeight:theme.fontWeight.bolder,fontSize:theme.fontSize.subtitle}}>{title}</Text>
+    <View style={{ flex: 1, width: '90%', marginBottom: 10 }}>
+      <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>{title}</Text>
       <FlashList
         data={DATA}
-        renderItem={({ item }) => <CheckBoxContainer productName={item.name}/>}
+        renderItem={({ item }) => <CheckBoxContainer productName={item.name} />}
         estimatedItemSize={4}
         showsVerticalScrollIndicator={false}
       />
