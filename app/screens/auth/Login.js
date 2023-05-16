@@ -13,8 +13,8 @@ const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
   const log = () => {
     console.log("DISPARANDO LOGIN DE AD")
-    //login()
-    navigation.navigate('menu')
+    login()
+    //navigation.navigate('menu')
   }
 
   const funcionQA = (user) => {
