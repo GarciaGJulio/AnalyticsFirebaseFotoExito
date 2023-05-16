@@ -8,8 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModernaContext from './app/context/ModernaContext';
 import Login from './app/screens/auth/Login';
 import ModernaProvider from './app/context/ModernaProvider';
+import { load_db_config } from './app/common/sqlite_config';
 
-export const  App = () => {
+export default function App() {
+  load_db_config();
+
 
   return (
     <ModernaProvider>
@@ -20,7 +23,6 @@ export const  App = () => {
   );
 }
 
-export default App;
 
 const styles = StyleSheet.create({
   container: {
