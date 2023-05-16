@@ -12,7 +12,6 @@ const Stack = createStackNavigator();
 const Navigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='login' component={Login} />
       <Stack.Screen name='menu' component={Menu} />
       <Stack.Screen name='listBranch' component={ListBranch} />
       <Stack.Screen name='review' component={TabsNavigation} />
