@@ -14,15 +14,33 @@ import * as Location from 'expo-location';
 import axios from 'axios';
 import { capturarCoordenadas } from '../../services/GeolocationM';
 import ModernaContext from '../../context/ModernaContext';
+import { db_insertSucursal } from '../../services/SqliteService';
+import { lookForSucursal } from '../../services/SeleccionesService';
 
 const Client_Information = ({ navigation }) => {
   const [selected, setSelected] = useState("");
   const [sucursal, setSucursal] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [sucursalInformation, setSucursalInformation] = useState({client:'',clientType:'',name:''});
+  const [datosCompletos,setDatosCompletos] = useState({});
 
-  const { latitude, longitude, setLatitude,handleLocations,location, setLongitude } = useContext(ModernaContext)
+  const { handleLocations,location,  } = useContext(ModernaContext)
 
   const [type, setType] = useState("");
+  const [sucursalData, setSucursalData] = useState([]);
+
+  const sendLocalData = async (setSucursalData) => {
+    db_insertSucursal(1, 1, sucursalInformation.name, sucursalInformation.latitude,sucursalInformation.length);
+    await lookForSucursal(setSucursalData);
+    console.log("Pedidos desde Screen:", sucursalData)
+
+  }
+
+  const validate = (objeto) => {
+    const valores = Object.values(objeto);
+    return valores.every(valor => valor !== null && valor !== undefined && valor !== '');
+  }
+
   const clientsType = [
     { client: 'Cameras', type: 'ASI' },
     { client: 'Appliances', type: 'ASI' },
@@ -47,22 +65,69 @@ const Client_Information = ({ navigation }) => {
     clientsType.forEach((type) => {
       if (type.client == selected) {
         setType(type.type)
+        setSucursalInformation({...sucursalInformation, client:selected,clientType:type.client})
       }
     })
   }
 
+  const hasDatComplete = (data) => {
 
+  }
+
+  /*const handleOpenModal = async () => {
+    const validador = validate(sucursalInformation);
+    if(validador){
+      setIsModalVisible(true)
+      try{
+        capturarCoordenadas(sucursalInformation, setDatosCompletos, ()=>{
+          //setIsModalVisible(false)
+          //navigation.navigate('briefcase');
+          setIsModalVisible(false)
+          console.log("JSON FINAL: ",JSON.stringify(datosCompletos))
+          if(datosCompletos.latitude){
+            //sendLocalData(setSucursalData)
+            navigation.navigate('briefcase');
+            console.log("ENVIANDO DATOS A BASE . . . . .")
+            //setIsModalVisible(false)
+          }else{
+            alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION")
+          }
+        },)
+      }catch(e){
+        console.log(e)
+        setIsModalVisible(false)
+      }
+        
+    }else{
+      Alert.alert('Error', 'Debe ingresar todos los datos indicados')
+    }
+    
+  };*/
 
   const handleOpenModal = async () => {
-    setIsModalVisible(true)
-    capturarCoordenadas(setLatitude, handleLocations, ()=>{
-      setIsModalVisible(false)
-      navigation.navigate('briefcase');
-    },()=>{
-      setIsModalVisible(false)
-    })
+    const validador = validate(sucursalInformation);
+    if (validador) {
+      setIsModalVisible(true);
+      try {
+        const location = await capturarCoordenadas(sucursalInformation);
+        const datosCompletos = { ...location };
+        setDatosCompletos(datosCompletos);
+        setIsModalVisible(false);
+        console.log("JSON FINAL: ", JSON.stringify(datosCompletos));
+        if (datosCompletos.latitude) {
+          navigation.navigate('briefcase');
+          console.log("ENVIANDO DATOS A BASE . . . . .");
+        } else {
+          alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION");
+        }
+      } catch (error) {
+        console.log(error);
+        setIsModalVisible(false);
+      }
+    } else {
+      Alert.alert('Error', 'Debe ingresar todos los datos indicados');
+    }
   };
-
 
 
   return (
@@ -86,9 +151,10 @@ const Client_Information = ({ navigation }) => {
         </View>
         <View style={{ flex: 3, width: '90%', alignItems: 'center' }}>
           <StyledInput
-            onChangeText={txt =>
+            onChangeText={(txt) =>{
               setSucursal(txt.toUpperCase())
-            }
+              setSucursalInformation({...sucursalInformation,name:txt.toUpperCase()})
+            }}
             label="Sucursal"
             placeholder="Ingresa el nombre de la sucursal"
             maxLength={30}

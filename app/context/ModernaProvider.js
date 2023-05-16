@@ -12,8 +12,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ModernaProvider = ({ children }) => {
   const [isLogging, setIsLogging] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  const [latitude, setLatitude] = useState('')
-  const [longitude, setLongitude] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({})
   //const [pagination,setPagination]=useState([])
@@ -136,16 +134,12 @@ useEffect(()=> {
     <ModernaContext.Provider value={{
       isLogging,
       isConnected,
-      latitude,
-      longitude,
       isAuthenticated:isAuthenticated,
       setIsAuthenticated,
       userInfo,
       location: state.location,
       setIsLogging,
       setIsConnected,
-      setLatitude,
-      setLongitude,
       handleLocations,
       handleLoginAzure,
       handleLogoutAzure,
