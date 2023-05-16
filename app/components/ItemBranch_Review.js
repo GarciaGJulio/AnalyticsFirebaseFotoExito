@@ -43,7 +43,7 @@ const ItemBranch_Review = ({ branch }) => {
     };
 
     const goToReview = (value) => {
-        console.log("Ir a visitas");
+        // console.log("Ir a visitas");
         navigation.navigate("review", { branch: value });
     }
 

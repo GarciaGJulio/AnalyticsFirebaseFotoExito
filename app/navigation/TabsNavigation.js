@@ -23,10 +23,15 @@ const TabButton = (props) => {
   const focused = accessibilityState.selected;
   const viewRef = useRef(null);
   const textViewRef = useRef(null);
+  const storedParam = useRef(null);
 
-  // console.log(param);
 
   useEffect(() => {
+    // if (storedParam.current === null) {
+    //   storedParam.current = param;
+    //   console.log('Stored Param:', storedParam.current);
+    // }
+
     if (focused) { // 0.3: { scale: .7 }, 0.5: { scale: .3 }, 0.8: { scale: .7 },
       viewRef.current.animate({ 0: { scale: 0 }, 1: { scale: 1 } });
       textViewRef.current.animate({ 0: { scale: 0 }, 1: { scale: 1 } });
@@ -34,7 +39,11 @@ const TabButton = (props) => {
       viewRef.current.animate({ 0: { scale: 1, }, 1: { scale: 0, } });
       textViewRef.current.animate({ 0: { scale: 1 }, 1: { scale: 0 } });
     }
-  }, [focused])
+  }, [focused]);
+
+  const handlePress = () => {
+    // onPress(storedParam.current);
+  };
 
   return (
     <TouchableOpacity

@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 80,
-        height: 70,
+        height: 65,
         marginHorizontal: 3,
-        marginVertical: 8,
+        marginVertical: 9,
         resizeMode: 'stretch'
     },
     deleteButton: {

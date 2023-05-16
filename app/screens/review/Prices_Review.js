@@ -12,7 +12,6 @@ const Prices_Review = () => {
     <View style={styles.container}>
       <ModernaHeader />
       <View style={{ width: theme.dimensions.maxWidth, marginTop: theme.dimensions.maxHeight / 10 }}>
-        {/* <ReviewBanner /> */}
         <ScreenInformation title={'Cliente - Sucursal'} text={'A continuación se listan los precios de los productos registrados'} />
         <BackPage_Review />
       </View>

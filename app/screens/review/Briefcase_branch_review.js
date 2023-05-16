@@ -6,12 +6,15 @@ import ScreenInformation from '../../components/ScreenInformation';
 import ItemsList from '../../components/ItemsList'
 import { BackPage_Review } from '../../components/BackPage_Review'
 
-const Briefcase_branch_review = () => {
+const Briefcase_branch_review = ({ route }) => {
+
+    // const { branch } = route.params;
+    // console.log(branch, "Briefcase");
+
     return (
         <View style={styles.container}>
             <ModernaHeader />
             <View style={{ width: theme.dimensions.maxWidth, marginTop: theme.dimensions.maxHeight / 10 }}>
-                {/* <ReviewBanner /> */}
                 <ScreenInformation title={'Cliente - Sucursal'} text={'A continuación se enlistan los datos registrados'} />
                 <BackPage_Review />
             </View>

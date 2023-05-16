@@ -11,7 +11,6 @@ const Promos_Review = () => {
     <View style={styles.container}>
       <ModernaHeader />
       <View style={{ width: theme.dimensions.maxWidth, marginTop: theme.dimensions.maxHeight / 10 }}>
-        {/* <ReviewBanner /> */}
         <ScreenInformation title={'Cliente - Sucursal'} text={'A continuación se enlistan los exhibidores registrados'} />
         <BackPage_Review />
       </View>
