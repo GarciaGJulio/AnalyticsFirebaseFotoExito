@@ -1,22 +1,18 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, Pressable } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, } from 'react-native'
 import React, { useState } from 'react'
-import ConfirmationModal from './ConfirmationModal';
 import theme from '../theme/theme';
-import { CheckBox, Icon, Input } from '@rneui/base';
-import TakeImage from './TakeImage';
+import { Icon, Input } from '@rneui/base';
 
-const Rack_View = ({ categoryName }) => {
-    const [CateGeneral, setCateGeneral] = useState();
-    const [CateModerna, setCateModerna] = useState();
+const Rack_View = ({ rack }) => {
+    const [CateGeneral, setCateGeneral] = useState("70");
+    const [CateModerna, setCateModerna] = useState("50");
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleTextGeneral = (txt) => {
         setCateGeneral(txt);
-        //props.onChangeTextGeneral(txt);
     }
     const handleTextModerna = (txt) => {
         setCateModerna(txt);
-        //props.onChangeTextModerna(txt);
     }
 
     const handleOpenModal = () => {
@@ -35,7 +31,6 @@ const Rack_View = ({ categoryName }) => {
         setDisabled2(!disabled2);
     }
 
-
     const [check1, setCheck1] = useState(false);
     const [check2, setCheck2] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -43,19 +38,16 @@ const Rack_View = ({ categoryName }) => {
     const [disabled2, setDisabled2] = useState(false);
     const [openCamera, setOpenCamera] = useState(false);
 
-    const img = "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531";
-    const img1 = "https://media.gettyimages.com/id/1146333350/es/foto/food-on-shelves-of-grocery-store.jpg?s=2048x2048&w=gi&k=20&c=ifOzWbplve6OkYZUQqRa14qwGkE_ELCoc6PDLg3tqAM=";
-    const img2 = "https://media.gettyimages.com/id/1146333347/es/foto/food-on-shelves-of-grocery-store.jpg?s=2048x2048&w=gi&k=20&c=g53D4-XpXPd1Doke0aE1YIgFHQvZTcxOPM1GwsS2-80=";
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.title }}>{categoryName}</Text>
-                <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={() => {
+                <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.title }}>{rack.name}</Text>
+                <TouchableOpacity style={{ position: 'absolute', right: 4, top: 2, }} onPress={() => {
                     setOpenCamera(!openCamera);
                     setModalVisible(true);
                 }}>
-                    <Icon name='camerao' type='antdesign' size={40} />
+                    <Icon name='camera' type='evilicon' size={40} />
+                    {/* <Icon name='camerao' type='antdesign' size={32} /> */}
                 </TouchableOpacity>
             </View>
             <View style={styles.categoryContainer}>
@@ -75,7 +67,7 @@ const Rack_View = ({ categoryName }) => {
                         keyboardType="numeric"
                         onChangeText={handleTextModerna}
                         value={CateModerna}
-                        style={styles.input}
+                        style={[styles.input, { fontWeight: theme.fontWeight.bold, color: theme.colors.black }]}
                         underlineColor="transparent"
                         disabled={true}
                     />
@@ -96,8 +88,22 @@ const Rack_View = ({ categoryName }) => {
                                 <View style={styles.centeredView}>
                                     <View style={styles.modalView}>
                                         <Image style={styles.imageContainer}
-                                            source={{ uri: img }} />
+                                            source={{ uri: rack.rackPrimary }} />
                                         <View style={{ flexDirection: 'row', }}>
+                                            {rack.prod.map((prodImages) => {
+                                                return Object.values(prodImages).map((image, index) => {
+                                                    return (
+                                                        <Image
+                                                            key={index}
+                                                            source={{ uri: image }}
+                                                            style={styles.imgContainer}
+                                                            resizeMode="cover"
+                                                        />
+                                                    );
+                                                });
+                                            })}
+                                        </View>
+                                        {/* <View style={{ flexDirection: 'row', }}>
                                             <Image
                                                 source={{ uri: img }}
                                                 style={styles.imgContainer}
@@ -113,7 +119,7 @@ const Rack_View = ({ categoryName }) => {
                                                 style={styles.imgContainer}
                                                 resizeMode="cover"
                                             />
-                                        </View>
+                                        </View> */}
                                         <TouchableOpacity
                                             style={styles.closeButton}
                                             onPress={() => {

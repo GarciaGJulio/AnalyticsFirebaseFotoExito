@@ -7,20 +7,6 @@ import ScreenInformation from '../../components/ScreenInformation'
 import { BackPage_Review } from '../../components/BackPage_Review'
 
 const Rack_Review = () => {
-  const DATA = [
-    {
-      name: "Pan",
-    },
-    {
-      name: "Harina",
-    },
-    {
-      name: "Avena",
-    },
-    {
-      name: "Arroz",
-    },
-  ];
 
   return (
     <View style={styles.container}>
