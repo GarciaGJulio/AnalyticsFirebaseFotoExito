@@ -10,12 +10,16 @@ import { generateUIDD, getActualDate, getActualDateStock } from "../common/utils
 
 export const db_insertPercha = async (
   id_percha,
-  estado_percha
+  estado_percha,
+  categoria_general,
+  categoria_moderna
 ) => {
   console.log("insertando PERCHA  -----------------------------");
   console.log(
     id_percha,
     estado_percha,
+    categoria_general,
+    categoria_moderna
   );
   global.dbModerna.transaction((tx) => {
     // let query_check = `select id_cliente from ${CLIENTE_TABLE.TABLE_NAME} WHERE identificacion = '${identificacion}' OR id_cliente = '${id_cliente}'`;
@@ -24,10 +28,12 @@ export const db_insertPercha = async (
     //      console.log("cliente ya registrado: ", nombre_cuenta, identificacion);
     //    } else {*/
     tx.executeSql(
-      `insert into ${PERCHA_TABLE_NAME} (${PERCHA_TABLE.KEY_1},${PERCHA_TABLE.ESTADO_PERCHA}) values (?,?);`,
+      `insert into ${PERCHA_TABLE_NAME} (${PERCHA_TABLE.KEY_1},${PERCHA_TABLE.ESTADO_PERCHA},${PERCHA_TABLE.CATEGORIA_MODERNA},${PERCHA_TABLE.CATEGORIA_GENERAL}) values (?,?,?.?);`,
       [
         id_percha,
         estado_percha,
+        categoria_general,
+        categoria_moderna
       ],
       () => {
         console.log(

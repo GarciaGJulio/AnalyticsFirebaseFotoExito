@@ -1,5 +1,5 @@
 import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
 import StyledButton from '../../components/StyledButton';
 import * as Animatable from 'react-native-animatable';
@@ -17,13 +17,18 @@ const Racks = ({ navigation }) => {
   const [valueModerna, setValueModerna] = useState();
   const [checked, setChecked] = useState(false);
   const [pedidos, setPedidos] = useState([]);
+  const [data, setData] = useState([])
   const EnviaDatosLocal = async () => {
-    db_insertPercha(1, checked);
+    db_insertPercha(1, checked, valueGeneral, valueModerna);
     await lookForPerchas(setPedidos);
     console.log("Pedidos desde Screen:", pedidos)
 
   }
 
+  useEffect(() => {
+    console.log("DATA",data)
+
+  }, [data]);
 
   return (
     <View style={styles.container}>
@@ -36,7 +41,7 @@ const Racks = ({ navigation }) => {
         <ProgressBar currentStep={2} />
         <ScreenInformation title={'Perchas'} text={'Selecciona las perchas de los productos disponibles en el punto de venta actual'} />
         <View style={styles.cardContainer}>
-          <TarjPercha />
+          <TarjPercha onchangeData={setData} />
         </View>
       </View>
       <DoubleStyledButton
@@ -53,7 +58,7 @@ const Racks = ({ navigation }) => {
         colorRigth={theme.colors.modernaRed}
         onPressRigth={() => {
           EnviaDatosLocal();
-          navigation.navigate('promos')
+          // navigation.navigate('promos')
         }}
       />
 

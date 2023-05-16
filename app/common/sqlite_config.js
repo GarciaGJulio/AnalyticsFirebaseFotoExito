@@ -20,7 +20,7 @@ const instantiate_local_database = () => {
 };
 
 const createPerchaTable = () => {
-    const sentence = `create table if not exists ${PERCHA_TABLE_NAME} (${PERCHA_TABLE.KEY_1} text primary key not null, ${PERCHA_TABLE.ESTADO_PERCHA} boolean not null)`;
+    const sentence = `create table if not exists ${PERCHA_TABLE_NAME} (${PERCHA_TABLE.KEY_1} text primary key not null, ${PERCHA_TABLE.ESTADO_PERCHA} boolean not null, ${PERCHA_TABLE.CATEGORIA_GENERAL} int NOT NULL,${PERCHA_TABLE.CATEGORIA_MODERNA} int NOT NULL ) `;
     // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
     createTable(sentence, PERCHA_TABLE_NAME);
 };

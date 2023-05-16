@@ -1,22 +1,29 @@
-import { StyleSheet, Text, View,TouchableOpacity,Image } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import ConfirmationModal from './ConfirmationModal';
 import theme from '../theme/theme';
 import { CheckBox, Icon, Input } from '@rneui/base';
 import TakeImage from './TakeImage';
 
-const RackCheckbox = ({categoryName}) => {
+const RackCheckbox = ({ categoryName, onchangeObjPercha }) => {
     const [CateGeneral, setCateGeneral] = useState();
     const [CateModerna, setCateModerna] = useState();
+    const [objPercha, setObjPercha] = useState({})
 
-    const handleTextGeneral = (txt) => {
-        setCateGeneral(txt);
-        //props.onChangeTextGeneral(txt);
-    }
-    const handleTextModerna = (txt) => {
-        setCateModerna(txt);
-        //props.onChangeTextModerna(txt);
-    }
+    useEffect(() => {
+        setObjPercha({
+            categoriaGeneral: CateGeneral,
+            categoriaModerna: CateModerna
+        })
+
+        console.log(objPercha)
+        onchangeObjPercha(objPercha)
+
+
+    }, [CateGeneral, CateModerna]);
+
+
+
 
     const handleOpenModal = () => {
         setIsModalVisible(true);
@@ -27,11 +34,11 @@ const RackCheckbox = ({categoryName}) => {
     };
 
     const acceptModal = () => {
-      setCheck1(!check1)
-      setCheck2(!check2)
-      setIsModalVisible(false);
-      setDisabled1(!disabled1);
-      setDisabled2(!disabled2);
+        setCheck1(!check1)
+        setCheck2(!check2)
+        setIsModalVisible(false);
+        setDisabled1(!disabled1);
+        setDisabled2(!disabled2);
     }
 
 
@@ -44,7 +51,7 @@ const RackCheckbox = ({categoryName}) => {
 
     return (
         <View style={styles.container}>
-            <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} onPress={acceptModal} warning={'Al presionar el boton Aceptar se va a eliminar el registro ingresado.'}/>
+            <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} onPress={acceptModal} warning={'Al presionar el boton Aceptar se va a eliminar el registro ingresado.'} />
             <View style={styles.header}>
                 <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.title }}>{categoryName}</Text>
                 <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={() => setOpenCamera(!openCamera)}><Icon name='camerao' type='antdesign' size={40} /></TouchableOpacity>
@@ -54,7 +61,7 @@ const RackCheckbox = ({categoryName}) => {
                     <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>Categoría general</Text>
                     <Input
                         keyboardType="numeric"
-                        onChangeText={handleTextGeneral}
+                        onChangeText={setCateGeneral}
                         value={CateGeneral}
                         style={styles.input}
                     />
@@ -63,7 +70,7 @@ const RackCheckbox = ({categoryName}) => {
                     <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>Categoría Moderna</Text>
                     <Input
                         keyboardType="numeric"
-                        onChangeText={handleTextModerna}
+                        onChangeText={setCateModerna}
                         value={CateModerna}
                         style={styles.input}
                         underlineColor="transparent"
@@ -131,42 +138,42 @@ export default RackCheckbox
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         //height:200,
-        width:'100%',
+        width: '100%',
         alignContent: 'center',
         //backgroundColor: "red",
         shadowColor: '#000',
         //marginHorizontal: 5,
-        marginVertical:10,
+        marginVertical: 10,
         borderRadius: 8,
-        borderWidth:1,
+        borderWidth: 1,
 
     },
-    header:{
+    header: {
         //backgroundColor:'blue',
-        justifyContent:'center', 
-        alignItems:'center',
-        paddingVertical:5
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 5
     },
-    categoryContainer:{
+    categoryContainer: {
         //backgroundColor:'orange', 
-        flexDirection:'row',
-        flex:1
+        flexDirection: 'row',
+        flex: 1
     },
-    category:{
+    category: {
         //backgroundColor:'purple',
-        flex:1, 
-        alignItems:'center'
+        flex: 1,
+        alignItems: 'center'
     },
-    input:{
-        fontWeight:theme.fontWeight.light,
-        textAlign:'center',
+    input: {
+        fontWeight: theme.fontWeight.light,
+        textAlign: 'center',
     },
-    imageContainer:{
+    imageContainer: {
         //backgroundColor:'yellow',
-        flex:1,
-        alignItems:'center',
-        padding:10
+        flex: 1,
+        alignItems: 'center',
+        padding: 10
     }
 })
