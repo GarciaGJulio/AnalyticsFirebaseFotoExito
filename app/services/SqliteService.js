@@ -84,15 +84,16 @@ export const db_insertSucursal = async (
     tx.executeSql(
       `insert into ${CLIENT_TABLE.NAME} (${CLIENT_TABLE.KEY_1},${CLIENT_TABLE.FOREIGH_KEY_1},${CLIENT_TABLE.NOMBRE_SUCURSAL},${CLIENT_TABLE.LATITUD},${CLIENT_TABLE.LONGITUD}) values (?,?,?,?,?);`,
       [
-        id_percha,
-        estado_percha,
-        categoria_general,
-        categoria_moderna
+        id_sucursal,
+        id_auditoria,
+        nombre_sucursal,
+        latitud,
+        longitud
       ],
       () => {
         console.log(
           "se ejecuta sentencia insert " +
-          PERCHA_TABLE_NAME +
+          CLIENT_TABLE.NAME +
           " OK  "
         );
         console.log("verificando si hay funcion can create order")
@@ -101,7 +102,7 @@ export const db_insertSucursal = async (
         // }
       },
       () => {
-        console.log("error al insertar tabla " + PERCHA_TABLE_NAME);
+        console.log("error al insertar tabla " + CLIENT_TABLE.NAME);
         // if (errorFunction) {
         //   errorFunction()
         // }

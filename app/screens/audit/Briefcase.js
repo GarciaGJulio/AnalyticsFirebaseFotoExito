@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
 import React, { useState,useContext } from 'react';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
 import StyledButton from '../../components/StyledButton';
@@ -15,29 +15,26 @@ import LoaderModal from '../../components/LoaderModal';
 import ProgressBar from '../../components/ProgressBar';
 import MultiSelectList from '../../components/MultiSelectList';
 import FlashListC from '../../components/FlashListC';
+import FlashListPortfolio from '../../components/FlashListPortfolio';
 
 const Briefcase = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const idealPortfolioProducts = [];
+  const [complementaryPortfolioProducts,setComplementaryPortfolioProducts] = useState([]);
   const [currentStep] = useState(0);
 
   const handleOpenModal = () => {
-    setIsModalVisible(true);
-    setTimeout(() => {
-      setIsModalVisible(false);
-      navigation.navigate('prices', { currentStep });
-    }, 2000);
+    //setIsModalVisible(true);
+    console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
+    console.log("PORTAFOLIO COMPLEMENTARIO: ",JSON.stringify(complementaryPortfolioProducts));
+    alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
+    /*setTimeout(() => {
+      //setIsModalVisible(false);
+      //navigation.navigate('prices', { currentStep });
+    }, 2000);*/
   };
 
-  const data = [
-    { key: '1', value: 'Mobiles', disabled: true },
-    { key: '2', value: 'Appliances' },
-    { key: '3', value: 'Cameras' },
-    { key: '4', value: 'Computers', disabled: true },
-    { key: '5', value: 'Vegetables' },
-    { key: '6', value: 'Diary Products' },
-    { key: '7', value: 'Drinks' },
-  ];
 
   return (
     <View style={styles.container}>
@@ -50,10 +47,10 @@ const Briefcase = ({ navigation }) => {
         <ProgressBar currentStep={currentStep}/>
         <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
         <View style={{flex:4,width:'100%',alignItems:'center'}}>
-            <FlashListC/>
+            <FlashListPortfolio  idealPortfolioProducts={idealPortfolioProducts}/>
         </View>
         <View style={{flex:3}}>
-          <MultiSelectList/>
+          <MultiSelectList setComplementaryPortfolioProducts={setComplementaryPortfolioProducts}/>
         </View>
         <View style={{flex:1, justifyContent:'center'}}>
           <DoubleStyledButton 
