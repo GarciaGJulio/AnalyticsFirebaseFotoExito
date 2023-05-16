@@ -4,8 +4,11 @@ export const AuthConfig = {
       'openid',
       'offline_access',
       'profile',
-      'User.Read',
-      
+      'user.Read',
+      'Files.Read',
+      'Files.Read.All',
+      'Files.ReadWrite',
+      'Files.ReadWrite.All',
     ],
   };
 

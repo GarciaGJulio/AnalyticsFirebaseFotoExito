@@ -11,11 +11,30 @@ import SUCCESS_ANIMATION from '../../../assets/success.json'
 import FAILED_ANIMATION from '../../../assets/failed.json'
 import NetInfo from '@react-native-community/netinfo';
 import ModernaContext from '../../context/ModernaContext'
-
+import { Cli, GraphInit } from '../../azureConfig/graph/GraphManager'
 const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [animation, setAnimation] = useState("");
   const { isConnected } = useContext(ModernaContext);
+
+  useEffect(() => {
+    let UserOnedrive = Cli;
+    console.log("User:", UserOnedrive)
+    onedrive(UserOnedrive);
+
+  }, []);
+
+
+  const onedrive = async (UserOnedrive) => {
+    const response = await UserOnedrive.api('/me/drive').get();
+    console.log("R", response);
+    // const fileMetadata = {
+    //   name: 'archivo.txt',
+    // };
+    // const filePath = RNFetchBlob.wrap(RNFetchBlob.fs.dirs.DocumentDir + '/archivo.txt');
+    
+
+  }
 
 
   const handleOpenModal = () => {
