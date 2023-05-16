@@ -6,6 +6,7 @@ import { AuthManager } from '../azureConfig/auth/AuthManager';
 import ModernaReducer from './ModernaReducer';
 import { LOAD_LOCATIONS } from './ModernaTypes';
 import { GraphManager } from '../azureConfig/graph/GraphManager';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const ModernaProvider = ({ children }) => {
@@ -14,8 +15,46 @@ const ModernaProvider = ({ children }) => {
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userInfo, setUserInfo] = useState({})
   //const [pagination,setPagination]=useState([])
   //const [editingItem,setEditingItem]=useState(null)
+
+  const isLoggedIn = async() => {
+    console.log("CARGANDO LOS DATOS DE INCIO",)
+    try{
+        //setLogged(true)
+        //setIsLoading(true)
+        let userInfo = await AsyncStorage.getItem('user')
+        //let avatarData = await AsyncStorage.getItem('avatar')
+        //let notify = await AsyncStorage.getItem('notifications')
+        //console.log("ESTO LLEGA DE NOTIFICACIONES: ",notify )
+        //setNotifications(parseInt(notify))
+        userInfo = JSON.parse(userInfo)
+        if( userInfo ){
+            /*setTimeout(() => setIsLogged(false)
+            ,2300)*/
+            setUserInfo(userInfo)
+            console.log("DATO CONSEGUIDO DE ASYNC ---------------")
+            console.log("\nDATOS DE USUARIO:\n")
+            console.log(userInfo)
+        }else{
+            //setTimeout(() => setIsLogged(false),2300)
+            console.log("NO SE HAN ENCONTRADO LOS DATOS DE USUARIO")
+            
+        }
+      
+    
+    }catch(e){
+        console.log(`IS LOGGED ERROR ${e}`)
+    }
+}
+
+useEffect(()=> {
+    //fetchUser()
+    isLoggedIn()
+},[])
+
+
 
   const initialState = useMemo(
     () => ({
@@ -55,9 +94,11 @@ const ModernaProvider = ({ children }) => {
       //console.log("token de inciios de session", token);
       if (token) {
         let user = await GraphManager.getUserAsync();
-        await AsyncStorage.setItem('userData', user);
+        setIsAuthenticated(true);
+        await AsyncStorage.setItem('user', JSON.stringify(user));
         console.log("user from azure 1: ",JSON.stringify(user));
         console.log("MAIL DEL USUARIO: ",user.mail)
+        setUserInfo(user)
         // user.mail=user.mail?user.mail:"soporte.clearmind@moderna.com.ec"
         if (user && user.mail) {
           user.mail = user.mail.toLowerCase();
@@ -65,85 +106,31 @@ const ModernaProvider = ({ children }) => {
           console.log("user from azure 2:", user);
         }}
         // Si la autenticación es exitosa
-      setIsAuthenticated(true);
       }catch(e){
         console.log(e)
       }
   }
 
-  const handleLoutAzure = async (userSql) => {
+  const handleLogoutAzure = async () => {
     try {
 
       //console.log("datos de userSql---------------", userSql);
       // return
-      const succesClientFunc = async () => {
-        handleLoading(false);
+        //handleLoading(false);
+        console.log("CERRANDO SESION---------------",)
         await AuthManager.signOutAsync();
         //dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
         //dispatch({ type: LOAD_USER_AZURE, payload: null });
-        let wasInside = false;
-        state.usersCanSelectEnvironment.forEach(element => {
-          if (element == userSql.correo.toLowerCase()) {
-            wasInside = true
-            dropDataFromTableSeller(true);
-
-          }
-        })
-        if (!wasInside) {
-          dropDataFromTableSeller();
-        }
-        handleLoadEnvironmentSelect({
-          sellerFunction: "https://primerpedidotat.azurewebsites.net/api/functionSeller?code=pj2IYkT7zXtn9fN9fho48Ti07wSzytzu5ZATfK9aMCKqAzFuTpNz5g==",
-          clientFunction: "https://primerpedidotat.azurewebsites.net/api/clientFunction?code=2Q5jiM1amxqfJ5ORvq8jHTnnu4mlSDBZxDcVKAxSoNfcAzFuvrQEOA==",
-          categoryFunction: "https://primerpedidotat.azurewebsites.net/api/functionCategory?code=FJ8m9lHL8MYqoBaFFwwd0xIWCipvIk99Xei54u5RF6ZiAzFuWa5A3g==",
-          orderFunction: "https://primerpedidotat.azurewebsites.net/api/functionOrder?code=2Q3bAEg-gorMkIOHAVGSGUNkRkArYJHUDu51uZ10ZHE3AzFuI9rnbA==",
-          orderDetailsFunction: "https://primerpedidotat.azurewebsites.net/api/functionOrderDetails?code=HFwoevtB7ZJxKlvZhGDqGHwKcTDdEwKwM9X0IfilxdQsAzFurF-V-w==",
-          productsFunction: "https://primerpedidotat.azurewebsites.net/api/functionProducts?code=frraHRRVsGLFGyFKkCIY1JzY4Hnpjql0GJheOFMK6v1QAzFunsc8bA==",
-          stockFunction: "https://primerpedidotat.azurewebsites.net/api/functionStock?code=a0VJzt-MlQuPN6kL4Pd8Do9_o3Q7LYhKzsKflvXyLQ0BAzFu-yTRTw==",//123
-
-        })
-        //console.log("cerrando sesión");
-      };
-      const errorClientFunc = () => {
-        Alert.alert(
-          "Error",
-          "se ha producido un error inesperado, por favor intentelo en unos momentos"
-        );
-
-        handleLoading(false);
-      };
-
-      handleLoading(true);
-      let tempEnvironment = getEnvironmentUser(state.usersCanSelectEnvironment, userSql.correo, 5);
-
-      await postAzure(
-        tempEnvironment ? tempEnvironment.sellerFunction : state.environmentUser.sellerFunction,
-        {
-          typeQuery: "U",
-          data: {
-            compare: ["id_vendedor", `'${userSql.id_vendedor}'`],
-            fieldType: ["dispositivo_usuario"],
-            fieldData: [null],
-          },
-        },
-        succesClientFunc,
-        errorClientFunc
-      );
-
+        setIsAuthenticated(false);
     } catch (e) {
-      handleLoading(false)
+      //handleLoading(false)
       showMessage({
         message: e.message || "Se ha producido un error inesperado",
         type: "danger",
         duration: 5000,
       });
       console.log("datos al moemtno de cerrar la sesion", e)
-      // Si la autenticación es exitosa
-      setIsAuthenticated(false);
-      // dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
-      // dispatch({ type: LOAD_USER_AZURE, payload: null });
-    } finally {
-    }
+    } 
   }
   return (
     <ModernaContext.Provider value={{
@@ -151,7 +138,9 @@ const ModernaProvider = ({ children }) => {
       isConnected,
       latitude,
       longitude,
-      isAuthenticated,
+      isAuthenticated:isAuthenticated,
+      setIsAuthenticated,
+      userInfo,
       location: state.location,
       setIsLogging,
       setIsConnected,
@@ -159,6 +148,7 @@ const ModernaProvider = ({ children }) => {
       setLongitude,
       handleLocations,
       handleLoginAzure,
+      handleLogoutAzure,
       //handleLogoutAzure,
       handleLoading,
     }}>

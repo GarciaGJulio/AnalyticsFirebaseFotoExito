@@ -1,16 +1,21 @@
 import { Image, StyleSheet, Text, View,StatusBar, TouchableOpacity  } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState,useContext, useEffect } from 'react'
 import theme from '../theme/theme'
 import Constants from "expo-constants";
 import { Icon } from '@rneui/base';
 import Logotipo from '../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import ConfirmationModal from './ConfirmationModal';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ModernaContext from '../context/ModernaContext';
 
 const ModernaHeader = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const { userInfo,handleLogoutAzure } = useContext(ModernaContext)
     const insets = useSafeAreaInsets();
 
+    useEffect(() => {
+
+    })
     const handleOpenModal = () => {
         setIsModalVisible(true);
     };
@@ -22,12 +27,12 @@ const ModernaHeader = () => {
   return (
     
     <View style={[styles.statusbar,{ top: insets.top }]}>
-        <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} warning={'Al presionar el boton Aceptar se va a cancelar su progreso.'}/>
+        <ConfirmationModal visible={isModalVisible} onClose={handleCloseModal} onPress={handleLogoutAzure} warning={'¿Está seguro de querer cerrar sesión?'}/>
         <View style={styles.userInfo}>
-            <Icon name='user-tag' type='font-awesome-5' size={23} color={'white'} />
+            <Icon name='user-tag' type='font-awesome-5' size={20} color={'white'} />
                 <View style={{paddingLeft:10}}>
-                    <Text style={{color:'white',fontSize:10}}>Santiago</Text>
-                    <Text style={{color:'white',fontSize:10}}>Mosquera</Text>
+                    <Text style={{color:'white',fontSize:12}}>{ userInfo ? userInfo.givenName : 'Santiago Mosquera'}</Text>
+                    <Text style={{color:'white',fontSize:6}}>{ userInfo ? userInfo.mail : 'santiago@clearminds.com'}</Text>
                 </View>
         </View>
         <View style={styles.imageContainer}>
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
         //top: Constants.statusBarHeight,
       },
     modernaLogo:{
-        width:132,
+        width:125,
         resizeMode: "center",
         height:40 ,
     },
