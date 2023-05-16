@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     container: {
         //backgroundColor:'pink',
         width: '100%',
-        height: 110,
-        marginVertical: 10,
+        height: '40%',
+        marginVertical: 5,
         flexDirection: 'row'
     },
     imageContainer: {
@@ -76,12 +76,14 @@ const styles = StyleSheet.create({
         height: 90,
         marginVertical: 10,
         margin: 4,
-        borderRadius: 10,
+        borderRadius: 15,
         borderWidth: 2
     },
     image: {
-        width: 90,
-        height: 90,
+        width: 80,
+        height: 70,
+        marginHorizontal: 3,
+        marginVertical: 8,
         resizeMode: 'stretch'
     },
     deleteButton: {

@@ -21,7 +21,7 @@ const ProductsDetails_Review = ({ productName, productPrice }) => {
                 <View style={{ padding: 10 }}>
                     <View style={{ marginTop: 15 }}>
                         <Text style={{ fontSize: 15, fontWeight: '500' }}>Foto del precio del producto respectivo</Text>
-                        <Text style={{ fontSize: 13, marginTop: 10 }}>Proporcione una foto del producto respectivo</Text>
+                        {/* <Text style={{ fontSize: 13, marginTop: 10 }}>Proporcione una foto del producto respectivo</Text> */}
                         <TakeImage />
                     </View>
                 </View>
@@ -35,12 +35,12 @@ export default ProductsDetails_Review
 const styles = StyleSheet.create({
     container: {
         borderRadius: 20,
-        marginVertical: 10,
+        marginVertical: 8,
         borderWidth: 2,
         backgroundColor: theme.colors.lightgray,
         alignItems: 'center',
         justifyContent: 'center',
-        width: "100%"
+        width: "100%",
     },
     descriptionContainer: {
         marginLeft: 5,
@@ -49,9 +49,10 @@ const styles = StyleSheet.create({
     },
     primaryContainer: {
         flexDirection: 'row',
-        width: "90%"
+        width: "90%",
+        marginTop: 10,
     },
     secondaryContainer: {
-        width: '90%'
+        width: '80%'
     }
 });

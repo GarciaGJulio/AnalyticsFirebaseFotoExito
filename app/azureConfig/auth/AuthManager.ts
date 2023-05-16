@@ -10,7 +10,7 @@ import { AuthConfig } from './AuthConfig';
 
 const config: AuthConfiguration = {
   clientId: AuthConfig.appId,
-  redirectUrl: 'graph-moderna://react-native-auth/',
+  redirectUrl: 'graph-modernaaudit://react-native-auth/',
   scopes: AuthConfig.appScopes,
   additionalParameters: { prompt: 'select_account' },
   serviceConfiguration: {
@@ -39,6 +39,7 @@ export class AuthManager {
     await AsyncStorage.removeItem('userToken');
     await AsyncStorage.removeItem('refreshToken');
     await AsyncStorage.removeItem('expireTime');
+    await AsyncStorage.removeItem('user');
   };
 
   static getAccessTokenAsync = async () => {
