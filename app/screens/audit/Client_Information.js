@@ -16,15 +16,18 @@ import { capturarCoordenadas } from '../../services/GeolocationM';
 import ModernaContext from '../../context/ModernaContext';
 import { db_insertSucursal } from '../../services/SqliteService';
 import { lookForSucursal } from '../../services/SeleccionesService';
+import { validateNameBranch } from '../../utils/helpers';
 
 const Client_Information = ({ navigation }) => {
   const [selected, setSelected] = useState("");
   const [sucursal, setSucursal] = useState("");
+  const [errorBranchName, setErrorBranchName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [sucursalInformation, setSucursalInformation] = useState({client:'',clientType:'',name:''});
   const [datosCompletos,setDatosCompletos] = useState({});
+  const [client,setClient] = useState([]);
 
-  const { handleLocations,location,  } = useContext(ModernaContext)
+  const { location,  } = useContext(ModernaContext)
 
   const [type, setType] = useState("");
   const [sucursalData, setSucursalData] = useState([]);
@@ -70,10 +73,26 @@ const Client_Information = ({ navigation }) => {
     })
   }
 
-  const hasDatComplete = (data) => {
+  /*useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Realizando peticion de datos del cliente")
+        const response = await axios.post(
+          "https://fotoexito1.azurewebsites.net/api/queryInsert?code=Pd_oqC3bfYtub9E13hybiElqLCtsPgO9FErzdxdzL-ISAzFuhWl7ug==",
+          { operation:"Q", data:{ tableName:"cliente" } },
+          { headers: { 'accept': 'application/json' } }
+        )
+        console.log("DATOS EXTRAIDOS")
+        setClient(response.data.data.dataBaseResult)
+        console.log(response.data.data.dataBaseResult)
+      } catch (e) {
+        console.log(e.response.data.message)
+        //Alert.alert("Error de inicio de sesion", e.response.data.message);
+      }
+    };
 
-  }
-
+    fetchData();
+  }, []);*/
   /*const handleOpenModal = async () => {
     const validador = validate(sucursalInformation);
     if(validador){
@@ -106,12 +125,16 @@ const Client_Information = ({ navigation }) => {
 
   const handleOpenModal = async () => {
     const validador = validate(sucursalInformation);
-    if (validador) {
+    console.log("ERROR DE NOMBRE DE SUCURURAL",errorBranchName)
+    if(errorBranchName != ''){
+      setErrorBranchName("El campo nombre de sucursal no puede estar vacio")
+    }
+    if (validador && errorBranchName == '') {
       setIsModalVisible(true);
       try {
         const location = await capturarCoordenadas(sucursalInformation);
         const datosCompletos = { ...location };
-        setDatosCompletos(datosCompletos);
+        //setDatosCompletos(datosCompletos);
         setIsModalVisible(false);
         console.log("JSON FINAL: ", JSON.stringify(datosCompletos));
         if (datosCompletos.latitude) {
@@ -125,7 +148,7 @@ const Client_Information = ({ navigation }) => {
         setIsModalVisible(false);
       }
     } else {
-      Alert.alert('Error', 'Debe ingresar todos los datos indicados');
+      Alert.alert('Error al ingresar los datos', 'Debe ingresar todos los datos indicados cumpliendo con las indicaciones');
     }
   };
 
@@ -141,7 +164,7 @@ const Client_Information = ({ navigation }) => {
         <ScreenInformation title={'Información del Cliente'} text={''} />
 
         <View style={{ flexDirection: 'row', marginHorizontal: 20, flex: 2 }}>
-          <Dropdown placeholder={'Seleccione un cliente'} setSelected={setSelected} />
+          <Dropdown placeholder={'Seleccione un cliente'} setSelected={setSelected} data={client}/>
           <View style={{ width: 150, marginLeft: 10 }}>
             <Text style={{ paddingBottom: 5 }}>Tipo de cliente</Text>
             <View style={{ width: '100%', height: 45, borderWidth: 2, borderColor: 'black', borderRadius: 10, padding: 10, alignItems: 'center' }}>
@@ -153,12 +176,13 @@ const Client_Information = ({ navigation }) => {
           <StyledInput
             onChangeText={(txt) =>{
               setSucursal(txt.toUpperCase())
+              validateNameBranch(txt,setErrorBranchName)
               setSucursalInformation({...sucursalInformation,name:txt.toUpperCase()})
             }}
             label="Sucursal"
             placeholder="Ingresa el nombre de la sucursal"
-            maxLength={30}
-            //error={errorEmail}
+            maxLength={43}
+            error={errorBranchName}
             keyboard='default'
             editable={true}
             value={sucursal}

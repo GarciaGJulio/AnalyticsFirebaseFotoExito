@@ -4,7 +4,7 @@ import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import theme from '../theme/theme';
 
 const MultiSelectList = ({setComplementaryPortfolioProducts}) => {
-    const [selected, setSelected] = useState([{name:'',key:''}]);
+    const [selected, setSelected] = useState([]);
     const data = [
         { key: '1', value: 'Mobiles', disabled: true },
         { key: '2', value: 'Appliances' },
@@ -25,11 +25,13 @@ const MultiSelectList = ({setComplementaryPortfolioProducts}) => {
     <Text style={styles.text}>Portafolio Complementario</Text>
       <MultipleSelectList 
           setSelected={(val,key) => {
-            setSelected({...selected,name:val,value:key})
-            const array = [...selected]
-            let newRegister = {name:val,id:key}
-            array.push(newRegister)
-            setComplementaryPortfolioProducts({...selected})
+            //setSelected({...selected,name:val,value:key})
+            setSelected(selected)
+            setComplementaryPortfolioProducts(selected)
+            //const array = [...selected]
+            //let newRegister = {name:val,id:key}
+            //array.push(newRegister)
+            //setComplementaryPortfolioProducts({...selected})
             //validate(val,key)
             }
           } 
