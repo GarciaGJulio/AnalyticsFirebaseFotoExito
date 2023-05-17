@@ -14,8 +14,6 @@ const ModernaProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({})
-  //const [pagination,setPagination]=useState([])
-  //const [editingItem,setEditingItem]=useState(null)
 
   const isLoggedIn = async() => {
     console.log("CARGANDO LOS DATOS DE INCIO",)
@@ -23,10 +21,6 @@ const ModernaProvider = ({ children }) => {
         //setLogged(true)
         //setIsLoading(true)
         let userInfo = await AsyncStorage.getItem('user')
-        //let avatarData = await AsyncStorage.getItem('avatar')
-        //let notify = await AsyncStorage.getItem('notifications')
-        //console.log("ESTO LLEGA DE NOTIFICACIONES: ",notify )
-        //setNotifications(parseInt(notify))
         userInfo = JSON.parse(userInfo)
         if( userInfo ){
             /*setTimeout(() => setIsLogged(false)
@@ -86,13 +80,13 @@ useEffect(()=> {
 
 
   const handleLoginAzure = async (funcionQA) => {
+    setIsAuthenticated(true);
     try {
       await AuthManager.signInAsync();
       const token = await AuthManager.getAccessTokenAsync();
       //console.log("token de inciios de session", token);
       if (token) {
         let user = await GraphManager.getUserAsync();
-        setIsAuthenticated(true);
         await AsyncStorage.setItem('user', JSON.stringify(user));
         console.log("user from azure 1: ",JSON.stringify(user));
         console.log("MAIL DEL USUARIO: ",user.mail)
@@ -129,6 +123,7 @@ useEffect(()=> {
       });
       console.log("datos al moemtno de cerrar la sesion", e)
     } 
+    setIsAuthenticated(false);
   }
   return (
     <ModernaContext.Provider value={{

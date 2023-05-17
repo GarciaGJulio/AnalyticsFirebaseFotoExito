@@ -6,7 +6,7 @@ import theme from '../theme/theme';
 //import { useFonts } from '@expo-google-fonts/dev';
 //import { colors } from '../const/CONST';
 
-const StyledInput = ({label,onChangeText,maxLength,keyboard,editable,width,information,value = () => {},...props}) => {
+const StyledInput = ({label,onChangeText,maxLength,keyboard,editable,width,error,information,value = () => {},...props}) => {
     const [isFocused, setIsFocused] = React.useState(false);
   
     return (
@@ -39,6 +39,11 @@ const StyledInput = ({label,onChangeText,maxLength,keyboard,editable,width,infor
             value={value}
           />
         </View>
+        {error && (
+          <Text style={{marginTop: 7, color: theme.colors.modernaRed, fontSize: 12}}>
+            {error}
+          </Text>
+        )}
           <Text style={{marginTop: 7, fontSize: 12}}>
             {information}
           </Text>
