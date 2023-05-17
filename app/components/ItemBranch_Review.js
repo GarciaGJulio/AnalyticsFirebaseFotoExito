@@ -25,7 +25,7 @@ const ItemBranch_Review = ({ branch }) => {
         setIsModalVisible(true);
 
         setStateBranch(true);
-        
+
         console.log(stateBranch)
         setTimeout(() => {
             setAnimation(SUCCESS_ANIMATION);
@@ -84,7 +84,7 @@ const ItemBranch_Review = ({ branch }) => {
                             resizeMode='cover'
                             imageStyle={{ opacity: 0.5 }}>
                             <Image source={SYNC_BACKGROUND} style={commonStyles.imageInBack} />
-                            <Text style={commonStyles.txt}>{branch.name}</Text>
+                            <Text style={commonStyles.txt}>{branch.client} - {branch.name}</Text>
                         </ImageBackground>
                     </View>
                 </ListItem.Content>

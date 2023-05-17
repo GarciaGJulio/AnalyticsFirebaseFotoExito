@@ -8,9 +8,9 @@ import ItemBranch_Review from '../../components/ItemBranch_Review';
 const ListBranch = () => {
 
     let sucursal = [
-        { id: 1, name: "Cliente1 - Sucursal1", state: true },
-        { id: 2, name: "Cliente2 - Sucursal2", state: false },
-        { id: 3, name: "Cliente3 - Sucursal3", state: true },
+        { id: 1, client: "Cliente1", name: "Sucursal1", state: true },
+        { id: 2, client: "Cliente2", name: "Sucursal2", state: false },
+        { id: 3, client: "Cliente3", name: "Sucursal3", state: true },
     ]
 
     return (
