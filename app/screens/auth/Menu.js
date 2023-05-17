@@ -26,13 +26,30 @@ const Menu = ({ navigation }) => {
 
 
   const onedrive = async (UserOnedrive) => {
-    const response = await UserOnedrive.api('/me/drive').get();
-    console.log("R", response);
-    // const fileMetadata = {
-    //   name: 'archivo.txt',
-    // };
-    // const filePath = RNFetchBlob.wrap(RNFetchBlob.fs.dirs.DocumentDir + '/archivo.txt');
-    
+    try {
+      const response2 = await UserOnedrive.api("/me/drive").get()
+      console.log("IDDDDDDDDDDDD", response2.id)
+      const response = await UserOnedrive.api('/drives').get();
+      console.log("Reesss", response);
+
+      const base64Image = 'data:image/png;base64,iVBORw0KGg...'; // Aquí va el string base64 de la imagen
+      const response3 = await RNFetchBlob.config({
+        fileCache: true,
+      }).fetch('GET', base64Image);
+      const file = response3.path();
+
+
+      const fileData = await RNFetchBlob.fs.readFile(file, 'base64');
+      const uploadResult = await graphClient
+        .api(`/drives/${driveId}/root:${filePath}:/content`)
+        .put(fileData);
+      console.log('Archivo subido:', uploadResult);
+
+
+
+    } catch (error) {
+      console.log("Error al subir el archivo:", error);
+    }
 
   }
 
