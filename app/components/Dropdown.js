@@ -4,20 +4,18 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import theme from '../theme/theme';
 import axios from 'axios';
 
-const Dropdown = ({placeholder,setSelected,data}) => {
+const Dropdown = ({placeholder,setSelected}) => {
   //const [selected, setSelected] = React.useState("");
   const [client,setClient] = useState([]);
-  /*const data = [
-      {key:'1', value:'Mobiles', disabled:true},
-      {key:'2', value:'Appliances'},
-      {key:'3', value:'Cameras'},
-      {key:'4', value:'Computers', disabled:true},
-      {key:'5', value:'Vegetables'},
-      {key:'6', value:'Diary Products'},
-      {key:'7', value:'Drinks'},
-  ]*/
+  const data = [
+      {key:'1', value:'Santamaría'},
+      {key:'2', value:'Supermaxi'},
+      {key:'3', value:'El Arbolito'},
+      {key:'4', value:'Mi Comisariato'},
+      {key:'5', value:'Tía'},
+  ]
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("Realizando peticion de datos del cliente")
@@ -44,7 +42,7 @@ const Dropdown = ({placeholder,setSelected,data}) => {
     };
 
     fetchData();
-  }, []);
+  }, []);*/
 
   /*useEffect(() => {
     console.log("DATOS DEL DROPDOWN",data)
@@ -56,7 +54,7 @@ const Dropdown = ({placeholder,setSelected,data}) => {
             setSelected={(val) => setSelected(val)} 
             placeholder={placeholder}
             searchPlaceholder='Buscar'
-            data={client} 
+            data={data} 
             save="value"
         />
     </ScrollView>

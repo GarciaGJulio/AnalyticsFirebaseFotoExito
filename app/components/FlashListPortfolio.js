@@ -9,27 +9,27 @@ const DATA = [
     id: 1,
     title: 'Categoría 1',
     productos: [
-      { id: 1, nombre: 'Producto 1' },
-      { id: 2, nombre: 'Producto 2' },
-      { id: 3, nombre: 'Producto 3' }
+      { id: 1, nombre: 'Harina' },
+      { id: 2, nombre: 'Harina Ya' },
+      { id: 3, nombre: 'Harina Ya sin polvo' }
     ]
   },
   {
     id: 2,
     title: 'Categoría 2',
     productos: [
-      { id: 4, nombre: 'Producto 4' },
-      { id: 5, nombre: 'Producto 5' },
-      { id: 6, nombre: 'Producto 6' }
+      { id: 4, nombre: 'Fideos Don Bitorio' },
+      { id: 5, nombre: 'Fideos Horiental' },
+      { id: 6, nombre: 'Fideos Otra marca' }
     ]
   },
   {
     id: 3,
     title: 'Categoría 2',
     productos: [
-      { id: 4, nombre: 'Producto 7' },
-      { id: 5, nombre: 'Producto 8' },
-      { id: 6, nombre: 'Producto 9' }
+      { id: 4, nombre: 'Pan Moderna' },
+      { id: 5, nombre: 'Pan Supan' },
+      { id: 6, nombre: 'Pan Otro' }
     ]
   },
 ];
@@ -51,20 +51,18 @@ const RenderItem = ({item,setIdealPortfolioProducts,idealPortfolioProducts}) => 
 const RenderItemProd = ({name,id,setIdealPortfolioProducts,idealPortfolioProducts}) => {
   const [check1, setCheck1] = useState(false);
 
-  const validate = (check1,name,id) => {
-    if(check1){
-      console.log("REGISTRANDO NUEVO PRODUCTO . . . . ")
-      let newRegister = {name:name,id:id}
-      //setIdealPortfolioProducts({...idealPortfolioProducts,...newRegister});
-      idealPortfolioProducts.push(newRegister)
-    }else{
-      idealPortfolioProducts.forEach((element, index) => {
-        if (element.id === id) {
-          console.log("ELIMINANDO PRODUCTO . . . . ")
-          idealPortfolioProducts.splice(index, 1);
-        }
-      });    }
-  }
+  const validate = (check1, name, id) => {
+    if (check1) {
+      console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
+      setIdealPortfolioProducts((prevProducts) => [...prevProducts, { name, id }]);
+    } else {
+      setIdealPortfolioProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== id)
+      );
+      console.log("ELIMINANDO PRODUCTO . . . . ");
+    }
+  };
+  
 
   return(
       <View >

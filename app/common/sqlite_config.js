@@ -6,7 +6,8 @@ import { requestMultiple } from "react-native-permissions";
 // kimport { insertNewStartDayInit } from "../services/StartDayService";
 import {
     PERCHA_TABLE,
-    CLIENT_TABLE
+    CLIENT_TABLE,
+    BRANCH_TABLE
 } from "./table_columns";
 import { PermissionsAndroid } from "react-native";
 const DATABASE_NAME = "MODERNAAPPMOBILEDB";
@@ -27,7 +28,13 @@ const createPerchaTable = () => {
 };
 
 const createSucursalTable = () => {
-    const sentence = `create table if not exists ${CLIENT_TABLE.NAME} (${CLIENT_TABLE.KEY_1} text primary key not null, ${CLIENT_TABLE.FOREIGH_KEY_1} text not null, ${CLIENT_TABLE.NOMBRE_SUCURSAL} VARCHAR(43) NOT NULL,${CLIENT_TABLE.LATITUD} FLOAT(10) NOT NULL,${CLIENT_TABLE.LONGITUD} FLOAT(10) NOT NULL ) `;
+    const sentence = `create table if not exists ${BRANCH_TABLE.NAME} (${BRANCH_TABLE.KEY_1} text primary key not null, ${BRANCH_TABLE.FOREIGH_KEY_1} text not null, ${BRANCH_TABLE.NOMBRE_SUCURSAL} VARCHAR(43) NOT NULL,${BRANCH_TABLE.LATITUD} FLOAT(10) NOT NULL,${BRANCH_TABLE.LONGITUD} FLOAT(10) NOT NULL ) `;
+    // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+    createTable(sentence, PERCHA_TABLE_NAME);
+};
+
+const cclientTable = () => {
+    const sentence = `create table if not exists ${CLIENT_TABLE.NAME} (${CLIENT_TABLE.KEY_1} text primary key not null, ${CLIENT_TABLE.FOREIGH_KEY_1} text not null, ${BRANCH_TABLE.NOMBRE_SUCURSAL} VARCHAR(43) NOT NULL,${BRANCH_TABLE.LATITUD} FLOAT(10) NOT NULL,${BRANCH_TABLE.LONGITUD} FLOAT(10) NOT NULL ) `;
     // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
     createTable(sentence, PERCHA_TABLE_NAME);
 };

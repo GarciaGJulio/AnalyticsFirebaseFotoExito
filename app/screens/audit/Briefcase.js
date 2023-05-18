@@ -20,22 +20,35 @@ import FlashListPortfolio from '../../components/FlashListPortfolio';
 const Briefcase = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const idealPortfolioProducts = [];
+  const [idealPortfolioProducts,setIdealPortfolioProducts] = useState([]);
   const [complementaryPortfolioProducts,setComplementaryPortfolioProducts] = useState([]);
   const [currentStep] = useState(0);
 
   const handleOpenModal = () => {
     //setIsModalVisible(true);
-    console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
-    console.log("PORTAFOLIO COMPLEMENTARIO: ",JSON.stringify(complementaryPortfolioProducts));
-    alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
+    //console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
+    //console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
+    validateProduct()
     /*setTimeout(() => {
       //setIsModalVisible(false);
       //navigation.navigate('prices', { currentStep });
     }, 2000);*/
   };
 
-
+  const validateProduct = () => {
+    console.log("SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: "+(idealPortfolioProducts.length + complementaryPortfolioProducts.length) )
+    if((idealPortfolioProducts.length + complementaryPortfolioProducts.length) < 5){
+      Alert.alert("No se puede realizar la auditoria sin productos: ","Debe selecionar al menos 5 productos entre ambos portafolios")
+      console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
+      console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
+      console.log("PORTAFOLIO COMPLEMENTARIO: ",JSON.stringify(complementaryPortfolioProducts));
+    }else{
+      Alert.alert("Productos validados: ","Redirigiendo a la siguiente pantalla");
+      navigation.navigate('prices', { currentStep,complementaryPortfolioProducts,idealPortfolioProducts,setComplementaryPortfolioProducts });
+    }
+   
+    //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
@@ -48,10 +61,10 @@ const Briefcase = ({ navigation }) => {
         <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
         <View style={{flex:4,width:'100%',alignItems:'center', marginTop:10}}>
         <Text style={styles.text}>Portafolio Ideal</Text>
-            <FlashListPortfolio  idealPortfolioProducts={idealPortfolioProducts}/>
+            <FlashListPortfolio  idealPortfolioProducts={idealPortfolioProducts} setIdealPortfolioProducts={setIdealPortfolioProducts}/>
         </View>
         <View style={{flex:3}}>
-          <MultiSelectList setComplementaryPortfolioProducts={setComplementaryPortfolioProducts}/>
+          <MultiSelectList setComplementaryPortfolioProducts={setComplementaryPortfolioProducts} complementaryPortfolioProducts={complementaryPortfolioProducts}/>
         </View>
         <View style={{flex:1, justifyContent:'center'}}>
           <DoubleStyledButton 
