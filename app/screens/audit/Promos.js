@@ -11,12 +11,19 @@ import FlashListPrices from '../../components/FlashListPrices';
 import Dropdown from '../../components/Dropdown';
 import ProgressBar from '../../components/ProgressBar';
 import FlashListPromos from '../../components/FlashListPromos';
+import ConfirmationModal from '../../components/ConfirmationModal';
 
 const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState("");
+  const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
+  const handleCloseModal = () => {
+    setIsModalVisibleClose(false);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
+      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={()=> navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
       <View style={{flex:1, width:'100%',backgroundColor:'blue'}}>
       <ModernaHeader />
       </View>
@@ -37,7 +44,7 @@ const Promos = ({ navigation }) => {
         colorLeft={theme.colors.modernaYellow}
         iconLeft={'cancel'}
         typeLeft={'material-icon'}
-        onPressLeft={() => navigation.goBack()}
+        onPressLeft={() => setIsModalVisibleClose(true)}
         titleRigth={'Siguiente'}
         sizeRigth={theme.buttonSize.df}
         iconRigth={'arrow-right-circle'}

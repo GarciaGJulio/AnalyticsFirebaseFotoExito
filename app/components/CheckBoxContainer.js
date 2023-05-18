@@ -9,7 +9,7 @@ import TakeImage from './TakeImage'
 import ConfirmationModal from './ConfirmationModal'
 import { validatePriceProduct } from '../utils/helpers'
 
-const CheckBoxContainer = ({ productName }) => {
+const CheckBoxContainer = ({ productName,arrayProducts }) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [price, setPrice] = useState('');

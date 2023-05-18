@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
 import React,{useState,useEffect} from 'react'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
@@ -12,9 +12,12 @@ import FlashListPrices from '../../components/FlashListPrices'
 import { ScrollView } from 'react-native'
 import ProgressBar from '../../components/ProgressBar'
 import { Divider } from '@rneui/base'
+import ConfirmationModal from '../../components/ConfirmationModal'
 
 const Prices = ({navigation,route}) => {
   const [newComplementaryPortfolio,setNewComplementaryPortfolio] = useState([])
+  const [newIdealPortfolio,setNewIdealPortfolio] = useState([])
+  const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const data = [
     { id: '1', name: 'Mobiles', disabled: true },
     { id: '2', name: 'Appliances' },
@@ -31,15 +34,33 @@ const Prices = ({navigation,route}) => {
 
   const {complementaryPortfolioProducts,idealPortfolioProducts} = route.params
 
+  const handleCloseModal = () => {
+    setIsModalVisibleClose(false);
+  };
+
   useEffect(() => {
     const getNewArrays = () => {
       /*const filteredItems = complementaryPortfolioProducts.filter(item =>
         data.some(compareItem => compareItem.name === item)
       );*/
+      /*const filteredItems = data.filter(compareItem =>
+        complementaryPortfolioProducts.some(item => item === compareItem.name)
+      );*/
+
       const filteredItems = data.filter(compareItem =>
         complementaryPortfolioProducts.some(item => item === compareItem.name)
-      );
-      setNewComplementaryPortfolio(filteredItems);
+      ).map(item => ({
+        ...item,
+        price: null,
+        state:null,
+        images:{
+          image1:null,
+          image2:null,
+          image3:null}
+        }
+  ));
+      setNewComplementaryPortfolio([...filteredItems]);
+      setNewIdealPortfolio([...idealPortfolioProducts,{price:null,state:null,images:{image1:null,image2:null,image3:null}}]);
       console.log("NUEVO ARRAY FORMATEADO: ",filteredItems)
       console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
       console.log("PORTAFOLIO IDEAL: ", JSON.stringify(idealPortfolioProducts));
@@ -50,9 +71,29 @@ const Prices = ({navigation,route}) => {
   }, [complementaryPortfolioProducts]);
   
 
+  const validateArrays = () => {
+    const isValid = idealPortfolioProducts.every(item => (
+      item.name &&
+      typeof item.id === "string" &&
+      item.price !== undefined &&
+      item.state !== undefined &&
+      (item.state !== true || (item.images && Object.keys(item.images).includes("image1")))
+    ));
+  
+    if (!isValid) {
+      //Alert.alert("Error al completar los datos", "Necesita marcar el valor de preciador de cada producto");
+      navigation.navigate('rack');
+    } else {
+      console.log("TODO BIEN");
+      //navigation.navigate('rack');
+    }
+  }
+  
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
+      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={()=> navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
       <View style={styles.headerContainer}>
         <ModernaHeader />
       </View>
@@ -60,7 +101,7 @@ const Prices = ({navigation,route}) => {
         <ProgressBar currentStep={ 1 }/>
         <ScreenInformation title={'Preciador'} text={'Selecciona los productos que poseen preciador'}/>
         <View style={{flex:2,width:'100%', alignItems:'center'}}>
-            <FlashListPrices title={'Portafolio Ideal'} products={idealPortfolioProducts}/>
+            <FlashListPrices title={'Portafolio Ideal'} products={newIdealPortfolio}/>
         </View>
         <View style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 5 }}>
           <Divider width={2} color={'#D9D9D9'} style={{ backgroundColor: 'blue' }} />
@@ -74,13 +115,13 @@ const Prices = ({navigation,route}) => {
           colorLeft={theme.colors.modernaYellow}
           iconLeft={"cancel"}
           typeLeft={"material-icon"}
-          onPressLeft={() => navigation.goBack()}
+          onPressLeft={() => setIsModalVisibleClose(true)}
           titleRigth={'Siguiente'}
           sizeRigth={theme.buttonSize.df}
           iconRigth={'arrow-right-circle'}
           typeRigth={'feather'}
           colorRigth={theme.colors.modernaRed}
-          onPressRigth={() => navigation.navigate('rack')}
+          onPressRigth={validateArrays}
         />
       </View>
     </View>

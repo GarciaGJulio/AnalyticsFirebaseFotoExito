@@ -16,6 +16,7 @@ import ProgressBar from '../../components/ProgressBar';
 import MultiSelectList from '../../components/MultiSelectList';
 import FlashListC from '../../components/FlashListC';
 import FlashListPortfolio from '../../components/FlashListPortfolio';
+import ConfirmationModal from '../../components/ConfirmationModal';
 
 const Briefcase = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
@@ -23,6 +24,11 @@ const Briefcase = ({ navigation }) => {
   const [idealPortfolioProducts,setIdealPortfolioProducts] = useState([]);
   const [complementaryPortfolioProducts,setComplementaryPortfolioProducts] = useState([]);
   const [currentStep] = useState(0);
+  const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalVisibleClose(false);
+  };
 
   const handleOpenModal = () => {
     //setIsModalVisible(true);
@@ -52,6 +58,7 @@ const Briefcase = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
+      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={()=> navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
       <View style={styles.headerContainer}>
         <ModernaHeader />
       </View>
@@ -73,7 +80,7 @@ const Briefcase = ({ navigation }) => {
               colorLeft={theme.colors.modernaYellow}
               iconLeft={"cancel"}
               typeLeft={"material-icon"}
-              onPressLeft={() => navigation.goBack()}
+              onPressLeft={() => setIsModalVisibleClose(true)}
               titleRigth={'Guardar'} 
               sizeRigth={theme.buttonSize.df} 
               iconRigth={'content-save-all-outline'}

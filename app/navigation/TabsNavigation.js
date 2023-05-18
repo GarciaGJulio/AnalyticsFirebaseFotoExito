@@ -69,7 +69,7 @@ const TabButton = (props) => {
 }
 
 export default function TabsNavigation({ route }) {
-  const { branch } = route.params;
+  //const { branch } = route.params;
   // console.log(branch, "TabsNavigation");
   return (
     <Tab.Navigator
@@ -90,7 +90,9 @@ export default function TabsNavigation({ route }) {
             options={{
               tabBarShowLabel: false,
               tabBarButton: (props) => (
-                <TabButton {...props} item={item} param={branch} />
+                <TabButton {...props} item={item} 
+                //param={branch} 
+                />
               ),
             }}
           />

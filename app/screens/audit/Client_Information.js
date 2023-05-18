@@ -17,12 +17,14 @@ import ModernaContext from '../../context/ModernaContext';
 import { db_insertSucursal } from '../../services/SqliteService';
 import { lookForSucursal } from '../../services/SeleccionesService';
 import { validateNameBranch } from '../../utils/helpers';
+import ConfirmationModal from '../../components/ConfirmationModal';
 
 const Client_Information = ({ navigation }) => {
   const [selected, setSelected] = useState("");
   const [sucursal, setSucursal] = useState("");
   const [errorBranchName, setErrorBranchName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [sucursalInformation, setSucursalInformation] = useState({client:'',clientType:'',name:''});
   const [datosCompletos,setDatosCompletos] = useState({});
   const [client,setClient] = useState([]);
@@ -62,6 +64,14 @@ const Client_Information = ({ navigation }) => {
   },[
     location
   ])
+
+  /*const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };*/
+
+  const handleCloseModal = () => {
+    setIsModalVisibleClose(false);
+  };
 
   useEffect(() => {
     validateType(selected)
@@ -159,6 +169,7 @@ const Client_Information = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
+      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={()=> navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
       <LoaderModal animation={LOCATION_ANIMATION} visible={isModalVisible} warning={'Capturando locación actual, por favor espere...'} />
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
@@ -201,7 +212,7 @@ const Client_Information = ({ navigation }) => {
             colorLeft={theme.colors.modernaYellow}
             iconLeft={"cancel"}
             typeLeft={"material-icon"}
-            onPressLeft={() => navigation.goBack()}
+            onPressLeft={() => setIsModalVisibleClose(true)}
             titleRigth={'Iniciar visita'}
             sizeRigth={theme.buttonSize.df}
             colorRigth={theme.colors.modernaRed}

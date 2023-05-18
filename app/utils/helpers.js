@@ -1,4 +1,4 @@
-export const validateNameBranch = (name, fn) => {
+export const validateNameBranch2 = (name, fn) => {
 
     if (name == "" || name == null) {
       console.log("INFO name INVALIDA")
@@ -21,7 +21,7 @@ export const validateNameBranch = (name, fn) => {
     }
   }
 
-  /*export const validateNameBranch2 = (name, fn) => {
+  export const validateNameBranch = (name, fn) => {
 
     if (name == "" || name == null) {
       console.log("INFO name INVALIDA")
@@ -42,7 +42,7 @@ export const validateNameBranch = (name, fn) => {
           }
       }
     }
-  }*/
+  }
 
   export const validatePriceProduct = (price, fn) => {
 

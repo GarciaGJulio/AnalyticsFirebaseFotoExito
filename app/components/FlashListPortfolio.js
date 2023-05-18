@@ -54,7 +54,7 @@ const RenderItemProd = ({name,id,setIdealPortfolioProducts,idealPortfolioProduct
   const validate = (check1, name, id) => {
     if (check1) {
       console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
-      setIdealPortfolioProducts((prevProducts) => [...prevProducts, { name, id }]);
+      setIdealPortfolioProducts((prevProducts) => [...prevProducts, { name, id,}]);
     } else {
       setIdealPortfolioProducts((prevProducts) =>
         prevProducts.filter((product) => product.id !== id)
