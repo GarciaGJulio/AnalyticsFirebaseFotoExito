@@ -13,6 +13,7 @@ import { load_db_config } from './app/common/sqlite_config';
 export default function App() {
   load_db_config();
 
+
   return (
     <ModernaProvider>
       <NavigationContainer>

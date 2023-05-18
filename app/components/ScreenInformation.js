@@ -13,11 +13,11 @@ const ScreenInformation = ({ title, text }) => {
             <WifiIndicator/>
           </View>
       </View>
-        <View style={{width:theme.dimensions.maxWidth/1.1,marginVertical:15}}> 
+        <View style={{width:theme.dimensions.maxWidth/1.1,marginVertical:20}}> 
             <Divider width={2} color={'#D9D9D9'} style={{backgroundColor:'blue'}}/>
         </View>
         {
-            text ? <Text style={{fontSize:13,width:'91%'}}>{text.toString()}</Text> : null
+            text ? <Text style={{fontSize:14}}>{text.toString()}</Text> : null
         }
     </View>
   )
