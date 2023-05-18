@@ -16,9 +16,9 @@ const Stack = createStackNavigator();
 const AuditNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name='rack' component={Rack}/>
         <Stack.Screen name='client' component={Client_Information}/>
         <Stack.Screen name='briefcase' component={Briefcase}/>
-        <Stack.Screen name='rack' component={Rack}/>
         <Stack.Screen name='prices' component={Prices}/>
         <Stack.Screen name='promos' component={Promos}/>
         <Stack.Screen name='begin' component={LoginStack}/>

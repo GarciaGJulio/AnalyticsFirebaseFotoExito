@@ -5,24 +5,44 @@ import theme from '../theme/theme';
 import { CheckBox, Icon, Input } from '@rneui/base';
 import TakeImage from './TakeImage';
 
-const RackCheckbox = ({ categoryName, onchangeObjPercha }) => {
+const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
     const [CateGeneral, setCateGeneral] = useState();
     const [CateModerna, setCateModerna] = useState();
-    const [objPercha, setObjPercha] = useState({})
+    const [objPercha, setObjPercha] = useState(itemCom)
 
     useEffect(() => {
-        setObjPercha({
-            categoriaGeneral: CateGeneral,
-            categoriaModerna: CateModerna
-        })
+        // setObjPercha({...objPercha,
+        //     categoriaGeneral: CateGeneral,
+        //     categoriaModerna: CateModerna
+        // })
 
-        console.log(objPercha)
-        onchangeObjPercha(objPercha)
+        console.log("Percha desde dentro",objPercha)
+        // onchangeObjPercha(itemCom)
+        // itemCom= {...itemCom,objPercha}
+
+    
+    }, [CateGeneral]);
+    
+
+    useEffect(() => {
+        // setObjPercha({...objPercha,
+        //     categoriaGeneral: CateGeneral,
+        //     categoriaModerna: CateModerna
+        // })
+
+        console.log("Percha desde dentro",objPercha)
+        // onchangeObjPercha(itemCom)
+        // itemCom= {...itemCom,objPercha}
+
+    
+    }, [CateModerna]);
 
 
-    }, [CateGeneral, CateModerna]);
+    useEffect(() => {
+        console.log("itmDentroCompleto",itemCom)
+        console.log("itmDentroCompletoPER",objPercha)
 
-
+    }, []);
 
 
     const handleOpenModal = () => {
@@ -61,7 +81,13 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha }) => {
                     <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>Categoría general</Text>
                     <Input
                         keyboardType="numeric"
-                        onChangeText={setCateGeneral}
+                        onChangeText={(txt)=>{
+                            setCateGeneral(txt)
+                            setObjPercha({...objPercha,
+                                CarasGeneral:txt
+                            })
+                            onchangeObjPercha(objPercha)
+                        }}
                         value={CateGeneral}
                         style={styles.input}
                     />
@@ -70,7 +96,14 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha }) => {
                     <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>Categoría Moderna</Text>
                     <Input
                         keyboardType="numeric"
-                        onChangeText={setCateModerna}
+                        onChangeText={(txt)=>{
+                            setCateModerna(txt)
+                            setObjPercha({...objPercha,
+                                CarasModerna:txt
+                            })
+                            onchangeObjPercha(objPercha)
+
+                        }}
                         value={CateModerna}
                         style={styles.input}
                         underlineColor="transparent"
