@@ -7,6 +7,7 @@ import { CheckBox } from '@rneui/themed';
 import StyledInput from './StyledInput'
 import TakeImage from './TakeImage'
 import ConfirmationModal from './ConfirmationModal'
+import { validatePriceProduct } from '../utils/helpers'
 
 const CheckBoxContainer = ({productName}) => {
   const [check1, setCheck1] = useState(false);
@@ -15,7 +16,7 @@ const CheckBoxContainer = ({productName}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
-
+  const [errorPrice, setErrorPrice] = useState();
 
     const handleOpenModal = () => {
         setIsModalVisible(true);
@@ -84,16 +85,19 @@ const CheckBoxContainer = ({productName}) => {
             <View style={styles.secondaryContainer}>
               <View style={{padding:10}}>
                 <StyledInput
-                  onChangeText={txt => 
+                  onChangeText={txt => {
                     setPrice(txt)
+                    validatePriceProduct(txt,setErrorPrice)
+                  }
                   }
                   label="Precio del producto"
                   placeholder="Ingresa el precio del producto"
-                  maxLength={30}
+                  maxLength={4}
                   keyboard='numeric'
                   editable={true}
                   value={price}
                   width={'100%'}
+                  error={errorPrice}
                   information={'Este campo es obligatorio'}
                 />
                 <View style={{marginTop:15}}>

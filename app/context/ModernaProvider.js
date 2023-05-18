@@ -55,7 +55,7 @@ useEffect(()=> {
     []
   );
   const [state, dispatch] = useReducer(ModernaReducer, initialState)
-  useEffect(() => {
+  /*useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
     });
@@ -63,7 +63,7 @@ useEffect(()=> {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, []);*/
   const handleLocations = useCallback(async (locations) => {
     console.log("locations from context", locations)
     dispatch({ type: LOAD_LOCATIONS, payload: locations });
@@ -80,7 +80,6 @@ useEffect(()=> {
 
 
   const handleLoginAzure = async (funcionQA) => {
-    setIsAuthenticated(true);
     try {
       await AuthManager.signInAsync();
       const token = await AuthManager.getAccessTokenAsync();
@@ -88,6 +87,7 @@ useEffect(()=> {
       if (token) {
         let user = await GraphManager.getUserAsync();
         await AsyncStorage.setItem('user', JSON.stringify(user));
+        setIsAuthenticated(true);
         console.log("user from azure 1: ",JSON.stringify(user));
         console.log("MAIL DEL USUARIO: ",user.mail)
         setUserInfo(user)

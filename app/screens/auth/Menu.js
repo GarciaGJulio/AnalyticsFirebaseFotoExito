@@ -20,12 +20,12 @@ const Menu = ({ navigation }) => {
   useEffect(() => {
     let UserOnedrive = Cli;
     console.log("User:", UserOnedrive)
-    onedrive(UserOnedrive);
+    //onedrive(UserOnedrive);
 
   }, []);
 
 
-  const onedrive = async (UserOnedrive) => {
+  /*const onedrive = async (UserOnedrive) => {
     try {
       const response2 = await UserOnedrive.api("/me/drive").get()
       console.log("IDDDDDDDDDDDD", response2.id)
@@ -51,7 +51,7 @@ const Menu = ({ navigation }) => {
       console.log("Error al subir el archivo:", error);
     }
 
-  }
+  }*/
 
 
   const handleOpenModal = () => {

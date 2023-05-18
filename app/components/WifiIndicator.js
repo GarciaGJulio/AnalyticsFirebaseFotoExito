@@ -7,9 +7,9 @@ import ModernaContext from '../context/ModernaContext';
 
 const WifiIndicator = () => {
 
-  const {isConnected} = useContext(ModernaContext)
+  //const {isConnected} = useContext(ModernaContext)
 
-  /*const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   
     useEffect(() => {
       const unsubscribe = NetInfo.addEventListener((state) => {
@@ -19,7 +19,7 @@ const WifiIndicator = () => {
       return () => {
         unsubscribe();
       };
-    }, []);*/
+    }, []);
   
 
   

@@ -45,10 +45,12 @@ const Client_Information = ({ navigation }) => {
   }
 
   const clientsType = [
-    { client: 'Cameras', type: 'ASI' },
-    { client: 'Appliances', type: 'ASI' },
-    { client: 'Vegetables', type: 'MAYORISTA' },
-    { client: 'Drinks', type: 'MAYORISTA' },
+    { client: 'Tía', type: 'ASI' },
+    { client: 'Supermaxi', type: 'ASI' },
+    { client: 'Santamaría', type: 'ASI' },
+    { client: 'Tía', type: 'MAYORISTA' },
+    { client: 'El Arbolito', type: 'MAYORISTA' },
+    { client: 'Mi Comisariato', type: 'MAYORISTA' },
 
   ]
   useEffect(()=>{
@@ -64,7 +66,7 @@ const Client_Information = ({ navigation }) => {
   useEffect(() => {
     validateType(selected)
   }, [selected])
-  const validateType = (client) => {
+  const validateType = () => {
     clientsType.forEach((type) => {
       if (type.client == selected) {
         setType(type.type)
@@ -132,17 +134,18 @@ const Client_Information = ({ navigation }) => {
     if (validador && errorBranchName == '') {
       setIsModalVisible(true);
       try {
-        const location = await capturarCoordenadas(sucursalInformation);
-        const datosCompletos = { ...location };
+        /*const location = await capturarCoordenadas(sucursalInformation);
+        const datosCompletos = { ...location };*/
         //setDatosCompletos(datosCompletos);
         setIsModalVisible(false);
-        console.log("JSON FINAL: ", JSON.stringify(datosCompletos));
-        if (datosCompletos.latitude) {
+        console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
+        navigation.navigate('briefcase');
+        /*if (datosCompletos.latitude) {
           navigation.navigate('briefcase');
           console.log("ENVIANDO DATOS A BASE . . . . .");
         } else {
           alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION");
-        }
+        }*/
       } catch (error) {
         console.log(error);
         setIsModalVisible(false);

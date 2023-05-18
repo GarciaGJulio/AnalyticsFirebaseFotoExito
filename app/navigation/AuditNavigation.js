@@ -8,6 +8,8 @@ import Promos from '../screens/audit/Promos';
 import Menu from '../screens/auth/Menu';
 import Client_Information from '../screens/audit/Client_Information';
 import Navigation from './Navigation';
+import TabsNavigation from './TabsNavigation';
+import ListBranch from '../screens/review/ListBranch';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +21,18 @@ const AuditNavigation = () => {
         <Stack.Screen name='rack' component={Rack}/>
         <Stack.Screen name='prices' component={Prices}/>
         <Stack.Screen name='promos' component={Promos}/>
-        <Stack.Screen name='begin' component={Navigation}/>
+        <Stack.Screen name='begin' component={LoginStack}/>
+    </Stack.Navigator>
+  )
+}
+
+const LoginStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='menu' component={Menu} />
+      <Stack.Screen name='listBranch' component={ListBranch} />
+      <Stack.Screen name='review' component={TabsNavigation} />
+      <Stack.Screen name='audit' component={AuditNavigation} />
     </Stack.Navigator>
   )
 }
