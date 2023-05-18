@@ -46,7 +46,8 @@ const Briefcase = ({ navigation }) => {
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={currentStep}/>
         <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
-        <View style={{flex:4,width:'100%',alignItems:'center'}}>
+        <View style={{flex:4,width:'100%',alignItems:'center', marginTop:10}}>
+        <Text style={styles.text}>Portafolio Ideal</Text>
             <FlashListPortfolio  idealPortfolioProducts={idealPortfolioProducts}/>
         </View>
         <View style={{flex:3}}>
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     text:{
-        fontWeight:theme.fontWeight.bold,
+        fontWeight:theme.fontWeight.bold,right:130
     },
     scrollView: {
       //flex:7,
