@@ -20,6 +20,7 @@ import { CheckBox } from "@rneui/base";
 import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import RackCheckbox from "./RackCheckbox";
+import Rack_View from "./Rack_View";
 
 export const TarjPercha = (props) => {
   const [objPercha, setObjPercha] = useState({})
@@ -40,9 +41,9 @@ export const TarjPercha = (props) => {
   ];
   useEffect(() => {
     props.onchangeData(DATA)
-    console.log("OBJETO PERCHA",objPercha)
+    console.log("OBJETO PERCHA", objPercha)
   }, [objPercha]);
-  
+
 
   return (
     <View style={styles.container}>

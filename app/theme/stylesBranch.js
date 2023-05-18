@@ -48,11 +48,12 @@ export const commonStyles = StyleSheet.create({
     txt: {
         fontSize: 16,
         fontWeight: theme.fontWeight.bold,
-        top: 154,
-        left: 10,
+        top: 155,
+        left: 11,
         position: 'absolute',
     },
     icon: {
         marginTop: 5,
+        borderRadius: 100,
     }
 });

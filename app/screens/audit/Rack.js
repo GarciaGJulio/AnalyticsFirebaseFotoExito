@@ -41,7 +41,7 @@ const Racks = ({ navigation }) => {
         <ProgressBar currentStep={2} />
         <ScreenInformation title={'Perchas'} text={'Selecciona las perchas de los productos disponibles en el punto de venta actual'} />
         <View style={styles.cardContainer}>
-          <TarjPercha onchangeData={setData} />
+          <TarjPercha onchangeData={setData} view={'audit'}/>
         </View>
       </View>
       <DoubleStyledButton

@@ -19,13 +19,13 @@ const DATA = [
   },
 ];
 
-const FlashListC = ({title}) => {
+const FlashListC = ({ title }) => {
   return (
-    <View style={{ flex:1, width:'90%',marginBottom:10 }}>
-      <Text style={{fontWeight:theme.fontWeight.bolder,fontSize:theme.fontSize.subtitle}}>{title}</Text>
+    <View style={{ flex: 1, width: '90%', marginBottom: 10, height: 200, }}>
+      <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>{title}</Text>
       <FlashList
         data={DATA}
-        renderItem={({ item }) => <BriefcaseList productList={item.name}/>}
+        renderItem={({ item }) => <BriefcaseList productList={item.name} />}
         estimatedItemSize={4}
         showsVerticalScrollIndicator={false}
       />

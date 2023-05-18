@@ -1,53 +1,17 @@
-import React, { useState } from 'react'
-import { FlatList, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react'
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import theme from '../../theme/theme';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
 import * as Animatable from 'react-native-animatable';
-import SYNC_BACKGROUND from '../../../assets/resources/review_background.jpg';
-import { Icon, ListItem } from '@rneui/themed';
-import { commonStyles } from '../../theme/stylesBranch';
+import ItemBranch_Review from '../../components/ItemBranch_Review';
 
-const ListBranch = ({ navigation }) => {
+const ListBranch = () => {
 
     let sucursal = [
-        { id: 1, name: "Cliente - Sucursal" },
-        { id: 2, name: "Cliente - Sucursal" },
-        { id: 3, name: "Cliente - Sucursal" },
+        { id: 1, client: "Cliente1", name: "Sucursal1", state: true },
+        { id: 2, client: "Cliente2", name: "Sucursal2", state: false },
+        { id: 3, client: "Cliente3", name: "Sucursal3", state: true },
     ]
-
-    const goToReview = () => {
-        navigation.navigate("review");
-    }
-
-    const ItemBranch = ({ branch }) => {
-        return (
-            <TouchableOpacity onPress={goToReview} activeOpacity={0.85} bottomDivider style={{ margin: 0.5 }}>
-                <ListItem containerStyle={[commonStyles.containerList, commonStyles.shadow]}>
-                    <ListItem.Content>
-                        <View style={[commonStyles.container, { elevation: 2 }]}>
-                            <View style={commonStyles.iconContainer}>
-                                <Icon
-                                    name='sync-circle-sharp'
-                                    type='ionicon'
-                                    color='green'
-                                    size={32}
-                                    style={commonStyles.icon}
-                                />
-                            </View>
-                            <ImageBackground
-                                style={commonStyles.cardContainer}
-                                source={SYNC_BACKGROUND}
-                                resizeMode='cover'
-                                imageStyle={{ opacity: 0.5 }}>
-                                <Image source={SYNC_BACKGROUND} style={commonStyles.imageInBack} />
-                                <Text style={commonStyles.txt}>{branch.name}</Text>
-                            </ImageBackground>
-                        </View>
-                    </ListItem.Content>
-                </ListItem>
-            </TouchableOpacity>
-        )
-    }
 
     return (
         <View style={styles.container}>
@@ -59,7 +23,7 @@ const ListBranch = ({ navigation }) => {
                 <View style={styles.contentContainerBranch}>
                     <FlatList showsVerticalScrollIndicator={false}
                         data={sucursal}
-                        renderItem={({ item }) => <ItemBranch branch={item} />}
+                        renderItem={({ item }) => <ItemBranch_Review branch={item} />}
                         keyExtractor={(item) => item.id}
                     />
                 </View>

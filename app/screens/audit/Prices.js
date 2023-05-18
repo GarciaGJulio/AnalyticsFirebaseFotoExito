@@ -54,7 +54,7 @@ const Prices = ({navigation,route}) => {
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
       <View style={styles.headerContainer}>
-        <ModernaHeader/>
+        <ModernaHeader />
       </View>
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={ 1 }/>
@@ -62,26 +62,26 @@ const Prices = ({navigation,route}) => {
         <View style={{flex:2,width:'100%', alignItems:'center'}}>
             <FlashListPrices title={'Portafolio Ideal'} products={idealPortfolioProducts}/>
         </View>
-        <View style={{width:theme.dimensions.maxWidth/1.1,marginVertical:5}}> 
-            <Divider width={2} color={'#D9D9D9'} style={{backgroundColor:'blue'}}/>
+        <View style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 5 }}>
+          <Divider width={2} color={'#D9D9D9'} style={{ backgroundColor: 'blue' }} />
         </View>
         <View style={{flex:2,width:'100%', alignItems:'center'}}>
             <FlashListPrices title={'Portafolio Complementario'} products={newComplementaryPortfolio}/>
         </View>
-        <DoubleStyledButton 
-              titleLeft={'Cancelar'} 
-              sizeLeft={theme.buttonSize.df} 
-              colorLeft={theme.colors.modernaYellow}
-              iconLeft={"cancel"}
-              typeLeft={"material-icon"}
-              onPressLeft={() => navigation.goBack()}
-              titleRigth={'Siguiente'} 
-              sizeRigth={theme.buttonSize.df} 
-              iconRigth={'arrow-right-circle'}
-              typeRigth={'feather'}
-              colorRigth={theme.colors.modernaRed}
-              onPressRigth={() => navigation.navigate('rack')} 
-              />
+        <DoubleStyledButton
+          titleLeft={'Cancelar'}
+          sizeLeft={theme.buttonSize.df}
+          colorLeft={theme.colors.modernaYellow}
+          iconLeft={"cancel"}
+          typeLeft={"material-icon"}
+          onPressLeft={() => navigation.goBack()}
+          titleRigth={'Siguiente'}
+          sizeRigth={theme.buttonSize.df}
+          iconRigth={'arrow-right-circle'}
+          typeRigth={'feather'}
+          colorRigth={theme.colors.modernaRed}
+          onPressRigth={() => navigation.navigate('rack')}
+        />
       </View>
     </View>
   )
@@ -90,30 +90,30 @@ const Prices = ({navigation,route}) => {
 export default Prices
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width:theme.dimensions.maxWidth,
-        //height:600,
-        backgroundColor: theme.colors.white,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      container: {
-        flex: 1,
-        backgroundColor: theme.colors.white,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-    headerContainer: {
-        flex: 1,
-        width: '100%',
-        backgroundColor: 'blue',
-    },
-    contentContainer:{
-        flex: 14,
-        width: theme.dimensions.maxWidth,
-        backgroundColor: 'white',
-        alignItems: 'center',
-        paddingVertical: 5,
-    },
+  container: {
+    flex: 1,
+    width: theme.dimensions.maxWidth,
+    //height:600,
+    backgroundColor: theme.colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerContainer: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: 'blue',
+  },
+  contentContainer: {
+    flex: 14,
+    width: theme.dimensions.maxWidth,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    paddingVertical: 5,
+  },
 })
