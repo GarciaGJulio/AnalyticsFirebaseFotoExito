@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
 import React, { useState,useContext } from 'react';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
 import StyledButton from '../../components/StyledButton';
@@ -15,30 +15,40 @@ import LoaderModal from '../../components/LoaderModal';
 import ProgressBar from '../../components/ProgressBar';
 import MultiSelectList from '../../components/MultiSelectList';
 import FlashListC from '../../components/FlashListC';
+import FlashListPortfolio from '../../components/FlashListPortfolio';
 
 const Briefcase = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [idealPortfolioProducts,setIdealPortfolioProducts] = useState([]);
+  const [complementaryPortfolioProducts,setComplementaryPortfolioProducts] = useState([]);
   const [currentStep] = useState(0);
 
   const handleOpenModal = () => {
-    setIsModalVisible(true);
-    setTimeout(() => {
-      setIsModalVisible(false);
-      navigation.navigate('prices', { currentStep });
-    }, 2000);
+    //setIsModalVisible(true);
+    //console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
+    //console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
+    validateProduct()
+    /*setTimeout(() => {
+      //setIsModalVisible(false);
+      //navigation.navigate('prices', { currentStep });
+    }, 2000);*/
   };
 
-  const data = [
-    { key: '1', value: 'Mobiles', disabled: true },
-    { key: '2', value: 'Appliances' },
-    { key: '3', value: 'Cameras' },
-    { key: '4', value: 'Computers', disabled: true },
-    { key: '5', value: 'Vegetables' },
-    { key: '6', value: 'Diary Products' },
-    { key: '7', value: 'Drinks' },
-  ];
-
+  const validateProduct = () => {
+    console.log("SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: "+(idealPortfolioProducts.length + complementaryPortfolioProducts.length) )
+    if((idealPortfolioProducts.length + complementaryPortfolioProducts.length) < 5){
+      Alert.alert("No se puede realizar la auditoria sin productos: ","Debe selecionar al menos 5 productos entre ambos portafolios")
+      console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
+      console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
+      console.log("PORTAFOLIO COMPLEMENTARIO: ",JSON.stringify(complementaryPortfolioProducts));
+    }else{
+      Alert.alert("Productos validados: ","Redirigiendo a la siguiente pantalla");
+      navigation.navigate('prices', { currentStep,complementaryPortfolioProducts,idealPortfolioProducts,setComplementaryPortfolioProducts });
+    }
+   
+    //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
@@ -49,11 +59,12 @@ const Briefcase = ({ navigation }) => {
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={currentStep}/>
         <ScreenInformation title={'Portafolio'} text={'Selecciona los productos del portafolio ideal o del portafolio complementario'}/>
-        <View style={{flex:4,width:'100%',alignItems:'center'}}>
-            <FlashListC/>
+        <View style={{flex:4,width:'100%',alignItems:'center', marginTop:10}}>
+        <Text style={styles.text}>Portafolio Ideal</Text>
+            <FlashListPortfolio  idealPortfolioProducts={idealPortfolioProducts} setIdealPortfolioProducts={setIdealPortfolioProducts}/>
         </View>
         <View style={{flex:3}}>
-          <MultiSelectList/>
+          <MultiSelectList setComplementaryPortfolioProducts={setComplementaryPortfolioProducts} complementaryPortfolioProducts={complementaryPortfolioProducts}/>
         </View>
         <View style={{flex:1, justifyContent:'center'}}>
           <DoubleStyledButton 
@@ -99,7 +110,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     text:{
-        fontWeight:theme.fontWeight.bold,
+        fontWeight:theme.fontWeight.bold,right:130
     },
     scrollView: {
       //flex:7,

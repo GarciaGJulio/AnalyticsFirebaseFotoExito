@@ -57,8 +57,8 @@ const Racks = ({ navigation }) => {
         typeRigth={'feather'}
         colorRigth={theme.colors.modernaRed}
         onPressRigth={() => {
-          EnviaDatosLocal();
-          // navigation.navigate('promos')
+          //EnviaDatosLocal();
+          navigation.navigate('promos')
         }}
       />
 

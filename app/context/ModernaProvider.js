@@ -12,12 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ModernaProvider = ({ children }) => {
   const [isLogging, setIsLogging] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  const [latitude, setLatitude] = useState('')
-  const [longitude, setLongitude] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({})
-  //const [pagination,setPagination]=useState([])
-  //const [editingItem,setEditingItem]=useState(null)
 
   const isLoggedIn = async() => {
     console.log("CARGANDO LOS DATOS DE INCIO",)
@@ -25,10 +21,6 @@ const ModernaProvider = ({ children }) => {
         //setLogged(true)
         //setIsLoading(true)
         let userInfo = await AsyncStorage.getItem('user')
-        //let avatarData = await AsyncStorage.getItem('avatar')
-        //let notify = await AsyncStorage.getItem('notifications')
-        //console.log("ESTO LLEGA DE NOTIFICACIONES: ",notify )
-        //setNotifications(parseInt(notify))
         userInfo = JSON.parse(userInfo)
         if( userInfo ){
             /*setTimeout(() => setIsLogged(false)
@@ -63,7 +55,7 @@ useEffect(()=> {
     []
   );
   const [state, dispatch] = useReducer(ModernaReducer, initialState)
-  useEffect(() => {
+  /*useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
     });
@@ -71,7 +63,7 @@ useEffect(()=> {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, []);*/
   const handleLocations = useCallback(async (locations) => {
     console.log("locations from context", locations)
     dispatch({ type: LOAD_LOCATIONS, payload: locations });
@@ -94,8 +86,8 @@ useEffect(()=> {
       //console.log("token de inciios de session", token);
       if (token) {
         let user = await GraphManager.getUserAsync();
-        setIsAuthenticated(true);
         await AsyncStorage.setItem('user', JSON.stringify(user));
+        setIsAuthenticated(true);
         console.log("user from azure 1: ",JSON.stringify(user));
         console.log("MAIL DEL USUARIO: ",user.mail)
         setUserInfo(user)
@@ -131,21 +123,18 @@ useEffect(()=> {
       });
       console.log("datos al moemtno de cerrar la sesion", e)
     } 
+    setIsAuthenticated(false);
   }
   return (
     <ModernaContext.Provider value={{
       isLogging,
       isConnected,
-      latitude,
-      longitude,
       isAuthenticated:isAuthenticated,
       setIsAuthenticated,
       userInfo,
       location: state.location,
       setIsLogging,
       setIsConnected,
-      setLatitude,
-      setLongitude,
       handleLocations,
       handleLoginAzure,
       handleLogoutAzure,

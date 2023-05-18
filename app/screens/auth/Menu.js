@@ -11,11 +11,47 @@ import SUCCESS_ANIMATION from '../../../assets/success.json'
 import FAILED_ANIMATION from '../../../assets/failed.json'
 import NetInfo from '@react-native-community/netinfo';
 import ModernaContext from '../../context/ModernaContext'
-
+import { Cli, GraphInit } from '../../azureConfig/graph/GraphManager'
 const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [animation, setAnimation] = useState("");
   const { isConnected } = useContext(ModernaContext);
+
+  useEffect(() => {
+    let UserOnedrive = Cli;
+    console.log("User:", UserOnedrive)
+    //onedrive(UserOnedrive);
+
+  }, []);
+
+
+  /*const onedrive = async (UserOnedrive) => {
+    try {
+      const response2 = await UserOnedrive.api("/me/drive").get()
+      console.log("IDDDDDDDDDDDD", response2.id)
+      const response = await UserOnedrive.api('/drives').get();
+      console.log("Reesss", response);
+
+      const base64Image = 'data:image/png;base64,iVBORw0KGg...'; // Aquí va el string base64 de la imagen
+      const response3 = await RNFetchBlob.config({
+        fileCache: true,
+      }).fetch('GET', base64Image);
+      const file = response3.path();
+
+
+      const fileData = await RNFetchBlob.fs.readFile(file, 'base64');
+      const uploadResult = await graphClient
+        .api(`/drives/${driveId}/root:${filePath}:/content`)
+        .put(fileData);
+      console.log('Archivo subido:', uploadResult);
+
+
+
+    } catch (error) {
+      console.log("Error al subir el archivo:", error);
+    }
+
+  }*/
 
 
   const handleOpenModal = () => {
