@@ -11,7 +11,6 @@ import FAILED_ANIMATION from '../../assets/failed.json'
 import LoaderModal from './LoaderModal';
 import ModernaContext from '../context/ModernaContext';
 
-
 const ItemBranch_Review = ({ branch }) => {
     const [animation, setAnimation] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
