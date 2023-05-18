@@ -5,24 +5,30 @@ import theme from '../theme/theme';
 import { CheckBox, Icon, Input } from '@rneui/base';
 import TakeImage from './TakeImage';
 
-const RackCheckbox = ({ categoryName, onchangeObjPercha }) => {
+const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
     const [CateGeneral, setCateGeneral] = useState();
     const [CateModerna, setCateModerna] = useState();
-    const [objPercha, setObjPercha] = useState({})
+    const [objPercha, setObjPercha] = useState(itemCom)
 
     useEffect(() => {
-        setObjPercha({
+        setObjPercha({...objPercha,
             categoriaGeneral: CateGeneral,
             categoriaModerna: CateModerna
         })
 
-        console.log(objPercha)
-        onchangeObjPercha(objPercha)
+        console.log("Percha desde dentro",objPercha)
+        onchangeObjPercha(itemCom)
+        // itemCom= {...itemCom,objPercha}
 
-
+    
     }, [CateGeneral, CateModerna]);
+    
 
+    useEffect(() => {
+        console.log("itmDentroCompleto",itemCom)
+        console.log("itmDentroCompletoPER",objPercha)
 
+    }, []);
 
 
     const handleOpenModal = () => {
@@ -61,7 +67,11 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha }) => {
                     <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>Categoría general</Text>
                     <Input
                         keyboardType="numeric"
-                        onChangeText={setCateGeneral}
+                        onChangeText={(txt)=>{
+                            setCateGeneral(txt)
+                            itemCom.CarasGeneral=txt
+
+                        }}
                         value={CateGeneral}
                         style={styles.input}
                     />
@@ -70,7 +80,11 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha }) => {
                     <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>Categoría Moderna</Text>
                     <Input
                         keyboardType="numeric"
-                        onChangeText={setCateModerna}
+                        onChangeText={(txt)=>{
+                            setCateModerna(txt)
+                            itemCom.CarasModerna=txt
+
+                        }}
                         value={CateModerna}
                         style={styles.input}
                         underlineColor="transparent"
