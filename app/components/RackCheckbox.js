@@ -11,18 +11,32 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
     const [objPercha, setObjPercha] = useState(itemCom)
 
     useEffect(() => {
-        setObjPercha({...objPercha,
-            categoriaGeneral: CateGeneral,
-            categoriaModerna: CateModerna
-        })
+        // setObjPercha({...objPercha,
+        //     categoriaGeneral: CateGeneral,
+        //     categoriaModerna: CateModerna
+        // })
 
         console.log("Percha desde dentro",objPercha)
-        onchangeObjPercha(itemCom)
+        // onchangeObjPercha(itemCom)
         // itemCom= {...itemCom,objPercha}
 
     
-    }, [CateGeneral, CateModerna]);
+    }, [CateGeneral]);
     
+
+    useEffect(() => {
+        // setObjPercha({...objPercha,
+        //     categoriaGeneral: CateGeneral,
+        //     categoriaModerna: CateModerna
+        // })
+
+        console.log("Percha desde dentro",objPercha)
+        // onchangeObjPercha(itemCom)
+        // itemCom= {...itemCom,objPercha}
+
+    
+    }, [CateModerna]);
+
 
     useEffect(() => {
         console.log("itmDentroCompleto",itemCom)
@@ -69,8 +83,10 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
                         keyboardType="numeric"
                         onChangeText={(txt)=>{
                             setCateGeneral(txt)
-                            itemCom.CarasGeneral=txt
-
+                            setObjPercha({...objPercha,
+                                CarasGeneral:txt
+                            })
+                            onchangeObjPercha(objPercha)
                         }}
                         value={CateGeneral}
                         style={styles.input}
@@ -82,7 +98,10 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
                         keyboardType="numeric"
                         onChangeText={(txt)=>{
                             setCateModerna(txt)
-                            itemCom.CarasModerna=txt
+                            setObjPercha({...objPercha,
+                                CarasModerna:txt
+                            })
+                            onchangeObjPercha(objPercha)
 
                         }}
                         value={CateModerna}

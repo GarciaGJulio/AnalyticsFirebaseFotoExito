@@ -51,8 +51,11 @@ export const TarjPercha = (props) => {
     },
   ];
   useEffect(() => {
-    props.onchangeData(DATA)
-    console.log("OBJETO PERCHA", objPercha)
+    props.onchangeData(objPercha)
+    console.log("OBJETO PERCHA fuera",objPercha  )
+    datos.push(objPercha)
+    console.log("ARRAY OBJETOS",datos  )
+    
   }, [objPercha]);
   useEffect(() => {
   //  console.log("ObjetoCompleto:",datos)
