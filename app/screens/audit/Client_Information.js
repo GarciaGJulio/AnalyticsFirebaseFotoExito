@@ -1,4 +1,4 @@
-import { Image, ImageBackground, PermissionsAndroid, StatusBar, StyleSheet, Text, TextInput, View, Alert } from 'react-native'
+import { Image, ImageBackground, PermissionsAndroid, StatusBar, StyleSheet, Text, TextInput, View, Alert, BackHandler } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Geolocation from '@react-native-community/geolocation';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
@@ -68,6 +68,18 @@ const Client_Information = ({ navigation }) => {
   /*const handleOpenModal = () => {
     setIsModalVisible(true);
   };*/
+
+  useEffect(() => {
+    const disableBackButton = () => {
+      return true; // Bloquea la función de retroceso nativa
+    };
+  
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+  
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', disableBackButton);
+    };
+  }, []);
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -181,7 +193,7 @@ const Client_Information = ({ navigation }) => {
           <Dropdown placeholder={'Seleccione un cliente'} setSelected={setSelected} data={client}/>
           <View style={{ width: 150, marginLeft: 10 }}>
             <Text style={{ paddingBottom: 5 }}>Tipo de cliente</Text>
-            <View style={{ width: '100%', height: 45, borderWidth: 2, borderColor: 'black', borderRadius: 10, padding: 10, alignItems: 'center' }}>
+            <View style={{ width: '100%', height: 45, borderWidth: 1, borderColor: 'black', borderRadius: 10, padding: 10, alignItems: 'center',backgroundColor:'rgba(169,169,169,0.15)' }}>
               <Text style={{ fontSize: 15 }}>{type}</Text>
             </View>
           </View>

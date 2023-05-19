@@ -1,6 +1,7 @@
 import * as ImagePicker from 'expo-image-picker'
 
 export const pickImages = async (fn) => {
+  try {
     let resultado = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       selectionLimit: 3,
@@ -10,6 +11,10 @@ export const pickImages = async (fn) => {
     });
     console.log("Imagen Uri:", resultado.assets[0].uri);
     fn(resultado.assets[0].uri)
-    //await setImageBase64(resultado.assets[0].uri);
-    //await SubirFoto(resultado.assets[0].uri, Idaux, setUrl);
-  };
+  } catch (e) {
+    console.log(e)
+  }
+
+  //await setImageBase64(resultado.assets[0].uri);
+  //await SubirFoto(resultado.assets[0].uri, Idaux, setUrl);
+};

@@ -1,5 +1,5 @@
-import { Alert, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React,{useState,useEffect} from 'react'
+import { Alert, BackHandler, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
 import StyledButton from '../../components/StyledButton'
 import * as Animatable from 'react-native-animatable'
@@ -14,9 +14,9 @@ import ProgressBar from '../../components/ProgressBar'
 import { Divider } from '@rneui/base'
 import ConfirmationModal from '../../components/ConfirmationModal'
 
-const Prices = ({navigation,route}) => {
-  const [newComplementaryPortfolio,setNewComplementaryPortfolio] = useState([])
-  const [newIdealPortfolio,setNewIdealPortfolio] = useState([])
+const Prices = ({ navigation, route }) => {
+  const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState([])
+  const [newIdealPortfolio, setNewIdealPortfolio] = useState([])
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const data = [
     { id: '1', name: 'Mobiles', disabled: true },
@@ -32,7 +32,19 @@ const Prices = ({navigation,route}) => {
     { id: '11', name: 'Comestibles' },
   ];
 
-  const {complementaryPortfolioProducts,idealPortfolioProducts} = route.params
+  const { complementaryPortfolioProducts, idealPortfolioProducts } = route.params
+
+  useEffect(() => {
+    const disableBackButton = () => {
+      return true; // Bloquea la función de retroceso nativa
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', disableBackButton);
+    };
+  }, []);
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -52,28 +64,29 @@ const Prices = ({navigation,route}) => {
       ).map(item => ({
         ...item,
         price: null,
-        state:null,
-        images:{
-          image1:null,
-          image2:null,
-          image3:null}
+        state: null,
+        images: {
+          image1: null,
+          image2: null,
+          image3: null
         }
-  ));
+      }
+      ));
       setNewComplementaryPortfolio([...filteredItems]);
       setNewIdealPortfolio([...idealPortfolioProducts]);
-      console.log("NUEVO ARRAY FORMATEADO: ",filteredItems)
+      console.log("NUEVO ARRAY FORMATEADO: ", filteredItems)
       console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
       console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
       console.log("PORTAFOLIO COMPLEMENTARIO: ", JSON.stringify(filteredItems));
     };
-  
+
     getNewArrays();
   }, [complementaryPortfolioProducts]);
-  
+
 
   const validateArrays = () => {
-    const fullArrays = [...newIdealPortfolio,...newComplementaryPortfolio]
-    console.log("LISTA COMPLETA DE ARRAYS:",fullArrays)
+    const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio]
+    console.log("LISTA COMPLETA DE ARRAYS:", fullArrays)
     const isValid = fullArrays.every(item => {
       if (item.state === null) {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
@@ -87,10 +100,10 @@ const Prices = ({navigation,route}) => {
       }
       return true;
     });
-    
-    
-    
-  
+
+
+
+
     if (!isValid) {
       Alert.alert("Error al completar los datos", "Necesita marcar el valor de preciador de cada producto");
       //navigation.navigate('rack');
@@ -101,26 +114,26 @@ const Prices = ({navigation,route}) => {
       navigation.navigate('rack');
     }
   }
-  
+
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={()=> navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
+      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={() => navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
       <View style={styles.headerContainer}>
         <ModernaHeader />
       </View>
       <View style={styles.contentContainer}>
-        <ProgressBar currentStep={ 1 }/>
-        <ScreenInformation title={'Preciador'} text={'Selecciona los productos que poseen preciador'}/>
-        <View style={{flex:2,width:'100%', alignItems:'center'}}>
-            <FlashListPrices title={'Portafolio Ideal'} products={newIdealPortfolio} setProducts={setNewIdealPortfolio}/>
+        <ProgressBar currentStep={1} />
+        <ScreenInformation title={'Preciador'} text={'Selecciona los productos que poseen preciador'} />
+        <View style={{ flex: 2, width: '100%', alignItems: 'center' }}>
+          <FlashListPrices title={'Portafolio Ideal'} products={newIdealPortfolio} setProducts={setNewIdealPortfolio} />
         </View>
         <View style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 5 }}>
           <Divider width={2} color={'#D9D9D9'} style={{ backgroundColor: 'blue' }} />
         </View>
-        <View style={{flex:2,width:'100%', alignItems:'center'}}>
-            <FlashListPrices title={'Portafolio Complementario'} products={newComplementaryPortfolio} setProducts={setNewComplementaryPortfolio}/>
+        <View style={{ flex: 2, width: '100%', alignItems: 'center' }}>
+          <FlashListPrices title={'Portafolio Complementario'} products={newComplementaryPortfolio} setProducts={setNewComplementaryPortfolio} />
         </View>
         <DoubleStyledButton
           titleLeft={'Cancelar'}

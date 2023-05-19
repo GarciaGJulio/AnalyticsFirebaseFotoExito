@@ -22,53 +22,61 @@ import ConfirmationModal from "./ConfirmationModal";
 import RackCheckbox from "./RackCheckbox";
 import Rack_View from "./Rack_View";
 
-export const TarjPercha = (props) => {
+export const TarjPercha = ({data,setData}) => {
   const [objPercha, setObjPercha] = useState({})
   const [datos, setDatos] = useState([]);
-  let DATA = [
+  /*let DATA = [
     {
       name: "Pan",
-      CarasGeneral:0,
-      CarasModerna:0,
-      Estado:null,
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
         },
     {
       name: "Harina",
-      CarasGeneral:0,
-      CarasModerna:0,
-      Estado:null,
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
     },
     {
       name: "Avena",
-      CarasGeneral:0,
-      CarasModerna:0,
-      Estado:null,
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
     },
     {
       name: "Arroz",
-      CarasGeneral:0,
-      CarasModerna:0,
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
     },
-  ];
-  useEffect(() => {
-    props.onchangeData(objPercha)
-    console.log("OBJETO PERCHA fuera",objPercha  )
-    datos.push(objPercha)
-    console.log("ARRAY OBJETOS",datos  )
-    
-  }, [objPercha]);
-  useEffect(() => {
-  //  console.log("ObjetoCompleto:",datos)
-  //  console.log("ObjetoCompletoFueraaaaaaaaaaaa:",DATA)
-
-  }, [DATA]);
+  ];*/
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>PERCHAS</Text>
       <View style={{ flex: 1, width: '100%' }}>
         <FlashList
-          data={DATA}
+          data={data}
           // onEndReached={({ index }) => {
           //   const itemDatos = DATA[index]; 
           //   setDatos(prevDatos => [...prevDatos, itemDatos]); // Agrega los datos al arreglo
@@ -76,10 +84,11 @@ export const TarjPercha = (props) => {
           renderItem={({ item }) =>
             <RackCheckbox
               categoryName={item.name}
-              onchangeObjPercha={setObjPercha}
-              itemCom={item}
+              //onchangeObjPercha={setObjPercha}
+              item={item}
+              setData={setData}
             />}
-          estimatedItemSize={10}
+          //estimatedItemSize={10}
           showsVerticalScrollIndicator={false} />
       </View>
     </View>

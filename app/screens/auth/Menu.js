@@ -9,13 +9,16 @@ import LoaderModal from '../../components/LoaderModal'
 import SYNC_ANIMATION from '../../../assets/sync-data.json'
 import SUCCESS_ANIMATION from '../../../assets/success.json'
 import FAILED_ANIMATION from '../../../assets/failed.json'
+import DOWNLOAD_ANIMATION from '../../../assets/download.json'
 import NetInfo from '@react-native-community/netinfo';
 import ModernaContext from '../../context/ModernaContext'
 import { Cli, GraphInit } from '../../azureConfig/graph/GraphManager'
 const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const [animation, setAnimation] = useState("");
-  const { isConnected } = useContext(ModernaContext);
+  const [isConnected,setIsConnected] = useState(false)
+  //const { isConnected } = useContext(ModernaContext);
 
   useEffect(() => {
     let UserOnedrive = Cli;
@@ -24,6 +27,16 @@ const Menu = ({ navigation }) => {
 
   }, []);
 
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   /*const onedrive = async (UserOnedrive) => {
     try {
@@ -57,6 +70,7 @@ const Menu = ({ navigation }) => {
   const handleOpenModal = () => {
     setAnimation(SYNC_ANIMATION);
     setIsModalVisible(true);
+    setModalMessage('Sincronizando datos, por favor espere...')
     setTimeout(() => {
       setAnimation(SUCCESS_ANIMATION);
       if (isConnected) {
@@ -72,10 +86,21 @@ const Menu = ({ navigation }) => {
     }, 5000);
   };
 
+  const handleOpenModalAudit = () => {
+    setAnimation(DOWNLOAD_ANIMATION);
+    setModalMessage('Descargando variables para la auditoría, por favor espere...')
+    setIsModalVisible(true);
+    setTimeout(() => {
+      //setAnimation(SUCCESS_ANIMATION);
+      setIsModalVisible(false);
+      navigation.navigate('audit')
+    }, 5000);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <LoaderModal animation={animation} visible={isModalVisible} warning={'Sincronizando datos, por favor espere...'} />
+      <LoaderModal animation={animation} visible={isModalVisible} warning={modalMessage} />
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
@@ -86,7 +111,7 @@ const Menu = ({ navigation }) => {
         </ImageBackground>
         <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover' imageStyle={{ opacity: 0.20 }}>
           <Text style={styles.text}>Descarga los datos para empezar una nueva auditoría.</Text>
-          <StyledButton title={'Realizar Auditoria'} buttonColor={theme.colors.modernaRed} onPress={() => navigation.navigate('audit')} size={theme.buttonSize.lg} iconName={'clipboard'} iconType={'entypo'} />
+          <StyledButton title={'Realizar Auditoria'} buttonColor={theme.colors.modernaRed} onPress={handleOpenModalAudit} size={theme.buttonSize.lg} iconName={'clipboard'} iconType={'entypo'} />
         </ImageBackground>
         <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover' imageStyle={{ opacity: 0.20 }}>
           <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>

@@ -5,8 +5,11 @@ import theme from '../../theme/theme'
 import ScreenInformation from '../../components/ScreenInformation';
 import { PromosItems_Review } from '../../components/PromosItems_Review'
 import { BackPage_Review } from '../../components/BackPage_Review'
+import PromosItemsDetails_Review from '../../components/PromosItemsDetails_Review';
 
 const Promos_Review = () => {
+  
+
   return (
     <View style={styles.container}>
       <ModernaHeader />
@@ -14,7 +17,6 @@ const Promos_Review = () => {
         <ScreenInformation title={'Cliente - Sucursal'} text={'A continuación se enlistan los exhibidores registrados'} />
         <BackPage_Review />
       </View>
-      <PromosItems_Review />
     </View>
   )
 }

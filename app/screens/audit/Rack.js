@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Alert, BackHandler, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
 import StyledButton from '../../components/StyledButton';
@@ -18,13 +18,7 @@ const Racks = ({ navigation }) => {
   const [valueModerna, setValueModerna] = useState();
   const [checked, setChecked] = useState(false);
   const [pedidos, setPedidos] = useState([]);
-  const [data, setData] = useState([])
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-  const handleCloseModal = () => {
-    setIsModalVisibleClose(false);
-  };
-
-
   const EnviaDatosLocal = async () => {
     db_insertPercha(1, checked, valueGeneral, valueModerna);
     await lookForPerchas(setPedidos);
@@ -33,22 +27,120 @@ const Racks = ({ navigation }) => {
   }
 
   useEffect(() => {
-    console.log("DATA",data)
+    const disableBackButton = () => {
+      return true; // Bloquea la función de retroceso nativa
+    };
 
-  }, [data]);
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', disableBackButton);
+    };
+  }, []);
+
+  const handleCloseModal = () => {
+    setIsModalVisibleClose(false);
+  };
+  
+  let datos = [
+    {
+      id:"I001",
+      name: "Pan",
+      carasGeneral:null,
+      carasModerna:null,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+        },
+    {
+      id:"I002",
+      name: "Harina",
+      carasGeneral:null,
+      carasModerna:null,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+    },
+    {
+      id:"I003",
+      name: "Avena",
+      carasGeneral:null,
+      carasModerna:null,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+    },
+    {
+      id:"I004",
+      name: "Arroz",
+      carasGeneral:null,
+      carasModerna:null,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+    },
+  ];
+  const [data, setData] = useState([...datos])
+
+  useEffect(() => {
+    console.log("DATA", data)
+
+  }, []);
+  const validate = () => {
+    console.log("VALIDACION DE DATOS DE PERCHAS: ", data)
+    const isValid = data.every(item => {
+      if (item.state === null || item.carasGeneral === null || item.carasModerna === null) {
+        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        return false;
+      }
+      if (item.state === true) {
+        if (!item.images || item.images.image1 === null) {
+          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+          return false;
+        }
+      }
+      return true;
+    });
+
+
+
+
+    if (!isValid) {
+      Alert.alert("Error al completar los datos", "Necesita marcar el valor de las perchas de cada producto");
+      //navigation.navigate('rack');
+      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(data));
+    } else {
+      console.log("TODO BIEN");
+      //navigation.navigate('rack');
+      navigation.navigate('promos')
+    }
+  }
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
+      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={() => navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
       <View style={{ flex: 1, width: '100%', backgroundColor: 'blue' }}>
         <ModernaHeader />
       </View>
-      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={()=> navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
+
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={2} />
         <ScreenInformation title={'Perchas'} text={'Selecciona las perchas de los productos disponibles en el punto de venta actual'} />
         <View style={styles.cardContainer}>
-          <TarjPercha onchangeData={setData} view={'audit'}/>
+          <TarjPercha data={data} setData={setData} view={'audit'} />
         </View>
       </View>
       <DoubleStyledButton
@@ -63,11 +155,7 @@ const Racks = ({ navigation }) => {
         iconRigth={'arrow-right-circle'}
         typeRigth={'feather'}
         colorRigth={theme.colors.modernaRed}
-        onPressRigth={() => {
-          //EnviaDatosLocal();
-          navigation.navigate('promos')
-        }}
-      />
+        onPressRigth={validate}/>
 
     </View>
   );

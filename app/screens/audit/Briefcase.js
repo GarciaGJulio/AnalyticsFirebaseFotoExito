@@ -1,5 +1,5 @@
-import { Alert, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
-import React, { useState,useContext } from 'react';
+import { Alert, BackHandler, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native';
+import React, { useState,useEffect } from 'react';
 import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png';
 import StyledButton from '../../components/StyledButton';
 import * as Animatable from 'react-native-animatable';
@@ -28,6 +28,18 @@ const Briefcase = ({ navigation }) => {
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
   };
+
+  useEffect(() => {
+    const disableBackButton = () => {
+      return true; // Bloquea la función de retroceso nativa
+    };
+  
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+  
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', disableBackButton);
+    };
+  }, []);
 
   const handleOpenModal = () => {
     //setIsModalVisible(true);

@@ -5,12 +5,12 @@ import theme from '../theme/theme';
 import { CheckBox, Icon, Input } from '@rneui/base';
 import TakeImage from './TakeImage';
 
-const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
+const RackCheckbox = ({ categoryName,item,setData}) => {
     const [CateGeneral, setCateGeneral] = useState();
     const [CateModerna, setCateModerna] = useState();
-    const [objPercha, setObjPercha] = useState(itemCom)
+    //const [objPercha, setObjPercha] = useState(itemCom)
 
-    useEffect(() => {
+    /*useEffect(() => {
         // setObjPercha({...objPercha,
         //     categoriaGeneral: CateGeneral,
         //     categoriaModerna: CateModerna
@@ -21,10 +21,10 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
         // itemCom= {...itemCom,objPercha}
 
     
-    }, [CateGeneral]);
+    }, [CateGeneral]);*/
     
 
-    useEffect(() => {
+    /*useEffect(() => {
         // setObjPercha({...objPercha,
         //     categoriaGeneral: CateGeneral,
         //     categoriaModerna: CateModerna
@@ -35,14 +35,14 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
         // itemCom= {...itemCom,objPercha}
 
     
-    }, [CateModerna]);
+    }, [CateModerna]);*/
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         console.log("itmDentroCompleto",itemCom)
         console.log("itmDentroCompletoPER",objPercha)
 
-    }, []);
+    }, []);*/
 
 
     const handleOpenModal = () => {
@@ -55,12 +55,57 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
 
     const acceptModal = () => {
         setCheck1(!check1)
+        actualizarEstado(item,check2)
         setCheck2(!check2)
         setIsModalVisible(false);
         setDisabled1(!disabled1);
         setDisabled2(!disabled2);
     }
 
+    const actualizarEstado = (item,state) => {
+        console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ")
+        console.log("PERCHA: ",item)
+        console.log("ESTADO: ",state)
+        setData(perchas => {
+          // Obtén una copia del array actual
+          const perchaActualizados = [...perchas];
+      
+          // Encuentra el objeto con el ID correspondiente
+          const percha = perchaActualizados.find(p => p.id === item.id);
+      
+          // Actualiza la propiedad del objeto
+          if (percha) {
+            percha.state = state;
+            console.log("PARAMETRO ACTUALIZADO: ",percha)
+          }
+      
+          // Devuelve el array actualizado como el nuevo estado
+          return perchaActualizados;
+        });
+      };
+
+      const actualizarCantidad = (item,variant,txt) => {
+        console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ")
+        console.log("PERCHA: ",item)
+        console.log("PRECIO: ",txt)
+        setData(perchas => {
+          // Obtén una copia del array actual
+          const perchaActualizados = [...perchas];
+      
+          // Encuentra el objeto con el ID correspondiente
+          const percha = perchaActualizados.find(p => p.id === item.id);
+      
+          // Actualiza la propiedad del objeto
+          if (percha) {
+            percha[''+variant+''] = parseInt(txt);
+            console.log("PERCHA ACTUALIZADA",percha)
+          }
+      
+          // Devuelve el array actualizado como el nuevo estado
+          return perchaActualizados;
+        });
+      };
+    
 
     const [check1, setCheck1] = useState(false);
     const [check2, setCheck2] = useState(false);
@@ -83,10 +128,11 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
                         keyboardType="numeric"
                         onChangeText={(txt)=>{
                             setCateGeneral(txt)
-                            setObjPercha({...objPercha,
+                            actualizarCantidad(item,'carasGeneral',txt)
+                            /*setObjPercha({...objPercha,
                                 CarasGeneral:txt
-                            })
-                            onchangeObjPercha(objPercha)
+                            })*/
+                            //onchangeObjPercha(objPercha)
                         }}
                         value={CateGeneral}
                         style={styles.input}
@@ -98,10 +144,11 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
                         keyboardType="numeric"
                         onChangeText={(txt)=>{
                             setCateModerna(txt)
-                            setObjPercha({...objPercha,
+                            actualizarCantidad(item,'carasModerna',txt)
+                            /*setObjPercha({...objPercha,
                                 CarasModerna:txt
                             })
-                            onchangeObjPercha(objPercha)
+                            onchangeObjPercha(objPercha)*/
 
                         }}
                         value={CateModerna}
@@ -121,9 +168,10 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
                             <CheckBox
                                 checked={check1}
                                 onPress={() => {
-                                    check2 ? (setCheck2(!check2), setDisabled2(!disabled2), setCheck1(!check1),
+                                    check2 ? (setCheck2(!check2), actualizarEstado(item,!check1),setDisabled2(!disabled2), setCheck1(!check1),
                                         setDisabled1(!disabled1)) : (
                                         setCheck1(!check1),
+                                        actualizarEstado(item,!check1),
                                         setDisabled1(!disabled1)
                                     )
                                 }}
@@ -141,6 +189,7 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
                                 onPress={() => {
                                     check1 ? handleOpenModal() : (
                                         setCheck2(!check2),
+                                        actualizarEstado(item,check2),
                                         setDisabled2(!disabled2)
                                     )
                                 }}
@@ -156,7 +205,7 @@ const RackCheckbox = ({ categoryName, onchangeObjPercha,itemCom}) => {
                         </View>
                         {
                             check1 ? (<View style={{ paddingHorizontal: 25 }}>
-                                <TakeImage />
+                                <TakeImage setProducts={setData} item={item}/>
                             </View>) : <></>
                         }
                     </View>

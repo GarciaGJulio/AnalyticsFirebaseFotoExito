@@ -8,10 +8,9 @@ import StyledInput from './StyledInput'
 import TakeImage from './TakeImage'
 import ConfirmationModal from './ConfirmationModal'
 
-const CheckBoxContainerP = ({productName}) => {
+const CheckBoxContainerP = ({productName,item,setData}) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
-  const [price, setPrice] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
@@ -28,10 +27,33 @@ const CheckBoxContainerP = ({productName}) => {
     const acceptModal = () => {
       setCheck1(!check1)
       setCheck2(!check2)
+      actualizarEstado(item,check2)
       setIsModalVisible(false);
       setDisabled1(!disabled1);
       setDisabled2(!disabled2);
     }
+
+    const actualizarEstado = (item,state) => {
+      console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ")
+      console.log("PERCHA: ",item)
+      console.log("ESTADO: ",state)
+      setData(exhibidores => {
+        // Obtén una copia del array actual
+        const exhibidorActualizados = [...exhibidores];
+    
+        // Encuentra el objeto con el ID correspondiente
+        const exhibidor = exhibidorActualizados.find(p => p.id === item.id);
+    
+        // Actualiza la propiedad del objeto
+        if (exhibidor) {
+          exhibidor.state = state;
+          console.log("PARAMETRO ACTUALIZADO: ",exhibidor)
+        }
+    
+        // Devuelve el array actualizado como el nuevo estado
+        return exhibidorActualizados;
+      });
+    };
 
   return (
     <View style={[styles.container,{height:check1 ? 460:150}]}>
@@ -45,9 +67,10 @@ const CheckBoxContainerP = ({productName}) => {
             <CheckBox
               checked={check1}
               onPress={() => {
-                check2 ? (setCheck2(!check2),setDisabled2(!disabled2),setCheck1(!check1),
+                check2 ? (setCheck2(!check2),actualizarEstado(item,!check1),setDisabled2(!disabled2),setCheck1(!check1),
                 setDisabled1(!disabled1) ):(
                   setCheck1(!check1),
+                  actualizarEstado(item,!check1),
                   setDisabled1(!disabled1)
                 )
               }}
@@ -65,6 +88,7 @@ const CheckBoxContainerP = ({productName}) => {
               onPress={() => {
                 check1 ? handleOpenModal(): (
                   setCheck2(!check2),
+                  actualizarEstado(item,check2),
                   setDisabled2(!disabled2)
                 )}}
           
@@ -88,7 +112,7 @@ const CheckBoxContainerP = ({productName}) => {
                   style={{width:'100%' ,height:'55%'}}
                   />
                 <View style={{marginTop:15}}>
-                  <TakeImage/>
+                  <TakeImage setProducts={setData} item={item}/>
                 </View>
               </View>
             </View>
