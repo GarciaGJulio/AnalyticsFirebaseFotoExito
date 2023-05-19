@@ -12,12 +12,19 @@ import TarjPercha from '../../components/TarjetaPercha';
 import RackCheckbox from '../../components/RackCheckbox';
 import { db_insertPercha } from '../../services/SqliteService';
 import { lookForPerchas } from '../../services/SeleccionesService';
+import ConfirmationModal from '../../components/ConfirmationModal';
 const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
   const [valueModerna, setValueModerna] = useState();
   const [checked, setChecked] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [data, setData] = useState([])
+  const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
+  const handleCloseModal = () => {
+    setIsModalVisibleClose(false);
+  };
+
+
   const EnviaDatosLocal = async () => {
     db_insertPercha(1, checked, valueGeneral, valueModerna);
     await lookForPerchas(setPedidos);
@@ -36,7 +43,7 @@ const Racks = ({ navigation }) => {
       <View style={{ flex: 1, width: '100%', backgroundColor: 'blue' }}>
         <ModernaHeader />
       </View>
-
+      <ConfirmationModal visible={isModalVisibleClose} onClose={handleCloseModal} onPress={()=> navigation.goBack()} warning={'¿Está seguro de querer cancelar el progreso actual?'} />
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={2} />
         <ScreenInformation title={'Perchas'} text={'Selecciona las perchas de los productos disponibles en el punto de venta actual'} />
@@ -50,7 +57,7 @@ const Racks = ({ navigation }) => {
         colorLeft={theme.colors.modernaYellow}
         iconLeft={'cancel'}
         typeLeft={'material-icon'}
-        onPressLeft={() => navigation.goBack()}
+        onPressLeft={() => setIsModalVisibleClose(true)}
         titleRigth={'Siguiente'}
         sizeRigth={theme.buttonSize.df}
         iconRigth={'arrow-right-circle'}

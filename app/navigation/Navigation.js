@@ -34,8 +34,8 @@ const Navigation = () => {
   const LoginStack = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='audit' component={AuditNavigation} />
         <Stack.Screen name='menu' component={Menu} />
+        <Stack.Screen name='audit' component={AuditNavigation} />
         <Stack.Screen name='listBranch' component={ListBranch} />
         <Stack.Screen name='review' component={TabsNavigation} />
       </Stack.Navigator>

@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native';
 import { pickImages } from '../services/CameraM';
 import { Icon } from '@rneui/base';
 
-const TakeImage = () => {
+const TakeImage = ({setProducts,item}) => {
     const [image, setImage] = useState('https://static.vecteezy.com/system/resources/thumbnails/001/198/770/small_2x/camera.png');
     const [imageV1, setImageV1] = useState(false);
     const [imageV2, setImageV2] = useState(false);
@@ -16,11 +16,38 @@ const TakeImage = () => {
     const [image3, setImage3] = useState('');
 
 
+    const actualizarImagen = (item,image,imagesNumber) => {
+        console.log("\nENTRANDO A ACtUALIZAR IMAGEN - - - - - - - ")
+        console.log("PRODUCTO: ",item)
+        console.log("IMAGEN: ",image)
+        setProducts(products => {
+          // Obtén una copia del array actual
+          const productosActualizados = [...products];
+      
+          // Encuentra el objeto con el ID correspondiente
+          const producto = productosActualizados.find(p => p.id === item.id);
+      
+          // Actualiza la propiedad del objeto
+          if (producto) {
+            producto.images.imagesNumber = image;
+            console.log(producto)
+          }
+      
+          // Devuelve el array actualizado como el nuevo estado
+          return productosActualizados;
+        });
+      };
+
+
     return (
         <View>
             <View style={styles.container}>
                 <TouchableOpacity onPress={() => {
-                    pickImages(setImage1)
+                    pickImages(setImage1,(() => {
+                        actualizarImagen(item,currentImage1,image1)
+                    }))
+                    //const currentImage1 = image1
+                    
                     setImageV1(true)
                 }} style={styles.imageContainer}>
                     <Image source={{ uri: (image1 ? image1 : image) }} style={styles.image} />
@@ -29,6 +56,8 @@ const TakeImage = () => {
                     imageV1 ? (
                         <TouchableOpacity onPress={() => {
                             pickImages(setImage2)
+                            const currentImage2 = image2
+                            actualizarImagen(item,currentImage2,image2)
                             setImageV2(true)
                         }} style={styles.imageContainer}>
                             <Image source={{ uri: (image2 ? image2 : image) }} style={styles.image} />

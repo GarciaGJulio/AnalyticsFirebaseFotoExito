@@ -19,7 +19,6 @@ import FlashListPortfolio from '../../components/FlashListPortfolio';
 import ConfirmationModal from '../../components/ConfirmationModal';
 
 const Briefcase = ({ navigation }) => {
-  const [selected, setSelected] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [idealPortfolioProducts,setIdealPortfolioProducts] = useState([]);
   const [complementaryPortfolioProducts,setComplementaryPortfolioProducts] = useState([]);

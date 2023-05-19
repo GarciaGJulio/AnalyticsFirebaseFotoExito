@@ -5,13 +5,13 @@ import CheckBoxContainer from "./CheckBoxContainer";
 import theme from "../theme/theme";
 
 
-const FlashListPrices = ({title,products,arrayProducts}) => {
+const FlashListPrices = ({title,products,setProducts}) => {
   return (
     <View style={{ flex: 1, width: '90%', marginBottom: 10 }}>
       <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>{title}</Text>
       <FlashList
         data={products}
-        renderItem={({ item }) => <CheckBoxContainer productName={item.name} arrayProducts={arrayProducts}/>}
+        renderItem={({ item }) => <CheckBoxContainer productName={item.name} products={products} setProducts={setProducts} item={item}/>}
         estimatedItemSize={4}
         showsVerticalScrollIndicator={false}
       />

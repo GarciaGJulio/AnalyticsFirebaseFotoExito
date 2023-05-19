@@ -60,10 +60,10 @@ const Prices = ({navigation,route}) => {
         }
   ));
       setNewComplementaryPortfolio([...filteredItems]);
-      setNewIdealPortfolio([...idealPortfolioProducts,{price:null,state:null,images:{image1:null,image2:null,image3:null}}]);
+      setNewIdealPortfolio([...idealPortfolioProducts]);
       console.log("NUEVO ARRAY FORMATEADO: ",filteredItems)
       console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
-      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(idealPortfolioProducts));
+      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
       console.log("PORTAFOLIO COMPLEMENTARIO: ", JSON.stringify(filteredItems));
     };
   
@@ -82,7 +82,9 @@ const Prices = ({navigation,route}) => {
   
     if (!isValid) {
       //Alert.alert("Error al completar los datos", "Necesita marcar el valor de preciador de cada producto");
-      navigation.navigate('rack');
+      //navigation.navigate('rack');
+      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(idealPortfolioProducts));
+      console.log("PORTAFOLIO COMPLEMENTARIO: ", JSON.stringify(newComplementaryPortfolio));
     } else {
       console.log("TODO BIEN");
       //navigation.navigate('rack');
@@ -101,13 +103,13 @@ const Prices = ({navigation,route}) => {
         <ProgressBar currentStep={ 1 }/>
         <ScreenInformation title={'Preciador'} text={'Selecciona los productos que poseen preciador'}/>
         <View style={{flex:2,width:'100%', alignItems:'center'}}>
-            <FlashListPrices title={'Portafolio Ideal'} products={newIdealPortfolio}/>
+            <FlashListPrices title={'Portafolio Ideal'} products={newIdealPortfolio} setProducts={setNewIdealPortfolio}/>
         </View>
         <View style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 5 }}>
           <Divider width={2} color={'#D9D9D9'} style={{ backgroundColor: 'blue' }} />
         </View>
         <View style={{flex:2,width:'100%', alignItems:'center'}}>
-            <FlashListPrices title={'Portafolio Complementario'} products={newComplementaryPortfolio}/>
+            <FlashListPrices title={'Portafolio Complementario'} products={newComplementaryPortfolio} setProducts={setNewComplementaryPortfolio}/>
         </View>
         <DoubleStyledButton
           titleLeft={'Cancelar'}

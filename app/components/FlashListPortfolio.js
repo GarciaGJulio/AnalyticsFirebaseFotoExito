@@ -27,9 +27,9 @@ const DATA = [
     id: 3,
     title: 'Categoría 2',
     productos: [
-      { id: 4, nombre: 'Pan Moderna' },
-      { id: 5, nombre: 'Pan Supan' },
-      { id: 6, nombre: 'Pan Otro' }
+      { id: 7, nombre: 'Pan Moderna' },
+      { id: 8, nombre: 'Pan Supan' },
+      { id: 9, nombre: 'Pan Otro' }
     ]
   },
 ];
@@ -41,7 +41,7 @@ const RenderItem = ({item,setIdealPortfolioProducts,idealPortfolioProducts}) => 
   <FlashList
     data={item.productos}
     renderItem={({ item }) => <RenderItemProd name={item.nombre} id={item.id} setIdealPortfolioProducts={setIdealPortfolioProducts} idealPortfolioProducts={idealPortfolioProducts}/>}
-    estimatedItemSize={4}
+    //estimatedItemSize={4}
     showsVerticalScrollIndicator={false}
 />
 </View>
@@ -54,14 +54,29 @@ const RenderItemProd = ({name,id,setIdealPortfolioProducts,idealPortfolioProduct
   const validate = (check1, name, id) => {
     if (check1) {
       console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
-      setIdealPortfolioProducts((prevProducts) => [...prevProducts, { name, id,}]);
+      setIdealPortfolioProducts(prevProducts => [
+        ...prevProducts,
+        {
+          name: name,
+          id: id,
+          price: null,
+          state: null,
+          images: {
+            image1: null,
+            image2: null,
+            image3: null,
+          },
+        },
+      ]);
     } else {
-      setIdealPortfolioProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== id)
-      );
       console.log("ELIMINANDO PRODUCTO . . . . ");
+      setIdealPortfolioProducts(prevProducts =>
+        prevProducts.filter(product => product.id !== id)
+      );
     }
   };
+  
+  
   
 
   return(
@@ -94,7 +109,7 @@ const FlashListPortfolio = ({setIdealPortfolioProducts,idealPortfolioProducts}) 
         data={DATA}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <RenderItem item={item} setIdealPortfolioProducts={setIdealPortfolioProducts} idealPortfolioProducts={idealPortfolioProducts}/>}
-        estimatedItemSize={4}
+        //estimatedItemSize={4}
         showsVerticalScrollIndicator={false}
       />
     </View>

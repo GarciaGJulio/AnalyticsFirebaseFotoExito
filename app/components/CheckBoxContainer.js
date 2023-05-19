@@ -9,7 +9,7 @@ import TakeImage from './TakeImage'
 import ConfirmationModal from './ConfirmationModal'
 import { validatePriceProduct } from '../utils/helpers'
 
-const CheckBoxContainer = ({ productName,arrayProducts }) => {
+const CheckBoxContainer = ({ productName,products,setProducts,item }) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [price, setPrice] = useState('');
@@ -27,12 +27,57 @@ const CheckBoxContainer = ({ productName,arrayProducts }) => {
   };
 
   const acceptModal = () => {
+    actualizarEstado(item,check2)
     setCheck1(!check1)
     setCheck2(!check2)
     setIsModalVisible(false);
     setDisabled1(!disabled1);
     setDisabled2(!disabled2);
   }
+
+  const actualizarEstado = (id,state) => {
+    console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ")
+    console.log("PRODUCTO: ",item)
+    console.log("ESTADO: ",state)
+    setProducts(products => {
+      // Obtén una copia del array actual
+      const productosActualizados = [...products];
+  
+      // Encuentra el objeto con el ID correspondiente
+      const producto = productosActualizados.find(p => p.id === item.id);
+  
+      // Actualiza la propiedad del objeto
+      if (producto) {
+        producto.state = state;
+        console.log(producto)
+      }
+  
+      // Devuelve el array actualizado como el nuevo estado
+      return productosActualizados;
+    });
+  };
+
+  const actualizarPrecio = (item,price) => {
+    console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ")
+    console.log("PRODUCTO: ",item)
+    console.log("PRECIO: ",price)
+    setProducts(products => {
+      // Obtén una copia del array actual
+      const productosActualizados = [...products];
+  
+      // Encuentra el objeto con el ID correspondiente
+      const producto = productosActualizados.find(p => p.id === item.id);
+  
+      // Actualiza la propiedad del objeto
+      if (producto) {
+        producto.price = price;
+        console.log(producto)
+      }
+  
+      // Devuelve el array actualizado como el nuevo estado
+      return productosActualizados;
+    });
+  };
 
   return (
     <View style={[styles.container, { height: check1 ? 460 : 150 }]}>
@@ -47,9 +92,10 @@ const CheckBoxContainer = ({ productName,arrayProducts }) => {
               checked={check1}
               onPress={() => {
                 check2 ? (setCheck2(!check2), setDisabled2(!disabled2), setCheck1(!check1),
-                  setDisabled1(!disabled1)) : (
+                  setDisabled1(!disabled1),actualizarEstado(item,!check1)) : (
                   setCheck1(!check1),
-                  setDisabled1(!disabled1)
+                  setDisabled1(!disabled1),
+                  actualizarEstado(item,!check1)
                 )
               }}
               // Use ThemeProvider to make change for all checkbox
@@ -66,7 +112,8 @@ const CheckBoxContainer = ({ productName,arrayProducts }) => {
               onPress={() => {
                 check1 ? handleOpenModal() : (
                   setCheck2(!check2),
-                  setDisabled2(!disabled2)
+                  setDisabled2(!disabled2),
+                  actualizarEstado(item.id,check2)
                 )
               }}
 
@@ -89,11 +136,12 @@ const CheckBoxContainer = ({ productName,arrayProducts }) => {
                   onChangeText={txt => {
                     setPrice(txt)
                     validatePriceProduct(txt,setErrorPrice)
+                    actualizarPrecio(item,parseFloat(txt))
                   }
                   }
                   label="Precio del producto"
                   placeholder="Ingresa el precio del producto"
-                  maxLength={4}
+                  maxLength={5}
                   keyboard='numeric'
                   editable={true}
                   value={price}
@@ -104,7 +152,7 @@ const CheckBoxContainer = ({ productName,arrayProducts }) => {
                 <View style={{marginTop:15}}>
                   <Text style={{fontSize:15,fontWeight:'500'}}>Foto del precio del producto respectivo</Text>
                   <Text style={{fontSize:13,marginTop:10}}>Proporcione una foto del producto respectivo</Text>
-                  <TakeImage/>
+                  <TakeImage setProducts={setProducts} item={item}/>
                 </View>
               </View>
             </View>
