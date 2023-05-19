@@ -29,7 +29,29 @@ const TakeImage = ({setProducts,item}) => {
       
           // Actualiza la propiedad del objeto
           if (producto) {
-            producto.images.imagesNumber = image;
+            producto.images[''+imagesNumber+''] = image;
+            console.log(producto)
+          }
+      
+          // Devuelve el array actualizado como el nuevo estado
+          return productosActualizados;
+        });
+      };
+
+      const borrarImagen = (item,imagesNumber) => {
+        console.log("\nENTRANDO A ELIMINAR IMAGEN - - - - - - - ")
+        console.log("PRODUCTO: ",item)
+        console.log("ELIMINANDO IMAGEN: . . . . . ")
+        setProducts(products => {
+          // Obtén una copia del array actual
+          const productosActualizados = [...products];
+      
+          // Encuentra el objeto con el ID correspondiente
+          const producto = productosActualizados.find(p => p.id === item.id);
+      
+          // Actualiza la propiedad del objeto
+          if (producto) {
+            producto.images[''+imagesNumber+''] = null;
             console.log(producto)
           }
       
@@ -43,26 +65,27 @@ const TakeImage = ({setProducts,item}) => {
         <View>
             <View style={styles.container}>
                 <TouchableOpacity onPress={() => {
-                    pickImages(setImage1,(() => {
-                        actualizarImagen(item,currentImage1,image1)
-                    }))
-                    //const currentImage1 = image1
-                    
-                    setImageV1(true)
+                        setImageV1(!imageV1);
+                        pickImages((image1) => {
+                          setImage1(image1);
+                          actualizarImagen(item, image1, 'image1');
+                        });
                 }} style={styles.imageContainer}>
                     <Image source={{ uri: (image1 ? image1 : image) }} style={styles.image} />
                 </TouchableOpacity>
                 {
                     imageV1 ? (
                         <TouchableOpacity onPress={() => {
-                            pickImages(setImage2)
-                            const currentImage2 = image2
-                            actualizarImagen(item,currentImage2,image2)
-                            setImageV2(true)
+                            setImageV2(!imageV2);
+                            pickImages((image2) => {
+                              setImage2(image2);
+                              actualizarImagen(item, image2, 'image2');
+                            });
                         }} style={styles.imageContainer}>
                             <Image source={{ uri: (image2 ? image2 : image) }} style={styles.image} />
                             <TouchableOpacity style={styles.deleteButton} onPress={() => {
-                                setImageV1(false)
+                                setImageV1(!imageV1)
+                                borrarImagen(item, 'image2')
                                 setImage2('')
                             }}>
                                 <Icon name='remove-circle' type='ionicon' size={25} color={'red'} />
@@ -72,10 +95,17 @@ const TakeImage = ({setProducts,item}) => {
                 }
                 {
                     imageV2 ? (
-                        <TouchableOpacity onPress={() => pickImages(setImage3)} style={styles.imageContainer}>
+                        <TouchableOpacity onPress={() => {
+                            pickImages((image3) => {
+                              setImage3(image3);
+                              actualizarImagen(item, image3, 'image3');
+                              //setImageV1(true);
+                            });}}
+                             style={styles.imageContainer}>
                             <Image source={{ uri: (image3 ? image3 : image) }} style={styles.image} />
                             <TouchableOpacity style={styles.deleteButton} onPress={() => {
-                                setImageV2(false)
+                                setImageV2(!imageV2)
+                                borrarImagen(item, 'image3')
                                 setImage3('')
                             }}>
                                 <Icon name='remove-circle' type='ionicon' size={25} color={'red'} />

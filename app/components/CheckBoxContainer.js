@@ -35,7 +35,7 @@ const CheckBoxContainer = ({ productName,products,setProducts,item }) => {
     setDisabled2(!disabled2);
   }
 
-  const actualizarEstado = (id,state) => {
+  const actualizarEstado = (item,state) => {
     console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ")
     console.log("PRODUCTO: ",item)
     console.log("ESTADO: ",state)
@@ -91,11 +91,11 @@ const CheckBoxContainer = ({ productName,products,setProducts,item }) => {
             <CheckBox
               checked={check1}
               onPress={() => {
-                check2 ? (setCheck2(!check2), setDisabled2(!disabled2), setCheck1(!check1),
-                  setDisabled1(!disabled1),actualizarEstado(item,!check1)) : (
+                check2 ? (setCheck2(!check2), actualizarEstado(item,!check1),setDisabled2(!disabled2), setCheck1(!check1),
+                  setDisabled1(!disabled1)) : (
                   setCheck1(!check1),
-                  setDisabled1(!disabled1),
-                  actualizarEstado(item,!check1)
+                  actualizarEstado(item,!check1),
+                  setDisabled1(!disabled1)
                 )
               }}
               // Use ThemeProvider to make change for all checkbox
@@ -112,8 +112,8 @@ const CheckBoxContainer = ({ productName,products,setProducts,item }) => {
               onPress={() => {
                 check1 ? handleOpenModal() : (
                   setCheck2(!check2),
-                  setDisabled2(!disabled2),
-                  actualizarEstado(item.id,check2)
+                  actualizarEstado(item,check2),
+                  setDisabled2(!disabled2)
                 )
               }}
 

@@ -72,22 +72,33 @@ const Prices = ({navigation,route}) => {
   
 
   const validateArrays = () => {
-    const isValid = idealPortfolioProducts.every(item => (
-      item.name &&
-      typeof item.id === "string" &&
-      item.price !== undefined &&
-      item.state !== undefined &&
-      (item.state !== true || (item.images && Object.keys(item.images).includes("image1")))
-    ));
+    const fullArrays = [...newIdealPortfolio,...newComplementaryPortfolio]
+    console.log("LISTA COMPLETA DE ARRAYS:",fullArrays)
+    const isValid = fullArrays.every(item => {
+      if (item.state === null) {
+        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        return false;
+      }
+      if (item.state === true) {
+        if (item.price === null || !item.images || item.images.image1 === null) {
+          console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+          return false;
+        }
+      }
+      return true;
+    });
+    
+    
+    
   
     if (!isValid) {
-      //Alert.alert("Error al completar los datos", "Necesita marcar el valor de preciador de cada producto");
+      Alert.alert("Error al completar los datos", "Necesita marcar el valor de preciador de cada producto");
       //navigation.navigate('rack');
-      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(idealPortfolioProducts));
+      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
       console.log("PORTAFOLIO COMPLEMENTARIO: ", JSON.stringify(newComplementaryPortfolio));
     } else {
       console.log("TODO BIEN");
-      //navigation.navigate('rack');
+      navigation.navigate('rack');
     }
   }
   
