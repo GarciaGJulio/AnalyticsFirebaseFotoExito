@@ -8,10 +8,12 @@ import StyledInput from "./StyledInput";
 import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import { validatePriceProduct } from "../utils/helpers";
+import ToggleSwitch from "toggle-switch-react-native";
 
-const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
+const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
+  const [state, setState] = useState(false);
   const [price, setPrice] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [disabled1, setDisabled1] = useState(false);
@@ -80,7 +82,7 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
   };
 
   return (
-    <View style={[styles.container, { height: check1 ? 460 : 150 }]}>
+    <View style={[styles.container, { flex: 1 }]}>
       <ConfirmationModal
         visible={isModalVisible}
         onClose={handleCloseModal}
@@ -90,13 +92,44 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
         }
       />
       <View style={styles.primaryContainer}>
-        <Image source={HARINA} style={{ width: 100, height: 100 }} />
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Image
+            source={HARINA}
+            style={{ width: 75, height: 75, resizeMode: "cover" }}
+          />
+        </View>
         <View style={styles.descriptionContainer}>
-          <Text style={{ fontSize: 13 }}>{productName}</Text>
-          <Text style={{ marginHorizontal: 10, marginTop: 5, fontSize: 11 }}>
-            Precio disponible
-          </Text>
+          <Text style={{ fontSize: 15 }}>{productName}</Text>
           <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              //backgroundColor: "blue",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text
+              style={{
+                //marginHorizontal: 10,
+                marginTop: 5,
+                fontSize: 12,
+              }}
+            >
+              Precio disponible
+            </Text>
+            <ToggleSwitch
+              isOn={state}
+              onColor="green"
+              offColor="red"
+              //label="Example label"
+              //labelStyle={{ color: "black", fontWeight: "900" }}
+              size="small"
+              onToggle={() => setState(!state)}
+            />
+          </View>
+          {/*<View
             style={{ flexDirection: "row", alignItems: "center", right: 10 }}
           >
             <CheckBox
@@ -138,35 +171,52 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
               disabled={disabled2}
             />
             <Text>No</Text>
-          </View>
+          </View>*/}
         </View>
       </View>
-      {check1 ? (
+      {state ? (
         <View style={styles.secondaryContainer}>
-          <View style={{ padding: 10 }}>
-            <StyledInput
-              onChangeText={(txt) => {
-                setPrice(txt);
-                validatePriceProduct(txt, setErrorPrice);
-                actualizarPrecio(item, parseFloat(txt));
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <View
+              style={{
+                width: "50%",
+                flex: 1,
+                padding: 10,
+                //justifyContent: "center",
+                //alignItems: "center",
+                //backgroundColor: "red",
               }}
-              label="Precio del producto"
-              placeholder="Ingresa el precio del producto"
-              maxLength={5}
-              keyboard="numeric"
-              editable={true}
-              value={price}
-              width={"100%"}
-              error={errorPrice}
-              information={"Este campo es obligatorio"}
-            />
-            <View style={{ marginTop: 15 }}>
-              <Text style={{ fontSize: 15, fontWeight: "500" }}>
+            >
+              <StyledInput
+                onChangeText={(txt) => {
+                  setPrice(txt);
+                  validatePriceProduct(txt, setErrorPrice);
+                  actualizarPrecio(item, parseFloat(txt));
+                }}
+                label="Precio del producto"
+                placeholder="Ingresa el precio del producto"
+                maxLength={5}
+                keyboard="numeric"
+                editable={true}
+                value={price}
+                width={"100%"}
+                error={errorPrice}
+                information={"Este campo es obligatorio"}
+              />
+            </View>
+            <View
+              style={{
+                //backgroundColor: "green",
+                flex: 1.2,
+                padding: 10,
+                justifyContent: "center",
+                //alignItems: "center",
+              }}
+            >
+              <Text style={{ fontSize: 11, fontWeight: "500" }}>
                 Foto del precio del producto respectivo
               </Text>
-              <Text style={{ fontSize: 13, marginTop: 10 }}>
-                Proporcione una foto del producto respectivo
-              </Text>
+
               <TakeImage setProducts={setProducts} item={item} />
             </View>
           </View>
@@ -178,32 +228,36 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
   );
 };
 
-export default CheckBoxContainer;
+export default CheckBoxContainerV2;
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 20,
-    marginVertical: 10,
-    borderWidth: 2,
+    //borderRadius: 20,
+    margin: 1,
+    //marginVertical: 10,
+    //borderWidth: 2,
     backgroundColor: theme.colors.lightgray,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
   },
   descriptionContainer: {
-    marginLeft: 5,
-    //backgroundColor:'orange',
-    flex: 1,
+    //marginLeft: 5,
+    //backgroundColor: "orange",
+    flex: 3,
     padding: 10,
   },
   primaryContainer: {
     flexDirection: "row",
+    flex: 1,
+    //backgroundColor: "blue",
     //backgroundColor:'blue',
-    width: "90%",
+    width: "100%",
   },
   secondaryContainer: {
-    //backgroundColor:'brown',
-    height: 290,
-    width: "90%",
+    //backgroundColor: "brown",
+    flex: 1,
+    //height: 290,
+    width: "100%",
   },
 });
