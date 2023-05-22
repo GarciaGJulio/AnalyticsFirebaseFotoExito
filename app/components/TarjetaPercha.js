@@ -9,10 +9,9 @@ import {
   BackHandler,
   ImageBackgroundComponent,
   Image,
-
 } from "react-native";
 import { themes } from "../themes/themes";
-import { Icon, Input } from '@rneui/themed';
+import { Icon, Input } from "@rneui/themed";
 import { FlashList } from "@shopify/flash-list";
 import { useEffect, useState } from "react";
 import theme from "../theme/theme";
@@ -22,8 +21,8 @@ import ConfirmationModal from "./ConfirmationModal";
 import RackCheckbox from "./RackCheckbox";
 import Rack_View from "./Rack_View";
 
-export const TarjPercha = ({data,setData}) => {
-  const [objPercha, setObjPercha] = useState({})
+export const TarjPercha = ({ data, setData }) => {
+  const [objPercha, setObjPercha] = useState({});
   const [datos, setDatos] = useState([]);
   /*let DATA = [
     {
@@ -71,42 +70,43 @@ export const TarjPercha = ({data,setData}) => {
       },
     },
   ];*/
-
+  /*useEffect(() => {
+    console.log("ESTO LLEGA DE PERCHAS: - - - - - ", data);
+  });*/
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, width: '100%' }}>
+      <View style={{ flex: 1, width: "100%" }}>
         <FlashList
           data={data}
           // onEndReached={({ index }) => {
-          //   const itemDatos = DATA[index]; 
+          //   const itemDatos = DATA[index];
           //   setDatos(prevDatos => [...prevDatos, itemDatos]); // Agrega los datos al arreglo
           // }}
-          renderItem={({ item }) =>
+          renderItem={({ item }) => (
             <RackCheckbox
               categoryName={item.name}
               //onchangeObjPercha={setObjPercha}
               item={item}
               setData={setData}
-            />}
+            />
+          )}
           //estimatedItemSize={10}
-          showsVerticalScrollIndicator={false} />
+          showsVerticalScrollIndicator={false}
+        />
       </View>
     </View>
-  )
-
-}
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     marginBottom: 10,
-    alignItems: 'center',
+    alignItems: "center",
     //paddingHorizontal:100,
     //backgroundColor:'red',
     //marginHorizontal:10,
-
   },
 });
-
 
 export default TarjPercha;

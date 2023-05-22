@@ -118,22 +118,6 @@ const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  useEffect(() => {
-    validateType(selected);
-  }, [selected]);
-  const validateType = () => {
-    clientsType.forEach((type) => {
-      if (type.client == selected) {
-        setType(type.type);
-        setSucursalInformation({
-          ...sucursalInformation,
-          client: selected,
-          clientType: type.client,
-        });
-      }
-    });
-  };
-
   /*useEffect(() => {
     const fetchData = async () => {
       try {
@@ -253,7 +237,7 @@ const Client_Information = ({ navigation }) => {
             sucursalInformation={sucursalInformation}
           />
           <View style={{ width: 150, marginLeft: 10 }}>
-            <Text style={{ paddingBottom: 5 }}>Grupo de cliente</Text>
+            <Text style={{ paddingBottom: 5 }}>Tipo de cliente</Text>
             <View
               style={{
                 width: "100%",

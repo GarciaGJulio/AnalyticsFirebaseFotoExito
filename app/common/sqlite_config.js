@@ -13,6 +13,18 @@ import {
   CATEGORY,
   PRODUCT,
   AUDITORIA,
+  EXHIBIDOR,
+  PROMOCIONES,
+  IMAGEN_APLICACION_MOVIL_2,
+  IMAGEN_APLICACION_MOVIL,
+  PRECIADOR,
+  COMPLEMENTARY_PORTFOLIO,
+  IDEAL_PORFOLIO,
+  PRECIADOR_PORTAFOLIO_IDEAL,
+  PRECIADOR_PORTAFOLIO_COMPLEMENTARIO,
+  PLANOGRAMA,
+  IMAGEN_PLANOGRAMA,
+  TYPE_EXHIBIDOR,
 } from "./table_columns";
 import { PermissionsAndroid } from "react-native";
 import { useEffect } from "react";
@@ -49,13 +61,13 @@ const createSucursalTable = () => {
 };
 
 const createClientTable = () => {
-  const sentence = `create table if not exists ${CLIENT_TABLE.NAME} (${CLIENT_TABLE.KEY_1} text primary key not null, ${CLIENT_TABLE.FOREIGH_KEY_1} text , ${CLIENT_TABLE.NOMBRE_CLIENTE} text ,${CLIENT_TABLE.USUARIO_CREACION} TEXT,${CLIENT_TABLE.FECHA_CREACION} TEXT ,${CLIENT_TABLE.FECHA_MODIFICACION} TEXT ) `;
+  const sentence = `create table if not exists ${CLIENT_TABLE.NAME} (${CLIENT_TABLE.KEY_1} text primary key not null, ${CLIENT_TABLE.FOREIGH_KEY_1} text , ${CLIENT_TABLE.NOMBRE_CLIENTE} text ,${CLIENT_TABLE.USUARIO_CREACION} TEXT,${CLIENT_TABLE.FECHA_CREACION} TEXT ,${CLIENT_TABLE.FECHA_MODIFICACION} TEXT, ${CLIENT_TABLE.NOMBRE_TIPO_CLIENTE} VARCHAR(43) NULL ) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, CLIENT_TABLE.NAME);
 };
 
 const createTypeClientTable = () => {
-  const sentence = `create table if not exists ${TYPE_CLIENT_TABLE.NAME} (${TYPE_CLIENT_TABLE.KEY_1} text primary key not null, ${TYPE_CLIENT_TABLE.FOREIGH_KEY_1} text not null, ${TYPE_CLIENT_TABLE.NOMBRE_TIPO_CLIENTE} VARCHAR(43) NULL, ${TYPE_CLIENT_TABLE.NOMBRE_GRUPO_CLIENTE} VARCHAR(43) NULL,${TYPE_CLIENT_TABLE.USUARIO_CREACION} TEXT NULL,${TYPE_CLIENT_TABLE.FECHA_CREACION} TEXT NULL,${TYPE_CLIENT_TABLE.FECHA_MODIFICACION} TEXT NULL ) `;
+  const sentence = `create table if not exists ${TYPE_CLIENT_TABLE.NAME} (${TYPE_CLIENT_TABLE.KEY_1} text primary key not null, ${TYPE_CLIENT_TABLE.FOREIGH_KEY_1} text not null, ${TYPE_CLIENT_TABLE.NOMBRE_TIPO_CLIENTE} VARCHAR(43) NULL,${TYPE_CLIENT_TABLE.USUARIO_CREACION} TEXT NULL,${TYPE_CLIENT_TABLE.FECHA_CREACION} TEXT NULL,${TYPE_CLIENT_TABLE.FECHA_MODIFICACION} TEXT NULL ) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, TYPE_CLIENT_TABLE.NAME);
 };
@@ -82,6 +94,78 @@ const createAuditTable = () => {
   const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCIONES} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.CLIENTE} VARCHAR(43) NULL,${AUDITORIA.TIPO_CLIENTE} VARCHAR(43) NULL) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, AUDITORIA.NAME);
+};
+
+const createExhibidorTable = () => {
+  const sentence = `create table if not exists ${EXHIBIDOR.NAME} (${EXHIBIDOR.KEY_1} text primary key not null,${EXHIBIDOR.ID_EXHIBIDOR_TIPO} text null,${EXHIBIDOR.ID_CLIENTE} text null,${EXHIBIDOR.SUCURSAL} VARCHAR(43) null,${EXHIBIDOR.AÑO_EXHIBIDOR} text null,${EXHIBIDOR.MES_EXHIBIDOR} text NULL,${EXHIBIDOR.USUARIO_CREACION} TEXT NULL,${EXHIBIDOR.FECHA_CREACION} TEXT NULL,${EXHIBIDOR.FECHA_MODIFICACION} TEXT NULL,${CLIENT_TABLE.NOMBRE_CLIENTE} TEXT NULL,${TYPE_EXHIBIDOR.NOMBRE_TIPO_EXHIBIDOR} TEXT NULL,${TYPE_EXHIBIDOR.URL_IMAGEN_EXHIBIDOR} TEXT NULL) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, EXHIBIDOR.NAME);
+};
+
+const createPromosTable = () => {
+  const sentence = `create table if not exists ${PROMOCIONES.NAME} (${PROMOCIONES.KEY_1} text primary key not null,${PROMOCIONES.ID_EXHIBIDOR} text null,${PROMOCIONES.ID_AUDITORIA} text null,${PROMOCIONES.ESTADO_PROMO} INT null) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PROMOCIONES.NAME);
+};
+
+const createImagenAppM2Table = () => {
+  const sentence = `create table if not exists ${IMAGEN_APLICACION_MOVIL_2.NAME} (${IMAGEN_APLICACION_MOVIL_2.KEY_1} text primary key not null,${IMAGEN_APLICACION_MOVIL_2.ID_PERCHA} text null,${IMAGEN_APLICACION_MOVIL_2.URL_PERCHA_IMAGEN_1} text null,${IMAGEN_APLICACION_MOVIL_2.URL_PERCHA_IMAGEN_2} text null,${IMAGEN_APLICACION_MOVIL_2.URL_PERCHA_IMAGEN_3} text null) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, IMAGEN_APLICACION_MOVIL_2.NAME);
+};
+
+const createImagenAppMTable = () => {
+  const sentence = `create table if not exists ${IMAGEN_APLICACION_MOVIL.NAME} (${IMAGEN_APLICACION_MOVIL.KEY_1} text primary key not null,${IMAGEN_APLICACION_MOVIL.ID_PRECIADOR_PORTAFOLIO_IDEAL} text null,${IMAGEN_APLICACION_MOVIL.ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO} text null,${IMAGEN_APLICACION_MOVIL.URL_PRECIADOR_IMAGEN_1} text null,${IMAGEN_APLICACION_MOVIL.URL_PRECIADOR_IMAGEN_2} text null,${IMAGEN_APLICACION_MOVIL.URL_PRECIADOR_IMAGEN_3} text null) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, IMAGEN_APLICACION_MOVIL.NAME);
+};
+
+const createPreciadorTable = () => {
+  const sentence = `create table if not exists ${PRECIADOR.NAME} (${PRECIADOR.KEY_1} text primary key not null,${PRECIADOR.ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO} text null,${PRECIADOR.ID_AUDITORIA} text null,${PRECIADOR.PRE_ID_PRECIADOR_PORTAFOLIO_IDEAL} text null) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PRECIADOR.NAME);
+};
+
+const createPortafolioComTable = () => {
+  const sentence = `create table if not exists ${COMPLEMENTARY_PORTFOLIO.NAME} (${COMPLEMENTARY_PORTFOLIO.KEY_1} text primary key not null,${COMPLEMENTARY_PORTFOLIO.ID_PRODUCTO} text null,${COMPLEMENTARY_PORTFOLIO.ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO} text null,${COMPLEMENTARY_PORTFOLIO.ESTADO_PORTAFOLIO_COMPLEMENTARIO} int null) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, COMPLEMENTARY_PORTFOLIO.NAME);
+};
+
+const createPortafolioIdeaTable = () => {
+  const sentence = `create table if not exists ${IDEAL_PORFOLIO.NAME} (${IDEAL_PORFOLIO.KEY_1} text primary key not null,${IDEAL_PORFOLIO.FOREIGH_KEY_1} text null,${IDEAL_PORFOLIO.FOREIGH_KEY_2} text null) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, IDEAL_PORFOLIO.NAME);
+};
+
+const createPreciadorPortafolioComTable = () => {
+  const sentence = `create table if not exists ${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.NAME} (${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.KEY_1} text primary key not null,${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.ID_PORTAFOLIO_COMPLEMENTARIO} text null,${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.ID_PRECIADOR} text null,${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.PRECIADOR_PORTAFOLIO_COMPLEMENTARIO} int null,${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.ESTADO_PRECIADOR_COMPLEMENTARIO} int null,${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.USUARIO_CREACION} TEXT NULL,${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.FECHA_CREACION} TEXT NULL,${PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.FECHA_MODIFICACION} TEXT NULL) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PRECIADOR_PORTAFOLIO_COMPLEMENTARIO.NAME);
+};
+
+const createPreciadorPortafolioIdeaTable = () => {
+  const sentence = `create table if not exists ${PRECIADOR_PORTAFOLIO_IDEAL.NAME} (${PRECIADOR_PORTAFOLIO_IDEAL.KEY_1} text primary key not null,${PRECIADOR_PORTAFOLIO_IDEAL.PRECIADOR_PORTAFOLIO_IDEAL} int null,${PRECIADOR_PORTAFOLIO_IDEAL.ESTADO_PRECIADOR_IDEAL} int null,${PRECIADOR_PORTAFOLIO_IDEAL.USUARIO_CREACION} TEXT NULL,${PRECIADOR_PORTAFOLIO_IDEAL.FECHA_CREACION} TEXT NULL,${PRECIADOR_PORTAFOLIO_IDEAL.FECHA_MODIFICACION} TEXT NULL) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PRECIADOR_PORTAFOLIO_IDEAL.NAME);
+};
+
+const createPlanogramaTable = () => {
+  const sentence = `create table if not exists ${PLANOGRAMA.NAME} (${PLANOGRAMA.KEY_1} text primary key not null,${PLANOGRAMA.ID_CATEGORIA} TEXT null,${PLANOGRAMA.ID_GRUPO_CLIENTE} TEXT null) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PLANOGRAMA.NAME);
+};
+
+const createImagenPlanogramaTable = () => {
+  const sentence = `create table if not exists ${IMAGEN_PLANOGRAMA.NAME} (${IMAGEN_PLANOGRAMA.KEY_1} text primary key not null,${IMAGEN_PLANOGRAMA.ID_PLANOGRAMA} TEXT null,${IMAGEN_PLANOGRAMA.URL_IMAGEN_PLANOGRAMA_1} TEXT null,${IMAGEN_PLANOGRAMA.URL_IMAGEN_PLANOGRAMA_2} TEXT null,${IMAGEN_PLANOGRAMA.URL_IMAGEN_PLANOGRAMA_3} TEXT null,${IMAGEN_PLANOGRAMA.USUARIO_CREACION} TEXT NULL,${IMAGEN_PLANOGRAMA.FECHA_CREACION} TEXT NULL,${IMAGEN_PLANOGRAMA.FECHA_MODIFICACION} TEXT NULL) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, IMAGEN_PLANOGRAMA.NAME);
+};
+
+const createExhibidorTipoTable = () => {
+  const sentence = `create table if not exists ${TYPE_EXHIBIDOR.NAME} (${TYPE_EXHIBIDOR.KEY_1} text primary key not null,${TYPE_EXHIBIDOR.NOMBRE_TIPO_EXHIBIDOR} TEXT null,${TYPE_EXHIBIDOR.URL_IMAGEN_EXHIBIDOR} TEXT null,${TYPE_EXHIBIDOR.USUARIO_CREACION} TEXT NULL,${TYPE_EXHIBIDOR.FECHA_CREACION} TEXT NULL,${TYPE_EXHIBIDOR.FECHA_MODIFICACION} TEXT NULL) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, TYPE_EXHIBIDOR.NAME);
 };
 
 const createTable = async (sentence, table_name, createIndex) => {
@@ -126,13 +210,13 @@ export const selectData = (sentence) => {
   console.log(results);
 };*/
 
-export const selectData = (sentence,setArray) => {
-  console.log("EJECUTANDO SENTENCIA: "+sentence+" . . . . ")
+export const selectData = (sentence, setArray) => {
+  console.log("EJECUTANDO SENTENCIA: " + sentence + " . . . . ");
   global.dbModerna.transaction((tx) => {
     tx.executeSql(sentence, [], (_, { rows }) => {
       // Manipula los resultados de la consulta aquí
       const { _array } = rows;
-      setArray(_array)
+      setArray(_array);
       console.log(_array);
     });
   });
@@ -177,19 +261,30 @@ export const load_db_config = async () => {
   createProductTable();
   createCategoryTable();
   createAuditTable();
+  createExhibidorTable();
+  createPromosTable();
+  createImagenAppM2Table();
+  createImagenAppMTable();
+  createPreciadorTable();
+  createPortafolioComTable();
+  createPortafolioIdeaTable();
+  createPreciadorPortafolioComTable();
+  createPreciadorPortafolioIdeaTable();
+  createPlanogramaTable();
+  createImagenPlanogramaTable();
+  createExhibidorTipoTable();
 };
-
-
 
 export const realizarConsulta = (sentence) => {
   return new Promise((resolve, reject) => {
-    global.dbModerna.transaction(tx => {
+    global.dbModerna.transaction((tx) => {
       tx.executeSql(
         sentence,
         [],
         (_, { rows }) => {
           const { _array } = rows;
-          resolve(_array)},
+          resolve(_array);
+        },
         (_, error) => reject(error)
       );
     });

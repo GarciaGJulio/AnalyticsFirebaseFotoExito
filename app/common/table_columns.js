@@ -1,4 +1,3 @@
-
 export const CLIENT_TABLE = {
   NAME: "cliente",
   KEY_1: "id_cliente",
@@ -8,6 +7,7 @@ export const CLIENT_TABLE = {
   USUARIO_CREACION: "usuario_creacion",
   FECHA_CREACION: "fecha_creacion",
   FECHA_MODIFICACION: "fecha_modificacion",
+  NOMBRE_TIPO_CLIENTE: "nombre_tipo_cliente",
   INDEX_1: "id_cliente",
 };
 
@@ -40,7 +40,7 @@ export const TYPE_CLIENT_TABLE = {
   ID_GRUPO_CLIENTE: "id_grupo_cliente",
   NOMBRE_TIPO_CLIENTE: "nombre_tipo_cliente",
   USUARIO_CREACION: "usuario_creacion",
-  NOMBRE_GRUPO_CLIENTE: "nombre_grupo_cliente",
+  //NOMBRE_GRUPO_CLIENTE: "nombre_grupo_cliente",
   FECHA_CREACION: "fecha_creacion",
   FECHA_MODIFICACION: "fecha_modificacion",
   FOREIGH_KEY_1: "id_grupo_cliente",
@@ -56,7 +56,6 @@ export const CATEGORY = {
   FECHA_MODIFICACION: "fecha_modificacion",
   INDEX_1: "id_categoria",
 };
-
 
 export const PRODUCT = {
   NAME: "producto",
@@ -95,7 +94,7 @@ export const EXHIBIDOR = {
   ID_EXHIBIDOR_TIPO: "id_exhibidor_tipo",
   ID_CLIENTE: "id_cliente",
   SUCURSAL: "sucursal",
-  AÑO_EXHIBIDOR: "año_exhibidor",
+  AÑO_EXHIBIDOR: "ano_exhibidor",
   MES_EXHIBIDOR: "mes_exhibidor",
   USUARIO_CREACION: "usuario_creacion",
   FECHA_CREACION: "fecha_creacion",
@@ -115,7 +114,7 @@ export const TYPE_EXHIBIDOR = {
 };
 
 export const IMAGEN_PLANOGRAMA = {
-  NAME: "imagen_plamograma",
+  NAME: "imagen_planograma",
   KEY_1: "id_imagen",
   ID_PLANOGRAMA: "id_planograma",
   URL_IMAGEN_PLANOGRAMA_1: "url_imagen_planograma_1",
@@ -164,29 +163,31 @@ export const PERCHA = {
 
 export const IMAGEN_APLICACION_MOVIL_2 = {
   NAME: "imagen_aplicacion_movil_2",
-  KEY_1: "IdImageAppMobile2",
+  KEY_1: "idimageappmobile2",
   ID_PERCHA: "id_percha",
-  URL_PERCHA_IMAGEN_1: "url_percha_imagen_1",
-  URL_PERCHA_IMAGEN_2: "url_percha_imagen_2",
-  URL_PERCHA_IMAGEN_3: "url_percha_imagen_3",
-  INDEX_1: "IdImageAppMobile2",
+  URL_PERCHA_IMAGEN_1: "url_percha_imagen1",
+  URL_PERCHA_IMAGEN_2: "url_percha_imagen2",
+  URL_PERCHA_IMAGEN_3: "url_percha_imagen3",
+  INDEX_1: "idimageappmobile2",
 };
 
 export const IMAGEN_APLICACION_MOVIL = {
   NAME: "imagen_aplicacion_movil",
   KEY_1: "id_imagen_aplicacion_movil",
   ID_PRECIADOR_PORTAFOLIO_IDEAL: "id_preciador_portafolio_ideal",
-  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO: "id_preciador_portafolio_complementario",
-  URL_PRECIADOR_IMAGEN_1: "url_percha_imagen_1",
-  URL_PRECIADOR_IMAGEN_2: "url_percha_imagen_2",
-  URL_PRECIADOR_IMAGEN_3: "url_percha_imagen_3",
+  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO:
+    "id_preciador_portafolio_complementario",
+  URL_PRECIADOR_IMAGEN_1: "url_preciador_imagen1",
+  URL_PRECIADOR_IMAGEN_2: "url_preciador_imagen2",
+  URL_PRECIADOR_IMAGEN_3: "url_preciador_imagen3",
   INDEX_1: "id_imagen_aplicacion_movil",
 };
 
 export const PRECIADOR = {
   NAME: "preciador",
   KEY_1: "id_preciador",
-  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO: "id_preciador_portafolio_ideal",
+  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO:
+    "id_preciador_portafolio_complementario",
   ID_AUDITORIA: "id_auditoria",
   PRE_ID_PRECIADOR_PORTAFOLIO_IDEAL: "pre_id_preciador_portafolio_ideal",
   INDEX_1: "id_preciador",
@@ -196,7 +197,8 @@ export const COMPLEMENTARY_PORTFOLIO = {
   NAME: "portafolio_complementario",
   KEY_1: "id_portafolio_complementario",
   ID_PRODUCTO: "id_producto",
-  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO: "id_preciador_portafolio_complementario",
+  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO:
+    "id_preciador_portafolio_complementario",
   ESTADO_PORTAFOLIO_COMPLEMENTARIO: "estado_portafolio_complementario",
   INDEX_1: "id_portafolio_complementario",
 };

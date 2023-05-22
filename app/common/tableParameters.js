@@ -21,13 +21,7 @@ export const dataParameters = {
         "fecha_creacion",
         "fecha_modificacion",
       ],
-      foreingFields: [
-        {
-          tableName: "grupo_cliente",
-          data: ["nombre_grupo_cliente"],
-          foreingKey: "id_grupo_cliente",
-        },
-      ],
+      foreingFields: [],
     },
     grupo_cliente: {
       data: [
@@ -48,7 +42,13 @@ export const dataParameters = {
         "fecha_creacion",
         "fecha_modificacion",
       ],
-      foreingFields: [],
+      foreingFields: [
+        {
+          tableName: "tipo_cliente",
+          data: ["nombre_tipo_cliente"],
+          foreingKey: "id_tipo_cliente",
+        },
+      ],
     },
     promociones: {
       data: ["id_promociones", "id_exhibidor", "id_auditoria", "estado_promo"],
@@ -82,7 +82,7 @@ export const dataParameters = {
     },
     imagen_aplicacion_movil_2: {
       data: [
-        "IdImageAppMobile2",
+        "idimageappmobile2",
         "id_percha",
         "url_percha_imagen1",
         "url_percha_imagen2",
@@ -149,13 +149,24 @@ export const dataParameters = {
         "id_exhibidor_tipo",
         "id_cliente",
         "sucursal",
-        "año_exhibidor",
+        "ano_exhibidor",
         "mes_exhibidor",
         "usuario_creacion",
         "fecha_creacion",
         "fecha_modificacion",
       ],
-      foreingFields: [],
+      foreingFields: [
+        {
+          tableName: "cliente",
+          data: ["nombre_cliente"],
+          foreingKey: "id_cliente",
+        },
+        {
+          tableName: "exhibidor_tipo",
+          data: ["nombre_tipo_exhibidor", "url_imagen_exhibidor"],
+          foreingKey: "id_exhibidor_tipo",
+        },
+      ],
     },
     exhibidor_tipo: {
       data: [
@@ -195,7 +206,7 @@ export const dataParameters = {
     portafolio_ideal: {
       data: [
         "id_portafolio_ideal",
-        "id_portafolio",
+        "id_producto",
         "id_portafolio_ideal_auditoria",
       ],
       foreingFields: [],
