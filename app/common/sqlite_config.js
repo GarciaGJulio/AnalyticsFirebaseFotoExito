@@ -5,11 +5,14 @@ import { requestMultiple } from "react-native-permissions";
 // import DeviceInfo from "react-native-device-info";
 // kimport { insertNewStartDayInit } from "../services/StartDayService";
 import {
-  PERCHA_TABLE,
   CLIENT_TABLE,
   BRANCH_TABLE,
   TYPE_CLIENT_TABLE,
   GROUP_CLIENT_TABLE,
+  PERCHA,
+  CATEGORY,
+  PRODUCT,
+  AUDITORIA,
 } from "./table_columns";
 import { PermissionsAndroid } from "react-native";
 import { useEffect } from "react";
@@ -26,10 +29,17 @@ const instantiate_local_database = () => {
   }
 };
 
+/*
 const createPerchaTable = () => {
   const sentence = `create table if not exists ${PERCHA_TABLE_NAME} (${PERCHA_TABLE.KEY_1} text primary key not null, ${PERCHA_TABLE.ESTADO_PERCHA} boolean not null, ${PERCHA_TABLE.CATEGORIA_GENERAL} int NOT NULL,${PERCHA_TABLE.CATEGORIA_MODERNA} int NOT NULL ) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, PERCHA_TABLE_NAME);
+};*/
+
+const createPerchaTable = () => {
+  const sentence = `create table if not exists ${PERCHA.NAME} (${PERCHA.KEY_1} text primary key not null,${PERCHA.ID_CATEGORIA} text not null,${PERCHA.ID_AUDITORIA} text not null, ${PERCHA.ESTADO_PERCHA} int not null, ${PERCHA.CATEGORIA_GENERAL} int NOT NULL,${PERCHA.CATEGORIA_MODERNA} int NOT NULL,${PERCHA.USUARIO_CREACION} TEXT NULL,${PERCHA.FECHA_CREACION} TEXT NULL,${PERCHA.FECHA_MODIFICACION} TEXT NULL ) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PERCHA.NAME);
 };
 
 const createSucursalTable = () => {
@@ -54,6 +64,24 @@ const createGroupClientTable = () => {
   const sentence = `create table if not exists ${GROUP_CLIENT_TABLE.NAME} (${GROUP_CLIENT_TABLE.KEY_1} text primary key not null, ${GROUP_CLIENT_TABLE.NOMBRE_GRUPO_CLIENTE} VARCHAR(43) NULL,${GROUP_CLIENT_TABLE.USUARIO_CREACION} TEXT NULL,${GROUP_CLIENT_TABLE.FECHA_CREACION} TEXT NULL,${GROUP_CLIENT_TABLE.FECHA_MODIFICACION} TEXT NULL ) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, GROUP_CLIENT_TABLE.NAME);
+};
+
+const createCategoryTable = () => {
+  const sentence = `create table if not exists ${CATEGORY.NAME} (${CATEGORY.KEY_1} text primary key not null, ${CATEGORY.NOMBRE_CATEGORIA} VARCHAR(43) NULL,${CATEGORY.USUARIO_CREACION} TEXT NULL,${CATEGORY.FECHA_CREACION} TEXT NULL,${CATEGORY.FECHA_MODIFICACION} TEXT NULL ) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, CATEGORY.NAME);
+};
+
+const createProductTable = () => {
+  const sentence = `create table if not exists ${PRODUCT.NAME} (${PRODUCT.KEY_1} text primary key not null,${PRODUCT.ID_CATEGORIA} text null,${PRODUCT.ID_PORTAFOLIO_COMPLEMENTARIO} text null,${PRODUCT.NOMBRE_PRODUCTO} VARCHAR(43) NULL,${PRODUCT.IMAGEN_PRODUCTO} VARCHAR(43) NULL,${PRODUCT.PRECIO} FLOAT(5) NULL,${PRODUCT.USUARIO_CREACION} TEXT NULL,${PRODUCT.FECHA_CREACION} TEXT NULL,${PRODUCT.FECHA_MODIFICACION} TEXT NULL ) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PRODUCT.NAME);
+};
+
+const createAuditTable = () => {
+  const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCIONES} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.CLIENTE} VARCHAR(43) NULL,${AUDITORIA.TIPO_CLIENTE} VARCHAR(43) NULL) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, AUDITORIA.NAME);
 };
 
 const createTable = async (sentence, table_name, createIndex) => {
@@ -98,12 +126,14 @@ export const selectData = (sentence) => {
   console.log(results);
 };*/
 
-export const selectData = (sentence) => {
+export const selectData = (sentence,setArray) => {
+  console.log("EJECUTANDO SENTENCIA: "+sentence+" . . . . ")
   global.dbModerna.transaction((tx) => {
     tx.executeSql(sentence, [], (_, { rows }) => {
-      const result = rows.item(0); // Obtiene el primer resultado de la consulta
-      const nombre = result.nombre; // Accede al valor de la columna "nombre"
-      console.log(nombre);
+      // Manipula los resultados de la consulta aquí
+      const { _array } = rows;
+      setArray(_array)
+      console.log(_array);
     });
   });
 };
@@ -144,4 +174,24 @@ export const load_db_config = async () => {
   createClientTable();
   createGroupClientTable();
   createTypeClientTable();
+  createProductTable();
+  createCategoryTable();
+  createAuditTable();
+};
+
+
+
+export const realizarConsulta = (sentence) => {
+  return new Promise((resolve, reject) => {
+    global.dbModerna.transaction(tx => {
+      tx.executeSql(
+        sentence,
+        [],
+        (_, { rows }) => {
+          const { _array } = rows;
+          resolve(_array)},
+        (_, error) => reject(error)
+      );
+    });
+  });
 };

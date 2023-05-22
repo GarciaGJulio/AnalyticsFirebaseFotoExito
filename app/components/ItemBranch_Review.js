@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { Icon, ListItem } from '@rneui/themed';
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { commonStyles } from '../theme/stylesBranch';
 
@@ -19,6 +19,9 @@ const ItemBranch_Review = ({ branch }) => {
 
     const navigation = useNavigation();
 
+    useEffect(() => {
+        console.log("ESTO LLEGA DE LAS AUDITORIAS: ",branch)
+    },[])
     const handleOpenModal = () => {
         setAnimation(SYNC_ANIMATION);
         setIsModalVisible(true);
@@ -83,7 +86,7 @@ const ItemBranch_Review = ({ branch }) => {
                             resizeMode='cover'
                             imageStyle={{ opacity: 0.5 }}>
                             <Image source={SYNC_BACKGROUND} style={commonStyles.imageInBack} />
-                            <Text style={commonStyles.txt}>{branch.client} - {branch.name}</Text>
+                            <Text style={commonStyles.txt}>{branch.cliente} - {branch.tipo_cliente}</Text>
                         </ImageBackground>
                     </View>
                 </ListItem.Content>

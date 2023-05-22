@@ -89,14 +89,14 @@ const Client_Information = ({ navigation }) => {
     }*/
   }, [location]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log("SELECT DE LA TABLA CLIENTE",);
-    selectData("SELECT * FROM cliente")
+    selectData("SELECT * FROM cliente",setArrayClients)
     /*if(location){
       Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
     
-    }*/
-  }, [location]);
+    }
+  }, []);*/
 
   /*const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -246,7 +246,11 @@ const Client_Information = ({ navigation }) => {
           <Dropdown
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
-            data={client}
+            selected={selected}
+            setType={setType}
+            //clients={arrayClients}
+            setSucursalInformation={setSucursalInformation}
+            sucursalInformation={sucursalInformation}
           />
           <View style={{ width: 150, marginLeft: 10 }}>
             <Text style={{ paddingBottom: 5 }}>Grupo de cliente</Text>

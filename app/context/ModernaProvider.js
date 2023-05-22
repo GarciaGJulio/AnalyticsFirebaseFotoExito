@@ -81,8 +81,8 @@ const ModernaProvider = ({ children }) => {
   const handleLoginAzure = async (funcionQA) => {
     try {
       await AuthManager.signInAsync();
-      setIsAuthenticated(true);
       const token = await AuthManager.getAccessTokenAsync();
+      setIsAuthenticated(true);
       //console.log("token de inciios de session", token);
       if (token) {
         let user = await GraphManager.getUserAsync();
