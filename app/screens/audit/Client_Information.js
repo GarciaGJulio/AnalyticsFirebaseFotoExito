@@ -27,15 +27,18 @@ import { capturarCoordenadas } from "../../services/GeolocationM";
 import ModernaContext from "../../context/ModernaContext";
 import {
   db_insertGlobal,
+  db_insertGlobalDataAudit,
   db_insertSucursal,
 } from "../../services/SqliteService";
 import { lookForSucursal } from "../../services/SeleccionesService";
 import { validateNameBranch } from "../../utils/helpers";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import StyledButton from "../../components/StyledButton";
-import { selectData } from "../../common/sqlite_config";
+import { realizarConsulta, selectData } from "../../common/sqlite_config";
+import { dataTime, generateUIDD } from "../../services/GenerateID";
 
 const Client_Information = ({ navigation }) => {
+  const { userInfo } = useContext(ModernaContext);
   const [selected, setSelected] = useState("");
   const [sucursal, setSucursal] = useState("");
   const [errorBranchName, setErrorBranchName] = useState();
@@ -45,16 +48,41 @@ const Client_Information = ({ navigation }) => {
     client: "",
     clientType: "",
     name: "",
+    id: generateUIDD(),
   });
   const [datosCompletos, setDatosCompletos] = useState({});
-  const [client, setClient] = useState([]);
+  const [branchNames, setBranchNames] = useState([]);
 
   const { location } = useContext(ModernaContext);
 
   const [type, setType] = useState("");
   const [sucursalData, setSucursalData] = useState([]);
 
-  const sendLocalData = async (setSucursalData) => {
+  const consultarYCopiarContenido = async () => {
+    try {
+      const resultadoConsultarBranch = await realizarConsulta(
+        "SELECT * FROM sucursal"
+      );
+
+      const branchs = resultadoConsultarBranch.map(({ nombre_sucursal }) => ({
+        nombre_sucursal,
+      }));
+      setBranchNames(branchs);
+      console.log(
+        "Copia de contenido completada con éxito: ",
+        resultadoConsultarBranch
+      );
+      console.log("NOMBRE DE BRANCHES: ", branchs);
+    } catch (error) {
+      console.error("Error al consultar o copiar el contenido:", error);
+    }
+  };
+
+  useEffect(() => {
+    consultarYCopiarContenido();
+  }, []);
+
+  /*const sendLocalData = async (setSucursalData) => {
     db_insertSucursal(
       1,
       1,
@@ -64,7 +92,7 @@ const Client_Information = ({ navigation }) => {
     );
     await lookForSucursal(setSucursalData);
     console.log("Pedidos desde Screen:", sucursalData);
-  };
+  };*/
 
   const validate = (objeto) => {
     const valores = Object.values(objeto);
@@ -73,20 +101,8 @@ const Client_Information = ({ navigation }) => {
     );
   };
 
-  const clientsType = [
-    { client: "Tía", type: "ASI" },
-    { client: "Supermaxi", type: "ASI" },
-    { client: "Santamaría", type: "ASI" },
-    { client: "Tía", type: "MAYORISTA" },
-    { client: "El Arbolito", type: "MAYORISTA" },
-    { client: "Mi Comisariato", type: "MAYORISTA" },
-  ];
   useEffect(() => {
     console.log("location from context", location);
-    /*if(location){
-      Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
-    
-    }*/
   }, [location]);
 
   /*useEffect(() => {
@@ -118,26 +134,15 @@ const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  /*useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log("Realizando peticion de datos del cliente")
-        const response = await axios.post(
-          "https://fotoexito1.azurewebsites.net/api/queryInsert?code=Pd_oqC3bfYtub9E13hybiElqLCtsPgO9FErzdxdzL-ISAzFuhWl7ug==",
-          { operation:"Q", data:{ tableName:"cliente" } },
-          { headers: { 'accept': 'application/json' } }
-        )
-        console.log("DATOS EXTRAIDOS")
-        setClient(response.data.data.dataBaseResult)
-        console.log(response.data.data.dataBaseResult)
-      } catch (e) {
-        console.log(e.response.data.message)
-        //Alert.alert("Error de inicio de sesion", e.response.data.message);
-      }
-    };
+  const validateBranchName = () => {
+    console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
+    let result = branchNames.some((item) => {
+      item.nombre_sucursal === sucursalInformation.name;
+    });
+    console.log(result);
+    return result;
+  };
 
-    fetchData();
-  }, []);*/
   /*const handleOpenModal = async () => {
     const validador = validate(sucursalInformation);
     if(validador){
@@ -174,15 +179,62 @@ const Client_Information = ({ navigation }) => {
     if (errorBranchName != "") {
       setErrorBranchName("El campo nombre de sucursal no puede estar vacio");
     }
+    let validateBranch = validateBranchName();
+    if (validateBranch) {
+      Alert.alert(
+        "El nombre de l sucursal ya ha sido registrado",
+        "No se puede realizar más de una auditoria al día"
+      );
+    }
     if (validador && errorBranchName == "") {
-      setIsModalVisible(true);
+      //setIsModalVisible(true);
       try {
         /*const location = await capturarCoordenadas(sucursalInformation);
-        const datosCompletos = { ...location };*/
-        //setDatosCompletos(datosCompletos);
-        setIsModalVisible(false);
+        const datosCompletos = { ...location };
+        setDatosCompletos(datosCompletos);
+        setIsModalVisible(false);*/
+        console.log("DATOS A GUARDAR: ", {
+          id: sucursalInformation.id,
+          nombre: sucursalInformation.name,
+          latitude: datosCompletos.latitude,
+          longitude: datosCompletos.longitude,
+          usuario: userInfo.givenName,
+          creacion: dataTime(),
+          modificacion: dataTime(),
+        });
         console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
-        navigation.navigate("briefcase");
+        let dataSave = {
+          tableName: "sucursal",
+          dataInsertType: [
+            "id_sucursal",
+            "nombre_sucursal",
+            "latitud",
+            "longitud",
+            "usuario_creacion",
+            "fecha_creacion",
+            "fecha_modificacion",
+          ],
+          dataInsert: [
+            `'${sucursalInformation.id}'`,
+            `'${sucursalInformation.name}'`,
+            datosCompletos.latitude,
+            datosCompletos.longitude,
+            `'${userInfo.givenName}'`,
+            `'${dataTime()}'`,
+            `'${dataTime()}'`,
+          ],
+        };
+        const sentence =
+          "INSERT INTO " +
+          dataSave.tableName +
+          " (" +
+          dataSave.dataInsertType.join() +
+          ") VALUES(" +
+          dataSave.dataInsert.join() +
+          ")";
+        console.log("SENTENCIA A EJECUTAR: ", sentence);
+        //db_insertGlobalDataAudit(dataSave);
+        // navigation.navigate("briefcase");
         /*if (datosCompletos.latitude) {
           navigation.navigate('briefcase');
           console.log("ENVIANDO DATOS A BASE . . . . .");

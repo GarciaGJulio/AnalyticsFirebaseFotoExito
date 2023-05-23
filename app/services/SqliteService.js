@@ -123,7 +123,7 @@ export const db_insertGlobal = async (objSentence) => {
 export const db_insertGlobalDataAudit = async (objSentence) => {
   console.log("DATOS DE OBJECT A INSERTAR: - - - - - ", objSentence);
   console.log(
-    `insertando datos en la tabla: ${objSentence.screenAudit} -----------------------------`
+    `insertando datos en la tabla: ${objSentence.tableName} -----------------------------`
   );
   //console.log();
   global.dbModerna.transaction((tx) => {
@@ -138,7 +138,7 @@ export const db_insertGlobalDataAudit = async (objSentence) => {
       [],
       () => {
         console.log(
-          "se ejecuta sentencia insert " + objSentence.screenAudit + " OK  "
+          "se ejecuta sentencia insert " + objSentence.tableName + " OK  "
         );
         console.log("Validando insercion de datos");
       },
