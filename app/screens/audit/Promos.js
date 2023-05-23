@@ -22,30 +22,38 @@ import ProgressBar from "../../components/ProgressBar";
 import FlashListPromos from "../../components/FlashListPromos";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import SAVE_ANIMATION from "../../../assets/save.json";
+import SUCCESS_ANIMATION from "../../../assets/success.json";
 import LoaderModal from "../../components/LoaderModal";
 import { realizarConsulta } from "../../common/sqlite_config";
+import DropdownPromos from "../../components/DropdownPromos";
+import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
 
 const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState("");
   const [animation, setAnimation] = useState("");
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-  const [exhibidorType, setExhibidorType] = useState([]);
+  const [branch, setBranch] = useState([]);
   const [exhibidor, setExhibidor] = useState([]);
+  const [isModalVisibleCloseSucursal, setIsModalVisibleCloseSucursal] =
+    useState(false);
   const consultarYCopiarContenido = async () => {
     try {
       // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta(
+      /*const resultadoConsulta = await realizarConsulta(
         "SELECT * FROM exhibidor_tipo"
-      );
+      );*/
 
       const resultadoConsultaExhibidor = await realizarConsulta(
         "SELECT * FROM exhibidor"
       );
 
-      const newArrayEstado = resultadoConsulta.map((objeto) => {
+      const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
         return {
-          id: objeto.id_exhibidor_tipo,
+          id: objeto.id_exhibidor,
+          id_tipo_exhibidor: objeto.id_exhibidor_tipo,
           name: objeto.nombre_tipo_exhibidor,
+          client_name: objeto.nombre_cliente,
+          sucursal: objeto.sucursal,
           url: objeto.url_imagen_exhibidor,
           state: null,
           images: {
@@ -56,78 +64,54 @@ const Promos = ({ navigation }) => {
         };
       });
 
-      const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
+      const branchSucursal = resultadoConsultaExhibidor.map((objeto) => {
         return {
-          id: objeto.id_exhibidor,
-          id_tipo_exhibidor: objeto.id_exhibidor_tipo,
-          url: objeto.url_imagen_exhibidor,
-          state: null,
-          images: {
-            image1: null,
-            image2: null,
-            image3: null,
-          },
+          key: objeto.id_exhibidor,
+          value: objeto.sucursal,
         };
       });
+
+      branchSucursal.push({
+        key: "C3V99M",
+        value: "Esta sucursal no registra plan",
+      });
+
+      setBranch([...branchSucursal]);
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
-      setExhibidorType(newArrayEstado);
-      console.log("Copia de contenido completada con éxito: ", newArrayEstado);
+      //setExhibidorType(newArrayEstado);
+      setExhibidor(newArrayExhibidor);
+      console.log(
+        "Copia de contenido completada con éxito: ",
+        newArrayExhibidor
+      );
+      console.log("BRANCH FORMATEADO: ", branchSucursal);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
   };
 
+  const validateSucursal = () => {
+    if (selected === "Esta sucursal no registra plan") {
+      setIsModalVisibleCloseSucursal(true);
+    }
+  };
+
+  useEffect(() => {
+    console.log("SUCURSAL SELECCIONADA: - - - - ", selected);
+    validateSucursal();
+  }, [selected]);
+
   useEffect(() => {
     consultarYCopiarContenido();
   }, []);
 
-  let datos = [
-    {
-      id: "I001",
-      name: "Exhibidor 1",
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-    {
-      id: "I002",
-      name: "Exhibidor 2",
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-    {
-      id: "I003",
-      name: "Exhibidor 3",
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-    {
-      id: "I004",
-      name: "Exhibidor 4",
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-  ];
-  const [data, setData] = useState([...datos]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
+  };
+  const handleCloseModalBranch = () => {
+    setIsModalVisibleCloseSucursal(false);
   };
 
   useEffect(() => {});
@@ -154,6 +138,18 @@ const Promos = ({ navigation }) => {
     }, 5000);
   };
 
+  const handleOpenModalFinishWithoutBranch = () => {
+    setAnimation(SAVE_ANIMATION);
+    setIsModalVisibleCloseSucursal(true);
+    setIsModalVisible(true);
+    setTimeout(() => {
+      setAnimation(SUCCESS_ANIMATION);
+      setIsModalVisible(false);
+      setIsModalVisibleCloseSucursal(false);
+      navigation.navigate("begin");
+    }, 3000);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -168,6 +164,14 @@ const Promos = ({ navigation }) => {
         onPress={() => navigation.goBack()}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
+      <ConfirmationModalBranch
+        visible={isModalVisibleCloseSucursal}
+        onClose={handleCloseModalBranch}
+        onPress={handleOpenModalFinishWithoutBranch}
+        warning={
+          "¿Al presionar la opción 'Aceptar', el flujo de la auditoria terminará, quiere confirmar este proceso?"
+        }
+      />
       <View style={{ flex: 1, width: "100%", backgroundColor: "blue" }}>
         <ModernaHeader />
       </View>
@@ -178,14 +182,15 @@ const Promos = ({ navigation }) => {
           text={"Selecciona la sucursal que aplica promociones"}
         />
         <View style={{ flex: 1, marginTop: 10 }}>
-          <Dropdown
+          <DropdownPromos
             placeholder={"Seleccione una sucursal"}
             setSelected={setSelected}
+            data={branch}
           />
         </View>
 
         <View style={styles.promosContent}>
-          <FlashListPromos data={data} setData={setData} />
+          <FlashListPromos data={exhibidor} setData={setExhibidor} />
         </View>
       </View>
       <DoubleStyledButton
@@ -194,7 +199,10 @@ const Promos = ({ navigation }) => {
         colorLeft={theme.colors.modernaYellow}
         iconLeft={"cancel"}
         typeLeft={"material-icon"}
-        onPressLeft={() => setIsModalVisibleClose(true)}
+        onPressLeft={() => {
+          //setText("¿Está seguro de querer cancelar el progreso actual?")
+          setIsModalVisibleClose(true);
+        }}
         titleRigth={"Finalizar"}
         sizeRigth={theme.buttonSize.df}
         iconRigth={"arrow-right-circle"}

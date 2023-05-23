@@ -9,6 +9,7 @@ import ModernaContext from "./app/context/ModernaContext";
 import Login from "./app/screens/auth/Login";
 import ModernaProvider from "./app/context/ModernaProvider";
 import { dataAxiosQuery, load_db_config } from "./app/common/sqlite_config";
+import { DataProvider } from "./app/context/DataProvider";
 
 export default function App() {
   useEffect(() => {
@@ -17,11 +18,13 @@ export default function App() {
   load_db_config();
 
   return (
-    <ModernaProvider>
-      <NavigationContainer>
-        <Navigation />
-      </NavigationContainer>
-    </ModernaProvider>
+    <DataProvider>
+      <ModernaProvider>
+        <NavigationContainer>
+          <Navigation />
+        </NavigationContainer>
+      </ModernaProvider>
+    </DataProvider>
   );
 }
 

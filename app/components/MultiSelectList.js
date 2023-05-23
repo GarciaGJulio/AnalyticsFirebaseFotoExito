@@ -1,25 +1,28 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { MultipleSelectList } from 'react-native-dropdown-select-list';
-import theme from '../theme/theme';
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { MultipleSelectList } from "react-native-dropdown-select-list";
+import theme from "../theme/theme";
 
-const MultiSelectList = ({ setComplementaryPortfolioProducts, complementaryPortfolioProducts }) => {
+const MultiSelectList = ({
+  setComplementaryPortfolioProducts,
+  complementaryPortfolioProducts,
+  products,
+}) => {
   const data = [
-    { key: '1', value: 'Mobiles', disabled: true },
-    { key: '2', value: 'Appliances' },
-    { key: '3', value: 'Cameras' },
-    { key: '4', value: 'Computers', disabled: true },
-    { key: '5', value: 'Vegetables' },
-    { key: '6', value: 'Diary Products' },
-    { key: '7', value: 'Drinks' },
-    { key: '8', value: 'Harina', disabled: true },
-    { key: '9', value: 'Fideos' },
-    { key: '10', value: 'Pan' },
-    { key: '11', value: 'Comestibles' },
+    { key: "1", value: "Mobiles", disabled: true },
+    { key: "2", value: "Appliances" },
+    { key: "3", value: "Cameras" },
+    { key: "4", value: "Computers", disabled: true },
+    { key: "5", value: "Vegetables" },
+    { key: "6", value: "Diary Products" },
+    { key: "7", value: "Drinks" },
+    { key: "8", value: "Harina", disabled: true },
+    { key: "9", value: "Fideos" },
+    { key: "10", value: "Pan" },
+    { key: "11", value: "Comestibles" },
   ];
 
-
-/*
+  /*
   const validateProducts = (value) => {
     console.log("PRODUCTO SELECCIONADO: - - - " + value);
     if (complementaryPortfolioProducts.length === 0) {
@@ -56,30 +59,25 @@ const MultiSelectList = ({ setComplementaryPortfolioProducts, complementaryPortf
   
 */
 
-
-
-
-
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>Portafolio Complementario</Text>
       <MultipleSelectList
         setSelected={(val) => {
           //setValue(val)
-          setComplementaryPortfolioProducts(val)
-        }
-        }
-        data={data}
+          setComplementaryPortfolioProducts(val);
+        }}
+        data={products}
         save="value"
-        //onSelect={() => alert(selected)} 
+        //onSelect={() => alert(selected)}
         label="Productos"
-        placeholder='Selecciona productos adicionales al portafolio'
+        placeholder="Selecciona productos adicionales al portafolio"
       />
     </ScrollView>
-  )
-}
+  );
+};
 
-export default MultiSelectList
+export default MultiSelectList;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,5 +88,5 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: theme.fontWeight.bold,
     marginVertical: 10,
-  }
-})
+  },
+});

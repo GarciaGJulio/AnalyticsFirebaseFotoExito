@@ -212,7 +212,10 @@ const Client_Information = ({ navigation }) => {
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          setIsModalVisibleClose(false);
+          navigation.goBack();
+        }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
       <LoaderModal
