@@ -119,3 +119,38 @@ export const db_insertGlobal = async (objSentence) => {
   });
   return;
 };
+
+export const db_insertGlobalDataAudit = async (objSentence) => {
+  console.log("DATOS DE OBJECT A INSERTAR: - - - - - ", objSentence);
+  console.log(
+    `insertando datos en la tabla: ${objSentence.screenAudit} -----------------------------`
+  );
+  //console.log();
+  global.dbModerna.transaction((tx) => {
+    tx.executeSql(
+      "INSERT INTO " +
+        objSentence.tableName +
+        " (" +
+        objSentence.dataInsertType.join() +
+        ") VALUES(" +
+        objSentence.dataInsert.join() +
+        ")",
+      [],
+      () => {
+        console.log(
+          "se ejecuta sentencia insert " + objSentence.screenAudit + " OK  "
+        );
+        console.log("Validando insercion de datos");
+      },
+      () => {
+        console.log("error al insertar tabla " + objSentence.tableName);
+        // if (errorFunction) {
+        //   errorFunction()
+        // }
+      }
+    );
+    /*}
+  /*});*/
+  });
+  return;
+};
