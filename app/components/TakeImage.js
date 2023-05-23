@@ -6,16 +6,48 @@ import HARINA from ".././../assets/resources/harina.png";
 import { TouchableOpacity } from "react-native";
 import { pickImages } from "../services/CameraM";
 import { Icon } from "@rneui/base";
+import { useEffect } from "react";
 
 const TakeImage = ({ setProducts, item }) => {
   const [image, setImage] = useState(
     "https://static.vecteezy.com/system/resources/thumbnails/001/198/770/small_2x/camera.png"
   );
+  const [idItem, setidItem] = useState()
   const [imageV1, setImageV1] = useState(false);
   const [imageV2, setImageV2] = useState(false);
   const [image1, setImage1] = useState("");
   const [image2, setImage2] = useState("");
   const [image3, setImage3] = useState("");
+  const [REimage1, setRemoteImage1] = useState('');
+
+
+  useEffect(() => {
+
+
+
+    console.log("Id dsde Taker:", item.id)
+    setidItem(item.id)
+
+
+},
+    []
+
+
+
+
+    
+)
+
+
+
+
+
+
+
+
+
+
+
 
   const actualizarImagen = (item, image, imagesNumber) => {
     console.log("\nENTRANDO A ACtUALIZAR IMAGEN - - - - - - - ");
@@ -67,11 +99,11 @@ const TakeImage = ({ setProducts, item }) => {
           pickImages((image1) => {
             setImage1(image1);
             actualizarImagen(item, image1, "image1");
-          });
+          },item,setRemoteImage1);
         }}
         style={styles.imageContainer}
       >
-        <Image source={{ uri: image1 ? image1 : image }} style={styles.image} />
+        <Image source={{ uri: REimage1 }} style={styles.image} />
       </TouchableOpacity>
       {imageV1 ? (
         <TouchableOpacity

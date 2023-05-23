@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker'
+import { SubirAlonedrive, onedrive } from './onedrive';
 
-export const pickImages = async (fn) => {
-  try {
+export const pickImages = async (fn,IdFoto,setImg) => {
     let resultado = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       selectionLimit: 3,
@@ -11,10 +11,9 @@ export const pickImages = async (fn) => {
     });
     console.log("Imagen Uri:", resultado.assets[0].uri);
     fn(resultado.assets[0].uri)
-  } catch (e) {
-    console.log(e)
-  }
-
-  //await setImageBase64(resultado.assets[0].uri);
-  //await SubirFoto(resultado.assets[0].uri, Idaux, setUrl);
-};
+    console.log("dESDE cAMERA iD",IdFoto)
+    setImg( await SubirAlonedrive(resultado.assets[0].uri,IdFoto.id))
+    // console.log("Desde el Camera",await SubirAlonedrive(resultado.assets[0].uri,IdFoto))
+    //await setImageBase64(resultado.assets[0].uri);
+    //await SubirFoto(resultado.assets[0].uri, Idaux, setUrl);
+  };
