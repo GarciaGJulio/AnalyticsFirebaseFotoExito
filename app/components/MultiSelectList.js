@@ -1,27 +1,15 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 
 const MultiSelectList = ({
   setComplementaryPortfolioProducts,
   complementaryPortfolioProducts,
+  auxiliarArray,
   products,
 }) => {
-  const data = [
-    { key: "1", value: "Mobiles", disabled: true },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers", disabled: true },
-    { key: "5", value: "Vegetables" },
-    { key: "6", value: "Diary Products" },
-    { key: "7", value: "Drinks" },
-    { key: "8", value: "Harina", disabled: true },
-    { key: "9", value: "Fideos" },
-    { key: "10", value: "Pan" },
-    { key: "11", value: "Comestibles" },
-  ];
-
+  const [select, setSelected] = useState([]);
   /*
   const validateProducts = (value) => {
     console.log("PRODUCTO SELECCIONADO: - - - " + value);
@@ -59,13 +47,85 @@ const MultiSelectList = ({
   
 */
 
+  /*const updateObject = (select) => {
+    setComplementaryPortfolioProducts(
+      select.map((obj) => {
+        const myString = obj;
+        const valores = myString.split("-");
+        const valor1 = valores[0];
+        const valor2 = valores[1];
+        let newObject = {
+          id: valor2,
+          name: valor1,
+          price: null,
+          state: false,
+          images: {
+            image1: null,
+            image2: null,
+            image3: null,
+          },
+        };
+        console.log("OBJETO FORMATEADO: ", newObject);
+        return newObject;
+      })
+    );
+  };*/
+
+  const updateObject = (select) => {
+    const newArray = auxiliarArray.filter((obj) => {
+      console.log("ARRAY A COMPARAR: ", obj);
+      const concatenatedValue = `${obj.name}-${obj.id}`;
+      return select.includes(concatenatedValue);
+    });
+    setComplementaryPortfolioProducts([...newArray]);
+    console.log("ARRAY DE VALORES ENCONTRADOS: ", newArray);
+  };
+
+  useEffect(() => {
+    console.log(JSON.stringify(select));
+    updateObject(select);
+  }, [select]);
+
+  const addProduct = (value) => {
+    console.log("NOMBRE DEL PRODUCTO QUE ENTRA: ", value);
+
+    // Buscar el objeto correspondiente al producto seleccionado
+    /*let productData = select.find((obj) => {
+      console.log("OBJETO DE COMPARACION: ",obj.nombre_producto + "-" + obj.id_producto)
+      return (obj.nombre_producto + "-" + obj.id_producto) === value;
+    });
+
+    if (productData) {
+      // Si se encuentra el objeto, obtener los valores de id_producto y mombre_producto
+      let newObject = {
+        id: productData.id_producto,
+        name: productData.nombre_producto,
+        price: null,
+        state: false,
+        images: {
+          image1: null,
+          image2: null,
+          image3: null,
+        },
+      };
+
+      console.log("PRODUCTO COMPLEMENTARIO FORMATEADO: ", newObject);
+    } else {
+      console.log(
+        "No se encontró el producto seleccionado en complementaryPortfolioProducts"
+      );
+    }*/
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>Portafolio Complementario</Text>
       <MultipleSelectList
         setSelected={(val) => {
           //setValue(val)
-          setComplementaryPortfolioProducts(val);
+          //addProduct(val);
+          setSelected(val);
+          //setComplementaryPortfolioProducts(val);
         }}
         data={products}
         save="value"

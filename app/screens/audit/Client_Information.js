@@ -137,7 +137,9 @@ const Client_Information = ({ navigation }) => {
   const validateBranchName = () => {
     console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
     let result = branchNames.some((item) => {
-      item.nombre_sucursal === sucursalInformation.name;
+      console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
+      console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
+      return item.nombre_sucursal === sucursalInformation.name;
     });
     console.log(result);
     return result;
@@ -182,11 +184,11 @@ const Client_Information = ({ navigation }) => {
     let validateBranch = validateBranchName();
     if (validateBranch) {
       Alert.alert(
-        "El nombre de l sucursal ya ha sido registrado",
+        "El nombre de la sucursal ya ha sido registrado",
         "No se puede realizar más de una auditoria al día"
       );
     }
-    if (validador && errorBranchName == "") {
+    if (validador && errorBranchName == "" && !validateBranch) {
       //setIsModalVisible(true);
       try {
         /*const location = await capturarCoordenadas(sucursalInformation);
@@ -241,6 +243,7 @@ const Client_Information = ({ navigation }) => {
         } else {
           alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION");
         }*/
+        navigation.navigate("briefcase");
       } catch (error) {
         console.log(error);
         setIsModalVisible(false);

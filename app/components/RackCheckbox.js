@@ -194,10 +194,11 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             <Image
               style={{
                 flex: 1,
-                width: "90%",
-                height: 200,
-                margin: 10,
-                marginVertical: 10,
+                width: "100%",
+                height: 150,
+                //margin: 10,
+                marginTop: 10,
+                resizeMode: "stretch",
               }}
               source={{
                 uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
@@ -210,6 +211,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
               alignItems: "center",
               right: 10,
               justifyContent: "center",
+              flex: 1,
             }}
           >
             <CheckBox
@@ -253,7 +255,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             <Text>No cumple</Text>
           </View>
           {check1 ? (
-            <View style={{ paddingHorizontal: 25 }}>
+            <View style={{ paddingHorizontal: 25, flex: 1 }}>
               <TakeImage setProducts={setData} item={item} />
             </View>
           ) : (
@@ -278,7 +280,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "red",
     shadowColor: "#000",
     //marginHorizontal: 5,
-    marginVertical: 10,
+    marginVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
   },
@@ -299,13 +301,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    fontWeight: theme.fontWeight.light,
+    fontWeight: theme.fontWeight.normal,
     textAlign: "center",
   },
   imageContainer: {
     //backgroundColor:'yellow',
     flex: 1,
     alignItems: "center",
-    padding: 10,
+    paddingHorizontal: 10,
   },
 });

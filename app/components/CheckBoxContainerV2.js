@@ -29,18 +29,20 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
   };
 
   const acceptModal = () => {
-    actualizarEstado(item, check2);
-    setCheck1(!check1);
-    setCheck2(!check2);
+    actualizarEstado(item, false);
+    //setCheck1(!check1);
+    //setCheck2(!check2);
     setIsModalVisible(false);
-    setDisabled1(!disabled1);
-    setDisabled2(!disabled2);
+    //setDisabled1(!disabled1);
+    //setDisabled2(!disabled2);
+    //setState(!state);
   };
 
   const actualizarEstado = (item, state) => {
     console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ");
     console.log("PRODUCTO: ", item);
     console.log("ESTADO: ", state);
+    setState(state);
     setProducts((products) => {
       // Obtén una copia del array actual
       const productosActualizados = [...products];
@@ -96,7 +98,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <Image
-            source={HARINA}
+            source={{ uri: item.url + "/image.png" }}
             style={{ width: 75, height: 75, resizeMode: "cover" }}
           />
         </View>
@@ -126,7 +128,10 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
               //label="Example label"
               //labelStyle={{ color: "black", fontWeight: "900" }}
               size="small"
-              onToggle={() => setState(!state)}
+              onToggle={() => {
+                console.log("CAMBIA A: ", !state);
+                !state ? actualizarEstado(item, !state) : handleOpenModal();
+              }}
             />
           </View>
           {/*<View

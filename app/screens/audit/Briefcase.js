@@ -34,6 +34,7 @@ const Briefcase = ({ navigation }) => {
   const [allProducts, setAllProducts] = useState([]);
   const [complementaryPortfolioProducts, setComplementaryPortfolioProducts] =
     useState([]);
+  const [auxiliarArray, setAuxiliarArray] = useState([]);
   const [currentStep] = useState(0);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
 
@@ -71,6 +72,23 @@ const Briefcase = ({ navigation }) => {
         "SELECT * FROM producto"
       );
 
+      const newAuxiliarArray = resultadoConsulta.map((objeto) => {
+        return {
+          id: objeto.id_producto,
+          name: objeto.nombre_producto,
+          url: convertImageUrl(objeto.imagen_producto),
+          price: null,
+          state: false,
+          images: {
+            image1: null,
+            image2: null,
+            image3: null,
+          },
+        };
+      });
+
+      setAuxiliarArray([...newAuxiliarArray]);
+
       const newArrayEstado = resultadoConsulta.map((objeto) => {
         return {
           id: objeto.id_producto,
@@ -97,7 +115,7 @@ const Briefcase = ({ navigation }) => {
       //setCategory(newArrayEstado);
       console.log(
         "Copia de contenido completada con éxito - PRODUCTOS: ",
-        products
+        resultadoConsulta
       );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
@@ -185,6 +203,7 @@ const Briefcase = ({ navigation }) => {
             setComplementaryPortfolioProducts={
               setComplementaryPortfolioProducts
             }
+            auxiliarArray={auxiliarArray}
             products={allProducts}
             complementaryPortfolioProducts={complementaryPortfolioProducts}
           />

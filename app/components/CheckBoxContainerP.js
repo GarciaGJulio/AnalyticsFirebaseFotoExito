@@ -58,7 +58,7 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
   };
 
   return (
-    <View style={[styles.container, { height: check1 ? 460 : 150 }]}>
+    <View style={[styles.container]}>
       <ConfirmationModal
         visible={isModalVisible}
         onClose={handleCloseModal}
@@ -68,12 +68,14 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
         }
       />
       <View style={styles.primaryContainer}>
-        <Image
-          source={{
-            uri: "https://media.informabtl.com/wp-content/uploads/2019/10/d620c905-material-pop-exhibidor-temporal.jpg",
-          }}
-          style={{ width: 100, height: 100 }}
-        />
+        <View style={{ justifyContent: "center" }}>
+          <Image
+            source={{
+              uri: item.url,
+            }}
+            style={{ width: 100, height: 100 }}
+          />
+        </View>
         <View style={styles.descriptionContainer}>
           <Text style={{ fontSize: 13 }}>{productName}</Text>
           <Text style={{ marginHorizontal: 10, marginTop: 5, fontSize: 11 }}>
@@ -84,7 +86,8 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
               flexDirection: "row",
               alignItems: "center",
               right: 10,
-              //flex: 1,
+              //backgroundColor: "red",
+              flex: 1,
             }}
           >
             <CheckBox
@@ -131,14 +134,16 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
       </View>
       {check1 ? (
         <View style={styles.secondaryContainer}>
-          <View style={{ padding: 10, flex: 1 }}>
-            <Image
-              source={{
-                uri: "https://media.informabtl.com/wp-content/uploads/2019/10/d620c905-material-pop-exhibidor-temporal.jpg",
-              }}
-              style={{ width: "100%", height: "55%" }}
-            />
-            <View style={{ marginTop: 15, flex: 1 }}>
+          <View style={{ padding: 10, flex: 2 }}>
+            <View style={{ flex: 1.2, backgroundColor: "red" }}>
+              <Image
+                source={{
+                  uri: "https://media.informabtl.com/wp-content/uploads/2019/10/d620c905-material-pop-exhibidor-temporal.jpg",
+                }}
+                style={{ resizeMode: "stretch", width: "100%", height: 200 }}
+              />
+            </View>
+            <View style={{ flex: 1.2 }}>
               <TakeImage setProducts={setData} item={item} />
             </View>
           </View>
@@ -157,27 +162,28 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 20,
     marginVertical: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     backgroundColor: theme.colors.lightgray,
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
+    //width: "100%",
   },
   descriptionContainer: {
     marginLeft: 5,
-    //backgroundColor:'orange',
+    //backgroundColor: "orange",
     flex: 1,
     padding: 10,
   },
   primaryContainer: {
     flexDirection: "row",
-    //backgroundColor:'blue',
+    //backgroundColor: "blue",
+    flex: 1,
     width: "90%",
   },
   secondaryContainer: {
-    //backgroundColor:'brown',
+    //backgroundColor: "brown",
     flex: 1,
-    height: 290,
+    //height: 290,
     width: "90%",
   },
 });

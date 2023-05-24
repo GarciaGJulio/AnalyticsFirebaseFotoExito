@@ -1,4 +1,5 @@
 import {
+  Alert,
   BackHandler,
   Image,
   ImageBackground,
@@ -27,9 +28,10 @@ import LoaderModal from "../../components/LoaderModal";
 import { realizarConsulta } from "../../common/sqlite_config";
 import DropdownPromos from "../../components/DropdownPromos";
 import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
+import { convertImageUrl } from "../../services/convertUrl";
 
 const Promos = ({ navigation }) => {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(null);
   const [animation, setAnimation] = useState("");
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [branch, setBranch] = useState([]);
@@ -54,7 +56,7 @@ const Promos = ({ navigation }) => {
           name: objeto.nombre_tipo_exhibidor,
           client_name: objeto.nombre_cliente,
           sucursal: objeto.sucursal,
-          url: objeto.url_imagen_exhibidor,
+          url: convertImageUrl(objeto.url_imagen_exhibidor) + "/exhibidor.jpg",
           state: null,
           images: {
             image1: null,
@@ -150,6 +152,36 @@ const Promos = ({ navigation }) => {
     }, 3000);
   };
 
+  const validate = () => {
+    console.log("VALIDACION DE DATOS DE PERCHAS: ", exhibidor);
+    const isValid = exhibidor.every((item) => {
+      if (item.state === null || selected === null) {
+        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        return false;
+      }
+      if (item.state === true) {
+        if (!item.images || item.images.image1 === null) {
+          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+          return false;
+        }
+      }
+      return true;
+    });
+
+    if (!isValid) {
+      Alert.alert(
+        "Error al completar los datos",
+        "Necesita marcar el valor de las promociones de cada exhibidor"
+      );
+      //navigation.navigate('rack');
+      console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(exhibidor));
+    } else {
+      console.log("TODO BIEN");
+      //navigation.navigate('rack');
+      navigation.navigate("begin");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -208,7 +240,7 @@ const Promos = ({ navigation }) => {
         iconRigth={"arrow-right-circle"}
         typeRigth={"feather"}
         colorRigth={theme.colors.modernaRed}
-        onPressRigth={handleOpenModalFinish}
+        onPressRigth={validate}
       />
     </View>
   );

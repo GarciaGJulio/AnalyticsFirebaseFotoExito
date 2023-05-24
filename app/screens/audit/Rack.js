@@ -90,61 +90,6 @@ const Racks = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  /*let datos = [
-    {
-      id: "I001",
-      name: "Pan",
-      carasGeneral: null,
-      carasModerna: null,
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-    {
-      id: "I002",
-      name: "Harina",
-      carasGeneral: null,
-      carasModerna: null,
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-    {
-      id: "I003",
-      name: "Avena",
-      carasGeneral: null,
-      carasModerna: null,
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-    {
-      id: "I004",
-      name: "Arroz",
-      carasGeneral: null,
-      carasModerna: null,
-      state: null,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    },
-  ];*/
-  // const [data, setData] = useState([...category]);
-
-  /*useEffect(() => {
-    console.log("DATA", data);
-  }, [category])*;*/
   const validate = () => {
     console.log("VALIDACION DE DATOS DE PERCHAS: ", category);
     const isValid = category.every((item) => {

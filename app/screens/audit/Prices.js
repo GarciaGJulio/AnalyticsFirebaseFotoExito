@@ -29,19 +29,6 @@ const Prices = ({ navigation, route }) => {
   );
   const [newIdealPortfolio, setNewIdealPortfolio] = useState([]);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-  const data = [
-    { id: "1", name: "Mobiles", disabled: true },
-    { id: "2", name: "Appliances" },
-    { id: "3", name: "Cameras" },
-    { id: "4", name: "Computers", disabled: true },
-    { id: "5", name: "Vegetables" },
-    { id: "6", name: "Diary Products" },
-    { id: "7", name: "Drinks" },
-    { id: "8", name: "Harina", disabled: true },
-    { id: "9", name: "Fideos" },
-    { id: "10", name: "Pan" },
-    { id: "11", name: "Comestibles" },
-  ];
 
   const { complementaryPortfolioProducts, idealPortfolioProducts } =
     route.params;
@@ -64,35 +51,15 @@ const Prices = ({ navigation, route }) => {
 
   useEffect(() => {
     const getNewArrays = () => {
-      /*const filteredItems = complementaryPortfolioProducts.filter(item =>
-        data.some(compareItem => compareItem.name === item)
-      );*/
-      /*const filteredItems = data.filter(compareItem =>
-        complementaryPortfolioProducts.some(item => item === compareItem.name)
-      );*/
-
-      const filteredItems = data
-        .filter((compareItem) =>
-          complementaryPortfolioProducts.some(
-            (item) => item === compareItem.name
-          )
-        )
-        .map((item) => ({
-          ...item,
-          price: null,
-          state: false,
-          images: {
-            image1: null,
-            image2: null,
-            image3: null,
-          },
-        }));
-      setNewComplementaryPortfolio([...filteredItems]);
+      setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
       setNewIdealPortfolio([...idealPortfolioProducts]);
-      console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
+      //console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
       console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
       console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
-      console.log("PORTAFOLIO COMPLEMENTARIO: ", JSON.stringify(filteredItems));
+      console.log(
+        "PORTAFOLIO COMPLEMENTARIO: ",
+        JSON.stringify(newComplementaryPortfolio)
+      );
     };
 
     getNewArrays();
