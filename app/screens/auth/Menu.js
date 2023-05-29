@@ -13,11 +13,12 @@ import DOWNLOAD_ANIMATION from '../../../assets/download.json'
 import NetInfo from '@react-native-community/netinfo';
 import ModernaContext from '../../context/ModernaContext'
 import { Cli, GraphInit } from '../../azureConfig/graph/GraphManager'
+import { useFonts } from 'expo-font'
 const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [animation, setAnimation] = useState("");
-  const [isConnected,setIsConnected] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
   //const { isConnected } = useContext(ModernaContext);
 
   useEffect(() => {
@@ -97,26 +98,60 @@ const Menu = ({ navigation }) => {
     }, 5000);
   };
 
+  const [fontLoaded] = useFonts({
+    Metropolis: require('../../../assets/font/Metropolis-Regular.otf'),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if(!fontLoaded) return null
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
       <LoaderModal animation={animation} visible={isModalVisible} warning={modalMessage} />
+
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
+
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover' imageStyle={{ opacity: 0.20 }}>
-          <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
-          <StyledButton title={'Sincronizar Datos'} buttonColor={theme.colors.modernaYellow} onPress={handleOpenModal} size={theme.buttonSize.lg} iconName={'cloud-sync'} iconType={'material-community'} />
-        </ImageBackground>
-        <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover' imageStyle={{ opacity: 0.20 }}>
-          <Text style={styles.text}>Descarga los datos para empezar una nueva auditoría.</Text>
-          <StyledButton title={'Realizar Auditoria'} buttonColor={theme.colors.modernaRed} onPress={handleOpenModalAudit} size={theme.buttonSize.lg} iconName={'clipboard'} iconType={'entypo'} />
-        </ImageBackground>
-        <ImageBackground style={styles.cardContainer} source={SYNC_BACKGROUND} resizeMode='cover' imageStyle={{ opacity: 0.20 }}>
-          <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
-          <StyledButton title={'Consultar Auditorias'} buttonColor={theme.colors.modernaGreen} onPress={() => navigation.navigate('listBranch')} size={theme.buttonSize.lg} iconName={'select-search'} iconType={'material-community'} />
-        </ImageBackground>
+        <View style={{ flexDirection: 'row', flex: 1, margin: 5, }}>
+          <View style={{
+            flex: 1, justifyContent: 'center',
+            alignItems: 'center',marginHorizontal:5
+          }}>
+            <StyledButton title={'Sincronizar Datos'} buttonColor={theme.colors.modernaYellow} onPress={handleOpenModal} size={theme.buttonSize.sm} iconName={'cloud-sync'} iconType={'material-community'} />
+          </View>
+          <View style={{ flex: 1.7, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderRadius: 10, marginLeft: 5 }}>
+            <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
+          </View>
+        </View>
+
+        <View style={{ flexDirection: 'row', flex: 1, margin: 5 }}>
+          <View style={{
+            flex: 1, justifyContent: 'center',
+            alignItems: 'center',marginHorizontal:5
+          }}>
+            <StyledButton title={'Realizar Auditoria'} buttonColor={theme.colors.modernaRed} onPress={handleOpenModalAudit} size={theme.buttonSize.sm} iconName={'clipboard'} iconType={'entypo'} />
+          </View>
+          <View style={{ flex: 1.7, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderRadius: 10, marginLeft: 5 }}>
+            <Text style={styles.text}>Descarga los datos para empezar una nueva auditoría.</Text>
+          </View>
+        </View>
+
+        <View style={{ flexDirection: 'row', flex: 1, margin: 5 }}>
+          <View style={{
+            flex: 1, justifyContent: 'center',
+            alignItems: 'center',marginHorizontal:5
+          }}>
+            <StyledButton title={'Consultar Auditorias'} buttonColor={theme.colors.modernaGreen} onPress={() => navigation.navigate('listBranch')} size={theme.buttonSize.sm} iconName={'select-search'} iconType={'material-community'} />
+          </View>
+          <View style={{ flex: 1.7, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderRadius: 10, marginLeft: 5}}>
+            <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
+          </View>
+        </View>
+
+
       </Animatable.View>
     </View>
   )
@@ -132,36 +167,45 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 313,
-    height: 112,
-    resizeMode: 'cover'
+
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain'
   },
   imageContainer: {
-    bottom: '35%'
-  },
-  contentContainer: {
+    flex: 1,
     width: theme.dimensions.maxWidth,
-    height: 536,
+    //bottom: '35%',
+    //backgroundColor:'blue',
+    //alignItems:'center',
+    //justifyContent:'center'
+  },
+  /*contentContainer: {
+    width: theme.dimensions.maxWidth,
+    //height: 536,
+    flex: 3,
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: 0,
+    //bottom: 0,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  cardContainer: {
-    width: 320,
-    height: 160,
-    overflow: 'hidden',
-    borderWidth: 1,
-    marginVertical: 5,
-    borderRadius: 15,
-    justifyContent: 'space-around',
+  },*/
+  contentContainer: {
+    flex: 1.5,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    backgroundColor: 'white',
     alignItems: 'center',
-    padding: 5,
+    justifyContent: 'center',
+    //padding:5,
+    paddingVertical: 20
   },
   text: {
-    fontWeight: theme.fontWeight.bold,
+    fontWeight: theme.fontWeight.softbold,
+    fontSize: 18,
+    fontFamily:'Metropolis',
+    //textAlign:'justify'
   }
 })

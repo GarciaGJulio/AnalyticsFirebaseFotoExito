@@ -5,6 +5,7 @@ import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-bl
 import * as Animatable from "react-native-animatable";
 import ItemBranch_Review from "../../components/ItemBranch_Review";
 import { realizarConsulta } from "../../common/sqlite_config";
+import { useFonts } from "expo-font";
 
 const ListBranch = () => {
   const [audit, setAudit] = useState([]);
@@ -36,6 +37,13 @@ const ListBranch = () => {
   useEffect(() => {
     consultarYCopiarContenido();
   }, []);
+
+  const [fontLoaded] = useFonts({
+    Metropolis: require('../../../assets/font/Metropolis-Regular.otf'),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if(!fontLoaded) return null
 
   return (
     <View style={styles.container}>
@@ -70,23 +78,41 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 313,
-    height: 112,
-    resizeMode: "cover",
+
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain'
   },
   imageContainer: {
-    bottom: "35%",
-  },
-  contentContainer: {
+    flex: 1,
     width: theme.dimensions.maxWidth,
-    height: 536,
-    backgroundColor: "white",
-    position: "absolute",
-    bottom: 0,
+    //bottom: '35%',
+    //backgroundColor:'blue',
+    //alignItems:'center',
+    //justifyContent:'center'
+  },
+  /*contentContainer: {
+    width: theme.dimensions.maxWidth,
+    //height: 536,
+    flex: 3,
+    backgroundColor: 'white',
+    position: 'absolute',
+    //bottom: 0,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center'
+  },*/
+  contentContainer: {
+    flex: 1.5,
+    width: theme.dimensions.maxWidth,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //padding:5,
+    //paddingVertical: 20
   },
   contentContainerBranch: {
     margin: 1,
@@ -98,5 +124,6 @@ const styles = StyleSheet.create({
     padding: 13,
     fontSize: theme.fontSize.subtitle,
     marginBottom: 25,
+    fontFamily:'Metropolis'
   },
 });

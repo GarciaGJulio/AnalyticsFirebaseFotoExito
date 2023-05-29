@@ -23,11 +23,13 @@ import { db_insertPercha } from "../../services/SqliteService";
 import { lookForPerchas } from "../../services/SeleccionesService";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
   const [valueModerna, setValueModerna] = useState();
   const [category, setCategory] = useState([]);
+  const [rack, setRack] = useState([]);
   const [checked, setChecked] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
@@ -38,11 +40,25 @@ const Racks = ({ navigation }) => {
   };
 
   const consultarYCopiarContenido = async () => {
+    const idGroupClient = await AsyncStorage.getItem("idGroupClient")
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
         "SELECT * FROM categoria"
       );
+
+      const resultadoConsultaPlanograma = await realizarConsulta(
+        "SELECT * FROM planograma"
+      );
+      const planogramaFiltro = resultadoConsultaPlanograma
+        .filter(objeto => objeto.id_grupo_cliente === idGroupClient)
+        .map(objeto => {
+          return {
+            id: objeto.id_categoria,
+            name: objeto.nombre_categoria,
+            images: [objeto.url_imagen1, objeto.url_imagen2, objeto.url_imagen3]
+          };
+        });
 
       const newArrayEstado = resultadoConsulta.map((objeto) => {
         return {
@@ -61,7 +77,9 @@ const Racks = ({ navigation }) => {
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
       setCategory(newArrayEstado);
+      setRack(planogramaFiltro)
       console.log("Copia de contenido completada con éxito: ", newArrayEstado);
+      console.log("ARRAY DE PLANOGRAMA: ", planogramaFiltro);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -146,7 +164,7 @@ const Racks = ({ navigation }) => {
           }
         />
         <View style={styles.cardContainer}>
-          <TarjPercha data={category} setData={setCategory} view={"audit"} />
+          <TarjPercha data={category} rack={rack} setRack={setRack} setData={setCategory} view={"audit"} />
         </View>
       </View>
       <DoubleStyledButton

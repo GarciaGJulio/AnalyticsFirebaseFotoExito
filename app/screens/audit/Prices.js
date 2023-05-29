@@ -144,20 +144,22 @@ const Prices = ({ navigation, route }) => {
             setProducts={setNewComplementaryPortfolio}
           />
         </View>
-        <DoubleStyledButton
-          titleLeft={"Cancelar"}
-          sizeLeft={theme.buttonSize.df}
-          colorLeft={theme.colors.modernaYellow}
-          iconLeft={"cancel"}
-          typeLeft={"material-icon"}
-          onPressLeft={() => setIsModalVisibleClose(true)}
-          titleRigth={"Siguiente"}
-          sizeRigth={theme.buttonSize.df}
-          iconRigth={"arrow-right-circle"}
-          typeRigth={"feather"}
-          colorRigth={theme.colors.modernaRed}
-          onPressRigth={validateArrays}
-        />
+        <View style={{flex:0.5,width:'100%'}}>
+          <DoubleStyledButton
+            titleLeft={"Cancelar"}
+            sizeLeft={theme.buttonSize.df}
+            colorLeft={theme.colors.modernaYellow}
+            iconLeft={"cancel"}
+            typeLeft={"material-icon"}
+            onPressLeft={() => setIsModalVisibleClose(true)}
+            titleRigth={"Siguiente"}
+            sizeRigth={theme.buttonSize.df}
+            iconRigth={"arrow-right-circle"}
+            typeRigth={"feather"}
+            colorRigth={theme.colors.modernaRed}
+            onPressRigth={validateArrays}
+          />
+        </View>
       </View>
     </View>
   );

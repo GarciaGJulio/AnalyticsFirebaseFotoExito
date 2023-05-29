@@ -8,7 +8,7 @@ export const dataParameters = {
         "longitud",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -19,7 +19,7 @@ export const dataParameters = {
         "nombre_tipo_cliente",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -29,7 +29,7 @@ export const dataParameters = {
         "nombre_grupo_cliente",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -41,6 +41,8 @@ export const dataParameters = {
         "usuario_creacion",
         "fecha_creacion",
         "fecha_modificacion",
+        "id_grupo_cliente",
+        "nombre_grupo_cliente"
       ],
       foreingFields: [
         {
@@ -50,8 +52,15 @@ export const dataParameters = {
         },
       ],
     },
-    promociones: {
-      data: ["id_promociones", "id_exhibidor", "id_auditoria", "estado_promo"],
+    promocion: {
+      data: [
+        "id_promocion",
+        "id_exhibidor",
+        "estado_promocion",
+        "url_imagen1",
+        "url_imagen2",
+        "url_imagen3"
+      ],
       foreingFields: [],
     },
     auditoria: {
@@ -59,10 +68,9 @@ export const dataParameters = {
         "id_auditoria",
         "id_preciador",
         "id_percha",
-        "id_promociones",
+        "id_promocion",
         "id_sucursal",
-        "cliente",
-        "tipo_cliente",
+        "id_cliente"
       ],
       foreingFields: [],
     },
@@ -70,34 +78,15 @@ export const dataParameters = {
       data: [
         "id_percha",
         "id_categoria",
-        "id_auditoria",
         "estado_percha",
         "categoria_general",
         "categoria_moderna",
+        "url_imagen1",
+        "url_imagen2",
+        "url_imagen3",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
-      ],
-      foreingFields: [],
-    },
-    imagen_aplicacion_movil_2: {
-      data: [
-        "idimageappmobile2",
-        "id_percha",
-        "url_percha_imagen1",
-        "url_percha_imagen2",
-        "url_percha_imagen3",
-      ],
-      foreingFields: [],
-    },
-    imagen_aplicacion_movil: {
-      data: [
-        "id_imagen_aplicacion_movil",
-        "id_preciador_portafolio_ideal",
-        "id_preciador_portafolio_complementario",
-        "url_preciador_imagen1",
-        "url_preciador_imagen2",
-        "url_preciador_imagen3",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -105,8 +94,7 @@ export const dataParameters = {
       data: [
         "id_preciador",
         "id_preciador_portafolio_complementario",
-        "id_auditoria",
-        "pre_id_preciador_portafolio_ideal",
+        "id_preciador_portafolio_ideal"
       ],
       foreingFields: [],
     },
@@ -114,8 +102,7 @@ export const dataParameters = {
       data: [
         "id_portafolio_complementario",
         "id_producto",
-        "id_preciador_portafolio_complementario",
-        "estado_portafolio_complementario",
+        "estado_portafolio_complementario"
       ],
       foreingFields: [],
     },
@@ -123,23 +110,28 @@ export const dataParameters = {
       data: [
         "id_preciador_portafolio_complementario",
         "id_portafolio_complementario",
-        "id_preciador",
-        "preciador_portafolio_complementario",
+        "precio_portafolio_complementario",
         "estado_preciador_complementario",
+        "url_imagen1",
+        "url_imagen2",
+        "url_imagen3",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
     preciador_portafolio_ideal: {
       data: [
         "id_preciador_portafolio_ideal",
-        "preciador_portafolio_ideal",
+        "precio_portafolio_ideal",
         "estado_preciador_ideal",
+        "url_imagen1",
+        "url_imagen2",
+        "url_imagen3",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -153,7 +145,7 @@ export const dataParameters = {
         "mes_exhibidor",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [
         {
@@ -175,7 +167,7 @@ export const dataParameters = {
         "url_imagen_exhibidor",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -185,7 +177,7 @@ export const dataParameters = {
         "nombre_categoria",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -193,13 +185,12 @@ export const dataParameters = {
       data: [
         "id_producto",
         "id_categoria",
-        "id_portafolio_complementario",
         "nombre_producto",
-        "imagen_producto",
+        "url_imagen_producto",
         "precio",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
+        "fecha_modificacion"
       ],
       foreingFields: [],
     },
@@ -207,71 +198,38 @@ export const dataParameters = {
       data: [
         "id_portafolio_ideal",
         "id_producto",
-        "id_portafolio_ideal_auditoria",
+        "id_grupo_cliente",
       ],
-      foreingFields: [],
+      "foreingFields": [
+        {
+          "tableName": "producto",
+          "data": [
+            "id_categoria",
+            "nombre_producto",
+            "url_imagen_producto"
+          ],
+          "foreingKey": "id_producto"
+        }
+      ]
     },
     planograma: {
-      data: ["id_planograma", "id_categoria", "id_grupo_cliente"],
-      foreingFields: [],
-    },
-    imagen_planograma: {
       data: [
-        "id_imagen",
         "id_planograma",
-        "url_imagen_planograma_1",
-        "url_imagen_planograma_2",
-        "url_imagen_planograma_3",
-        "usuario_creacion",
-        "fecha_creacion",
-        "fecha_modificacion",
-      ],
-      foreingFields: [],
-    },
-  },
-};
-
-export const dataPrueba = {
-  data: {
-    sucursal: [
-      "id_sucursal",
-      "nombre_sucursal",
-      "latitud",
-      "longitud",
-      "usuario_creacion",
-      "fecha_creacion",
-      "fecha_modificacion",
-    ],
-    tipo_cliente: {
-      data: [
-        "id_tipo_cliente",
+        "id_categoria",
         "id_grupo_cliente",
-        "nombre_tipo_cliente",
-        "usuario_creacion",
-        "fecha_creacion",
-        "fecha_modificacion",
+        "url_imagen1",
+        "url_imagen2",
+        "url_imagen3"
       ],
       foreingFields: [
         {
-          tableName: "grupo_cliente",
-          data: ["nombre_grupo_cliente"],
-        },
+          "tableName": "categoria",
+          "data": [
+            "nombre_categoria"
+          ],
+          "foreingKey": "id_categoria"
+        }
       ],
     },
-    grupo_cliente: [
-      "id_grupo_cliente",
-      "nombre_grupo_cliente",
-      "usuario_creacion",
-      "fecha_creacion",
-      "fecha_modificacion",
-    ],
-    cliente: [
-      "id_cliente",
-      "id_tipo_cliente",
-      "nombre_cliente",
-      "usuario_creacion",
-      "fecha_creacion",
-      "fecha_modificacion",
-    ],
   },
 };

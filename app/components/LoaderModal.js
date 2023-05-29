@@ -4,9 +4,19 @@ import DoubleStyledButton from './DoubleStyledButton'
 import LOGOTIPO from '../../assets/moderna/Logotipo-original.png'
 import theme from '../theme/theme'
 import AnimatedLottieView from 'lottie-react-native'
+import { useFonts } from 'expo-font'
 
 
 const LoaderModal = ({visible, children,warning,animation }) => {
+
+  const [fontLoaded] = useFonts({
+    Metropolis: require('../../assets/font/Metropolis-Regular.otf'),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if(!fontLoaded) return null
+
+
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -20,7 +30,7 @@ const LoaderModal = ({visible, children,warning,animation }) => {
             alignItems:'center'
           }}
         >
-          <Text style={{margin:20,fontSize:20}}>{warning}</Text>
+          <Text style={{margin:10,fontSize:20,fontFamily:'Metropolis'}}>{warning}</Text>
           <View style={{height:150,width:450}}>
             <AnimatedLottieView source={animation} autoPlay loop />
           </View>

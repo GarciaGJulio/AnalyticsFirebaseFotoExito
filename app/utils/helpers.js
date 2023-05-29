@@ -22,28 +22,23 @@ export const validateNameBranch2 = (name, fn) => {
   }
 
   export const validateNameBranch = (name, fn) => {
-
-    if (name == "" || name == null) {
-      console.log("INFO name INVALIDA")
-      fn("El campo nombre  no puede estar vacio")
-  
+    if (name.trim() === "") {
+      fn("El campo nombre no puede estar vacío");
+    } else if (/[!@#$%^&*(),.?":{}|<>]/.test(name)) {
+      fn("El campo nombre no puede contener caracteres especiales");
+    } else if (/([A-Za-z0-9])\1\1/.test(name)) {
+      fn("El campo nombre no puede contener tres caracteres consecutivos iguales");
+    } else if (/[a-z]/.test(name)) {
+      fn("El campo nombre no puede contener caracteres en minúsculas");
+    } else if (/\s$/.test(name)) {
+      fn("El campo nombre no puede tener espacios al final");
+    } else if (name.length < 8) {
+      fn("El campo nombre no puede tener 8 o menos dígitos");
     } else {
-        let regex = new RegExp(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/);
-        if (!regex.test(name)) {
-          console.log("Nombre de sucursal no valido");
-          fn("El campo nombre de sucursal no puede contener caracteres especiales o espacios al final");
-          return false;
-        } else {
-          if (name.length < 8) {
-            fn("El campo nombre no puede tener 8 o menos dígitos")
-          } else {
-          console.log(" - - - - Nombre de sucursal valido");
-          fn("");
-          }
-      }
+      fn("");
     }
-  }
-
+  };
+  
   export const validatePriceProduct = (price, fn) => {
 
     if (price == "" || price == null) {

@@ -16,7 +16,7 @@ const Navigation = () => {
 
   useEffect(() => {
     console.log("VARIABLE DE VERIFICACION DE LOGIN: ", isAuthenticated);
-  }, [isAuthenticated]);
+  }, []);
 
   const recoverValue = async () => {
     let userToken = await AsyncStorage.getItem('userToken');

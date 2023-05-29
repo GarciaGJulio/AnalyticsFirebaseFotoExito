@@ -1,16 +1,23 @@
 import { Button, Icon } from "@rneui/base";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import theme from "../theme/theme";
 import { useFonts } from 'expo-font'
 
-export const StyledButton = ({
-  title,
+export const StyledDualButton = ({
+  //title,
   onPress,
   buttonColor,
-  iconName,
-  iconType,
+  initialIconName,
+  updateIconName,
+  initialIconType,
+  updatelIconType,
   size,
+  initialText, 
+  initialFunction, 
+  updatedText, 
+  updatedFunction,
+  validatePass,
   ...restOfProps
 })  => {
 
@@ -19,6 +26,27 @@ export const StyledButton = ({
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
+  const [buttonText, setButtonText] = useState(initialText);
+  const [iconName, setIconName] = useState(initialIconName);
+  const [iconType, setIconType] = useState(initialIconType);
+  const [isExecuting, setIsExecuting] = useState(false);
+
+  const [isInitialFunctionExecuted, setIsInitialFunctionExecuted] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const handlePress = () => {
+    if (isInitialFunctionExecuted&&validatePass) {
+      setIsInitialFunctionExecuted(true);
+      setIsButtonDisabled(true);
+      initialFunction().then(() => {
+        setIsButtonDisabled(false);
+      });
+    } else {
+      updatedFunction();
+    }
+  };
+
+
   if(!fontLoaded) return null
 
 
@@ -26,11 +54,12 @@ export const StyledButton = ({
     <TouchableOpacity
       style={[styles.container, { width: (size), backgroundColor: (buttonColor) }]}
       onPress={() => {
-        if (onPress) {
-          onPress();
+        if (handlePress) {
+          handlePress();
         }
       }}
       {...restOfProps}
+      disabled={isButtonDisabled}
     >
       <View 
         style={{ flexDirection: 'row', 
@@ -41,7 +70,7 @@ export const StyledButton = ({
         paddingHorizontal: 10 ,
         //backgroundColor:'blue'
         }}>
-        <Text style={styles.buttonText}>{title}</Text>
+        <Text style={styles.buttonText}>{buttonText}</Text>
         {
           iconName&&iconType ? <Icon name={iconName} type={iconType} color={'white'} /> : <></>
         }
@@ -51,7 +80,7 @@ export const StyledButton = ({
   );
 }
 
-export default StyledButton; 
+export default StyledDualButton; 
 
 const styles = StyleSheet.create({
   container: {

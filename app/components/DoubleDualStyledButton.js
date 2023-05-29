@@ -2,20 +2,30 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import StyledButton from './StyledButton'
 import theme from '../theme/theme'
+import StyledDualButton from './StyledDualButton'
 
-const DoubleStyledButton = ({
+const DoubleDualStyledButton = ({
     titleLeft,
     colorLeft,
     iconLeft,
     typeLeft,
     sizeLeft,
     onPressLeft,
-    titleRigth,
+    //titleRigth,
+    initialIconName,
+    updateIconName,
+    initialIconType,
+    updatelIconType,
+    initialText, 
+    initialFunction, 
+    updatedText, 
+    updatedFunction,
     colorRigth,
-    iconRigth,
-    typeRigth,
+    validatePass,
+    //iconRigth,
+    //typeRigth,
     sizeRigth,
-    onPressRigth,
+    //onPressRigth,
     }) => {
 
   return (
@@ -28,19 +38,24 @@ const DoubleStyledButton = ({
             size={sizeLeft}
             onPress={onPressLeft}
         />
-        <StyledButton 
-            title={titleRigth} 
+        <StyledDualButton 
+            initialText={initialText} 
+            updatedText={updatedText}
             buttonColor={colorRigth} 
-            iconName={iconRigth}
-            iconType={typeRigth}
+            initialIconName={initialIconName}
+            updateIconName={updateIconName}
+            initialIconType={initialIconType}
+            updatelIconType={updatelIconType}
+            initialFunction={initialFunction}
+            updatedFunction={updatedFunction}
+            validatePass={validatePass}
             size={sizeRigth}
-            onPress={onPressRigth}
         />
     </View>
   )
 }
 
-export default DoubleStyledButton
+export default DoubleDualStyledButton
 
 const styles = StyleSheet.create({
     containerButtons:{

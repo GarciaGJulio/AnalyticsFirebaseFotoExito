@@ -68,22 +68,41 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 313,
-    height: 112,
-    resizeMode: 'cover'
+
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain'
   },
   imageContainer: {
-    bottom: '35%'
-  },
-  contentContainer: {
+    flex: 11,
     width: theme.dimensions.maxWidth,
-    height: 187,
+    //bottom: '35%',
+    //backgroundColor:'blue',
+    //alignItems:'center',
+    //justifyContent:'center'
+  },
+  /*contentContainer: {
+    width: theme.dimensions.maxWidth,
+    //height: 536,
+    flex: 3,
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: 0,
+    //bottom: 0,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },*/
+  contentContainer: {
+    flex: 1,
+    width: theme.dimensions.maxWidth,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //padding:5,
+    paddingVertical:20,
+    //paddingVertical: 20
+  },
 })

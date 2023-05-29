@@ -1,4 +1,4 @@
-import { LOAD_LOCATIONS } from "./ModernaTypes";
+import { LOAD_ID_CLIENT_GROUP, LOAD_LOCATIONS } from "./ModernaTypes";
 
   
   export default function ModernaReducer(state, action) {
@@ -9,6 +9,11 @@ import { LOAD_LOCATIONS } from "./ModernaTypes";
         return {
           ...state,
           location: payload,
+        };
+      case LOAD_ID_CLIENT_GROUP:
+        return {
+          ...state,
+          idClientGroup: payload,
         };
       default:
         return state;

@@ -21,7 +21,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import RackCheckbox from "./RackCheckbox";
 import Rack_View from "./Rack_View";
 
-export const TarjPercha = ({ data, setData }) => {
+export const TarjPercha = ({ data, setData,rack,setRack }) => {
   const [objPercha, setObjPercha] = useState({});
   const [datos, setDatos] = useState([]);
   /*let DATA = [
@@ -77,7 +77,7 @@ export const TarjPercha = ({ data, setData }) => {
     <View style={styles.container}>
       <View style={{ flex: 1, width: "100%" }}>
         <FlashList
-          data={data}
+          data={rack}
           // onEndReached={({ index }) => {
           //   const itemDatos = DATA[index];
           //   setDatos(prevDatos => [...prevDatos, itemDatos]); // Agrega los datos al arreglo

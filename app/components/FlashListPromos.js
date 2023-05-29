@@ -5,7 +5,7 @@ import CheckBoxContainer from "./CheckBoxContainer";
 import theme from "../theme/theme";
 import CheckBoxContainerP from "./CheckBoxContainerP";
 
-const FlashListPromos = ({ data, setData }) => {
+const FlashListPromos = ({ data, setData,exhibidorType }) => {
   useEffect(() => {
     console.log("ESTO LLEGA DE PROMOS DE LISTA: ", data);
   }, []);
@@ -17,6 +17,7 @@ const FlashListPromos = ({ data, setData }) => {
           <CheckBoxContainerP
             productName={item.name}
             item={item}
+            //data={data}
             setData={setData}
           />
         )}

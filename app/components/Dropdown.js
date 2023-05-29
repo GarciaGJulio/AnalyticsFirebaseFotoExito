@@ -1,9 +1,12 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 import axios from "axios";
 import { realizarConsulta, selectData } from "../common/sqlite_config";
+import { useFonts } from "expo-font";
+import ModernaContext from "../context/ModernaContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Dropdown = ({
   placeholder,
@@ -12,9 +15,11 @@ const Dropdown = ({
   setSucursalInformation,
   sucursalInformation,
   setType,
+  setClientGroupId
 }) => {
   const [arrayClients, setArrayClients] = useState([]);
   const [newArrayClients, setNewArrayClients] = useState([]);
+  const { handleIdClientGroup } = useContext(ModernaContext)
 
   const dataFormat = (array) => {
     setArrayClients(array);
@@ -28,7 +33,7 @@ const Dropdown = ({
   };
 
   const validateType = () => {
-    arrayClients.forEach((type) => {
+    arrayClients.forEach(async(type) => {
       console.log("CLIENTE A ANALIZAR: ", type);
       if (type.nombre_cliente == selected) {
         console.log(
@@ -36,6 +41,14 @@ const Dropdown = ({
           type.nombre_tipo_cliente
         );
         setType(type.nombre_tipo_cliente);
+        console.log(
+          "GRUPO DE CLIENTE ACTUAL: ",
+          type.id_grupo_cliente
+        );
+        setClientGroupId(type.id_grupo_cliente)
+        //handleIdClientGroup(type.id_grupo_cliente)
+        await AsyncStorage.setItem("clientName",type.nombre_cliente);
+        await AsyncStorage.setItem("idGroupClient",type.id_grupo_cliente);
         setSucursalInformation({
           ...sucursalInformation,
           client: selected,
@@ -113,14 +126,22 @@ const Dropdown = ({
     console.log("ESTO LLEGA DE LA CONSULTA DE CLIENTES: ",clients)
   },[])*/
 
+  const [fontLoaded] = useFonts({
+    Metropolis: require('../../assets/font/Metropolis-Regular.otf'),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if(!fontLoaded) return null
+
   return (
     <ScrollView style={styles.container}>
-      <Text style={{ marginBottom: 5 }}>Cliente</Text>
+      <Text style={{ marginBottom: 5,fontFamily:'Metropolis' }}>Cliente</Text>
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
         searchPlaceholder="Buscar"
         data={newArrayClients}
+        inputStyles={{fontFamily:'Metropolis'}}
         save="value"
       />
     </ScrollView>

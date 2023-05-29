@@ -5,12 +5,13 @@ import React, {
   useCallback,
   useMemo,
   useReducer,
+  useRef,
 } from "react";
 import ModernaContext from "./ModernaContext";
 import NetInfo from "@react-native-community/netinfo";
 import { AuthManager } from "../azureConfig/auth/AuthManager";
 import ModernaReducer from "./ModernaReducer";
-import { LOAD_LOCATIONS } from "./ModernaTypes";
+import { LOAD_ID_CLIENT_GROUP, LOAD_LOCATIONS } from "./ModernaTypes";
 import { GraphManager } from "../azureConfig/graph/GraphManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -19,6 +20,14 @@ const ModernaProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  //const [idClientGroup, setIdClientGroup] = useState("");
+  //const idClientGroupRef = useRef("");
+
+  /*const setIdClientGroup = (value) => {
+    idClientGroupRef.current = value;
+    console.log("ACTUALIZANDO VALOR A  .. . . . ",value)
+    console.log("VALOR NUEVO DE IDCLIENTE  .. . . . ",idClientGroupRef.current)
+  };*/
 
   const isLoggedIn = async () => {
     console.log("CARGANDO LOS DATOS DE INCIO");
@@ -48,12 +57,10 @@ const ModernaProvider = ({ children }) => {
     isLoggedIn();
   }, []);
 
-  const initialState = useMemo(
-    () => ({
-      location: null,
-    }),
-    []
-  );
+  const initialState = {
+    location: null,
+    idClientGroup: null,
+  };
   const [state, dispatch] = useReducer(ModernaReducer, initialState);
   /*useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
@@ -68,6 +75,12 @@ const ModernaProvider = ({ children }) => {
     console.log("locations from context", locations);
     dispatch({ type: LOAD_LOCATIONS, payload: locations });
   }, []);
+
+  const handleIdClientGroup = (idClientGroup) => {
+    console.log("actualizando id de grupo de cliente", idClientGroup);
+    dispatch({ type: LOAD_ID_CLIENT_GROUP, payload: idClientGroup });
+  };
+
   const handleLoading = useCallback(async (isLoading) => {
     //dispatch({ type: LOADING_START, payload: isLoading });
     await handleWasUpdatedLocalData(true);
@@ -133,14 +146,18 @@ const ModernaProvider = ({ children }) => {
         setIsAuthenticated,
         userInfo,
         location: state.location,
+        idClientGroup: state.idClientGroup,
+        //setIdClientGroup,
         setIsLogging,
         setIsConnected,
         handleLocations,
+        handleIdClientGroup,
         handleLoginAzure,
         handleLogoutAzure,
         //handleLogoutAzure,
         handleLoading,
-      }}
+      }
+    }
     >
       {children}
     </ModernaContext.Provider>

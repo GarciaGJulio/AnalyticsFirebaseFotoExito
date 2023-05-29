@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 import theme from "../theme/theme";
-import { CheckBox, Icon, Input } from "@rneui/base";
+import { CheckBox, Divider, Icon, Input } from "@rneui/base";
 import TakeImage from "./TakeImage";
+import { FlashList } from "@shopify/flash-list";
 
 const RackCheckbox = ({ categoryName, item, setData }) => {
   const [CateGeneral, setCateGeneral] = useState();
@@ -125,6 +126,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           style={{
             fontWeight: theme.fontWeight.bolder,
             fontSize: theme.fontSize.title,
+            left:10,
           }}
         >
           {categoryName}
@@ -133,8 +135,11 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           style={{ position: "absolute", right: 5 }}
           onPress={() => setOpenCamera(!openCamera)}
         >
-          <Icon name="camerao" type="antdesign" size={40} />
+          <Icon name="camerao" type="antdesign" size={30} />
         </TouchableOpacity>
+      </View>
+      <View style={{width:'100%'}}> 
+        <Divider width={1} color={'black'} style={{backgroundColor:'blue'}}/>
       </View>
       <View style={styles.categoryContainer}>
         <View style={styles.category}>
@@ -191,7 +196,8 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             <Text style={{ fontWeight: theme.fontWeight.softbold }}>
               Indique si la percha de la categoria cumple o no con lo esperado
             </Text>
-            <Image
+
+            {/*<Image
               style={{
                 flex: 1,
                 width: "100%",
@@ -203,7 +209,27 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
               source={{
                 uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
               }}
-            />
+            />*/}
+            <View style={{ flexDirection: 'row', }}>
+              {item.images.map((prodImages) => {
+                return (
+                  <Image
+                    //key={index}
+                    source={{ uri: prodImages }}
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                      height: 150,
+                      //margin: 10,
+                      marginTop: 10,
+                      resizeMode: "stretch",
+                    }}
+                    resizeMode="cover"
+                  />
+                );
+              })}
+
+            </View>
           </View>
           <View
             style={{
@@ -287,7 +313,8 @@ const styles = StyleSheet.create({
   header: {
     //backgroundColor:'blue',
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'flex-start',
+    //left:10,
     paddingVertical: 5,
   },
   categoryContainer: {

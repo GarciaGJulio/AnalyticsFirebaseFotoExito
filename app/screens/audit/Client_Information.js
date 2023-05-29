@@ -36,10 +36,13 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import StyledButton from "../../components/StyledButton";
 import { realizarConsulta, selectData } from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
+import { useFonts } from "expo-font";
+import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 
 const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
   const [selected, setSelected] = useState("");
+  const [validatePass,setValidatePass] = useState(false);
   const [sucursal, setSucursal] = useState("");
   const [errorBranchName, setErrorBranchName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -56,7 +59,7 @@ const Client_Information = ({ navigation }) => {
   const { location } = useContext(ModernaContext);
 
   const [type, setType] = useState("");
-  const [sucursalData, setSucursalData] = useState([]);
+  const [clientGroupId, setClientGroupId] = useState("");
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -180,16 +183,26 @@ const Client_Information = ({ navigation }) => {
     console.log("ERROR DE NOMBRE DE SUCURURAL", errorBranchName);
     if (errorBranchName != "") {
       setErrorBranchName("El campo nombre de sucursal no puede estar vacio");
+      //setValidatePass(false)
     }
     let validateBranch = validateBranchName();
+
     if (validateBranch) {
       Alert.alert(
         "El nombre de la sucursal ya ha sido registrado",
         "No se puede realizar más de una auditoria al día"
       );
     }
+
+    if(!validador && errorBranchName != ""){
+      Alert.alert(
+        "Error al ingresar los datos",
+        "Debe ingresar todos los datos indicados cumpliendo con las indicaciones"
+      );
+    }
+
     if (validador && errorBranchName == "" && !validateBranch) {
-      //setIsModalVisible(true);
+      setIsModalVisible(true);
       try {
         /*const location = await capturarCoordenadas(sucursalInformation);
         const datosCompletos = { ...location };
@@ -243,16 +256,13 @@ const Client_Information = ({ navigation }) => {
         } else {
           alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION");
         }*/
-        navigation.navigate("briefcase");
+        //navigation.navigate("briefcase");
+        setValidatePass(true);
+        setIsModalVisible(false);
       } catch (error) {
         console.log(error);
         setIsModalVisible(false);
       }
-    } else {
-      Alert.alert(
-        "Error al ingresar los datos",
-        "Debe ingresar todos los datos indicados cumpliendo con las indicaciones"
-      );
     }
   };
 
@@ -261,6 +271,14 @@ const Client_Information = ({ navigation }) => {
       "INSERT INTO cliente (id_cliente,id_tipo_cliente,nombre_cliente,usuario_creacion,fecha_creacion,fecha_modificacion) values ('C2B47Q','T3D44S','Supermaxi',null,null,null)";
     db_insertGlobal({ tableName: "cliente", sentence: sentencia });
   };*/
+
+  const [fontLoaded] = useFonts({
+    Metropolis: require('../../../assets/font/Metropolis-Regular.otf'),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if(!fontLoaded) return null
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -284,18 +302,21 @@ const Client_Information = ({ navigation }) => {
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <ScreenInformation title={"Información del Cliente"} text={""} />
 
-        <View style={{ flexDirection: "row", marginHorizontal: 20, flex: 2 }}>
+        <View style={{ flexDirection: "row", marginHorizontal: 20, flex: 2
+        ,//backgroundColor:'orange' 
+        }}>
           <Dropdown
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
             selected={selected}
             setType={setType}
             //clients={arrayClients}
+            setClientGroupId={setClientGroupId}
             setSucursalInformation={setSucursalInformation}
             sucursalInformation={sucursalInformation}
           />
-          <View style={{ width: 150, marginLeft: 10 }}>
-            <Text style={{ paddingBottom: 5 }}>Tipo de cliente</Text>
+          <View style={{ width: 150, marginLeft: 10, }}>
+            <Text style={{ paddingBottom: 5,fontFamily:'Metropolis', }}>Tipo de cliente</Text>
             <View
               style={{
                 width: "100%",
@@ -308,19 +329,21 @@ const Client_Information = ({ navigation }) => {
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 15 }}>{type}</Text>
+              <Text style={{ fontSize: 15,fontFamily:'Metropolis', }}>{type}</Text>
             </View>
           </View>
         </View>
-        <View style={{ flex: 3, width: "90%", alignItems: "center" }}>
+        <View style={{ flex: 3, alignItems: "center",
+        //backgroundColor:'red', 
+        }}>
           <StyledInput
             onChangeText={(txt) => {
-              setSucursal(txt.toUpperCase());
+              setSucursal(txt);
               validateNameBranch(txt, setErrorBranchName);
               setSucursalInformation({
                 ...sucursalInformation,
                 name: txt.toUpperCase(),
-              });
+              })
             }}
             label="Sucursal"
             placeholder="Ingresa el nombre de la sucursal"
@@ -332,11 +355,9 @@ const Client_Information = ({ navigation }) => {
             width={"90%"}
             information={"Solo se puede ingresar una sucursal por día"}
           />
-          <Text>
-            {selected}-{sucursal}
-          </Text>
         </View>
-        <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
+        <View style={{ flex: 1,alignItems: "center",margin:5
+         }}>
           <DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
@@ -344,8 +365,10 @@ const Client_Information = ({ navigation }) => {
             iconLeft={"cancel"}
             typeLeft={"material-icon"}
             onPressLeft={() => setIsModalVisibleClose(true)}
-            titleRigth={"Iniciar visita"}
+            titleRigth={"Iniciar Visita"}
             sizeRigth={theme.buttonSize.df}
+            //iconRigth={"content-save-all-outline"}
+            //typeRigth={"material-community"}
             colorRigth={theme.colors.modernaRed}
             onPressRigth={handleOpenModal}
           />
@@ -365,35 +388,40 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 313,
-    height: 112,
-    resizeMode: "cover",
+    
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain'
   },
   imageContainer: {
-    bottom: "35%",
-  },
-  contentContainer: {
-    flex: 1,
+    flex:1,
     width: theme.dimensions.maxWidth,
-    height: 570,
-    backgroundColor: "white",
-    position: "absolute",
-    bottom: 0,
+    //bottom: '35%',
+    //backgroundColor:'blue',
+    //alignItems:'center',
+    //justifyContent:'center'
+  },
+  /*contentContainer: {
+    width: theme.dimensions.maxWidth,
+    //height: 536,
+    flex: 3,
+    backgroundColor: 'white',
+    position: 'absolute',
+    //bottom: 0,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
-    //justifyContent:'center',
-    alignItems: "center",
-  },
-  cardContainer: {
-    width: 320,
-    height: 160,
-    overflow: "hidden",
-    borderWidth: 1,
-    marginVertical: 5,
-    borderRadius: 15,
-    justifyContent: "space-around",
-    alignItems: "center",
-    padding: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },*/
+  contentContainer: {
+    flex: 1.5,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    backgroundColor:'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //padding:5,
+    //paddingVertical:5//
   },
   text: {
     fontWeight: theme.fontWeight.bold,

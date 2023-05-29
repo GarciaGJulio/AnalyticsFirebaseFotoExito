@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import theme from "../theme/theme";
@@ -61,14 +61,15 @@ const RenderItem = ({
           color: theme.colors.white,
         }}
       >
-        {item.title}
+        {item.categoria}
       </Text>
       <FlashList
         data={item.productos}
         renderItem={({ item }) => (
           <RenderItemProd
-            name={item.nombre}
-            id={item.id}
+            //name={item.name}
+            item={item}
+            //id={item.id}
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealPortfolioProducts={idealPortfolioProducts}
           />
@@ -81,21 +82,23 @@ const RenderItem = ({
 };
 
 const RenderItemProd = ({
-  name,
-  id,
+  //name,
+  //id,
+  item,
   setIdealPortfolioProducts,
   idealPortfolioProducts,
 }) => {
   const [check1, setCheck1] = useState(false);
 
-  const validate = (check1, name, id) => {
+  const validate = (check1, item) => {
     if (check1) {
       console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
       setIdealPortfolioProducts((prevProducts) => [
         ...prevProducts,
         {
-          name: name,
-          id: id,
+          name: item.name,
+          id: item.id,
+          url: item.url,
           price: null,
           state: false,
           images: {
@@ -120,7 +123,7 @@ const RenderItemProd = ({
           checked={check1}
           onPress={() => {
             setCheck1(!check1);
-            validate(!check1, name, id);
+            validate(!check1, item);
           }}
           // Use ThemeProvider to make change for all checkbox
           iconType="material-community"
@@ -130,7 +133,7 @@ const RenderItemProd = ({
           containerStyle={{ backgroundColor: "transparent" }}
         />
         <Text>
-          {name}-{id}
+          {item.name}-{item.id}
         </Text>
       </View>
     </View>
@@ -140,12 +143,18 @@ const RenderItemProd = ({
 const FlashListPortfolio = ({
   setIdealPortfolioProducts,
   idealPortfolioProducts,
+  idealProducts,
 }) => {
+
+  useEffect(()=>{
+    console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ",)
+  },[])
+
   return (
     <View style={{ flex: 1, width: "95%", marginBottom: 10 }}>
       <FlashList
-        data={DATA}
-        keyExtractor={(item) => item.id.toString()}
+        data={idealProducts}
+        //keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <RenderItem
             item={item}

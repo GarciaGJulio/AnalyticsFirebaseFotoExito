@@ -98,7 +98,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <Image
-            source={{ uri: item.url + "/image.png" }}
+            source={{ uri: item.url }}
             style={{ width: 75, height: 75, resizeMode: "cover" }}
           />
         </View>
@@ -221,7 +221,6 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
               <Text style={{ fontSize: 11, fontWeight: "500" }}>
                 Foto del precio del producto respectivo
               </Text>
-
               <TakeImage setProducts={setProducts} item={item} />
             </View>
           </View>

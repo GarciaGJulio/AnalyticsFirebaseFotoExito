@@ -29,6 +29,7 @@ import { realizarConsulta } from "../../common/sqlite_config";
 import DropdownPromos from "../../components/DropdownPromos";
 import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
 import { convertImageUrl } from "../../services/convertUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -36,9 +37,11 @@ const Promos = ({ navigation }) => {
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [branch, setBranch] = useState([]);
   const [exhibidor, setExhibidor] = useState([]);
+  const [exhibidorType, setExhibidorType] = useState([]);
   const [isModalVisibleCloseSucursal, setIsModalVisibleCloseSucursal] =
     useState(false);
   const consultarYCopiarContenido = async () => {
+    const clientName = await AsyncStorage.getItem("clientName");
     try {
       // Realiza la consulta a la base de datos
       /*const resultadoConsulta = await realizarConsulta(
@@ -49,6 +52,24 @@ const Promos = ({ navigation }) => {
         "SELECT * FROM exhibidor"
       );
 
+      console.log("NOMBRE DEL CLIENTE: - - - - ",clientName)
+      /*const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
+        return {
+          id: objeto.id_exhibidor,
+          id_tipo_exhibidor: objeto.id_exhibidor_tipo,
+          name: objeto.nombre_tipo_exhibidor,
+          client_name: objeto.nombre_cliente,
+          sucursal: objeto.sucursal,
+          url: objeto.url_imagen_exhibidor,
+          state: null,
+          images: {
+            image1: null,
+            image2: null,
+            image3: null,
+          },
+        };
+      });*/
+
       const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
         return {
           id: objeto.id_exhibidor,
@@ -56,7 +77,7 @@ const Promos = ({ navigation }) => {
           name: objeto.nombre_tipo_exhibidor,
           client_name: objeto.nombre_cliente,
           sucursal: objeto.sucursal,
-          url: convertImageUrl(objeto.url_imagen_exhibidor) + "/exhibidor.jpg",
+          url: objeto.url_imagen_exhibidor,
           state: null,
           images: {
             image1: null,
@@ -66,12 +87,37 @@ const Promos = ({ navigation }) => {
         };
       });
 
-      const branchSucursal = resultadoConsultaExhibidor.map((objeto) => {
-        return {
-          key: objeto.id_exhibidor,
-          value: objeto.sucursal,
-        };
+      const exhibidorFilter = newArrayExhibidor.filter((objeto) => {return objeto.client_name === clientName})
+      setExhibidorType(exhibidorFilter)
+      const branchSucursal = [];
+      const existingNames = [];
+
+      exhibidorFilter.forEach((objeto) => {
+        // Verificar si el nombre ya existe en el array existingNames
+        if (!existingNames.includes(objeto.sucursal)) {
+          branchSucursal.push({
+            key: objeto.id,
+            value: objeto.sucursal,
+          });
+          existingNames.push(objeto.sucursal);
+        }
       });
+
+      /*const newFormatArrayExhibidor = exhibidorFilter.map((objeto)=> {
+        return {
+          id: objeto.id_exhibidor,
+          id_tipo_exhibidor: objeto.id_exhibidor_tipo,
+          name: objeto.nombre_tipo_exhibidor,
+          client_name: objeto.nombre_cliente,
+          sucursal: objeto.sucursal,
+          state: null,
+          images: {
+            image1: null,
+            image2: null,
+            image3: null,
+          },
+        }}
+      })*/
 
       branchSucursal.push({
         key: "C3V99M",
@@ -82,12 +128,14 @@ const Promos = ({ navigation }) => {
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
       //setExhibidorType(newArrayEstado);
-      setExhibidor(newArrayExhibidor);
+      setExhibidor(exhibidorFilter);
       console.log(
         "Copia de contenido completada con éxito: ",
         newArrayExhibidor
       );
       console.log("BRANCH FORMATEADO: ", branchSucursal);
+      console.log("EXHIBIDORES FORMATEADOS: ", exhibidorFilter);
+      console.log("ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES : ", exhibidorFilter);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -114,6 +162,7 @@ const Promos = ({ navigation }) => {
   };
   const handleCloseModalBranch = () => {
     setIsModalVisibleCloseSucursal(false);
+    setSelected(null)
   };
 
   useEffect(() => {});
@@ -222,7 +271,7 @@ const Promos = ({ navigation }) => {
         </View>
 
         <View style={styles.promosContent}>
-          <FlashListPromos data={exhibidor} setData={setExhibidor} />
+          <FlashListPromos data={exhibidor} setData={setExhibidor}/>
         </View>
       </View>
       <DoubleStyledButton

@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
 import * as Animatable from "react-native-animatable";
@@ -27,6 +27,8 @@ import FlashListC from "../../components/FlashListC";
 import FlashListPortfolio from "../../components/FlashListPortfolio";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
+import ModernaContext from "../../context/ModernaContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -35,8 +37,10 @@ const Briefcase = ({ navigation }) => {
   const [complementaryPortfolioProducts, setComplementaryPortfolioProducts] =
     useState([]);
   const [auxiliarArray, setAuxiliarArray] = useState([]);
+  const [idealProducts, setIdealProducts] = useState([]);
   const [currentStep] = useState(0);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
+  const { idClientGroup } = useContext(ModernaContext)
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -66,17 +70,26 @@ const Briefcase = ({ navigation }) => {
   };
 
   const consultarYCopiarContenido = async () => {
+    let idGroupClient= await AsyncStorage.getItem("idGroupClient")
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
         "SELECT * FROM producto"
       );
 
+      const resultadoConsultaIdeal = await realizarConsulta(
+        "SELECT * FROM portafolio_ideal"
+      );
+
+      const resultadoConsultaCategorias = await realizarConsulta(
+        "SELECT * FROM categoria"
+      );
+
       const newAuxiliarArray = resultadoConsulta.map((objeto) => {
         return {
           id: objeto.id_producto,
           name: objeto.nombre_producto,
-          url: convertImageUrl(objeto.imagen_producto),
+          url: objeto.url_imagen_producto,
           price: null,
           state: false,
           images: {
@@ -104,6 +117,9 @@ const Briefcase = ({ navigation }) => {
         };
       });
 
+      console.log("- - - - - - ",idGroupClient)
+      
+const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {return objeto.id_grupo_cliente === idGroupClient});
       const products = resultadoConsulta.map((objeto) => {
         return {
           key: objeto.id_producto,
@@ -111,12 +127,52 @@ const Briefcase = ({ navigation }) => {
         };
       });
 
+      const categorias = resultadoConsultaCategorias.map((item)=> {
+        return {id:item.id_categoria,category:item.nombre_categoria}
+      })
+    
+
+      const resultado = categorias.map(categoria => {
+        const productosCategoria = productosIdealFiltro.filter(producto => producto.id_categoria === categoria.id);
+        const productosInfo = productosCategoria.map(producto => ({
+          id:producto.id_producto,
+          name: producto.nombre_producto,
+          url: producto.url_imagen_producto,
+          //price: producto.precio,
+        }));
+      
+        return {
+          categoria: categoria.category,
+          productos: productosInfo,
+        };
+      });
+
+      setIdealProducts([...resultado])
+
       setAllProducts([...products]);
       //setCategory(newArrayEstado);
       console.log(
         "Copia de contenido completada con éxito - PRODUCTOS: ",
         resultadoConsulta
       );
+      console.log(
+        "\nCopia de contenido completada con éxito - PORTAFOLIO IDEAL: ",
+        resultadoConsultaIdeal
+      );
+      console.log(
+        "\nCopia de contenido completada con éxito - PORTAFOLIO IDEAL: ",
+        categorias
+      );
+
+      console.log(
+        "\nARRAY FORMATEADO DE PORTAFOLIO IDEAL: ",
+        productosIdealFiltro
+      );
+      console.log(
+        "\nARRAY DE CATEGORIAS : ",
+        resultado
+      );
+      console.log("VALOR RECUPERADO DE GRUPO DEL CLIENTE:",idGroupClient)
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -196,6 +252,7 @@ const Briefcase = ({ navigation }) => {
           <FlashListPortfolio
             idealPortfolioProducts={idealPortfolioProducts}
             setIdealPortfolioProducts={setIdealPortfolioProducts}
+            idealProducts={idealProducts}
           />
         </View>
         <View style={{ flex: 3 }}>
@@ -208,7 +265,7 @@ const Briefcase = ({ navigation }) => {
             complementaryPortfolioProducts={complementaryPortfolioProducts}
           />
         </View>
-        <View style={{ flex: 1, justifyContent: "center" }}>
+        <View style={{ flex: 1, justifyContent: "center",width:'100%' }}>
           <DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}

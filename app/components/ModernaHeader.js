@@ -6,6 +6,7 @@ import Logotipo from '../../assets/moderna/Logotipo-espiga-amarilla-letras-blanc
 import ConfirmationModal from './ConfirmationModal';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ModernaContext from '../context/ModernaContext';
+import { useFonts } from 'expo-font';
 
 const ModernaHeader = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -23,6 +24,15 @@ const ModernaHeader = () => {
         setIsModalVisible(false);
     };
 
+
+    const [fontLoaded] = useFonts({
+        Metropolis: require('../../assets/font/Metropolis-Regular.otf'),
+        // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+      });
+    
+      if(!fontLoaded) return null
+
+      
     return (
 
         <View style={[styles.statusbar, { top: insets.top }]}>
@@ -30,8 +40,8 @@ const ModernaHeader = () => {
             <View style={styles.userInfo}>
                 <Icon name='user-tag' type='font-awesome-5' size={20} color={'white'} />
                 <View style={{ paddingLeft: 10 }}>
-                    <Text style={{ color: 'white', fontSize: 12 }}>{userInfo ? userInfo.givenName : 'Santiago Mosquera'}</Text>
-                    <Text style={{ color: 'white', fontSize: 6 }}>{userInfo ? userInfo.mail : 'santiago@clearminds.com'}</Text>
+                    <Text style={{ color: 'white', fontSize: 12,fontFamily:'Metropolis' }}>{userInfo ? userInfo.givenName : 'Santiago Mosquera'}</Text>
+                    <Text style={{ color: 'white', fontSize: 6,fontFamily:'Metropolis' }}>{userInfo ? userInfo.mail : 'santiago@clearminds.com'}</Text>
                 </View>
             </View>
             <View style={styles.imageContainer}>
