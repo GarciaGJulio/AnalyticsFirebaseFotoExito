@@ -42,9 +42,10 @@ import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
   const [selected, setSelected] = useState("");
-  const [validatePass,setValidatePass] = useState(false);
+  const [validatePass, setValidatePass] = useState(false);
   const [sucursal, setSucursal] = useState("");
   const [errorBranchName, setErrorBranchName] = useState();
+  const [errorClientName, setErrorClientName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [sucursalInformation, setSucursalInformation] = useState({
@@ -182,7 +183,15 @@ const Client_Information = ({ navigation }) => {
     const validador = validate(sucursalInformation);
     console.log("ERROR DE NOMBRE DE SUCURURAL", errorBranchName);
     if (errorBranchName != "") {
-      setErrorBranchName("El campo nombre de sucursal no puede estar vacio");
+      setErrorBranchName("* El campo nombre de sucursal es obligatorio");
+      //setValidatePass(false)
+    }
+    if (selected == "") {
+      setErrorClientName("* El campo cliente es obligatorio");
+      //setValidatePass(false)
+    }
+    if (selected != "") {
+      setErrorClientName("");
       //setValidatePass(false)
     }
     let validateBranch = validateBranchName();
@@ -194,7 +203,7 @@ const Client_Information = ({ navigation }) => {
       );
     }
 
-    if(!validador && errorBranchName != ""){
+    if (!validador && errorBranchName != "") {
       Alert.alert(
         "Error al ingresar los datos",
         "Debe ingresar todos los datos indicados cumpliendo con las indicaciones"
@@ -256,7 +265,7 @@ const Client_Information = ({ navigation }) => {
         } else {
           alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION");
         }*/
-        //navigation.navigate("briefcase");
+        navigation.navigate("briefcase");
         setValidatePass(true);
         setIsModalVisible(false);
       } catch (error) {
@@ -273,11 +282,11 @@ const Client_Information = ({ navigation }) => {
   };*/
 
   const [fontLoaded] = useFonts({
-    Metropolis: require('../../../assets/font/Metropolis-Regular.otf'),
+    Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  if(!fontLoaded) return null
+  if (!fontLoaded) return null;
 
   return (
     <View style={styles.container}>
@@ -302,21 +311,29 @@ const Client_Information = ({ navigation }) => {
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <ScreenInformation title={"Información del Cliente"} text={""} />
 
-        <View style={{ flexDirection: "row", marginHorizontal: 20, flex: 2
-        ,//backgroundColor:'orange' 
-        }}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginHorizontal: 20,
+            flex: 2, //backgroundColor:'orange'
+          }}
+        >
           <Dropdown
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
             selected={selected}
             setType={setType}
+            error={errorClientName}
             //clients={arrayClients}
             setClientGroupId={setClientGroupId}
             setSucursalInformation={setSucursalInformation}
             sucursalInformation={sucursalInformation}
+            setError={setErrorClientName}
           />
-          <View style={{ width: 150, marginLeft: 10, }}>
-            <Text style={{ paddingBottom: 5,fontFamily:'Metropolis', }}>Tipo de cliente</Text>
+          <View style={{ width: 150, marginLeft: 10 }}>
+            <Text style={{ paddingBottom: 5, fontFamily: "Metropolis" }}>
+              Tipo de cliente
+            </Text>
             <View
               style={{
                 width: "100%",
@@ -329,13 +346,19 @@ const Client_Information = ({ navigation }) => {
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 15,fontFamily:'Metropolis', }}>{type}</Text>
+              <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
+                {type}
+              </Text>
             </View>
           </View>
         </View>
-        <View style={{ flex: 3, alignItems: "center",
-        //backgroundColor:'red', 
-        }}>
+        <View
+          style={{
+            flex: 3,
+            alignItems: "center",
+            //backgroundColor:'red',
+          }}
+        >
           <StyledInput
             onChangeText={(txt) => {
               setSucursal(txt);
@@ -343,7 +366,7 @@ const Client_Information = ({ navigation }) => {
               setSucursalInformation({
                 ...sucursalInformation,
                 name: txt.toUpperCase(),
-              })
+              });
             }}
             label="Sucursal"
             placeholder="Ingresa el nombre de la sucursal"
@@ -353,11 +376,10 @@ const Client_Information = ({ navigation }) => {
             editable={true}
             value={sucursal}
             width={"90%"}
-            information={"Solo se puede ingresar una sucursal por día"}
+            information={"* Solo se puede ingresar una sucursal por día"}
           />
         </View>
-        <View style={{ flex: 1,alignItems: "center",margin:5
-         }}>
+        <View style={{ flex: 0.8, alignItems: "center", margin: 5 }}>
           <DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
@@ -388,13 +410,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain'
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
   },
   imageContainer: {
-    flex:1,
+    flex: 1,
     width: theme.dimensions.maxWidth,
     //bottom: '35%',
     //backgroundColor:'blue',
@@ -417,9 +438,9 @@ const styles = StyleSheet.create({
     flex: 1.5,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
-    backgroundColor:'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
     //padding:5,
     //paddingVertical:5//
   },

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -23,20 +22,19 @@ const StyledInput = ({
   const [isFocused, setIsFocused] = React.useState(false);
 
   const [fontLoaded] = useFonts({
-    Metropolis: require('../../assets/font/Metropolis-Regular.otf'),
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  if(!fontLoaded) return null
-  
+  if (!fontLoaded) return null;
+
   return (
-    <View style={{ marginBottom: 10, width: width,flex:1 }}>
+    <View style={{ marginBottom: 10, width: width, flex: 1 }}>
       <Text style={style.label}>{label}</Text>
       <View
         style={[
           style.inputContainer,
           {
-            
             borderColor: error
               ? theme.colors.modernaRed
               : isFocused
@@ -55,13 +53,14 @@ const StyledInput = ({
             //onFocus();
             setIsFocused(true);
           }}
+          autoCapitalize="characters"
           onBlur={() => setIsFocused(false)}
           maxLength={maxLength}
           style={{
             flex: 1,
             //height: 50,
             //backgroundColor: "blue"
-            fontFamily:'Metropolis'
+            fontFamily: "Metropolis",
           }}
           {...props}
           onChangeText={onChangeText}
@@ -72,12 +71,27 @@ const StyledInput = ({
       </View>
       {error && (
         <Text
-          style={{ marginTop: 7, color: theme.colors.modernaRed, fontSize: 13,fontFamily:'Metropolis',fontWeight:'600' }}
+          style={{
+            marginTop: 7,
+            color: theme.colors.modernaRed,
+            fontSize: 13,
+            fontFamily: "Metropolis",
+            fontWeight: "600",
+          }}
         >
           {error}
         </Text>
       )}
-      <Text style={{ marginTop: 7, fontSize: 13,fontFamily:'Metropolis',fontWeight:'600' }}>{information}</Text>
+      <Text
+        style={{
+          marginTop: 7,
+          fontSize: 13,
+          fontFamily: "Metropolis",
+          fontWeight: "600",
+        }}
+      >
+        {information}
+      </Text>
     </View>
   );
 };
@@ -86,16 +100,16 @@ export default StyledInput;
 
 const style = StyleSheet.create({
   label: {
-    marginVertical: 2,
-    fontSize: 15,
+    marginVertical: 5,
+    fontSize: 14,
     //color: "#33576f",
-    fontWeight:'600',
-    fontFamily: 'Metropolis'
+    fontWeight: "600",
+    fontFamily: "Metropolis",
   },
   inputContainer: {
     //height: 80,
     //flex:1,
-    width:'100%',
+    width: "100%",
     backgroundColor: "white",
     flexDirection: "row",
     paddingHorizontal: 15,
@@ -110,5 +124,3 @@ const style = StyleSheet.create({
     elevation: 2,
   },
 });
-
-

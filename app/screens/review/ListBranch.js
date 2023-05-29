@@ -9,11 +9,6 @@ import { useFonts } from "expo-font";
 
 const ListBranch = () => {
   const [audit, setAudit] = useState([]);
-  let sucursal = [
-    { id: 1, client: "Cliente1", name: "Sucursal1", state: true },
-    { id: 2, client: "Cliente2", name: "Sucursal2", state: false },
-    { id: 3, client: "Cliente3", name: "Sucursal3", state: true },
-  ];
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -39,11 +34,11 @@ const ListBranch = () => {
   }, []);
 
   const [fontLoaded] = useFonts({
-    Metropolis: require('../../../assets/font/Metropolis-Regular.otf'),
+    Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  if(!fontLoaded) return null
+  if (!fontLoaded) return null;
 
   return (
     <View style={styles.container}>
@@ -78,10 +73,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain'
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
   },
   imageContainer: {
     flex: 1,
@@ -108,9 +102,9 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
     //padding:5,
     //paddingVertical: 20
   },
@@ -124,6 +118,6 @@ const styles = StyleSheet.create({
     padding: 13,
     fontSize: theme.fontSize.subtitle,
     marginBottom: 25,
-    fontFamily:'Metropolis'
+    fontFamily: "Metropolis",
   },
 });

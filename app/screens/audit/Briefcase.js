@@ -40,7 +40,7 @@ const Briefcase = ({ navigation }) => {
   const [idealProducts, setIdealProducts] = useState([]);
   const [currentStep] = useState(0);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-  const { idClientGroup } = useContext(ModernaContext)
+  const { idClientGroup } = useContext(ModernaContext);
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -70,7 +70,7 @@ const Briefcase = ({ navigation }) => {
   };
 
   const consultarYCopiarContenido = async () => {
-    let idGroupClient= await AsyncStorage.getItem("idGroupClient")
+    let idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
@@ -117,9 +117,11 @@ const Briefcase = ({ navigation }) => {
         };
       });
 
-      console.log("- - - - - - ",idGroupClient)
-      
-const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {return objeto.id_grupo_cliente === idGroupClient});
+      console.log("- - - - - - ", idGroupClient);
+
+      const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {
+        return objeto.id_grupo_cliente === idGroupClient;
+      });
       const products = resultadoConsulta.map((objeto) => {
         return {
           key: objeto.id_producto,
@@ -127,27 +129,28 @@ const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {return o
         };
       });
 
-      const categorias = resultadoConsultaCategorias.map((item)=> {
-        return {id:item.id_categoria,category:item.nombre_categoria}
-      })
-    
+      const categorias = resultadoConsultaCategorias.map((item) => {
+        return { id: item.id_categoria, category: item.nombre_categoria };
+      });
 
-      const resultado = categorias.map(categoria => {
-        const productosCategoria = productosIdealFiltro.filter(producto => producto.id_categoria === categoria.id);
-        const productosInfo = productosCategoria.map(producto => ({
-          id:producto.id_producto,
+      const resultado = categorias.map((categoria) => {
+        const productosCategoria = productosIdealFiltro.filter(
+          (producto) => producto.id_categoria === categoria.id
+        );
+        const productosInfo = productosCategoria.map((producto) => ({
+          id: producto.id_producto,
           name: producto.nombre_producto,
           url: producto.url_imagen_producto,
           //price: producto.precio,
         }));
-      
+
         return {
           categoria: categoria.category,
           productos: productosInfo,
         };
       });
 
-      setIdealProducts([...resultado])
+      setIdealProducts([...resultado]);
 
       setAllProducts([...products]);
       //setCategory(newArrayEstado);
@@ -168,11 +171,8 @@ const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {return o
         "\nARRAY FORMATEADO DE PORTAFOLIO IDEAL: ",
         productosIdealFiltro
       );
-      console.log(
-        "\nARRAY DE CATEGORIAS : ",
-        resultado
-      );
-      console.log("VALOR RECUPERADO DE GRUPO DEL CLIENTE:",idGroupClient)
+      console.log("\nARRAY DE CATEGORIAS : ", resultado);
+      console.log("VALOR RECUPERADO DE GRUPO DEL CLIENTE:", idGroupClient);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -265,7 +265,7 @@ const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {return o
             complementaryPortfolioProducts={complementaryPortfolioProducts}
           />
         </View>
-        <View style={{ flex: 1, justifyContent: "center",width:'100%' }}>
+        <View style={{ flex: 0.8, justifyContent: "center", width: "100%" }}>
           <DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}

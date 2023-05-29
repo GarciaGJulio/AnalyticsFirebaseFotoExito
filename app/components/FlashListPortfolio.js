@@ -118,7 +118,14 @@ const RenderItemProd = ({
 
   return (
     <View>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          //flex: 1,
+          //backgroundColor: "red",
+        }}
+      >
         <CheckBox
           checked={check1}
           onPress={() => {
@@ -132,7 +139,7 @@ const RenderItemProd = ({
           checkedColor={theme.colors.modernaRed}
           containerStyle={{ backgroundColor: "transparent" }}
         />
-        <Text>
+        <Text style={{ flex: 1 }}>
           {item.name}-{item.id}
         </Text>
       </View>
@@ -145,10 +152,9 @@ const FlashListPortfolio = ({
   idealPortfolioProducts,
   idealProducts,
 }) => {
-
-  useEffect(()=>{
-    console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ",)
-  },[])
+  useEffect(() => {
+    console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ");
+  }, []);
 
   return (
     <View style={{ flex: 1, width: "95%", marginBottom: 10 }}>

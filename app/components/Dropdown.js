@@ -11,15 +11,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Dropdown = ({
   placeholder,
   setSelected,
+  error,
+  setError,
   selected,
   setSucursalInformation,
   sucursalInformation,
   setType,
-  setClientGroupId
+  setClientGroupId,
 }) => {
   const [arrayClients, setArrayClients] = useState([]);
   const [newArrayClients, setNewArrayClients] = useState([]);
-  const { handleIdClientGroup } = useContext(ModernaContext)
+  const { handleIdClientGroup } = useContext(ModernaContext);
 
   const dataFormat = (array) => {
     setArrayClients(array);
@@ -33,7 +35,8 @@ const Dropdown = ({
   };
 
   const validateType = () => {
-    arrayClients.forEach(async(type) => {
+    setError("");
+    arrayClients.forEach(async (type) => {
       console.log("CLIENTE A ANALIZAR: ", type);
       if (type.nombre_cliente == selected) {
         console.log(
@@ -41,14 +44,11 @@ const Dropdown = ({
           type.nombre_tipo_cliente
         );
         setType(type.nombre_tipo_cliente);
-        console.log(
-          "GRUPO DE CLIENTE ACTUAL: ",
-          type.id_grupo_cliente
-        );
-        setClientGroupId(type.id_grupo_cliente)
+        console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
+        setClientGroupId(type.id_grupo_cliente);
         //handleIdClientGroup(type.id_grupo_cliente)
-        await AsyncStorage.setItem("clientName",type.nombre_cliente);
-        await AsyncStorage.setItem("idGroupClient",type.id_grupo_cliente);
+        await AsyncStorage.setItem("clientName", type.nombre_cliente);
+        await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
         setSucursalInformation({
           ...sucursalInformation,
           client: selected,
@@ -127,23 +127,43 @@ const Dropdown = ({
   },[])*/
 
   const [fontLoaded] = useFonts({
-    Metropolis: require('../../assets/font/Metropolis-Regular.otf'),
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  if(!fontLoaded) return null
+  if (!fontLoaded) return null;
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={{ marginBottom: 5,fontFamily:'Metropolis' }}>Cliente</Text>
+      <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>Cliente</Text>
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
         searchPlaceholder="Buscar"
         data={newArrayClients}
-        inputStyles={{fontFamily:'Metropolis'}}
+        inputStyles={{ fontFamily: "Metropolis" }}
         save="value"
+        boxStyles={{
+          borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
+          borderRadius: 5,
+          alignItems: "center",
+          borderWidth: 1 ? 2 : 0,
+          height: 50,
+        }}
       />
+      {error && (
+        <Text
+          style={{
+            marginTop: 7,
+            color: theme.colors.modernaRed,
+            fontSize: 13,
+            fontFamily: "Metropolis",
+            fontWeight: "600",
+          }}
+        >
+          {error}
+        </Text>
+      )}
     </ScrollView>
   );
 };

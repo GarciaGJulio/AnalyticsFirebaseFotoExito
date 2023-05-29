@@ -9,11 +9,14 @@ import {
   View,
 } from "react-native";
 import { commonStyles } from "../theme/stylesBranch";
+import { useFonts } from "expo-font";
 
 import SYNC_BACKGROUND from "../../assets/resources/review_background.jpg";
 import SYNC_ANIMATION from "../../assets/sync-data.json";
 import SUCCESS_ANIMATION from "../../assets/success.json";
 import FAILED_ANIMATION from "../../assets/failed.json";
+import SYNC_FAILED from "../../assets/resources/sync-failed.png";
+import SYNC_SUCCESS from "../../assets/resources/sync-success.png";
 import LoaderModal from "./LoaderModal";
 import ModernaContext from "../context/ModernaContext";
 import { DataContext } from "../context/DataProvider";
@@ -59,6 +62,13 @@ const ItemBranch_Review = ({ branch }) => {
     navigation.navigate("review", { branch: datosCompartidos });
   };
 
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -68,54 +78,39 @@ const ItemBranch_Review = ({ branch }) => {
       bottomDivider
       style={{ margin: 0.5 }}
     >
-      <ListItem
-        containerStyle={[commonStyles.containerList, commonStyles.shadow]}
+      <View
+        style={{
+          flex: 1,
+          //backgroundColor: "red",
+          borderWidth: 0.5,
+          borderRadius: 5,
+          marginVertical: 5,
+          height: 50,
+          paddingHorizontal: 20,
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexDirection: "row",
+        }}
       >
-        <ListItem.Content>
-          <View style={[commonStyles.container, { elevation: 2 }]}>
-            <View style={commonStyles.iconContainer}>
-              <LoaderModal
-                animation={animation}
-                visible={isModalVisible}
-                warning={"Sincronizando datos, por favor espere..."}
-              />
-              {stateBranch ? (
-                <Icon
-                  name="cloud-done"
-                  type="ionicon"
-                  color="green"
-                  size={30}
-                  style={commonStyles.icon}
-                  onPress={handleOpenModal}
-                />
-              ) : (
-                <Icon
-                  name="cloud-offline"
-                  type="ionicon"
-                  color="red"
-                  size={30}
-                  style={commonStyles.icon}
-                  onPress={handleOpenModal}
-                />
-              )}
-            </View>
-            <ImageBackground
-              style={commonStyles.cardContainer}
-              source={SYNC_BACKGROUND}
-              resizeMode="cover"
-              imageStyle={{ opacity: 0.5 }}
-            >
-              <Image
-                source={SYNC_BACKGROUND}
-                style={commonStyles.imageInBack}
-              />
-              <Text style={commonStyles.txt}>
-                {branch.cliente} - {branch.tipo_cliente}
-              </Text>
-            </ImageBackground>
-          </View>
-        </ListItem.Content>
-      </ListItem>
+        <Text style={{ fontFamily: "Metropolis", fontSize: 16 }}>
+          {branch.cliente}-{branch.tipo_cliente}
+        </Text>
+        {branch.estado_sincronizacion ? (
+          <TouchableOpacity>
+            <Image
+              source={SYNC_FAILED}
+              style={{ width: 50, height: 40, resizeMode: "stretch" }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity disabled={true}>
+            <Image
+              source={SYNC_SUCCESS}
+              style={{ width: 70, height: 70, resizeMode: "stretch" }}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
     </TouchableOpacity>
   );
 };
