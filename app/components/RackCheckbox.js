@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 import theme from "../theme/theme";
@@ -126,7 +133,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           style={{
             fontWeight: theme.fontWeight.bolder,
             fontSize: theme.fontSize.title,
-            left:10,
+            left: 10,
           }}
         >
           {categoryName}
@@ -138,8 +145,12 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           <Icon name="camerao" type="antdesign" size={30} />
         </TouchableOpacity>
       </View>
-      <View style={{width:'100%'}}> 
-        <Divider width={1} color={'black'} style={{backgroundColor:'blue'}}/>
+      <View style={{ width: "100%" }}>
+        <Divider
+          width={1}
+          color={"black"}
+          style={{ backgroundColor: "blue" }}
+        />
       </View>
       <View style={styles.categoryContainer}>
         <View style={styles.category}>
@@ -210,7 +221,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                 uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
               }}
             />*/}
-            <View style={{ flexDirection: 'row', }}>
+            <View style={{ flexDirection: "row" }}>
               {item.images.map((prodImages) => {
                 return (
                   <Image
@@ -228,7 +239,6 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                   />
                 );
               })}
-
             </View>
           </View>
           <View
@@ -313,7 +323,7 @@ const styles = StyleSheet.create({
   header: {
     //backgroundColor:'blue',
     justifyContent: "center",
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     //left:10,
     paddingVertical: 5,
   },

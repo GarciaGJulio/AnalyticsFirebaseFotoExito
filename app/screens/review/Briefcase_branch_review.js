@@ -22,7 +22,11 @@ const Briefcase_branch_review = ({ route }) => {
         }}
       >
         <ScreenInformation
-          title={datosCompartidos.cliente + "-" + datosCompartidos.tipo_cliente}
+          title={
+            datosCompartidos.nombre_cliente +
+            "-" +
+            datosCompartidos.nombre_sucursal
+          }
           text={"A continuación se enlistan los datos registrados"}
         />
         <BackPage_Review />

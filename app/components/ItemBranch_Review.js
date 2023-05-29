@@ -93,7 +93,7 @@ const ItemBranch_Review = ({ branch }) => {
         }}
       >
         <Text style={{ fontFamily: "Metropolis", fontSize: 16 }}>
-          {branch.cliente}-{branch.tipo_cliente}
+          {branch.nombre_cliente}-{branch.nombre_sucursal}
         </Text>
         {branch.estado_sincronizacion ? (
           <TouchableOpacity>

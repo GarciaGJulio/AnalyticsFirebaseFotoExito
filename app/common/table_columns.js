@@ -127,8 +127,8 @@ export const AUDITORIA = {
   ID_PROMOCION: "id_promocion",
   ID_SUCURSAL: "id_sucursal",
   ID_CLIENTE: "id_cliente",
-  CLIENTE: "cliente",
-  TIPO_CLIENTE: "tipo_cliente",
+  NOMBRE_CLIENTE: "nombre_cliente",
+  NOMBRE_SUCURSAL: "nombre_sucursal",
   INDEX_1: "id_auditoria",
 };
 
@@ -159,11 +159,11 @@ export const PERCHA = {
   INDEX_1: "id_percha",
 };
 
-
 export const PRECIADOR = {
   NAME: "preciador",
   KEY_1: "id_preciador",
-  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO:"id_preciador_portafolio_complementario",
+  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO:
+    "id_preciador_portafolio_complementario",
   ID_PRECIADOR_PORTAFOLIO_IDEAL: "id_preciador_portafolio_ideal",
   INDEX_1: "id_preciador",
 };

@@ -52,7 +52,7 @@ const Promos = ({ navigation }) => {
         "SELECT * FROM exhibidor"
       );
 
-      console.log("NOMBRE DEL CLIENTE: - - - - ",clientName)
+      console.log("NOMBRE DEL CLIENTE: - - - - ", clientName);
       /*const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
         return {
           id: objeto.id_exhibidor,
@@ -87,8 +87,10 @@ const Promos = ({ navigation }) => {
         };
       });
 
-      const exhibidorFilter = newArrayExhibidor.filter((objeto) => {return objeto.client_name === clientName})
-      setExhibidorType(exhibidorFilter)
+      const exhibidorFilter = newArrayExhibidor.filter((objeto) => {
+        return objeto.client_name === clientName;
+      });
+      setExhibidorType(exhibidorFilter);
       const branchSucursal = [];
       const existingNames = [];
 
@@ -135,7 +137,10 @@ const Promos = ({ navigation }) => {
       );
       console.log("BRANCH FORMATEADO: ", branchSucursal);
       console.log("EXHIBIDORES FORMATEADOS: ", exhibidorFilter);
-      console.log("ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES : ", exhibidorFilter);
+      console.log(
+        "ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES : ",
+        exhibidorFilter
+      );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -162,7 +167,7 @@ const Promos = ({ navigation }) => {
   };
   const handleCloseModalBranch = () => {
     setIsModalVisibleCloseSucursal(false);
-    setSelected(null)
+    setSelected(null);
   };
 
   useEffect(() => {});
@@ -253,7 +258,7 @@ const Promos = ({ navigation }) => {
           "¿Al presionar la opción 'Aceptar', el flujo de la auditoria terminará, quiere confirmar este proceso?"
         }
       />
-      <View style={{ flex: 1, width: "100%", backgroundColor: "blue" }}>
+      <View style={{ flex: 1, width: "100%" }}>
         <ModernaHeader />
       </View>
       <View style={styles.contentContainer}>
@@ -271,7 +276,7 @@ const Promos = ({ navigation }) => {
         </View>
 
         <View style={styles.promosContent}>
-          <FlashListPromos data={exhibidor} setData={setExhibidor}/>
+          <FlashListPromos data={exhibidor} setData={setExhibidor} />
         </View>
       </View>
       <DoubleStyledButton

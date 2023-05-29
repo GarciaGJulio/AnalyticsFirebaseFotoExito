@@ -152,7 +152,14 @@ const Briefcase = ({ navigation }) => {
 
       setIdealProducts([...resultado]);
 
-      setAllProducts([...products]);
+      const uniqueArray = products.filter(
+        (obj1) =>
+          !productosIdealFiltro.some((obj2) => obj2.id_producto === obj1.key)
+      );
+
+      console.log("PRODUCTOS QUE VAN AL COMPLEMENTARIO: ", uniqueArray);
+
+      setAllProducts([...uniqueArray]);
       //setCategory(newArrayEstado);
       console.log(
         "Copia de contenido completada con éxito - PRODUCTOS: ",
@@ -298,7 +305,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     width: "100%",
-    backgroundColor: "blue",
+    //backgroundColor: "blue",
   },
   contentContainer: {
     flex: 14,

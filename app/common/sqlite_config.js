@@ -92,7 +92,7 @@ const createProductTable = () => {
 };
 
 const createAuditTable = () => {
-  const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCION} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.ID_CLIENTE} TEXT NULL,${AUDITORIA.CLIENTE} VARCHAR(43) NULL,${AUDITORIA.TIPO_CLIENTE} VARCHAR(43) NULL) `;
+  const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCION} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.ID_CLIENTE} TEXT NULL,${AUDITORIA.CLIENTE} VARCHAR(43) NULL,${AUDITORIA.NOMBRE_CLIENTE} VARCHAR(43) NULL,${AUDITORIA.NOMBRE_SUCURSAL} VARCHAR(43) NULL) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, AUDITORIA.NAME);
 };
@@ -144,7 +144,6 @@ const createPlanogramaTable = () => {
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, PLANOGRAMA.NAME);
 };
-
 
 const createExhibidorTipoTable = () => {
   const sentence = `create table if not exists ${TYPE_EXHIBIDOR.NAME} (${TYPE_EXHIBIDOR.KEY_1} text primary key not null,${TYPE_EXHIBIDOR.NOMBRE_TIPO_EXHIBIDOR} TEXT null,${TYPE_EXHIBIDOR.URL_IMAGEN_EXHIBIDOR} TEXT null,${TYPE_EXHIBIDOR.USUARIO_CREACION} TEXT NULL,${TYPE_EXHIBIDOR.FECHA_CREACION} TEXT NULL,${TYPE_EXHIBIDOR.FECHA_MODIFICACION} TEXT NULL)`;

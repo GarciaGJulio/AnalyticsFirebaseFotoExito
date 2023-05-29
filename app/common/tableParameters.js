@@ -8,7 +8,7 @@ export const dataParameters = {
         "longitud",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -19,7 +19,7 @@ export const dataParameters = {
         "nombre_tipo_cliente",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -29,7 +29,7 @@ export const dataParameters = {
         "nombre_grupo_cliente",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -42,7 +42,7 @@ export const dataParameters = {
         "fecha_creacion",
         "fecha_modificacion",
         "id_grupo_cliente",
-        "nombre_grupo_cliente"
+        "nombre_grupo_cliente",
       ],
       foreingFields: [
         {
@@ -59,7 +59,7 @@ export const dataParameters = {
         "estado_promocion",
         "url_imagen1",
         "url_imagen2",
-        "url_imagen3"
+        "url_imagen3",
       ],
       foreingFields: [],
     },
@@ -70,9 +70,20 @@ export const dataParameters = {
         "id_percha",
         "id_promocion",
         "id_sucursal",
-        "id_cliente"
+        "id_cliente",
       ],
-      foreingFields: [],
+      foreingFields: [
+        {
+          tableName: "cliente",
+          data: ["nombre_cliente"],
+          foreingKey: "id_cliente",
+        },
+        {
+          tableName: "sucursal",
+          data: ["nombre_sucursal"],
+          foreingKey: "id_sucursal",
+        },
+      ],
     },
     percha: {
       data: [
@@ -86,7 +97,7 @@ export const dataParameters = {
         "url_imagen3",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -94,7 +105,7 @@ export const dataParameters = {
       data: [
         "id_preciador",
         "id_preciador_portafolio_complementario",
-        "id_preciador_portafolio_ideal"
+        "id_preciador_portafolio_ideal",
       ],
       foreingFields: [],
     },
@@ -102,7 +113,7 @@ export const dataParameters = {
       data: [
         "id_portafolio_complementario",
         "id_producto",
-        "estado_portafolio_complementario"
+        "estado_portafolio_complementario",
       ],
       foreingFields: [],
     },
@@ -117,7 +128,7 @@ export const dataParameters = {
         "url_imagen3",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -131,7 +142,7 @@ export const dataParameters = {
         "url_imagen3",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -145,7 +156,7 @@ export const dataParameters = {
         "mes_exhibidor",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [
         {
@@ -167,7 +178,7 @@ export const dataParameters = {
         "url_imagen_exhibidor",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -177,7 +188,7 @@ export const dataParameters = {
         "nombre_categoria",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
@@ -190,27 +201,19 @@ export const dataParameters = {
         "precio",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion"
+        "fecha_modificacion",
       ],
       foreingFields: [],
     },
     portafolio_ideal: {
-      data: [
-        "id_portafolio_ideal",
-        "id_producto",
-        "id_grupo_cliente",
-      ],
-      "foreingFields": [
+      data: ["id_portafolio_ideal", "id_producto", "id_grupo_cliente"],
+      foreingFields: [
         {
-          "tableName": "producto",
-          "data": [
-            "id_categoria",
-            "nombre_producto",
-            "url_imagen_producto"
-          ],
-          "foreingKey": "id_producto"
-        }
-      ]
+          tableName: "producto",
+          data: ["id_categoria", "nombre_producto", "url_imagen_producto"],
+          foreingKey: "id_producto",
+        },
+      ],
     },
     planograma: {
       data: [
@@ -219,16 +222,14 @@ export const dataParameters = {
         "id_grupo_cliente",
         "url_imagen1",
         "url_imagen2",
-        "url_imagen3"
+        "url_imagen3",
       ],
       foreingFields: [
         {
-          "tableName": "categoria",
-          "data": [
-            "nombre_categoria"
-          ],
-          "foreingKey": "id_categoria"
-        }
+          tableName: "categoria",
+          data: ["nombre_categoria"],
+          foreingKey: "id_categoria",
+        },
       ],
     },
   },

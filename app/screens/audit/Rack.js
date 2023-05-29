@@ -40,7 +40,7 @@ const Racks = ({ navigation }) => {
   };
 
   const consultarYCopiarContenido = async () => {
-    const idGroupClient = await AsyncStorage.getItem("idGroupClient")
+    const idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
@@ -51,12 +51,16 @@ const Racks = ({ navigation }) => {
         "SELECT * FROM planograma"
       );
       const planogramaFiltro = resultadoConsultaPlanograma
-        .filter(objeto => objeto.id_grupo_cliente === idGroupClient)
-        .map(objeto => {
+        .filter((objeto) => objeto.id_grupo_cliente === idGroupClient)
+        .map((objeto) => {
           return {
             id: objeto.id_categoria,
             name: objeto.nombre_categoria,
-            images: [objeto.url_imagen1, objeto.url_imagen2, objeto.url_imagen3]
+            images: [
+              objeto.url_imagen1,
+              objeto.url_imagen2,
+              objeto.url_imagen3,
+            ],
           };
         });
 
@@ -77,7 +81,7 @@ const Racks = ({ navigation }) => {
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
       setCategory(newArrayEstado);
-      setRack(planogramaFiltro)
+      setRack(planogramaFiltro);
       console.log("Copia de contenido completada con éxito: ", newArrayEstado);
       console.log("ARRAY DE PLANOGRAMA: ", planogramaFiltro);
     } catch (error) {
@@ -151,7 +155,7 @@ const Racks = ({ navigation }) => {
         onPress={() => navigation.goBack()}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
-      <View style={{ flex: 1, width: "100%", backgroundColor: "blue" }}>
+      <View style={{ flex: 1, width: "100%" }}>
         <ModernaHeader />
       </View>
 
@@ -164,7 +168,13 @@ const Racks = ({ navigation }) => {
           }
         />
         <View style={styles.cardContainer}>
-          <TarjPercha data={category} rack={rack} setRack={setRack} setData={setCategory} view={"audit"} />
+          <TarjPercha
+            data={category}
+            rack={rack}
+            setRack={setRack}
+            setData={setCategory}
+            view={"audit"}
+          />
         </View>
       </View>
       <DoubleStyledButton

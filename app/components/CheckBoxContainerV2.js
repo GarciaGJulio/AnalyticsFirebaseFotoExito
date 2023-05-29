@@ -9,6 +9,7 @@ import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import { validatePriceProduct } from "../utils/helpers";
 import ToggleSwitch from "toggle-switch-react-native";
+import { useFonts } from "expo-font";
 
 const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
   const [check1, setCheck1] = useState(false);
@@ -83,6 +84,13 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
     });
   };
 
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
+
   return (
     <View style={[styles.container, { flex: 1 }]}>
       <ConfirmationModal
@@ -103,7 +111,9 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
           />
         </View>
         <View style={styles.descriptionContainer}>
-          <Text style={{ fontSize: 15 }}>{productName}</Text>
+          <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
+            {productName}
+          </Text>
           <View
             style={{
               flex: 1,
@@ -117,6 +127,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                 //marginHorizontal: 10,
                 marginTop: 5,
                 fontSize: 12,
+                fontFamily: "Metropolis",
               }}
             >
               Precio disponible
@@ -218,7 +229,13 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                 //alignItems: "center",
               }}
             >
-              <Text style={{ fontSize: 11, fontWeight: "500" }}>
+              <Text
+                style={{
+                  fontSize: 11,
+                  fontWeight: "500",
+                  fontFamily: "Metropolis",
+                }}
+              >
                 Foto del precio del producto respectivo
               </Text>
               <TakeImage setProducts={setProducts} item={item} />

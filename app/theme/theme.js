@@ -6,17 +6,20 @@ const theme = {
     secondary: "silver",
     textPrimary: "",
     textSecondary: "",
-    modernaRed: "#d22630",
-    modernaYellow: "#ecaa20",
-    modernaGreen: "#5BC2A7",
-    modernaAqua: "#5BC2A7",
+    modernaRed: "#E11F1D",
+    modernaYellow: "#EBA900",
+    modernaGreen: "#00993F",
+    modernaAqua: "#00AE9E",
+    modernaBlue: "#0052A1",
+    modernaPurple: "#530644",
+    modernaRose: "#E5005A",
     lightgray: "rgba(217,217,217,0.70)",
     active: "#5BC2A7",
     inactive: "#9D9D9D",
     inputcolor: "#CCCCCC",
     white: "#fff",
-    black:"black",
-    transparent: "transparent"
+    black: "black",
+    transparent: "transparent",
   },
   fontSize: {
     body: 14,
@@ -38,14 +41,13 @@ const theme = {
     softbold: "600",
   },
   dimensions: {
-    maxWidth: Dimensions.get('window').width,
-    maxHeight: Dimensions.get('window').height,
+    maxWidth: Dimensions.get("window").width,
+    maxHeight: Dimensions.get("window").height,
   },
-  buttonSize:{
-    lg:270,
-    df:180,
-    sm:140,
-  }
-  
+  buttonSize: {
+    lg: 270,
+    df: 180,
+    sm: 140,
+  },
 };
 export default theme;

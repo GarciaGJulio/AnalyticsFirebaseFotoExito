@@ -95,7 +95,6 @@ const ModernaProvider = ({ children }) => {
     try {
       await AuthManager.signInAsync();
       const token = await AuthManager.getAccessTokenAsync();
-      setIsAuthenticated(true);
       //console.log("token de inciios de session", token);
       if (token) {
         let user = await GraphManager.getUserAsync();
@@ -103,12 +102,13 @@ const ModernaProvider = ({ children }) => {
         console.log("user from azure 1: ", JSON.stringify(user));
         console.log("MAIL DEL USUARIO: ", user.mail);
         setUserInfo(user);
+        setIsAuthenticated(true);
         // user.mail=user.mail?user.mail:"soporte.clearmind@moderna.com.ec"
-        if (user && user.mail) {
+        /*if (user && user.mail) {
           user.mail = user.mail.toLowerCase();
           user.userPrincipalName = user.userPrincipalName.toLowerCase();
           console.log("user from azure 2:", user);
-        }
+        }*/
       }
       // Si la autenticación es exitosa
     } catch (e) {
@@ -156,8 +156,7 @@ const ModernaProvider = ({ children }) => {
         handleLogoutAzure,
         //handleLogoutAzure,
         handleLoading,
-      }
-    }
+      }}
     >
       {children}
     </ModernaContext.Provider>

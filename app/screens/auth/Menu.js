@@ -1,33 +1,40 @@
-import { Image, ImageBackground, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState, useContext } from 'react'
-import theme from '../../theme/theme'
-import Logotipo from '../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png'
-import StyledButton from '../../components/StyledButton'
-import * as Animatable from 'react-native-animatable'
-import SYNC_BACKGROUND from '../../../assets/resources/sync_background.jpg'
-import LoaderModal from '../../components/LoaderModal'
-import SYNC_ANIMATION from '../../../assets/sync-data.json'
-import SUCCESS_ANIMATION from '../../../assets/success.json'
-import FAILED_ANIMATION from '../../../assets/failed.json'
-import DOWNLOAD_ANIMATION from '../../../assets/download.json'
-import NetInfo from '@react-native-community/netinfo';
-import ModernaContext from '../../context/ModernaContext'
-import { Cli, GraphInit } from '../../azureConfig/graph/GraphManager'
-import { useFonts } from 'expo-font'
+import {
+  Image,
+  ImageBackground,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import theme from "../../theme/theme";
+import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
+import StyledButton from "../../components/StyledButton";
+import * as Animatable from "react-native-animatable";
+import SYNC_BACKGROUND from "../../../assets/resources/sync_background.jpg";
+import LoaderModal from "../../components/LoaderModal";
+import SYNC_ANIMATION from "../../../assets/sync-data.json";
+import SUCCESS_ANIMATION from "../../../assets/success.json";
+import FAILED_ANIMATION from "../../../assets/failed.json";
+import DOWNLOAD_ANIMATION from "../../../assets/download.json";
+import NetInfo from "@react-native-community/netinfo";
+import ModernaContext from "../../context/ModernaContext";
+import { Cli, GraphInit } from "../../azureConfig/graph/GraphManager";
+import { useFonts } from "expo-font";
+import ModernaHeader from "../../components/ModernaHeader";
+import ModernaHeaderM from "../../components/ModernaHeaderM";
 const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [animation, setAnimation] = useState("");
-  const [isConnected, setIsConnected] = useState(false)
+  const [isConnected, setIsConnected] = useState(false);
   //const { isConnected } = useContext(ModernaContext);
 
   useEffect(() => {
     let UserOnedrive = Cli;
-    console.log("User:", UserOnedrive)
+    console.log("User:", UserOnedrive);
     //onedrive(UserOnedrive);
-
   }, []);
-
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
@@ -67,11 +74,10 @@ const Menu = ({ navigation }) => {
 
   }*/
 
-
   const handleOpenModal = () => {
     setAnimation(SYNC_ANIMATION);
     setIsModalVisible(true);
-    setModalMessage('Sincronizando datos, por favor espere...')
+    setModalMessage("Sincronizando datos, por favor espere...");
     setTimeout(() => {
       setAnimation(SUCCESS_ANIMATION);
       if (isConnected) {
@@ -89,94 +95,173 @@ const Menu = ({ navigation }) => {
 
   const handleOpenModalAudit = () => {
     setAnimation(DOWNLOAD_ANIMATION);
-    setModalMessage('Descargando variables para la auditoría, por favor espere...')
+    setModalMessage(
+      "Descargando variables para la auditoría, por favor espere..."
+    );
     setIsModalVisible(true);
     setTimeout(() => {
       //setAnimation(SUCCESS_ANIMATION);
       setIsModalVisible(false);
-      navigation.navigate('audit')
+      navigation.navigate("audit");
     }, 5000);
   };
 
   const [fontLoaded] = useFonts({
-    Metropolis: require('../../../assets/font/Metropolis-Regular.otf'),
+    Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  if(!fontLoaded) return null
+  if (!fontLoaded) return null;
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor='transparent' barStyle={'dark-content'} />
-      <LoaderModal animation={animation} visible={isModalVisible} warning={modalMessage} />
-
+      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
+      <LoaderModal
+        animation={animation}
+        visible={isModalVisible}
+        warning={modalMessage}
+      />
+      <View style={styles.headerContainer}>
+        <ModernaHeaderM />
+      </View>
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
 
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <View style={{ flexDirection: 'row', flex: 1, margin: 5, }}>
-          <View style={{
-            flex: 1, justifyContent: 'center',
-            alignItems: 'center',marginHorizontal:5
-          }}>
-            <StyledButton title={'Sincronizar Datos'} buttonColor={theme.colors.modernaYellow} onPress={handleOpenModal} size={theme.buttonSize.sm} iconName={'cloud-sync'} iconType={'material-community'} />
+        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              marginHorizontal: 5,
+            }}
+          >
+            <StyledButton
+              title={"Sincronizar Datos"}
+              buttonColor={theme.colors.modernaYellow}
+              onPress={handleOpenModal}
+              size={theme.buttonSize.sm}
+              iconName={"cloud-sync"}
+              iconType={"material-community"}
+            />
           </View>
-          <View style={{ flex: 1.7, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderRadius: 10, marginLeft: 5 }}>
-            <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
+          <View
+            style={{
+              flex: 1.7,
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: 1,
+              borderRadius: 10,
+              marginLeft: 5,
+              paddingHorizontal: 10,
+            }}
+          >
+            <Text style={styles.text}>
+              Sube una auditoria que hayas registrado de forma offline
+            </Text>
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', flex: 1, margin: 5 }}>
-          <View style={{
-            flex: 1, justifyContent: 'center',
-            alignItems: 'center',marginHorizontal:5
-          }}>
-            <StyledButton title={'Realizar Auditoria'} buttonColor={theme.colors.modernaRed} onPress={handleOpenModalAudit} size={theme.buttonSize.sm} iconName={'clipboard'} iconType={'entypo'} />
+        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              marginHorizontal: 5,
+            }}
+          >
+            <StyledButton
+              title={"Realizar Auditoria"}
+              buttonColor={theme.colors.modernaRed}
+              onPress={handleOpenModalAudit}
+              size={theme.buttonSize.sm}
+              iconName={"clipboard"}
+              iconType={"entypo"}
+            />
           </View>
-          <View style={{ flex: 1.7, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderRadius: 10, marginLeft: 5 }}>
-            <Text style={styles.text}>Descarga los datos para empezar una nueva auditoría.</Text>
+          <View
+            style={{
+              flex: 1.7,
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: 1,
+              borderRadius: 10,
+              marginLeft: 5,
+              paddingHorizontal: 10,
+            }}
+          >
+            <Text style={styles.text}>
+              Descarga los datos para empezar una nueva auditoría.
+            </Text>
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', flex: 1, margin: 5 }}>
-          <View style={{
-            flex: 1, justifyContent: 'center',
-            alignItems: 'center',marginHorizontal:5
-          }}>
-            <StyledButton title={'Consultar Auditorias'} buttonColor={theme.colors.modernaGreen} onPress={() => navigation.navigate('listBranch')} size={theme.buttonSize.sm} iconName={'select-search'} iconType={'material-community'} />
+        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              marginHorizontal: 5,
+            }}
+          >
+            <StyledButton
+              title={"Consultar Auditorias"}
+              buttonColor={theme.colors.modernaGreen}
+              onPress={() => navigation.navigate("listBranch")}
+              size={theme.buttonSize.sm}
+              iconName={"select-search"}
+              iconType={"material-community"}
+            />
           </View>
-          <View style={{ flex: 1.7, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderRadius: 10, marginLeft: 5}}>
-            <Text style={styles.text}>Sube una auditoria que hayas registrado de forma offline</Text>
+          <View
+            style={{
+              flex: 1.7,
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: 1,
+              borderRadius: 10,
+              marginLeft: 5,
+              paddingHorizontal: 10,
+            }}
+          >
+            <Text style={styles.text}>
+              Sube una auditoria que hayas registrado de forma offline
+            </Text>
           </View>
         </View>
-
-
       </Animatable.View>
     </View>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.modernaRed,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
-
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain'
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  headerContainer: {
+    flex: 0.5,
+    width: "100%",
+    //backgroundColor: "blue",
   },
   imageContainer: {
-    flex: 1,
+    flex: 3,
     width: theme.dimensions.maxWidth,
     //bottom: '35%',
-    //backgroundColor:'blue',
+    //backgroundColor: "blue",
     //alignItems:'center',
     //justifyContent:'center'
   },
@@ -193,19 +278,19 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },*/
   contentContainer: {
-    flex: 1.5,
+    flex: 4,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
     //padding:5,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
-    fontSize: 18,
-    fontFamily:'Metropolis',
+    fontSize: 16,
+    fontFamily: "Metropolis",
     //textAlign:'justify'
-  }
-})
+  },
+});

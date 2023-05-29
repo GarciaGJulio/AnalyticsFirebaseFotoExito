@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
+import { useFonts } from "expo-font";
 
 const MultiSelectList = ({
   setComplementaryPortfolioProducts,
@@ -117,6 +118,13 @@ const MultiSelectList = ({
     }*/
   };
 
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>Portafolio Complementario</Text>
@@ -127,6 +135,7 @@ const MultiSelectList = ({
           setSelected(val);
           //setComplementaryPortfolioProducts(val);
         }}
+        inputStyles={{ fontFamily: "Metropolis" }}
         data={products}
         save="value"
         //onSelect={() => alert(selected)}

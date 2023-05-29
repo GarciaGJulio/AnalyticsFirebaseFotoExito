@@ -144,7 +144,7 @@ const Prices = ({ navigation, route }) => {
             setProducts={setNewComplementaryPortfolio}
           />
         </View>
-        <View style={{flex:0.5,width:'100%'}}>
+        <View style={{ flex: 0.45, width: "100%" }}>
           <DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     width: "100%",
-    backgroundColor: "blue",
+    //backgroundColor: "blue",
   },
   contentContainer: {
     flex: 14,

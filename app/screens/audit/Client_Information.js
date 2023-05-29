@@ -213,10 +213,10 @@ const Client_Information = ({ navigation }) => {
     if (validador && errorBranchName == "" && !validateBranch) {
       setIsModalVisible(true);
       try {
-        /*const location = await capturarCoordenadas(sucursalInformation);
+        const location = await capturarCoordenadas(sucursalInformation);
         const datosCompletos = { ...location };
         setDatosCompletos(datosCompletos);
-        setIsModalVisible(false);*/
+        setIsModalVisible(false);
         console.log("DATOS A GUARDAR: ", {
           id: sucursalInformation.id,
           nombre: sucursalInformation.name,
@@ -259,13 +259,13 @@ const Client_Information = ({ navigation }) => {
         console.log("SENTENCIA A EJECUTAR: ", sentence);
         //db_insertGlobalDataAudit(dataSave);
         // navigation.navigate("briefcase");
-        /*if (datosCompletos.latitude) {
-          navigation.navigate('briefcase');
+        if (datosCompletos.latitude) {
+          navigation.navigate("briefcase");
           console.log("ENVIANDO DATOS A BASE . . . . .");
         } else {
           alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION");
-        }*/
-        navigation.navigate("briefcase");
+        }
+        //navigation.navigate("briefcase");
         setValidatePass(true);
         setIsModalVisible(false);
       } catch (error) {

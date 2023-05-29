@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import theme from "../theme/theme";
 import { CheckBox } from "@rneui/base";
+import { useFonts } from "expo-font";
 
 const DATA = [
   {
@@ -111,7 +112,7 @@ const RenderItemProd = ({
     } else {
       console.log("ELIMINANDO PRODUCTO . . . . ");
       setIdealPortfolioProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== id)
+        prevProducts.filter((product) => product.id !== item.id)
       );
     }
   };
@@ -139,7 +140,7 @@ const RenderItemProd = ({
           checkedColor={theme.colors.modernaRed}
           containerStyle={{ backgroundColor: "transparent" }}
         />
-        <Text style={{ flex: 1 }}>
+        <Text style={{ flex: 1, fontFamily: "Metropolis" }}>
           {item.name}-{item.id}
         </Text>
       </View>
@@ -155,6 +156,13 @@ const FlashListPortfolio = ({
   useEffect(() => {
     console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ");
   }, []);
+
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
 
   return (
     <View style={{ flex: 1, width: "95%", marginBottom: 10 }}>
