@@ -83,3 +83,24 @@ const folderId="01FWEOYBHXLNTSSVABRZCJUPKJCIFKRXI3"
 // })
 // .catch(error => console.error(error));
 // }
+
+
+
+
+export const deleteImageFromOneDrive = async (accessToken, itemId) => {
+  const endpoint = `https://graph.microsoft.com/v1.0/me/drive/items/${itemId}`;
+
+  const response = await fetch(endpoint, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.ok) {
+    console.log('Imagen eliminada exitosamente');
+    // Realizar otras acciones o actualizaciones necesarias después de eliminar la imagen
+  } else {
+    console.log('Error al eliminar la imagen:', response.status, response.statusText);
+  }
+};
