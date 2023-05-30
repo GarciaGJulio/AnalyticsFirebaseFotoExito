@@ -46,7 +46,7 @@ const RenderItem = ({
         flex: 1,
         margin: 10,
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius: 10,
         overflow: "hidden",
       }}
     >

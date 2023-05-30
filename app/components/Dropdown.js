@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
@@ -12,6 +12,7 @@ const Dropdown = ({
   placeholder,
   setSelected,
   error,
+  setGroupClient,
   setError,
   selected,
   setSucursalInformation,
@@ -34,6 +35,10 @@ const Dropdown = ({
     return arrayFormat;
   };
 
+  /*useEffect(() => {
+    Alert.alert("DATOS DE LA BASE LOCAL:", newArrayClients);
+  }, []);*/
+
   const validateType = () => {
     setError("");
     arrayClients.forEach(async (type) => {
@@ -44,6 +49,7 @@ const Dropdown = ({
           type.nombre_tipo_cliente
         );
         setType(type.nombre_tipo_cliente);
+        setGroupClient(type.nombre_grupo_cliente);
         console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
         setClientGroupId(type.id_grupo_cliente);
         //handleIdClientGroup(type.id_grupo_cliente)
@@ -71,6 +77,13 @@ const Dropdown = ({
       //await copiarContenido(resultadoConsulta);
       setNewArrayClients(dataFormat(resultadoConsulta));
       console.log("Copia de contenido completada con éxito: ");
+      const clientes = resultadoConsulta
+        .map(
+          (objeto) =>
+            `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
+        )
+        .join("\n");
+      Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }

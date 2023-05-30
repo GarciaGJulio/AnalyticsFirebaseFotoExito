@@ -1,5 +1,5 @@
 import { openDatabase } from "expo-sqlite";
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 import { requestMultiple } from "react-native-permissions";
 // import DeviceInfo from "react-native-device-info";
@@ -220,7 +220,8 @@ export const dataAxiosQuery = async () => {
     for (const res of resp) {
       //console.log("DATO DEL FOR EACH", res);
       for (const objetoSentencia of res.data) {
-        //console.log("DATO DEL 2 FOR EACH", objetoSentencia);
+        //console.log("DATO DEL 2 FOR EACH", objetoSentencia)
+        Alert.alert("SENTENCIAS A INSERTAR:", objetoSentencia);
         db_insertGlobal({
           tableName: res.tableName,
           sentence: objetoSentencia,

@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import { PERCHA_TABLE_NAME } from "../common/sqlite_config";
 import { PERCHA_TABLE, CLIENT_TABLE } from "../common/table_columns";
 import {
@@ -103,12 +104,18 @@ export const db_insertGlobal = async (objSentence) => {
           "se ejecuta sentencia insert " + objSentence.tableName + " OK  "
         );
         console.log("verificando si hay funcion can create order");
+        Alert.alert(
+          `Exito al insertar los datos en la tabla ${objSentence.tableName} `
+        );
         // if (succesFunction) {
         //   // succesFunction();
         // }
       },
       () => {
         console.log("error al insertar tabla " + objSentence.tableName);
+        Alert.alert(
+          `Error al insertar los datos en la tabla ${objSentence.tableName} `
+        );
         // if (errorFunction) {
         //   errorFunction()
         // }

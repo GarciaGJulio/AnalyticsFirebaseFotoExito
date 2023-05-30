@@ -55,12 +55,14 @@ const Client_Information = ({ navigation }) => {
     id: generateUIDD(),
   });
   const [datosCompletos, setDatosCompletos] = useState({});
+  const [newArrayClients, setNewArrayClients] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
 
   const { location } = useContext(ModernaContext);
 
   const [type, setType] = useState("");
   const [clientGroupId, setClientGroupId] = useState("");
+  const [groupClient, setGroupClient] = useState("");
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -84,6 +86,7 @@ const Client_Information = ({ navigation }) => {
 
   useEffect(() => {
     consultarYCopiarContenido();
+    //consultarYCopiarContenidoClientes();
   }, []);
 
   /*const sendLocalData = async (setSucursalData) => {
@@ -287,6 +290,24 @@ const Client_Information = ({ navigation }) => {
     Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
+  /*
+  useEffect(() => {
+    Alert.alert("DATOS DE LA BASE LOCAL:", newArrayClients);
+  }, []);*/
+
+  /*const consultarYCopiarContenidoClientes = async () => {
+    try {
+      // Realiza la consulta a la base de datos
+      const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
+
+      // Copia el contenido después de la consulta
+      //await copiarContenido(resultadoConsulta);
+      setNewArrayClients(dataFormat(resultadoConsulta));
+      console.log("Copia de contenido completada con éxito: ");
+    } catch (error) {
+      console.error("Error al consultar o copiar el contenido:", error);
+    }
+  };*/
 
   if (!fontLoaded) return null;
 
@@ -325,8 +346,9 @@ const Client_Information = ({ navigation }) => {
             setSelected={setSelected}
             selected={selected}
             setType={setType}
+            setGroupClient={setGroupClient}
             error={errorClientName}
-            //clients={arrayClients}
+            clients={newArrayClients}
             setClientGroupId={setClientGroupId}
             setSucursalInformation={setSucursalInformation}
             sucursalInformation={sucursalInformation}
@@ -340,11 +362,13 @@ const Client_Information = ({ navigation }) => {
             justifyContent: "space-evenly",
             flex: 1,
             width: "100%",
-            backgroundColor: "orange",
+            //backgroundColor: "orange",
           }}
         >
           <View style={{ width: 160 }}>
-            <Text style={{ paddingBottom: 5, fontFamily: "Metropolis" }}>
+            <Text
+              style={{ paddingBottom: 5, fontFamily: "Metropolis", flex: 1 }}
+            >
               Grupo de cliente
             </Text>
             <View
@@ -352,7 +376,7 @@ const Client_Information = ({ navigation }) => {
                 width: "100%",
                 //height: 45,
                 flex: 1,
-                borderWidth: 0.5,
+                borderWidth: 2,
                 borderColor: theme.colors.lightgray,
                 //borderColor: "black",
                 borderRadius: 5,
@@ -361,29 +385,31 @@ const Client_Information = ({ navigation }) => {
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-                {type}
+              <Text style={{ fontSize: 15, fontFamily: "Metropolis", flex: 1 }}>
+                {groupClient}
               </Text>
             </View>
           </View>
           <View style={{ width: 160 }}>
-            <Text style={{ paddingBottom: 5, fontFamily: "Metropolis" }}>
+            <Text
+              style={{ paddingBottom: 5, fontFamily: "Metropolis", flex: 1 }}
+            >
               Tipo de cliente
             </Text>
             <View
               style={{
                 width: "100%",
-                //height: 45,
+                //height: 100,
                 flex: 1,
-                borderWidth: 0.5,
-                borderColor: "black",
+                borderWidth: 2,
+                borderColor: theme.colors.lightgray,
                 borderRadius: 5,
                 padding: 10,
                 alignItems: "center",
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
+              <Text style={{ fontSize: 15, fontFamily: "Metropolis", flex: 1 }}>
                 {type}
               </Text>
             </View>

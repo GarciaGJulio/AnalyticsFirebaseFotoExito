@@ -12,8 +12,9 @@ const Rack_Review = () => {
   const { datosCompartidos } = useContext(DataContext);
   const [rack, setRack] = useState([]);
   const getRackData = async () => {
+    const resultadoConsulta = await realizarConsulta(`SELECT * FROM percha`);
     const datos = await realizarConsulta(
-      `SELECT * FROM percha where id_percha =${datosCompartidos.id_percha}`
+      `SELECT * FROM percha where id_percha ='${datosCompartidos.id_percha}'`
     );
     const datosPromesas = datos.map(async (item) => {
       const nombre = await realizarConsulta(
@@ -31,7 +32,8 @@ const Rack_Review = () => {
       `SELECT * FROM categoria where id_categoria =${datos.id_categoria}`
     );*/
     //console.log("NOMBRE DE CATEGORIA : ", categoria_name);
-    console.log("DATOS OBTENIDOS DE PERCHAS : ", datosActualizados);
+    console.log("DATOS OBTENIDOS DE PERCHAS : ", resultadoConsulta);
+    console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
   };
   useEffect(() => {
     getRackData();
