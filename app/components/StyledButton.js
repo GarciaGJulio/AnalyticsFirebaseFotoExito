@@ -41,12 +41,21 @@ export const StyledButton = ({
           //backgroundColor:'blue'
         }}
       >
-        <Text style={styles.buttonText}>{title}</Text>
         {iconName && iconType ? (
-          <Icon name={iconName} type={iconType} color={"white"} />
+          <Icon
+            name={iconName}
+            type={iconType}
+            color={"white"}
+            style={{
+              //flex: 0.3,
+              marginHorizontal: 2,
+              //backgroundColor: "green"
+            }}
+          />
         ) : (
           <></>
         )}
+        <Text style={styles.buttonText}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -76,8 +85,9 @@ const styles = StyleSheet.create({
   buttonText: {
     //flex: 1,
     color: "white",
-    //backgroundColor:'blue',
-    fontSize: 18,
+    //backgroundColor: "blue",
+    fontSize: 17,
+    //left: 5,
     fontFamily: "Metropolis",
     fontWeight: "600",
   },

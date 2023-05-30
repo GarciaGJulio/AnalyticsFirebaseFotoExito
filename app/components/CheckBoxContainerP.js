@@ -135,7 +135,7 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
       {check1 ? (
         <View style={styles.secondaryContainer}>
           <View style={{ padding: 10, flex: 2 }}>
-            <View style={{ flex: 1.2, backgroundColor: "red" }}>
+            <View style={{ flex: 1.2 }}>
               <Image
                 source={{
                   uri: "https://media.informabtl.com/wp-content/uploads/2019/10/d620c905-material-pop-exhibidor-temporal.jpg",

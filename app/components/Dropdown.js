@@ -173,6 +173,7 @@ export default Dropdown;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: theme.dimensions.maxWidth / 1.2,
+    //width: theme.dimensions.maxWidth / 1.2,
+    width: theme.dimensions.maxWidth / 1.1,
   },
 });

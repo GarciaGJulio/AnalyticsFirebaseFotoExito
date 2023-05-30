@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import * as Animatable from "react-native-animatable";
@@ -21,6 +28,7 @@ const ListBranch = () => {
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta);
       setAudit(resultadoConsulta);
+      setFilteredData(resultadoConsulta);
       console.log(
         "Copia de contenido completada con éxito: ",
         resultadoConsulta
@@ -39,6 +47,24 @@ const ListBranch = () => {
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  const searchFilter = (text) => {
+    setSearchText(text);
+    const newData = audit.filter((item) => {
+      const itemName = `${item.nombre_cliente}`.toLowerCase();
+      const itemBranch = `${item.nombre_sucursal}`.toLowerCase();
+      const searchTextLower = text.toLowerCase();
+
+      return (
+        itemName.includes(searchTextLower) ||
+        itemBranch.includes(searchTextLower)
+      );
+    });
+    setFilteredData(newData);
+  };
+
   if (!fontLoaded) return null;
 
   return (
@@ -52,9 +78,22 @@ const ListBranch = () => {
           de interés.
         </Text>
         <View style={styles.contentContainerBranch}>
+          {/*<TextInput
+            style={{
+              height: 40,
+              width: 320,
+              borderColor: "gray",
+              borderWidth: 1,
+              paddingHorizontal: 10,
+              marginBottom: 30,
+            }}
+            placeholder="Buscar"
+            onChangeText={searchFilter}
+            value={searchText}
+          />*/}
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={audit}
+            data={filteredData}
             renderItem={({ item }) => <ItemBranch_Review branch={item} />}
             keyExtractor={(item) => item.id}
           />

@@ -86,14 +86,22 @@ const ItemBranch_Review = ({ branch }) => {
           borderRadius: 5,
           marginVertical: 5,
           height: 50,
-          paddingHorizontal: 20,
+          paddingHorizontal: 10,
           alignItems: "center",
           justifyContent: "space-between",
           flexDirection: "row",
         }}
       >
-        <Text style={{ fontFamily: "Metropolis", fontSize: 16 }}>
-          {branch.nombre_cliente}-{branch.nombre_sucursal}
+        <Text
+          style={{
+            fontFamily: "Metropolis",
+            fontSize: 14,
+            flex: 1,
+            //textAlign: "justify",
+            //backgroundColor: "red",
+          }}
+        >
+          {branch.id_cliente}-{branch.nombre_cliente}-{branch.nombre_sucursal}
         </Text>
         {branch.estado_sincronizacion ? (
           <TouchableOpacity>

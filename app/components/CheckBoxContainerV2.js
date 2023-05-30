@@ -98,7 +98,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
         onClose={handleCloseModal}
         onPress={acceptModal}
         warning={
-          "Al presionar el boton Aceptar se va a eliminar el registro ingresado."
+          "Al presionar el boton Aceptar se borraran los datos ingresados de este producto."
         }
       />
       <View style={styles.primaryContainer}>
@@ -126,11 +126,11 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
               style={{
                 //marginHorizontal: 10,
                 marginTop: 5,
-                fontSize: 12,
+                fontSize: 14,
                 fontFamily: "Metropolis",
               }}
             >
-              Precio disponible
+              Preciador visible
             </Text>
             <ToggleSwitch
               isOn={state}
@@ -209,15 +209,15 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                   validatePriceProduct(txt, setErrorPrice);
                   actualizarPrecio(item, parseFloat(txt));
                 }}
-                label="Precio del producto"
-                placeholder="Ingresa el precio del producto"
-                maxLength={5}
+                label="Preciador del producto"
+                placeholder="Precio"
+                maxLength={6}
                 keyboard="numeric"
                 editable={true}
                 value={price}
                 width={"100%"}
                 error={errorPrice}
-                information={"Este campo es obligatorio"}
+                information={"* Este campo es obligatorio"}
               />
             </View>
             <View
@@ -236,7 +236,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                   fontFamily: "Metropolis",
                 }}
               >
-                Foto del precio del producto respectivo
+                * Foto del preciador del producto
               </Text>
               <TakeImage setProducts={setProducts} item={item} />
             </View>

@@ -14,6 +14,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ModernaContext from "../context/ModernaContext";
 import { useFonts } from "expo-font";
+import WifiIndicator from "./WifiIndicator";
 
 const ModernaHeaderM = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -34,6 +35,8 @@ const ModernaHeaderM = () => {
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
+  const subStringName = userInfo.displayName.split(" ");
+
   if (!fontLoaded) return null;
 
   return (
@@ -45,15 +48,21 @@ const ModernaHeaderM = () => {
         warning={"¿Está seguro de querer cerrar sesión?"}
       />
       <View style={styles.userInfo}>
-        <Icon name="user-tag" type="font-awesome-5" size={20} color={"white"} />
+        <Icon name="user-tag" type="font-awesome-5" size={18} color={"white"} />
         <View style={{ paddingLeft: 10 }}>
           <Text
-            style={{ color: "white", fontSize: 12, fontFamily: "Metropolis" }}
+            style={{
+              color: "white",
+              fontSize: 12,
+              fontFamily: "Metropolis",
+            }}
           >
-            {userInfo ? userInfo.givenName : "Santiago Mosquera"}
+            {userInfo
+              ? subStringName[0] + " " + subStringName[2]
+              : "Santiago Mosquera"}
           </Text>
           <Text
-            style={{ color: "white", fontSize: 6, fontFamily: "Metropolis" }}
+            style={{ color: "white", fontSize: 10, fontFamily: "Metropolis" }}
           >
             {userInfo ? userInfo.mail : "santiago@clearminds.com"}
           </Text>
@@ -61,7 +70,8 @@ const ModernaHeaderM = () => {
       </View>
       <View style={styles.imageContainer}></View>
       <TouchableOpacity style={styles.logOutButton} onPress={handleOpenModal}>
-        <Icon name="log-out-outline" type="ionicon" size={30} color={"white"} />
+        <WifiIndicator />
+        <Icon name="log-out-outline" type="ionicon" size={25} color={"white"} />
       </TouchableOpacity>
     </View>
   );
@@ -75,7 +85,7 @@ const styles = StyleSheet.create({
     height: 55,
     flexDirection: "row",
     //paddingHorizontal:10,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: theme.colors.modernaRed,
     position: "absolute",
@@ -89,16 +99,20 @@ const styles = StyleSheet.create({
   userInfo: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1.2,
+    flex: 1,
     justifyContent: "center",
+    //backgroundColor: "blue",
   },
   imageContainer: {
     //backgroundColor:'green',
     justifyContent: "center",
-    flex: 2,
+    flex: 0.5,
   },
   logOutButton: {
-    //backgroundColor:'brown',
+    //backgroundColor: "brown",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     flex: 0.5,
   },
 });

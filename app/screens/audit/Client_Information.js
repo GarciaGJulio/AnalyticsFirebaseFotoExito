@@ -211,9 +211,11 @@ const Client_Information = ({ navigation }) => {
     }
 
     if (validador && errorBranchName == "" && !validateBranch) {
-      setIsModalVisible(true);
-      try {
-        const location = await capturarCoordenadas(sucursalInformation);
+      navigation.navigate("briefcase");
+    }
+    //setIsModalVisible(true);
+    /*try {
+        /*const location = await capturarCoordenadas(sucursalInformation);
         const datosCompletos = { ...location };
         setDatosCompletos(datosCompletos);
         setIsModalVisible(false);
@@ -267,12 +269,12 @@ const Client_Information = ({ navigation }) => {
         }
         //navigation.navigate("briefcase");
         setValidatePass(true);
-        setIsModalVisible(false);
-      } catch (error) {
+        setIsModalVisible(false);*/
+
+    /*} catch (error) {
         console.log(error);
         setIsModalVisible(false);
-      }
-    }
+      }*/
   };
 
   /*const insertar = () => {
@@ -313,9 +315,9 @@ const Client_Information = ({ navigation }) => {
 
         <View
           style={{
-            flexDirection: "row",
-            marginHorizontal: 20,
-            flex: 2, //backgroundColor:'orange'
+            //flexDirection: "row",
+            //marginHorizontal: 20,
+            flex: 1.5, //backgroundColor:'orange'
           }}
         >
           <Dropdown
@@ -330,17 +332,52 @@ const Client_Information = ({ navigation }) => {
             sucursalInformation={sucursalInformation}
             setError={setErrorClientName}
           />
-          <View style={{ width: 150, marginLeft: 10 }}>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            marginVertical: 20,
+            justifyContent: "space-evenly",
+            flex: 1,
+            width: "100%",
+            backgroundColor: "orange",
+          }}
+        >
+          <View style={{ width: 160 }}>
+            <Text style={{ paddingBottom: 5, fontFamily: "Metropolis" }}>
+              Grupo de cliente
+            </Text>
+            <View
+              style={{
+                width: "100%",
+                //height: 45,
+                flex: 1,
+                borderWidth: 0.5,
+                borderColor: theme.colors.lightgray,
+                //borderColor: "black",
+                borderRadius: 5,
+                padding: 10,
+                alignItems: "center",
+                backgroundColor: "rgba(169,169,169,0.15)",
+              }}
+            >
+              <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
+                {type}
+              </Text>
+            </View>
+          </View>
+          <View style={{ width: 160 }}>
             <Text style={{ paddingBottom: 5, fontFamily: "Metropolis" }}>
               Tipo de cliente
             </Text>
             <View
               style={{
                 width: "100%",
-                height: 45,
-                borderWidth: 1,
+                //height: 45,
+                flex: 1,
+                borderWidth: 0.5,
                 borderColor: "black",
-                borderRadius: 10,
+                borderRadius: 5,
                 padding: 10,
                 alignItems: "center",
                 backgroundColor: "rgba(169,169,169,0.15)",
@@ -352,6 +389,7 @@ const Client_Information = ({ navigation }) => {
             </View>
           </View>
         </View>
+
         <View
           style={{
             flex: 3,
@@ -376,7 +414,9 @@ const Client_Information = ({ navigation }) => {
             editable={true}
             value={sucursal}
             width={"90%"}
-            information={"* Solo se puede ingresar una sucursal por día"}
+            information={
+              "* Solo se puede ingresar la misma sucursal una vez por día"
+            }
           />
         </View>
         <View style={{ flex: 0.8, alignItems: "center", margin: 5 }}>

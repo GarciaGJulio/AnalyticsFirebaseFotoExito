@@ -101,7 +101,7 @@ export default StyledInput;
 const style = StyleSheet.create({
   label: {
     marginVertical: 5,
-    fontSize: 14,
+    fontSize: 12,
     //color: "#33576f",
     fontWeight: "600",
     fontFamily: "Metropolis",

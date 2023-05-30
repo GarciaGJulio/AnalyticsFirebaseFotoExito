@@ -159,7 +159,7 @@ const Menu = ({ navigation }) => {
             }}
           >
             <Text style={styles.text}>
-              Sube una auditoria que hayas registrado de forma offline
+              Enviar una auditoría que hayas registrado de forma offline
             </Text>
           </View>
         </View>
@@ -229,7 +229,7 @@ const Menu = ({ navigation }) => {
             }}
           >
             <Text style={styles.text}>
-              Sube una auditoria que hayas registrado de forma offline
+              Consulta las auditorías que has registrado previamente
             </Text>
           </View>
         </View>
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },*/
   contentContainer: {
-    flex: 4,
+    flex: 2,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: "white",
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "Metropolis",
     //textAlign:'justify'
   },
