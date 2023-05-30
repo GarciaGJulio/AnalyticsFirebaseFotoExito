@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   ImageBackground,
   StatusBar,
@@ -23,6 +24,8 @@ import { Cli, GraphInit } from "../../azureConfig/graph/GraphManager";
 import { useFonts } from "expo-font";
 import ModernaHeader from "../../components/ModernaHeader";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
+import * as SQLite from "expo-sqlite";
+
 const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -105,6 +108,29 @@ const Menu = ({ navigation }) => {
       navigation.navigate("audit");
     }, 5000);
   };
+
+  const db = SQLite.openDatabase("MODERNAAPPMOBILEDB");
+
+  // Obtener lista de tablas
+  db.transaction((tx) => {
+    tx.executeSql(
+      `SELECT name FROM sqlite_master WHERE type='table'`,
+      [],
+      (_, result) => {
+        const tables = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          tables.push(result.rows.item(i).name);
+        }
+        console.log("Lista de tablas:", tables);
+        const tablas = tables.join(",\n ");
+        Alert.alert("Lista de las tablas de las bases de datos: ", tablas);
+      },
+      (_, error) => {
+        console.error("Error al obtener la lista de tablas:", error);
+        Alert.alert("Error al consultar base de datos interna: ", tablas);
+      }
+    );
+  });
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),

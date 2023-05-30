@@ -15,8 +15,8 @@ const Rack_Review = () => {
     const datos = await realizarConsulta(
       `SELECT * FROM percha where id_percha =${datosCompartidos.id_percha}`
     );
-    const datosActualizados = await datos.map(async (item) => {
-      let nombre = await realizarConsulta(
+    const datosPromesas = datos.map(async (item) => {
+      const nombre = await realizarConsulta(
         `SELECT nombre_categoria FROM categoria where id_categoria ='${item.id_categoria}'`
       );
       console.log("NOMBRE DE LA CATEGORIA: ", nombre[0].nombre_categoria);
@@ -25,6 +25,8 @@ const Rack_Review = () => {
         nombre_categoria: nombre[0].nombre_categoria,
       };
     });
+
+    const datosActualizados = await Promise.all(datosPromesas);
     /*const categoria_name = await realizarConsulta(
       `SELECT * FROM categoria where id_categoria =${datos.id_categoria}`
     );*/
