@@ -110,7 +110,7 @@ const Rack_View = ({ rack }) => {
               fontFamily: "Metropolis",
             }}
           >
-            Categoría Moderna
+            Categoría
           </Text>
           <Input
             keyboardType="numeric"

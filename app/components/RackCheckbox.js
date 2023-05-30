@@ -16,33 +16,23 @@ import { FlashList } from "@shopify/flash-list";
 const RackCheckbox = ({ categoryName, item, setData }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
+  const [verificacionCategorias, setverificacionCategoria] = useState(false)
   //const [objPercha, setObjPercha] = useState(itemCom)
 
-  /*useEffect(() => {
-        // setObjPercha({...objPercha,
-        //     categoriaGeneral: CateGeneral,
-        //     categoriaModerna: CateModerna
-        // })
+  useEffect(() => {
 
-        console.log("Percha desde dentro",objPercha)
-        // onchangeObjPercha(itemCom)
-        // itemCom= {...itemCom,objPercha}
 
-    
-    }, [CateGeneral]);*/
+    if(CateGeneral < CateModerna){
+      setverificacionCategoria(true)
+      console.log("es mayor el de moderna",CateGeneral)
 
-  /*useEffect(() => {
-        // setObjPercha({...objPercha,
-        //     categoriaGeneral: CateGeneral,
-        //     categoriaModerna: CateModerna
-        // })
+    }else if(CateGeneral >=  CateModerna){
+      setverificacionCategoria(false)
 
-        console.log("Percha desde dentro",objPercha)
-        // onchangeObjPercha(itemCom)
-        // itemCom= {...itemCom,objPercha}
+    }
 
     
-    }, [CateModerna]);*/
+    }, [CateModerna,CateGeneral]);
 
   /*useEffect(() => {
         console.log("itmDentroCompleto",itemCom)
@@ -160,7 +150,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
               fontSize: theme.fontSize.subtitle,
             }}
           >
-            Categoría general
+            *Categoría general
           </Text>
           <Input
             keyboardType="numeric"
@@ -171,6 +161,9 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                                 CarasGeneral:txt
                             })*/
               //onchangeObjPercha(objPercha)
+
+
+
             }}
             value={CateGeneral}
             style={styles.input}
@@ -183,7 +176,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
               fontSize: theme.fontSize.subtitle,
             }}
           >
-            Categoría Moderna
+            *Categoría Moderna
           </Text>
           <Input
             keyboardType="numeric"
@@ -200,7 +193,15 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             underlineColor="transparent"
           />
         </View>
+
       </View>
+      <View style={{ flexDirection: "row" }}>
+        <Text>
+          {verificacionCategorias ? 'El valor de Categoria Moderna no puede ser superior al Categoria General' : ''}
+        </Text>
+      </View>
+
+
       {openCamera ? (
         <View>
           <View style={styles.imageContainer}>

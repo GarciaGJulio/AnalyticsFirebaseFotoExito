@@ -193,21 +193,7 @@ const Briefcase = ({ navigation }) => {
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
         (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
-    if (
-      idealPortfolioProducts.length + complementaryPortfolioProducts.length <
-      5
-    ) {
-      Alert.alert(
-        "No se puede realizar la auditoria sin productos: ",
-        "Debe selecionar al menos 5 productos entre ambos portafolios"
-      );
-      console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -");
-      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(idealPortfolioProducts));
-      console.log(
-        "PORTAFOLIO COMPLEMENTARIO: ",
-        JSON.stringify(complementaryPortfolioProducts)
-      );
-    } else {
+  
       Alert.alert(
         "Productos validados: ",
         "Redirigiendo a la siguiente pantalla"
@@ -218,7 +204,7 @@ const Briefcase = ({ navigation }) => {
         idealPortfolioProducts,
         setComplementaryPortfolioProducts,
       });
-    }
+ 
 
     //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
   };

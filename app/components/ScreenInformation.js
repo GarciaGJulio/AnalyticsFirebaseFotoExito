@@ -54,6 +54,10 @@ const ScreenInformation = ({ title, text }) => {
           {text.toString()}
         </Text>
       ) : null}
+      <Text>
+        * Este campo es obligatorio
+      </Text>
+
     </View>
   );
 };
