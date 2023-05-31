@@ -34,7 +34,7 @@ import { lookForSucursal } from "../../services/SeleccionesService";
 import { validateNameBranch } from "../../utils/helpers";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import StyledButton from "../../components/StyledButton";
-import { realizarConsulta, selectData } from "../../common/sqlite_config";
+import { handleSelectDataBase, realizarConsulta, selectData } from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import { useFonts } from "expo-font";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
@@ -71,18 +71,28 @@ const Client_Information = ({ navigation }) => {
   const consultarYCopiarContenidoClientes = async () => {
     try {
       // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
+      //  const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
+      handleSelectDataBase("SELECT * FROM cliente",
+        (resultadoConsulta) => {
+
+          // setClientes(dataFormat(resultadoConsulta));
+          setNewArrayClients(dataFormat(resultadoConsulta));
+        }, (e) => {
+          console.log("error al consulatar cliente", e)
+          Alert.alert("error al consulatar cliente", e);
+
+        })
 
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta);
-      setNewArrayClients(dataFormat(resultadoConsulta));
+      /*setNewArrayClients(dataFormat(resultadoConsulta));
       console.log("Copia de contenido completada con éxito: ");
       const clientes = resultadoConsulta
         .map(
           (objeto) =>
             `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
         )
-        .join("\n");
+        .join("\n");*/
       //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
@@ -394,7 +404,7 @@ const Client_Information = ({ navigation }) => {
             flex: 1.5, //backgroundColor:'orange'
           }}
         >
-          <Dropdown
+          {newArrayClients.length > 0 ? <Dropdown
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
             selected={selected}
@@ -408,7 +418,36 @@ const Client_Information = ({ navigation }) => {
             sucursalInformation={sucursalInformation}
             setError={setErrorClientName}
             arrayClients={arrayClients}
-          />
+          /> : <Dropdown
+            placeholder={"Seleccione un cliente"}
+            setSelected={setSelected}
+            selected={selected}
+            setType={setType}
+            newArrayClients={[]}
+            setGroupClient={setGroupClient}
+            error={errorClientName}
+            clients={newArrayClients}
+            setClientGroupId={setClientGroupId}
+            setSucursalInformation={setSucursalInformation}
+            sucursalInformation={sucursalInformation}
+            setError={setErrorClientName}
+            arrayClients={arrayClients}
+          />}
+          {/* <Dropdown
+            placeholder={"Seleccione un cliente"}
+            setSelected={setSelected}
+            selected={selected}
+            setType={setType}
+            newArrayClients={newArrayClients}
+            setGroupClient={setGroupClient}
+            error={errorClientName}
+            clients={newArrayClients}
+            setClientGroupId={setClientGroupId}
+            setSucursalInformation={setSucursalInformation}
+            sucursalInformation={sucursalInformation}
+            setError={setErrorClientName}
+            arrayClients={arrayClients}
+          /> */}
         </View>
         <View
           style={{
