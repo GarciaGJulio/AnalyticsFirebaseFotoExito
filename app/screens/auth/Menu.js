@@ -123,11 +123,11 @@ const Menu = ({ navigation }) => {
         }
         console.log("Lista de tablas:", tables);
         const tablas = tables.join(",\n ");
-        Alert.alert("Lista de las tablas de las bases de datos: ", tablas);
+        //Alert.alert("Lista de las tablas de las bases de datos: ", tablas);
       },
       (_, error) => {
         console.error("Error al obtener la lista de tablas:", error);
-        Alert.alert("Error al consultar base de datos interna: ", tablas);
+        //Alert.alert("Error al consultar base de datos interna: ", tablas);
       }
     );
   });

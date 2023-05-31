@@ -1,29 +1,63 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { Modal, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import theme from '../theme/theme'
 import { Image } from 'react-native'
 import HARINA from '.././../assets/resources/harina.png'
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 const PromosItemsDetails_Review = ({ exhibitor }) => {
+    const [extraImages, setExtraImages] = useState([]);
+    const validateExtraImages = (objeto) => {
+        //const imagenes = []
+        setExtraImages(prevImagenes => [...prevImagenes, objeto.url_imagen1])
+        if (objeto.url_imagen2) {
+            setExtraImages(prevImagenes => [...prevImagenes, objeto.url_imagen2]);
+        }
+
+        if (objeto.url_imagen3) {
+            setExtraImages(prevImagenes => [...prevImagenes, objeto.url_imagen3]);
+        }
+
+        let img = extraImages.join(",")
+        console.log("IMAGENES EXTRAS: - - - - ", img)
+
+    }
+
+    useEffect(() => {
+        validateExtraImages(exhibitor)
+    }, [])
 
     return (
         <View style={[styles.container]}>
             <View style={[styles.primaryContainer, { marginLeft: 20, }]}>
-                <Image source={HARINA} style={{ width: 100, height: 100 }} />
                 <View style={styles.descriptionContainer}>
-                    <Text style={{ fontSize: 13 }}>{exhibitor.name}</Text>
+                    <Text style={{ fontSize: 13 }}>{exhibitor.nombre_exhibidor}</Text>
                     <View style={styles.imagesContainer}>
-                        {exhibitor.prod.map((prodImages) => {
-                            return Object.values(prodImages).map((image, index) => {
-                                return (
-                                    <Image
-                                        key={index}
-                                        source={{ uri: image }}
-                                        style={styles.imgContainer}
-                                        resizeMode="cover"
-                                    />
-                                );
-                            });
+                        {/*<Modal visible={true} transparent={true}>
+                            <ImageViewer
+                                //key={index}
+                                //source={{ uri: images }}
+                                imageUrls={extraImages}
+                                //imageUrls={images}
+                                style={styles.imgContainer}
+                                
+                                resizeMode="cover"
+                            />
+    </Modal>*/}
+                        {extraImages.map((images) => {
+                            return (
+
+                                <Image
+                                    //key={index}
+                                    source={{ uri: images }}
+                                    //imageUrls={extraImages}
+                                    //imageUrls={images}
+                                    style={styles.imgContainer}
+                                    resizeMode="cover"
+                                />
+
+
+                            );
                         })}
                     </View>
                 </View>

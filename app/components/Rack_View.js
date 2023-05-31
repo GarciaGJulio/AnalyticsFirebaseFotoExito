@@ -6,15 +6,17 @@ import {
   Image,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import theme from "../theme/theme";
 import { Icon, Input } from "@rneui/base";
 import { useFonts } from "expo-font";
+import { Divider } from "react-native-paper";
 
 const Rack_View = ({ rack }) => {
   const [CateGeneral, setCateGeneral] = useState("70");
   const [CateModerna, setCateModerna] = useState("50");
   const [modalVisible, setModalVisible] = useState(false);
+  const [extraImages, setExtraImages] = useState([]);
 
   const handleTextGeneral = (txt) => {
     setCateGeneral(txt);
@@ -39,6 +41,25 @@ const Rack_View = ({ rack }) => {
     setDisabled2(!disabled2);
   };
 
+  const validateExtraImages = (objeto) => {
+    const imagenes = []
+    if (objeto.url_imagen2) {
+      setExtraImages(prevImagenes => [...prevImagenes, objeto.url_imagen2]);
+    }
+    
+    if (objeto.url_imagen3) {
+      setExtraImages(prevImagenes => [...prevImagenes, objeto.url_imagen3]);
+    }
+
+    let img = extraImages.join(",")
+    console.log("IMAGENES EXTRAS: - - - - ",img)
+
+  }
+
+  useEffect(() => {
+    validateExtraImages(rack)
+  },[])
+
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -58,11 +79,13 @@ const Rack_View = ({ rack }) => {
       <View style={styles.header}>
         <Text
           style={{
-            fontWeight: theme.fontWeight.bolder,
+            fontWeight: theme.fontWeight.softbold,
             fontSize: theme.fontSize.title,
+            fontFamily: "Metropolis",
+            left: 10,
           }}
         >
-          {rack.name}
+          {rack.nombre_categoria}
         </Text>
         <TouchableOpacity
           style={{ position: "absolute", right: 4, top: 2 }}
@@ -74,12 +97,20 @@ const Rack_View = ({ rack }) => {
           <Icon name="camera" type="evilicon" size={40} />
           {/* <Icon name='camerao' type='antdesign' size={32} /> */}
         </TouchableOpacity>
+        <View style={{ width: "100%",backgroundColor:'black' }}>
+        <Divider
+          width={2}
+          color={"black"}
+          style={{ backgroundColor: "blue" }}
+        />
       </View>
+      </View>
+      
       <View style={styles.categoryContainer}>
         <View style={styles.category}>
           <Text
             style={{
-              fontWeight: theme.fontWeight.bolder,
+              fontWeight: theme.fontWeight.softbold,
               fontSize: theme.fontSize.subtitle,
               fontFamily: "Metropolis",
             }}
@@ -88,8 +119,8 @@ const Rack_View = ({ rack }) => {
           </Text>
           <Input
             keyboardType="numeric"
-            onChangeText={handleTextGeneral}
-            value={CateGeneral}
+            //onChangeText={handleTextGeneral}
+            value={rack.categoria_general.toString()}
             editable={false}
             style={[
               styles.input,
@@ -105,7 +136,7 @@ const Rack_View = ({ rack }) => {
         <View style={styles.category}>
           <Text
             style={{
-              fontWeight: theme.fontWeight.bolder,
+              fontWeight: theme.fontWeight.softbold,
               fontSize: theme.fontSize.subtitle,
               fontFamily: "Metropolis",
             }}
@@ -114,13 +145,13 @@ const Rack_View = ({ rack }) => {
           </Text>
           <Input
             keyboardType="numeric"
-            onChangeText={handleTextModerna}
-            value={CateModerna}
+            //onChangeText={handleTextModerna}
+            value={rack.categoria_moderna.toString()}
             editable={false}
             style={[
               styles.input,
               {
-                fontWeight: theme.fontWeight.bold,
+                fontWeight: theme.fontWeight.softbold,
                 color: theme.colors.black,
                 fontFamily: "Metropolis",
               },
@@ -146,21 +177,19 @@ const Rack_View = ({ rack }) => {
                 <View style={styles.modalView}>
                   <Image
                     style={styles.imageContainer}
-                    source={{ uri: rack.rackPrimary }}
+                    source={{ uri: rack.url_imagen1 }}
                   />
                   <View style={{ flexDirection: "row" }}>
-                    {rack.prod.map((prodImages) => {
-                      return Object.values(prodImages).map((image, index) => {
+                    {extraImages.map((images) => {
                         return (
                           <Image
-                            key={index}
-                            source={{ uri: image }}
+                            //key={index}
+                            source={{ uri: images }}
                             style={styles.imgContainer}
                             resizeMode="cover"
                           />
                         );
-                      });
-                    })}
+                      })}
                   </View>
                   {/* <View style={{ flexDirection: 'row', }}>
                                             <Image
@@ -219,7 +248,7 @@ const styles = StyleSheet.create({
   header: {
     //backgroundColor:'blue',
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingVertical: 5,
   },
   categoryContainer: {

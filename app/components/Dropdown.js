@@ -83,7 +83,7 @@ const Dropdown = ({
             `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
         )
         .join("\n");
-      Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
+      //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }

@@ -47,8 +47,12 @@ const Briefcase_branch_review = ({ route }) => {
   const consultarYCopiarContenido = async () => {
     try {
       // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta(
+      /*const resultadoConsulta = await realizarConsulta(
         "SELECT * FROM preciador_portafolio_complementario LEFT JOIN preciador ON preciador_portafolio_complementario.id_preciador_portafolio_complementario = preciador.id_preciador;"
+      );*/
+
+      const resultadoConsulta = await realizarConsulta(
+        "SELECT * FROM preciador_portafolio_complementario LEFT JOIN preciador ON preciador_portafolio_complementario.id_preciador_portafolio_complementario = preciador.id_preciador"
       );
 
       // Copia el contenido después de la consulta

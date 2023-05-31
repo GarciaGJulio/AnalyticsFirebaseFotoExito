@@ -12,11 +12,12 @@ const Rack_Review = () => {
   const { datosCompartidos } = useContext(DataContext);
   const [rack, setRack] = useState([]);
   const getRackData = async () => {
-    const resultadoConsulta = await realizarConsulta(`SELECT * FROM percha`);
+    //const resultadoConsulta = await realizarConsulta(`SELECT * FROM percha`);
+    const categorias = await realizarConsulta(`SELECT * FROM categoria`);
     const datos = await realizarConsulta(
       `SELECT * FROM percha where id_percha ='${datosCompartidos.id_percha}'`
     );
-    const datosPromesas = datos.map(async (item) => {
+    /*const datosPromesas = datos.map(async (item) => {
       const nombre = await realizarConsulta(
         `SELECT nombre_categoria FROM categoria where id_categoria ='${item.id_categoria}'`
       );
@@ -25,14 +26,27 @@ const Rack_Review = () => {
         ...item,
         nombre_categoria: nombre[0].nombre_categoria,
       };
-    });
+    });*/
 
-    const datosActualizados = await Promise.all(datosPromesas);
+    const perchasCompletas = datos.map((objeto) => {
+      const categoria = categorias.find((cat) => cat.id_categoria === objeto.id_categoria);
+      if (categoria) {
+        return {
+          ...objeto,
+          nombre_categoria: categoria.nombre_categoria,
+        };
+      }
+      return objeto;
+    });
+    setRack(perchasCompletas)
+
+    //const datosActualizados = await Promise.all(datosPromesas);
     /*const categoria_name = await realizarConsulta(
       `SELECT * FROM categoria where id_categoria =${datos.id_categoria}`
     );*/
     //console.log("NOMBRE DE CATEGORIA : ", categoria_name);
-    console.log("DATOS OBTENIDOS DE PERCHAS : ", resultadoConsulta);
+    //console.log("DATOS OBTENIDOS DE CATEGORIAS : ", perchasCompletas);
+    console.log("DATOS OBTENIDOS DE PERCHAS : ", perchasCompletas);
     console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
   };
   useEffect(() => {
@@ -57,7 +71,7 @@ const Rack_Review = () => {
         />
         <BackPage_Review />
       </View>
-      <TarjetaRack_Review />
+      <TarjetaRack_Review data={rack}/>
     </View>
   );
 };

@@ -2,10 +2,11 @@ import { StyleSheet, Text, View, } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import theme from "../theme/theme";
 import Rack_View from "./Rack_View";
+import { useFonts } from "expo-font";
 
-const TarjetaRack_Review = () => {
+const TarjetaRack_Review = ({data}) => {
 
-    const dataRack = [
+    /*const dataRack = [
         {
             name: "Pan",
             rackPrimary: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
@@ -39,14 +40,21 @@ const TarjetaRack_Review = () => {
                 img0: 'https://media.istockphoto.com/id/684817242/es/foto/harina-en-un-taz%C3%B3n-de-fuente-de-madera-bolsa-de-papel-y-una-cuchara-vista-superior.jpg?s=612x612&w=is&k=20&c=t09aNoDADGrjYa_Btx2oFZvBMEXg5qb2jRrEGKk-4uY=',
             }],
         },
-    ];
+    ];*/
+
+    const [fontLoaded] = useFonts({
+        Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+        // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+      });
+
+    if (!fontLoaded) return null;
 
     return (
         <View View style={styles.container} >
-            <Text style={{ fontWeight: theme.fontWeight.bolder, fontSize: theme.fontSize.subtitle }}>PERCHAS</Text>
+            <Text style={{ fontWeight: theme.fontWeight.softbold, fontSize: theme.fontSize.subtitle,fontFamily:'Metropolis' }}>PERCHAS</Text>
             <View style={{ flex: 1, width: '100%', marginVertical: 5 }}>
                 <FlashList
-                    data={dataRack}
+                    data={data}
                     renderItem={({ item }) => <Rack_View rack={item} />}
                     estimatedItemSize={10}
                     showsVerticalScrollIndicator={false} />

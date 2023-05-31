@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { FlashList } from '@shopify/flash-list';
 import PromosItemsDetails_Review from './PromosItemsDetails_Review';
 
-export const PromosItems_Review = ({ }) => {
+export const PromosItems_Review = ({ data }) => {
     const DATA = [
         {
             name: "Exhibidor Tipo 1",
@@ -40,7 +40,7 @@ export const PromosItems_Review = ({ }) => {
     return (
         <View style={styles.container}>
             <FlashList
-                data={DATA}
+                data={data}
                 renderItem={({ item }) => <PromosItemsDetails_Review exhibitor={item} />}
                 estimatedItemSize={4}
                 showsVerticalScrollIndicator={false}

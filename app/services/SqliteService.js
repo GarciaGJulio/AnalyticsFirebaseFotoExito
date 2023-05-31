@@ -104,18 +104,18 @@ export const db_insertGlobal = async (objSentence) => {
           "se ejecuta sentencia insert " + objSentence.tableName + " OK  "
         );
         console.log("verificando si hay funcion can create order");
-        Alert.alert(
+        /*Alert.alert(
           `Exito al insertar los datos en la tabla ${objSentence.tableName} `
-        );
+        );*/
         // if (succesFunction) {
         //   // succesFunction();
         // }
       },
       () => {
         console.log("error al insertar tabla " + objSentence.tableName);
-        Alert.alert(
+        /*Alert.alert(
           `Error al insertar los datos en la tabla ${objSentence.tableName} `
-        );
+        );*/
         // if (errorFunction) {
         //   errorFunction()
         // }

@@ -214,19 +214,18 @@ const Client_Information = ({ navigation }) => {
     }
 
     if (validador && errorBranchName == "" && !validateBranch) {
-      navigation.navigate("briefcase");
-    }
-    //setIsModalVisible(true);
-    /*try {
-        /*const location = await capturarCoordenadas(sucursalInformation);
-        const datosCompletos = { ...location };
-        setDatosCompletos(datosCompletos);
+      //navigation.navigate("briefcase");
+      setIsModalVisible(true);
+      try {
+        //const location = await capturarCoordenadas(sucursalInformation);
+        //const datosCompletos = { ...location };
+        //setDatosCompletos(datosCompletos);
         setIsModalVisible(false);
         console.log("DATOS A GUARDAR: ", {
           id: sucursalInformation.id,
           nombre: sucursalInformation.name,
-          latitude: datosCompletos.latitude,
-          longitude: datosCompletos.longitude,
+          //latitude: datosCompletos.latitude,
+          //longitude: datosCompletos.longitude,
           usuario: userInfo.givenName,
           creacion: dataTime(),
           modificacion: dataTime(),
@@ -237,8 +236,8 @@ const Client_Information = ({ navigation }) => {
           dataInsertType: [
             "id_sucursal",
             "nombre_sucursal",
-            "latitud",
-            "longitud",
+            //"latitud",
+            //"longitud",
             "usuario_creacion",
             "fecha_creacion",
             "fecha_modificacion",
@@ -246,8 +245,8 @@ const Client_Information = ({ navigation }) => {
           dataInsert: [
             `'${sucursalInformation.id}'`,
             `'${sucursalInformation.name}'`,
-            datosCompletos.latitude,
-            datosCompletos.longitude,
+            //datosCompletos.latitude,
+            //datosCompletos.longitude,
             `'${userInfo.givenName}'`,
             `'${dataTime()}'`,
             `'${dataTime()}'`,
@@ -262,7 +261,7 @@ const Client_Information = ({ navigation }) => {
           dataSave.dataInsert.join() +
           ")";
         console.log("SENTENCIA A EJECUTAR: ", sentence);
-        //db_insertGlobalDataAudit(dataSave);
+        db_insertGlobalDataAudit(dataSave);
         // navigation.navigate("briefcase");
         if (datosCompletos.latitude) {
           navigation.navigate("briefcase");
@@ -270,15 +269,16 @@ const Client_Information = ({ navigation }) => {
         } else {
           alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION");
         }
-        //navigation.navigate("briefcase");
+        navigation.navigate("briefcase");
         setValidatePass(true);
-        setIsModalVisible(false);*/
+        setIsModalVisible(false);
 
-    /*} catch (error) {
+      } catch (error) {
         console.log(error);
         setIsModalVisible(false);
-      }*/
-  };
+      }
+    };
+  }
 
   /*const insertar = () => {
     let sentencia =
