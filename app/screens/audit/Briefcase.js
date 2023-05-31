@@ -268,10 +268,6 @@ const Briefcase = ({ navigation }) => {
       }
 
       //db_insertGlobalDataAudit(dataSave);
-      Alert.alert(
-        "Productos validados: ",
-        "Redirigiendo a la siguiente pantalla"
-      );
       /*navigation.navigate("prices", {
         currentStep,
         complementaryPortfolioProducts,

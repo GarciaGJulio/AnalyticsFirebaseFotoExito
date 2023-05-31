@@ -91,6 +91,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
 
   if (!fontLoaded) return null;
 
+
   return (
     <View style={[styles.container, { flex: 1 }]}>
       <ConfirmationModal
@@ -103,7 +104,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
       />
       <View style={styles.primaryContainer}>
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{ flex: 1, justifyContent: "center", alignItems: "center", margin:6 }}
         >
           <Image
             source={{ uri: item.url }}
@@ -209,7 +210,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                   validatePriceProduct(txt, setErrorPrice);
                   actualizarPrecio(item, parseFloat(txt));
                 }}
-                label="Preciador del producto"
+                label="*Preciador del producto"
                 placeholder="Precio"
                 maxLength={6}
                 keyboard="numeric"
@@ -217,7 +218,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                 value={price}
                 width={"100%"}
                 error={errorPrice}
-                information={"* Este campo es obligatorio"}
+                // information={"* Este campo es obligatorio"}
               />
             </View>
             <View

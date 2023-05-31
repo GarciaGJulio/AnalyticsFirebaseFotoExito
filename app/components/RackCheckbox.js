@@ -16,33 +16,23 @@ import { FlashList } from "@shopify/flash-list";
 const RackCheckbox = ({ categoryName, item, setData }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
+  const [verificacionCategorias, setverificacionCategoria] = useState(false)
   //const [objPercha, setObjPercha] = useState(itemCom)
 
-  /*useEffect(() => {
-        // setObjPercha({...objPercha,
-        //     categoriaGeneral: CateGeneral,
-        //     categoriaModerna: CateModerna
-        // })
+  useEffect(() => {
 
-        console.log("Percha desde dentro",objPercha)
-        // onchangeObjPercha(itemCom)
-        // itemCom= {...itemCom,objPercha}
 
-    
-    }, [CateGeneral]);*/
+    if (CateGeneral < CateModerna) {
+      setverificacionCategoria(true)
+      console.log("es mayor el de moderna", CateGeneral)
 
-  /*useEffect(() => {
-        // setObjPercha({...objPercha,
-        //     categoriaGeneral: CateGeneral,
-        //     categoriaModerna: CateModerna
-        // })
+    } else if (CateGeneral >= CateModerna) {
+      setverificacionCategoria(false)
 
-        console.log("Percha desde dentro",objPercha)
-        // onchangeObjPercha(itemCom)
-        // itemCom= {...itemCom,objPercha}
+    }
 
-    
-    }, [CateModerna]);*/
+
+  }, [CateModerna, CateGeneral]);
 
   /*useEffect(() => {
         console.log("itmDentroCompleto",itemCom)
@@ -160,7 +150,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
               fontSize: theme.fontSize.subtitle,
             }}
           >
-            Categoría general
+            *Categoría general
           </Text>
           <Input
             keyboardType="numeric"
@@ -171,6 +161,9 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                                 CarasGeneral:txt
                             })*/
               //onchangeObjPercha(objPercha)
+
+
+
             }}
             value={CateGeneral}
             style={styles.input}
@@ -183,7 +176,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
               fontSize: theme.fontSize.subtitle,
             }}
           >
-            Categoría Moderna
+            *Categoría Moderna
           </Text>
           <Input
             keyboardType="numeric"
@@ -200,14 +193,31 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             underlineColor="transparent"
           />
         </View>
+
       </View>
+      <View style={{ flexDirection: "row" }}>
+        <Text>
+          {verificacionCategorias ? 'El valor de Categoria Moderna no puede ser superior al Categoria General' : ''}
+        </Text>
+      </View>
+
+
       {openCamera ? (
         <View>
           <View style={styles.imageContainer}>
             <Text style={{ fontWeight: theme.fontWeight.softbold }}>
               Indique si la percha de la categoria cumple o no con lo esperado
-            </Text>
 
+
+            </Text>
+            <Text style={{ fontWeight: theme.fontWeight.softbold }}>
+
+              Titulo planograma Ideal
+
+            </Text>
+            {/* <Text   style={{textAlign: 'left'}}>
+              Titulo planograma Ideal
+            </Text> */}
             {/*<Image
               style={{
                 flex: 1,
@@ -221,6 +231,8 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                 uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
               }}
             />*/}
+
+
             <View style={{ flexDirection: "row" }}>
               {item.images.map((prodImages) => {
                 return (
@@ -291,7 +303,14 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             <Text>No cumple</Text>
           </View>
           {check1 ? (
+
+
             <View style={{ paddingHorizontal: 25, flex: 1 }}>
+              <Text style={{ fontWeight: theme.fontWeight.softbold }}>
+
+                Titulo planograma Ideal
+
+              </Text>
               <TakeImage setProducts={setData} item={item} />
             </View>
           ) : (
@@ -344,7 +363,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     //backgroundColor:'yellow',
     flex: 1,
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 10,
   },
 });
