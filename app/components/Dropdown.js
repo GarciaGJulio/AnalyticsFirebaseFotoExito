@@ -74,6 +74,7 @@ const Dropdown = ({
       // const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
       handleSelectDataBase("SELECT * FROM cliente",
         (resultadoConsulta) => {
+          Alert.alert("éxito al consulatar cliente",resultadoConsulta.toString());
           setNewArrayClients(dataFormat(resultadoConsulta));
         },(e)=>{
           console.log("error al consulatar cliente",e)
