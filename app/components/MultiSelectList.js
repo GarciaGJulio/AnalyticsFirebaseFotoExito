@@ -7,6 +7,7 @@ import { useFonts } from "expo-font";
 const MultiSelectList = ({
   setComplementaryPortfolioProducts,
   complementaryPortfolioProducts,
+  idPortafolioComplementario,
   auxiliarArray,
   products,
 }) => {
@@ -78,8 +79,16 @@ const MultiSelectList = ({
       const concatenatedValue = `${obj.name}-${obj.id}`;
       return select.includes(concatenatedValue);
     });
-    setComplementaryPortfolioProducts([...newArray]);
-    console.log("ARRAY DE VALORES ENCONTRADOS: ", newArray);
+
+    const newArrayWithInitial = newArray.map((obj) => {
+      return {
+        ...obj,
+        id_portafolio_complementario: idPortafolioComplementario,
+      };
+    });
+
+    setComplementaryPortfolioProducts([...newArrayWithInitial]);
+    console.log("ARRAY DE VALORES ENCONTRADOS: ", newArrayWithInitial);
   };
 
   useEffect(() => {

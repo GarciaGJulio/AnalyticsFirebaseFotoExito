@@ -22,6 +22,8 @@ import { ScrollView } from "react-native";
 import ProgressBar from "../../components/ProgressBar";
 import { Divider } from "@rneui/base";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { realizarConsulta } from "../../common/sqlite_config";
 
 const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -48,6 +50,31 @@ const Prices = ({ navigation, route }) => {
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
   };
+
+  const consultarYCopiarContenido = async () => {
+    let id_portafolio_complementario = await AsyncStorage.getItem(
+      "id_portafolio_complementario"
+    );
+    try {
+      // Realiza la consulta a la base de datos
+
+      const resultadoConsultaComp = await realizarConsulta(
+        "SELECT * FROM portafolio_complementario"
+      );
+
+      console.log(
+        "Copia de contenido completada con éxito - PRODUCTOS: ",
+        resultadoConsultaComp
+      );
+      console.log("ID DEL PORTAFOLIO COMP: ", id_portafolio_complementario);
+    } catch (e) {
+      console.error("Error al consultar o copiar el contenido:", error);
+    }
+  };
+
+  useEffect(() => {
+    consultarYCopiarContenido();
+  }, []);
 
   useEffect(() => {
     const getNewArrays = () => {

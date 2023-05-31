@@ -29,6 +29,8 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
 import ModernaContext from "../../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { db_insertGlobalDataAudit } from "../../services/SqliteService";
+import { generateUIDD } from "../../services/GenerateID";
 
 const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -41,6 +43,7 @@ const Briefcase = ({ navigation }) => {
   const [currentStep] = useState(0);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const { idClientGroup } = useContext(ModernaContext);
+  const idPortafolioComplementario = generateUIDD();
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -75,6 +78,10 @@ const Briefcase = ({ navigation }) => {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
         "SELECT * FROM producto"
+      );
+
+      const verificacionInsercionSucursal = await realizarConsulta(
+        "SELECT * FROM sucursal"
       );
 
       const resultadoConsultaIdeal = await realizarConsulta(
@@ -175,6 +182,11 @@ const Briefcase = ({ navigation }) => {
       );
 
       console.log(
+        "DATOS DE LA SUCURSAL- - - - - - - : ",
+        verificacionInsercionSucursal
+      );
+
+      console.log(
         "\nARRAY FORMATEADO DE PORTAFOLIO IDEAL: ",
         productosIdealFiltro
       );
@@ -188,7 +200,7 @@ const Briefcase = ({ navigation }) => {
   useEffect(() => {
     consultarYCopiarContenido();
   }, []);
-  const validateProduct = () => {
+  const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
         (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
@@ -208,16 +220,64 @@ const Briefcase = ({ navigation }) => {
         JSON.stringify(complementaryPortfolioProducts)
       );
     } else {
+      if (complementaryPortfolioProducts.length > 0) {
+        await AsyncStorage.setItem(
+          "id_portafolio_complementario",
+          idPortafolioComplementario
+        );
+        console.log(
+          "PRODUCTOS QUE VAN A SER GUARDADOS: ",
+          JSON.stringify(complementaryPortfolioProducts)
+        );
+        complementaryPortfolioProducts.map((productos) => {
+          const { id_portafolio_complementario, id } = productos;
+          console.log(
+            "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
+            id_portafolio_complementario + " " + id
+          );
+          let dataSave = {
+            tableName: "portafolio_complementario",
+            dataInsertType: [
+              "id_portafolio_complementario",
+              "id_producto",
+              "estado_portafolio_complementario",
+            ],
+            dataInsert: [`'${id_portafolio_complementario}'`, `'${id}'`, "1"],
+          };
+          const sentence =
+            "INSERT INTO " +
+            dataSave.tableName +
+            " (" +
+            dataSave.dataInsertType.join() +
+            ") VALUES(" +
+            dataSave.dataInsert.join() +
+            ")";
+          console.log("SENTENCIA A EJECUTAR: ", sentence);
+          db_insertGlobalDataAudit(dataSave);
+          Alert.alert(
+            "Productos validados: ",
+            "Redirigiendo a la siguiente pantalla"
+          );
+          navigation.navigate("prices", {
+            currentStep,
+            complementaryPortfolioProducts,
+            idealPortfolioProducts,
+            setComplementaryPortfolioProducts,
+          });
+        });
+      }
+
+      //db_insertGlobalDataAudit(dataSave);
       Alert.alert(
         "Productos validados: ",
         "Redirigiendo a la siguiente pantalla"
       );
-      navigation.navigate("prices", {
+      /*navigation.navigate("prices", {
         currentStep,
         complementaryPortfolioProducts,
         idealPortfolioProducts,
         setComplementaryPortfolioProducts,
-      });
+      });*/
     }
 
     //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
@@ -267,6 +327,7 @@ const Briefcase = ({ navigation }) => {
             setComplementaryPortfolioProducts={
               setComplementaryPortfolioProducts
             }
+            idPortafolioComplementario={idPortafolioComplementario}
             auxiliarArray={auxiliarArray}
             products={allProducts}
             complementaryPortfolioProducts={complementaryPortfolioProducts}
