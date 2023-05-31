@@ -56,6 +56,7 @@ const Client_Information = ({ navigation }) => {
     name: "",
     id: generateUIDD(),
   });
+  //const [newArrayClients, setNewArrayClients] = useState([]);
   const [datosCompletos, setDatosCompletos] = useState({});
   const [newArrayClients, setNewArrayClients] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
@@ -65,6 +66,51 @@ const Client_Information = ({ navigation }) => {
   const [type, setType] = useState("");
   const [clientGroupId, setClientGroupId] = useState("");
   const [groupClient, setGroupClient] = useState("");
+  const [arrayClients, setArrayClients] = useState([]);
+
+  const consultarYCopiarContenidoClientes = async () => {
+    try {
+      // Realiza la consulta a la base de datos
+      const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
+
+      // Copia el contenido después de la consulta
+      //await copiarContenido(resultadoConsulta);
+      setNewArrayClients(dataFormat(resultadoConsulta));
+      console.log("Copia de contenido completada con éxito: ");
+      const clientes = resultadoConsulta
+        .map(
+          (objeto) =>
+            `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
+        )
+        .join("\n");
+      //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
+    } catch (error) {
+      console.error("Error al consultar o copiar el contenido:", error);
+    }
+  };
+
+  const dataFormat = (array) => {
+    setArrayClients(array);
+    console.log("ARRAY DE CONSULTA: ", array);
+    const arrayFormat = array.map((obj) => {
+      console.log("OBJETO: ", obj.id_cliente);
+      return { key: obj.id_cliente, value: obj.nombre_cliente };
+    });
+    console.log(arrayFormat);
+    return arrayFormat;
+  };
+  useEffect(() => {
+    /*console.log("SELECT DE LA TABLA CLIENTE",);
+    selectData("SELECT * FROM cliente",setArrayClients)
+    dataFormat(arrayFormat)
+    console.log("FORMATO NUEVO PARA DROPDOWN: ",arrayFormat)
+    /*if(location){
+      Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
+    
+    }*/
+    //realizarConsulta("SELECT * FROM cliente")
+    consultarYCopiarContenidoClientes();
+  }, []);
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -353,6 +399,7 @@ const Client_Information = ({ navigation }) => {
             setSelected={setSelected}
             selected={selected}
             setType={setType}
+            newArrayClients={newArrayClients}
             setGroupClient={setGroupClient}
             error={errorClientName}
             clients={newArrayClients}
@@ -360,6 +407,7 @@ const Client_Information = ({ navigation }) => {
             setSucursalInformation={setSucursalInformation}
             sucursalInformation={sucursalInformation}
             setError={setErrorClientName}
+            arrayClients={arrayClients}
           />
         </View>
         <View
@@ -426,7 +474,9 @@ const Client_Information = ({ navigation }) => {
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 13.5, fontFamily: "Metropolis", flex: 1 }}>
+              <Text
+                style={{ fontSize: 13.5, fontFamily: "Metropolis", flex: 1 }}
+              >
                 {type}
               </Text>
             </View>

@@ -79,7 +79,9 @@ const DropdownPromos = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={{ marginBottom: 5 }}>{nameTitle}</Text>
+      <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>
+        {nameTitle}
+      </Text>
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}

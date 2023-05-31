@@ -18,13 +18,13 @@ const Dropdown = ({
   setSucursalInformation,
   sucursalInformation,
   setType,
+  newArrayClients,
+  arrayClients,
   setClientGroupId,
 }) => {
-  const [arrayClients, setArrayClients] = useState([]);
-  const [newArrayClients, setNewArrayClients] = useState([]);
   const { handleIdClientGroup } = useContext(ModernaContext);
 
-  const dataFormat = (array) => {
+  /*const dataFormat = (array) => {
     setArrayClients(array);
     console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
@@ -33,7 +33,7 @@ const Dropdown = ({
     });
     console.log(arrayFormat);
     return arrayFormat;
-  };
+  };*/
 
   /*useEffect(() => {
     Alert.alert("DATOS DE LA BASE LOCAL:", newArrayClients);
@@ -69,7 +69,7 @@ const Dropdown = ({
     validateType();
   }, [selected]);
 
-  const consultarYCopiarContenido = async () => {
+  /*const consultarYCopiarContenido = async () => {
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
@@ -98,10 +98,10 @@ const Dropdown = ({
     /*if(location){
       Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
     
-    }*/
+    }
     //realizarConsulta("SELECT * FROM cliente")
     consultarYCopiarContenido();
-  }, []);
+  }, []);*/
 
   /*useEffect(() => {
     const fetchData = async () => {
@@ -151,16 +151,13 @@ const Dropdown = ({
     <ScrollView style={styles.container}>
       <View style={{ flexDirection: "row" }}>
         <View>
-
-          <Text style={{ color: "red", textAlign: "left" }}>
-            *
-          </Text>
-
+          <Text style={{ color: "red", textAlign: "left" }}>*</Text>
         </View>
 
-
         <View>
-          <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>Cliente</Text>
+          <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>
+            Cliente
+          </Text>
         </View>
       </View>
       <SelectList

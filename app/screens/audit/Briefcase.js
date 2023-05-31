@@ -29,6 +29,8 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
 import ModernaContext from "../../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { generateUIDD } from "../../services/GenerateID";
+import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 
 const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -217,81 +219,22 @@ const Briefcase = ({ navigation }) => {
     consultarYCopiarContenido();
   }, []);
 
-  const validateProduct = async () => {
+  const validateProduct = () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
         (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
-    if (
-      idealPortfolioProducts.length + complementaryPortfolioProducts.length <
-      5
-    ) {
-      Alert.alert(
-        "No se puede realizar la auditoria sin productos: ",
-        "Debe selecionar al menos 5 productos entre ambos portafolios"
-      );
-      console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -");
-      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(idealPortfolioProducts));
-      console.log(
-        "PORTAFOLIO COMPLEMENTARIO: ",
-        JSON.stringify(complementaryPortfolioProducts)
-      );
-    } else {
-      if (complementaryPortfolioProducts.length > 0) {
-        await AsyncStorage.setItem(
-          "id_portafolio_complementario",
-          idPortafolioComplementario
-        );
-        console.log(
-          "PRODUCTOS QUE VAN A SER GUARDADOS: ",
-          JSON.stringify(complementaryPortfolioProducts)
-        );
-        complementaryPortfolioProducts.map((productos) => {
-          const { id_portafolio_complementario, id } = productos;
-          console.log(
-            "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
-            id_portafolio_complementario + " " + id
-          );
-          let dataSave = {
-            tableName: "portafolio_complementario",
-            dataInsertType: [
-              "id_portafolio_complementario",
-              "id_producto",
-              "estado_portafolio_complementario",
-            ],
-            dataInsert: [`'${id_portafolio_complementario}'`, `'${id}'`, "1"],
-          };
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          db_insertGlobalDataAudit(dataSave);
-          Alert.alert(
-            "Productos validados: ",
-            "Redirigiendo a la siguiente pantalla"
-          );
-          savePortafolio();
-          navigation.navigate("prices", {
-            currentStep,
-            complementaryPortfolioProducts,
-            idealPortfolioProducts,
-            setComplementaryPortfolioProducts,
-          });
-        });
-      }
-    }
-    //db_insertGlobalDataAudit(dataSave);
-    /*navigation.navigate("prices", {
-        currentStep,
-        complementaryPortfolioProducts,
-        idealPortfolioProducts,
-        setComplementaryPortfolioProducts,
-      });*/
+
+    Alert.alert(
+      "Productos validados: ",
+      "Redirigiendo a la siguiente pantalla"
+    );
+    navigation.navigate("prices", {
+      currentStep,
+      complementaryPortfolioProducts,
+      idealPortfolioProducts,
+      setComplementaryPortfolioProducts,
+    });
 
     //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
   };

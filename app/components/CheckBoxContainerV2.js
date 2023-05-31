@@ -240,8 +240,7 @@ const CheckBoxContainerV2 = ({
                 editable={true}
                 value={price}
                 width={"100%"}
-                error={errorPrice}
-              // information={"* Este campo es obligatorio"}
+                // information={"* Este campo es obligatorio"}
               />
             </View>
             <View
@@ -253,17 +252,10 @@ const CheckBoxContainerV2 = ({
                 //alignItems: "center",
               }}
             >
-
               <View style={{ flexDirection: "row" }}>
                 <View>
-
-                  <Text style={{ color: "red", textAlign: "left" }}>
-                    *
-                  </Text>
-
+                  <Text style={{ color: "red", textAlign: "left" }}>*</Text>
                 </View>
-
-
 
                 <View>
                   <Text
@@ -274,12 +266,9 @@ const CheckBoxContainerV2 = ({
                     }}
                   >
                     Foto del preciador del producto
-                  </Text></View>
+                  </Text>
+                </View>
               </View>
-
-
-
-
 
               <TakeImage setProducts={setProducts} item={item} />
             </View>

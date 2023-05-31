@@ -71,13 +71,14 @@ const Racks = ({ navigation }) => {
           };
         });
 
-      const newArrayEstado = resultadoConsulta.map((objeto) => {
+      const newArrayEstado = planogramaFiltro.map((objeto) => {
         return {
-          id: objeto.id_categoria,
+          id: objeto.id,
           id_percha: idPercha,
-          name: objeto.nombre_categoria,
+          name: objeto.name,
           carasGeneral: null,
           carasModerna: null,
+          imagesPlanograma: objeto.images,
           state: null,
           images: {
             image1: null,
@@ -121,7 +122,7 @@ const Racks = ({ navigation }) => {
   };
 
   const validate = async () => {
-    console.log("VALIDACION DE DATOS DE PERCHAS: ", category);
+    console.log("VALIDACION DE DATOS DE PERCHAS: ", rack);
     const isValid = category.every((item) => {
       if (
         item.state === null ||
@@ -131,7 +132,7 @@ const Racks = ({ navigation }) => {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
-      if (item.state === true) {
+      if (item.state === "1") {
         if (!item.images || item.images.image1 === null) {
           console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
           return false;
@@ -233,6 +234,7 @@ const Racks = ({ navigation }) => {
         />
         <View style={styles.cardContainer}>
           <TarjPercha
+            //data={category}
             data={category}
             rack={rack}
             setRack={setRack}

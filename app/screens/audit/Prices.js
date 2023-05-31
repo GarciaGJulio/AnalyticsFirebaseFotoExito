@@ -145,108 +145,112 @@ const Prices = ({ navigation, route }) => {
   const validateArrays = async () => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
-    const isValid = fullArrays.every((item) => {
-      if (item.state === null) {
-        console.log("ESTE ITEM DA PROBLEMAS: ", item);
-        return false;
-      }
-      if (item.state === true) {
-        if (
-          item.price === null ||
-          !item.images ||
-          item.images.image1 === null
-        ) {
-          console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+    if (fullArrays.length == 0) {
+      navigation.navigate("rack");
+    } else {
+      const isValid = fullArrays.every((item) => {
+        if (item.state === null) {
+          console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
-      }
-      return true;
-    });
+        if (item.state === "1") {
+          if (
+            item.price === null ||
+            !item.images ||
+            item.images.image1 === null
+          ) {
+            console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+            return false;
+          }
+        }
+        return true;
+      });
 
-    if (!isValid) {
-      Alert.alert(
-        "Error al completar los datos",
-        "Necesita marcar el valor de preciador de cada producto"
-      );
-      //navigation.navigate('rack');
-      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
-      console.log(
-        "PORTAFOLIO COMPLEMENTARIO: ",
-        JSON.stringify(newComplementaryPortfolio)
-      );
-    } else {
-      try {
-        await AsyncStorage.setItem(
-          "id_preciador_portafolio_complementario",
-          idPreciadorPortafolioComplementario
+      if (!isValid) {
+        Alert.alert(
+          "Error al completar los datos",
+          "Necesita marcar el valor de preciador de cada producto"
         );
+        //navigation.navigate('rack');
+        console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
         console.log(
-          "PRODUCTOS QUE VAN A SER GUARDADOS: ",
+          "PORTAFOLIO COMPLEMENTARIO: ",
           JSON.stringify(newComplementaryPortfolio)
         );
-        newComplementaryPortfolio.map((productos) => {
-          const {
-            id_portafolio_complementario,
-            id,
-            id_preciador_portafolio_complementario,
-            state,
-            price,
-            images,
-          } = productos;
-          const { image1, image2, image3 } = images;
-          console.log(
-            "---------------------- imagenes",
-            JSON.stringify(images)
+      } else {
+        try {
+          await AsyncStorage.setItem(
+            "id_preciador_portafolio_complementario",
+            idPreciadorPortafolioComplementario
           );
           console.log(
-            "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
-            id_portafolio_complementario + " " + id
+            "PRODUCTOS QUE VAN A SER GUARDADOS: ",
+            JSON.stringify(newComplementaryPortfolio)
           );
-          let dataSave = {
-            tableName: "preciador_portafolio_complementario",
-            dataInsertType: [
-              "id_preciador_portafolio_complementario",
-              "id_portafolio_complementario",
-              "id_producto",
-              "precio_portafolio_complementario",
-              "estado_preciador_complementario",
-              "url_imagen1",
-              "url_imagen2",
-              "url_imagen3",
-              "usuario_creacion",
-              "fecha_creacion",
-              "fecha_modificacion",
-            ],
-            dataInsert: [
-              `'${id_preciador_portafolio_complementario}'`,
-              `'${id_portafolio_complementario}'`,
-              `'${id}'`,
-              `'${price}'`,
-              `'${state}'`,
-              `'${image1}'`,
-              `'${image2}'`,
-              `'${image3}'`,
-              `'${userInfo.givenName}'`,
-              `'${dataTime()}'`,
-              `'${dataTime()}'`,
-            ],
-          };
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          db_insertGlobalDataAudit(dataSave);
-          console.log("TODO BIEN");
-          savePreciador();
-          navigation.navigate("rack");
-        });
-      } catch (e) {
-        Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+          newComplementaryPortfolio.map((productos) => {
+            const {
+              id_portafolio_complementario,
+              id,
+              id_preciador_portafolio_complementario,
+              state,
+              price,
+              images,
+            } = productos;
+            const { image1, image2, image3 } = images;
+            console.log(
+              "---------------------- imagenes",
+              JSON.stringify(images)
+            );
+            console.log(
+              "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
+              id_portafolio_complementario + " " + id
+            );
+            let dataSave = {
+              tableName: "preciador_portafolio_complementario",
+              dataInsertType: [
+                "id_preciador_portafolio_complementario",
+                "id_portafolio_complementario",
+                "id_producto",
+                "precio_portafolio_complementario",
+                "estado_preciador_complementario",
+                "url_imagen1",
+                "url_imagen2",
+                "url_imagen3",
+                "usuario_creacion",
+                "fecha_creacion",
+                "fecha_modificacion",
+              ],
+              dataInsert: [
+                `'${id_preciador_portafolio_complementario}'`,
+                `'${id_portafolio_complementario}'`,
+                `'${id}'`,
+                `'${price}'`,
+                `'${state}'`,
+                `'${image1}'`,
+                `'${image2}'`,
+                `'${image3}'`,
+                `'${userInfo.givenName}'`,
+                `'${dataTime()}'`,
+                `'${dataTime()}'`,
+              ],
+            };
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
+            db_insertGlobalDataAudit(dataSave);
+            console.log("TODO BIEN");
+            savePreciador();
+            navigation.navigate("rack");
+          });
+        } catch (e) {
+          Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+        }
       }
     }
   };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
+  BackHandler,
   StyleSheet,
   Text,
   TextInput,
@@ -14,6 +15,7 @@ import ItemBranch_Review from "../../components/ItemBranch_Review";
 import { realizarConsulta } from "../../common/sqlite_config";
 import { useFonts } from "expo-font";
 import { BackPage_Review } from "../../components/BackPage_Review";
+import { Button } from "react-native-paper";
 
 const ListBranch = () => {
   const [audit, setAudit] = useState([]);
@@ -40,6 +42,16 @@ const ListBranch = () => {
 
   useEffect(() => {
     consultarYCopiarContenido();
+
+    const disableBackButton = () => {
+      return false; // Bloquea la función de retroceso nativa
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", disableBackButton);
+
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
+    };
   }, []);
 
   const [fontLoaded] = useFonts({

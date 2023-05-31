@@ -186,7 +186,7 @@ const Promos = ({ navigation }) => {
 
   useEffect(() => {});
 
-  useEffect(() => {
+  /*useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
     };
@@ -196,7 +196,7 @@ const Promos = ({ navigation }) => {
     return () => {
       BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
     };
-  }, []);
+  }, []);*/
 
   const handleOpenModalFinish = () => {
     setAnimation(SAVE_ANIMATION);
@@ -224,6 +224,9 @@ const Promos = ({ navigation }) => {
     let idPercha = await AsyncStorage.getItem("id_percha");
     let idSucursal = await AsyncStorage.getItem("id_sucursal");
     let idCliente = await AsyncStorage.getItem("id_cliente");
+    let idPreciador = await AsyncStorage.getItem(
+      "id_preciador_portafolio_complementario"
+    );
     let dataSave = {
       tableName: "auditoria",
       dataInsertType: [
@@ -255,7 +258,7 @@ const Promos = ({ navigation }) => {
     //db_insertGlobalDataAudit(dataSave);
   };
 
-  const savePreciador = async () => {
+  /*const savePreciador = async () => {
     let idPreciadorPortafolioComplementario = await AsyncStorage.getItem(
       "id_preciador_portafolio_complementario"
     );
@@ -287,7 +290,7 @@ const Promos = ({ navigation }) => {
     //savePortafolio();
     //savePreciador();
     //saveAudit();
-  }, []);
+  }, []);*/
 
   const validate = async () => {
     console.log("VALIDACION DE DATOS DE PERCHAS: ", exhibidor);
@@ -296,7 +299,7 @@ const Promos = ({ navigation }) => {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
-      if (item.state === true) {
+      if (item.state === "1") {
         if (!item.images || item.images.image1 === null) {
           console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
           return false;
@@ -357,7 +360,7 @@ const Promos = ({ navigation }) => {
           db_insertGlobalDataAudit(dataSave);
           console.log("TODO BIEN");
           saveAudit();
-          //navigation.navigate("begin");
+          navigation.navigate("begin");
         });
       } catch (e) {
         Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -410,7 +413,13 @@ const Promos = ({ navigation }) => {
           {exhibidorSucursal.length > 0 ? (
             <FlashListPromos data={exhibidorSucursal} setData={setExhibidor} />
           ) : (
-            <Text style={{ padding: 20, textAlign: "justify" }}>
+            <Text
+              style={{
+                padding: 20,
+                textAlign: "justify",
+                fontFamily: "Metropolis",
+              }}
+            >
               Escoge una sucursal para revisar los exhibidores que aplican
               promoción
             </Text>
