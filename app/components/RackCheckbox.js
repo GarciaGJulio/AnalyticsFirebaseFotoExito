@@ -124,7 +124,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             fontWeight: theme.fontWeight.bolder,
             fontSize: theme.fontSize.title,
             left: 10,
-            color:"white"
+            color: "white"
           }}
         >
           {categoryName}
@@ -133,7 +133,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           style={{ position: "absolute", right: 5 }}
           onPress={() => setOpenCamera(!openCamera)}
         >
-          <Icon name="camerao" type="antdesign" size={30} color={"white"}/>
+          <Icon name="camerao" type="antdesign" size={30} color={"white"} />
         </TouchableOpacity>
       </View>
       <View style={{ width: "100%" }}>
@@ -162,8 +162,9 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             style={styles.input}
 
           />
+          <Text style={{ bottom: -13, right: 20, textAlign: "center" }}>Número de caras</Text>
 
-          <Text style={{ bottom: 25, right: 20, textAlign: "center" }}>Número de caras</Text>
+          {/* <Text style={{ bottom: 25, right: 20, textAlign: "center" }}>Número de caras</Text> */}
         </View>
         <View style={styles.category}>
 
@@ -183,8 +184,11 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             style={styles.input}
           />
 
-          <Text style={{ bottom: 25, right: 20, textAlign: "center" }}>Número de caras</Text>
+          <Text style={{ bottom: -13, right: 20, textAlign: "center" }}>Número de caras</Text>
+
+          
         </View>
+
       </View>
       <View style={{ flexDirection: "row" }}>
         <Text style={{ padding: 10, textAlign: "justify", color: "red" }}>
@@ -322,7 +326,7 @@ export default RackCheckbox;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height:160,
+    height: 175,
     width: "100%",
     alignContent: "center",
     //backgroundColor: "red",
@@ -339,7 +343,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     //left:10,
     paddingVertical: 5,
-    backgroundColor:theme.colors.modernaYellow,
+    backgroundColor: theme.colors.modernaYellow,
     borderTopLeftRadius: 7,
     borderTopRightRadius: 7,
   },
@@ -347,14 +351,15 @@ const styles = StyleSheet.create({
     //backgroundColor:'orange',
     flexDirection: "row",
     flex: 1,
-    
+
   },
   category: {
-    //backgroundColor:'purple',
+    // backgroundColor: 'purple',
     flex: 1,
+    padding:10,
     alignItems: "stretch",
-    padding: 15
-
+    alignContent:"flex-end",
+    
   },
   input: {
     fontWeight: theme.fontWeight.normal,
