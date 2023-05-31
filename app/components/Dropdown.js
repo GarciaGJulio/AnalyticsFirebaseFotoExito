@@ -226,8 +226,8 @@ const dataFormat2 = (array) => {
   return arrayFormat;
 };
 
-export const DropdownDavid = () => {
-  const [datasTempo,setDatasTemp]=useState([])
+export const DropdownDavid = ({data}) => {
+  /*const [datasTempo,setDatasTemp]=useState([])
   useEffect(()=>{
     handleSelectDataBase("SELECT * FROM cliente",
     (resultadoConsulta) => {
@@ -239,10 +239,10 @@ export const DropdownDavid = () => {
 
     })
 
-  },[])
+  },[])*/
   return (<SelectList
     setSelected={() => { }}
-    data={datasTempo}
+    data={data}
     save="value"
   />)
 }

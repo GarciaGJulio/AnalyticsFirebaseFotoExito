@@ -362,7 +362,7 @@ export const Client_Information = ({ navigation }) => {
             setError={setErrorClientName}
           />
         </View>
-        <DropdownDavid></DropdownDavid>
+    
         <View
           style={{
             flexDirection: "row",

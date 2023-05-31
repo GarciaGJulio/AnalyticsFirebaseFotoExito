@@ -11,9 +11,10 @@ import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import * as Animatable from "react-native-animatable";
 import ItemBranch_Review from "../../components/ItemBranch_Review";
-import { realizarConsulta } from "../../common/sqlite_config";
+import { handleSelectDataBase, realizarConsulta } from "../../common/sqlite_config";
 import { useFonts } from "expo-font";
 import { BackPage_Review } from "../../components/BackPage_Review";
+import { DropdownDavid } from "../../components/Dropdown";
 
 export const ListBranch = () => {
   const [audit, setAudit] = useState([]);
@@ -49,6 +50,7 @@ export const ListBranch = () => {
 
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [clientes, setClientes] = useState([]);
 
   const searchFilter = (text) => {
     setSearchText(text);
@@ -64,7 +66,34 @@ export const ListBranch = () => {
     });
     setFilteredData(newData);
   };
+  useEffect(() => {
+    try{
+      handleSelectDataBase("SELECT * FROM cliente",
+      (resultadoConsulta) => {
 
+        setClientes(dataFormat(resultadoConsulta));
+      }, (e) => {
+        console.log("error al consulatar cliente", e)
+        Alert.alert("error al consulatar cliente", e);
+
+      })
+    }catch(e){
+      console.log(e)
+    }
+   
+
+  }, [])
+
+  const dataFormat = (array) => {
+    // setArrayClients(array);
+    console.log("ARRAY DE CONSULTA: ", array);
+    const arrayFormat = array.map((obj) => {
+      console.log("OBJETO: ", obj.id_cliente);
+      return { key: obj.id_cliente, value: obj.nombre_cliente };
+    });
+    console.log(arrayFormat);
+    return arrayFormat;
+  };
   if (!fontLoaded) return null;
 
   return (
@@ -95,6 +124,26 @@ export const ListBranch = () => {
             showsVerticalScrollIndicator={false}
             data={filteredData}
             renderItem={({ item }) => <ItemBranch_Review branch={item} />}
+            keyExtractor={(item) => item.id}
+          />
+
+          <DropdownDavid
+            data={clientes}
+          >
+          </DropdownDavid>
+          {clientes.length>0&&(<DropdownDavid
+            data={clientes}
+          >
+          </DropdownDavid>)}
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={clientes}
+            renderItem={({ item, index }) => {
+              return (<View key={index}>
+                <Text>{item.value}</Text>
+              </View>)
+            }
+            }
             keyExtractor={(item) => item.id}
           />
         </View>
