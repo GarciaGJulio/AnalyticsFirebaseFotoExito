@@ -29,8 +29,24 @@ const StyledInput = ({
   if (!fontLoaded) return null;
 
   return (
-    <View style={{ marginBottom: 10, width: width, flex: 1 }}>
-      <Text style={style.label}>{label}</Text>
+    <View style={{ marginBottom: 1, width: width, flex: 1 }}>
+
+<View style={{flexDirection:"row"}}>
+          <View>
+
+            <Text style={{ color:"red",textAlign: "left" }}>
+              * 
+            </Text>
+          </View>
+          <View><Text  style={{ fontSize: 13.5, fontFamily: "Metropolis" }}>{label}</Text></View>
+        </View>
+
+
+
+
+
+
+      
       <View
         style={[
           style.inputContainer,

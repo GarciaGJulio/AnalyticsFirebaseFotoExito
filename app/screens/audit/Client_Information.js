@@ -378,7 +378,7 @@ const Client_Information = ({ navigation }) => {
                 paddingBottom: 5,
                 fontFamily: "Metropolis",
                 flex: 1,
-                fontSize: 12,
+                fontSize: 13.5,
               }}
             >
               Grupo de cliente
@@ -404,7 +404,12 @@ const Client_Information = ({ navigation }) => {
           </View>
           <View style={{ width: 160 }}>
             <Text
-              style={{ paddingBottom: 5, fontFamily: "Metropolis", flex: 1 }}
+              style={{
+                paddingBottom: 5,
+                fontFamily: "Metropolis",
+                flex: 1,
+                fontSize: 14,
+              }}
             >
               Tipo de cliente
             </Text>
@@ -421,7 +426,7 @@ const Client_Information = ({ navigation }) => {
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 15, fontFamily: "Metropolis", flex: 1 }}>
+              <Text style={{ fontSize: 13.5, fontFamily: "Metropolis", flex: 1 }}>
                 {type}
               </Text>
             </View>

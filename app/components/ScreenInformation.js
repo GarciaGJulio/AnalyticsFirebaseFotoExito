@@ -54,10 +54,25 @@ const ScreenInformation = ({ title, text }) => {
           {text.toString()}
         </Text>
       ) : null}
-      <Text>
-        * Este campo es obligatorio
-      </Text>
+      <View style={{ alignSelf: "flex-start", marginLeft: 23, marginTop: 5, marginBottom: 13 }}>
+        <View style={{flexDirection:"row"}}>
+          <View>
 
+            <Text style={{ color:"red",textAlign: "left" }}>
+              * 
+            </Text>
+
+          </View>
+
+
+
+          <View><Text style={{ textAlign: "left" }}>
+            Campos  obligatorios
+          </Text></View>
+        </View>
+
+
+      </View>
     </View>
   );
 };
