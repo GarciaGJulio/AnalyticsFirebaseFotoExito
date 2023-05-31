@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 import axios from "axios";
-import { realizarConsulta, selectData } from "../common/sqlite_config";
+import { handleSelectDataBase, realizarConsulta, selectData } from "../common/sqlite_config";
 import { useFonts } from "expo-font";
 import ModernaContext from "../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -71,18 +71,26 @@ const Dropdown = ({
   const consultarYCopiarContenido = async () => {
     try {
       // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
+      // const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
+      handleSelectDataBase("SELECT * FROM cliente",
+        (resultadoConsulta) => {
+          setNewArrayClients(dataFormat(resultadoConsulta));
+        },(e)=>{
+          console.log("error al consulatar cliente",e)
+          Alert.alert("error al consulatar cliente", e);
+         
+        })
 
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta);
-      setNewArrayClients(dataFormat(resultadoConsulta));
+
       console.log("Copia de contenido completada con éxito: ");
-      const clientes = resultadoConsulta
+     /* const clientes = resultadoConsulta
         .map(
           (objeto) =>
             `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
         )
-        .join("\n");
+        .join("\n");*/
       //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);

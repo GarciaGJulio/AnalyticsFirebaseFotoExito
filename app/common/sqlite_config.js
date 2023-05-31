@@ -280,6 +280,22 @@ export const realizarConsulta = (sentence) => {
   });
 };
 
+export const handleSelectDataBase = (sentence,onSuccess,onError) => {
+
+  global.dbModerna.transaction((tx) => {
+    tx.executeSql(
+      sentence,
+      [],
+      (_, { rows }) => {
+        const { _array } = rows;
+        onSuccess(_array);
+      },
+      (_, error) => onError(error)
+    );
+  });
+
+};
+
 /*
 export const realizarConsulta = (sentence, onSuccess, onError) => {
   global.dbModerna?.transaction((tx) => {
