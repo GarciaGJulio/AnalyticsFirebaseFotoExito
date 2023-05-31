@@ -12,6 +12,7 @@ import theme from "../theme/theme";
 import { CheckBox, Divider, Icon, Input } from "@rneui/base";
 import TakeImage from "./TakeImage";
 import { FlashList } from "@shopify/flash-list";
+import StyledInput from "./StyledInput";
 
 const RackCheckbox = ({ categoryName, item, setData }) => {
   const [CateGeneral, setCateGeneral] = useState();
@@ -118,6 +119,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             fontWeight: theme.fontWeight.bolder,
             fontSize: theme.fontSize.title,
             left: 10,
+            color:"white"
           }}
         >
           {categoryName}
@@ -126,7 +128,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           style={{ position: "absolute", right: 5 }}
           onPress={() => setOpenCamera(!openCamera)}
         >
-          <Icon name="camerao" type="antdesign" size={30} />
+          <Icon name="camerao" type="antdesign" size={30} color={"white"}/>
         </TouchableOpacity>
       </View>
       <View style={{ width: "100%" }}>
@@ -138,16 +140,11 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
       </View>
       <View style={styles.categoryContainer}>
         <View style={styles.category}>
-          <Text
-            style={{
-              fontWeight: theme.fontWeight.softbold,
-              fontSize: theme.fontSize.subtitle,
-            }}
-          >
-            *Categoría general
-          </Text>
-          <Input
+
+          <StyledInput
+            label=" Categoría general"
             keyboardType="numeric"
+            keyboard="numeric"
             onChangeText={(txt) => {
               setCateGeneral(txt);
               actualizarCantidad(item, "carasGeneral", txt);
@@ -158,20 +155,17 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             }}
             value={CateGeneral}
             style={styles.input}
+
           />
-          <Text style={{ bottom: 25, right: 20 }}>Número de caras</Text>
+
+          <Text style={{ bottom: 25, right: 20, textAlign: "center" }}>Número de caras</Text>
         </View>
         <View style={styles.category}>
-          <Text
-            style={{
-              fontWeight: theme.fontWeight.softbold,
-              fontSize: theme.fontSize.subtitle,
-            }}
-          >
-            *Categoría Moderna
-          </Text>
-          <Input
-            keyboardType="numeric"
+
+
+          <StyledInput
+            label=" Categoría general"
+            keyboard="numeric"
             onChangeText={(txt) => {
               setCateModerna(txt);
               actualizarCantidad(item, "carasModerna", txt);
@@ -182,9 +176,9 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             }}
             value={CateModerna}
             style={styles.input}
-            underlineColor="transparent"
           />
-          <Text style={{ bottom: 25, right: 20 }}>Número de caras</Text>
+
+          <Text style={{ bottom: 25, right: 20, textAlign: "center" }}>Número de caras</Text>
         </View>
       </View>
       <View style={{ flexDirection: "row" }}>
@@ -194,6 +188,16 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             : ""}
         </Text>
       </View>
+
+
+
+
+
+
+
+
+
+
 
       {openCamera ? (
         <View>
@@ -313,7 +317,7 @@ export default RackCheckbox;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //height:200,
+    height:160,
     width: "100%",
     alignContent: "center",
     //backgroundColor: "red",
@@ -322,6 +326,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
+    // backgroundColor:"red"
   },
   header: {
     //backgroundColor:'blue',
@@ -329,16 +334,22 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     //left:10,
     paddingVertical: 5,
+    backgroundColor:theme.colors.modernaYellow,
+    borderTopLeftRadius: 7,
+    borderTopRightRadius: 7,
   },
   categoryContainer: {
     //backgroundColor:'orange',
     flexDirection: "row",
     flex: 1,
+    
   },
   category: {
     //backgroundColor:'purple',
     flex: 1,
-    alignItems: "center",
+    alignItems: "stretch",
+    padding: 15
+
   },
   input: {
     fontWeight: theme.fontWeight.normal,

@@ -148,7 +148,20 @@ const Dropdown = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>Cliente</Text>
+      <View style={{ flexDirection: "row" }}>
+        <View>
+
+          <Text style={{ color: "red", textAlign: "left" }}>
+            *
+          </Text>
+
+        </View>
+
+
+        <View>
+          <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>Cliente</Text>
+        </View>
+      </View>
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}

@@ -4,12 +4,13 @@ import theme from "../theme/theme";
 import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
 import { CheckBox } from "@rneui/themed";
-import StyledInput from "./StyledInput";
+
 import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import { validatePriceProduct } from "../utils/helpers";
 import ToggleSwitch from "toggle-switch-react-native";
 import { useFonts } from "expo-font";
+import StyledInput from "./StyledInput";
 
 const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
   const [check1, setCheck1] = useState(false);
@@ -214,7 +215,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                   validatePriceProduct(txt, setErrorPrice);
                   actualizarPrecio(item, parseFloat(txt));
                 }}
-                label="*Preciador del producto"
+                label="Preciador del producto"
                 placeholder="Precio"
                 maxLength={6}
                 keyboard="numeric"
@@ -222,27 +223,46 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                 value={price}
                 width={"100%"}
                 error={errorPrice}
-                // information={"* Este campo es obligatorio"}
+              // information={"* Este campo es obligatorio"}
               />
             </View>
             <View
               style={{
                 //backgroundColor: "green",
                 flex: 1.2,
-                padding: 10,
+                // padding: 10,
                 justifyContent: "center",
                 //alignItems: "center",
               }}
             >
-              <Text
-                style={{
-                  fontSize: 11,
-                  fontWeight: "500",
-                  fontFamily: "Metropolis",
-                }}
-              >
-                * Foto del preciador del producto
-              </Text>
+
+              <View style={{ flexDirection: "row" }}>
+                <View>
+
+                  <Text style={{ color: "red", textAlign: "left" }}>
+                    *
+                  </Text>
+
+                </View>
+
+
+
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 13.5,
+                      fontWeight: "500",
+                      fontFamily: "Metropolis",
+                    }}
+                  >
+                    Foto del preciador del producto
+                  </Text></View>
+              </View>
+
+
+
+
+
               <TakeImage setProducts={setProducts} item={item} />
             </View>
           </View>
