@@ -67,6 +67,10 @@ const Dropdown = ({
   useEffect(() => {
     validateType();
   }, [selected]);
+  useEffect(() => {
+    let tmpData=newArrayClients.map((item)=>JSON.stringify(item))
+    Alert.alert("éxito al consulatar cliente en useEfect",tmpData.toString());
+  }, [newArrayClients]);
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -154,7 +158,15 @@ const Dropdown = ({
   });
 
   if (!fontLoaded) return null;
-
+  const dataTmp = [
+    {key:'1', value:'Mobiles', disabled:true},
+    {key:'2', value:'Appliances'},
+    {key:'3', value:'Cameras'},
+    {key:'4', value:'Computers', disabled:true},
+    {key:'5', value:'Vegetables'},
+    {key:'6', value:'Diary Products'},
+    {key:'7', value:'Drinks'},
+]
   return (
     <ScrollView style={styles.container}>
       <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>Cliente</Text>
@@ -173,6 +185,11 @@ const Dropdown = ({
           height: 50,
         }}
       />
+      <SelectList 
+        setSelected={()=>{}} 
+        data={newArrayClients.length>0?newArrayClients: dataTmp} 
+        save="value"
+    />
       {error && (
         <Text
           style={{
