@@ -74,7 +74,7 @@ const ListBranch = () => {
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <Text style={styles.title}>
-          Puedes revisar las visitas ya realizadas presionando en una sucursal
+          Puedes revisar las auditorías ya realizadas presionando en el registro
           de interés.
         </Text>
         <View style={styles.contentContainerBranch}>

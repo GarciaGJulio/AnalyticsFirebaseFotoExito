@@ -9,6 +9,7 @@ import { useFonts } from "expo-font";
 const DropdownPromos = ({
   placeholder,
   setSelected,
+  nameTitle,
   selected,
   setSucursalInformation,
   sucursalInformation,
@@ -78,7 +79,7 @@ const DropdownPromos = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={{ marginBottom: 5 }}>Cliente</Text>
+      <Text style={{ marginBottom: 5 }}>{nameTitle}</Text>
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}

@@ -218,71 +218,72 @@ const Client_Information = ({ navigation }) => {
     if (validador && errorBranchName == "" && !validateBranch) {
       //navigation.navigate("briefcase");
       setIsModalVisible(true);
-      const locationCoords = await requestLocationPermission();
-      if (locationCoords) {
-        try {
-          const { latitude, longitude } = locationCoords;
-          await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
-          setIsModalVisible(false);
-          console.log("DATOS A GUARDAR: ", {
-            id: sucursalInformation.id,
-            nombre: sucursalInformation.name,
-            latitude: datosCompletos.latitude,
-            longitude: datosCompletos.longitude,
-            usuario: userInfo.givenName,
-            creacion: dataTime(),
-            modificacion: dataTime(),
-          });
-          console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
-          let dataSave = {
-            tableName: "sucursal",
-            dataInsertType: [
-              "id_sucursal",
-              "nombre_sucursal",
-              "latitud",
-              "longitud",
-              "usuario_creacion",
-              "fecha_creacion",
-              "fecha_modificacion",
-            ],
-            dataInsert: [
-              `'${sucursalInformation.id}'`,
-              `'${sucursalInformation.name}'`,
-              latitude,
-              longitude,
-              `'${userInfo.givenName}'`,
-              `'${dataTime()}'`,
-              `'${dataTime()}'`,
-            ],
-          };
-          //datosCompletos.latitude,
-          //datosCompletos.longitude,
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          db_insertGlobalDataAudit(dataSave);
-          // navigation.navigate("briefcase");
-          navigation.navigate("briefcase");
-          setValidatePass(true);
-          setIsModalVisible(false);
-        } catch (e) {
-          Alert.alert(
-            "Se ha producido un error al recopilar datos",
-            "Vuelva a intentarlo nuevamente"
-          );
-          setIsModalVisible(false);
-        }
+      //const locationCoords = await requestLocationPermission();
+      try {
+        //const { latitude, longitude } = locationCoords;
+        await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
+        setIsModalVisible(false);
+        console.log("DATOS A GUARDAR: ", {
+          id: sucursalInformation.id,
+          nombre: sucursalInformation.name,
+          //latitude: datosCompletos.latitude,
+          //longitude: datosCompletos.longitude,
+          usuario: userInfo.givenName,
+          creacion: dataTime(),
+          modificacion: dataTime(),
+        });
+        console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
+        let dataSave = {
+          tableName: "sucursal",
+          dataInsertType: [
+            "id_sucursal",
+            "nombre_sucursal",
+            "latitud",
+            "longitud",
+            "usuario_creacion",
+            "fecha_creacion",
+            "fecha_modificacion",
+          ],
+          dataInsert: [
+            `'${sucursalInformation.id}'`,
+            `'${sucursalInformation.name}'`,
+            0,
+            0,
+            `'${userInfo.givenName}'`,
+            `'${dataTime()}'`,
+            `'${dataTime()}'`,
+          ],
+        };
+        //datosCompletos.latitude,
+        //datosCompletos.longitude,
+        const sentence =
+          "INSERT INTO " +
+          dataSave.tableName +
+          " (" +
+          dataSave.dataInsertType.join() +
+          ") VALUES(" +
+          dataSave.dataInsert.join() +
+          ")";
+        console.log("SENTENCIA A EJECUTAR: ", sentence);
+        db_insertGlobalDataAudit(dataSave);
+        // navigation.navigate("briefcase");
+        navigation.navigate("briefcase");
+        setValidatePass(true);
+        setIsModalVisible(false);
+      } catch (e) {
+        Alert.alert(
+          "Se ha producido un error al recopilar datos",
+          "Vuelva a intentarlo nuevamente"
+        );
+        setIsModalVisible(false);
+      }
+      /*if (locationCoords) {
+        
       } else {
         console.log(error);
         setIsModalVisible(false);
         // El permiso de ubicación fue denegado o ocurrió un error al obtener la ubicación
-      }
+      }*/
     }
   };
 
@@ -366,14 +367,19 @@ const Client_Information = ({ navigation }) => {
             flexDirection: "row",
             marginVertical: 20,
             justifyContent: "space-evenly",
-            flex: 1,
+            flex: 1.3,
             width: "100%",
             //backgroundColor: "orange",
           }}
         >
           <View style={{ width: 160 }}>
             <Text
-              style={{ paddingBottom: 5, fontFamily: "Metropolis", flex: 1 }}
+              style={{
+                paddingBottom: 5,
+                fontFamily: "Metropolis",
+                flex: 1,
+                fontSize: 12,
+              }}
             >
               Grupo de cliente
             </Text>

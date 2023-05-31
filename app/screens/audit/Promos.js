@@ -269,6 +269,7 @@ const Promos = ({ navigation }) => {
         />
         <View style={{ flex: 1, marginTop: 10 }}>
           <DropdownPromos
+            nameTitle={"Sucursal"}
             placeholder={"Seleccione una sucursal"}
             setSelected={setSelected}
             data={branch}

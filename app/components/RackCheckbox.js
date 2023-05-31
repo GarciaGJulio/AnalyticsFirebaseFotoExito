@@ -16,22 +16,16 @@ import { FlashList } from "@shopify/flash-list";
 const RackCheckbox = ({ categoryName, item, setData }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
-  const [verificacionCategorias, setverificacionCategoria] = useState(false)
+  const [verificacionCategorias, setverificacionCategoria] = useState(false);
   //const [objPercha, setObjPercha] = useState(itemCom)
 
   useEffect(() => {
-
-
     if (CateGeneral < CateModerna) {
-      setverificacionCategoria(true)
-      console.log("es mayor el de moderna", CateGeneral)
-
+      setverificacionCategoria(true);
+      console.log("es mayor el de moderna", CateGeneral);
     } else if (CateGeneral >= CateModerna) {
-      setverificacionCategoria(false)
-
+      setverificacionCategoria(false);
     }
-
-
   }, [CateModerna, CateGeneral]);
 
   /*useEffect(() => {
@@ -146,7 +140,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
         <View style={styles.category}>
           <Text
             style={{
-              fontWeight: theme.fontWeight.bolder,
+              fontWeight: theme.fontWeight.softbold,
               fontSize: theme.fontSize.subtitle,
             }}
           >
@@ -161,18 +155,16 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                                 CarasGeneral:txt
                             })*/
               //onchangeObjPercha(objPercha)
-
-
-
             }}
             value={CateGeneral}
             style={styles.input}
           />
+          <Text style={{ bottom: 25, right: 20 }}>Número de caras</Text>
         </View>
         <View style={styles.category}>
           <Text
             style={{
-              fontWeight: theme.fontWeight.bolder,
+              fontWeight: theme.fontWeight.softbold,
               fontSize: theme.fontSize.subtitle,
             }}
           >
@@ -192,28 +184,25 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             style={styles.input}
             underlineColor="transparent"
           />
+          <Text style={{ bottom: 25, right: 20 }}>Número de caras</Text>
         </View>
-
       </View>
       <View style={{ flexDirection: "row" }}>
-        <Text>
-          {verificacionCategorias ? 'El valor de Categoria Moderna no puede ser superior al Categoria General' : ''}
+        <Text style={{ padding: 10, textAlign: "justify", color: "red" }}>
+          {verificacionCategorias
+            ? "La cantidad de caras de Categoria Moderna alimentos no puede ser superior al total de caras de la Categoria General"
+            : ""}
         </Text>
       </View>
-
 
       {openCamera ? (
         <View>
           <View style={styles.imageContainer}>
             <Text style={{ fontWeight: theme.fontWeight.softbold }}>
               Indique si la percha de la categoria cumple o no con lo esperado
-
-
             </Text>
             <Text style={{ fontWeight: theme.fontWeight.softbold }}>
-
-              Titulo planograma Ideal
-
+              Planograma Ideal
             </Text>
             {/* <Text   style={{textAlign: 'left'}}>
               Titulo planograma Ideal
@@ -231,7 +220,6 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                 uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
               }}
             />*/}
-
 
             <View style={{ flexDirection: "row" }}>
               {item.images.map((prodImages) => {
@@ -303,13 +291,9 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             <Text>No cumple</Text>
           </View>
           {check1 ? (
-
-
             <View style={{ paddingHorizontal: 25, flex: 1 }}>
               <Text style={{ fontWeight: theme.fontWeight.softbold }}>
-
-                Titulo planograma Ideal
-
+                Planograma Real
               </Text>
               <TakeImage setProducts={setData} item={item} />
             </View>
@@ -363,8 +347,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     //backgroundColor:'yellow',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 10,
   },
 });

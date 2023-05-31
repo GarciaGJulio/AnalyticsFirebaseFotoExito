@@ -200,7 +200,7 @@ const Menu = ({ navigation }) => {
             }}
           >
             <StyledButton
-              title={"Realizar Auditoria"}
+              title={"Realizar Auditoría"}
               buttonColor={theme.colors.modernaRed}
               onPress={handleOpenModalAudit}
               size={theme.buttonSize.sm}

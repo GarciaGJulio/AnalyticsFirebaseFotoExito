@@ -74,6 +74,7 @@ const Briefcase = ({ navigation }) => {
 
   const consultarYCopiarContenido = async () => {
     let idGroupClient = await AsyncStorage.getItem("idGroupClient");
+    let id_sucursal = await AsyncStorage.getItem("id_sucursal");
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
@@ -125,6 +126,7 @@ const Briefcase = ({ navigation }) => {
       });
 
       console.log("- - - - - - ", idGroupClient);
+      console.log("- - - - - - SUCURSAL ", id_sucursal);
 
       const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {
         return objeto.id_grupo_cliente === idGroupClient;

@@ -91,7 +91,6 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
 
   if (!fontLoaded) return null;
 
-
   return (
     <View style={[styles.container, { flex: 1 }]}>
       <ConfirmationModal
@@ -104,7 +103,12 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
       />
       <View style={styles.primaryContainer}>
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center", margin:6 }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            margin: 6,
+          }}
         >
           <Image
             source={{ uri: item.url }}
@@ -113,7 +117,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
         </View>
         <View style={styles.descriptionContainer}>
           <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-            {productName}
+            {item.id}-{productName}
           </Text>
           <View
             style={{
@@ -136,7 +140,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
             <ToggleSwitch
               isOn={state}
               onColor="green"
-              offColor="red"
+              offColor={theme.colors.modernaYellow}
               //label="Example label"
               //labelStyle={{ color: "black", fontWeight: "900" }}
               size="small"
