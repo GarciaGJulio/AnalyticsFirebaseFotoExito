@@ -64,7 +64,12 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
       //console.log("ID PERCHA A ACRUALIZAR:", p.id_categoria);
       // Actualiza la propiedad del objeto
       if (percha) {
-        percha.state = state;
+        if (state) {
+          percha.state = "1";
+        } else {
+          percha.state = "0";
+        }
+
         console.log("PARAMETRO ACTUALIZADO: ", percha);
       }
 

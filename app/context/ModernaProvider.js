@@ -118,16 +118,10 @@ const ModernaProvider = ({ children }) => {
 
   const handleLogoutAzure = async () => {
     try {
-      //console.log("datos de userSql---------------", userSql);
-      // return
-      //handleLoading(false);
       console.log("CERRANDO SESION---------------");
       await AuthManager.signOutAsync();
-      //dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
-      //dispatch({ type: LOAD_USER_AZURE, payload: null });
       setIsAuthenticated(false);
     } catch (e) {
-      //handleLoading(false)
       showMessage({
         message: e.message || "Se ha producido un error inesperado",
         type: "danger",

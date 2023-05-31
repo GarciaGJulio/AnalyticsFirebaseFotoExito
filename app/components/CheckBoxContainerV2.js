@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import theme from "../theme/theme";
 import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
@@ -11,7 +11,13 @@ import { validatePriceProduct } from "../utils/helpers";
 import ToggleSwitch from "toggle-switch-react-native";
 import { useFonts } from "expo-font";
 
-const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
+const CheckBoxContainerV2 = ({
+  productName,
+  idPortafolio,
+  idPreciador,
+  setProducts,
+  item,
+}) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [state, setState] = useState(false);
@@ -39,6 +45,10 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
     //setState(!state);
   };
 
+  useEffect(() => {
+    console.log("PRECIADOR QUE ESTA LLEGANDO: - - - - -", idPreciador);
+    console.log("PORTAFOLIO QUE ESTA LLEGANDO: - - - - -", idPortafolio);
+  }, []);
   const actualizarEstado = (item, state) => {
     console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ");
     console.log("PRODUCTO: ", item);
@@ -53,8 +63,14 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
 
       // Actualiza la propiedad del objeto
       if (producto) {
-        producto.state = state;
-        console.log(producto);
+        if (state) {
+          producto.state = "1";
+        } else {
+          producto.state = "0";
+        }
+        //producto.id_portafolio_complementario = idPortafolio;
+        //producto.id_preciador_portafolio_complementario = idPreciador;
+        console.log("PORDUCTO ACTUALIZADO: ", producto);
       }
 
       // Devuelve el array actualizado como el nuevo estado
@@ -76,7 +92,9 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
       // Actualiza la propiedad del objeto
       if (producto) {
         producto.price = price;
-        console.log(producto);
+        //producto.id_portafolio_complementario = idPortafolio;
+        //producto.id_preciador_portafolio_complementario = idPreciador;
+        console.log("PORDUCTO ACTUALIZADO: ", producto);
       }
 
       // Devuelve el array actualizado como el nuevo estado

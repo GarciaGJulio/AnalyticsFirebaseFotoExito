@@ -105,7 +105,7 @@ const createExhibidorTable = () => {
 };
 
 const createPromosTable = () => {
-  const sentence = `create table if not exists ${PROMOCION.NAME} (${PROMOCION.KEY_1} text primary key not null,${PROMOCION.ID_EXHIBIDOR} text null,${PROMOCION.ESTADO_PROMO} INT null,${PROMOCION.URL_IMAGEN1} TEXT null,${PROMOCION.URL_IMAGEN2} TEXT null,${PROMOCION.URL_IMAGEN3} TEXT null) `;
+  const sentence = `create table if not exists ${PROMOCION.NAME} (${PROMOCION.KEY_1} text not null,${PROMOCION.ID_EXHIBIDOR} text null,${PROMOCION.ESTADO_PROMO} INT null,${PROMOCION.URL_IMAGEN1} TEXT null,${PROMOCION.URL_IMAGEN2} TEXT null,${PROMOCION.URL_IMAGEN3} TEXT null,PRIMARY KEY (${PROMOCION.KEY_1},${PROMOCION.ID_EXHIBIDOR})) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, PROMOCION.NAME);
 };

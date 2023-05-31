@@ -43,10 +43,37 @@ const Briefcase = ({ navigation }) => {
   const [currentStep] = useState(0);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const { idClientGroup } = useContext(ModernaContext);
-  const idPortafolioComplementario = generateUIDD();
+  const [idPortafolioComplementario] = useState(generateUIDD());
+  const [idPortafolio] = useState(generateUIDD());
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
+  };
+
+  const savePortafolio = async () => {
+    let dataSave = {
+      tableName: "portafolio",
+      dataInsertType: [
+        "id_portafolio",
+        "id_portafolio_complementario",
+        "id_portafolio_ideal",
+      ],
+      dataInsert: [
+        `'${idPortafolio}'`,
+        `'${idPortafolioComplementario}'`,
+        `'${null}'`,
+      ],
+    };
+    const sentence =
+      "INSERT INTO " +
+      dataSave.tableName +
+      " (" +
+      dataSave.dataInsertType.join() +
+      ") VALUES(" +
+      dataSave.dataInsert.join() +
+      ")";
+    console.log("SENTENCIA A EJECUTAR: ", sentence);
+    db_insertGlobalDataAudit(dataSave);
   };
 
   useEffect(() => {
@@ -260,6 +287,7 @@ const Briefcase = ({ navigation }) => {
             "Productos validados: ",
             "Redirigiendo a la siguiente pantalla"
           );
+          savePortafolio();
           navigation.navigate("prices", {
             currentStep,
             complementaryPortfolioProducts,

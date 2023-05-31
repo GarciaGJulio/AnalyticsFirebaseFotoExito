@@ -1,10 +1,13 @@
 import moment from "moment";
 import uuid from "react-native-uuid";
 
-const constantUUID = uuid.v4();
+let constantUUID = null;
 
 export const generateUIDD = () => {
-  return constantUUID;
+  if (!constantUUID) {
+    constantUUID = uuid.v4();
+  }
+  return uuid.v4();
 };
 
 export const dataTime = () => {
