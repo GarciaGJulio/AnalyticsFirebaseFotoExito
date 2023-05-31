@@ -22,17 +22,17 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
   useEffect(() => {
 
 
-    if(CateGeneral < CateModerna){
+    if (CateGeneral < CateModerna) {
       setverificacionCategoria(true)
-      console.log("es mayor el de moderna",CateGeneral)
+      console.log("es mayor el de moderna", CateGeneral)
 
-    }else if(CateGeneral >=  CateModerna){
+    } else if (CateGeneral >= CateModerna) {
       setverificacionCategoria(false)
 
     }
 
-    
-    }, [CateModerna,CateGeneral]);
+
+  }, [CateModerna, CateGeneral]);
 
   /*useEffect(() => {
         console.log("itmDentroCompleto",itemCom)
@@ -207,8 +207,17 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           <View style={styles.imageContainer}>
             <Text style={{ fontWeight: theme.fontWeight.softbold }}>
               Indique si la percha de la categoria cumple o no con lo esperado
-            </Text>
 
+
+            </Text>
+            <Text style={{ fontWeight: theme.fontWeight.softbold }}>
+
+              Titulo planograma Ideal
+
+            </Text>
+            {/* <Text   style={{textAlign: 'left'}}>
+              Titulo planograma Ideal
+            </Text> */}
             {/*<Image
               style={{
                 flex: 1,
@@ -222,6 +231,8 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                 uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
               }}
             />*/}
+
+
             <View style={{ flexDirection: "row" }}>
               {item.images.map((prodImages) => {
                 return (
@@ -292,7 +303,14 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
             <Text>No cumple</Text>
           </View>
           {check1 ? (
+
+
             <View style={{ paddingHorizontal: 25, flex: 1 }}>
+              <Text style={{ fontWeight: theme.fontWeight.softbold }}>
+
+                Titulo planograma Ideal
+
+              </Text>
               <TakeImage setProducts={setData} item={item} />
             </View>
           ) : (
@@ -345,7 +363,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     //backgroundColor:'yellow',
     flex: 1,
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 10,
   },
 });
