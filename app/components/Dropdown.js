@@ -216,3 +216,33 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth / 1.1,
   },
 });
+const dataFormat2 = (array) => {
+  console.log("ARRAY DE CONSULTA: ", array);
+  const arrayFormat = array.map((obj) => {
+    console.log("OBJETO: ", obj.id_cliente);
+    return { key: obj.id_cliente, value: obj.nombre_cliente };
+  });
+  console.log(arrayFormat);
+  return arrayFormat;
+};
+
+export const DropdownDavid = () => {
+  const [datasTempo,setDatasTemp]=useState([])
+  useEffect(()=>{
+    handleSelectDataBase("SELECT * FROM cliente",
+    (resultadoConsulta) => {
+      Alert.alert("éxito al consulatar cliente en david", resultadoConsulta.toString());
+      setDatasTemp(dataFormat2(resultadoConsulta));
+    }, (e) => {
+      console.log("error al consulatar cliente  en david", e)
+      Alert.alert("error al consulatar cliente n en davida", e);
+
+    })
+
+  },[])
+  return (<SelectList
+    setSelected={() => { }}
+    data={datasTempo}
+    save="value"
+  />)
+}

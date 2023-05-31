@@ -40,7 +40,7 @@ import { useFonts } from "expo-font";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { requestLocationPermission } from "../../services/GeolocationA";
-import { Dropdown } from "../../components/Dropdown";
+import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 
 const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -362,6 +362,7 @@ const Client_Information = ({ navigation }) => {
             setError={setErrorClientName}
           />
         </View>
+        <DropdownDavid></DropdownDavid>
         <View
           style={{
             flexDirection: "row",
@@ -372,6 +373,7 @@ const Client_Information = ({ navigation }) => {
             //backgroundColor: "orange",
           }}
         >
+          
           <View style={{ width: 160 }}>
             <Text
               style={{ paddingBottom: 5, fontFamily: "Metropolis", flex: 1 }}
