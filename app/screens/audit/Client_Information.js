@@ -42,7 +42,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { requestLocationPermission } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 
-const Client_Information = ({ navigation }) => {
+export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
   const [selected, setSelected] = useState("");
   const [validatePass, setValidatePass] = useState(false);
@@ -475,7 +475,6 @@ const Client_Information = ({ navigation }) => {
   );
 };
 
-export default Client_Information;
 
 const styles = StyleSheet.create({
   container: {

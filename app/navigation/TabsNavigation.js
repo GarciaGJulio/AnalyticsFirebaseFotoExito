@@ -107,7 +107,7 @@ const TabButton = (props) => {
   );
 };
 
-export default function TabsNavigation({ route }) {
+export const   TabsNavigation=({ route }) =>{
   //const { branch } = route.params;
   // console.log(branch, "TabsNavigation");
   return (

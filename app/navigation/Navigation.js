@@ -1,17 +1,24 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React,{ useContext,useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../screens/auth/Login';
-import Menu from '../screens/auth/Menu';
-import TabsNavigation from './TabsNavigation.js';
-import AuditNavigation from './AuditNavigation';
-import ListBranch from '../screens/review/ListBranch';
-import ModernaContext from '../context/ModernaContext';
+// import Login from '../screens/auth/Login';
+// import Menu from '../screens/auth/Menu';
+// import TabsNavigation from './TabsNavigation.js';
+// import AuditNavigation from './AuditNavigation';
+// import ListBranch from '../screens/review/ListBranch';
+// import ModernaContext from '../context/ModernaContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Menu } from '../screens/auth/Menu';
+// import AuditNavigation from './AuditNavigation';
+import { ListBranch } from '../screens/review/ListBranch';
+import { TabsNavigation } from './TabsNavigation';
+import ModernaContext from '../context/ModernaContext';
+import { Login } from '../screens/auth/Login';
+import { AuditNavigation } from './AuditNavigation';
 
 const Stack = createStackNavigator();
 
-const Navigation = () => {
+export const Navigation = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(ModernaContext);
 
   useEffect(() => {
@@ -51,6 +58,6 @@ const Navigation = () => {
   )
 }
 
-export default Navigation
+//export default Navigation
 
 const styles = StyleSheet.create({})

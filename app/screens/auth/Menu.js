@@ -26,7 +26,7 @@ import ModernaHeader from "../../components/ModernaHeader";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
 import * as SQLite from "expo-sqlite";
 
-const Menu = ({ navigation }) => {
+export const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [animation, setAnimation] = useState("");
@@ -264,7 +264,7 @@ const Menu = ({ navigation }) => {
   );
 };
 
-export default Menu;
+// export default Menu;
 
 const styles = StyleSheet.create({
   container: {

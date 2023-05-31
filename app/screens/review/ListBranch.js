@@ -15,7 +15,7 @@ import { realizarConsulta } from "../../common/sqlite_config";
 import { useFonts } from "expo-font";
 import { BackPage_Review } from "../../components/BackPage_Review";
 
-const ListBranch = () => {
+export const ListBranch = () => {
   const [audit, setAudit] = useState([]);
 
   const consultarYCopiarContenido = async () => {
@@ -103,7 +103,7 @@ const ListBranch = () => {
   );
 };
 
-export default ListBranch;
+//export default ListBranch;
 
 const styles = StyleSheet.create({
   container: {

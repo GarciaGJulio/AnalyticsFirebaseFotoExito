@@ -15,7 +15,7 @@ import { LOAD_ID_CLIENT_GROUP, LOAD_LOCATIONS } from "./ModernaTypes";
 import { GraphManager } from "../azureConfig/graph/GraphManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ModernaProvider = ({ children }) => {
+export const ModernaProvider = ({ children }) => {
   const [isLogging, setIsLogging] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -163,6 +163,6 @@ const ModernaProvider = ({ children }) => {
   );
 };
 
-export default ModernaProvider;
+
 
 const styles = StyleSheet.create({});

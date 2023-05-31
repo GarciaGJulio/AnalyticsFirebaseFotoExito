@@ -8,7 +8,7 @@ import ModernaContext from "../../context/ModernaContext";
 import TarjPercha from "../../components/TarjetaPercha";
 import TarjPromo from "../../components/TarjetaPromo";
 
-const Login = ({ navigation }) => {
+export const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
   const log = () => {
     console.log("DISPARANDO LOGIN DE AD");
@@ -53,7 +53,7 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+// export default Login;
 
 const styles = StyleSheet.create({
   container: {
