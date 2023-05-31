@@ -25,7 +25,8 @@ export const onedrive = async () => {
 
 export const SubirAlonedrive = async (imageUri, IdFoto) => {
   // const folderPath = '/me/drive/root:/FolderA'; // Ruta de la carpeta en OneDrive
-  const bearerToken = await AsyncStorage.getItem("userToken");
+  const bearerToken = await AsyncStorage.getItem("userToken2");
+  console.log("USERRRRRRRRRRRRR:", bearerToken)
   const filename = "" + IdFoto + ".png";
   const driveId =
     "b!8xz3gdf43Eq0KCkvbna31vxpGAuGOrpPnBVuUAfQKqbgq9iLUK9GT5ZWD37MzEAh";
@@ -66,7 +67,7 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
   }
 };
 
-export const Recuperar = () => {
+export const RecuperarToken = () => {
   const url =
     "https://fotoexito1.azurewebsites.net/api/getAccesToken?code=kyjbYT96Qfu_70h8FiMD0LqXHhbS7-pr_AMrXCjePuMlAzFuV4ZKLA==";
   const body = {
@@ -81,9 +82,12 @@ export const Recuperar = () => {
     body: JSON.stringify(body),
   })
     .then((response) => response.json())
-    .then((data) => {
+    .then(async (data) => {
       // Manejar la respuesta de la solicitud
-      console.log(data);
+      console.log("CLAVES SECUNDARIOS-------------------------", data.token);
+  
+      await AsyncStorage.setItem('userToken2',  data.token);
+      console.log("CLAVES SECUNDARIOS2-------------------------", await AsyncStorage.getItem('userToken2'));
     })
     .catch((error) => {
       // Manejar errores de la solicitud
