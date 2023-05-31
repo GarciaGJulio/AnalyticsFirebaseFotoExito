@@ -8,7 +8,7 @@ import { useFonts } from "expo-font";
 import ModernaContext from "../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Dropdown = ({
+export const Dropdown = ({
   placeholder,
   setSelected,
   error,
@@ -207,7 +207,7 @@ const Dropdown = ({
   );
 };
 
-export default Dropdown;
+//export default Dropdown;
 
 const styles = StyleSheet.create({
   container: {

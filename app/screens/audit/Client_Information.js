@@ -17,7 +17,7 @@ import * as Animatable from "react-native-animatable";
 import theme from "../../theme/theme";
 import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
-import Dropdown from "../../components/Dropdown";
+//import Dropdown from "../../components/Dropdown";
 import StyledInput from "../../components/StyledInput";
 import LOCATION_ANIMATION from "../../../assets/gps.json";
 import LoaderModal from "../../components/LoaderModal";
@@ -40,6 +40,7 @@ import { useFonts } from "expo-font";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { requestLocationPermission } from "../../services/GeolocationA";
+import { Dropdown } from "../../components/Dropdown";
 
 const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
