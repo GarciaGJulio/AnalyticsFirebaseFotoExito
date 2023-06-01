@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import theme from '../theme/theme'
 import { FlashList } from '@shopify/flash-list';
-import ProductsDetails_Review from './ProductsDetails_Review';
+import { ProductsDetails_Review } from './ProductsDetails_Review';
 
 export const ProductsPrices_Review = ({ text }) => {
     const DATA = [

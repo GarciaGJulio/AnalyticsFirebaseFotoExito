@@ -21,18 +21,18 @@ import { ScrollView } from "react-native";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import LOADER_ANIMATION from "../../../assets/loader.json";
 import LoaderModal from "../../components/LoaderModal";
-import ProgressBar from "../../components/ProgressBar";
-import MultiSelectList from "../../components/MultiSelectList";
 import FlashListC from "../../components/FlashListC";
-import FlashListPortfolio from "../../components/FlashListPortfolio";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
 import ModernaContext from "../../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { generateUIDD } from "../../services/GenerateID";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
+import { FlashListPortfolio } from "../../components/FlashListPortfolio";
+import { MultiSelectList } from "../../components/MultiSelectList";
+import { ProgressBar } from "../../components/ProgressBar";
 
-const Briefcase = ({ navigation }) => {
+export const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [idealPortfolioProducts, setIdealPortfolioProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
@@ -222,19 +222,23 @@ const Briefcase = ({ navigation }) => {
   const validateProduct = () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
-    Alert.alert(
-      "Productos validados: ",
-      "Redirigiendo a la siguiente pantalla"
-    );
-    navigation.navigate("prices", {
-      currentStep,
-      complementaryPortfolioProducts,
-      idealPortfolioProducts,
-      setComplementaryPortfolioProducts,
-    });
+    if (idealPortfolioProducts.length + complementaryPortfolioProducts.length == 0) {
+      navigation.navigate("rack")
+    } else {
+      /*.alert(
+        "Productos validados: ",
+        "Redirigiendo a la siguiente pantalla"
+      );*/
+      navigation.navigate("prices", {
+        currentStep,
+        complementaryPortfolioProducts,
+        idealPortfolioProducts,
+        setComplementaryPortfolioProducts,
+      });
+    }
 
     //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
   };
@@ -309,7 +313,6 @@ const Briefcase = ({ navigation }) => {
   );
 };
 
-export default Briefcase;
 
 const styles = StyleSheet.create({
   container: {

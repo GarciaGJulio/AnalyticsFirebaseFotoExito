@@ -6,7 +6,7 @@ import axios from "axios";
 import { realizarConsulta, selectData } from "../common/sqlite_config";
 import { useFonts } from "expo-font";
 
-const DropdownPromos = ({
+export const DropdownPromos = ({
   placeholder,
   setSelected,
   nameTitle,
@@ -94,7 +94,6 @@ const DropdownPromos = ({
   );
 };
 
-export default DropdownPromos;
 
 const styles = StyleSheet.create({
   container: {

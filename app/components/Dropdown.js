@@ -70,7 +70,7 @@ export const Dropdown = ({
   }, [selected]);
   useEffect(() => {
     let tmpData=newArrayClients.map((item)=>JSON.stringify(item))
-    Alert.alert("éxito al consulatar cliente en useEfect",tmpData.toString());
+    //Alert.alert("éxito al consulatar cliente en useEfect",tmpData.toString());
   }, [newArrayClients]);
 
   /*const consultarYCopiarContenido = async () => {
@@ -96,7 +96,7 @@ export const Dropdown = ({
           (objeto) =>
             `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
         )
-        .join("\n");*/
+        .join("\n");
       //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);

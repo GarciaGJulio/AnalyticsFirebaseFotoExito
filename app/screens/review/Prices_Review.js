@@ -1,12 +1,14 @@
 import { StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import ModernaHeader from "../../components/ModernaHeader";
 import theme from "../../theme/theme";
 import ScreenInformation from "../../components/ScreenInformation";
 import { ProductsPrices_Review } from "../../components/ProductsPrices_Review";
 import { BackPage_Review } from "../../components/BackPage_Review";
+import { DataContext } from "../../context/DataProvider";
 
 const Prices_Review = () => {
+  const { datosCompartidos } = useContext(DataContext);
   return (
     <View style={styles.container}>
       <ModernaHeader />
@@ -17,7 +19,13 @@ const Prices_Review = () => {
         }}
       >
         <ScreenInformation
-          title={"Cliente - Sucursal"}
+          title={
+            datosCompartidos.id_cliente +
+            "-" +
+            datosCompartidos.nombre_cliente +
+            "-" +
+            datosCompartidos.nombre_sucursal
+          }
           text={
             "A continuación se muestran los preciadores de los productos registrados"
           }

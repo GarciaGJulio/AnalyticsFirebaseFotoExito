@@ -4,7 +4,7 @@ import { MultipleSelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 import { useFonts } from "expo-font";
 
-const MultiSelectList = ({
+export const MultiSelectList = ({
   setComplementaryPortfolioProducts,
   complementaryPortfolioProducts,
   idPortafolioComplementario,
@@ -154,8 +154,6 @@ const MultiSelectList = ({
     </ScrollView>
   );
 };
-
-export default MultiSelectList;
 
 const styles = StyleSheet.create({
   container: {

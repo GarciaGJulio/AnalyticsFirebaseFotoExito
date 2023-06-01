@@ -405,7 +405,7 @@ export const Client_Information = ({ navigation }) => {
             flex: 1.5, //backgroundColor:'orange'
           }}
         >
-          {newArrayClients.length > 0 ? <Dropdown
+          {/*newArrayClients.length > 0 ? <Dropdown
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
             selected={selected}
@@ -433,8 +433,8 @@ export const Client_Information = ({ navigation }) => {
             sucursalInformation={sucursalInformation}
             setError={setErrorClientName}
             arrayClients={arrayClients}
-          />}
-          {/* <Dropdown
+        />*/}
+          <Dropdown
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
             selected={selected}
@@ -448,7 +448,7 @@ export const Client_Information = ({ navigation }) => {
             sucursalInformation={sucursalInformation}
             setError={setErrorClientName}
             arrayClients={arrayClients}
-          /> */}
+          />
         </View>
     
         <View

@@ -9,7 +9,7 @@ import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import { useFonts } from "expo-font";
 
-const CheckBoxContainerP = ({ productName, item, setData }) => {
+export const CheckBoxContainerP = ({ productName, item, setData }) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -186,7 +186,6 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
   );
 };
 
-export default CheckBoxContainerP;
 
 const styles = StyleSheet.create({
   container: {

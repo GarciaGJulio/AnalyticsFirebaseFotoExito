@@ -18,8 +18,8 @@ import theme from "../theme/theme";
 import { CheckBox } from "@rneui/base";
 import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
-import RackCheckbox from "./RackCheckbox";
 import Rack_View from "./Rack_View";
+import { RackCheckbox } from "./RackCheckbox";
 
 export const TarjPercha = ({ data, setData, rack, setRack }) => {
   const [objPercha, setObjPercha] = useState({});
@@ -109,5 +109,3 @@ const styles = StyleSheet.create({
     //marginHorizontal:10,
   },
 });
-
-export default TarjPercha;

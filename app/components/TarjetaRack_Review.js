@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import theme from "../theme/theme";
-import Rack_View from "./Rack_View";
 import { useFonts } from "expo-font";
+import { Rack_View } from "./Rack_View";
 
-const TarjetaRack_Review = ({data}) => {
+export const TarjetaRack_Review = ({data}) => {
 
     /*const dataRack = [
         {
@@ -76,5 +76,3 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export default TarjetaRack_Review;

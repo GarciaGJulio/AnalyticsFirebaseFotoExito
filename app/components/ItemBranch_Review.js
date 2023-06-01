@@ -21,7 +21,7 @@ import LoaderModal from "./LoaderModal";
 import ModernaContext from "../context/ModernaContext";
 import { DataContext } from "../context/DataProvider";
 
-const ItemBranch_Review = ({ branch }) => {
+export const ItemBranch_Review = ({ branch }) => {
   const { setDatosCompartidos, datosCompartidos } = useContext(DataContext);
   const [animation, setAnimation] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -122,5 +122,3 @@ const ItemBranch_Review = ({ branch }) => {
     </TouchableOpacity>
   );
 };
-
-export default ItemBranch_Review;

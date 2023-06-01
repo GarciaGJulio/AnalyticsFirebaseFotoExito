@@ -3,9 +3,9 @@ import { View, Text } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import CheckBoxContainer from "./CheckBoxContainer";
 import theme from "../theme/theme";
-import CheckBoxContainerV2 from "./CheckBoxContainerV2";
+import { CheckBoxContainerV2 } from "./CheckBoxContainerV2";
 
-const FlashListPrices = ({
+export const FlashListPrices = ({
   title,
   products,
   setProducts,
@@ -47,4 +47,3 @@ const FlashListPrices = ({
   );
 };
 
-export default FlashListPrices;

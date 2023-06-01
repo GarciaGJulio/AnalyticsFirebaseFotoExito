@@ -5,7 +5,7 @@ import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
 import ImageViewer from "react-native-image-zoom-viewer";
 
-const PromosItemsDetails_Review = ({ exhibitor }) => {
+export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const [extraImages, setExtraImages] = useState([]);
   const validateExtraImages = (objeto) => {
     //const imagenes = []
@@ -62,26 +62,34 @@ const PromosItemsDetails_Review = ({ exhibitor }) => {
   );
 };
 
-export default PromosItemsDetails_Review;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     borderRadius: 20,
     marginVertical: 10,
     borderWidth: 1,
     backgroundColor: theme.colors.lightgray,
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
-  },
-  primaryContainer: {
-    flexDirection: "row",
-    width: "90%",
   },
   descriptionContainer: {
     marginLeft: 5,
+    //backgroundColor: "orange",
     flex: 1,
     padding: 10,
+  },
+  primaryContainer: {
+    flexDirection: "row",
+    //backgroundColor: "blue",
+    flex: 1,
+    width: "90%",
+  },
+  secondaryContainer: {
+    //backgroundColor: "brown",
+    flex: 1,
+    //height: 290,
+    width: "90%",
   },
   imgContainer: {
     width: 50,

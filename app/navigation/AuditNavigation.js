@@ -1,10 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Briefcase from "../screens/audit/Briefcase";
-import Prices from "../screens/audit/Prices";
-import Rack from "../screens/audit/Rack";
-import Promos from "../screens/audit/Promos";
 // import Menu from "../screens/auth/Menu";
 // import Client_Information from "../screens/audit/Client_Information";
 import Navigation from "./Navigation";
@@ -14,6 +10,10 @@ import { Client_Information } from "../screens/audit/Client_Information";
 import { Menu } from "../screens/auth/Menu";
 import { ListBranch } from "../screens/review/ListBranch";
 import { TabsNavigation } from "./TabsNavigation";
+import { Briefcase } from "../screens/audit/Briefcase";
+import { Prices } from "../screens/audit/Prices";
+import { Racks } from "../screens/audit/Rack";
+import { Promos } from "../screens/audit/Promos";
 
 const Stack = createStackNavigator();
 
@@ -21,11 +21,11 @@ export const AuditNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="client" component={Client_Information} />
-      {/* <Stack.Screen name="briefcase" component={Briefcase} />
+      <Stack.Screen name="briefcase" component={Briefcase} />
       <Stack.Screen name="prices" component={Prices} />
-      <Stack.Screen name="rack" component={Rack} />
+      <Stack.Screen name="rack" component={Racks} />
       <Stack.Screen name="promos" component={Promos} />
-      <Stack.Screen name="begin" component={LoginStack} /> */}
+      <Stack.Screen name="begin" component={LoginStack} /> 
     </Stack.Navigator>
   );
 };

@@ -16,8 +16,6 @@ import theme from "../../theme/theme";
 import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
 import ModernaHeader from "../../components/ModernaHeader";
-import ProgressBar from "../../components/ProgressBar";
-import TarjPercha from "../../components/TarjetaPercha";
 import RackCheckbox from "../../components/RackCheckbox";
 import {
   db_insertGlobalDataAudit,
@@ -29,8 +27,10 @@ import { realizarConsulta } from "../../common/sqlite_config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import ModernaContext from "../../context/ModernaContext";
+import { ProgressBar } from "../../components/ProgressBar";
+import { TarjPercha } from "../../components/TarjetaPercha";
 
-const Racks = ({ navigation }) => {
+export const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
   const [valueModerna, setValueModerna] = useState();
   const [category, setCategory] = useState([]);
@@ -260,8 +260,6 @@ const Racks = ({ navigation }) => {
     </View>
   );
 };
-
-export default Racks;
 
 const styles = StyleSheet.create({
   container: {

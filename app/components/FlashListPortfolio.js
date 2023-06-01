@@ -149,7 +149,7 @@ const RenderItemProd = ({
   );
 };
 
-const FlashListPortfolio = ({
+export const FlashListPortfolio = ({
   setIdealPortfolioProducts,
   idealPortfolioProducts,
   idealProducts,
@@ -184,4 +184,3 @@ const FlashListPortfolio = ({
   );
 };
 
-export default FlashListPortfolio;

@@ -4,9 +4,9 @@ import ModernaHeader from "../../components/ModernaHeader";
 import theme from "../../theme/theme";
 import ScreenInformation from "../../components/ScreenInformation";
 import { BackPage_Review } from "../../components/BackPage_Review";
-import TarjetaRack_Review from "../../components/TarjetaRack_Review";
 import { DataContext } from "../../context/DataProvider";
 import { realizarConsulta } from "../../common/sqlite_config";
+import { TarjetaRack_Review } from "../../components/TarjetaRack_Review";
 
 const Rack_Review = () => {
   const { datosCompartidos } = useContext(DataContext);
@@ -29,7 +29,9 @@ const Rack_Review = () => {
     });*/
 
     const perchasCompletas = datos.map((objeto) => {
-      const categoria = categorias.find((cat) => cat.id_categoria === objeto.id_categoria);
+      const categoria = categorias.find((cat) => {
+        console.log(cat.id_categoria +" "+ objeto.id_categoria)
+        cat.id_categoria === objeto.id_categoria});
       if (categoria) {
         return {
           ...objeto,
@@ -63,6 +65,8 @@ const Rack_Review = () => {
       >
         <ScreenInformation
           title={
+            datosCompartidos.id_cliente +
+            "-" +
             datosCompartidos.nombre_cliente +
             "-" +
             datosCompartidos.nombre_sucursal

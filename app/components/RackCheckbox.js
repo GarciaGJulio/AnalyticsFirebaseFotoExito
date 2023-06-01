@@ -15,13 +15,13 @@ import { FlashList } from "@shopify/flash-list";
 import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
 
-const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
+export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
-  const [verificacionCategorias, setverificacionCategoria] = useState(false);
+  const [verificacionCategorias, setverificacionCategoria] = useState();
   //const [objPercha, setObjPercha] = useState(itemCom)
 
-  useEffect(() => {
+ /* useEffect(() => {
     if (CateGeneral < CateModerna) {
       setverificacionCategoria(true);
       console.log("es mayor el de moderna", CateGeneral);
@@ -60,6 +60,24 @@ const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
     setIsModalVisible(false);
     setDisabled1(!disabled1);
     setDisabled2(!disabled2);
+  };
+
+  const validateNumbers = (num1,num2) => {
+    if (num1 === '' || num2 === '') {
+      console.log('Por favor, ingrese ambos números');
+      // Puedes mostrar un mensaje de error indicando que se deben ingresar ambos números
+      return;
+    }
+
+    if (parseInt(num1) <= parseInt(num2)) {
+      console.log('El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General');
+      setverificacionCategoria('El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General')
+      // Puedes mostrar un mensaje de error o realizar otra acción en caso de validación incorrecta
+    } else {
+      console.log('Validación exitosa');
+      setverificacionCategoria("")
+      // Puedes realizar alguna acción cuando la validación sea exitosa
+    }
   };
 
   const actualizarEstado = (item, state) => {
@@ -168,6 +186,7 @@ const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
               onChangeText={(txt) => {
                 setCateGeneral(txt);
                 actualizarCantidad(item, "carasGeneral", txt);
+                validateNumbers(txt,item.carasModerna)
                 /*setObjPercha({...objPercha,
                               CarasGeneral:txt
                           })*/
@@ -200,6 +219,7 @@ const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
             onChangeText={(txt) => {
               setCateModerna(txt);
               actualizarCantidad(item, "carasModerna", txt);
+              validateNumbers(item.carasGeneral,txt)
               /*setObjPercha({...objPercha,
                                 CarasModerna:txt
                             })
@@ -247,8 +267,7 @@ const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
                 fontFamily: "Metropolis",
               }}
             >
-              La cantidad de caras de Categoria Moderna alimentos no puede ser
-              superior al total de caras de la Categoria General
+             {verificacionCategorias}
             </Text>
           ) : (
             <></>
@@ -384,7 +403,6 @@ const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
   );
 };
 
-export default RackCheckbox;
 
 const styles = StyleSheet.create({
   container: {

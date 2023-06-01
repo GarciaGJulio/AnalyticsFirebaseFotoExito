@@ -7,7 +7,7 @@ import ItemsList from "../../components/ItemsList";
 import { BackPage_Review } from "../../components/BackPage_Review";
 import { DataContext } from "../../context/DataProvider";
 import { realizarConsulta } from "../../common/sqlite_config";
-import FlashListPortfolio from "../../components/FlashListPortfolio";
+import { FlashListPortfolio } from "../../components/FlashListPortfolio";
 
 const Briefcase_branch_review = ({ route }) => {
   const { datosCompartidos } = useContext(DataContext);
@@ -83,6 +83,8 @@ const Briefcase_branch_review = ({ route }) => {
       >
         <ScreenInformation
           title={
+            datosCompartidos.id_cliente +
+            "-" +
             datosCompartidos.nombre_cliente +
             "-" +
             datosCompartidos.nombre_sucursal

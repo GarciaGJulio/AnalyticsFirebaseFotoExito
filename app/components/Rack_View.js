@@ -11,8 +11,9 @@ import theme from "../theme/theme";
 import { Icon, Input } from "@rneui/base";
 import { useFonts } from "expo-font";
 import { Divider } from "react-native-paper";
+import StyledInput from "./StyledInput";
 
-const Rack_View = ({ rack }) => {
+export const Rack_View = ({ rack }) => {
   const [CateGeneral, setCateGeneral] = useState("70");
   const [CateModerna, setCateModerna] = useState("50");
   const [modalVisible, setModalVisible] = useState(false);
@@ -107,58 +108,55 @@ const Rack_View = ({ rack }) => {
       </View>
       
       <View style={styles.categoryContainer}>
-        <View style={styles.category}>
+      <View style={styles.category}>
+          <View style={{ flex: 1 }}>
+            <StyledInput
+              label="Categoría Moderna"
+              //placeholder="Precio"
+              maxLength={6}
+              keyboard="numeric"
+              editable={false}
+              value={rack.categoria_general.toString()}
+              width={"100%"}
+              // error={errorPrice}
+              // information={"* Este campo es obligatorio"}
+            />
+          </View>
           <Text
             style={{
-              fontWeight: theme.fontWeight.softbold,
-              fontSize: theme.fontSize.subtitle,
+              bottom: 25,
+              right: 20,
               fontFamily: "Metropolis",
+              textAlign: "center",
             }}
           >
-            Categoría general
+            Número de caras
           </Text>
-          <Input
-            keyboardType="numeric"
-            //onChangeText={handleTextGeneral}
-            value={rack.categoria_general.toString()}
-            editable={false}
-            style={[
-              styles.input,
-              {
-                fontWeight: theme.fontWeight.bold,
-                color: theme.colors.black,
-                fontFamily: "Metropolis",
-              },
-            ]}
-            disabled={true}
-          />
         </View>
         <View style={styles.category}>
+          <View style={{ flex: 1 }}>
+            <StyledInput
+              label="Categoría Moderna"
+              placeholder="Precio"
+              maxLength={6}
+              keyboard="numeric"
+              editable={false}
+              value={rack.categoria_moderna.toString()}
+              width={"100%"}
+              // error={errorPrice}
+              // information={"* Este campo es obligatorio"}
+            />
+          </View>
           <Text
             style={{
-              fontWeight: theme.fontWeight.softbold,
-              fontSize: theme.fontSize.subtitle,
+              bottom: 25,
+              right: 20,
               fontFamily: "Metropolis",
+              textAlign: "center",
             }}
           >
-            Categoría
+            Número de caras
           </Text>
-          <Input
-            keyboardType="numeric"
-            //onChangeText={handleTextModerna}
-            value={rack.categoria_moderna.toString()}
-            editable={false}
-            style={[
-              styles.input,
-              {
-                fontWeight: theme.fontWeight.softbold,
-                color: theme.colors.black,
-                fontFamily: "Metropolis",
-              },
-            ]}
-            underlineColor="transparent"
-            disabled={true}
-          />
         </View>
       </View>
       {openCamera ? (
@@ -229,8 +227,6 @@ const Rack_View = ({ rack }) => {
   );
 };
 
-export default Rack_View;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -240,10 +236,9 @@ const styles = StyleSheet.create({
     //backgroundColor: "red",
     shadowColor: "#000",
     //marginHorizontal: 5,
-    marginVertical: 10,
+    marginVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: theme.colors.lightgray,
   },
   header: {
     //backgroundColor:'blue',
@@ -259,6 +254,7 @@ const styles = StyleSheet.create({
   category: {
     //backgroundColor:'purple',
     flex: 1,
+    padding: 10,
     alignItems: "center",
   },
   input: {

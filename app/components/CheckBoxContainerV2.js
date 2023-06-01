@@ -12,7 +12,7 @@ import ToggleSwitch from "toggle-switch-react-native";
 import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
 
-const CheckBoxContainerV2 = ({
+export const CheckBoxContainerV2 = ({
   productName,
   idPortafolio,
   idPreciador,
@@ -281,7 +281,6 @@ const CheckBoxContainerV2 = ({
   );
 };
 
-export default CheckBoxContainerV2;
 
 const styles = StyleSheet.create({
   container: {

@@ -3,7 +3,7 @@ import { View, Text, Button } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import theme from '../theme/theme';
 
-const ProgressBar = ({currentStep}) => {
+export const ProgressBar = ({currentStep}) => {
   
 
   const labels = ['Paso 1', 'Paso 2', 'Paso 3','Paso 4'];
@@ -42,5 +42,3 @@ const ProgressBar = ({currentStep}) => {
     </View>
   );
 };
-
-export default ProgressBar;

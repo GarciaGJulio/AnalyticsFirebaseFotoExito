@@ -19,22 +19,22 @@ import ScreenInformation from "../../components/ScreenInformation";
 import ModernaHeader from "../../components/ModernaHeader";
 import FlashListPrices from "../../components/FlashListPrices";
 import Dropdown from "../../components/Dropdown";
-import ProgressBar from "../../components/ProgressBar";
-import FlashListPromos from "../../components/FlashListPromos";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import SUCCESS_ANIMATION from "../../../assets/success.json";
 import LoaderModal from "../../components/LoaderModal";
 import { realizarConsulta } from "../../common/sqlite_config";
-import DropdownPromos from "../../components/DropdownPromos";
 import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
 import { convertImageUrl } from "../../services/convertUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { generateUIDD } from "../../common/utils";
 import ModernaContext from "../../context/ModernaContext";
+import { ProgressBar } from "../../components/ProgressBar";
+import { FlashListPromos } from "../../components/FlashListPromos";
+import { DropdownPromos } from "../../components/DropdownPromos";
 
-const Promos = ({ navigation }) => {
+export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
   const [animation, setAnimation] = useState("");
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
@@ -447,7 +447,6 @@ const Promos = ({ navigation }) => {
   );
 };
 
-export default Promos;
 
 const styles = StyleSheet.create({
   container: {

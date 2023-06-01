@@ -26,7 +26,7 @@ export const BackPage_Review = () => {
 const styles = StyleSheet.create({
   fab: {
     position: "absolute",
-    marginRight: theme.dimensions.maxWidth - 80,
-    bottom: 30,
+    //marginRight: theme.dimensions.maxWidth - 80,
+    bottom: 110,
   },
 });

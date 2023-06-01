@@ -5,7 +5,6 @@ import theme from "../../theme/theme";
 import ScreenInformation from "../../components/ScreenInformation";
 import { PromosItems_Review } from "../../components/PromosItems_Review";
 import { BackPage_Review } from "../../components/BackPage_Review";
-import PromosItemsDetails_Review from "../../components/PromosItemsDetails_Review";
 import { realizarConsulta } from "../../common/sqlite_config";
 import { DataContext } from "../../context/DataProvider";
 
@@ -33,7 +32,11 @@ const Promos_Review = () => {
     });*/
 
     const promosCompletas = datosPromocion.map((objeto) => {
-      const exhibidor = exhibidores.find((cat) => cat.id_exhibidor === objeto.id_exhibidor);
+      const exhibidor = exhibidores.find((cat) => {
+        cat.id_exhibidor === objeto.id_exhibidor
+      console.log(cat.id_exhibidor+ " "+objeto.id_exhibidor)
+      });
+      console.log("ESTE ES EL EXHIBIDOR DE LA AUDITORIA: ",exhibidor)
       if (exhibidor) {
         return {
           ...objeto,nombre_exhibidor: exhibidor.nombre_tipo_exhibidor,
@@ -67,6 +70,8 @@ const Promos_Review = () => {
       >
         <ScreenInformation
           title={
+            datosCompartidos.id_cliente +
+            "-" +
             datosCompartidos.nombre_cliente +
             "-" +
             datosCompartidos.nombre_sucursal

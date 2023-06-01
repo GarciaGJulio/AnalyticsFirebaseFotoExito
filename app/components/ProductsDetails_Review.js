@@ -6,7 +6,7 @@ import HARINA from ".././../assets/resources/harina.png";
 import TakeImage from "./TakeImage";
 import PromosItemsDetails_Review from "./PromosItemsDetails_Review";
 
-const ProductsDetails_Review = ({ productName, productPrice }) => {
+export const ProductsDetails_Review = ({ productName, productPrice }) => {
   const prod = [
     {
       img0: "https://media.istockphoto.com/id/861019856/es/foto/harina-de-grano-entero-en-una-madera-o%C3%ADdos-bagwith-de-taz%C3%B3n-de-fuente-y-cilicio.jpg?s=612x612&w=is&k=20&c=dp3XuGZqt_KA_wZMt-VlnFl8-bD5WH-NLLuaXTvjSL0=",
@@ -17,13 +17,13 @@ const ProductsDetails_Review = ({ productName, productPrice }) => {
   return (
     <View style={[styles.container]}>
       <View style={[styles.primaryContainer, { marginLeft: 20 }]}>
-        <Image source={HARINA} style={{ width: 100, height: 100 }} />
+        <Image source={HARINA} style={{ width: 100, height: 100, margin:5 }} />
         <View style={styles.descriptionContainer}>
-          <Text style={{ fontSize: 13 }}>{productName}</Text>
-          <Text style={{ marginHorizontal: 10, marginTop: 5, fontSize: 11 }}>
+          <Text style={{ fontSize: 14,fontFamily: "Metropolis", }}>{productName}</Text>
+          <Text style={{  marginTop: 5, fontSize: 12,fontFamily: "Metropolis", }}>
             Precio disponible
           </Text>
-          <Text style={{ fontSize: 14, marginLeft: 10, marginTop: 10 }}>
+          <Text style={{ fontSize: 14, marginTop: 10 }}>
             ${productPrice}
           </Text>
         </View>
@@ -31,7 +31,7 @@ const ProductsDetails_Review = ({ productName, productPrice }) => {
       <View style={styles.secondaryContainer}>
         <View style={{ padding: 10 }}>
           <View style={{ marginTop: 15 }}>
-            <Text style={{ fontSize: 15, fontWeight: "500" }}>
+            <Text style={{ fontSize: 14, fontWeight: "500",fontFamily: "Metropolis", }}>
               Foto del precio del producto respectivo
             </Text>
             {/* <Text style={{ fontSize: 13, marginTop: 10 }}>Proporcione una foto del producto respectivo</Text> */}
@@ -43,29 +43,38 @@ const ProductsDetails_Review = ({ productName, productPrice }) => {
   );
 };
 
-export default ProductsDetails_Review;
-
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 20,
-    marginVertical: 8,
-    borderWidth: 1,
+    //borderRadius: 20,
+    margin: 1,
+    //marginVertical: 10,
+    //borderWidth: 2,
     backgroundColor: theme.colors.lightgray,
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
+    width: "99%",
+    borderWidth: 1,
+    marginBottom:5,
+    borderRadius: 10,
+    overflow: "hidden",
   },
   descriptionContainer: {
-    marginLeft: 5,
-    flex: 1,
+    //marginLeft: 5,
+    //backgroundColor: "orange",
+    flex: 3,
     padding: 10,
   },
   primaryContainer: {
     flexDirection: "row",
-    width: "90%",
-    marginTop: 10,
+    flex: 1,
+    //backgroundColor: "blue",
+    //backgroundColor:'blue',
+    width: "100%",
   },
   secondaryContainer: {
-    width: "80%",
+    //backgroundColor: "brown",
+    flex: 1,
+    //height: 290,
+    width: "100%",
   },
 });

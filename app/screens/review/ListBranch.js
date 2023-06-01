@@ -11,11 +11,11 @@ import {
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import * as Animatable from "react-native-animatable";
-import ItemBranch_Review from "../../components/ItemBranch_Review";
 import { handleSelectDataBase, realizarConsulta } from "../../common/sqlite_config";
 import { useFonts } from "expo-font";
 import { BackPage_Review } from "../../components/BackPage_Review";
 import { DropdownDavid } from "../../components/Dropdown";
+import { ItemBranch_Review } from "../../components/ItemBranch_Review";
 
 export const ListBranch = () => {
   const [audit, setAudit] = useState([]);
@@ -77,7 +77,8 @@ export const ListBranch = () => {
     });
     setFilteredData(newData);
   };
-  useEffect(() => {
+ 
+  /*useEffect(() => {
     try{
       handleSelectDataBase("SELECT * FROM cliente",
       (resultadoConsulta) => {
@@ -93,7 +94,7 @@ export const ListBranch = () => {
     }
    
 
-  }, [])
+  }, [])*/
 
   const dataFormat = (array) => {
     // setArrayClients(array);
@@ -131,22 +132,23 @@ export const ListBranch = () => {
             onChangeText={searchFilter}
             value={searchText}
           />*/}
+          
           <FlatList
             showsVerticalScrollIndicator={false}
             data={filteredData}
             renderItem={({ item }) => <ItemBranch_Review branch={item} />}
-            keyExtractor={(item) => item.id}
-          />
+            //keyExtractor={(item) => item.id}
+        />
 
-          <DropdownDavid
+          {/*<DropdownDavid
+            data={clientes}
+        >
+        </DropdownDavid>*/}
+          {/*clientes.length>0&&(<DropdownDavid
             data={clientes}
           >
-          </DropdownDavid>
-          {clientes.length>0&&(<DropdownDavid
-            data={clientes}
-          >
-          </DropdownDavid>)}
-          <FlatList
+          </DropdownDavid>)*/}
+          {/*<FlatList
             showsVerticalScrollIndicator={false}
             data={clientes}
             renderItem={({ item, index }) => {
@@ -156,7 +158,7 @@ export const ListBranch = () => {
             }
             }
             keyExtractor={(item) => item.id}
-          />
+          />*/}
         </View>
       </Animatable.View>
     </View>

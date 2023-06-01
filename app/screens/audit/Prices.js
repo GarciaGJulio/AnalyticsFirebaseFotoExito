@@ -17,9 +17,6 @@ import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
 import CheckBoxContainer from "../../components/CheckBoxContainer";
 import ModernaHeader from "../../components/ModernaHeader";
-import FlashListPrices from "../../components/FlashListPrices";
-import { ScrollView } from "react-native";
-import ProgressBar from "../../components/ProgressBar";
 import { Divider } from "@rneui/base";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -27,8 +24,10 @@ import { realizarConsulta } from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import ModernaContext from "../../context/ModernaContext";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
+import { ProgressBar } from "../../components/ProgressBar";
+import { FlashListPrices } from "../../components/FlashListPrices";
 
-const Prices = ({ navigation, route }) => {
+export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
     []
   );
@@ -319,7 +318,6 @@ const Prices = ({ navigation, route }) => {
   );
 };
 
-export default Prices;
 
 const styles = StyleSheet.create({
   container: {

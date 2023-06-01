@@ -3,9 +3,9 @@ import { View, Text } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import CheckBoxContainer from "./CheckBoxContainer";
 import theme from "../theme/theme";
-import CheckBoxContainerP from "./CheckBoxContainerP";
+import { CheckBoxContainerP } from "./CheckBoxContainerP";
 
-const FlashListPromos = ({ data, setData,exhibidorType }) => {
+export const FlashListPromos = ({ data, setData,exhibidorType }) => {
   useEffect(() => {
     console.log("ESTO LLEGA DE PROMOS DE LISTA: ", data);
   }, []);
@@ -27,5 +27,3 @@ const FlashListPromos = ({ data, setData,exhibidorType }) => {
     </View>
   );
 };
-
-export default FlashListPromos;
