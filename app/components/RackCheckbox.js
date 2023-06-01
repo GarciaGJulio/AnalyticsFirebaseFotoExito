@@ -21,29 +21,29 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
   const [verificacionCategorias, setverificacionCategoria] = useState();
   //const [objPercha, setObjPercha] = useState(itemCom)
 
- /* useEffect(() => {
-    if (CateGeneral < CateModerna) {
-      setverificacionCategoria(true);
-      console.log("es mayor el de moderna", CateGeneral);
-    } else if (CateGeneral >= CateModerna) {
-      setverificacionCategoria(false);
-    }
-  }, [CateModerna]);
-
-  useEffect(() => {
-    if (CateGeneral < CateModerna) {
-      setverificacionCategoria(true);
-      console.log("es mayor el de moderna", CateGeneral);
-    } else if (CateGeneral >= CateModerna) {
-      setverificacionCategoria(false);
-    }
-  }, [CateGeneral]);
-
-  /*useEffect(() => {
-        console.log("itmDentroCompleto",itemCom)
-        console.log("itmDentroCompletoPER",objPercha)
-
-    }, []);*/
+  /* useEffect(() => {
+     if (CateGeneral < CateModerna) {
+       setverificacionCategoria(true);
+       console.log("es mayor el de moderna", CateGeneral);
+     } else if (CateGeneral >= CateModerna) {
+       setverificacionCategoria(false);
+     }
+   }, [CateModerna]);
+ 
+   useEffect(() => {
+     if (CateGeneral < CateModerna) {
+       setverificacionCategoria(true);
+       console.log("es mayor el de moderna", CateGeneral);
+     } else if (CateGeneral >= CateModerna) {
+       setverificacionCategoria(false);
+     }
+   }, [CateGeneral]);
+ 
+   /*useEffect(() => {
+         console.log("itmDentroCompleto",itemCom)
+         console.log("itmDentroCompletoPER",objPercha)
+ 
+     }, []);*/
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -62,22 +62,35 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
     setDisabled2(!disabled2);
   };
 
-  const validateNumbers = (num1,num2) => {
+  const validateNumbers = (num1, num2) => {
     if (num1 === '' || num2 === '') {
       console.log('Por favor, ingrese ambos números');
       // Puedes mostrar un mensaje de error indicando que se deben ingresar ambos números
       return;
+
+
     }
 
-    if (parseInt(num1) <= parseInt(num2)) {
+
+    if (num1 < 0 || num2 < 0) {
+      console.log('Por favor, ingrese ambos números');
+      setverificacionCategoria(' Ingrese numero mayores a 0')
+      // Puedes mostrar un mensaje de error indicando que se deben ingresar ambos números
+      return;
+    }
+
+
+
+    if (parseInt(num1) < parseInt(num2)) {
       console.log('El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General');
       setverificacionCategoria('El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General')
       // Puedes mostrar un mensaje de error o realizar otra acción en caso de validación incorrecta
-    } else {
+    } else if (parseInt(num1) >= parseInt(num2)) {
       console.log('Validación exitosa');
       setverificacionCategoria("")
       // Puedes realizar alguna acción cuando la validación sea exitosa
     }
+
   };
 
   const actualizarEstado = (item, state) => {
@@ -186,21 +199,21 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
               onChangeText={(txt) => {
                 setCateGeneral(txt);
                 actualizarCantidad(item, "carasGeneral", txt);
-                validateNumbers(txt,item.carasModerna)
+                validateNumbers(txt, item.carasModerna)
                 /*setObjPercha({...objPercha,
                               CarasGeneral:txt
                           })*/
                 //onchangeObjPercha(objPercha)
               }}
-              label="Preciador del producto"
-              placeholder="Precio"
+              label="Categoria General"
+              placeholder="Caras"
               maxLength={6}
               keyboard="numeric"
               editable={true}
               value={CateGeneral}
               width={"100%"}
-              // error={errorPrice}
-              // information={"* Este campo es obligatorio"}
+            // error={errorPrice}
+            // information={"* Este campo es obligatorio"}
             />
           </View>
           <Text
@@ -219,21 +232,21 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
             onChangeText={(txt) => {
               setCateModerna(txt);
               actualizarCantidad(item, "carasModerna", txt);
-              validateNumbers(item.carasGeneral,txt)
+              validateNumbers(item.carasGeneral, txt)
               /*setObjPercha({...objPercha,
                                 CarasModerna:txt
                             })
                             onchangeObjPercha(objPercha)*/
             }}
             label="Categoría Moderna"
-            placeholder="Precio"
+            placeholder="Caras"
             maxLength={6}
             keyboard="numeric"
             editable={true}
             value={CateModerna}
             width={"100%"}
-            // error={errorPrice}
-            // information={"* Este campo es obligatorio"}
+          // error={errorPrice}
+          // information={"* Este campo es obligatorio"}
           />
 
           <Text
@@ -249,30 +262,22 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
         </View>
       </View>
       <View style={{ flexDirection: "row" }}>
-        <Text
-          style={{
-            padding: 10,
-            textAlign: "justify",
-            color: "red",
-            fontFamily: "Metropolis",
-          }}
-        >
           {verificacionCategorias ? (
             <Text
               style={{
-                flex: 1,
-                padding: 10,
+                // flex: 1,
+                padding:5 ,
                 textAlign: "justify",
                 color: "red",
                 fontFamily: "Metropolis",
               }}
             >
-             {verificacionCategorias}
+              {verificacionCategorias}
             </Text>
           ) : (
             <></>
           )}
-        </Text>
+        
       </View>
 
       {openCamera ? (
@@ -434,8 +439,8 @@ const styles = StyleSheet.create({
   category: {
     // backgroundColor: "purple",
     flex: 1,
-
     padding: 10,
+    paddingBottom:1
   },
   input: {
     fontWeight: theme.fontWeight.normal,

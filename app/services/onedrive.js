@@ -95,30 +95,15 @@ export const RecuperarToken = () => {
     });
 };
 
-// export const Vercarpetas=async()=>{
 
-//     const bearerToken = await AsyncStorage.getItem("userToken");
-
-//     fetch(`https://graph.microsoft.com/v1.0/users/${user-id}/drive/items/${item-id}`, {
-//     headers: {
-//         'Authorization': `Bearer ${bearerToken}`,
-//         'Content-Type': 'application/json'
-//     }
-// })
-// .then(response => response.json())
-// .then(data => {
-//     console.log(data); // los detalles de la carpeta compartida
-// })
-// .catch(error => console.error(error));
-// }
-
-export const deleteImageFromOneDrive = async (accessToken, itemId) => {
+export const deleteImageFromOneDrive = async (itemId) => {
   const endpoint = `https://graph.microsoft.com/v1.0/me/drive/items/${itemId}`;
+  const bearerToken = await AsyncStorage.getItem("userToken2");
 
   const response = await fetch(endpoint, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   });
 

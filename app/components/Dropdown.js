@@ -196,11 +196,7 @@ export const Dropdown = ({
           height: 50,
         }}
       />
-      <SelectList 
-        setSelected={()=>{}} 
-        data={newArrayClients.length>0?newArrayClients: dataTmp} 
-        save="value"
-    />
+      
       {error && (
         <Text
           style={{

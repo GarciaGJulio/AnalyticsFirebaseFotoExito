@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native";
 import { pickImages } from "../services/CameraM";
 import { Icon } from "@rneui/base";
 import { useEffect } from "react";
+import {deleteImageFromOneDrive} from "../services/onedrive";
 
 const TakeImage = ({ setProducts, item }) => {
   const [image, setImage] = useState(
@@ -54,6 +55,7 @@ const TakeImage = ({ setProducts, item }) => {
     console.log("\nENTRANDO A ELIMINAR IMAGEN - - - - - - - ");
     console.log("PRODUCTO: ", item);
     console.log("ELIMINANDO IMAGEN: . . . . . ");
+    deleteImageFromOneDrive(item);
     setProducts((products) => {
       // Obtén una copia del array actual
       const productosActualizados = [...products];
@@ -78,7 +80,7 @@ const TakeImage = ({ setProducts, item }) => {
           pickImages((image1) => {
             setImage1(image1);
             actualizarImagen(item, image1, "image1");
-          }, item);
+          }, ""+item+"img1");
         }}
         //actualizarImagen(item, setImage1, "image1",image1);
         style={styles.imageContainer}
@@ -92,7 +94,7 @@ const TakeImage = ({ setProducts, item }) => {
             pickImages((image2) => {
               setImage2(image2);
               actualizarImagen(item, image2, "image2");
-            }, item);
+            }, ""+item+"img2");
           }}
           style={styles.imageContainer}
         >
@@ -120,7 +122,7 @@ const TakeImage = ({ setProducts, item }) => {
             pickImages((image3) => {
               setImage3(image3);
               actualizarImagen(item, image3, "image3");
-            }, item);
+            }, ""+item+"img3");
           }}
           style={styles.imageContainer}
         >
