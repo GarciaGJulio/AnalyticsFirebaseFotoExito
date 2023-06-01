@@ -17,7 +17,7 @@ const Briefcase_branch_review = ({ route }) => {
   const DATA = [
     {
       id: 1,
-      name: "Categoría 1",
+      categoria: "Categoría 1",
       productos: [
         { id: 1, nombre: "Harina" },
         { id: 2, nombre: "Harina Ya" },
@@ -26,7 +26,7 @@ const Briefcase_branch_review = ({ route }) => {
     },
     {
       id: 2,
-      title: "Categoría 2",
+      categoria: "Categoría 2",
       productos: [
         { id: 4, nombre: "Fideos Don Bitorio" },
         { id: 5, nombre: "Fideos Horiental" },
@@ -35,7 +35,7 @@ const Briefcase_branch_review = ({ route }) => {
     },
     {
       id: 3,
-      title: "Categoría 2",
+      categoria: "Categoría 2",
       productos: [
         { id: 7, nombre: "Pan Moderna" },
         { id: 8, nombre: "Pan Supan" },

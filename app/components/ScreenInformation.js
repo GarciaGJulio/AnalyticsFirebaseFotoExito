@@ -32,7 +32,11 @@ const ScreenInformation = ({ title, text }) => {
         }}
       >
         <Text
-          style={{ fontSize: 20, fontWeight: "600", fontFamily: "Metropolis" }}
+          style={{
+            fontSize: theme.fontSize.title,
+            fontWeight: "600",
+            fontFamily: "Metropolis",
+          }}
         >
           {title}
         </Text>
@@ -50,7 +54,13 @@ const ScreenInformation = ({ title, text }) => {
         />
       </View>
       {text ? (
-        <Text style={{ fontSize: 13, width: "91%", fontFamily: "Metropolis" }}>
+        <Text
+          style={{
+            fontSize: theme.fontSize.body,
+            width: "91%",
+            fontFamily: "Metropolis",
+          }}
+        >
           {text.toString()}
         </Text>
       ) : null}

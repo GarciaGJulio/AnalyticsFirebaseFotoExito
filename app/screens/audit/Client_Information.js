@@ -34,12 +34,19 @@ import { lookForSucursal } from "../../services/SeleccionesService";
 import { validateNameBranch } from "../../utils/helpers";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import StyledButton from "../../components/StyledButton";
-import { handleSelectDataBase, realizarConsulta, selectData } from "../../common/sqlite_config";
+import {
+  handleSelectDataBase,
+  realizarConsulta,
+  selectData,
+} from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import { useFonts } from "expo-font";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { requestLocationPermission } from "../../services/GeolocationA";
+import {
+  getLocation,
+  requestLocationPermission,
+} from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 
 export const Client_Information = ({ navigation }) => {
@@ -68,21 +75,24 @@ export const Client_Information = ({ navigation }) => {
   const [clientGroupId, setClientGroupId] = useState("");
   const [groupClient, setGroupClient] = useState("");
   const [arrayClients, setArrayClients] = useState([]);
+  const [showButton1, setShowButton1] = useState(true);
+  const [showButton2, setShowButton2] = useState(false);
 
   const consultarYCopiarContenidoClientes = async () => {
     try {
       // Realiza la consulta a la base de datos
       //  const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
-      handleSelectDataBase("SELECT * FROM cliente",
+      handleSelectDataBase(
+        "SELECT * FROM cliente",
         (resultadoConsulta) => {
-
           // setClientes(dataFormat(resultadoConsulta));
           setNewArrayClients(dataFormat(resultadoConsulta));
-        }, (e) => {
-          console.log("error al consulatar cliente", e)
+        },
+        (e) => {
+          console.log("error al consulatar cliente", e);
           Alert.alert("error al consulatar cliente", e);
-
-        })
+        }
+      );
 
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta);
@@ -275,16 +285,17 @@ export const Client_Information = ({ navigation }) => {
     if (validador && errorBranchName == "" && !validateBranch) {
       //navigation.navigate("briefcase");
       setIsModalVisible(true);
-      //const locationCoords = await requestLocationPermission();
+      //console.log("DATOS DE COORDENADAS: ", locationCoords);
       try {
-        //const { latitude, longitude } = locationCoords;
+        const locationCoords = await getLocation();
         await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
         setIsModalVisible(false);
+        const { latitude, longitude } = locationCoords;
         console.log("DATOS A GUARDAR: ", {
           id: sucursalInformation.id,
           nombre: sucursalInformation.name,
-          //latitude: datosCompletos.latitude,
-          //longitude: datosCompletos.longitude,
+          latitude: latitude,
+          longitude: longitude,
           usuario: userInfo.givenName,
           creacion: dataTime(),
           modificacion: dataTime(),
@@ -304,8 +315,8 @@ export const Client_Information = ({ navigation }) => {
           dataInsert: [
             `'${sucursalInformation.id}'`,
             `'${sucursalInformation.name}'`,
-            0,
-            0,
+            `'${latitude}'`,
+            `'${longitude}'`,
             `'${userInfo.givenName}'`,
             `'${dataTime()}'`,
             `'${dataTime()}'`,
@@ -322,16 +333,34 @@ export const Client_Information = ({ navigation }) => {
           dataSave.dataInsert.join() +
           ")";
         console.log("SENTENCIA A EJECUTAR: ", sentence);
-        db_insertGlobalDataAudit(dataSave);
-        // navigation.navigate("briefcase");
-        navigation.navigate("briefcase");
-        setValidatePass(true);
-        setIsModalVisible(false);
+        try {
+          db_insertGlobalDataAudit(dataSave);
+          //navigation.navigate("briefcase");
+          setShowButton1(false);
+          setShowButton2(true);
+          setValidatePass(true);
+          setIsModalVisible(false);
+        } catch (e) {
+          console.log(e);
+          Alert.alert(
+            "Error al insertar datos",
+            "Se ah producido un error al registrar los datos, vuelva a intentarlo por favor"
+          );
+          setValidatePass(true);
+          setIsModalVisible(false);
+        }
+        //db_insertGlobalDataAudit(dataSave);
+        //navigation.navigate("briefcase");
+        //setShowButton1(false);
+        //setShowButton2(true);
+        //setValidatePass(true);
+        //setIsModalVisible(false);
       } catch (e) {
         Alert.alert(
           "Se ha producido un error al recopilar datos",
           "Vuelva a intentarlo nuevamente"
         );
+        console.log(e);
         setIsModalVisible(false);
       }
       /*if (locationCoords) {
@@ -397,7 +426,6 @@ export const Client_Information = ({ navigation }) => {
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <ScreenInformation title={"Información del Cliente"} text={""} />
-
         <View
           style={{
             //flexDirection: "row",
@@ -450,44 +478,45 @@ export const Client_Information = ({ navigation }) => {
             arrayClients={arrayClients}
           />
         </View>
-    
+
         <View
           style={{
             flexDirection: "row",
-            marginVertical: 20,
+            marginVertical: 15,
             justifyContent: "space-evenly",
             flex: 1.3,
             width: "100%",
             //backgroundColor: "orange",
           }}
         >
-          
           <View style={{ width: 160 }}>
             <Text
               style={{
-                paddingBottom: 5,
+                //paddingBottom: 5,
                 fontFamily: "Metropolis",
                 flex: 1,
-                fontSize: 13.5,
+                fontSize: 14,
+                //backgroundColor: "blue",
               }}
             >
               Grupo de cliente
             </Text>
             <View
               style={{
-                width: "100%",
+                //width: "100%",
                 //height: 45,
-                flex: 1,
+                flex: 1.5,
                 borderWidth: 2,
                 borderColor: theme.colors.lightgray,
                 //borderColor: "black",
                 borderRadius: 5,
-                padding: 10,
+                justifyContent: "center",
+                //padding: 10,
                 alignItems: "center",
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 15, fontFamily: "Metropolis", flex: 1 }}>
+              <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
                 {groupClient}
               </Text>
             </View>
@@ -495,7 +524,7 @@ export const Client_Information = ({ navigation }) => {
           <View style={{ width: 160 }}>
             <Text
               style={{
-                paddingBottom: 5,
+                //paddingBottom: 2,
                 fontFamily: "Metropolis",
                 flex: 1,
                 fontSize: 14,
@@ -507,18 +536,18 @@ export const Client_Information = ({ navigation }) => {
               style={{
                 width: "100%",
                 //height: 100,
-                flex: 1,
+                //height: "100%",
+                flex: 1.5,
                 borderWidth: 2,
                 borderColor: theme.colors.lightgray,
                 borderRadius: 5,
-                padding: 10,
+                //padding: 5,
+                justifyContent: "center",
                 alignItems: "center",
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text
-                style={{ fontSize: 13.5, fontFamily: "Metropolis", flex: 1 }}
-              >
+              <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
                 {type}
               </Text>
             </View>
@@ -554,8 +583,8 @@ export const Client_Information = ({ navigation }) => {
             }
           />
         </View>
-        <View style={{ flex: 0.8, alignItems: "center", margin: 5 }}>
-          <DoubleStyledButton
+        <View style={{ flex: 1.1, alignItems: "center", margin: 5 }}>
+          <DoubleDualStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
             colorLeft={theme.colors.modernaYellow}
@@ -568,13 +597,22 @@ export const Client_Information = ({ navigation }) => {
             //typeRigth={"material-community"}
             colorRigth={theme.colors.modernaRed}
             onPressRigth={handleOpenModal}
+            showButton1={showButton1}
+            showButton2={showButton2}
+            titleRigthSecond={"Siguiente"}
+            sizeRigthSecond={theme.buttonSize.df}
+            //iconRigth={"content-save-all-outline"}
+            //typeRigth={"material-community"}
+            colorRigthSecond={theme.colors.modernaRed}
+            onPressRigthSecond={() => navigation.navigate("briefcase")}
+            showButton1Second={showButton1}
+            showButton2Second={showButton2}
           />
         </View>
       </Animatable.View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

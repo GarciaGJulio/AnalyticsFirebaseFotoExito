@@ -48,6 +48,7 @@
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "~2.8.0",
+    "react-native-get-location": "^3.0.1",
     "react-native-iconify": "^0.2.4",
     "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-paper": "^5.7.2",

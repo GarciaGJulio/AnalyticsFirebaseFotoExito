@@ -30,23 +30,17 @@ const StyledInput = ({
 
   return (
     <View style={{ marginBottom: 1, width: width, flex: 1 }}>
-
-<View style={{flexDirection:"row"}}>
-          <View>
-
-            <Text style={{ color:"red",textAlign: "left" }}>
-              * 
-            </Text>
-          </View>
-          <View><Text  style={{ fontSize: 13.5, fontFamily: "Metropolis" }}>{label}</Text></View>
+      <View style={{ flexDirection: "row" }}>
+        <View>
+          <Text style={{ color: "red", textAlign: "left" }}>*</Text>
         </View>
+        <View>
+          <Text style={{ fontSize: 13.5, fontFamily: "Metropolis" }}>
+            {label}
+          </Text>
+        </View>
+      </View>
 
-
-
-
-
-
-      
       <View
         style={[
           style.inputContainer,
@@ -76,6 +70,7 @@ const StyledInput = ({
             flex: 1,
             //height: 50,
             //backgroundColor: "blue"
+            fontSize: 14,
             fontFamily: "Metropolis",
           }}
           {...props}

@@ -1,43 +1,101 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Animated,
+} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
 import theme from "../theme/theme";
 import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
 import TakeImage from "./TakeImage";
 import PromosItemsDetails_Review from "./PromosItemsDetails_Review";
+import { Divider, Icon } from "@rneui/base";
 
-export const ProductsDetails_Review = ({ productName, productPrice }) => {
-  const prod = [
-    {
-      img0: "https://media.istockphoto.com/id/861019856/es/foto/harina-de-grano-entero-en-una-madera-o%C3%ADdos-bagwith-de-taz%C3%B3n-de-fuente-y-cilicio.jpg?s=612x612&w=is&k=20&c=dp3XuGZqt_KA_wZMt-VlnFl8-bD5WH-NLLuaXTvjSL0=",
-      img1: "https://media.istockphoto.com/id/484679158/es/foto/harina-en-una-bolsa-en-la-mesa-y-spikelets.jpg?s=612x612&w=is&k=20&c=UtdmDnMAKjpEyLnaRuLYZsiqFMpBFDXRbL4qOxNODSA=",
-      img2: "https://media.istockphoto.com/id/1393397328/es/foto/primer-plano-de-harina-integral-huevos-y-pan-redondo-reci%C3%A9n-horneado-pan-casero-con-una-ramita.jpg?s=612x612&w=is&k=20&c=S1GN72PpY5I6qqMU0QWBKiZHCLrGrnHspCso_4aqJxw=",
-    },
-  ];
+export const ProductsDetails_Review = ({
+  productName,
+  productPrice,
+  state,
+}) => {
+  const thumbPosition =
+    state === true ? "60%" : state === false ? "10%" : "35%";
+  const trackColor = state === null ? "#999999" : state ? "#00ff00" : "#ff0000";
   return (
     <View style={[styles.container]}>
       <View style={[styles.primaryContainer, { marginLeft: 20 }]}>
-        <Image source={HARINA} style={{ width: 100, height: 100, margin:5 }} />
+        <Image source={HARINA} style={{ width: 100, height: 100, margin: 5 }} />
         <View style={styles.descriptionContainer}>
-          <Text style={{ fontSize: 14,fontFamily: "Metropolis", }}>{productName}</Text>
-          <Text style={{  marginTop: 5, fontSize: 12,fontFamily: "Metropolis", }}>
-            Precio disponible
-          </Text>
-          <Text style={{ fontSize: 14, marginTop: 10 }}>
-            ${productPrice}
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              backgroundColor: "orange",
+              justifyContent: "center",
+              flex: 1,
+            }}
+          >
+            <View style={{ flex: 1, backgroundColor: "red" }}>
+              <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
+                {productName}
+              </Text>
+            </View>
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{ marginTop: 5, fontSize: 12, fontFamily: "Metropolis" }}
+              >
+                Precio disponible
+              </Text>
+            </View>
+            <View
+              style={{
+                //backgroundColor: "green",
+                flex: 0.3,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  flex: 1,
+                  //backgroundColor: "green",
+                }}
+                onPress={() => {
+                  setOpenCamera(!openCamera);
+                  setModalVisible(true);
+                }}
+              >
+                <Icon name="camera" type="evilicon" size={40} />
+                {/* <Icon name='camerao' type='antdesign' size={32} /> */}
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{ flexDirection: "row", backgroundColor: "blue" }}>
+            <View>
+              <Text style={{ fontSize: 14, marginTop: 10 }}>
+                ${productPrice}
+              </Text>
+            </View>
+            <View>
+              <View
+                style={[
+                  styles.switchContainer,
+                  { backgroundColor: trackColor },
+                ]}
+              >
+                <View
+                  style={[styles.switchTrack, { backgroundColor: trackColor }]}
+                />
+                <View style={[styles.switchThumb, { left: thumbPosition }]} />
+              </View>
+            </View>
+          </View>
         </View>
       </View>
       <View style={styles.secondaryContainer}>
-        <View style={{ padding: 10 }}>
-          <View style={{ marginTop: 15 }}>
-            <Text style={{ fontSize: 14, fontWeight: "500",fontFamily: "Metropolis", }}>
-              Foto del precio del producto respectivo
-            </Text>
-            {/* <Text style={{ fontSize: 13, marginTop: 10 }}>Proporcione una foto del producto respectivo</Text> */}
-            {/*<PromosItemsDetails_Review exhibitor={prod} />*/}
-          </View>
-        </View>
+        <View style={{ padding: 10 }}></View>
       </View>
     </View>
   );
@@ -54,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "99%",
     borderWidth: 1,
-    marginBottom:5,
+    marginBottom: 5,
     borderRadius: 10,
     overflow: "hidden",
   },
@@ -76,5 +134,24 @@ const styles = StyleSheet.create({
     flex: 1,
     //height: 290,
     width: "100%",
+  },
+  switchContainer: {
+    width: 60,
+    height: 30,
+    flex: 1,
+    borderRadius: 15,
+    justifyContent: "center",
+    paddingHorizontal: 2,
+  },
+  switchTrack: {
+    flex: 1,
+    borderRadius: 15,
+  },
+  switchThumb: {
+    position: "absolute",
+    width: 20,
+    height: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
   },
 });

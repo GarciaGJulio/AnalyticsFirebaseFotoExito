@@ -58,6 +58,7 @@ const RenderItem = ({
           backgroundColor: theme.colors.modernaYellow,
           height: 30,
           flex: 1,
+          fontFamily: "Metropolis",
           justifyContent: "center",
           borderWidth: 0.5,
           color: theme.colors.white,
@@ -125,24 +126,14 @@ const RenderItemProd = ({
           flexDirection: "row",
           alignItems: "center",
           //flex: 1,
+          paddingLeft: 10,
+          margin: 5,
+          flex: 1,
           //backgroundColor: "red",
         }}
       >
-        <CheckBox
-          checked={check1}
-          onPress={() => {
-            setCheck1(!check1);
-            validate(!check1, item);
-          }}
-          // Use ThemeProvider to make change for all checkbox
-          iconType="material-community"
-          checkedIcon="checkbox-marked"
-          uncheckedIcon="checkbox-blank-outline"
-          checkedColor={theme.colors.modernaRed}
-          containerStyle={{ backgroundColor: "transparent" }}
-        />
-        <Text style={{ flex: 1, fontFamily: "Metropolis" }}>
-          {item.name}-{item.id}
+        <Text style={{ flex: 1, fontFamily: "Metropolis", fontSize: 15 }}>
+          {item.nombre}-{item.id}
         </Text>
       </View>
     </View>
@@ -183,4 +174,3 @@ export const FlashListPortfolio = ({
     </View>
   );
 };
-

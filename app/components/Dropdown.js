@@ -3,7 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 import axios from "axios";
-import { handleSelectDataBase, realizarConsulta, selectData } from "../common/sqlite_config";
+import {
+  handleSelectDataBase,
+  realizarConsulta,
+  selectData,
+} from "../common/sqlite_config";
 import { useFonts } from "expo-font";
 import ModernaContext from "../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -69,7 +73,7 @@ export const Dropdown = ({
     validateType();
   }, [selected]);
   useEffect(() => {
-    let tmpData=newArrayClients.map((item)=>JSON.stringify(item))
+    let tmpData = newArrayClients.map((item) => JSON.stringify(item));
     //Alert.alert("éxito al consulatar cliente en useEfect",tmpData.toString());
   }, [newArrayClients]);
 
@@ -160,14 +164,14 @@ export const Dropdown = ({
 
   if (!fontLoaded) return null;
   const dataTmp = [
-    {key:'1', value:'Mobiles', disabled:true},
-    {key:'2', value:'Appliances'},
-    {key:'3', value:'Cameras'},
-    {key:'4', value:'Computers', disabled:true},
-    {key:'5', value:'Vegetables'},
-    {key:'6', value:'Diary Products'},
-    {key:'7', value:'Drinks'},
-]
+    { key: "1", value: "Mobiles", disabled: true },
+    { key: "2", value: "Appliances" },
+    { key: "3", value: "Cameras" },
+    { key: "4", value: "Computers", disabled: true },
+    { key: "5", value: "Vegetables" },
+    { key: "6", value: "Diary Products" },
+    { key: "7", value: "Drinks" },
+  ];
   return (
     <ScrollView style={styles.container}>
       <View style={{ flexDirection: "row" }}>
@@ -186,7 +190,14 @@ export const Dropdown = ({
         placeholder={placeholder}
         searchPlaceholder="Buscar"
         data={newArrayClients}
-        inputStyles={{ fontFamily: "Metropolis" }}
+        inputStyles={{
+          fontFamily: "Metropolis",
+          fontSize: 14,
+          flex: 1,
+          padding: 0,
+          flexShrink: 1,
+        }}
+        dropdownTextStyles={{ flexShrink: 1, right: 10 }}
         save="value"
         boxStyles={{
           borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
@@ -194,9 +205,11 @@ export const Dropdown = ({
           alignItems: "center",
           borderWidth: 1 ? 2 : 0,
           height: 50,
+          //fontSize: 12,
+          flex: 1,
         }}
       />
-      
+
       {error && (
         <Text
           style={{
@@ -233,7 +246,7 @@ const dataFormat2 = (array) => {
   return arrayFormat;
 };
 
-export const DropdownDavid = ({data}) => {
+export const DropdownDavid = ({ data }) => {
   /*const [datasTempo,setDatasTemp]=useState([])
   useEffect(()=>{
     handleSelectDataBase("SELECT * FROM cliente",
@@ -247,9 +260,5 @@ export const DropdownDavid = ({data}) => {
     })
 
   },[])*/
-  return (<SelectList
-    setSelected={() => { }}
-    data={data}
-    save="value"
-  />)
-}
+  return <SelectList setSelected={() => {}} data={data} save="value" />;
+};

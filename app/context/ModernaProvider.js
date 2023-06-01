@@ -14,6 +14,7 @@ import ModernaReducer from "./ModernaReducer";
 import { LOAD_ID_CLIENT_GROUP, LOAD_LOCATIONS } from "./ModernaTypes";
 import { GraphManager } from "../azureConfig/graph/GraphManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DeviceInfo from "react-native-device-info";
 import axios from "axios";
 
 export const ModernaProvider = ({ children }) => {
@@ -102,10 +103,48 @@ export const ModernaProvider = ({ children }) => {
         await AsyncStorage.setItem("user", JSON.stringify(user));
         console.log("user from azure 1: ", JSON.stringify(user));
         console.log("MAIL DEL USUARIO: ", user.mail);
-        user.mail = user.mail.toLowerCase();
-        user.userPrincipalName = user.userPrincipalName.toLowerCase();
+        user.mail = user.mail.toLowerCase().toString();
+        user.userPrincipalName = user.userPrincipalName
+          .toLowerCase()
+          .toString();
         setUserInfo(user);
-        makeRequest(user.mail, user.userPrincipalName);
+        const userDataBase = await makeRequest(
+          user.mail,
+          user.userPrincipalName
+        );
+        console.log("RESPUESTA DE CONSULTA USUARIO: ", userDataBase);
+        console.log(
+          "DISPOSITIVO DEL USUARIO: ",
+          userDataBase[0].usuario_dispositivo
+        );
+        let deviceMacAdress = await DeviceInfo.getUniqueId();
+        if (userDataBase[0].usuario_dispositivo === null) {
+          console.log(
+            "El usuario no tiene un dispositivo conectado - - - - - - - -"
+          );
+          console.log("MAC A INSERTAR EN LA BASE: ", deviceMacAdress);
+          const responseInsertMac = await insertMacCurrentUser(
+            user.mail,
+            user.userPrincipalName,
+            deviceMacAdress
+          );
+          console.log("INSERTO LA MAC?: ", responseInsertMac);
+          setIsAuthenticated(true);
+        } else {
+          console.log(
+            "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
+          );
+          if (userDataBase[0].usuario_dispositivo === deviceMacAdress) {
+            console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
+            setIsAuthenticated(true);
+          } else {
+            AuthManager.signOutAsync();
+            Alert.alert(
+              "Error",
+              "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual"
+            );
+          }
+        }
         /*const successFunctionChecker = async (data) => {
           if (data.data.dataBaseResult <= 0) {
             Alert.alert(
@@ -250,7 +289,6 @@ export const ModernaProvider = ({ children }) => {
           console.log("user from azure 2:", user);
         }*/
       }
-      setIsAuthenticated(true);
       // Si la autenticación es exitosa
     } catch (e) {
       console.log(e);
@@ -318,7 +356,7 @@ export const ModernaProvider = ({ children }) => {
         data: {
           tableName: "usuario",
           fieldType: ["correo"],
-          fieldData: ["" + `${mail ? mail : userPrincipalName}` + ""],
+          fieldData: [`${mail ? mail : userPrincipalName}`],
         },
       };
 
@@ -334,8 +372,36 @@ export const ModernaProvider = ({ children }) => {
         requestBody,
         config
       );
-      console.log("RESPUESTA DE CONSULTA USUARIO: ", response.data);
-      return response.data;
+      return response.data.data;
+    } catch (error) {
+      console.log("Error en la petición:", error);
+    }
+  };
+
+  const insertMacCurrentUser = async (mail, userPrincipalName, deviceMac) => {
+    try {
+      const requestBody = {
+        operation: "C",
+        data: {
+          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
+            mail ? mail : userPrincipalName
+          }'`,
+        },
+      };
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+
+      const response = await axios.post(
+        "https://fotoexito1.azurewebsites.net/api/queryInsert?code=Pd_oqC3bfYtub9E13hybiElqLCtsPgO9FErzdxdzL-ISAzFuhWl7ug==",
+        requestBody,
+        config
+      );
+      return response.data.data;
     } catch (error) {
       console.log("Error en la petición:", error);
     }
@@ -381,7 +447,5 @@ export const ModernaProvider = ({ children }) => {
     </ModernaContext.Provider>
   );
 };
-
-
 
 const styles = StyleSheet.create({});
