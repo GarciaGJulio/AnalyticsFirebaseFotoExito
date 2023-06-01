@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
 import * as Animatable from "react-native-animatable";
@@ -24,6 +24,9 @@ import { Divider } from "@rneui/base";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { realizarConsulta } from "../../common/sqlite_config";
+import { dataTime, generateUIDD } from "../../services/GenerateID";
+import ModernaContext from "../../context/ModernaContext";
+import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 
 const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -31,7 +34,11 @@ const Prices = ({ navigation, route }) => {
   );
   const [newIdealPortfolio, setNewIdealPortfolio] = useState([]);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-
+  const [idPreciadorPortafolioComplementario] = useState(generateUIDD());
+  const [idPortafolioComplementario, setIdPortafolioComplementario] =
+    useState();
+  const [idPreciador] = useState(generateUIDD());
+  const { userInfo } = useContext(ModernaContext);
   const { complementaryPortfolioProducts, idealPortfolioProducts } =
     route.params;
 
@@ -52,9 +59,6 @@ const Prices = ({ navigation, route }) => {
   };
 
   const consultarYCopiarContenido = async () => {
-    let id_portafolio_complementario = await AsyncStorage.getItem(
-      "id_portafolio_complementario"
-    );
     try {
       // Realiza la consulta a la base de datos
 
@@ -66,7 +70,7 @@ const Prices = ({ navigation, route }) => {
         "Copia de contenido completada con éxito - PRODUCTOS: ",
         resultadoConsultaComp
       );
-      console.log("ID DEL PORTAFOLIO COMP: ", id_portafolio_complementario);
+      //console.log("ID DEL PORTAFOLIO COMP: ", id_portafolio_complementario);
     } catch (e) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -76,9 +80,55 @@ const Prices = ({ navigation, route }) => {
     consultarYCopiarContenido();
   }, []);
 
+  const savePreciador = async () => {
+    /*let idPreciadorPortafolioComplementario = await AsyncStorage.getItem(
+      "id_preciador_portafolio_complementario"
+    );*/
+    let dataSave = {
+      tableName: "preciador",
+      dataInsertType: [
+        "id_preciador",
+        "id_preciador_portafolio_complementario",
+        "id_preciador_portafolio_ideal",
+      ],
+      dataInsert: [
+        `'${idPreciador}'`,
+        `'${idPreciadorPortafolioComplementario}'`,
+        `'${null}'`,
+      ],
+    };
+    const sentence =
+      "INSERT INTO " +
+      dataSave.tableName +
+      " (" +
+      dataSave.dataInsertType.join() +
+      ") VALUES(" +
+      dataSave.dataInsert.join() +
+      ")";
+    console.log("SENTENCIA A EJECUTAR: ", sentence);
+    //db_insertGlobalDataAudit(dataSave);
+  };
+
   useEffect(() => {
-    const getNewArrays = () => {
-      setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
+    const getNewArrays = async () => {
+      let id_portafolio_complementario = await AsyncStorage.getItem(
+        "id_portafolio_complementario"
+      );
+      const addParametersComplementaryP = complementaryPortfolioProducts.map(
+        (producto) => {
+          return {
+            ...producto,
+            id_portafolio_complementario: id_portafolio_complementario,
+            id_preciador_portafolio_complementario:
+              idPreciadorPortafolioComplementario,
+          };
+        }
+      );
+      console.log(
+        "ARRAY DE COMPLEMENTARIO FORMATEADO: ",
+        addParametersComplementaryP
+      );
+      setNewComplementaryPortfolio([...addParametersComplementaryP]);
       setNewIdealPortfolio([...idealPortfolioProducts]);
       //console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
       console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
@@ -92,41 +142,116 @@ const Prices = ({ navigation, route }) => {
     getNewArrays();
   }, [complementaryPortfolioProducts]);
 
-  const validateArrays = () => {
+  const validateArrays = async () => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
-    const isValid = fullArrays.every((item) => {
-      if (item.state === null) {
-        console.log("ESTE ITEM DA PROBLEMAS: ", item);
-        return false;
-      }
-      if (item.state === true) {
-        if (
-          item.price === null ||
-          !item.images ||
-          item.images.image1 === null
-        ) {
-          console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+    if (fullArrays.length == 0) {
+      navigation.navigate("rack");
+    } else {
+      const isValid = fullArrays.every((item) => {
+        if (item.state === null) {
+          console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
-      }
-      return true;
-    });
+        if (item.state === "1") {
+          if (
+            item.price === null ||
+            !item.images ||
+            item.images.image1 === null
+          ) {
+            console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+            return false;
+          }
+        }
+        return true;
+      });
 
-    if (!isValid) {
-      Alert.alert(
-        "Error al completar los datos",
-        "Necesita marcar el valor de preciador de cada producto"
-      );
-      //navigation.navigate('rack');
-      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
-      console.log(
-        "PORTAFOLIO COMPLEMENTARIO: ",
-        JSON.stringify(newComplementaryPortfolio)
-      );
-    } else {
-      console.log("TODO BIEN");
-      navigation.navigate("rack");
+      if (!isValid) {
+        Alert.alert(
+          "Error al completar los datos",
+          "Necesita marcar el valor de preciador de cada producto"
+        );
+        //navigation.navigate('rack');
+        console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
+        console.log(
+          "PORTAFOLIO COMPLEMENTARIO: ",
+          JSON.stringify(newComplementaryPortfolio)
+        );
+      } else {
+        try {
+          await AsyncStorage.setItem(
+            "id_preciador_portafolio_complementario",
+            idPreciadorPortafolioComplementario
+          );
+          console.log(
+            "PRODUCTOS QUE VAN A SER GUARDADOS: ",
+            JSON.stringify(newComplementaryPortfolio)
+          );
+          newComplementaryPortfolio.map((productos) => {
+            const {
+              id_portafolio_complementario,
+              id,
+              id_preciador_portafolio_complementario,
+              state,
+              price,
+              images,
+            } = productos;
+            const { image1, image2, image3 } = images;
+            console.log(
+              "---------------------- imagenes",
+              JSON.stringify(images)
+            );
+            console.log(
+              "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
+              id_portafolio_complementario + " " + id
+            );
+            let dataSave = {
+              tableName: "preciador_portafolio_complementario",
+              dataInsertType: [
+                "id_preciador_portafolio_complementario",
+                "id_portafolio_complementario",
+                "id_producto",
+                "precio_portafolio_complementario",
+                "estado_preciador_complementario",
+                "url_imagen1",
+                "url_imagen2",
+                "url_imagen3",
+                "usuario_creacion",
+                "fecha_creacion",
+                "fecha_modificacion",
+              ],
+              dataInsert: [
+                `'${id_preciador_portafolio_complementario}'`,
+                `'${id_portafolio_complementario}'`,
+                `'${id}'`,
+                `'${price}'`,
+                `'${state}'`,
+                `'${image1}'`,
+                `'${image2}'`,
+                `'${image3}'`,
+                `'${userInfo.givenName}'`,
+                `'${dataTime()}'`,
+                `'${dataTime()}'`,
+              ],
+            };
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
+            db_insertGlobalDataAudit(dataSave);
+            console.log("TODO BIEN");
+            savePreciador();
+            navigation.navigate("rack");
+          });
+        } catch (e) {
+          Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+        }
+      }
     }
   };
 
@@ -169,6 +294,8 @@ const Prices = ({ navigation, route }) => {
             title={"Portafolio Complementario"}
             products={newComplementaryPortfolio}
             setProducts={setNewComplementaryPortfolio}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
           />
         </View>
         <View style={{ flex: 0.45, width: "100%" }}>

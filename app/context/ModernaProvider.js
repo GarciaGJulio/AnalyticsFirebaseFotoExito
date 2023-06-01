@@ -14,6 +14,7 @@ import ModernaReducer from "./ModernaReducer";
 import { LOAD_ID_CLIENT_GROUP, LOAD_LOCATIONS } from "./ModernaTypes";
 import { GraphManager } from "../azureConfig/graph/GraphManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 export const ModernaProvider = ({ children }) => {
   const [isLogging, setIsLogging] = useState(false);
@@ -101,7 +102,146 @@ export const ModernaProvider = ({ children }) => {
         await AsyncStorage.setItem("user", JSON.stringify(user));
         console.log("user from azure 1: ", JSON.stringify(user));
         console.log("MAIL DEL USUARIO: ", user.mail);
+        user.mail = user.mail.toLowerCase();
+        user.userPrincipalName = user.userPrincipalName.toLowerCase();
         setUserInfo(user);
+        makeRequest(user.mail, user.userPrincipalName);
+        /*const successFunctionChecker = async (data) => {
+          if (data.data.dataBaseResult <= 0) {
+            Alert.alert(
+              "Error",
+              "El usuario no está autorizado para iniciar sesión"
+            );
+            AuthManager.signOutAsync();
+            //dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
+            //dispatch({ type: LOAD_USER_AZURE, payload: null });
+            //handleLoading(false);
+          } else {
+            let deviceMacAdress = await DeviceInfo.getUniqueId();
+            /*console.log(
+              "usuario desde la base de azure ",
+              data.data.dataBaseResult[0]
+            );*/
+
+        /*if (
+              data.data.dataBaseResult[0].dispositivo_usuario ===
+              deviceMacAdress
+            ) {
+              data.data.dataBaseResult["id"] =
+                data.data.dataBaseResult[0].id_vendedor;
+              //console.log("usuario ya almacenado en azure")
+              successFunctionInsert(data);
+            } else {
+              const succesClientFuncDevice = () => {
+                data.data.dataBaseResult["id"] =
+                  data.data.dataBaseResult[0].id_vendedor;
+
+                // handleDownloadDataAzure(data.data.dataBaseResult[0])
+
+                successFunctionInsert(data);
+              };
+              const errorClientFuncDevice = () => {
+                Alert.alert(
+                  "Error",
+                  "se ha producido un error inesperado, por favor intentelo en unos momentos"
+                );
+                AuthManager.signOutAsync();
+                //dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
+                //dispatch({ type: LOAD_USER_AZURE, payload: null });
+                //handleLoading(false);
+              };
+              try {
+                if (
+                  data.data.dataBaseResult[0].dispositivo_usuario == null ||
+                  data.data.dataBaseResult[0].dispositivo_usuario.length <= 0
+                ) {
+                  await postAzure(
+                    "https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==",
+                    {
+                      typeQuery: "U",
+                      data: {
+                        compare: [
+                          "id_vendedor",
+                          `'${data.data.dataBaseResult[0].id_vendedor}'`,
+                        ],
+                        fieldType: ["dispositivo_usuario"],
+                        fieldData: [`'${deviceMacAdress}'`],
+                      },
+                    },
+                    succesClientFuncDevice,
+                    errorClientFuncDevice
+                  );
+                } else {
+                  Alert.alert(
+                    "Error",
+                    "Su cuenta está activa en otro dispositivo, cierre sesión en su otro dispositivo e intente nuevamente "
+                  );
+                  AuthManager.signOutAsync();
+                  //dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
+                  //dispatch({ type: LOAD_USER_AZURE, payload: null });
+                  //handleLoading(false);
+
+                  await postAzure(
+                    tempEnvironment
+                      ? tempEnvironment.sellerFunction
+                      : state.environmentUser.sellerFunction,
+                    {
+                      typeQuery: "R",
+                      data: {
+                        compare: [
+                          "correo",
+                          `'${user.mail ? user.mail : user.userPrincipalName}'`,
+                        ],
+                      },
+                    },
+                    successFunctionChecker,
+                    errorFunction
+                  );
+                }
+              } catch (e) {
+                Alert.alert("Error", "Error inseperado");
+                AuthManager.signOutAsync();
+                //dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
+                //dispatch({ type: LOAD_USER_AZURE, payload: null });
+                //handleLoading(false);
+              }
+            }
+          }
+          // thereIsUser=IsUser;
+        };
+        const successFunctionInsert = (bodyResponse) => {
+          try {
+            loadUserSql(bodyResponse.data.dataBaseResult[0]);
+            //console.log("bodyResponse---para localstorage", bodyResponse)
+
+            db_insertVendor(
+              bodyResponse.data.dataBaseResult.id,
+              user.displayName ? user.displayName : user.givenName,
+              user.mail,
+              bodyResponse.data.dataBaseResult[0].centro,
+              bodyResponse.data.dataBaseResult[0].almacen,
+              bodyResponse.data.dataBaseResult[0].codigo_prodiverso,
+              JSON.stringify(user)
+            );
+            dispatch({ type: LOAD_IS_AUTENTICATED, payload: true });
+            dispatch({ type: LOAD_USER_AZURE, payload: user });
+            handleLoading(false);
+          } catch (e) {
+            handleLoading(false);
+            console.log("error ", e);
+          }
+        };
+        const errorFunction = (data) => {
+          handleLoading(false);
+          showMessage({
+            message: data.message || "Se ha producido un error inesperado",
+            type: "danger",
+            duration: 5000,
+          });
+          // thereIsUser=IsUser;
+          console.log("error al realizar la consulta de vendedor", data);
+        };
+        //console.log("VALIDACION DE MAC DEL DISPOSITIVO: ", result);
         setIsAuthenticated(true);
         // user.mail=user.mail?user.mail:"soporte.clearmind@moderna.com.ec"
         /*if (user && user.mail) {
@@ -110,24 +250,103 @@ export const ModernaProvider = ({ children }) => {
           console.log("user from azure 2:", user);
         }*/
       }
+      setIsAuthenticated(true);
       // Si la autenticación es exitosa
     } catch (e) {
       console.log(e);
     }
   };
 
+  const postAzure = async (
+    urlRequest,
+    data,
+    succuesFunction,
+    errorFunction
+  ) => {
+    console.log("realizando fetch al al url ", urlRequest);
+    console.log("realizando fetch al al data ", data);
+
+    // request options
+    const options = {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    };
+
+    try {
+      const response = await fetch(urlRequest, options);
+      //  console.log("si hay response*----");
+      let bodyResponse;
+
+      try {
+        bodyResponse = await response.json();
+      } catch (e) {
+        bodyResponse = undefined;
+      }
+
+      //console.log("bodyResponse first", bodyResponse);
+
+      if (bodyResponse) {
+        if (response.status == 200 || response.status == 201) {
+          if (bodyResponse.success) {
+            //console.log("------- RESPONDE EL serviciocon éxito----------", bodyResponse);
+            succuesFunction(bodyResponse);
+          } else {
+            errorFunction(bodyResponse);
+          }
+        } else {
+          errorFunction(bodyResponse);
+        }
+      } else {
+        errorFunction(null);
+        console.log("no hay cuerpo del mensaje");
+      }
+    } catch (err) {
+      console.log("error al hacer la consulta al postman", err);
+      errorFunction(err);
+    }
+    return;
+  };
+
+  const makeRequest = async (mail, userPrincipalName) => {
+    try {
+      const requestBody = {
+        typeQuery: "LIKE",
+        data: {
+          tableName: "usuario",
+          fieldType: ["correo"],
+          fieldData: ["" + `${mail ? mail : userPrincipalName}` + ""],
+        },
+      };
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+
+      const response = await axios.post(
+        "https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==",
+        requestBody,
+        config
+      );
+      console.log("RESPUESTA DE CONSULTA USUARIO: ", response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error en la petición:", error);
+    }
+  };
+
   const handleLogoutAzure = async () => {
     try {
-      //console.log("datos de userSql---------------", userSql);
-      // return
-      //handleLoading(false);
       console.log("CERRANDO SESION---------------");
       await AuthManager.signOutAsync();
-      //dispatch({ type: LOAD_IS_AUTENTICATED, payload: false });
-      //dispatch({ type: LOAD_USER_AZURE, payload: null });
       setIsAuthenticated(false);
     } catch (e) {
-      //handleLoading(false)
       showMessage({
         message: e.message || "Se ha producido un error inesperado",
         type: "danger",

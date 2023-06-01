@@ -18,13 +18,13 @@ export const Dropdown = ({
   setSucursalInformation,
   sucursalInformation,
   setType,
+  newArrayClients,
+  arrayClients,
   setClientGroupId,
 }) => {
-  const [arrayClients, setArrayClients] = useState([]);
-  const [newArrayClients, setNewArrayClients] = useState([]);
   const { handleIdClientGroup } = useContext(ModernaContext);
 
-  const dataFormat = (array) => {
+  /*const dataFormat = (array) => {
     setArrayClients(array);
     console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
@@ -33,7 +33,7 @@ export const Dropdown = ({
     });
     console.log(arrayFormat);
     return arrayFormat;
-  };
+  };*/
 
   /*useEffect(() => {
     Alert.alert("DATOS DE LA BASE LOCAL:", newArrayClients);
@@ -54,6 +54,7 @@ export const Dropdown = ({
         setClientGroupId(type.id_grupo_cliente);
         //handleIdClientGroup(type.id_grupo_cliente)
         await AsyncStorage.setItem("clientName", type.nombre_cliente);
+        await AsyncStorage.setItem("id_cliente", type.id_cliente);
         await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
         setSucursalInformation({
           ...sucursalInformation,
@@ -72,7 +73,7 @@ export const Dropdown = ({
     Alert.alert("éxito al consulatar cliente en useEfect",tmpData.toString());
   }, [newArrayClients]);
 
-  const consultarYCopiarContenido = async () => {
+  /*const consultarYCopiarContenido = async () => {
     try {
       // Realiza la consulta a la base de datos
       // const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
@@ -110,10 +111,10 @@ export const Dropdown = ({
     /*if(location){
       Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
     
-    }*/
+    }
     //realizarConsulta("SELECT * FROM cliente")
     consultarYCopiarContenido();
-  }, []);
+  }, []);*/
 
   /*useEffect(() => {
     const fetchData = async () => {
@@ -169,7 +170,17 @@ export const Dropdown = ({
 ]
   return (
     <ScrollView style={styles.container}>
-      <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>Cliente</Text>
+      <View style={{ flexDirection: "row" }}>
+        <View>
+          <Text style={{ color: "red", textAlign: "left" }}>*</Text>
+        </View>
+
+        <View>
+          <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>
+            Cliente
+          </Text>
+        </View>
+      </View>
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}

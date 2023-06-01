@@ -1,17 +1,24 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import theme from "../theme/theme";
 import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
 import { CheckBox } from "@rneui/themed";
-import StyledInput from "./StyledInput";
+
 import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import { validatePriceProduct } from "../utils/helpers";
 import ToggleSwitch from "toggle-switch-react-native";
 import { useFonts } from "expo-font";
+import StyledInput from "./StyledInput";
 
-const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
+const CheckBoxContainerV2 = ({
+  productName,
+  idPortafolio,
+  idPreciador,
+  setProducts,
+  item,
+}) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
   const [state, setState] = useState(false);
@@ -39,6 +46,10 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
     //setState(!state);
   };
 
+  useEffect(() => {
+    console.log("PRECIADOR QUE ESTA LLEGANDO: - - - - -", idPreciador);
+    console.log("PORTAFOLIO QUE ESTA LLEGANDO: - - - - -", idPortafolio);
+  }, []);
   const actualizarEstado = (item, state) => {
     console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ");
     console.log("PRODUCTO: ", item);
@@ -53,8 +64,14 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
 
       // Actualiza la propiedad del objeto
       if (producto) {
-        producto.state = state;
-        console.log(producto);
+        if (state) {
+          producto.state = "1";
+        } else {
+          producto.state = "0";
+        }
+        //producto.id_portafolio_complementario = idPortafolio;
+        //producto.id_preciador_portafolio_complementario = idPreciador;
+        console.log("PORDUCTO ACTUALIZADO: ", producto);
       }
 
       // Devuelve el array actualizado como el nuevo estado
@@ -76,7 +93,9 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
       // Actualiza la propiedad del objeto
       if (producto) {
         producto.price = price;
-        console.log(producto);
+        //producto.id_portafolio_complementario = idPortafolio;
+        //producto.id_preciador_portafolio_complementario = idPreciador;
+        console.log("PORDUCTO ACTUALIZADO: ", producto);
       }
 
       // Devuelve el array actualizado como el nuevo estado
@@ -103,7 +122,12 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
       />
       <View style={styles.primaryContainer}>
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            margin: 6,
+          }}
         >
           <Image
             source={{ uri: item.url }}
@@ -112,7 +136,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
         </View>
         <View style={styles.descriptionContainer}>
           <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-            {productName}
+            {item.id}-{productName}
           </Text>
           <View
             style={{
@@ -135,7 +159,7 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
             <ToggleSwitch
               isOn={state}
               onColor="green"
-              offColor="red"
+              offColor={theme.colors.modernaYellow}
               //label="Example label"
               //labelStyle={{ color: "black", fontWeight: "900" }}
               size="small"
@@ -216,28 +240,36 @@ const CheckBoxContainerV2 = ({ productName, products, setProducts, item }) => {
                 editable={true}
                 value={price}
                 width={"100%"}
-                error={errorPrice}
-                information={"* Este campo es obligatorio"}
+                // information={"* Este campo es obligatorio"}
               />
             </View>
             <View
               style={{
                 //backgroundColor: "green",
                 flex: 1.2,
-                padding: 10,
+                // padding: 10,
                 justifyContent: "center",
                 //alignItems: "center",
               }}
             >
-              <Text
-                style={{
-                  fontSize: 11,
-                  fontWeight: "500",
-                  fontFamily: "Metropolis",
-                }}
-              >
-                * Foto del preciador del producto
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <View>
+                  <Text style={{ color: "red", textAlign: "left" }}>*</Text>
+                </View>
+
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 13.5,
+                      fontWeight: "500",
+                      fontFamily: "Metropolis",
+                    }}
+                  >
+                    Foto del preciador del producto
+                  </Text>
+                </View>
+              </View>
+
               <TakeImage setProducts={setProducts} item={item} />
             </View>
           </View>

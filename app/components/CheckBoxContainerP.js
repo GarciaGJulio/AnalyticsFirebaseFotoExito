@@ -7,6 +7,7 @@ import { CheckBox } from "@rneui/themed";
 import StyledInput from "./StyledInput";
 import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
+import { useFonts } from "expo-font";
 
 const CheckBoxContainerP = ({ productName, item, setData }) => {
   const [check1, setCheck1] = useState(false);
@@ -35,6 +36,13 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
     console.log("NOMBRE DE LOS IMAGENES: ", item.url);
   }, []);
 
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
+
   const actualizarEstado = (item, state) => {
     console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
     console.log("PERCHA: ", item);
@@ -48,7 +56,12 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
 
       // Actualiza la propiedad del objeto
       if (exhibidor) {
-        exhibidor.state = state;
+        if (state) {
+          exhibidor.state = "1";
+        } else {
+          exhibidor.state = "0";
+        }
+
         console.log("PARAMETRO ACTUALIZADO: ", exhibidor);
       }
 
@@ -68,24 +81,20 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
         }
       />
       <View style={styles.primaryContainer}>
-        <View style={{ justifyContent: "center" }}>
-          <Image
-            source={{
-              uri: item.url,
-            }}
-            style={{ width: 100, height: 100 }}
-          />
-        </View>
         <View style={styles.descriptionContainer}>
-          <Text style={{ fontSize: 13 }}>{productName}</Text>
-          <Text style={{ marginHorizontal: 10, marginTop: 5, fontSize: 11 }}>
+          <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
+            {productName}
+          </Text>
+          <Text
+            style={{ marginTop: 5, fontSize: 13.5, fontFamily: "Metropolis" }}
+          >
             Exhibidor disponible
           </Text>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              right: 10,
+              right: 20,
               //backgroundColor: "red",
               flex: 1,
             }}
@@ -111,7 +120,7 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
               containerStyle={{ backgroundColor: "transparent" }}
               disabled={disabled1}
             />
-            <Text>Si</Text>
+            <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>Si</Text>
             <CheckBox
               checked={check2}
               onPress={() => {
@@ -128,7 +137,7 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
               containerStyle={{ backgroundColor: "transparent" }}
               disabled={disabled2}
             />
-            <Text>No</Text>
+            <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>No</Text>
           </View>
         </View>
       </View>
@@ -136,13 +145,35 @@ const CheckBoxContainerP = ({ productName, item, setData }) => {
         <View style={styles.secondaryContainer}>
           <View style={{ padding: 10, flex: 2 }}>
             <View style={{ flex: 1.2 }}>
+              <View style={{ justifyContent: "center" }}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: theme.fontWeight.softbold,
+                    fontFamily: "Metropolis",
+                    fontSize: 16,
+                    marginVertical: 10,
+                  }}
+                >
+                  Planograma Ideal
+                </Text>
+              </View>
               <Image
                 source={{
-                  uri: "https://media.informabtl.com/wp-content/uploads/2019/10/d620c905-material-pop-exhibidor-temporal.jpg",
+                  uri: item.url,
                 }}
                 style={{ resizeMode: "stretch", width: "100%", height: 200 }}
               />
             </View>
+            <Text
+              style={{
+                fontWeight: theme.fontWeight.softbold,
+                fontFamily: "Metropolis",
+                marginVertical: 10,
+              }}
+            >
+              Planograma Real
+            </Text>
             <View style={{ flex: 1.2 }}>
               <TakeImage setProducts={setData} item={item} />
             </View>

@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     //backgroundColor:'pink',
     width: "100%",
     //height: '40%',
-    marginVertical: 5,
+    // marginVertical: 5,
     flexDirection: "row",
   },
   imageContainer: {

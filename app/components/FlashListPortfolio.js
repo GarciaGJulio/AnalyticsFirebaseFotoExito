@@ -52,11 +52,12 @@ const RenderItem = ({
     >
       <Text
         style={{
-          fontWeight: theme.fontWeight.bolder,
-          fontSize: theme.fontSize.subtitle,
+          fontWeight: theme.fontWeight.softbold,
+          fontSize: 15,
           paddingLeft: 15,
           backgroundColor: theme.colors.modernaYellow,
           height: 30,
+          flex: 1,
           justifyContent: "center",
           borderWidth: 0.5,
           color: theme.colors.white,

@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
 import * as Animatable from "react-native-animatable";
@@ -19,11 +19,16 @@ import ModernaHeader from "../../components/ModernaHeader";
 import ProgressBar from "../../components/ProgressBar";
 import TarjPercha from "../../components/TarjetaPercha";
 import RackCheckbox from "../../components/RackCheckbox";
-import { db_insertPercha } from "../../services/SqliteService";
+import {
+  db_insertGlobalDataAudit,
+  db_insertPercha,
+} from "../../services/SqliteService";
 import { lookForPerchas } from "../../services/SeleccionesService";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { dataTime, generateUIDD } from "../../services/GenerateID";
+import ModernaContext from "../../context/ModernaContext";
 
 const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
@@ -33,11 +38,13 @@ const Racks = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-  const EnviaDatosLocal = async () => {
+  const [idPercha] = useState(generateUIDD());
+  const { userInfo } = useContext(ModernaContext);
+  /*const EnviaDatosLocal = async () => {
     db_insertPercha(1, checked, valueGeneral, valueModerna);
     await lookForPerchas(setPedidos);
     console.log("Pedidos desde Screen:", pedidos);
-  };
+  };*/
 
   const consultarYCopiarContenido = async () => {
     const idGroupClient = await AsyncStorage.getItem("idGroupClient");
@@ -64,12 +71,14 @@ const Racks = ({ navigation }) => {
           };
         });
 
-      const newArrayEstado = resultadoConsulta.map((objeto) => {
+      const newArrayEstado = planogramaFiltro.map((objeto) => {
         return {
-          id: objeto.id_categoria,
-          name: objeto.nombre_categoria,
+          id: objeto.id,
+          id_percha: idPercha,
+          name: objeto.name,
           carasGeneral: null,
           carasModerna: null,
+          imagesPlanograma: objeto.images,
           state: null,
           images: {
             image1: null,
@@ -112,8 +121,8 @@ const Racks = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const validate = () => {
-    console.log("VALIDACION DE DATOS DE PERCHAS: ", category);
+  const validate = async () => {
+    console.log("VALIDACION DE DATOS DE PERCHAS: ", rack);
     const isValid = category.every((item) => {
       if (
         item.state === null ||
@@ -123,7 +132,7 @@ const Racks = ({ navigation }) => {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
-      if (item.state === true) {
+      if (item.state === "1") {
         if (!item.images || item.images.image1 === null) {
           console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
           return false;
@@ -140,9 +149,65 @@ const Racks = ({ navigation }) => {
       //navigation.navigate('rack');
       console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(category));
     } else {
+      try {
+        await AsyncStorage.setItem("id_percha", idPercha);
+        console.log("PERCHAS QUE VAN A SER GUARDADOS: ", JSON.stringify(rack));
+        rack.map((productos) => {
+          const { id_percha, id, state, carasGeneral, carasModerna, images } =
+            productos;
+          const { image1, image2, image3 } = images;
+          console.log(
+            "---------------------- imagenes",
+            JSON.stringify(images)
+          );
+          let dataSave = {
+            tableName: "percha",
+            dataInsertType: [
+              "id_percha",
+              "id_categoria",
+              "estado_percha",
+              "categoria_general",
+              "categoria_moderna",
+              "url_imagen1",
+              "url_imagen2",
+              "url_imagen3",
+              "usuario_creacion",
+              "fecha_creacion",
+              "fecha_modificacion",
+            ],
+            dataInsert: [
+              `'${id_percha}'`,
+              `'${id}'`,
+              `'${state}'`,
+              `'${carasGeneral}'`,
+              `'${carasModerna}'`,
+              `'${image1}'`,
+              `'${image2}'`,
+              `'${image3}'`,
+              `'${userInfo.givenName}'`,
+              `'${dataTime()}'`,
+              `'${dataTime()}'`,
+            ],
+          };
+          const sentence =
+            "INSERT INTO " +
+            dataSave.tableName +
+            " (" +
+            dataSave.dataInsertType.join() +
+            ") VALUES(" +
+            dataSave.dataInsert.join() +
+            ")";
+          console.log("SENTENCIA A EJECUTAR: ", sentence);
+          db_insertGlobalDataAudit(dataSave);
+          console.log("TODO BIEN");
+          navigation.navigate("promos");
+        });
+      } catch (e) {
+        Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+      }
       console.log("TODO BIEN");
       //navigation.navigate('rack');
-      navigation.navigate("promos");
+      //navigation.navigate("promos");
     }
   };
 
@@ -169,6 +234,7 @@ const Racks = ({ navigation }) => {
         />
         <View style={styles.cardContainer}>
           <TarjPercha
+            //data={category}
             data={category}
             rack={rack}
             setRack={setRack}

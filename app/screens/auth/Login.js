@@ -7,12 +7,14 @@ import * as Animatable from "react-native-animatable";
 import ModernaContext from "../../context/ModernaContext";
 import TarjPercha from "../../components/TarjetaPercha";
 import TarjPromo from "../../components/TarjetaPromo";
+import { RecuperarToken } from "../../services/onedrive";
 
 export const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
   const log = () => {
     console.log("DISPARANDO LOGIN DE AD");
     login();
+    RecuperarToken();
     //navigation.navigate('menu')
   };
 

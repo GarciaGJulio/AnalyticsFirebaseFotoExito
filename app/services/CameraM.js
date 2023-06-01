@@ -16,7 +16,7 @@ export const pickImages = async (
   console.log("Imagen Uri:", resultado.assets[0].uri);
   fn(resultado.assets[0].uri);
   console.log("dESDE cAMERA iD", IdFoto);
-  //fn(await SubirAlonedrive(resultado.assets[0].uri, IdFoto.id));
+  fn(await SubirAlonedrive(resultado.assets[0].uri, IdFoto.id));
   // console.log("Desde el Camera",await SubirAlonedrive(resultado.assets[0].uri,IdFoto))
   //await setImageBase64(resultado.assets[0].uri);
   //await SubirFoto(resultado.assets[0].uri, Idaux, setUrl);

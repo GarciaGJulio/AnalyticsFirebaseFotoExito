@@ -34,7 +34,7 @@ import { lookForSucursal } from "../../services/SeleccionesService";
 import { validateNameBranch } from "../../utils/helpers";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import StyledButton from "../../components/StyledButton";
-import { realizarConsulta, selectData } from "../../common/sqlite_config";
+import { handleSelectDataBase, realizarConsulta, selectData } from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import { useFonts } from "expo-font";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
@@ -57,6 +57,7 @@ export const Client_Information = ({ navigation }) => {
     name: "",
     id: generateUIDD(),
   });
+  //const [newArrayClients, setNewArrayClients] = useState([]);
   const [datosCompletos, setDatosCompletos] = useState({});
   const [newArrayClients, setNewArrayClients] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
@@ -66,6 +67,61 @@ export const Client_Information = ({ navigation }) => {
   const [type, setType] = useState("");
   const [clientGroupId, setClientGroupId] = useState("");
   const [groupClient, setGroupClient] = useState("");
+  const [arrayClients, setArrayClients] = useState([]);
+
+  const consultarYCopiarContenidoClientes = async () => {
+    try {
+      // Realiza la consulta a la base de datos
+      //  const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
+      handleSelectDataBase("SELECT * FROM cliente",
+        (resultadoConsulta) => {
+
+          // setClientes(dataFormat(resultadoConsulta));
+          setNewArrayClients(dataFormat(resultadoConsulta));
+        }, (e) => {
+          console.log("error al consulatar cliente", e)
+          Alert.alert("error al consulatar cliente", e);
+
+        })
+
+      // Copia el contenido después de la consulta
+      //await copiarContenido(resultadoConsulta);
+      /*setNewArrayClients(dataFormat(resultadoConsulta));
+      console.log("Copia de contenido completada con éxito: ");
+      const clientes = resultadoConsulta
+        .map(
+          (objeto) =>
+            `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
+        )
+        .join("\n");*/
+      //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
+    } catch (error) {
+      console.error("Error al consultar o copiar el contenido:", error);
+    }
+  };
+
+  const dataFormat = (array) => {
+    setArrayClients(array);
+    console.log("ARRAY DE CONSULTA: ", array);
+    const arrayFormat = array.map((obj) => {
+      console.log("OBJETO: ", obj.id_cliente);
+      return { key: obj.id_cliente, value: obj.nombre_cliente };
+    });
+    console.log(arrayFormat);
+    return arrayFormat;
+  };
+  useEffect(() => {
+    /*console.log("SELECT DE LA TABLA CLIENTE",);
+    selectData("SELECT * FROM cliente",setArrayClients)
+    dataFormat(arrayFormat)
+    console.log("FORMATO NUEVO PARA DROPDOWN: ",arrayFormat)
+    /*if(location){
+      Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
+    
+    }*/
+    //realizarConsulta("SELECT * FROM cliente")
+    consultarYCopiarContenidoClientes();
+  }, []);
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -219,71 +275,72 @@ export const Client_Information = ({ navigation }) => {
     if (validador && errorBranchName == "" && !validateBranch) {
       //navigation.navigate("briefcase");
       setIsModalVisible(true);
-      const locationCoords = await requestLocationPermission();
-      if (locationCoords) {
-        try {
-          const { latitude, longitude } = locationCoords;
-          await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
-          setIsModalVisible(false);
-          console.log("DATOS A GUARDAR: ", {
-            id: sucursalInformation.id,
-            nombre: sucursalInformation.name,
-            latitude: datosCompletos.latitude,
-            longitude: datosCompletos.longitude,
-            usuario: userInfo.givenName,
-            creacion: dataTime(),
-            modificacion: dataTime(),
-          });
-          console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
-          let dataSave = {
-            tableName: "sucursal",
-            dataInsertType: [
-              "id_sucursal",
-              "nombre_sucursal",
-              "latitud",
-              "longitud",
-              "usuario_creacion",
-              "fecha_creacion",
-              "fecha_modificacion",
-            ],
-            dataInsert: [
-              `'${sucursalInformation.id}'`,
-              `'${sucursalInformation.name}'`,
-              latitude,
-              longitude,
-              `'${userInfo.givenName}'`,
-              `'${dataTime()}'`,
-              `'${dataTime()}'`,
-            ],
-          };
-          //datosCompletos.latitude,
-          //datosCompletos.longitude,
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          db_insertGlobalDataAudit(dataSave);
-          // navigation.navigate("briefcase");
-          navigation.navigate("briefcase");
-          setValidatePass(true);
-          setIsModalVisible(false);
-        } catch (e) {
-          Alert.alert(
-            "Se ha producido un error al recopilar datos",
-            "Vuelva a intentarlo nuevamente"
-          );
-          setIsModalVisible(false);
-        }
+      //const locationCoords = await requestLocationPermission();
+      try {
+        //const { latitude, longitude } = locationCoords;
+        await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
+        setIsModalVisible(false);
+        console.log("DATOS A GUARDAR: ", {
+          id: sucursalInformation.id,
+          nombre: sucursalInformation.name,
+          //latitude: datosCompletos.latitude,
+          //longitude: datosCompletos.longitude,
+          usuario: userInfo.givenName,
+          creacion: dataTime(),
+          modificacion: dataTime(),
+        });
+        console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
+        let dataSave = {
+          tableName: "sucursal",
+          dataInsertType: [
+            "id_sucursal",
+            "nombre_sucursal",
+            "latitud",
+            "longitud",
+            "usuario_creacion",
+            "fecha_creacion",
+            "fecha_modificacion",
+          ],
+          dataInsert: [
+            `'${sucursalInformation.id}'`,
+            `'${sucursalInformation.name}'`,
+            0,
+            0,
+            `'${userInfo.givenName}'`,
+            `'${dataTime()}'`,
+            `'${dataTime()}'`,
+          ],
+        };
+        //datosCompletos.latitude,
+        //datosCompletos.longitude,
+        const sentence =
+          "INSERT INTO " +
+          dataSave.tableName +
+          " (" +
+          dataSave.dataInsertType.join() +
+          ") VALUES(" +
+          dataSave.dataInsert.join() +
+          ")";
+        console.log("SENTENCIA A EJECUTAR: ", sentence);
+        db_insertGlobalDataAudit(dataSave);
+        // navigation.navigate("briefcase");
+        navigation.navigate("briefcase");
+        setValidatePass(true);
+        setIsModalVisible(false);
+      } catch (e) {
+        Alert.alert(
+          "Se ha producido un error al recopilar datos",
+          "Vuelva a intentarlo nuevamente"
+        );
+        setIsModalVisible(false);
+      }
+      /*if (locationCoords) {
+        
       } else {
         console.log(error);
         setIsModalVisible(false);
         // El permiso de ubicación fue denegado o ocurrió un error al obtener la ubicación
-      }
+      }*/
     }
   };
 
@@ -348,11 +405,12 @@ export const Client_Information = ({ navigation }) => {
             flex: 1.5, //backgroundColor:'orange'
           }}
         >
-          <Dropdown
+          {newArrayClients.length > 0 ? <Dropdown
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
             selected={selected}
             setType={setType}
+            newArrayClients={newArrayClients}
             setGroupClient={setGroupClient}
             error={errorClientName}
             clients={newArrayClients}
@@ -360,7 +418,37 @@ export const Client_Information = ({ navigation }) => {
             setSucursalInformation={setSucursalInformation}
             sucursalInformation={sucursalInformation}
             setError={setErrorClientName}
-          />
+            arrayClients={arrayClients}
+          /> : <Dropdown
+            placeholder={"Seleccione un cliente"}
+            setSelected={setSelected}
+            selected={selected}
+            setType={setType}
+            newArrayClients={[]}
+            setGroupClient={setGroupClient}
+            error={errorClientName}
+            clients={newArrayClients}
+            setClientGroupId={setClientGroupId}
+            setSucursalInformation={setSucursalInformation}
+            sucursalInformation={sucursalInformation}
+            setError={setErrorClientName}
+            arrayClients={arrayClients}
+          />}
+          {/* <Dropdown
+            placeholder={"Seleccione un cliente"}
+            setSelected={setSelected}
+            selected={selected}
+            setType={setType}
+            newArrayClients={newArrayClients}
+            setGroupClient={setGroupClient}
+            error={errorClientName}
+            clients={newArrayClients}
+            setClientGroupId={setClientGroupId}
+            setSucursalInformation={setSucursalInformation}
+            sucursalInformation={sucursalInformation}
+            setError={setErrorClientName}
+            arrayClients={arrayClients}
+          /> */}
         </View>
     
         <View
@@ -368,7 +456,7 @@ export const Client_Information = ({ navigation }) => {
             flexDirection: "row",
             marginVertical: 20,
             justifyContent: "space-evenly",
-            flex: 1,
+            flex: 1.3,
             width: "100%",
             //backgroundColor: "orange",
           }}
@@ -376,7 +464,12 @@ export const Client_Information = ({ navigation }) => {
           
           <View style={{ width: 160 }}>
             <Text
-              style={{ paddingBottom: 5, fontFamily: "Metropolis", flex: 1 }}
+              style={{
+                paddingBottom: 5,
+                fontFamily: "Metropolis",
+                flex: 1,
+                fontSize: 13.5,
+              }}
             >
               Grupo de cliente
             </Text>
@@ -401,7 +494,12 @@ export const Client_Information = ({ navigation }) => {
           </View>
           <View style={{ width: 160 }}>
             <Text
-              style={{ paddingBottom: 5, fontFamily: "Metropolis", flex: 1 }}
+              style={{
+                paddingBottom: 5,
+                fontFamily: "Metropolis",
+                flex: 1,
+                fontSize: 14,
+              }}
             >
               Tipo de cliente
             </Text>
@@ -418,7 +516,9 @@ export const Client_Information = ({ navigation }) => {
                 backgroundColor: "rgba(169,169,169,0.15)",
               }}
             >
-              <Text style={{ fontSize: 15, fontFamily: "Metropolis", flex: 1 }}>
+              <Text
+                style={{ fontSize: 13.5, fontFamily: "Metropolis", flex: 1 }}
+              >
                 {type}
               </Text>
             </View>

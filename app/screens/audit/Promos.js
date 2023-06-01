@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
 import * as Animatable from "react-native-animatable";
@@ -30,6 +30,9 @@ import DropdownPromos from "../../components/DropdownPromos";
 import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
 import { convertImageUrl } from "../../services/convertUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { db_insertGlobalDataAudit } from "../../services/SqliteService";
+import { generateUIDD } from "../../common/utils";
+import ModernaContext from "../../context/ModernaContext";
 
 const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -37,9 +40,14 @@ const Promos = ({ navigation }) => {
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [branch, setBranch] = useState([]);
   const [exhibidor, setExhibidor] = useState([]);
+  const [exhibidorSucursal, setExhibidorSucursal] = useState([]);
   const [exhibidorType, setExhibidorType] = useState([]);
   const [isModalVisibleCloseSucursal, setIsModalVisibleCloseSucursal] =
     useState(false);
+  const [idPromocion] = useState(generateUIDD());
+  const [idAuditoria] = useState(generateUIDD());
+  const { userInfo } = useContext(ModernaContext);
+
   const consultarYCopiarContenido = async () => {
     const clientName = await AsyncStorage.getItem("clientName");
     try {
@@ -77,6 +85,7 @@ const Promos = ({ navigation }) => {
           name: objeto.nombre_tipo_exhibidor,
           client_name: objeto.nombre_cliente,
           sucursal: objeto.sucursal,
+          id_promocion: idPromocion,
           url: objeto.url_imagen_exhibidor,
           state: null,
           images: {
@@ -149,6 +158,11 @@ const Promos = ({ navigation }) => {
   const validateSucursal = () => {
     if (selected === "Esta sucursal no registra plan") {
       setIsModalVisibleCloseSucursal(true);
+    } else {
+      const filteredData = exhibidor.filter(
+        (objeto) => objeto.sucursal === selected
+      );
+      setExhibidorSucursal(filteredData);
     }
   };
 
@@ -172,7 +186,7 @@ const Promos = ({ navigation }) => {
 
   useEffect(() => {});
 
-  useEffect(() => {
+  /*useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
     };
@@ -182,7 +196,7 @@ const Promos = ({ navigation }) => {
     return () => {
       BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
     };
-  }, []);
+  }, []);*/
 
   const handleOpenModalFinish = () => {
     setAnimation(SAVE_ANIMATION);
@@ -206,14 +220,86 @@ const Promos = ({ navigation }) => {
     }, 3000);
   };
 
-  const validate = () => {
+  const saveAudit = async () => {
+    let idPercha = await AsyncStorage.getItem("id_percha");
+    let idSucursal = await AsyncStorage.getItem("id_sucursal");
+    let idCliente = await AsyncStorage.getItem("id_cliente");
+    let idPreciador = await AsyncStorage.getItem(
+      "id_preciador_portafolio_complementario"
+    );
+    let dataSave = {
+      tableName: "auditoria",
+      dataInsertType: [
+        "id_auditoria",
+        "id_preciador",
+        "id_percha",
+        "id_promocion",
+        "id_sucursal",
+        "id_cliente",
+      ],
+      dataInsert: [
+        `'${idAuditoria}'`,
+        `'${idPreciador}'`,
+        `'${idPercha}'`,
+        `'${idPromocion}'`,
+        `'${idSucursal}'`,
+        `'${idCliente}'`,
+      ],
+    };
+    const sentence =
+      "INSERT INTO " +
+      dataSave.tableName +
+      " (" +
+      dataSave.dataInsertType.join() +
+      ") VALUES(" +
+      dataSave.dataInsert.join() +
+      ")";
+    console.log("SENTENCIA A EJECUTAR: ", sentence);
+    //db_insertGlobalDataAudit(dataSave);
+  };
+
+  /*const savePreciador = async () => {
+    let idPreciadorPortafolioComplementario = await AsyncStorage.getItem(
+      "id_preciador_portafolio_complementario"
+    );
+    let dataSave = {
+      tableName: "preciador",
+      dataInsertType: [
+        "id_preciador",
+        "id_preciador_portafolio_complementario",
+        "id_preciador_portafolio_ideal",
+      ],
+      dataInsert: [
+        `'${idPreciador}'`,
+        `'${idPreciadorPortafolioComplementario}'`,
+        `'${null}'`,
+      ],
+    };
+    const sentence =
+      "INSERT INTO " +
+      dataSave.tableName +
+      " (" +
+      dataSave.dataInsertType.join() +
+      ") VALUES(" +
+      dataSave.dataInsert.join() +
+      ")";
+    console.log("SENTENCIA A EJECUTAR: ", sentence);
+    //db_insertGlobalDataAudit(dataSave);
+  };
+  useEffect(() => {
+    //savePortafolio();
+    //savePreciador();
+    //saveAudit();
+  }, []);*/
+
+  const validate = async () => {
     console.log("VALIDACION DE DATOS DE PERCHAS: ", exhibidor);
     const isValid = exhibidor.every((item) => {
       if (item.state === null || selected === null) {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
-      if (item.state === true) {
+      if (item.state === "1") {
         if (!item.images || item.images.image1 === null) {
           console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
           return false;
@@ -230,9 +316,56 @@ const Promos = ({ navigation }) => {
       //navigation.navigate('rack');
       console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(exhibidor));
     } else {
+      try {
+        //await AsyncStorage.setItem("id_promocion", idPercha);
+        console.log(
+          "PROMOCIONES QUE VAN A SER GUARDADOS: ",
+          JSON.stringify(exhibidorSucursal)
+        );
+        exhibidorSucursal.map((productos) => {
+          const { id_promocion, id, state, images } = productos;
+          const { image1, image2, image3 } = images;
+          console.log(
+            "---------------------- imagenes",
+            JSON.stringify(images)
+          );
+          let dataSave = {
+            tableName: "promocion",
+            dataInsertType: [
+              "id_promocion",
+              "id_exhibidor",
+              "estado_promocion",
+              "url_imagen1",
+              "url_imagen2",
+              "url_imagen3",
+            ],
+            dataInsert: [
+              `'${id_promocion}'`,
+              `'${id}'`,
+              `'${state}'`,
+              `'${image1}'`,
+              `'${image2}'`,
+              `'${image3}'`,
+            ],
+          };
+          const sentence =
+            "INSERT INTO " +
+            dataSave.tableName +
+            " (" +
+            dataSave.dataInsertType.join() +
+            ") VALUES(" +
+            dataSave.dataInsert.join() +
+            ")";
+          console.log("SENTENCIA A EJECUTAR: ", sentence);
+          db_insertGlobalDataAudit(dataSave);
+          console.log("TODO BIEN");
+          saveAudit();
+          navigation.navigate("begin");
+        });
+      } catch (e) {
+        Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+      }
       console.log("TODO BIEN");
-      //navigation.navigate('rack');
-      navigation.navigate("begin");
     }
   };
 
@@ -269,6 +402,7 @@ const Promos = ({ navigation }) => {
         />
         <View style={{ flex: 1, marginTop: 10 }}>
           <DropdownPromos
+            nameTitle={"Sucursal"}
             placeholder={"Seleccione una sucursal"}
             setSelected={setSelected}
             data={branch}
@@ -276,7 +410,20 @@ const Promos = ({ navigation }) => {
         </View>
 
         <View style={styles.promosContent}>
-          <FlashListPromos data={exhibidor} setData={setExhibidor} />
+          {exhibidorSucursal.length > 0 ? (
+            <FlashListPromos data={exhibidorSucursal} setData={setExhibidor} />
+          ) : (
+            <Text
+              style={{
+                padding: 20,
+                textAlign: "justify",
+                fontFamily: "Metropolis",
+              }}
+            >
+              Escoge una sucursal para revisar los exhibidores que aplican
+              promoción
+            </Text>
+          )}
         </View>
       </View>
       <DoubleStyledButton

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
+  BackHandler,
   StyleSheet,
   Text,
   TextInput,
@@ -41,6 +42,16 @@ export const ListBranch = () => {
 
   useEffect(() => {
     consultarYCopiarContenido();
+
+    const disableBackButton = () => {
+      return false; // Bloquea la función de retroceso nativa
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", disableBackButton);
+
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
+    };
   }, []);
 
   const [fontLoaded] = useFonts({
@@ -103,7 +114,7 @@ export const ListBranch = () => {
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <Text style={styles.title}>
-          Puedes revisar las visitas ya realizadas presionando en una sucursal
+          Puedes revisar las auditorías ya realizadas presionando en el registro
           de interés.
         </Text>
         <View style={styles.contentContainerBranch}>

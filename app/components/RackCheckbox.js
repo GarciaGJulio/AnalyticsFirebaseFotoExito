@@ -12,37 +12,32 @@ import theme from "../theme/theme";
 import { CheckBox, Divider, Icon, Input } from "@rneui/base";
 import TakeImage from "./TakeImage";
 import { FlashList } from "@shopify/flash-list";
+import { useFonts } from "expo-font";
+import StyledInput from "./StyledInput";
 
-const RackCheckbox = ({ categoryName, item, setData }) => {
+const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
+  const [verificacionCategorias, setverificacionCategoria] = useState(false);
   //const [objPercha, setObjPercha] = useState(itemCom)
 
-  /*useEffect(() => {
-        // setObjPercha({...objPercha,
-        //     categoriaGeneral: CateGeneral,
-        //     categoriaModerna: CateModerna
-        // })
+  useEffect(() => {
+    if (CateGeneral < CateModerna) {
+      setverificacionCategoria(true);
+      console.log("es mayor el de moderna", CateGeneral);
+    } else if (CateGeneral >= CateModerna) {
+      setverificacionCategoria(false);
+    }
+  }, [CateModerna]);
 
-        console.log("Percha desde dentro",objPercha)
-        // onchangeObjPercha(itemCom)
-        // itemCom= {...itemCom,objPercha}
-
-    
-    }, [CateGeneral]);*/
-
-  /*useEffect(() => {
-        // setObjPercha({...objPercha,
-        //     categoriaGeneral: CateGeneral,
-        //     categoriaModerna: CateModerna
-        // })
-
-        console.log("Percha desde dentro",objPercha)
-        // onchangeObjPercha(itemCom)
-        // itemCom= {...itemCom,objPercha}
-
-    
-    }, [CateModerna]);*/
+  useEffect(() => {
+    if (CateGeneral < CateModerna) {
+      setverificacionCategoria(true);
+      console.log("es mayor el de moderna", CateGeneral);
+    } else if (CateGeneral >= CateModerna) {
+      setverificacionCategoria(false);
+    }
+  }, [CateGeneral]);
 
   /*useEffect(() => {
         console.log("itmDentroCompleto",itemCom)
@@ -80,7 +75,12 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
       //console.log("ID PERCHA A ACRUALIZAR:", p.id_categoria);
       // Actualiza la propiedad del objeto
       if (percha) {
-        percha.state = state;
+        if (state) {
+          percha.state = "1";
+        } else {
+          percha.state = "0";
+        }
+
         console.log("PARAMETRO ACTUALIZADO: ", percha);
       }
 
@@ -118,6 +118,13 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
   const [disabled2, setDisabled2] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
 
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
+
   return (
     <View style={styles.container}>
       <ConfirmationModal
@@ -131,9 +138,11 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
       <View style={styles.header}>
         <Text
           style={{
-            fontWeight: theme.fontWeight.bolder,
-            fontSize: theme.fontSize.title,
+            fontWeight: theme.fontWeight.softbold,
+            fontSize: theme.fontSize.subtitle,
             left: 10,
+            fontFamily: "Metropolis",
+            color: "white",
           }}
         >
           {categoryName}
@@ -142,7 +151,7 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           style={{ position: "absolute", right: 5 }}
           onPress={() => setOpenCamera(!openCamera)}
         >
-          <Icon name="camerao" type="antdesign" size={30} />
+          <Icon name="camerao" type="antdesign" size={30} color={"white"} />
         </TouchableOpacity>
       </View>
       <View style={{ width: "100%" }}>
@@ -154,39 +163,40 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
       </View>
       <View style={styles.categoryContainer}>
         <View style={styles.category}>
+          <View style={{ flex: 1 }}>
+            <StyledInput
+              onChangeText={(txt) => {
+                setCateGeneral(txt);
+                actualizarCantidad(item, "carasGeneral", txt);
+                /*setObjPercha({...objPercha,
+                              CarasGeneral:txt
+                          })*/
+                //onchangeObjPercha(objPercha)
+              }}
+              label="Preciador del producto"
+              placeholder="Precio"
+              maxLength={6}
+              keyboard="numeric"
+              editable={true}
+              value={CateGeneral}
+              width={"100%"}
+              // error={errorPrice}
+              // information={"* Este campo es obligatorio"}
+            />
+          </View>
           <Text
             style={{
-              fontWeight: theme.fontWeight.bolder,
-              fontSize: theme.fontSize.subtitle,
+              bottom: 25,
+              right: 20,
+              fontFamily: "Metropolis",
+              textAlign: "center",
             }}
           >
-            Categoría general
+            Número de caras
           </Text>
-          <Input
-            keyboardType="numeric"
-            onChangeText={(txt) => {
-              setCateGeneral(txt);
-              actualizarCantidad(item, "carasGeneral", txt);
-              /*setObjPercha({...objPercha,
-                                CarasGeneral:txt
-                            })*/
-              //onchangeObjPercha(objPercha)
-            }}
-            value={CateGeneral}
-            style={styles.input}
-          />
         </View>
         <View style={styles.category}>
-          <Text
-            style={{
-              fontWeight: theme.fontWeight.bolder,
-              fontSize: theme.fontSize.subtitle,
-            }}
-          >
-            Categoría Moderna
-          </Text>
-          <Input
-            keyboardType="numeric"
+          <StyledInput
             onChangeText={(txt) => {
               setCateModerna(txt);
               actualizarCantidad(item, "carasModerna", txt);
@@ -195,19 +205,79 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                             })
                             onchangeObjPercha(objPercha)*/
             }}
+            label="Categoría Moderna"
+            placeholder="Precio"
+            maxLength={6}
+            keyboard="numeric"
+            editable={true}
             value={CateModerna}
-            style={styles.input}
-            underlineColor="transparent"
+            width={"100%"}
+            // error={errorPrice}
+            // information={"* Este campo es obligatorio"}
           />
+
+          <Text
+            style={{
+              bottom: 25,
+              right: 20,
+              fontFamily: "Metropolis",
+              textAlign: "center",
+            }}
+          >
+            Número de caras
+          </Text>
         </View>
       </View>
+      <View style={{ flexDirection: "row" }}>
+        <Text
+          style={{
+            padding: 10,
+            textAlign: "justify",
+            color: "red",
+            fontFamily: "Metropolis",
+          }}
+        >
+          {verificacionCategorias ? (
+            <Text
+              style={{
+                flex: 1,
+                padding: 10,
+                textAlign: "justify",
+                color: "red",
+                fontFamily: "Metropolis",
+              }}
+            >
+              La cantidad de caras de Categoria Moderna alimentos no puede ser
+              superior al total de caras de la Categoria General
+            </Text>
+          ) : (
+            <></>
+          )}
+        </Text>
+      </View>
+
       {openCamera ? (
         <View>
           <View style={styles.imageContainer}>
-            <Text style={{ fontWeight: theme.fontWeight.softbold }}>
+            <Text
+              style={{
+                fontWeight: theme.fontWeight.softbold,
+                fontFamily: "Metropolis",
+              }}
+            >
               Indique si la percha de la categoria cumple o no con lo esperado
             </Text>
-
+            <Text
+              style={{
+                fontWeight: theme.fontWeight.softbold,
+                fontFamily: "Metropolis",
+              }}
+            >
+              Planograma Ideal
+            </Text>
+            {/* <Text   style={{textAlign: 'left'}}>
+              Titulo planograma Ideal
+            </Text> */}
             {/*<Image
               style={{
                 flex: 1,
@@ -221,8 +291,9 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
                 uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
               }}
             />*/}
+
             <View style={{ flexDirection: "row" }}>
-              {item.images.map((prodImages) => {
+              {item.imagesPlanograma.map((prodImages) => {
                 return (
                   <Image
                     //key={index}
@@ -292,6 +363,14 @@ const RackCheckbox = ({ categoryName, item, setData }) => {
           </View>
           {check1 ? (
             <View style={{ paddingHorizontal: 25, flex: 1 }}>
+              <Text
+                style={{
+                  fontWeight: theme.fontWeight.softbold,
+                  fontFamily: "Metropolis",
+                }}
+              >
+                Planograma Real
+              </Text>
               <TakeImage setProducts={setData} item={item} />
             </View>
           ) : (
@@ -321,29 +400,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   header: {
-    //backgroundColor:'blue',
+    backgroundColor: theme.colors.modernaYellow,
+    borderTopLeftRadius: 7,
+    borderTopRightRadius: 7,
     justifyContent: "center",
     alignItems: "flex-start",
     //left:10,
     paddingVertical: 5,
   },
   categoryContainer: {
-    //backgroundColor:'orange',
+    //backgroundColor: "orange",
     flexDirection: "row",
     flex: 1,
   },
   category: {
-    //backgroundColor:'purple',
+    // backgroundColor: "purple",
     flex: 1,
-    alignItems: "center",
+
+    padding: 10,
   },
   input: {
     fontWeight: theme.fontWeight.normal,
     textAlign: "center",
   },
   imageContainer: {
-    //backgroundColor:'yellow',
+    //backgroundColor: "yellow",
     flex: 1,
+    justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
   },
