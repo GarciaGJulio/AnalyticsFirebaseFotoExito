@@ -7,7 +7,8 @@ import { TouchableOpacity } from "react-native";
 import { pickImages } from "../services/CameraM";
 import { Icon } from "@rneui/base";
 import { useEffect } from "react";
-import {deleteImageFromOneDrive} from "../services/onedrive";
+import { deleteImageFromOneDrive } from "../services/onedrive";
+import { generateUIDDGeneric } from "../services/GenerateID";
 
 const TakeImage = ({ setProducts, item }) => {
   const [image, setImage] = useState(
@@ -51,11 +52,11 @@ const TakeImage = ({ setProducts, item }) => {
     });
   };
 
-  const borrarImagen = (item, imagesNumber) => {
+  const borrarImagen = (item, imagesNumber,idBorrar) => {
+    deleteImageFromOneDrive(idBorrar)
     console.log("\nENTRANDO A ELIMINAR IMAGEN - - - - - - - ");
     console.log("PRODUCTO: ", item);
     console.log("ELIMINANDO IMAGEN: . . . . . ");
-    deleteImageFromOneDrive(item);
     setProducts((products) => {
       // Obtén una copia del array actual
       const productosActualizados = [...products];
@@ -78,9 +79,17 @@ const TakeImage = ({ setProducts, item }) => {
         onPress={() => {
           setImageV1(!imageV1);
           pickImages((image1) => {
+
+            console.log("URLSSSSSS:",image1)
+            const start = image1.indexOf('UniqueId=') + 9;
+            const end = image1.indexOf('&', start);
+            const uniqueId = image1.substring(start, end !== -1 ? end : undefined);
+            console.log("uniqueIDDD:",uniqueId)
+            setRemoteImage1(uniqueId)
             setImage1(image1);
             actualizarImagen(item, image1, "image1");
-          }, ""+item+"img1");
+            console.log("img1"+item.id.toString())
+          }, "img1"+item.id.toString()+"-"+generateUIDDGeneric());
         }}
         //actualizarImagen(item, setImage1, "image1",image1);
         style={styles.imageContainer}
@@ -92,9 +101,15 @@ const TakeImage = ({ setProducts, item }) => {
           onPress={() => {
             setImageV2(!imageV2);
             pickImages((image2) => {
+              console.log("URLSSSSSS:",image2)
+              const start = image2.indexOf('UniqueId=') + 9;
+              const end = image2.indexOf('&', start);
+              const uniqueId = image2.substring(start, end !== -1 ? end : undefined);
+              console.log("uniqueIDDD:",uniqueId)
+              setRemoteImage2(uniqueId)
               setImage2(image2);
               actualizarImagen(item, image2, "image2");
-            }, ""+item+"img2");
+            }, "img2"+item.id.toString()+"-"+generateUIDDGeneric());
           }}
           style={styles.imageContainer}
         >
@@ -106,7 +121,7 @@ const TakeImage = ({ setProducts, item }) => {
             style={styles.deleteButton}
             onPress={() => {
               setImageV1(!imageV1);
-              borrarImagen(item, "image2");
+              borrarImagen(item, "image2",REimage2);
               setImage2("");
             }}
           >
@@ -120,9 +135,16 @@ const TakeImage = ({ setProducts, item }) => {
         <TouchableOpacity
           onPress={() => {
             pickImages((image3) => {
+              console.log("URLSSSSSS:",image3)
+              const start = image3.indexOf('UniqueId=') + 9;
+              const end = image3.indexOf('&', start);
+              const uniqueId = image3.substring(start, end !== -1 ? end : undefined);
+              console.log("uniqueIDDD:",uniqueId)
+              setRemoteImage3(uniqueId)
               setImage3(image3);
               actualizarImagen(item, image3, "image3");
-            }, ""+item+"img3");
+
+            }, "img3-" + item.id.toString()+"-"+generateUIDDGeneric());
           }}
           style={styles.imageContainer}
         >
@@ -134,7 +156,7 @@ const TakeImage = ({ setProducts, item }) => {
             style={styles.deleteButton}
             onPress={() => {
               setImageV2(!imageV2);
-              borrarImagen(item, "image3");
+              borrarImagen(item, "image3",REimage3);
               setImage3("");
             }}
           >
@@ -156,7 +178,7 @@ const styles = StyleSheet.create({
     //backgroundColor:'pink',
     width: "100%",
     //height: '40%',
-    // marginVertical: 5,
+    marginVertical: 5,
     flexDirection: "row",
   },
   imageContainer: {

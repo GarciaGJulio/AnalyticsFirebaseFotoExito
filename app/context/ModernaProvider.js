@@ -102,11 +102,15 @@ export const ModernaProvider = ({ children }) => {
         let user = await GraphManager.getUserAsync();
         await AsyncStorage.setItem("user", JSON.stringify(user));
         console.log("user from azure 1: ", JSON.stringify(user));
-        console.log("MAIL DEL USUARIO: ", user.mail);
-        user.mail = user.mail.toLowerCase().toString();
-        user.userPrincipalName = user.userPrincipalName
-          .toLowerCase()
-          .toString();
+        if (user.mail!=null){
+          console.log("MAIL DEL USUARIO: ", user.mail);
+          user.mail = user.mail.toLowerCase().toString();
+          console.log("MAIL DEL USUARIO: ", user.userPrincipalName);
+          user.mail = user.userPrincipalName.toLowerCase().toString();
+        }else{
+          console.log("USERPRINCIPAL DEL USUARIO: ", user.userPrincipalName);
+          user.userPrincipalName = user.userPrincipalName.toLowerCase().toString();
+        }
         setUserInfo(user);
         const userDataBase = await makeRequest(
           user.mail,
@@ -356,7 +360,7 @@ export const ModernaProvider = ({ children }) => {
         data: {
           tableName: "usuario",
           fieldType: ["correo"],
-          fieldData: [`${mail ? mail : userPrincipalName}`],
+          fieldData: [`${(mail===null) ? userPrincipalName   : mail}`],
         },
       };
 
@@ -384,7 +388,7 @@ export const ModernaProvider = ({ children }) => {
         operation: "C",
         data: {
           sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
-            mail ? mail : userPrincipalName
+            (mail===null) ? userPrincipalName   : mail
           }'`,
         },
       };

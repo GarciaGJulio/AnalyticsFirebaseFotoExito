@@ -21,7 +21,7 @@ const ModernaHeaderM = () => {
   const { userInfo, handleLogoutAzure } = useContext(ModernaContext);
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {});
+  useEffect(() => { });
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -64,7 +64,8 @@ const ModernaHeaderM = () => {
           <Text
             style={{ color: "white", fontSize: 10, fontFamily: "Metropolis" }}
           >
-            {userInfo ? userInfo.mail : "santiago@clearminds.com"}
+            {userInfo.mail ? userInfo.mail : userInfo.userPrincipalName}
+
           </Text>
         </View>
       </View>

@@ -5,6 +5,7 @@ import { readAsStringAsync } from "expo-file-system";
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
 import axios from "axios";
+
 // const driveId = "b!8xz3gdf43Eq0KCkvbna31vxpGAuGOrpPnBVuUAfQKqbgq9iLUK9GT5ZWD37MzEAh"
 // const userId = "59d5817f-9292-43be-880e-c4a3582b8b9a"
 const filePath = "Test";
@@ -27,6 +28,7 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
   // const folderPath = '/me/drive/root:/FolderA'; // Ruta de la carpeta en OneDrive
   const bearerToken = await AsyncStorage.getItem("userToken2");
   console.log("USERRRRRRRRRRRRR:", bearerToken)
+  console.log("ID DESDE LA FUNCION SUBIR",IdFoto)
   const filename = "" + IdFoto + ".png";
   const driveId =
     "b!8xz3gdf43Eq0KCkvbna31vxpGAuGOrpPnBVuUAfQKqbgq9iLUK9GT5ZWD37MzEAh";
@@ -50,6 +52,7 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
 
     if (uploadResponse.ok) {
       const json = await uploadResponse.json();
+      
       console.log("TodAo bien", json["@microsoft.graph.downloadUrl"]);
 
       return json["@microsoft.graph.downloadUrl"];
