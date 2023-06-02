@@ -78,6 +78,45 @@ export const Client_Information = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
 
+
+
+
+  const subirArrays = async (array1, array2) => {
+    const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
+    console.log("array1:", array1)
+    console.log("array2:", array2)
+
+    const requestBody = {
+      typeQuery: 'INSERT',
+      data: {
+        tableName: 'sucursal',
+        fieldType: array1,
+        fieldData: array2
+      }
+    };
+
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Respuesta:', data);
+        // Aquí puedes procesar la respuesta recibida
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Aquí puedes manejar el error en caso de que ocurra
+      });
+  };
+
+
+
+
+
   const consultarYCopiarContenidoClientes = async () => {
     try {
       // Realiza la consulta a la base de datos
@@ -322,9 +361,21 @@ export const Client_Information = ({ navigation }) => {
             `'${dataTime()}'`,
             `'${dataTime()}'`,
           ],
+          dataInsertRemote: [
+            `${sucursalInformation.id}`,
+            `${sucursalInformation.name}`,
+            `${latitude}`,
+            `${longitude}`,
+            `${userInfo.givenName}`,
+            `${dataTime()}`,
+            `${dataTime()}`,
+          ]
         };
         //datosCompletos.latitude,
         //datosCompletos.longitude,
+        console.log("datosInsertType:", dataSave.dataInsertType)
+        console.log("dataInsert:", dataSave.dataInsertRemote)
+        await  subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
         const sentence =
           "INSERT INTO " +
           dataSave.tableName +
