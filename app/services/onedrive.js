@@ -68,6 +68,7 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
     console.error(`Error al obtener la imagen: ${error}`);
     return null;
   }
+  
 };
 
 export const RecuperarToken = () => {

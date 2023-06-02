@@ -9,6 +9,9 @@ import { Icon } from "@rneui/base";
 import { useEffect } from "react";
 import { deleteImageFromOneDrive } from "../services/onedrive";
 import { generateUIDDGeneric } from "../services/GenerateID";
+import LoaderModal from "./LoaderModal";
+import LOCATION_ANIMATION from "../../assets/gps.json";
+
 
 const TakeImage = ({ setProducts, item }) => {
   const [image, setImage] = useState(
@@ -23,12 +26,36 @@ const TakeImage = ({ setProducts, item }) => {
   const [REimage1, setRemoteImage1] = useState("");
   const [REimage2, setRemoteImage2] = useState("");
   const [REimage3, setRemoteImage3] = useState("");
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const[ RemoteFoto, setRemoteFoto]=useState()
   useEffect(() => {
     console.log("Id dsde Taker:", item.id);
     setidItem(item.id);
   }, []);
+  const handleOpenModal = async (setRemote,setImg,actImg,NomImg) => {
+    setIsModalVisible(true)
+    try {
+      
+      await pickImages((img) => {
 
+        console.log("URLSSSSSS:", img)
+        const start = img.indexOf('UniqueId=') + 9;
+        const end = img.indexOf('&', start);
+        const uniqueId = img.substring(start, end !== -1 ? end : undefined);
+        console.log("uniqueIDDD:", uniqueId)
+        setRemote(uniqueId)
+        setImg(img);
+        actImg(item, img, NomImg);
+        console.log(NomImg + item.id.toString())
+      }, NomImg +"-"+ item.id.toString() + "-" + generateUIDDGeneric());
+
+
+    } catch (error) {
+
+    } finally {
+      setIsModalVisible(false)
+    }
+  }
   const actualizarImagen = (item, image, imagesNumber) => {
     //pickImages(item, setImage);
     console.log("\nENTRANDO A ACtUALIZAR IMAGEN - - - - - - - ");
@@ -52,7 +79,7 @@ const TakeImage = ({ setProducts, item }) => {
     });
   };
 
-  const borrarImagen = (item, imagesNumber,idBorrar) => {
+  const borrarImagen = (item, imagesNumber, idBorrar) => {
     deleteImageFromOneDrive(idBorrar)
     console.log("\nENTRANDO A ELIMINAR IMAGEN - - - - - - - ");
     console.log("PRODUCTO: ", item);
@@ -78,18 +105,7 @@ const TakeImage = ({ setProducts, item }) => {
       <TouchableOpacity
         onPress={() => {
           setImageV1(!imageV1);
-          pickImages((image1) => {
-
-            console.log("URLSSSSSS:",image1)
-            const start = image1.indexOf('UniqueId=') + 9;
-            const end = image1.indexOf('&', start);
-            const uniqueId = image1.substring(start, end !== -1 ? end : undefined);
-            console.log("uniqueIDDD:",uniqueId)
-            setRemoteImage1(uniqueId)
-            setImage1(image1);
-            actualizarImagen(item, image1, "image1");
-            console.log("img1"+item.id.toString())
-          }, "img1"+item.id.toString()+"-"+generateUIDDGeneric());
+          handleOpenModal(setRemoteImage1,setImage1,actualizarImagen,"imge1");
         }}
         //actualizarImagen(item, setImage1, "image1",image1);
         style={styles.imageContainer}
@@ -100,16 +116,8 @@ const TakeImage = ({ setProducts, item }) => {
         <TouchableOpacity
           onPress={() => {
             setImageV2(!imageV2);
-            pickImages((image2) => {
-              console.log("URLSSSSSS:",image2)
-              const start = image2.indexOf('UniqueId=') + 9;
-              const end = image2.indexOf('&', start);
-              const uniqueId = image2.substring(start, end !== -1 ? end : undefined);
-              console.log("uniqueIDDD:",uniqueId)
-              setRemoteImage2(uniqueId)
-              setImage2(image2);
-              actualizarImagen(item, image2, "image2");
-            }, "img2"+item.id.toString()+"-"+generateUIDDGeneric());
+          handleOpenModal(setRemoteImage2,setImage2,actualizarImagen, "image2");
+
           }}
           style={styles.imageContainer}
         >
@@ -121,7 +129,7 @@ const TakeImage = ({ setProducts, item }) => {
             style={styles.deleteButton}
             onPress={() => {
               setImageV1(!imageV1);
-              borrarImagen(item, "image2",REimage2);
+              borrarImagen(item, "image2", REimage2);
               setImage2("");
             }}
           >
@@ -134,17 +142,8 @@ const TakeImage = ({ setProducts, item }) => {
       {imageV2 ? (
         <TouchableOpacity
           onPress={() => {
-            pickImages((image3) => {
-              console.log("URLSSSSSS:",image3)
-              const start = image3.indexOf('UniqueId=') + 9;
-              const end = image3.indexOf('&', start);
-              const uniqueId = image3.substring(start, end !== -1 ? end : undefined);
-              console.log("uniqueIDDD:",uniqueId)
-              setRemoteImage3(uniqueId)
-              setImage3(image3);
-              actualizarImagen(item, image3, "image3");
-
-            }, "img3-" + item.id.toString()+"-"+generateUIDDGeneric());
+          handleOpenModal(setRemoteImage3,setImage3,actualizarImagen, "image3");
+            
           }}
           style={styles.imageContainer}
         >
@@ -156,7 +155,7 @@ const TakeImage = ({ setProducts, item }) => {
             style={styles.deleteButton}
             onPress={() => {
               setImageV2(!imageV2);
-              borrarImagen(item, "image3",REimage3);
+              borrarImagen(item, "image3", REimage3);
               setImage3("");
             }}
           >
@@ -166,6 +165,11 @@ const TakeImage = ({ setProducts, item }) => {
       ) : (
         <></>
       )}
+      <LoaderModal
+        animation={LOCATION_ANIMATION}
+        visible={isModalVisible}
+        warning={"Capturando locación actual, por favor espere..."}
+      />
     </ScrollView>
   );
 };
