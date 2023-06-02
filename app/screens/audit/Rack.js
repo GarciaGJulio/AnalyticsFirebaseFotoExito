@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
+import LOCATION_ANIMATION from "../../../assets/gps.json";
 import React, { useContext, useEffect, useState } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
@@ -29,6 +30,8 @@ import { dataTime, generateUIDD } from "../../services/GenerateID";
 import ModernaContext from "../../context/ModernaContext";
 import { ProgressBar } from "../../components/ProgressBar";
 import { TarjPercha } from "../../components/TarjetaPercha";
+import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import LoaderModal from "../../components/LoaderModal";
 
 export const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
@@ -40,19 +43,48 @@ export const Racks = ({ navigation }) => {
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [idPercha] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
+  const [showButton1, setShowButton1] = useState(true);
+  const [showButton2, setShowButton2] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   /*const EnviaDatosLocal = async () => {
     db_insertPercha(1, checked, valueGeneral, valueModerna);
     await lookForPerchas(setPedidos);
     console.log("Pedidos desde Screen:", pedidos);
   };*/
 
+  useEffect(() => {
+   
+    console.log("IDPERCHA",idPercha)
+    
+  }, []);
+
+
+
+
+  const handleOpenModal = async () => {
+setIsModalVisible(true)
+try{
+   await validate()
+    setIsModalVisible(false)
+    // setShowButton2(true)
+    // setShowButton1(false)
+  } catch  (error){
+    // setIsModalVisible(false)
+
+  }
+
+  
+
+  }
   const consultarYCopiarContenido = async () => {
     const idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
-        "SELECT * FROM categoria"
+        "SELECT * FROM percha"
       );
+      console.log("percha llanda:",resultadoConsulta)
 
       const resultadoConsultaPlanograma = await realizarConsulta(
         "SELECT * FROM planograma"
@@ -72,7 +104,9 @@ export const Racks = ({ navigation }) => {
         });
 
       const newArrayEstado = planogramaFiltro.map((objeto) => {
+        console.log("idQva:",objeto.id_percha)
         return {
+          
           id: objeto.id,
           id_percha: idPercha,
           name: objeto.name,
@@ -138,8 +172,12 @@ export const Racks = ({ navigation }) => {
   };
 
   const validate = async () => {
+
+
+
     console.log("VALIDACION DE DATOS DE PERCHAS: ", rack);
     const isValid = category.every((item) => {
+      console.log("ItemModerna:",item)
       if (
         item.state === null ||
         item.carasGeneral === null ||
@@ -166,16 +204,26 @@ export const Racks = ({ navigation }) => {
       console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(category));
     } else {
       try {
+        console.log("IDPERCHA21",idPercha)
+
         await AsyncStorage.setItem("id_percha", idPercha);
-        console.log("PERCHAS QUE VAN A SER GUARDADOS: ", JSON.stringify(rack));
-        rack.map((productos) => {
+        let x=await AsyncStorage.getItem("id_percha")
+        console.log("IDPERCHA2",x)
+        console.log("PERCHAS QUE VAN A SER GUARDADOS: ", JSON.stringify(category));
+        console.log("RACKS:",category)
+        category
+        .map((productos) => {
           const { id_percha, id, state, carasGeneral, carasModerna, images } =
             productos;
+            console.log("carasGenerales:",carasGeneral)
+            console.log("carasmODERNA:",carasModerna)
+
           const { image1, image2, image3 } = images;
           console.log(
             "---------------------- imagenes",
             JSON.stringify(images)
           );
+          console.log("PRODUC:",productos)
           let dataSave = {
             tableName: "percha",
             dataInsertType: [
@@ -192,7 +240,7 @@ export const Racks = ({ navigation }) => {
               "fecha_modificacion",
             ],
             dataInsert: [
-              `'${id_percha}'`,
+              `'${idPercha}'`,
               `'${id}'`,
               `'${state}'`,
               `'${carasGeneral}'`,
@@ -214,12 +262,27 @@ export const Racks = ({ navigation }) => {
             dataSave.dataInsert.join() +
             ")";
           console.log("SENTENCIA A EJECUTAR: ", sentence);
-          db_insertGlobalDataAudit(dataSave);
+          
           console.log("TODO BIEN");
-          navigation.navigate("promos");
+          // navigation.navigate("promos");rrrrrrrrrr
+          try {
+  
+            db_insertGlobalDataAudit(dataSave);
+            setShowButton1(false)
+            setShowButton2(true)
+          } catch (error) {
+            
+            Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+  
+          }
         });
+
+
+
       } catch (e) {
-        Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+        Alert.alert("Error antes de  insertar los datos", "Vuelva a intentarlo");
+        setShowButton1(true)
+        setShowButton2(false)
       }
       console.log("TODO BIEN");
       //navigation.navigate('rack');
@@ -239,7 +302,11 @@ export const Racks = ({ navigation }) => {
       <View style={{ flex: 1, width: "100%" }}>
         <ModernaHeader />
       </View>
-
+      <LoaderModal
+        animation={LOCATION_ANIMATION}
+        visible={isModalVisible}
+        warning={"subiendo datos"}
+      />
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={2} />
         <ScreenInformation
@@ -253,25 +320,36 @@ export const Racks = ({ navigation }) => {
             //data={category}
             data={category}
             rack={rack}
-            setRack={setRack}
+            // setRack={rsetRack}
             setData={setCategory}
             view={"audit"}
           />
         </View>
       </View>
-      <DoubleStyledButton
+      <DoubleDualStyledButton
         titleLeft={"Cancelar"}
         sizeLeft={theme.buttonSize.df}
         colorLeft={theme.colors.modernaYellow}
         iconLeft={"cancel"}
         typeLeft={"material-icon"}
         onPressLeft={() => setIsModalVisibleClose(true)}
-        titleRigth={"Siguiente"}
+        titleRigth={"Guardar"}
         sizeRigth={theme.buttonSize.df}
         iconRigth={"arrow-right-circle"}
         typeRigth={"feather"}
+
         colorRigth={theme.colors.modernaRed}
-        onPressRigth={validate}
+        onPressRigth={handleOpenModal}
+        showButton1={showButton1}
+        showButton2={showButton2}
+        titleRigthSecond={"Siguiente"}
+        sizeRigthSecond={theme.buttonSize.df}
+        //iconRigth={"content-save-all-outline"}
+        //typeRigth={"material-community"}
+        colorRigthSecond={theme.colors.modernaRed}
+        onPressRigthSecond={() => navigation.navigate("promos")}
+        showButton1Second={showButton1}
+        showButton2Second={showButton2}
       />
     </View>
   );

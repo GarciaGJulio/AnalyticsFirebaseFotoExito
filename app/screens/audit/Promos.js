@@ -97,11 +97,11 @@ export const Promos = ({ navigation }) => {
           sucursal: objeto.sucursal,
           id_promocion: idPromocion,
           url: objeto.url_imagen_exhibidor,
-          state: null,
+          state: objeto.state,
           images: {
-            image1: null,
-            image2: null,
-            image3: null,
+            image1: objeto.image1,
+            image2: objeto.image2,
+            image3: objeto.image3,
           },
         };
       });
@@ -356,7 +356,7 @@ export const Promos = ({ navigation }) => {
 
   const validate = async () => {
     console.log("VALIDACION DE DATOS DE PERCHAS: ", exhibidor);
-    const isValid = exhibidor.every((item) => {
+    const isValid = +exhibidor.every((item) => {
       if (item.state === null || selected === null) {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
@@ -384,81 +384,49 @@ export const Promos = ({ navigation }) => {
           "PROMOCIONES QUE VAN A SER GUARDADOS: ",
           JSON.stringify(exhibidorSucursal)
         );
-        if (exhibidorSucursal.length > 0) {
-          exhibidorSucursal.map((productos) => {
-            const { id_promocion, id, state, images } = productos;
-            const { image1, image2, image3 } = images;
-            console.log(
-              "---------------------- imagenes",
-              JSON.stringify(images)
-            );
-            let dataSave = {
-              tableName: "promocion",
-              dataInsertType: [
-                "id_promocion",
-                "id_exhibidor",
-                "estado_promocion",
-                "url_imagen1",
-                "url_imagen2",
-                "url_imagen3",
-              ],
-              dataInsert: [
-                `'${id_promocion}'`,
-                `'${id}'`,
-                `'${state}'`,
-                `'${image1}'`,
-                `'${image2}'`,
-                `'${image3}'`,
-              ],
-            };
-            const sentence =
-              "INSERT INTO " +
-              dataSave.tableName +
-              " (" +
-              dataSave.dataInsertType.join() +
-              ") VALUES(" +
-              dataSave.dataInsert.join() +
-              ")";
-            console.log("SENTENCIA A EJECUTAR: ", sentence);
-            try {
-              db_insertGlobalDataAudit(dataSave);
-              console.log("TODO BIEN / / / /  / / / /");
-              saveAudit();
-            } catch (e) {
-              Alert.alert(
-                "Error al insertar los datos en la tabla promociones - - -  - - - - -  - - - -",
-                "Vuelva a intentarlo"
-              );
-            }
-          });
-        } else {
-          try {
-            //db_insertGlobalDataAudit(dataSave);
-            console.log("TODO BIEN  * * * * * * * *  * **  ** *  ** ");
-            saveAudit();
-          } catch (e) {
-            Alert.alert(
-              "Error al insertar los datos en la tabla promociones",
-              "Vuelva a intentarlo"
-            );
-          }
-        }
-
-        //navigation.navigate("begin");
+        exhibidorSucursal.map((productos) => {
+          const { id_promocion, id, state, images } = productos;
+          const { image1, image2, image3 } = images;
+          console.log("Prod;", productos);
+          console.log(
+            "---------------------- imagenes",
+            JSON.stringify(images)
+          );
+          let dataSave = {
+            tableName: "promocion",
+            dataInsertType: [
+              "id_promocion",
+              "id_exhibidor",
+              "estado_promocion",
+              "url_imagen1",
+              "url_imagen2",
+              "url_imagen3",
+            ],
+            dataInsert: [
+              `'${id_promocion}'`,
+              `'${id}'`,
+              `'${state}'`,
+              `'${image1}'`,
+              `'${image2}'`,
+              `'${image3}'`,
+            ],
+          };
+          const sentence =
+            "INSERT INTO " +
+            dataSave.tableName +
+            " (" +
+            dataSave.dataInsertType.join() +
+            ") VALUES(" +
+            dataSave.dataInsert.join() +
+            ")";
+          console.log("SENTENCIA A EJECUTAR: ", sentence);
+          db_insertGlobalDataAudit(dataSave);
+          console.log("TODO BIEN");
+          saveAudit();
+          navigation.navigate("begin");
+        });
       } catch (e) {
-        Alert.alert("Error antes de insertar los datos", "Vuelva a intentarlo");
-      }
-      console.log("TODO BIEN * / */ */ * / */ * / *");
-      try {
-        console.log("INSERTANDO EN AUDITORIA");
-        //db_insertGlobalDataAudit(dataSave);
-        //console.log("TODO BIEN");
-        saveAudit();
-      } catch (e) {
-        Alert.alert(
-          "Error al insertar los datos en la tabla promociones",
-          "Vuelva a intentarlo"
-        );
+        Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
       }
     }
   };
