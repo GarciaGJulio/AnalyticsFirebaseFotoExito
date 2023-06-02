@@ -51,11 +51,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "90%",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   title: {
-    fontWeight: theme.fontWeight.bolder,
-    fontSize: theme.fontSize.subtitle,
+    fontWeight: theme.fontWeight.softbold,
+    fontSize: 14,
+    fontFamily: "Metropolis",
     marginTop: 5,
   },
 });

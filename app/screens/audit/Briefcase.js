@@ -49,7 +49,7 @@ export const Briefcase = ({ navigation }) => {
   ///const { idClientGroup } = useContext(ModernaContext);
   const [idPortafolioComplementario] = useState(generateUIDD());
   const [idPortafolioIdeal] = useState(generateUIDD());
-  const [idPortafolio] = useState(generateUIDD());
+  //const [idPortafolio] = useState(generateUIDD());
   const [idPortafolioAuditoria] = useState(generateUIDD());
   const [portafolioTipoIdeal] = useState("I");
   const [portafolioTipoComplementario] = useState("C");
@@ -69,7 +69,7 @@ export const Briefcase = ({ navigation }) => {
       " - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - "
     );
     console.log("ID DEL GRUPO DE CLIENTE: ", idGroupClient);
-    console.log("ID DEL PORTAFOLIO: ", idPortafolio);
+    //console.log("ID DEL PORTAFOLIO: ", idPortafolio);
     console.log("ID DEL PORTAFOLIO IDEAL: ", idPortafolioIdeal);
     console.log(
       "ID DEL PORTAFOLIO COMPLEMENTARIO: ",
@@ -79,31 +79,6 @@ export const Briefcase = ({ navigation }) => {
   useEffect(() => {
     consultarDatosDeIDs();
   }, []);
-  const savePortafolio = async () => {
-    let dataSave = {
-      tableName: "portafolio_auditoria",
-      dataInsertType: [
-        "id_portafolio_auditoria",
-        "id_portafolio",
-        "id_producto",
-      ],
-      dataInsert: [
-        `'${idPortafolio}'`,
-        `'${idPortafolioComplementario}'`,
-        `'${null}'`,
-      ],
-    };
-    const sentence =
-      "INSERT INTO " +
-      dataSave.tableName +
-      " (" +
-      dataSave.dataInsertType.join() +
-      ") VALUES(" +
-      dataSave.dataInsert.join() +
-      ")";
-    console.log("SENTENCIA A EJECUTAR: ", sentence);
-    db_insertGlobalDataAudit(dataSave);
-  };
 
   useEffect(() => {
     const disableBackButton = () => {
@@ -334,7 +309,7 @@ export const Briefcase = ({ navigation }) => {
       0
     ) {
       setIsModalVisible(false);
-      //navigation.navigate("rack");
+      navigation.navigate("rack");
       console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
       await AsyncStorage.setItem(
@@ -362,19 +337,22 @@ export const Briefcase = ({ navigation }) => {
 
           console.log(
             "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
-            id_portafolio + " " + id + " " + tipo_portafolio
+            "ID DEL PORTAFOLIO: " +
+              id_portafolio +
+              " ID DEL PRODUCTO: " +
+              id +
+              " TIPO DE PORTAFOLIO:" +
+              tipo_portafolio
           );
           let dataSave = {
             tableName: "portafolio",
             dataInsertType: [
-              "id_portafolio",
               "id_portafolio",
               "id_producto",
               "id_grupo_cliente",
               "tipo",
             ],
             dataInsert: [
-              `'${idPortafolio}'`,
               `'${id_portafolio}'`,
               `'${id}'`,
               `'${idGrupoCliente}'`,
@@ -395,6 +373,10 @@ export const Briefcase = ({ navigation }) => {
             console.log(
               "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
             );
+            console.log(
+              "ID DEL PORTAFOLIO QUE SE VA A GUARDRA: ",
+              id_portafolio
+            );
             let dataSave2 = {
               tableName: "portafolio_auditoria",
               dataInsertType: [
@@ -412,9 +394,9 @@ export const Briefcase = ({ navigation }) => {
               "INSERT INTO " +
               dataSave.tableName +
               " (" +
-              dataSave.dataInsertType.join() +
+              dataSave2.dataInsertType.join() +
               ") VALUES(" +
-              dataSave.dataInsert.join() +
+              dataSave2.dataInsert.join() +
               ")";
             console.log("SENTENCIA A EJECUTAR: ", sentence);
             try {

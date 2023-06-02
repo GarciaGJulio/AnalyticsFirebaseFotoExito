@@ -6,7 +6,7 @@ import WifiIndicator from "./WifiIndicator";
 import { FAB } from "@rneui/themed";
 import { useFonts } from "expo-font";
 
-const ScreenInformation = ({ title, text }) => {
+const ScreenInformationReview = ({ title, text }) => {
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
@@ -71,28 +71,11 @@ const ScreenInformation = ({ title, text }) => {
           marginTop: 5,
           marginBottom: 13,
         }}
-      >
-        <View style={{ flexDirection: "row" }}>
-          <View>
-            <Text style={{ color: "red", textAlign: "left", right: 5 }}>
-              *
-              <Text
-                style={{
-                  textAlign: "left",
-                  fontFamily: "Metropolis",
-                  color: "black",
-                }}
-              >
-                Campos obligatorios
-              </Text>
-            </Text>
-          </View>
-        </View>
-      </View>
+      ></View>
     </View>
   );
 };
 
-export default ScreenInformation;
+export default ScreenInformationReview;
 
 const styles = StyleSheet.create({});

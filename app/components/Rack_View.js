@@ -43,23 +43,22 @@ export const Rack_View = ({ rack }) => {
   };
 
   const validateExtraImages = (objeto) => {
-    const imagenes = []
+    const imagenes = [];
     if (objeto.url_imagen2) {
-      setExtraImages(prevImagenes => [...prevImagenes, objeto.url_imagen2]);
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
-    
+
     if (objeto.url_imagen3) {
-      setExtraImages(prevImagenes => [...prevImagenes, objeto.url_imagen3]);
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
-    let img = extraImages.join(",")
-    console.log("IMAGENES EXTRAS: - - - - ",img)
-
-  }
+    let img = extraImages.join(",");
+    console.log("IMAGENES EXTRAS: - - - - ", img);
+  };
 
   useEffect(() => {
-    validateExtraImages(rack)
-  },[])
+    validateExtraImages(rack);
+  }, []);
 
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
@@ -81,34 +80,39 @@ export const Rack_View = ({ rack }) => {
         <Text
           style={{
             fontWeight: theme.fontWeight.softbold,
-            fontSize: theme.fontSize.title,
-            fontFamily: "Metropolis",
+            fontSize: theme.fontSize.subtitle,
             left: 10,
+            marginVertical: 5,
+            borderColor: theme.colors.lightgray,
+            fontFamily: "Metropolis",
+            color: "white",
+            flex: 1,
           }}
         >
           {rack.nombre_categoria}
         </Text>
         <TouchableOpacity
+          disabled={rack.estado_percha == 0 ? true : false}
           style={{ position: "absolute", right: 4, top: 2 }}
           onPress={() => {
-            setOpenCamera(!openCamera);
-            setModalVisible(true);
+            //setOpenCamera(!openCamera);
+            //setModalVisible(true);
           }}
         >
           <Icon name="camera" type="evilicon" size={40} />
           {/* <Icon name='camerao' type='antdesign' size={32} /> */}
         </TouchableOpacity>
-        <View style={{ width: "100%",backgroundColor:'black' }}>
-        <Divider
-          width={2}
-          color={"black"}
-          style={{ backgroundColor: "blue" }}
-        />
+        <View style={{ width: "100%" }}>
+          <Divider
+            width={1}
+            color={theme.colors.lightgray}
+            style={{ borderColor: theme.colors.lightgray }}
+          />
+        </View>
       </View>
-      </View>
-      
+
       <View style={styles.categoryContainer}>
-      <View style={styles.category}>
+        <View style={styles.category}>
           <View style={{ flex: 1 }}>
             <StyledInput
               label="Categoría Moderna"
@@ -179,15 +183,15 @@ export const Rack_View = ({ rack }) => {
                   />
                   <View style={{ flexDirection: "row" }}>
                     {extraImages.map((images) => {
-                        return (
-                          <Image
-                            //key={index}
-                            source={{ uri: images }}
-                            style={styles.imgContainer}
-                            resizeMode="cover"
-                          />
-                        );
-                      })}
+                      return (
+                        <Image
+                          //key={index}
+                          source={{ uri: images }}
+                          style={styles.imgContainer}
+                          resizeMode="cover"
+                        />
+                      );
+                    })}
                   </View>
                   {/* <View style={{ flexDirection: 'row', }}>
                                             <Image
@@ -241,10 +245,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   header: {
-    //backgroundColor:'blue',
-    justifyContent: "center",
+    backgroundColor: theme.colors.modernaYellow,
+    borderTopLeftRadius: 7,
+    borderTopRightRadius: 7,
+    justifyContent: "space-between",
     alignItems: "flex-start",
-    paddingVertical: 5,
+    //left:10,
+    flex: 1,
+    //paddingVertical: 5,
   },
   categoryContainer: {
     //backgroundColor:'orange',

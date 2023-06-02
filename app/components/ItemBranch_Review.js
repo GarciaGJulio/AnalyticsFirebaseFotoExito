@@ -20,6 +20,7 @@ import SYNC_SUCCESS from "../../assets/resources/sync-success.png";
 import LoaderModal from "./LoaderModal";
 import ModernaContext from "../context/ModernaContext";
 import { DataContext } from "../context/DataProvider";
+import theme from "../theme/theme";
 
 export const ItemBranch_Review = ({ branch }) => {
   const { setDatosCompartidos, datosCompartidos } = useContext(DataContext);
@@ -82,39 +83,48 @@ export const ItemBranch_Review = ({ branch }) => {
         style={{
           flex: 1,
           //backgroundColor: "red",
-          borderWidth: 0.5,
           borderRadius: 5,
           marginVertical: 5,
-          height: 50,
+          //height: 50,
+          borderWidth: 2,
+          borderRadius: 10,
+          overflow: "hidden",
+          borderColor: theme.colors.lightgray,
+          //width: "10%",
           paddingHorizontal: 10,
           alignItems: "center",
           justifyContent: "space-between",
           flexDirection: "row",
         }}
       >
-        <Text
-          style={{
-            fontFamily: "Metropolis",
-            fontSize: 14,
-            flex: 1,
-            //textAlign: "justify",
-            //backgroundColor: "red",
-          }}
-        >
-          {branch.id_cliente}-{branch.nombre_cliente}-{branch.nombre_sucursal}
-        </Text>
-        {branch.estado_sincronizacion ? (
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              fontFamily: "Metropolis",
+              fontSize: 14,
+              //flex: 1,
+              //textAlign: "justify",
+              //backgroundColor: "red",
+            }}
+          >
+            {branch.id_cliente}-{branch.nombre_cliente}-{branch.nombre_sucursal}
+          </Text>
+          <Text style={{ margin: 5, fontSize: 12 }}>
+            {branch.fecha_modificacion}
+          </Text>
+        </View>
+        {branch.sincronizada ? (
           <TouchableOpacity>
             <Image
               source={SYNC_FAILED}
-              style={{ width: 50, height: 40, resizeMode: "stretch" }}
+              style={{ width: 35, height: 30, resizeMode: "stretch" }}
             />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity disabled={true}>
             <Image
               source={SYNC_SUCCESS}
-              style={{ width: 70, height: 70, resizeMode: "stretch" }}
+              style={{ width: 60, height: 50, resizeMode: "stretch" }}
             />
           </TouchableOpacity>
         )}

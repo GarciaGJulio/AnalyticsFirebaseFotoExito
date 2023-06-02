@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   fab: {
     position: "absolute",
     //marginRight: theme.dimensions.maxWidth - 80,
-    bottom: 110,
+    bottom: 105,
+    left: -10,
   },
 });

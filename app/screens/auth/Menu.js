@@ -185,7 +185,7 @@ export const Menu = ({ navigation }) => {
             }}
           >
             <Text style={styles.text}>
-              Enviar una auditoría que hayas registrado de forma offline
+              Revisa y sincroniza las auditorías pendientes de envió.
             </Text>
           </View>
         </View>
@@ -219,9 +219,7 @@ export const Menu = ({ navigation }) => {
               paddingHorizontal: 10,
             }}
           >
-            <Text style={styles.text}>
-              Descarga los datos para empezar una nueva auditoría.
-            </Text>
+            <Text style={styles.text}>Crea una nueva auditoría.</Text>
           </View>
         </View>
 
@@ -255,7 +253,7 @@ export const Menu = ({ navigation }) => {
             }}
           >
             <Text style={styles.text}>
-              Consulta las auditorías que has registrado previamente
+              Visualiza los datos de las auditorías registradas.
             </Text>
           </View>
         </View>

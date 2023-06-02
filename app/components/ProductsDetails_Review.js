@@ -29,18 +29,18 @@ export const ProductsDetails_Review = ({
           <View
             style={{
               flexDirection: "row",
-              backgroundColor: "orange",
+              //backgroundColor: "orange",
               justifyContent: "center",
               flex: 1,
             }}
           >
-            <View style={{ flex: 1, backgroundColor: "red" }}>
+            <View style={{ flex: 1 }}>
               <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
                 {productName}
               </Text>
             </View>
           </View>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginVertical: 5 }}>
             <View style={{ flex: 1 }}>
               <Text
                 style={{ marginTop: 5, fontSize: 12, fontFamily: "Metropolis" }}
@@ -63,8 +63,8 @@ export const ProductsDetails_Review = ({
                   //backgroundColor: "green",
                 }}
                 onPress={() => {
-                  setOpenCamera(!openCamera);
-                  setModalVisible(true);
+                  //setOpenCamera(!openCamera);
+                  //setModalVisible(true);
                 }}
               >
                 <Icon name="camera" type="evilicon" size={40} />
@@ -72,7 +72,9 @@ export const ProductsDetails_Review = ({
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ flexDirection: "row", backgroundColor: "blue" }}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
             <View>
               <Text style={{ fontSize: 14, marginTop: 10 }}>
                 ${productPrice}
@@ -93,9 +95,6 @@ export const ProductsDetails_Review = ({
             </View>
           </View>
         </View>
-      </View>
-      <View style={styles.secondaryContainer}>
-        <View style={{ padding: 10 }}></View>
       </View>
     </View>
   );

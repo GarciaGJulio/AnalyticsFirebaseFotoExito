@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import ModernaHeader from "../../components/ModernaHeader";
 import theme from "../../theme/theme";
-import ScreenInformation from "../../components/ScreenInformation";
+import ScreenInformationReview from "../../components/ScreenInformationReview";
 import { PromosItems_Review } from "../../components/PromosItems_Review";
 import { BackPage_Review } from "../../components/BackPage_Review";
 import { realizarConsulta } from "../../common/sqlite_config";
@@ -33,18 +33,19 @@ const Promos_Review = () => {
 
     const promosCompletas = datosPromocion.map((objeto) => {
       const exhibidor = exhibidores.find((cat) => {
-        cat.id_exhibidor === objeto.id_exhibidor
-      console.log(cat.id_exhibidor+ " "+objeto.id_exhibidor)
+        cat.id_exhibidor === objeto.id_exhibidor;
+        console.log(cat.id_exhibidor + " " + objeto.id_exhibidor);
       });
-      console.log("ESTE ES EL EXHIBIDOR DE LA AUDITORIA: ",exhibidor)
+      console.log("ESTE ES EL EXHIBIDOR DE LA AUDITORIA: ", exhibidor);
       if (exhibidor) {
         return {
-          ...objeto,nombre_exhibidor: exhibidor.nombre_tipo_exhibidor,
+          ...objeto,
+          nombre_exhibidor: exhibidor.nombre_tipo_exhibidor,
         };
       }
       return objeto;
     });
-    setPromos(promosCompletas)
+    setPromos(promosCompletas);
 
     //const datosActualizados = await Promise.all(datosPromesas);
     /*const categoria_name = await realizarConsulta(
@@ -68,7 +69,7 @@ const Promos_Review = () => {
           marginTop: theme.dimensions.maxHeight / 10,
         }}
       >
-        <ScreenInformation
+        <ScreenInformationReview
           title={
             datosCompartidos.id_cliente +
             "-" +
@@ -80,7 +81,7 @@ const Promos_Review = () => {
         />
         <BackPage_Review />
       </View>
-      <PromosItems_Review data={promos}/>
+      <PromosItems_Review data={promos} />
     </View>
   );
 };

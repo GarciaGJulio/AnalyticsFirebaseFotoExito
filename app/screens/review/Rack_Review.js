@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import ModernaHeader from "../../components/ModernaHeader";
 import theme from "../../theme/theme";
-import ScreenInformation from "../../components/ScreenInformation";
+import ScreenInformationReview from "../../components/ScreenInformationReview";
 import { BackPage_Review } from "../../components/BackPage_Review";
 import { DataContext } from "../../context/DataProvider";
 import { realizarConsulta } from "../../common/sqlite_config";
@@ -17,6 +17,10 @@ const Rack_Review = () => {
     const datos = await realizarConsulta(
       `SELECT * FROM percha where id_percha ='${datosCompartidos.id_percha}'`
     );
+
+    const category = await realizarConsulta(
+      `SELECT ca.nombre_categoria,p.* from percha as p inner join categoria as ca on ca.id_categoria=p.id_categoria where id_percha ='${datosCompartidos.id_percha}'`
+    );
     /*const datosPromesas = datos.map(async (item) => {
       const nombre = await realizarConsulta(
         `SELECT nombre_categoria FROM categoria where id_categoria ='${item.id_categoria}'`
@@ -28,10 +32,15 @@ const Rack_Review = () => {
       };
     });*/
 
+    console.log(
+      "CATEGORIAS CON PERCHAS - - - - - - - - - - - - - - * */ / /: ",
+      category
+    );
     const perchasCompletas = datos.map((objeto) => {
       const categoria = categorias.find((cat) => {
-        console.log(cat.id_categoria +" "+ objeto.id_categoria)
-        cat.id_categoria === objeto.id_categoria});
+        console.log(cat.id_categoria + " " + objeto.id_categoria);
+        cat.id_categoria === objeto.id_categoria;
+      });
       if (categoria) {
         return {
           ...objeto,
@@ -40,7 +49,7 @@ const Rack_Review = () => {
       }
       return objeto;
     });
-    setRack(perchasCompletas)
+    setRack(category);
 
     //const datosActualizados = await Promise.all(datosPromesas);
     /*const categoria_name = await realizarConsulta(
@@ -63,7 +72,7 @@ const Rack_Review = () => {
           marginTop: theme.dimensions.maxHeight / 10,
         }}
       >
-        <ScreenInformation
+        <ScreenInformationReview
           title={
             datosCompartidos.id_cliente +
             "-" +
@@ -75,7 +84,7 @@ const Rack_Review = () => {
         />
         <BackPage_Review />
       </View>
-      <TarjetaRack_Review data={rack}/>
+      <TarjetaRack_Review data={rack} />
     </View>
   );
 };

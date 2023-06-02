@@ -222,6 +222,7 @@ export const Promos = ({ navigation }) => {
     setAnimation(SAVE_ANIMATION);
     setIsModalVisibleCloseSucursal(true);
     setIsModalVisible(true);
+    saveAudit();
     setTimeout(() => {
       setAnimation(SUCCESS_ANIMATION);
       setIsModalVisible(false);
