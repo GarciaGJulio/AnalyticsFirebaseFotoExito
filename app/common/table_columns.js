@@ -25,6 +25,21 @@ export const BRANCH_TABLE = {
   INDEX_1: "id_sucursal",
 };
 
+export const PORTAFOLIO_AUDITORIA = {
+  NAME: "portafolio_auditoria",
+  KEY_1: "id_portafolio_auditoria",
+  ID_PORTAFOLIO: "id_portafolio",
+  ID_PRODUCTO: "id_producto",
+};
+
+export const PORTAFOLIO = {
+  NAME: "portafolio",
+  KEY_1: "id_portafolio",
+  ID_PRODUCTO: "id_producto",
+  ID_GRUPO_CLIENTE: "id_grupo_cliente",
+  TIPO: "tipo",
+};
+
 export const GROUP_CLIENT_TABLE = {
   NAME: "grupo_cliente",
   KEY_1: "id_grupo_cliente",
@@ -82,6 +97,7 @@ export const IDEAL_PORFOLIO = {
   INDEX_1: "id_portafolio_ideal",
 };
 
+/*
 export const PORFOLIO = {
   NAME: "portafolio",
   KEY_1: "id_portafolio",
@@ -89,7 +105,7 @@ export const PORFOLIO = {
   FOREIGH_KEY_2: "id_portafolio_complementario",
   INDEX_1: "id_portafolio",
 };
-
+*/
 export const PLANOGRAMA = {
   NAME: "planograma",
   KEY_1: "id_planograma",
@@ -135,8 +151,13 @@ export const AUDITORIA = {
   ID_PROMOCION: "id_promocion",
   ID_SUCURSAL: "id_sucursal",
   ID_CLIENTE: "id_cliente",
+  ID_PORTAFOLIO_AUDITORIA: "id_portafolio_auditoria",
   NOMBRE_CLIENTE: "nombre_cliente",
   NOMBRE_SUCURSAL: "nombre_sucursal",
+  USUARIO_CREACION: "usuario_creacion",
+  FECHA_CREACION: "fecha_creacion",
+  FECHA_MODIFICACION: "fecha_modificacion",
+  SINCRONIZADA: "sincronizada",
   INDEX_1: "id_auditoria",
 };
 
@@ -170,9 +191,16 @@ export const PERCHA = {
 export const PRECIADOR = {
   NAME: "preciador",
   KEY_1: "id_preciador",
-  ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO:
-    "id_preciador_portafolio_complementario",
-  ID_PRECIADOR_PORTAFOLIO_IDEAL: "id_preciador_portafolio_ideal",
+  ID_PORTAFOLIO: "id_portafolio",
+  ID_PRODUCTO: "id_producto",
+  PRECIO_PRECIADOR: "precio_preciador",
+  ESTADO_PRECIADOR: "estado_preciador",
+  URL_IMAGEN1: "url_imagen1",
+  URL_IMAGEN2: "url_imagen2",
+  URL_IMAGEN3: "url_imagen3",
+  USUARIO_CREACION: "usuario_creacion",
+  FECHA_CREACION: "fecha_creacion",
+  FECHA_MODIFICACION: "fecha_modificacion",
   INDEX_1: "id_preciador",
 };
 

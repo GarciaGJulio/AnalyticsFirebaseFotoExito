@@ -289,6 +289,7 @@ export const Client_Information = ({ navigation }) => {
       try {
         const locationCoords = await getLocation();
         await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
+        await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
         setIsModalVisible(false);
         const { latitude, longitude } = locationCoords;
         console.log("DATOS A GUARDAR: ", {

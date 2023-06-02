@@ -28,11 +28,12 @@ import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
 import { convertImageUrl } from "../../services/convertUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
-import { generateUIDD } from "../../common/utils";
+import { dataTime, generateUIDD } from "../../services/GenerateID";
 import ModernaContext from "../../context/ModernaContext";
 import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";
+import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 
 export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -47,6 +48,8 @@ export const Promos = ({ navigation }) => {
   const [idPromocion] = useState(generateUIDD());
   const [idAuditoria] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
+  const [showButton1, setShowButton1] = useState(true);
+  const [showButton2, setShowButton2] = useState(false);
 
   const consultarYCopiarContenido = async () => {
     const clientName = await AsyncStorage.getItem("clientName");
@@ -59,6 +62,8 @@ export const Promos = ({ navigation }) => {
       const resultadoConsultaExhibidor = await realizarConsulta(
         "SELECT * FROM exhibidor"
       );
+
+      const tablaAuditorias = await realizarConsulta("SELECT * FROM auditoria");
 
       console.log("NOMBRE DEL CLIENTE: - - - - ", clientName);
       /*const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
@@ -77,6 +82,11 @@ export const Promos = ({ navigation }) => {
           },
         };
       });*/
+
+      console.log(
+        "DATOS DE TABLA AUDITORIA * * * * * * *: - - - - ",
+        tablaAuditorias
+      );
 
       const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
         return {
@@ -220,12 +230,37 @@ export const Promos = ({ navigation }) => {
     }, 3000);
   };
 
-  const saveAudit = async () => {
+  const dataId = async () => {
+    let idPreciador = await AsyncStorage.getItem("id_preciador");
     let idPercha = await AsyncStorage.getItem("id_percha");
     let idSucursal = await AsyncStorage.getItem("id_sucursal");
     let idCliente = await AsyncStorage.getItem("id_cliente");
-    let idPreciador = await AsyncStorage.getItem(
-      "id_preciador_portafolio_complementario"
+    let nombreCliente = await AsyncStorage.getItem("nombre_cliente");
+    let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+    let idPortafolioAuditoria = await AsyncStorage.getItem(
+      "id_portafolio_auditoria"
+    );
+    console.log("ID DE PRECIADOR: ", idPreciador);
+    console.log("ID DE PERCHA: ", idPercha);
+    console.log("ID DE SUCURSAL: ", idSucursal);
+    console.log("ID DE CLIENTE: ", idCliente);
+    console.log("NOMBRE CLIENTE: ", nombreCliente);
+    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+  };
+
+  useEffect(() => {
+    dataId();
+  });
+  const saveAudit = async () => {
+    let idPreciador = await AsyncStorage.getItem("id_preciador");
+    let idPercha = await AsyncStorage.getItem("id_percha");
+    let idSucursal = await AsyncStorage.getItem("id_sucursal");
+    let idCliente = await AsyncStorage.getItem("id_cliente");
+    let nombreCliente = await AsyncStorage.getItem("nombre_cliente");
+    let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+    let idPortafolioAuditoria = await AsyncStorage.getItem(
+      "id_portafolio_auditoria"
     );
     let dataSave = {
       tableName: "auditoria",
@@ -236,6 +271,13 @@ export const Promos = ({ navigation }) => {
         "id_promocion",
         "id_sucursal",
         "id_cliente",
+        "id_portafolio_auditoria",
+        "usuario_creacion",
+        "fecha_creacion",
+        "fecha_modificacion",
+        "nombre_cliente",
+        "nombre_sucursal",
+        "sincronizada",
       ],
       dataInsert: [
         `'${idAuditoria}'`,
@@ -244,6 +286,13 @@ export const Promos = ({ navigation }) => {
         `'${idPromocion}'`,
         `'${idSucursal}'`,
         `'${idCliente}'`,
+        `'${idPortafolioAuditoria}'`,
+        `'${userInfo.givenName}'`,
+        `'${dataTime()}'`,
+        `'${dataTime()}'`,
+        `'${nombreCliente}'`,
+        `'${nombreSucursal}'`,
+        `'${false}'`,
       ],
     };
     const sentence =
@@ -255,8 +304,21 @@ export const Promos = ({ navigation }) => {
       dataSave.dataInsert.join() +
       ")";
     console.log("SENTENCIA A EJECUTAR: ", sentence);
-    //db_insertGlobalDataAudit(dataSave);
+    try {
+      db_insertGlobalDataAudit(dataSave);
+      setShowButton1(false);
+      setShowButton2(true);
+    } catch (e) {
+      Alert.alert(
+        "Error al insertar los datos en la tabla auditoria",
+        "Vuelva a intentarlo"
+      );
+    }
   };
+
+  useEffect(() => {
+    console.log();
+  });
 
   /*const savePreciador = async () => {
     let idPreciadorPortafolioComplementario = await AsyncStorage.getItem(
@@ -322,50 +384,82 @@ export const Promos = ({ navigation }) => {
           "PROMOCIONES QUE VAN A SER GUARDADOS: ",
           JSON.stringify(exhibidorSucursal)
         );
-        exhibidorSucursal.map((productos) => {
-          const { id_promocion, id, state, images } = productos;
-          const { image1, image2, image3 } = images;
-          console.log(
-            "---------------------- imagenes",
-            JSON.stringify(images)
-          );
-          let dataSave = {
-            tableName: "promocion",
-            dataInsertType: [
-              "id_promocion",
-              "id_exhibidor",
-              "estado_promocion",
-              "url_imagen1",
-              "url_imagen2",
-              "url_imagen3",
-            ],
-            dataInsert: [
-              `'${id_promocion}'`,
-              `'${id}'`,
-              `'${state}'`,
-              `'${image1}'`,
-              `'${image2}'`,
-              `'${image3}'`,
-            ],
-          };
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          db_insertGlobalDataAudit(dataSave);
-          console.log("TODO BIEN");
-          saveAudit();
-          navigation.navigate("begin");
-        });
+        if (exhibidorSucursal.length > 0) {
+          exhibidorSucursal.map((productos) => {
+            const { id_promocion, id, state, images } = productos;
+            const { image1, image2, image3 } = images;
+            console.log(
+              "---------------------- imagenes",
+              JSON.stringify(images)
+            );
+            let dataSave = {
+              tableName: "promocion",
+              dataInsertType: [
+                "id_promocion",
+                "id_exhibidor",
+                "estado_promocion",
+                "url_imagen1",
+                "url_imagen2",
+                "url_imagen3",
+              ],
+              dataInsert: [
+                `'${id_promocion}'`,
+                `'${id}'`,
+                `'${state}'`,
+                `'${image1}'`,
+                `'${image2}'`,
+                `'${image3}'`,
+              ],
+            };
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
+            try {
+              db_insertGlobalDataAudit(dataSave);
+              console.log("TODO BIEN / / / /  / / / /");
+              saveAudit();
+            } catch (e) {
+              Alert.alert(
+                "Error al insertar los datos en la tabla promociones - - -  - - - - -  - - - -",
+                "Vuelva a intentarlo"
+              );
+            }
+          });
+        } else {
+          try {
+            //db_insertGlobalDataAudit(dataSave);
+            console.log("TODO BIEN  * * * * * * * *  * **  ** *  ** ");
+            saveAudit();
+          } catch (e) {
+            Alert.alert(
+              "Error al insertar los datos en la tabla promociones",
+              "Vuelva a intentarlo"
+            );
+          }
+        }
+
+        //navigation.navigate("begin");
       } catch (e) {
-        Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+        Alert.alert("Error antes de insertar los datos", "Vuelva a intentarlo");
       }
-      console.log("TODO BIEN");
+      console.log("TODO BIEN * / */ */ * / */ * / *");
+      try {
+        console.log("INSERTANDO EN AUDITORIA");
+        //db_insertGlobalDataAudit(dataSave);
+        //console.log("TODO BIEN");
+        saveAudit();
+      } catch (e) {
+        Alert.alert(
+          "Error al insertar los datos en la tabla promociones",
+          "Vuelva a intentarlo"
+        );
+      }
     }
   };
 
@@ -426,7 +520,7 @@ export const Promos = ({ navigation }) => {
           )}
         </View>
       </View>
-      <DoubleStyledButton
+      {/*<DoubleStyledButton
         titleLeft={"Cancelar"}
         sizeLeft={theme.buttonSize.df}
         colorLeft={theme.colors.modernaYellow}
@@ -442,11 +536,34 @@ export const Promos = ({ navigation }) => {
         typeRigth={"feather"}
         colorRigth={theme.colors.modernaRed}
         onPressRigth={validate}
+      />*/}
+      <DoubleDualStyledButton
+        titleLeft={"Cancelar"}
+        sizeLeft={theme.buttonSize.df}
+        colorLeft={theme.colors.modernaYellow}
+        iconLeft={"cancel"}
+        typeLeft={"material-icon"}
+        onPressLeft={() => setIsModalVisibleClose(true)}
+        titleRigth={"Guardar"}
+        sizeRigth={theme.buttonSize.df}
+        iconRigth={"content-save-all-outline"}
+        typeRigth={"material-community"}
+        colorRigth={theme.colors.modernaRed}
+        onPressRigth={validate}
+        showButton1={showButton1}
+        showButton2={showButton2}
+        titleRigthSecond={"Siguiente"}
+        sizeRigthSecond={theme.buttonSize.df}
+        colorRigthSecond={theme.colors.modernaRed}
+        onPressRigthSecond={() => navigation.navigate("begin")}
+        showButton1Second={showButton1}
+        showButton2Second={showButton2}
+        iconRigthSecond={"content-save-all-outline"}
+        typeRigthSecond={"material-community"}
       />
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
