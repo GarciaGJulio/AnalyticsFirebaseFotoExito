@@ -33,6 +33,8 @@ import { MultiSelectList } from "../../components/MultiSelectList";
 import { ProgressBar } from "../../components/ProgressBar";
 import { MultiSelectListV2 } from "../../components/MultiSelectListV2";
 import { Divider } from "@rneui/base";
+import SAVE_ANIMATION from "../../../assets/save.json";
+import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 
 export const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -44,21 +46,46 @@ export const Briefcase = ({ navigation }) => {
   const [idealProducts, setIdealProducts] = useState([]);
   const [currentStep] = useState(0);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-  const { idClientGroup } = useContext(ModernaContext);
+  ///const { idClientGroup } = useContext(ModernaContext);
   const [idPortafolioComplementario] = useState(generateUIDD());
+  const [idPortafolioIdeal] = useState(generateUIDD());
   const [idPortafolio] = useState(generateUIDD());
+  const [idPortafolioAuditoria] = useState(generateUIDD());
+  const [portafolioTipoIdeal] = useState("I");
+  const [portafolioTipoComplementario] = useState("C");
+  const [idGrupoCliente, setidGrupoCliente] = useState(null);
+  const [showButton1, setShowButton1] = useState(true);
+  const [showButton2, setShowButton2] = useState(false);
+  //const [fullDataProducts, setFullDataProducts] = useState([]);
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
   };
 
+  const consultarDatosDeIDs = async () => {
+    let idGroupClient = await AsyncStorage.getItem("idGroupClient");
+    setidGrupoCliente(idGroupClient);
+    console.log(
+      " - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - "
+    );
+    console.log("ID DEL GRUPO DE CLIENTE: ", idGroupClient);
+    console.log("ID DEL PORTAFOLIO: ", idPortafolio);
+    console.log("ID DEL PORTAFOLIO IDEAL: ", idPortafolioIdeal);
+    console.log(
+      "ID DEL PORTAFOLIO COMPLEMENTARIO: ",
+      idPortafolioComplementario
+    );
+  };
+  useEffect(() => {
+    consultarDatosDeIDs();
+  }, []);
   const savePortafolio = async () => {
     let dataSave = {
-      tableName: "portafolio",
+      tableName: "portafolio_auditoria",
       dataInsertType: [
+        "id_portafolio_auditoria",
         "id_portafolio",
-        "id_portafolio_complementario",
-        "id_portafolio_ideal",
+        "id_producto",
       ],
       dataInsert: [
         `'${idPortafolio}'`,
@@ -91,7 +118,7 @@ export const Briefcase = ({ navigation }) => {
   }, []);
 
   const handleOpenModal = () => {
-    //setIsModalVisible(true);
+    setIsModalVisible(true);
     //console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
     //console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
     validateProduct();
@@ -202,17 +229,30 @@ export const Briefcase = ({ navigation }) => {
         resultado
       );
 
+      const filtroProductosNoIdeales = resultadoConsulta.filter(
+        (obj1) =>
+          !productosIdealFiltro.some(
+            (obj2) => obj1.id_producto === obj2.id_producto
+          )
+      );
+
+      console.log(
+        "FILTRO DE PRODUCTOS SIN CONSIDERARA ALOS IDEALES - - - - - : ",
+        filtroProductosNoIdeales
+      );
       const nuevaListaCategorias = resultadoConsultaCategorias.map(
         (categoria) => {
-          const productosCategoria = resultadoConsulta.filter((producto) => {
-            console.log(
-              "CATEGORIA: " +
-                categoria.id_categoria +
-                " PRODUCTO: " +
-                producto.id_categoria
-            );
-            return producto.id_categoria === categoria.id_categoria;
-          });
+          const productosCategoria = filtroProductosNoIdeales.filter(
+            (producto) => {
+              console.log(
+                "CATEGORIA: " +
+                  categoria.id_categoria +
+                  " PRODUCTO: " +
+                  producto.id_categoria
+              );
+              return producto.id_categoria === categoria.id_categoria;
+            }
+          );
           console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
           return {
             id: categoria.id_categoria,
@@ -236,6 +276,8 @@ export const Briefcase = ({ navigation }) => {
         "NUEVO ARRAY DE CATEGORIAS Y PRODUCTOS- - - - - - - : ",
         nuevaListaCategorias
       );
+
+      //setAllProducts([...nuevaListaCategorias]);
 
       setAllProducts([...nuevaListaCategorias]);
 
@@ -281,7 +323,7 @@ export const Briefcase = ({ navigation }) => {
     consultarYCopiarContenido();
   }, []);
 
-  const validateProduct = () => {
+  const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
         (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
@@ -291,9 +333,14 @@ export const Briefcase = ({ navigation }) => {
       idealPortfolioProducts.length + complementaryPortfolioProducts.length ==
       0
     ) {
-      navigation.navigate("rack");
+      setIsModalVisible(false);
+      //navigation.navigate("rack");
       console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
+      await AsyncStorage.setItem(
+        "id_portafolio_auditoria",
+        idPortafolioAuditoria
+      );
       /*.alert(
         "Productos validados: ",
         "Redirigiendo a la siguiente pantalla"
@@ -306,12 +353,100 @@ export const Briefcase = ({ navigation }) => {
         "PRODUCTOS DEL PORTAFOLIO COMPLEMENTARIO: ",
         JSON.stringify(complementaryPortfolioProducts)
       );
-      navigation.navigate("prices", {
+      try {
+        const fullDataProducts = idealPortfolioProducts.concat(
+          complementaryPortfolioProducts
+        );
+        fullDataProducts.map((productos) => {
+          const { id_portafolio, id, tipo_portafolio } = productos;
+
+          console.log(
+            "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
+            id_portafolio + " " + id + " " + tipo_portafolio
+          );
+          let dataSave = {
+            tableName: "portafolio",
+            dataInsertType: [
+              "id_portafolio",
+              "id_portafolio",
+              "id_producto",
+              "id_grupo_cliente",
+              "tipo",
+            ],
+            dataInsert: [
+              `'${idPortafolio}'`,
+              `'${id_portafolio}'`,
+              `'${id}'`,
+              `'${idGrupoCliente}'`,
+              `'${tipo_portafolio}'`,
+            ],
+          };
+          const sentence =
+            "INSERT INTO " +
+            dataSave.tableName +
+            " (" +
+            dataSave.dataInsertType.join() +
+            ") VALUES(" +
+            dataSave.dataInsert.join() +
+            ")";
+          console.log("SENTENCIA A EJECUTAR: ", sentence);
+          try {
+            db_insertGlobalDataAudit(dataSave);
+            console.log(
+              "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
+            );
+            let dataSave2 = {
+              tableName: "portafolio_auditoria",
+              dataInsertType: [
+                "id_portafolio_auditoria",
+                "id_portafolio",
+                "id_producto",
+              ],
+              dataInsert: [
+                `'${idPortafolioAuditoria}'`,
+                `'${id_portafolio}'`,
+                `'${id}'`,
+              ],
+            };
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
+            try {
+              db_insertGlobalDataAudit(dataSave2);
+              console.log("TODO BIEN");
+              setShowButton1(false);
+              setShowButton2(true);
+              setIsModalVisible(false);
+            } catch (e) {
+              Alert.alert(
+                "Error al insertar los datos en la tabla portafolio_auditoria",
+                "Vuelva a intentarlo"
+              );
+            }
+          } catch (e) {
+            Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+            setIsModalVisible(false);
+          }
+          //savePreciador();
+          //navigation.navigate("rack");
+        });
+      } catch (e) {
+        Alert.alert("Error antes de enviar los datos", "Vuelva a intentarlo");
+        setIsModalVisible(false);
+      }
+      /*navigation.navigate("prices", {
         currentStep,
         complementaryPortfolioProducts,
         idealPortfolioProducts,
         setComplementaryPortfolioProducts,
-      });
+      });*/
+      //setIsModalVisible(false);
     }
 
     //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
@@ -329,7 +464,7 @@ export const Briefcase = ({ navigation }) => {
         <ModernaHeader />
       </View>
       <LoaderModal
-        animation={LOADER_ANIMATION}
+        animation={SAVE_ANIMATION}
         visible={isModalVisible}
         warning={"Almacenando datos, por favor espere..."}
       />
@@ -351,9 +486,11 @@ export const Briefcase = ({ navigation }) => {
         >
           <Text style={styles.text}>Portafolio Ideal</Text>
           <FlashListPortfolio
+            idPortafolio={idPortafolioIdeal}
             idealPortfolioProducts={idealPortfolioProducts}
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealProducts={idealProducts}
+            tipo={portafolioTipoIdeal}
           />
         </View>
         <View
@@ -370,13 +507,15 @@ export const Briefcase = ({ navigation }) => {
             setComplementaryPortfolioProducts={
               setComplementaryPortfolioProducts
             }
+            tipo={portafolioTipoComplementario}
+            idPortafolio={idPortafolioComplementario}
             auxiliarArray={auxiliarArray}
             products={allProducts}
             complementaryPortfolioProducts={complementaryPortfolioProducts}
           />
         </View>
         <View style={{ flex: 0.7, justifyContent: "center", width: "100%" }}>
-          <DoubleStyledButton
+          {/*<DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
             colorLeft={theme.colors.modernaYellow}
@@ -389,6 +528,37 @@ export const Briefcase = ({ navigation }) => {
             typeRigth={"material-community"}
             colorRigth={theme.colors.modernaRed}
             onPressRigth={handleOpenModal}
+          />*/}
+          <DoubleDualStyledButton
+            titleLeft={"Cancelar"}
+            sizeLeft={theme.buttonSize.df}
+            colorLeft={theme.colors.modernaYellow}
+            iconLeft={"cancel"}
+            typeLeft={"material-icon"}
+            onPressLeft={() => setIsModalVisibleClose(true)}
+            titleRigth={"Guardar"}
+            sizeRigth={theme.buttonSize.df}
+            colorRigth={theme.colors.modernaRed}
+            iconRigth={"content-save-all-outline"}
+            typeRigth={"material-community"}
+            onPressRigth={handleOpenModal}
+            showButton1={showButton1}
+            showButton2={showButton2}
+            titleRigthSecond={"Siguiente"}
+            sizeRigthSecond={theme.buttonSize.df}
+            colorRigthSecond={theme.colors.modernaRed}
+            onPressRigthSecond={() =>
+              navigation.navigate("prices", {
+                currentStep,
+                complementaryPortfolioProducts,
+                idealPortfolioProducts,
+                setComplementaryPortfolioProducts,
+              })
+            }
+            showButton1Second={showButton1}
+            showButton2Second={showButton2}
+            iconRigthSecond={"content-save-all-outline"}
+            typeRigthSecond={"material-community"}
           />
         </View>
       </View>

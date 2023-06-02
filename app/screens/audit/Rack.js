@@ -121,10 +121,26 @@ try{
           },
         };
       });
+
+      /*const newArray = resultadoConsulta.reduce((uniqueArray, obj) => {
+        if (!uniqueArray.some((item) => item.categoria === obj.categoria)) {
+          uniqueArray.push(obj);
+        }
+        return uniqueArray;
+      }, []);*/
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
       setCategory(newArrayEstado);
       setRack(planogramaFiltro);
+      console.log(
+        "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
+        resultadoConsulta
+      );
+
+      console.log(
+        "ESTO ME TRAE DE LOS PLANOGRAMAS:-  -- - - :  -      ---------------------------",
+        resultadoConsultaPlanograma
+      );
       console.log("Copia de contenido completada con éxito: ", newArrayEstado);
       console.log("ARRAY DE PLANOGRAMA: ", planogramaFiltro);
     } catch (error) {

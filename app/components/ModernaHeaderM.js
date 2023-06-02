@@ -21,7 +21,7 @@ const ModernaHeaderM = () => {
   const { userInfo, handleLogoutAzure } = useContext(ModernaContext);
   const insets = useSafeAreaInsets();
 
-  useEffect(() => { });
+  useEffect(() => {});
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -35,8 +35,9 @@ const ModernaHeaderM = () => {
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  const subStringName = userInfo.displayName.split(" ");
-
+  const subStringName = userInfo
+    ? userInfo.displayName.split(" ")
+    : "Datos Perdidos";
   if (!fontLoaded) return null;
 
   return (
@@ -65,7 +66,6 @@ const ModernaHeaderM = () => {
             style={{ color: "white", fontSize: 10, fontFamily: "Metropolis" }}
           >
             {userInfo.mail ? userInfo.mail : userInfo.userPrincipalName}
-
           </Text>
         </View>
       </View>

@@ -14,19 +14,17 @@ import {
   PRODUCT,
   AUDITORIA,
   EXHIBIDOR,
-  PROMOCIONES,
-  IMAGEN_APLICACION_MOVIL_2,
-  IMAGEN_APLICACION_MOVIL,
   PRECIADOR,
   COMPLEMENTARY_PORTFOLIO,
   IDEAL_PORFOLIO,
   PRECIADOR_PORTAFOLIO_IDEAL,
   PRECIADOR_PORTAFOLIO_COMPLEMENTARIO,
   PLANOGRAMA,
-  IMAGEN_PLANOGRAMA,
+  //IMAGEN_PLANOGRAMA,
   TYPE_EXHIBIDOR,
   PROMOCION,
-  PORFOLIO,
+  PORTAFOLIO,
+  PORTAFOLIO_AUDITORIA,
 } from "./table_columns";
 import { PermissionsAndroid } from "react-native";
 import { useEffect } from "react";
@@ -86,6 +84,18 @@ const createCategoryTable = () => {
   createTable(sentence, CATEGORY.NAME);
 };
 
+const createPortafolioTable = () => {
+  const sentence = `create table if not exists ${PORTAFOLIO.NAME} (${PORTAFOLIO.KEY_1} text not null, ${PORTAFOLIO.ID_PRODUCTO} TEXT NOT NULL,${PORTAFOLIO.ID_GRUPO_CLIENTE} TEXT NOT NULL,${PORTAFOLIO.TIPO} TEXT NOT NULL,PRIMARY KEY (${PORTAFOLIO.KEY_1},${PORTAFOLIO.ID_PRODUCTO})) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PORTAFOLIO.NAME);
+};
+
+const createPortafolioAuditoriaTable = () => {
+  const sentence = `create table if not exists ${PORTAFOLIO_AUDITORIA.NAME} (${PORTAFOLIO_AUDITORIA.KEY_1} text not null, ${PORTAFOLIO_AUDITORIA.ID_PORTAFOLIO} TEXT NOT NULL,${PORTAFOLIO_AUDITORIA.ID_PRODUCTO} TEXT NOT NULL,PRIMARY KEY (${PORTAFOLIO_AUDITORIA.KEY_1},${PORTAFOLIO_AUDITORIA.ID_PORTAFOLIO},${PORTAFOLIO_AUDITORIA.ID_PRODUCTO})) `;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, PORTAFOLIO_AUDITORIA.NAME);
+};
+
 const createProductTable = () => {
   const sentence = `create table if not exists ${PRODUCT.NAME} (${PRODUCT.KEY_1} text primary key not null,${PRODUCT.FOREIGH_KEY_1} text null,${PRODUCT.NOMBRE_PRODUCTO} VARCHAR(43) NULL,${PRODUCT.URL_IMAGEN_PRODUCTO} TEXT NULL,${PRODUCT.PRECIO} FLOAT(5) NULL,${PRODUCT.USUARIO_CREACION} TEXT NULL,${PRODUCT.FECHA_CREACION} TEXT NULL,${PRODUCT.FECHA_MODIFICACION} TEXT NULL ) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
@@ -93,7 +103,7 @@ const createProductTable = () => {
 };
 
 const createAuditTable = () => {
-  const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCION} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.ID_CLIENTE} TEXT NULL,${AUDITORIA.CLIENTE} VARCHAR(43) NULL,${AUDITORIA.NOMBRE_CLIENTE} VARCHAR(43) NULL,${AUDITORIA.NOMBRE_SUCURSAL} VARCHAR(43) NULL) `;
+  const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCION} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.ID_CLIENTE} TEXT NULL,${AUDITORIA.ID_PORTAFOLIO_AUDITORIA} text NULL,${AUDITORIA.NOMBRE_CLIENTE} text NULL,${AUDITORIA.NOMBRE_SUCURSAL} text NULL,${AUDITORIA.USUARIO_CREACION} VARCHAR(43) NULL,${AUDITORIA.FECHA_CREACION} VARCHAR(43) NULL,${AUDITORIA.FECHA_MODIFICACION} VARCHAR(43) NULL,${AUDITORIA.SINCRONIZADA} BOOLEAN NULL) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, AUDITORIA.NAME);
 };
@@ -111,7 +121,7 @@ const createPromosTable = () => {
 };
 
 const createPreciadorTable = () => {
-  const sentence = `create table if not exists ${PRECIADOR.NAME} (${PRECIADOR.KEY_1} text primary key not null,${PRECIADOR.ID_PRECIADOR_PORTAFOLIO_COMPLEMENTARIO} text null,${PRECIADOR.ID_PRECIADOR_PORTAFOLIO_IDEAL} text null) `;
+  const sentence = `create table if not exists ${PRECIADOR.NAME} (${PRECIADOR.KEY_1} text not null,${PRECIADOR.ID_PORTAFOLIO} text not null,${PRECIADOR.ID_PRODUCTO} text not null,${PRECIADOR.PRECIO_PRECIADOR} text not null,${PRECIADOR.ESTADO_PRECIADOR} text not null,${PRECIADOR.URL_IMAGEN1} text not null,${PRECIADOR.URL_IMAGEN2} text not null,${PRECIADOR.URL_IMAGEN3} text not null,${PRECIADOR.USUARIO_CREACION} text not null,${PRECIADOR.FECHA_CREACION} text not null,${PRECIADOR.FECHA_MODIFICACION} text not null,PRIMARY KEY (${PRECIADOR.KEY_1},${PRECIADOR.ID_PORTAFOLIO},${PRECIADOR.ID_PRODUCTO})) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, PRECIADOR.NAME);
 };
@@ -255,13 +265,15 @@ export const load_db_config = async () => {
   createExhibidorTable();
   createPromosTable();
   createPreciadorTable();
-  createPortafolioComTable();
+  createPortafolioTable();
+  createPortafolioAuditoriaTable();
+  //createPortafolioComTable();
   createPortafolioIdeaTable();
-  createPreciadorPortafolioComTable();
-  createPreciadorPortafolioIdeaTable();
+  //createPreciadorPortafolioComTable();
+  //createPreciadorPortafolioIdeaTable();
   createPlanogramaTable();
   createExhibidorTipoTable();
-  createPortfolioTable();
+  //createPortfolioTable();
 };
 
 export const realizarConsulta = (sentence) => {
@@ -280,8 +292,7 @@ export const realizarConsulta = (sentence) => {
   });
 };
 
-export const handleSelectDataBase = (sentence,onSuccess,onError) => {
-
+export const handleSelectDataBase = (sentence, onSuccess, onError) => {
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
       sentence,
@@ -293,7 +304,6 @@ export const handleSelectDataBase = (sentence,onSuccess,onError) => {
       (_, error) => onError(error)
     );
   });
-
 };
 
 /*

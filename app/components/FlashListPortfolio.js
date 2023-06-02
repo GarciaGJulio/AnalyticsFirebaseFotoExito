@@ -4,12 +4,27 @@ import { FlashList } from "@shopify/flash-list";
 import theme from "../theme/theme";
 import { CheckBox } from "@rneui/base";
 import { useFonts } from "expo-font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RenderItem = ({
   item,
   setIdealPortfolioProducts,
   idealPortfolioProducts,
+  tipo,
+  idPortafolio,
 }) => {
+  const saveId = async () => {
+    await AsyncStorage.setItem("id_portafolio_ideal", idPortafolio);
+    await AsyncStorage.setItem("tipo_ideal", tipo);
+  };
+  useEffect(() => {
+    console.log("ID DEL PORTAFOLIO IDEAL: ", idPortafolio);
+    console.log("TIPO DE PORTAFOLIO: ", tipo);
+    saveId();
+  }, []);
+  //const idPortafolio2 = idPortafolio;
+  //const tipo2 = tipo;
+
   return (
     <View
       style={{
@@ -28,20 +43,15 @@ const RenderItem = ({
             fontSize: 15,
             borderBottomWidth: 2,
             paddingLeft: 15,
-            //paddingVertical: -22,
             backgroundColor: theme.colors.modernaYellow,
             height: 35,
-            //textAling: "center",
             borderBottomColor: theme.colors.lightgray,
             flex: 1,
-
             fontFamily: "Metropolis",
             justifyContent: "center",
-            //borderWidth: 2,
             color: theme.colors.white,
           }}
         >
-          {" "}
           {item.categoria}
         </Text>
       </View>
@@ -50,14 +60,13 @@ const RenderItem = ({
         data={item.productos}
         renderItem={({ item }) => (
           <RenderItemProd
-            //name={item.name}
             item={item}
-            //id={item.id}
+            //idPortafolio={idPortafolio2}
+            //tipo={tipo2}
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealPortfolioProducts={idealPortfolioProducts}
           />
         )}
-        //estimatedItemSize={4}
         showsVerticalScrollIndicator={false}
       />
     </View>
@@ -70,17 +79,31 @@ const RenderItemProd = ({
   item,
   setIdealPortfolioProducts,
   idealPortfolioProducts,
+  idPortafolio,
+  tipo,
 }) => {
   const [check1, setCheck1] = useState(false);
-
-  const validate = (check1, name, id) => {
+  useEffect(() => {
+    console.log(
+      "ID DEL PORTAFOLIO IDEAL:  *************************** ",
+      idPortafolio
+    );
+    console.log("TIPO DE PORTAFOLIO:  /*************************** ", tipo);
+  }, []);
+  const validate = async (check1, name, id) => {
     if (check1) {
       console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
       console.log("PRODUCTO A REGISTRAR: ", item.name, item.id);
+      const idPortafolio = await AsyncStorage.getItem("id_portafolio_ideal");
+      const tipo = await AsyncStorage.getItem("tipo_ideal");
+      console.log("ID DEL PORTAFOLIO A INGRESAR . . . . ", idPortafolio);
+      console.log("TIPO DE PORTAFOLIO: ", tipo);
       setIdealPortfolioProducts((prevProducts) => [
         ...prevProducts,
         {
           name: name,
+          id_portafolio: idPortafolio,
+          tipo_portafolio: tipo,
           id: id,
           url: item.url,
           price: null,
@@ -128,6 +151,8 @@ export const FlashListPortfolio = ({
   setIdealPortfolioProducts,
   idealPortfolioProducts,
   idealProducts,
+  idPortafolio,
+  tipo,
 }) => {
   useEffect(() => {
     console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ", idealProducts);
@@ -162,6 +187,8 @@ export const FlashListPortfolio = ({
           renderItem={({ item }) => (
             <RenderItem
               item={item}
+              idPortafolio={idPortafolio}
+              tipo={tipo}
               setIdealPortfolioProducts={setIdealPortfolioProducts}
               idealPortfolioProducts={idealPortfolioProducts}
             />

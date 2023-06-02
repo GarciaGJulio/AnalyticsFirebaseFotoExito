@@ -12,11 +12,17 @@ export const MultiSelectListV2 = ({
   idPortafolioComplementario,
   auxiliarArray,
   products,
+  tipo,
+  idPortafolio,
 }) => {
   const [select, setSelected] = useState([]);
+  const saveId = async () => {
+    await AsyncStorage.setItem("id_portafolio_complementario", idPortafolio);
+    await AsyncStorage.setItem("tipo_complementario", tipo);
+  };
   useEffect(() => {
     console.log("PRODUCTOS A MOSTRAR EN EL MULTISELECT: ", products);
-  });
+  }, []);
   /*
   const validateProducts = (value) => {
     console.log("PRODUCTO SELECCIONADO: - - - " + value);
@@ -126,6 +132,8 @@ export const MultiSelectListV2 = ({
       if (existingProduct) {
         return {
           id: existingProduct.id,
+          id_portafolio: idPortafolio,
+          tipo_portafolio: tipo,
           name: existingProduct.name,
           price: null,
           state: false,
@@ -185,6 +193,11 @@ export const MultiSelectListV2 = ({
       "NOMBRE DEL PRODUCTO QUE ENTRA A VALIDARSE - - - - -  - -: ",
       extractedObject.id + " " + extractedObject.name
     );
+
+    /*const idPortafolio = await AsyncStorage.getItem("id_portafolio_complementario");
+    const tipo = await AsyncStorage.getItem("tipo_complementario");
+    console.log("ID DEL PORTAFOLIO A INGRESAR . . . . ", idPortafolio);
+    console.log("TIPO DE PORTAFOLIO: ", tipo);*/
 
     //Buscar el objeto correspondiente al producto seleccionado
     /*let productData = listProducts.find((obj) => {
@@ -320,6 +333,8 @@ export const MultiSelectListV2 = ({
 
           return {
             id: productId,
+            id_portafolio: idPortafolio,
+            tipo_portafolio: tipo,
             name: productName,
             url: productImage,
             price: null,

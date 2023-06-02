@@ -57,7 +57,7 @@ export const Dropdown = ({
         console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
         setClientGroupId(type.id_grupo_cliente);
         //handleIdClientGroup(type.id_grupo_cliente)
-        await AsyncStorage.setItem("clientName", type.nombre_cliente);
+        await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
         await AsyncStorage.setItem("id_cliente", type.id_cliente);
         await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
         setSucursalInformation({

@@ -26,6 +26,7 @@ import ModernaContext from "../../context/ModernaContext";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
+import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -34,13 +35,12 @@ export const Prices = ({ navigation, route }) => {
   const [newIdealPortfolio, setNewIdealPortfolio] = useState([]);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [idPreciadorPortafolioComplementario] = useState(generateUIDD());
-  const [idPortafolioComplementario, setIdPortafolioComplementario] =
-    useState();
   const [idPreciador] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
   const { complementaryPortfolioProducts, idealPortfolioProducts } =
     route.params;
-
+  const [showButton1, setShowButton1] = useState(true);
+  const [showButton2, setShowButton2] = useState(false);
   useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
@@ -62,7 +62,7 @@ export const Prices = ({ navigation, route }) => {
       // Realiza la consulta a la base de datos
 
       const resultadoConsultaComp = await realizarConsulta(
-        "SELECT * FROM portafolio_complementario"
+        "SELECT * FROM portafolio"
       );
 
       console.log(
@@ -71,7 +71,7 @@ export const Prices = ({ navigation, route }) => {
       );
       //console.log("ID DEL PORTAFOLIO COMP: ", id_portafolio_complementario);
     } catch (e) {
-      console.error("Error al consultar o copiar el contenido:", error);
+      console.log("Error al consultar o copiar el contenido:", e);
     }
   };
 
@@ -79,10 +79,10 @@ export const Prices = ({ navigation, route }) => {
     consultarYCopiarContenido();
   }, []);
 
-  const savePreciador = async () => {
+  /*const savePreciador = async () => {
     /*let idPreciadorPortafolioComplementario = await AsyncStorage.getItem(
       "id_preciador_portafolio_complementario"
-    );*/
+    );
     let dataSave = {
       tableName: "preciador",
       dataInsertType: [
@@ -106,28 +106,25 @@ export const Prices = ({ navigation, route }) => {
       ")";
     console.log("SENTENCIA A EJECUTAR: ", sentence);
     //db_insertGlobalDataAudit(dataSave);
-  };
+  };*/
 
   useEffect(() => {
     const getNewArrays = async () => {
-      let id_portafolio_complementario = await AsyncStorage.getItem(
+      /*let id_portafolio_complementario = await AsyncStorage.getItem(
         "id_portafolio_complementario"
       );
       const addParametersComplementaryP = complementaryPortfolioProducts.map(
         (producto) => {
           return {
             ...producto,
-            id_portafolio_complementario: id_portafolio_complementario,
-            id_preciador_portafolio_complementario:
-              idPreciadorPortafolioComplementario,
           };
         }
       );
       console.log(
         "ARRAY DE COMPLEMENTARIO FORMATEADO: ",
         addParametersComplementaryP
-      );
-      setNewComplementaryPortfolio([...addParametersComplementaryP]);
+      );*/
+      setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
       setNewIdealPortfolio([...idealPortfolioProducts]);
       //console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
       console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
@@ -145,6 +142,7 @@ export const Prices = ({ navigation, route }) => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
+      console.log("NO TIENES DATOPS - - - - - - - - - *- *- *- *- *-* -*- *- ");
       navigation.navigate("rack");
     } else {
       const isValid = fullArrays.every((item) => {
@@ -177,24 +175,17 @@ export const Prices = ({ navigation, route }) => {
           JSON.stringify(newComplementaryPortfolio)
         );
       } else {
+        const fullDataProducts = newIdealPortfolio.concat(
+          newComplementaryPortfolio
+        );
         try {
-          await AsyncStorage.setItem(
-            "id_preciador_portafolio_complementario",
-            idPreciadorPortafolioComplementario
-          );
+          await AsyncStorage.setItem("id_preciador", idPreciador);
           console.log(
             "PRODUCTOS QUE VAN A SER GUARDADOS: ",
-            JSON.stringify(newComplementaryPortfolio)
+            JSON.stringify(fullDataProducts)
           );
-          newComplementaryPortfolio.map((productos) => {
-            const {
-              id_portafolio_complementario,
-              id,
-              id_preciador_portafolio_complementario,
-              state,
-              price,
-              images,
-            } = productos;
+          fullDataProducts.map((productos) => {
+            const { id_portafolio, id, state, price, images } = productos;
             const { image1, image2, image3 } = images;
             console.log(
               "---------------------- imagenes",
@@ -202,16 +193,16 @@ export const Prices = ({ navigation, route }) => {
             );
             console.log(
               "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
-              id_portafolio_complementario + " " + id
+              id_portafolio + " " + id
             );
             let dataSave = {
-              tableName: "preciador_portafolio_complementario",
+              tableName: "preciador",
               dataInsertType: [
-                "id_preciador_portafolio_complementario",
-                "id_portafolio_complementario",
+                "id_preciador",
+                "id_portafolio",
                 "id_producto",
-                "precio_portafolio_complementario",
-                "estado_preciador_complementario",
+                "precio_preciador",
+                "estado_preciador",
                 "url_imagen1",
                 "url_imagen2",
                 "url_imagen3",
@@ -220,11 +211,11 @@ export const Prices = ({ navigation, route }) => {
                 "fecha_modificacion",
               ],
               dataInsert: [
-                `'${id_preciador_portafolio_complementario}'`,
-                `'${id_portafolio_complementario}'`,
+                `'${idPreciador}'`,
+                `'${id_portafolio}'`,
                 `'${id}'`,
                 `'${price}'`,
-                `'${state}'`,
+                `'${state ? "1" : "0"}'`,
                 `'${image1}'`,
                 `'${image2}'`,
                 `'${image3}'`,
@@ -242,13 +233,27 @@ export const Prices = ({ navigation, route }) => {
               dataSave.dataInsert.join() +
               ")";
             console.log("SENTENCIA A EJECUTAR: ", sentence);
-            db_insertGlobalDataAudit(dataSave);
+            try {
+              db_insertGlobalDataAudit(dataSave);
+              console.log("TODO BIEN");
+              setShowButton1(false);
+              setShowButton2(true);
+              //savePreciador();
+            } catch (e) {
+              Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+            }
+            /*db_insertGlobalDataAudit(dataSave);
             console.log("TODO BIEN");
-            savePreciador();
-            navigation.navigate("rack");
+            setShowButton1(false);
+            setShowButton2(true);
+            savePreciador();*/
+            //navigation.navigate("rack");
           });
         } catch (e) {
-          Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+          Alert.alert(
+            "Error antes de  insertar los datos",
+            "Vuelva a intentarlo"
+          );
         }
       }
     }
@@ -298,7 +303,7 @@ export const Prices = ({ navigation, route }) => {
           />
         </View>
         <View style={{ flex: 0.45, width: "100%" }}>
-          <DoubleStyledButton
+          {/*<DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
             colorLeft={theme.colors.modernaYellow}
@@ -311,13 +316,36 @@ export const Prices = ({ navigation, route }) => {
             typeRigth={"feather"}
             colorRigth={theme.colors.modernaRed}
             onPressRigth={validateArrays}
+  />*/}
+          <DoubleDualStyledButton
+            titleLeft={"Cancelar"}
+            sizeLeft={theme.buttonSize.df}
+            colorLeft={theme.colors.modernaYellow}
+            iconLeft={"cancel"}
+            typeLeft={"material-icon"}
+            onPressLeft={() => setIsModalVisibleClose(true)}
+            titleRigth={"Guardar"}
+            sizeRigth={theme.buttonSize.df}
+            iconRigth={"content-save-all-outline"}
+            typeRigth={"material-community"}
+            colorRigth={theme.colors.modernaRed}
+            onPressRigth={validateArrays}
+            showButton1={showButton1}
+            showButton2={showButton2}
+            titleRigthSecond={"Siguiente"}
+            sizeRigthSecond={theme.buttonSize.df}
+            colorRigthSecond={theme.colors.modernaRed}
+            onPressRigthSecond={() => navigation.navigate("rack")}
+            showButton1Second={showButton1}
+            showButton2Second={showButton2}
+            iconRigthSecond={"content-save-all-outline"}
+            typeRigthSecond={"material-community"}
           />
         </View>
       </View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
