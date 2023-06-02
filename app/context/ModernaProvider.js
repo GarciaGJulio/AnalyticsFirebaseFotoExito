@@ -102,14 +102,16 @@ export const ModernaProvider = ({ children }) => {
         let user = await GraphManager.getUserAsync();
         await AsyncStorage.setItem("user", JSON.stringify(user));
         console.log("user from azure 1: ", JSON.stringify(user));
-        if (user.mail!=null){
+        if (user.mail != null) {
           console.log("MAIL DEL USUARIO: ", user.mail);
           user.mail = user.mail.toLowerCase().toString();
           console.log("MAIL DEL USUARIO: ", user.userPrincipalName);
           user.mail = user.userPrincipalName.toLowerCase().toString();
-        }else{
+        } else {
           console.log("USERPRINCIPAL DEL USUARIO: ", user.userPrincipalName);
-          user.userPrincipalName = user.userPrincipalName.toLowerCase().toString();
+          user.userPrincipalName = user.userPrincipalName
+            .toLowerCase()
+            .toString();
         }
         setUserInfo(user);
         const userDataBase = await makeRequest(
@@ -360,7 +362,7 @@ export const ModernaProvider = ({ children }) => {
         data: {
           tableName: "usuario",
           fieldType: ["correo"],
-          fieldData: [`${(mail===null) ? userPrincipalName   : mail}`],
+          fieldData: [`${mail === null ? userPrincipalName : mail}`],
         },
       };
 
@@ -388,7 +390,7 @@ export const ModernaProvider = ({ children }) => {
         operation: "C",
         data: {
           sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
-            (mail===null) ? userPrincipalName   : mail
+            mail === null ? userPrincipalName : mail
           }'`,
         },
       };
@@ -412,16 +414,46 @@ export const ModernaProvider = ({ children }) => {
   };
 
   const handleLogoutAzure = async () => {
+    /*if (userInfo.mail != null) {
+      console.log(
+        "DATOS DEL USUARIO: MAIL - ",
+        userInfo.mail.toLowerCase().toString()
+      );
+    } else {
+      console.log(
+        "DATOS DEL USUARIO: MAIL - ",
+        userInfo.mail.toLowerCase().toString()
+      );
+      console.log(
+        "DATOS DEL USUARIO: MAIL - ",
+        userInfo.userPrincipalName.toLowerCase().toString()
+      );
+    }*/
+
+    let mail = null;
+    let userPrincipalName = null;
     try {
       console.log("CERRANDO SESION---------------");
+      if (userInfo.mail != null) {
+        mail = userInfo.mail.toLowerCase();
+        userPrincipalName = userInfo.userPrincipalName.toLowerCase();
+      } else {
+        userPrincipalName = userInfo.userPrincipalName.toLowerCase();
+      }
+      const responseInsertMac = await insertMacCurrentUser(
+        mail,
+        userPrincipalName,
+        null
+      );
+      console.log("ELIMINANDO MAC: ", responseInsertMac);
       await AuthManager.signOutAsync();
       setIsAuthenticated(false);
     } catch (e) {
-      showMessage({
+      /*showMessage({
         message: e.message || "Se ha producido un error inesperado",
         type: "danger",
         duration: 5000,
-      });
+      });*/
       console.log("datos al moemtno de cerrar la sesion", e);
     }
     setIsAuthenticated(false);
