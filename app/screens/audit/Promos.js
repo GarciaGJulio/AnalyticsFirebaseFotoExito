@@ -87,11 +87,11 @@ export const Promos = ({ navigation }) => {
           sucursal: objeto.sucursal,
           id_promocion: idPromocion,
           url: objeto.url_imagen_exhibidor,
-          state: null,
+          state: objeto.state,
           images: {
-            image1: null,
-            image2: null,
-            image3: null,
+            image1: objeto.image1,
+            image2: objeto.image2,
+            image3: objeto.image3,
           },
         };
       });
@@ -294,14 +294,15 @@ export const Promos = ({ navigation }) => {
 
   const validate = async () => {
     console.log("VALIDACION DE DATOS DE PERCHAS: ", exhibidor);
-    const isValid = exhibidor.every((item) => {
+    const isValid =+exhibidor.every((item) => {
       if (item.state === null || selected === null) {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
       if (item.state === "1") {
         if (!item.images || item.images.image1 === null) {
-          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ",item);
+          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ",
+          item);
           return false;
         }
       }
