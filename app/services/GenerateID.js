@@ -13,3 +13,11 @@ export const generateUIDD = () => {
 export const dataTime = () => {
   return moment().toISOString();
 };
+
+
+export const generateUIDDGeneric = () => {
+  
+    constantUUID = uuid.v4();
+  
+  return uuid.v4();
+};
