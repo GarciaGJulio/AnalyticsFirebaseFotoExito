@@ -1,4 +1,11 @@
-import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -8,9 +15,12 @@ import ModernaContext from "../../context/ModernaContext";
 import TarjPercha from "../../components/TarjetaPercha";
 import TarjPromo from "../../components/TarjetaPromo";
 import { RecuperarToken } from "../../services/onedrive";
+import LOG_ING from "../../../assets/login.json";
+import LoaderModal from "../../components/LoaderModal";
 
 export const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
+  const [isLoading, setIsLoading] = useState(false);
   const log = () => {
     console.log("DISPARANDO LOGIN DE AD");
     login();
@@ -20,15 +30,18 @@ export const Login = ({ navigation }) => {
 
   const funcionQA = (user) => {
     navigation.navigate("menu");
+    setIsLoading(false);
   };
 
   const login = async () => {
+    setIsLoading(true);
     try {
       // handleCanSelectEnvironment(funcionQA, functionProduction)
       //handleLoading(true);
-      handleLoginAzure(funcionQA);
+      handleLoginAzure(funcionQA, setIsLoading);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       handleLoading(false);
     }
   };
@@ -38,6 +51,11 @@ export const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
+      <LoaderModal
+        animation={LOG_ING}
+        visible={isLoading}
+        warning={"Validando datos, por favor espere . . "}
+      />
       <Animatable.View animation={"fadeInDown"} style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </Animatable.View>

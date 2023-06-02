@@ -93,7 +93,7 @@ export const ModernaProvider = ({ children }) => {
     //dispatch({ type: WAS_UPDATED_LOCAL_DATA, payload: wasUpdatedLocal });
   }, []);
 
-  const handleLoginAzure = async (funcionQA) => {
+  const handleLoginAzure = async (funcionQA, fn) => {
     try {
       await AuthManager.signInAsync();
       const token = await AuthManager.getAccessTokenAsync();
@@ -124,7 +124,7 @@ export const ModernaProvider = ({ children }) => {
           userDataBase[0].usuario_dispositivo
         );
         let deviceMacAdress = await DeviceInfo.getUniqueId();
-        if (userDataBase[0].usuario_dispositivo != null) {
+        if (userDataBase[0].usuario_dispositivo === "null") {
           console.log(
             "El usuario no tiene un dispositivo conectado - - - - - - - -"
           );
@@ -136,6 +136,7 @@ export const ModernaProvider = ({ children }) => {
           );
           console.log("INSERTO LA MAC?: ", responseInsertMac);
           setIsAuthenticated(true);
+          fn(false);
         } else {
           console.log(
             "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
@@ -143,12 +144,14 @@ export const ModernaProvider = ({ children }) => {
           if (userDataBase[0].usuario_dispositivo === deviceMacAdress) {
             console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
             setIsAuthenticated(true);
+            fn(false);
           } else {
             AuthManager.signOutAsync();
             Alert.alert(
               "Error",
               "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual"
             );
+            fn(false);
           }
         }
         /*const successFunctionChecker = async (data) => {
@@ -297,7 +300,8 @@ export const ModernaProvider = ({ children }) => {
       }
       // Si la autenticación es exitosa
     } catch (e) {
-      console.log(e);
+      console.log("flujo cancelado . . . ", e);
+      fn(false);
     }
   };
 
