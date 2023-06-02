@@ -7,12 +7,15 @@ import {
   Text,
   TextInput,
   View,
-  Button 
+  Button,
 } from "react-native";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import * as Animatable from "react-native-animatable";
-import { handleSelectDataBase, realizarConsulta } from "../../common/sqlite_config";
+import {
+  handleSelectDataBase,
+  realizarConsulta,
+} from "../../common/sqlite_config";
 import { useFonts } from "expo-font";
 import { BackPage_Review } from "../../components/BackPage_Review";
 import { DropdownDavid } from "../../components/Dropdown";
@@ -121,10 +124,10 @@ export const ListBranch = ({ navigation }) => {
           Puedes revisar las auditorías ya realizadas presionando en el registro
           de interés.
         </Text>
-        <Button
+        {/*<Button
           title="Go Back"
           onPress={() =>  navigation.navigate("menu")}
-        />
+  />*/}
         <View style={styles.contentContainerBranch}>
           {/*<TextInput
             style={{
@@ -144,7 +147,7 @@ export const ListBranch = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             data={filteredData}
             renderItem={({ item }) => <ItemBranch_Review branch={item} />}
-          //keyExtractor={(item) => item.id}
+            //keyExtractor={(item) => item.id}
           />
 
           {/*<DropdownDavid
@@ -168,7 +171,6 @@ export const ListBranch = ({ navigation }) => {
           />*/}
         </View>
       </Animatable.View>
-
     </View>
   );
 };
