@@ -301,7 +301,7 @@ export const Promos = ({ navigation }) => {
       }
       if (item.state === "1") {
         if (!item.images || item.images.image1 === null) {
-          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ",item);
           return false;
         }
       }
@@ -325,6 +325,7 @@ export const Promos = ({ navigation }) => {
         exhibidorSucursal.map((productos) => {
           const { id_promocion, id, state, images } = productos;
           const { image1, image2, image3 } = images;
+          console.log("Prod;",productos)
           console.log(
             "---------------------- imagenes",
             JSON.stringify(images)
