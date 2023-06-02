@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { deleteImageFromOneDrive } from "../services/onedrive";
 import { generateUIDDGeneric } from "../services/GenerateID";
 import LoaderModal from "./LoaderModal";
-import LOCATION_ANIMATION from "../../assets/gps.json";
+import LOCATION_ANIMATION from "../../assets/camera.json";
 
 
 const TakeImage = ({ setProducts, item }) => {
@@ -27,7 +27,7 @@ const TakeImage = ({ setProducts, item }) => {
   const [REimage2, setRemoteImage2] = useState("");
   const [REimage3, setRemoteImage3] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const[ RemoteFoto, setRemoteFoto]=useState()
+  
   useEffect(() => {
     console.log("Id dsde Taker:", item.id);
     setidItem(item.id);
@@ -142,7 +142,7 @@ const TakeImage = ({ setProducts, item }) => {
       {imageV2 ? (
         <TouchableOpacity
           onPress={() => {
-          handleOpenModal(setRemoteImage3,setImage3,actualizarImagen, "image3");
+          handleOpenModal( setRemoteImage3,setImage3,actualizarImagen, "image3");
             
           }}
           style={styles.imageContainer}
@@ -168,7 +168,7 @@ const TakeImage = ({ setProducts, item }) => {
       <LoaderModal
         animation={LOCATION_ANIMATION}
         visible={isModalVisible}
-        warning={"Capturando locación actual, por favor espere..."}
+        warning={"Subiendo imágenes espere..."}
       />
     </ScrollView>
   );
