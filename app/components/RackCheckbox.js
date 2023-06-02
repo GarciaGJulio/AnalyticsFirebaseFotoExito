@@ -63,34 +63,32 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
   };
 
   const validateNumbers = (num1, num2) => {
-    if (num1 === '' || num2 === '') {
-      console.log('Por favor, ingrese ambos números');
+    if (num1 === "" || num2 === "") {
+      console.log("Por favor, ingrese ambos números");
       // Puedes mostrar un mensaje de error indicando que se deben ingresar ambos números
       return;
-
-
     }
-
 
     if (num1 < 0 || num2 < 0) {
-      console.log('Por favor, ingrese ambos números');
-      setverificacionCategoria(' Ingrese numero mayores a 0')
+      console.log("Por favor, ingrese ambos números");
+      setverificacionCategoria(" Ingrese numero mayores a 0");
       // Puedes mostrar un mensaje de error indicando que se deben ingresar ambos números
       return;
     }
 
-
-
     if (parseInt(num1) < parseInt(num2)) {
-      console.log('El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General');
-      setverificacionCategoria('El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General')
+      console.log(
+        "El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General"
+      );
+      setverificacionCategoria(
+        "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
+      );
       // Puedes mostrar un mensaje de error o realizar otra acción en caso de validación incorrecta
     } else if (parseInt(num1) >= parseInt(num2)) {
-      console.log('Validación exitosa');
-      setverificacionCategoria("")
+      console.log("Validación exitosa");
+      setverificacionCategoria("");
       // Puedes realizar alguna acción cuando la validación sea exitosa
     }
-
   };
 
   const actualizarEstado = (item, state) => {
@@ -172,6 +170,7 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
             fontWeight: theme.fontWeight.softbold,
             fontSize: theme.fontSize.subtitle,
             left: 10,
+            borderColor: theme.colors.lightgray,
             fontFamily: "Metropolis",
             color: "white",
           }}
@@ -188,8 +187,8 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
       <View style={{ width: "100%" }}>
         <Divider
           width={1}
-          color={"black"}
-          style={{ backgroundColor: "blue" }}
+          color={theme.colors.lightgray}
+          style={{ borderColor: theme.colors.lightgray }}
         />
       </View>
       <View style={styles.categoryContainer}>
@@ -199,7 +198,7 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
               onChangeText={(txt) => {
                 setCateGeneral(txt);
                 actualizarCantidad(item, "carasGeneral", txt);
-                validateNumbers(txt, item.carasModerna)
+                validateNumbers(txt, item.carasModerna);
                 /*setObjPercha({...objPercha,
                               CarasGeneral:txt
                           })*/
@@ -212,8 +211,8 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
               editable={true}
               value={CateGeneral}
               width={"100%"}
-            // error={errorPrice}
-            // information={"* Este campo es obligatorio"}
+              // error={errorPrice}
+              // information={"* Este campo es obligatorio"}
             />
           </View>
           <Text
@@ -232,7 +231,7 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
             onChangeText={(txt) => {
               setCateModerna(txt);
               actualizarCantidad(item, "carasModerna", txt);
-              validateNumbers(item.carasGeneral, txt)
+              validateNumbers(item.carasGeneral, txt);
               /*setObjPercha({...objPercha,
                                 CarasModerna:txt
                             })
@@ -245,8 +244,8 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
             editable={true}
             value={CateModerna}
             width={"100%"}
-          // error={errorPrice}
-          // information={"* Este campo es obligatorio"}
+            // error={errorPrice}
+            // information={"* Este campo es obligatorio"}
           />
 
           <Text
@@ -262,22 +261,21 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
         </View>
       </View>
       <View style={{ flexDirection: "row" }}>
-          {verificacionCategorias ? (
-            <Text
-              style={{
-                // flex: 1,
-                padding:5 ,
-                textAlign: "justify",
-                color: "red",
-                fontFamily: "Metropolis",
-              }}
-            >
-              {verificacionCategorias}
-            </Text>
-          ) : (
-            <></>
-          )}
-        
+        {verificacionCategorias ? (
+          <Text
+            style={{
+              // flex: 1,
+              padding: 5,
+              textAlign: "justify",
+              color: "red",
+              fontFamily: "Metropolis",
+            }}
+          >
+            {verificacionCategorias}
+          </Text>
+        ) : (
+          <></>
+        )}
       </View>
 
       {openCamera ? (
@@ -408,10 +406,10 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderColor: theme.colors.lightgray,
     //height:200,
     width: "100%",
     alignContent: "center",
@@ -420,7 +418,7 @@ const styles = StyleSheet.create({
     //marginHorizontal: 5,
     marginVertical: 5,
     borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: 2,
   },
   header: {
     backgroundColor: theme.colors.modernaYellow,
@@ -440,7 +438,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     flex: 1,
     padding: 10,
-    paddingBottom:1
+    paddingBottom: 1,
   },
   input: {
     fontWeight: theme.fontWeight.normal,

@@ -31,6 +31,8 @@ import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { FlashListPortfolio } from "../../components/FlashListPortfolio";
 import { MultiSelectList } from "../../components/MultiSelectList";
 import { ProgressBar } from "../../components/ProgressBar";
+import { MultiSelectListV2 } from "../../components/MultiSelectListV2";
+import { Divider } from "@rneui/base";
 
 export const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -163,44 +165,104 @@ export const Briefcase = ({ navigation }) => {
         return { id: item.id_categoria, category: item.nombre_categoria };
       });
 
-      const resultado = categorias.map((categoria) => {
-        const productosCategoria = productosIdealFiltro.filter(
-          (producto) => producto.id_categoria === categoria.id
-        );
-        const productosInfo = productosCategoria.map((producto) => ({
-          id: producto.id_producto,
-          name: producto.nombre_producto,
-          url: producto.url_imagen_producto,
-          //price: producto.precio,
-        }));
+      const resultado = categorias
+        .map((categoria) => {
+          const productosCategoria = productosIdealFiltro.filter(
+            (producto) => producto.id_categoria === categoria.id
+          );
 
-        return {
-          categoria: categoria.category,
-          productos: productosInfo,
-        };
-      });
+          // Verificar si existen productos de la categoría
+          if (productosCategoria.length === 0) {
+            return null; // Salir temprano si no hay productos
+          }
+
+          const productosInfo = productosCategoria.map((producto) => ({
+            id: producto.id_producto,
+            name: producto.nombre_producto,
+            url: producto.url_imagen_producto,
+            //price: producto.precio,
+          }));
+
+          return {
+            categoria: categoria.category,
+            productos: productosInfo,
+          };
+        })
+        .filter(Boolean); // Filtrar categorías nulas
 
       setIdealProducts([...resultado]);
 
-      const uniqueArray = products.filter(
+      console.log(
+        "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO ACTUAL. . . . . .",
+        productosIdealFiltro
+      );
+
+      console.log(
+        "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO NULO. . . . . .",
+        resultado
+      );
+
+      const nuevaListaCategorias = resultadoConsultaCategorias.map(
+        (categoria) => {
+          const productosCategoria = resultadoConsulta.filter((producto) => {
+            console.log(
+              "CATEGORIA: " +
+                categoria.id_categoria +
+                " PRODUCTO: " +
+                producto.id_categoria
+            );
+            return producto.id_categoria === categoria.id_categoria;
+          });
+          console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
+          return {
+            id: categoria.id_categoria,
+            name: categoria.nombre_categoria,
+            children: [
+              ...productosCategoria.map((producto) => {
+                return {
+                  id: producto.id_producto,
+                  name: producto.nombre_producto,
+                  url: producto.url_imagen_producto,
+                };
+              }),
+            ],
+          };
+        }
+      );
+
+      //console.log(nuevaListaCategorias);
+
+      console.log(
+        "NUEVO ARRAY DE CATEGORIAS Y PRODUCTOS- - - - - - - : ",
+        nuevaListaCategorias
+      );
+
+      setAllProducts([...nuevaListaCategorias]);
+
+      /*console.log(
+        "NUEVO ARRAY DE CATEGORIAS Y PRODUCTOS- - - - - - - : ",
+        resultadoConsulta
+      );*/
+
+      const uniqueArray = nuevaListaCategorias.filter(
         (obj1) =>
           !productosIdealFiltro.some((obj2) => obj2.id_producto === obj1.key)
       );
 
       console.log("PRODUCTOS QUE VAN AL COMPLEMENTARIO: ", uniqueArray);
 
-      setAllProducts([...uniqueArray]);
+      //setAllProducts([...uniqueArray]);
       //setCategory(newArrayEstado);
       console.log(
         "Copia de contenido completada con éxito - PRODUCTOS: ",
         resultadoConsulta
       );
       console.log(
-        "\nCopia de contenido completada con éxito - PORTAFOLIO IDEAL: ",
+        "\nresultado de la consulta de la tabla ------ PORTAFOLIO IDEAL: ",
         resultadoConsultaIdeal
       );
       console.log(
-        "\nCopia de contenido completada con éxito - PORTAFOLIO IDEAL: ",
+        "\nARRAY DE CATEGORIAS QUE SON INCLUIDAS EN EL PORTAFOLIO IDEAL POR GRUPO DE CLIENTE: ",
         categorias
       );
 
@@ -222,16 +284,28 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
-    if (idealPortfolioProducts.length + complementaryPortfolioProducts.length == 0) {
-      navigation.navigate("rack")
+    if (
+      idealPortfolioProducts.length + complementaryPortfolioProducts.length ==
+      0
+    ) {
+      navigation.navigate("rack");
+      console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
       /*.alert(
         "Productos validados: ",
         "Redirigiendo a la siguiente pantalla"
       );*/
+      console.log(
+        "PRODUCTOS DEL PORTAFOLIO IDEAL: ",
+        JSON.stringify(idealPortfolioProducts)
+      );
+      console.log(
+        "PRODUCTOS DEL PORTAFOLIO COMPLEMENTARIO: ",
+        JSON.stringify(complementaryPortfolioProducts)
+      );
       navigation.navigate("prices", {
         currentStep,
         complementaryPortfolioProducts,
@@ -269,7 +343,7 @@ export const Briefcase = ({ navigation }) => {
         />
         <View
           style={{
-            flex: 4,
+            flex: 3,
             width: "100%",
             alignItems: "center",
             marginTop: 10,
@@ -282,8 +356,17 @@ export const Briefcase = ({ navigation }) => {
             idealProducts={idealProducts}
           />
         </View>
+        <View
+          style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 5 }}
+        >
+          <Divider
+            width={2}
+            color={"#D9D9D9"}
+            style={{ backgroundColor: "blue" }}
+          />
+        </View>
         <View style={{ flex: 3 }}>
-          <MultiSelectList
+          <MultiSelectListV2
             setComplementaryPortfolioProducts={
               setComplementaryPortfolioProducts
             }
@@ -292,7 +375,7 @@ export const Briefcase = ({ navigation }) => {
             complementaryPortfolioProducts={complementaryPortfolioProducts}
           />
         </View>
-        <View style={{ flex: 0.8, justifyContent: "center", width: "100%" }}>
+        <View style={{ flex: 0.7, justifyContent: "center", width: "100%" }}>
           <DoubleStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
@@ -312,7 +395,6 @@ export const Briefcase = ({ navigation }) => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -334,8 +416,10 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   text: {
-    fontWeight: theme.fontWeight.bold,
+    fontWeight: theme.fontWeight.softbold,
     right: 130,
+    fontSize: 14,
+    fontFamily: "Metropolis",
   },
   scrollView: {
     //flex:7,

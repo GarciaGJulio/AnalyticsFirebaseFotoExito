@@ -85,11 +85,18 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
           <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
             {productName}
           </Text>
-          <Text
-            style={{ marginTop: 5, fontSize: 13.5, fontFamily: "Metropolis" }}
-          >
-            Exhibidor disponible
-          </Text>
+
+          <View style={{ flexDirection: "row" }}>
+            <View>
+              <Text style={{ color: "red", textAlign: "left" }}>*</Text>
+            </View>
+            <View>
+              <Text style={{ fontSize: 13.5, fontFamily: "Metropolis" }}>
+                Exhibidor disponible
+              </Text>
+            </View>
+          </View>
+
           <View
             style={{
               flexDirection: "row",
@@ -186,13 +193,13 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: 20,
+    borderRadius: 10,
     marginVertical: 10,
-    borderWidth: 1,
+    borderColor: theme.colors.lightgray,
+    borderWidth: 2,
     backgroundColor: theme.colors.lightgray,
     alignItems: "center",
     justifyContent: "center",

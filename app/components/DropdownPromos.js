@@ -79,21 +79,37 @@ export const DropdownPromos = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={{ marginBottom: 5, fontFamily: "Metropolis" }}>
-        {nameTitle}
-      </Text>
+      <View style={{ flexDirection: "row" }}>
+        <View>
+          <Text style={{ color: "red", textAlign: "left" }}>*</Text>
+        </View>
+        <View>
+          <Text style={{ fontSize: 13.5, fontFamily: "Metropolis" }}>
+            {nameTitle}
+          </Text>
+        </View>
+      </View>
+
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
-        inputStyles={{ fontFamily: "Metropolis" }}
+        inputStyles={{
+          fontFamily: "Metropolis",
+          borderColor: theme.colors.lightgray,
+        }}
         searchPlaceholder="Buscar"
         data={data}
+        dropdownStyles={{ borderColor: theme.colors.lightgray, borderWidth: 2 }}
+        boxStyles={{
+          borderColor: theme.colors.lightgray,
+          borderWidth: 2,
+          borderRadius: 10,
+        }}
         save="value"
       />
     </ScrollView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

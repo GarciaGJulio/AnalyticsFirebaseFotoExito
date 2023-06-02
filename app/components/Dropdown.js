@@ -192,7 +192,7 @@ export const Dropdown = ({
         data={newArrayClients}
         inputStyles={{
           fontFamily: "Metropolis",
-          fontSize: 14,
+          fontSize: 13,
           flex: 1,
           padding: 0,
           flexShrink: 1,
@@ -202,6 +202,7 @@ export const Dropdown = ({
         boxStyles={{
           borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
           borderRadius: 5,
+          //borderColor: theme.colors.lightgray, borderWidth: 2,
           alignItems: "center",
           borderWidth: 1 ? 2 : 0,
           height: 50,

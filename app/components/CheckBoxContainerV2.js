@@ -281,7 +281,6 @@ export const CheckBoxContainerV2 = ({
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     //borderRadius: 20,
@@ -291,6 +290,9 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.lightgray,
     alignItems: "center",
     justifyContent: "center",
+    borderColor: theme.colors.lightgray,
+    borderWidth: 2,
+    borderRadius: 10,
     width: "100%",
   },
   descriptionContainer: {

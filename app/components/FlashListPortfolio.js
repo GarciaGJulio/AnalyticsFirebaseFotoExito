@@ -5,36 +5,6 @@ import theme from "../theme/theme";
 import { CheckBox } from "@rneui/base";
 import { useFonts } from "expo-font";
 
-const DATA = [
-  {
-    id: 1,
-    title: "Categoría 1",
-    productos: [
-      { id: 1, nombre: "Harina" },
-      { id: 2, nombre: "Harina Ya" },
-      { id: 3, nombre: "Harina Ya sin polvo" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Categoría 2",
-    productos: [
-      { id: 4, nombre: "Fideos Don Bitorio" },
-      { id: 5, nombre: "Fideos Horiental" },
-      { id: 6, nombre: "Fideos Otra marca" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Categoría 2",
-    productos: [
-      { id: 7, nombre: "Pan Moderna" },
-      { id: 8, nombre: "Pan Supan" },
-      { id: 9, nombre: "Pan Otro" },
-    ],
-  },
-];
-
 const RenderItem = ({
   item,
   setIdealPortfolioProducts,
@@ -45,27 +15,37 @@ const RenderItem = ({
       style={{
         flex: 1,
         margin: 10,
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: 10,
         overflow: "hidden",
+        borderColor: theme.colors.lightgray,
       }}
     >
-      <Text
-        style={{
-          fontWeight: theme.fontWeight.softbold,
-          fontSize: 15,
-          paddingLeft: 15,
-          backgroundColor: theme.colors.modernaYellow,
-          height: 30,
-          flex: 1,
-          fontFamily: "Metropolis",
-          justifyContent: "center",
-          borderWidth: 0.5,
-          color: theme.colors.white,
-        }}
-      >
-        {item.categoria}
-      </Text>
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Text
+          style={{
+            fontWeight: theme.fontWeight.softbold,
+            fontSize: 15,
+            borderBottomWidth: 2,
+            paddingLeft: 15,
+            //paddingVertical: -22,
+            backgroundColor: theme.colors.modernaYellow,
+            height: 35,
+            //textAling: "center",
+            borderBottomColor: theme.colors.lightgray,
+            flex: 1,
+
+            fontFamily: "Metropolis",
+            justifyContent: "center",
+            //borderWidth: 2,
+            color: theme.colors.white,
+          }}
+        >
+          {" "}
+          {item.categoria}
+        </Text>
+      </View>
+
       <FlashList
         data={item.productos}
         renderItem={({ item }) => (
@@ -93,14 +73,15 @@ const RenderItemProd = ({
 }) => {
   const [check1, setCheck1] = useState(false);
 
-  const validate = (check1, item) => {
+  const validate = (check1, name, id) => {
     if (check1) {
       console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
+      console.log("PRODUCTO A REGISTRAR: ", item.name, item.id);
       setIdealPortfolioProducts((prevProducts) => [
         ...prevProducts,
         {
-          name: item.name,
-          id: item.id,
+          name: name,
+          id: id,
           url: item.url,
           price: null,
           state: false,
@@ -114,26 +95,29 @@ const RenderItemProd = ({
     } else {
       console.log("ELIMINANDO PRODUCTO . . . . ");
       setIdealPortfolioProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== item.id)
+        prevProducts.filter((product) => product.id !== id)
       );
     }
   };
 
   return (
     <View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          //flex: 1,
-          paddingLeft: 10,
-          margin: 5,
-          flex: 1,
-          //backgroundColor: "red",
-        }}
-      >
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <CheckBox
+          checked={check1}
+          onPress={() => {
+            setCheck1(!check1);
+            validate(!check1, item.name, item.id);
+          }}
+          // Use ThemeProvider to make change for all checkbox
+          iconType="material-community"
+          checkedIcon="checkbox-marked"
+          uncheckedIcon="checkbox-blank-outline"
+          checkedColor={theme.colors.modernaRed}
+          containerStyle={{ backgroundColor: "transparent" }}
+        />
         <Text style={{ flex: 1, fontFamily: "Metropolis", fontSize: 15 }}>
-          {item.nombre}-{item.id}
+          {item.name}-{item.id}
         </Text>
       </View>
     </View>
@@ -146,7 +130,7 @@ export const FlashListPortfolio = ({
   idealProducts,
 }) => {
   useEffect(() => {
-    console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ");
+    console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ", idealProducts);
   }, []);
 
   const [fontLoaded] = useFonts({
@@ -158,19 +142,34 @@ export const FlashListPortfolio = ({
 
   return (
     <View style={{ flex: 1, width: "95%", marginBottom: 10 }}>
-      <FlashList
-        data={idealProducts}
-        //keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <RenderItem
-            item={item}
-            setIdealPortfolioProducts={setIdealPortfolioProducts}
-            idealPortfolioProducts={idealPortfolioProducts}
-          />
-        )}
-        //estimatedItemSize={4}
-        showsVerticalScrollIndicator={false}
-      />
+      {idealProducts.length == 0 ? (
+        <View
+          style={{
+            //backgroundColor: "red",
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
+            No existen productos registrados para este cliente
+          </Text>
+        </View>
+      ) : (
+        <FlashList
+          data={idealProducts}
+          //keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <RenderItem
+              item={item}
+              setIdealPortfolioProducts={setIdealPortfolioProducts}
+              idealPortfolioProducts={idealPortfolioProducts}
+            />
+          )}
+          //estimatedItemSize={4}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };

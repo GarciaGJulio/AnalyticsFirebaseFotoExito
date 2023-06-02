@@ -146,6 +146,7 @@ export const MultiSelectList = ({
         }}
         inputStyles={{ fontFamily: "Metropolis" }}
         data={products}
+        searchPlaceholder="Buscar producto"
         save="value"
         //onSelect={() => alert(selected)}
         label="Productos"

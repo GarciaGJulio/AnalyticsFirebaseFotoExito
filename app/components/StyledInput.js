@@ -70,7 +70,7 @@ const StyledInput = ({
             flex: 1,
             //height: 50,
             //backgroundColor: "blue"
-            fontSize: 14,
+            fontSize: 13,
             fontFamily: "Metropolis",
           }}
           {...props}
@@ -85,7 +85,7 @@ const StyledInput = ({
           style={{
             marginTop: 7,
             color: theme.colors.modernaRed,
-            fontSize: 13,
+            fontSize: 12,
             fontFamily: "Metropolis",
             fontWeight: "600",
           }}
