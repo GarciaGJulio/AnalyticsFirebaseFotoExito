@@ -124,7 +124,7 @@ export const ModernaProvider = ({ children }) => {
           userDataBase[0].usuario_dispositivo
         );
         let deviceMacAdress = await DeviceInfo.getUniqueId();
-        if (userDataBase[0].usuario_dispositivo === null) {
+        if (userDataBase[0].usuario_dispositivo != null) {
           console.log(
             "El usuario no tiene un dispositivo conectado - - - - - - - -"
           );
