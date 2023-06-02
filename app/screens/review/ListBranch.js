@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   View,
+  Button 
 } from "react-native";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -16,8 +17,10 @@ import { useFonts } from "expo-font";
 import { BackPage_Review } from "../../components/BackPage_Review";
 import { DropdownDavid } from "../../components/Dropdown";
 import { ItemBranch_Review } from "../../components/ItemBranch_Review";
+// import { Button } from "react-native-paper";
+import { Navigation } from "../../navigation/Navigation";
 
-export const ListBranch = () => {
+export const ListBranch = ({ navigation }) => {
   const [audit, setAudit] = useState([]);
 
   const consultarYCopiarContenido = async () => {
@@ -77,7 +80,7 @@ export const ListBranch = () => {
     });
     setFilteredData(newData);
   };
- 
+
   /*useEffect(() => {
     try{
       handleSelectDataBase("SELECT * FROM cliente",
@@ -118,6 +121,10 @@ export const ListBranch = () => {
           Puedes revisar las auditorías ya realizadas presionando en el registro
           de interés.
         </Text>
+        <Button
+          title="Go Back"
+          onPress={() =>  navigation.navigate("menu")}
+        />
         <View style={styles.contentContainerBranch}>
           {/*<TextInput
             style={{
@@ -132,13 +139,13 @@ export const ListBranch = () => {
             onChangeText={searchFilter}
             value={searchText}
           />*/}
-          
+
           <FlatList
             showsVerticalScrollIndicator={false}
             data={filteredData}
             renderItem={({ item }) => <ItemBranch_Review branch={item} />}
-            //keyExtractor={(item) => item.id}
-        />
+          //keyExtractor={(item) => item.id}
+          />
 
           {/*<DropdownDavid
             data={clientes}
@@ -161,6 +168,7 @@ export const ListBranch = () => {
           />*/}
         </View>
       </Animatable.View>
+
     </View>
   );
 };
