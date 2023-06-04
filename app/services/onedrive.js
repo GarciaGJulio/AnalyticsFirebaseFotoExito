@@ -63,7 +63,7 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
       console.error(
         "Error en la subida de la imagen:",
         uploadResponse.status,
-        uploadResponse.json()
+            uploadResponse.json()
       );
       return null;
     }
