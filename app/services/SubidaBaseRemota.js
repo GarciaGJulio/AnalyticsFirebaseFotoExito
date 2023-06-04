@@ -38,185 +38,42 @@ export const subidaBaseRemote = (tablaName, array1, array2) => {
 
 
 
-export const subidaBaseRemoteTodaAuditoria = async () => {
+export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
     // const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
     // console.log("array1:", array1)
     // console.log("array2:", array2)
 
     // realizarConsulta("select * from sucursal")r
 
+    //
+    const sucursalData = await realizarConsulta("SELECT s.* from sucursal as s inner join auditoria as a on a.id_sucursal=s.id_sucursal");// where a.id_auditoria = id_auditoria");      
+    const promocionData = await realizarConsulta("SELECT p.* from promocion as p inner join auditoria as a on a.id_promocion=p.id_promocion");// where a.id_auditoria ="+ id_auditoria");
+    const perchaData = await realizarConsulta("SELECT p.* from percha as p inner join auditoria as a on a.id_percha=p.id_percha");// where a.id_auditoria ="+ id_auditoria");
+    const portafolioData= await realizarConsulta("SELECT p.* from portafolio as p inner join portafolio_auditoria as pa on pa.id_portafolio=p.id_portafolio inner join auditoria as a on a.id_portafolio_auditoria=pa.id_portafolio_auditoria");// where a.id_auditoria ="+ id_auditoria");   
+    const portafolio_auditoriaData = await realizarConsulta("SELECT pa.* from portafolio_auditoria as pa inner join auditoria as a on a.id_portafolio_auditoria=pa.id_portafolio_auditoria");// where a.id_auditoria ="+ id_auditoria");  
+    const preciadorData = await realizarConsulta("SELECT p.* from preciador as p inner join auditoria as a on a.id_preciador=p.id_preciador");// where a.id_auditoria ="+ id_auditoria");      
+    const auditoriaData = await realizarConsulta("SELECT * from auditoria");// where id_auditoria ="+ id_auditoria);       
+    
 
-    const resultadoConsultaSucursal = await realizarConsulta("SELECT * FROM sucursal ORDER BY fecha_creacion DESC LIMIT 1;")
-    console.log("SucursalPorEnviar:", resultadoConsultaSucursal[0])
-
-    // const resultadoConsultaPromocion = await realizarConsulta("SELECT * from auditoria as a inner join promocion as p on p.id_promocion = a.id_promocion where a.id_auditoria=(SELECT a.id_auditoria  FROM auditoria ORDER BY fecha_creacion  DESC LIMIT 1)")
-
-    // const resultadoConsultaPromocion = await realizarConsulta("SELECT * from auditoria as a inner join promocion as p on p.id_promocion = a.id_promocion ")
-    const resultadoConsultaPromocion2 = await realizarConsulta("SELECT id_promocion from promocion")
-    const resultadoConsultaPromocion3 = await realizarConsulta("SELECT id_promocion from auditoria ORDER BY fecha_creacion DESC LIMIT 1")
-
-    // const resultadoConsultaPromocion = await realizarConsulta("SELECT id_auditoria  FROM auditoria ORDER BY fecha_creacion  DESC LIMIT 1")
-
-    console.log("SucursalPorEnviar:", resultadoConsultaPromocion3)
-    console.log("SucursalPorEnviar:", resultadoConsultaPromocion2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    console.log("sucursalData:", sucursalData);
+    console.log("promocionData:", promocionData);
+    console.log("perchaData:", perchaData);
+    console.log("portafolioData:", portafolioData);
+    console.log("portafolio_auditoriaData:", portafolio_auditoriaData);
+    console.log("preciadorData:", preciadorData);
+    console.log("auditoriaData:", auditoriaData);
 
     const url = "https://fotoexito1.azurewebsites.net/api/syncAllDataMobile?code=5iWwsyCDEC4IuFK8HgyfnC4DBpm4w_Trf75AwVSdJvGEAzFuezSbSg=="
 
     const requestBody = {
-        typeQuery: 'INSERT',
-
-
         "data": {
-            "sucursal": {
-                "sucursalColumnName": [
-                    "fecha_creacion",
-                    "fecha_modificacion",
-                    "id_sucursal",
-                    "latitud",
-                    "longitud",
-                    "nombre_sucursal",
-                    "usuario_creacion"
-                ],
-                "sucursalData": resultadoConsultaSucursal[0]
-            },
-            "promocion": {
-                "promocionColumnName": [
-                    "id_promocion",
-                    "id_exhibidor",
-                    "estado_promocion",
-                    "url_imagen1",
-                    "url_imagen2",
-                    "url_imagen3"
-                ],
-                "promocionData": resultadoConsultaPromocion2
-            },
-            "percha": {
-                "perchaColumnName": [
-                    "id_percha",
-                    "id_categoria",
-                    "estado_percha",
-                    "categoria_general",
-                    "categoria_moderna",
-                    "url_imagen1",
-                    "url_imagen2",
-                    "url_imagen3",
-                    "usuario_creacion",
-                    "fecha_creacion",
-                    "fecha_modificacion"
-                ],
-                "perchaData": [
-                    "'PRCH013'",
-                    "'CAT001-SA63'",
-                    1,
-                    40,
-                    30,
-                    "''",
-                    "''",
-                    "''",
-                    "'usuario1'",
-                    "GETDATE()",
-                    "'2023-05-29T17:14:44.347Z'"
-                ]
-            },
-            "portafolio": {
-                "portafolioColumnName": [
-                    "id_portafolio",
-                    "id_producto",
-                    "id_grupo_cliente",
-                    "tipo"
-                ],
-                "portafolioData": [
-                    "'PRT009'",
-                    "'100446'",
-                    "'12'",
-                    "'C'"
-                ]
-            },
-            "portafolio_auditoria": {
-                "portafolio_auditoriaColumnName": [
-                    "id_portafolio_auditoria",
-                    "id_portafolio",
-                    "id_producto"
-                ],
-                "portafolio_auditoriaData": [
-                    "'POC016-AA04'",
-                    "'1'",
-                    "'100446'"
-                ]
-            },
-            "preciador": {
-                "preciadorColumnName": [
-                    "id_preciador",
-                    "id_portafolio",
-                    "id_producto",
-                    "precio",
-                    "estado",
-                    "url_imagen1",
-                    "url_imagen2",
-                    "url_imagen3",
-                    "usuario_creacion",
-                    "fecha_creacion",
-                    "fecha_modificacion"
-                ],
-                "preciadorData": [
-                    "'6'",
-                    "'1'",
-                    "'100446'",
-                    19.989999771118164,
-                    1,
-                    "''",
-                    "''",
-                    "''",
-                    "'usuario1'",
-                    "'2023-05-29T17:33:19.033Z'",
-                    "'2023-05-29T17:33:19.033Z'"
-                ]
-            },
-            "auditoria": {
-                "auditoriaColumnName": [
-                    "id_auditoria",
-                    "id_preciador",
-                    "id_percha",
-                    "id_promocion",
-                    "id_sucursal",
-                    "id_cliente",
-                    "id_portafolio_auditoria"
-                ],
-                "auditoriaData": [
-                    "'AUD03'",
-                    "'2'",
-                    "'3'",
-                    "'2'",
-                    "'c1cccbf2-c853-4aa4-b87c-c07ef1eb1aca'",
-                    "'101746'",
-                    "'PA001'"
-                ]
-            }
-
-
-
+            "sucursal": sucursalData,
+            "promocion": promocionData,
+            "percha": perchaData,
+            "portafolio": portafolioData,
+            "portafolio_auditoria": portafolio_auditoriaData,
+            "preciador": preciadorData,
+            "auditoria": auditoriaData
         }
     };
 
