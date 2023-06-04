@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import theme from "../theme/theme";
@@ -192,7 +193,7 @@ export const Rack_View = ({ rack }) => {
                   <View
                     style={{
                       //backgroundColor: "red",
-                      //flex: 1,
+                      flex: 1,
                       //marginVertical: 200,
                       justifyContent: "center",
                       alignItems: "center",
@@ -200,26 +201,95 @@ export const Rack_View = ({ rack }) => {
                       //padding: 5,
                     }}
                   >
-                    {imagesPlanograma.map((images) => {
-                      return (
-                        <Image
-                          key={images} // Se utiliza "images" como clave
-                          source={{ uri: images }}
-                          style={styles.imgContainer} // Utilizar el estilo "imgContainer"
-                          resizeMode="cover"
-                        />
-                      );
-                    })}
-                    {extraImages.map((images) => {
-                      return (
-                        <Image
-                          key={images} // Se utiliza "images" como clave
-                          source={{ uri: images }}
-                          style={styles.imgContainer} // Utilizar el estilo "imgContainer"
-                          resizeMode="cover"
-                        />
-                      );
-                    })}
+                    <View
+                      style={{
+                        //backgroundColor: "orange",
+                        margin: 10,
+                        marginVertical: 50,
+                        flex: 1,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flex: 0.2,
+                        }}
+                      >
+                        <Text
+                          style={{ fontFamily: "Metropolis", fontSize: 16 }}
+                        >
+                          Planograma Ideal
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1.5,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <ScrollView
+                          horizontal={true}
+                          style={
+                            {
+                              //backgroundColor: "blue",
+                              //padding: 10,
+                            }
+                          }
+                        >
+                          {imagesPlanograma.map((images) => {
+                            return (
+                              <Image
+                                key={images} // Se utiliza " images" como clave
+                                source={{ uri: images }}
+                                style={styles.imgContainer} // Utilizar el estilo "imgContainer"
+                                resizeMode="cover"
+                              />
+                            );
+                          })}
+                        </ScrollView>
+                      </View>
+
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flex: 0.2,
+                        }}
+                      >
+                        <Text
+                          style={{ fontFamily: "Metropolis", fontSize: 16 }}
+                        >
+                          Planograma Real
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1.5,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          //backgroundColor: "brown",
+                        }}
+                      >
+                        <ScrollView horizontal={true} style={{ top: 15 }}>
+                          {extraImages
+                            .filter(
+                              (image) => image !== null && image !== undefined
+                            )
+                            .map((image) => {
+                              return (
+                                <Image
+                                  key={image} // Utiliza la variable "image" como clave
+                                  source={{ uri: image }}
+                                  style={styles.imgContainer2} // Utiliza el estilo "imgContainer"
+                                  resizeMode="cover"
+                                />
+                              );
+                            })}
+                        </ScrollView>
+                      </View>
+                    </View>
                   </View>
                   <TouchableOpacity
                     style={styles.closeButton}
@@ -291,16 +361,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    //marginTop: 22,
   },
   modalView: {
     borderRadius: 20,
     backgroundColor: "rgba(255, 255, 255, 0.85)",
     //alignItems: "center",
+    //flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: 280,
     height: 528,
+    borderWidth: 1,
   },
   button: {
     borderRadius: 20,
@@ -317,8 +389,19 @@ const styles = StyleSheet.create({
   },
 
   imgContainer: {
+    width: 250,
+    height: 180,
+    borderRadius: 10,
+    borderWidth: 1,
+    //marginTop: 20,
+    margin: 5,
+    //marginHorizontal: 10,
+    borderColor: theme.colors.black,
+    padding: 1,
+  },
+  imgContainer2: {
     width: 200,
-    height: 120,
+    height: 150,
     borderRadius: 10,
     borderWidth: 1,
     //marginTop: 20,

@@ -80,7 +80,7 @@ const Promos_Review = () => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 10,
+          marginTop: theme.dimensions.maxHeight / 12,
         }}
       >
         <ScreenInformationReview
@@ -93,7 +93,6 @@ const Promos_Review = () => {
           }
           text={"A continuación se muestran los exhibidores registrados"}
         />
-        <BackPage_Review />
       </View>
       <PromosItems_Review data={promos} />
     </View>

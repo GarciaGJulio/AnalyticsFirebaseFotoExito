@@ -145,7 +145,7 @@ const Briefcase_branch_review = ({ route }) => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 10,
+          marginTop: theme.dimensions.maxHeight / 12,
         }}
       >
         <ScreenInformationReview
@@ -158,7 +158,6 @@ const Briefcase_branch_review = ({ route }) => {
           }
           text={"A continuación se muestran los productos registrados"}
         />
-        <BackPage_Review />
       </View>
       <SafeAreaView
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}

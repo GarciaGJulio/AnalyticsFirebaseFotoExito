@@ -33,17 +33,6 @@ export const ProductsDetails_Review = ({ item }) => {
       ? "#00ff00"
       : "#ff0000";
 
-  const imagenes = [];
-
-  /*if (item.hasOwnProperty("url_imagen1") && item.url_imagen1 !== null) {
-    const { url_imagen1, url_imagen2, url_imagen3 } = item;
-    if (url_imagen1 != "null") {
-      imagenes.push(url_imagen1);
-      imagenes.push(url_imagen2);
-      imagenes.push(url_imagen3);
-    }
-  }*/
-
   const validateExtraImages = (objeto) => {
     setExtraImages([]);
     if (item.hasOwnProperty("url_imagen1")) {
@@ -71,7 +60,7 @@ export const ProductsDetails_Review = ({ item }) => {
 
   return (
     <View style={[styles.container]}>
-      <View style={[styles.primaryContainer, { marginLeft: 10 }]}>
+      <View style={[styles.primaryContainer, { marginLeft: 5 }]}>
         <Image source={HARINA} style={{ width: 100, height: 100, margin: 5 }} />
         <View style={styles.descriptionContainer}>
           <View
@@ -91,32 +80,31 @@ export const ProductsDetails_Review = ({ item }) => {
           <View
             style={{
               flexDirection: "row",
-              marginVertical: 5,
+              //marginVertical: 5,
               flex: 1,
+              //backgroundColor: "orange",
+              alignItems: "center",
               alignContent: "center",
             }}
           >
             <View style={{ flex: 1 }}>
-              <Text
-                style={{ marginTop: 5, fontSize: 12, fontFamily: "Metropolis" }}
-              >
+              <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
                 Precio de la auditoria
               </Text>
             </View>
             {extraImages.length > 0 ? (
               <View
                 style={{
-                  //backgroundColor: "green",
-                  flex: 0.3,
+                  //backgroundColor: "blue",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
                 <TouchableOpacity
                   style={{
-                    position: "absolute",
-                    flex: 1,
                     //backgroundColor: "green",
+                    paddingHorizontal: 10,
+                    paddingVertical: 5,
                   }}
                   onPress={() => {
                     setOpenCamera(!openCamera);
@@ -124,19 +112,20 @@ export const ProductsDetails_Review = ({ item }) => {
                   }}
                 >
                   <Icon name="camera" type="evilicon" size={40} />
-                  {/* <Icon name='camerao' type='antdesign' size={32} /> */}
                 </TouchableOpacity>
               </View>
             ) : (
               <></>
             )}
           </View>
+
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
               //backgroundColor: "red",
+              marginRight: 5,
             }}
           >
             {item.estado == "1" ? (
@@ -180,60 +169,60 @@ export const ProductsDetails_Review = ({ item }) => {
             </View>
           </View>
         </View>
-        {openCamera ? (
-          <View style={{ flex: 1 }}>
-            <View style={styles.centeredView}>
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={styles.modalVisible}
-                onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <View
-                      style={{
-                        //backgroundColor: "red",
-                        //flex: 1,
-                        //marginVertical: 200,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        //flexDirection: "row",
-                        //padding: 5,
-                      }}
-                    >
-                      {extraImages.map((images) => {
-                        return (
-                          <Image
-                            key={images} // Se utiliza "images" como clave
-                            source={{ uri: images }}
-                            style={styles.imgContainer} // Utilizar el estilo "imgContainer"
-                            resizeMode="cover"
-                          />
-                        );
-                      })}
-                    </View>
-                    <TouchableOpacity
-                      style={styles.closeButton}
-                      onPress={() => {
-                        setModalVisible(!modalVisible);
-                        setOpenCamera(!openCamera);
-                      }}
-                    >
-                      <Icon name="close" size={24} color="black" />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </Modal>
-            </View>
-          </View>
-        ) : (
-          <></>
-        )}
       </View>
+      {openCamera ? (
+        <View style={{ flex: 1 }}>
+          <View style={styles.centeredView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={styles.modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View
+                    style={{
+                      //backgroundColor: "red",
+                      //flex: 1,
+                      //marginVertical: 200,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      //flexDirection: "row",
+                      //padding: 5,
+                    }}
+                  >
+                    {extraImages.map((images) => {
+                      return (
+                        <Image
+                          key={images} // Se utiliza "images" como clave
+                          source={{ uri: images }}
+                          style={styles.imgContainer} // Utilizar el estilo "imgContainer"
+                          resizeMode="cover"
+                        />
+                      );
+                    })}
+                  </View>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                      setOpenCamera(!openCamera);
+                    }}
+                  >
+                    <Icon name="close" size={24} color="black" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+          </View>
+        </View>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
@@ -258,7 +247,7 @@ const styles = StyleSheet.create({
     //marginLeft: 5,
     //backgroundColor: "orange",
     flex: 3,
-    padding: 10,
+    padding: 5,
   },
   primaryContainer: {
     flexDirection: "row",
@@ -298,12 +287,14 @@ const styles = StyleSheet.create({
     height: 186,
     resizeMode: "cover",
     marginTop: 100,
+    borderWidth: 1,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    //marginTop: 22,
+    //borderWidth: 1,
   },
   modalView: {
     borderRadius: 20,
@@ -313,6 +304,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 280,
     height: 528,
+    borderWidth: 1,
   },
   button: {
     borderRadius: 20,
