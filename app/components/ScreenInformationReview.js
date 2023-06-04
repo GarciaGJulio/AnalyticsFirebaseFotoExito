@@ -5,8 +5,10 @@ import theme from "../theme/theme";
 import WifiIndicator from "./WifiIndicator";
 import { FAB } from "@rneui/themed";
 import { useFonts } from "expo-font";
+import { useNavigation } from "@react-navigation/native";
 
 const ScreenInformationReview = ({ title, text }) => {
+  const navigation = useNavigation();
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
@@ -20,32 +22,49 @@ const ScreenInformationReview = ({ title, text }) => {
         width: theme.dimensions.maxWidth,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 15,
+        //backgroundColor: "red",
       }}
     >
       <View
         style={{
+          //backgroundColor: "purple",
+          paddingHorizontal: 10,
           flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          width: theme.dimensions.maxWidth,
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          width: theme.dimensions.maxWidth / 1.1,
         }}
       >
+        <FAB
+          title=""
+          placement="left"
+          onPress={() => navigation.goBack()}
+          icon={{
+            name: "arrow-left-top",
+            color: "white",
+            type: "material-community",
+          }}
+          style={{ left: -10, top: 1 }}
+          color={theme.colors.modernaYellow}
+          size="small"
+        />
         <Text
           style={{
             fontSize: theme.fontSize.title,
             fontWeight: "600",
             fontFamily: "Metropolis",
+            left: 50,
           }}
         >
           {title}
         </Text>
-        <View
-          style={{ position: "absolute", left: theme.dimensions.maxWidth - 35 }}
-        ></View>
       </View>
       <View
-        style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 15 }}
+        style={{
+          width: theme.dimensions.maxWidth / 1.1,
+          marginVertical: 15,
+          alignSelf: "center",
+        }}
       >
         <Divider
           width={2}
@@ -59,23 +78,21 @@ const ScreenInformationReview = ({ title, text }) => {
             fontSize: theme.fontSize.body,
             width: "91%",
             fontFamily: "Metropolis",
+            alignSelf: "flex-start",
+            marginLeft: 23,
+            marginTop: 5,
+            marginBottom: 13,
           }}
         >
           {text.toString()}
         </Text>
       ) : null}
-      <View
-        style={{
-          alignSelf: "flex-start",
-          marginLeft: 23,
-          marginTop: 5,
-          marginBottom: 13,
-        }}
-      ></View>
     </View>
   );
 };
 
 export default ScreenInformationReview;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  // No se necesita el estilo "fab" adicional en este caso
+});

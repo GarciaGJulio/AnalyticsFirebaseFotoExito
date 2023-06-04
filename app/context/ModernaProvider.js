@@ -11,7 +11,11 @@ import ModernaContext from "./ModernaContext";
 import NetInfo from "@react-native-community/netinfo";
 import { AuthManager } from "../azureConfig/auth/AuthManager";
 import ModernaReducer from "./ModernaReducer";
-import { LOAD_ID_CLIENT_GROUP, LOAD_INFO_SCREEN, LOAD_LOCATIONS } from "./ModernaTypes";
+import {
+  LOAD_ID_CLIENT_GROUP,
+  LOAD_INFO_SCREEN,
+  LOAD_LOCATIONS,
+} from "./ModernaTypes";
 import { GraphManager } from "../azureConfig/graph/GraphManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
@@ -22,9 +26,6 @@ export const ModernaProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({});
-  const [userInfoDB, setUserInfoDB] = useState({});
-  // const [infoScreen, setInfoScreen] = useState(null);
-  // const []
   //const [idClientGroup, setIdClientGroup] = useState("");
   //const idClientGroupRef = useRef("");
 
@@ -45,9 +46,9 @@ export const ModernaProvider = ({ children }) => {
         /*setTimeout(() => setIsLogged(false)
             ,2300)*/
         setUserInfo(userInfo);
-        // console.log("DATO CONSEGUIDO DE ASYNC ---------------");
-        // console.log("\nDATOS DE USUARIO:\n");
-        // console.log(userInfo);
+        console.log("DATO CONSEGUIDO DE ASYNC ---------------");
+        console.log("\nDATOS DE USUARIO:\n");
+        console.log(userInfo);
       } else {
         //setTimeout(() => setIsLogged(false),2300)
         console.log("NO SE HAN ENCONTRADO LOS DATOS DE USUARIO");
@@ -65,7 +66,6 @@ export const ModernaProvider = ({ children }) => {
   const initialState = {
     location: null,
     idClientGroup: null,
-    infoScreen: null
   };
   const [state, dispatch] = useReducer(ModernaReducer, initialState);
   /*useEffect(() => {
@@ -80,10 +80,6 @@ export const ModernaProvider = ({ children }) => {
   const handleLocations = useCallback(async (locations) => {
     console.log("locations from context", locations);
     dispatch({ type: LOAD_LOCATIONS, payload: locations });
-  }, []);
-  const handleScreenInfo = useCallback(async (infoScreen) => {
-    console.log("infoScreen from context", infoScreen);
-    dispatch({ type: LOAD_INFO_SCREEN, payload: infoScreen });
   }, []);
 
   const handleIdClientGroup = (idClientGroup) => {
@@ -126,7 +122,7 @@ export const ModernaProvider = ({ children }) => {
           user.mail,
           user.userPrincipalName
         );
-        setUserInfoDB(userDataBase)
+        setUserInfoDB(userDataBase);
         AsyncStorage.setItem("userId", userDataBase[0].id_usuario);
         console.log("RESPUESTA DE CONSULTA USUARIO: ", userDataBase);
         console.log(
@@ -311,7 +307,6 @@ export const ModernaProvider = ({ children }) => {
           console.log("user from azure 2:", user);
         }*/
       }
-      // Si la autenticación es exitosa
     } catch (e) {
       console.log("flujo cancelado . . . ", e);
       fn(false);
@@ -398,6 +393,7 @@ export const ModernaProvider = ({ children }) => {
       return response.data.data;
     } catch (error) {
       console.log("Error en la petición:", error);
+      return null;
     }
   };
 
@@ -406,8 +402,9 @@ export const ModernaProvider = ({ children }) => {
       const requestBody = {
         operation: "C",
         data: {
-          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${mail === null ? userPrincipalName : mail
-            }'`,
+          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
+            mail === null ? userPrincipalName : mail
+          }'`,
         },
       };
 
@@ -430,26 +427,10 @@ export const ModernaProvider = ({ children }) => {
   };
 
   const handleLogoutAzure = async () => {
-    /*if (userInfo.mail != null) {
-      console.log(
-        "DATOS DEL USUARIO: MAIL - ",
-        userInfo.mail.toLowerCase().toString()
-      );
-    } else {
-      console.log(
-        "DATOS DEL USUARIO: MAIL - ",
-        userInfo.mail.toLowerCase().toString()
-      );
-      console.log(
-        "DATOS DEL USUARIO: MAIL - ",
-        userInfo.userPrincipalName.toLowerCase().toString()
-      );
-    }*/
-
     let mail = null;
     let userPrincipalName = null;
     try {
-      // console.log("CERRANDO SESION---------------");
+      console.log("CERRANDO SESION---------------");
       if (userInfo.mail != null) {
         mail = userInfo.mail.toLowerCase();
         userPrincipalName = userInfo.userPrincipalName.toLowerCase();
@@ -465,11 +446,6 @@ export const ModernaProvider = ({ children }) => {
       await AuthManager.signOutAsync();
       setIsAuthenticated(false);
     } catch (e) {
-      /*showMessage({
-        message: e.message || "Se ha producido un error inesperado",
-        type: "danger",
-        duration: 5000,
-      });*/
       console.log("datos al moemtno de cerrar la sesion", e);
     }
     setIsAuthenticated(false);
@@ -482,13 +458,10 @@ export const ModernaProvider = ({ children }) => {
         isAuthenticated: isAuthenticated,
         setIsAuthenticated,
         userInfo,
-        userInfoDB,
         location: state.location,
         idClientGroup: state.idClientGroup,
-        infoScreen: state.infoScreen,
         //setIdClientGroup,
         setIsLogging,
-        handleScreenInfo,
         setIsConnected,
         handleLocations,
         handleIdClientGroup,

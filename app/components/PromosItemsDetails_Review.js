@@ -1,20 +1,50 @@
-import { Modal, StyleSheet, Text, View } from "react-native";
+import {
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import theme from "../theme/theme";
 import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
 import ImageViewer from "react-native-image-zoom-viewer";
+import { useFonts } from "expo-font";
+import { Divider, Icon } from "@rneui/base";
 
 export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const [extraImages, setExtraImages] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [openCamera, setOpenCamera] = useState(false);
   const validateExtraImages = (objeto) => {
-    //const imagenes = []
-    setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
-    if (objeto.url_imagen2) {
+    setExtraImages([]);
+
+    if (
+      objeto.url_imagen1 !== null &&
+      objeto.url_imagen1 !== undefined &&
+      objeto.url_imagen1 !== "null" &&
+      objeto.url_imagen1 !== "undefined"
+    ) {
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+    }
+
+    if (
+      objeto.url_imagen2 !== null &&
+      objeto.url_imagen2 !== undefined &&
+      objeto.url_imagen2 !== "null" &&
+      objeto.url_imagen2 !== "undefined"
+    ) {
       setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
 
-    if (objeto.url_imagen3) {
+    if (
+      objeto.url_imagen3 !== null &&
+      objeto.url_imagen3 !== undefined &&
+      objeto.url_imagen3 !== "null" &&
+      objeto.url_imagen3 !== "undefined"
+    ) {
       setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
@@ -24,44 +54,176 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
 
   useEffect(() => {
     validateExtraImages(exhibitor);
+    //console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
   }, []);
+
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
 
   return (
     <View style={[styles.container]}>
-      <View style={[styles.primaryContainer, { marginLeft: 20 }]}>
+      <View style={[styles.primaryContainer]}>
         <View style={styles.descriptionContainer}>
-          <Text style={{ fontSize: 13 }}>{exhibitor.nombre_exhibidor}</Text>
-          <View style={styles.imagesContainer}>
-            {/*<Modal visible={true} transparent={true}>
-                            <ImageViewer
-                                //key={index}
-                                //source={{ uri: images }}
-                                imageUrls={extraImages}
-                                //imageUrls={images}
-                                style={styles.imgContainer}
-                                
-                                resizeMode="cover"
-                            />
-    </Modal>*/}
-            {extraImages.map((images) => {
-              return (
-                <Image
-                  //key={index}
-                  source={{ uri: images }}
-                  //imageUrls={extraImages}
-                  //imageUrls={images}
-                  style={styles.imgContainer}
-                  resizeMode="cover"
-                />
-              );
-            })}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              //backgroundColor: "red",
+            }}
+          >
+            <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
+              {exhibitor.nombre_tipo_exhibidor}
+            </Text>
+            <TouchableOpacity
+              style={{ position: "absolute", right: 4 }}
+              onPress={() => {
+                setOpenCamera(!openCamera);
+                setModalVisible(true);
+              }}
+            >
+              <Icon name="camera" type="evilicon" size={40} />
+              {/* <Icon name='camerao' type='antdesign' size={32} /> */}
+            </TouchableOpacity>
           </View>
+          {openCamera ? (
+            <View style={{ flex: 1 }}>
+              <View style={styles.centeredView}>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={styles.modalVisible}
+                  onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                  }}
+                >
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                      <View
+                        style={{
+                          //backgroundColor: "red",
+                          //flex: 1,
+                          //marginVertical: 200,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          //flexDirection: "row",
+                          //padding: 5,
+                        }}
+                      >
+                        <View
+                          style={{
+                            //backgroundColor: "orange",
+                            margin: 10,
+                            marginVertical: 50,
+                            flex: 1,
+                          }}
+                        >
+                          <View
+                            style={{
+                              justifyContent: "center",
+                              alignItems: "center",
+                              flex: 0.2,
+                            }}
+                          >
+                            <Text
+                              style={{ fontFamily: "Metropolis", fontSize: 16 }}
+                            >
+                              Planograma Ideal
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1.5,
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <ScrollView
+                              horizontal={true}
+                              style={
+                                {
+                                  //backgroundColor: "blue",
+                                  //padding: 10,
+                                }
+                              }
+                            >
+                              <Image
+                                //key={images} // Se utiliza "images" como clave
+                                source={{ uri: exhibitor.url_imagen_exhibidor }}
+                                style={styles.imgContainer} // Utilizar el estilo "imgContainer"
+                                resizeMode="cover"
+                              />
+                            </ScrollView>
+                          </View>
+
+                          <View
+                            style={{
+                              justifyContent: "center",
+                              alignItems: "center",
+                              flex: 0.2,
+                            }}
+                          >
+                            <Text
+                              style={{ fontFamily: "Metropolis", fontSize: 16 }}
+                            >
+                              Planograma Real
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1.5,
+                              justifyContent: "center",
+                              alignItems: "center",
+                              //backgroundColor: "brown",
+                            }}
+                          >
+                            <ScrollView horizontal={true} style={{ top: 15 }}>
+                              {extraImages
+                                .filter(
+                                  (image) =>
+                                    image !== null && image !== undefined
+                                )
+                                .map((image) => {
+                                  return (
+                                    <Image
+                                      key={image} // Utiliza la variable "image" como clave
+                                      source={{ uri: image }}
+                                      style={styles.imgContainer} // Utiliza el estilo "imgContainer"
+                                      resizeMode="cover"
+                                    />
+                                  );
+                                })}
+                            </ScrollView>
+                          </View>
+                        </View>
+                      </View>
+
+                      <TouchableOpacity
+                        style={styles.closeButton}
+                        onPress={() => {
+                          setModalVisible(!modalVisible);
+                          setOpenCamera(!openCamera);
+                        }}
+                      >
+                        <Icon name="close" size={24} color="black" />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Modal>
+              </View>
+            </View>
+          ) : (
+            <></>
+          )}
         </View>
       </View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -91,15 +253,62 @@ const styles = StyleSheet.create({
     //height: 290,
     width: "90%",
   },
+  //MODAL
+  imageContainer: {
+    width: 224,
+    height: 186,
+    resizeMode: "cover",
+    marginTop: 100,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    //marginTop: 22,
+  },
+  modalView: {
+    borderRadius: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    //alignItems: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 280,
+    height: 528,
+    borderWidth: 1,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "transparent",
+    borderRadius: 20,
+    padding: 10,
+  },
   imgContainer: {
-    width: 50,
-    height: 50,
+    width: 250,
+    height: 180,
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: 5,
-    marginLeft: 5,
+    //marginTop: 20,
+    margin: 5,
+    //marginHorizontal: 10,
+    borderColor: theme.colors.black,
+    padding: 1,
   },
-  imagesContainer: {
-    flexDirection: "row",
+  imgContainer2: {
+    width: 200,
+    height: 150,
+    borderRadius: 10,
+    borderWidth: 1,
+    //marginTop: 20,
+    margin: 5,
+    //marginHorizontal: 10,
+    borderColor: theme.colors.black,
+    padding: 1,
   },
 });

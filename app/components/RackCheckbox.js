@@ -15,7 +15,13 @@ import { FlashList } from "@shopify/flash-list";
 import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
 
-export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planograma }) => {
+export const RackCheckbox = ({
+  isUserScreen,
+  categoryName,
+  item,
+  setData,
+  planograma,
+}) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
   const [verificacionCategorias, setverificacionCategoria] = useState();
@@ -25,22 +31,21 @@ export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planogr
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
-  useEffect(()=>{
-     console.log("------isUserScreen----------",isUserScreen)
-     console.log("------item----------",item)
-    if(isUserScreen){
-      setCateGeneral(item.carasGeneral+"")
-      setCateModerna(item.carasModerna+"")
-      if(item.state=="1"){
-        setCheck1(true)
-        setOpenCamera(true)
-      }else{
-        setCheck2(true)
+  useEffect(() => {
+    // console.log("------isUserScreen----------",isUserScreen)
+    if (isUserScreen) {
+      setCateGeneral(item.carasGeneral + "");
+      setCateModerna(item.carasModerna + "");
+      if (item.state == "1") {
+        setCheck1(true);
+        setOpenCamera(true);
+      } else {
+        setCheck2(true);
       }
-      
+
       // console.log("----------------",item)
     }
-  },[isUserScreen])
+  }, [isUserScreen]);
   //const [objPercha, setObjPercha] = useState(itemCom)
 
   /* useEffect(() => {
@@ -161,8 +166,6 @@ export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planogr
       return perchaActualizados;
     });
   };
-
-
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
@@ -314,41 +317,25 @@ export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planogr
             >
               Planograma Ideal
             </Text>
-            {/* <Text   style={{textAlign: 'left'}}>
-              Titulo planograma Ideal
-            </Text> */}
-            {/*<Image
-              style={{
-                flex: 1,
-                width: "100%",
-                height: 150,
-                //margin: 10,
-                marginTop: 10,
-                resizeMode: "stretch",
-              }}
-              source={{
-                uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
-              }}
-            />*/}
 
             <View style={{ flexDirection: "row" }}>
-              {item.imagesPlanograma.map((prodImages) => {
-                // console.log("---------------prodImages-------------------",prodImages)
-                return (
-                  <Image
-                    //key={index}
-                    source={{ uri: prodImages }}
-                    style={{
-                      flex: 1,
-                      width: "100%",
-                      height: 150,
-                      //margin: 10,
-                      marginTop: 10,
-                      resizeMode: "stretch",
-                    }}
-                    resizeMode="cover"
-                  />
-                );
+              {item.imagesPlanograma.map((prodImages, index) => {
+                if (prodImages) {
+                  return (
+                    <Image
+                      key={index}
+                      source={{ uri: prodImages }}
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                        height: 150,
+                        marginTop: 10,
+                        resizeMode: "stretch",
+                      }}
+                      resizeMode="cover"
+                    />
+                  );
+                }
               })}
             </View>
           </View>
@@ -411,7 +398,11 @@ export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planogr
               >
                 Planograma Real
               </Text>
-              <TakeImage isUserScreen={isUserScreen}  setProducts={setData} item={item} />
+              <TakeImage
+                isUserScreen={isUserScreen}
+                setProducts={setData}
+                item={item}
+              />
             </View>
           ) : (
             <></>

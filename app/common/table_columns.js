@@ -193,8 +193,8 @@ export const PRECIADOR = {
   KEY_1: "id_preciador",
   ID_PORTAFOLIO: "id_portafolio",
   ID_PRODUCTO: "id_producto",
-  PRECIO_PRECIADOR: "precio_preciador",
-  ESTADO_PRECIADOR: "estado_preciador",
+  PRECIO: "precio",
+  ESTADO: "estado",
   URL_IMAGEN1: "url_imagen1",
   URL_IMAGEN2: "url_imagen2",
   URL_IMAGEN3: "url_imagen3",
@@ -251,5 +251,5 @@ export const PERSISTENCIA = {
   TABLE_NAME: "nombre_tabla",
   ITEM_ID: "id_registro",
   COLUMN_ID: "campo_id",
-  EXTRA_INFO:"extra_info"
-}
+  EXTRA_INFO: "extra_info",
+};

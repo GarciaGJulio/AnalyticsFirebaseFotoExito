@@ -73,22 +73,8 @@ const Briefcase_branch_review = ({ route }) => {
         );
       }
 
-      /*console.log(
-        "ESTA ES LA TABLA PORTAFOLIO:/ ",
-        //consultaPortafolio
-      )*/
-
-      // Copia el contenido después de la consulta
-      //await copiarContenido(resultadoConsulta);
-      //setAudit(resultadoConsulta);
-      //setFilteredData(resultadoConsulta);
-      /*console.log(
-        "CONSULTA GENERADA DE ID PORTAFOLIO AUDITORIA - / / / / / - - : ",
-        consultaPortafolioAuditoria
-      );*/
-      console.log(
-        "CONSULTA GENERADA DE ID PORTAFOLIO- - -/ / / / /  - : ",
-        consultaPortafolio
+      const idsPortafolioAuditoria = await realizarConsulta(
+        "SELECT DISTINCT  p.id_portafolio, p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio"
       );
 
       const arrayTipoC = [];
@@ -140,29 +126,10 @@ const Briefcase_branch_review = ({ route }) => {
       console.log("Array  * * * * * * * *  Tipo I:", arrayTipoI);
 
       setIdealPortafolio(arrayTipoI);
-      //const nuevoArray = [];
-
-      /*consultaPortafolio.forEach((objeto) => {
-        const { nombre_categoria, tipo, ...resto } = objeto;
-        const index = nuevoArray.findIndex(
-          (elemento) => elemento.nombre_categoria === nombre_categoria
-        );
-
-        if (index === -1) {
-          nuevoArray.push({
-            nombre_categoria,
-            tipo,
-            productos: [{ ...resto }],
-          });
-        } else {
-          nuevoArray[index].productos.push({ ...resto });
-        }
-      });*/
-
-      /*console.log(
-        "ARRAY FORMATEADO DE PRODUCTOS DE PORTAFOLIO: - - - - - - - ",
-        nuevoArray
-      );*/
+      console.log(
+        "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
+        idsPortafolioAuditoria
+      );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -178,7 +145,7 @@ const Briefcase_branch_review = ({ route }) => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 10,
+          marginTop: theme.dimensions.maxHeight / 12,
         }}
       >
         <ScreenInformationReview
@@ -191,7 +158,6 @@ const Briefcase_branch_review = ({ route }) => {
           }
           text={"A continuación se muestran los productos registrados"}
         />
-        <BackPage_Review />
       </View>
       <SafeAreaView
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}

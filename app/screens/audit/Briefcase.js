@@ -36,7 +36,13 @@ import { Divider } from "@rneui/base";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
-import { cleanCurrentScreenUser, deleteRegisterAudit, getCurrentScreenInformation, getCurrentScreenInformationLocal, saveCurrentScreenUser } from "../../utils/Utils";
+import {
+  cleanCurrentScreenUser,
+  deleteRegisterAudit,
+  getCurrentScreenInformation,
+  getCurrentScreenInformationLocal,
+  saveCurrentScreenUser,
+} from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 
 export const Briefcase = ({ navigation }) => {
@@ -63,46 +69,68 @@ export const Briefcase = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
-      await getCurrentScreenInformation()
-      getInfoDatBaseScreen()
-    }
-    initDataLocal()
-    setTimeout(()=>{initDataLocal()},2000)
-  }, [isFocused])
-
+      await getCurrentScreenInformation();
+      getInfoDatBaseScreen();
+    };
+    initDataLocal();
+    setTimeout(() => {
+      initDataLocal();
+    }, 2000);
+  }, [isFocused]);
 
   const getInfoDatBaseScreen = () => {
     try {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {
-        return
+        return;
       }
-      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      const tmpPantalla = tmpInfoExtra.pantallas.briefcase
-      const infoExtra = tmpPantalla.extra_info
+      const tmpInfoExtra = JSON.parse(
+        global.userInfoScreen.userInfo.extra_info
+      );
+      const tmpPantalla = tmpInfoExtra.pantallas.briefcase;
+      const infoExtra = tmpPantalla.extra_info;
       const newObj = {
         ...infoExtra,
-        ...global.userInfoScreen.infoScreen
-      }
-      let tempItems = infoExtra.complementaryPortfolioProducts.split("**")
-      tempItems = tempItems.filter((item) => item.length > 0 && item != ",")
-      tempItems = tempItems.map((item) => { return JSON.parse(item) })
-      setComplementaryPortfolioProducts(tempItems)
-      setInfoScreen(newObj)
-      setShowButton2(true)
-      setShowButton1(false)
+        ...global.userInfoScreen.infoScreen,
+      };
+      let tempItems = infoExtra.complementaryPortfolioProducts.split("**");
+      tempItems = tempItems.filter((item) => item.length > 0 && item != ",");
+      tempItems = tempItems.map((item) => {
+        return JSON.parse(item);
+      });
+      setComplementaryPortfolioProducts(tempItems);
+      setInfoScreen(newObj);
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
-      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem(
+        "nombre_cliente",
+        infoExtra.auditorias_id.nombre_cliente
+      );
       AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
-      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
-      AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
+      AsyncStorage.setItem(
+        "nombre_sucursal",
+        infoExtra.auditorias_id.nombre_sucursal
+      );
+      AsyncStorage.setItem(
+        "id_portafolio_auditoria",
+        infoExtra.auditorias_id.id_portafolio_auditoria
+      );
+      AsyncStorage.setItem(
+        "nombre_sucursal",
+        infoExtra.auditorias_id.nombre_sucursal
+      );
+      AsyncStorage.setItem(
+        "id_portafolio_auditoria",
+        infoExtra.auditorias_id.id_portafolio_auditoria
+      );
     } catch (error) {
-      setComplementaryPortfolioProducts([])
-      setInfoScreen(null)
-      setShowButton2(false)
-      setShowButton1(true)
-      console.log(error)
+      setComplementaryPortfolioProducts([]);
+      setInfoScreen(null);
+      setShowButton2(false);
+      setShowButton1(true);
+      console.log(error);
     }
-  }
+  };
   //const [fullDataProducts, setFullDataProducts] = useState([]);
 
   const handleCloseModal = () => {
@@ -158,19 +186,20 @@ export const Briefcase = ({ navigation }) => {
         "SELECT * FROM producto"
       );
 
-      const resultadoConsultaIdeal = await realizarConsulta(
-        "SELECT * FROM portafolio_ideal"
-      );
-
       const resultadoConsultaCategorias = await realizarConsulta(
         "SELECT * FROM categoria"
       );
 
-      const newAuxiliarArray = resultadoConsulta.map((objeto) => {
+      const productosIdeal = await realizarConsulta(
+        `SELECT DISTINCT producto.* FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND id_grupo_cliente='${idGroupClient}'`
+      );
+
+      const productosIdealFiltro = productosIdeal.map((objeto) => {
         return {
           id: objeto.id_producto,
           name: objeto.nombre_producto,
           url: objeto.url_imagen_producto,
+          id_categoria: objeto.id_categoria,
           price: null,
           state: false,
           images: {
@@ -181,9 +210,9 @@ export const Briefcase = ({ navigation }) => {
         };
       });
 
-      setAuxiliarArray([...newAuxiliarArray]);
+      setAuxiliarArray([...productosIdealFiltro]);
 
-      const newArrayEstado = resultadoConsulta.map((objeto) => {
+      /*const newArrayEstado = resultadoConsulta.map((objeto) => {
         return {
           id: objeto.id_producto,
           name: objeto.nombre_producto,
@@ -194,57 +223,37 @@ export const Briefcase = ({ navigation }) => {
             image1: null,
             image2: null,
             image3: null,
-          },*/
+          },
         };
-      });
+      });*/
 
       console.log("- - - - - - ", idGroupClient);
 
-      const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {
+      /*const productosIdealFiltro = newAuxiliarArray.filter((objeto) => {
         return objeto.id_grupo_cliente === idGroupClient;
-      });
-      const products = resultadoConsulta.map((objeto) => {
-        return {
-          key: objeto.id_producto,
-          value: objeto.nombre_producto + "-" + objeto.id_producto,
-        };
-      });
+      });*/
 
       const categorias = resultadoConsultaCategorias.map((item) => {
         return { id: item.id_categoria, category: item.nombre_categoria };
       });
 
-      const resultado = categorias
-        .map((categoria) => {
-          const productosCategoria = productosIdealFiltro.filter(
-            (producto) => producto.id_categoria === categoria.id
-          );
+      const resultado = categorias.reduce((acumulador, categoria) => {
+        const productosCategoria = productosIdealFiltro.filter(
+          (producto) => producto.id_categoria === categoria.id
+        );
 
-          // Verificar si existen productos de la categoría
-          if (productosCategoria.length === 0) {
-            return null; // Salir temprano si no hay productos
-          }
-
-          const productosInfo = productosCategoria.map((producto) => ({
-            id: producto.id_producto,
-            name: producto.nombre_producto,
-            url: producto.url_imagen_producto,
-            //price: producto.precio,
-          }));
-
-          return {
+        // Verificar si existen productos de la categoría
+        if (productosCategoria.length > 0) {
+          acumulador.push({
             categoria: categoria.category,
-            productos: productosInfo,
-          };
-        })
-        .filter(Boolean); // Filtrar categorías nulas
+            productos: productosCategoria,
+          });
+        }
+
+        return acumulador;
+      }, []);
 
       setIdealProducts([...resultado]);
-
-      console.log(
-        "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO ACTUAL. . . . . .",
-        productosIdealFiltro
-      );
 
       console.log(
         "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO NULO. . . . . .",
@@ -253,9 +262,7 @@ export const Briefcase = ({ navigation }) => {
 
       const filtroProductosNoIdeales = resultadoConsulta.filter(
         (obj1) =>
-          !productosIdealFiltro.some(
-            (obj2) => obj1.id_producto === obj2.id_producto
-          )
+          !productosIdealFiltro.some((obj2) => obj1.id_producto === obj2.id)
       );
 
       console.log(
@@ -268,9 +275,9 @@ export const Briefcase = ({ navigation }) => {
             (producto) => {
               console.log(
                 "CATEGORIA: " +
-                categoria.id_categoria +
-                " PRODUCTO: " +
-                producto.id_categoria
+                  categoria.id_categoria +
+                  " PRODUCTO: " +
+                  producto.id_categoria
               );
               return producto.id_categoria === categoria.id_categoria;
             }
@@ -348,7 +355,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -385,11 +392,11 @@ export const Briefcase = ({ navigation }) => {
           console.log(
             "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
             "ID DEL PORTAFOLIO: " +
-            id_portafolio +
-            " ID DEL PRODUCTO: " +
-            id +
-            " TIPO DE PORTAFOLIO:" +
-            tipo_portafolio
+              id_portafolio +
+              " ID DEL PRODUCTO: " +
+              id +
+              " TIPO DE PORTAFOLIO:" +
+              tipo_portafolio
           );
           let dataSave = {
             tableName: "portafolio",
@@ -468,51 +475,55 @@ export const Briefcase = ({ navigation }) => {
               );
             }
           } catch (e) {
-            console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", e)
+            console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", e);
             Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
             setIsModalVisible(false);
-
           }
           //savePreciador();
           //navigation.navigate("rack");
         });
-        let tempDataScreen = complementaryPortfolioProducts.map((item) => { return `**${JSON.stringify(item)}**` })
-        let objUserInfo = {}
+        let tempDataScreen = complementaryPortfolioProducts.map((item) => {
+          return `**${JSON.stringify(item)}**`;
+        });
+        let objUserInfo = {};
         try {
-          const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-          const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion
-          const infoExtra = tmpPantalla.extra_info
-          objUserInfo = infoExtra
+          const tmpInfoExtra = JSON.parse(
+            global.userInfoScreen.userInfo.extra_info
+          );
+          const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion;
+          const infoExtra = tmpPantalla.extra_info;
+          objUserInfo = infoExtra;
           objUserInfo = {
             ...objUserInfo,
             ...{
-              pantallas: tmpInfoExtra.pantallas
-            }
-          }
-
+              pantallas: tmpInfoExtra.pantallas,
+            },
+          };
         } catch (e) {
           try {
-            const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-            const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-            objUserInfo = tempPantalla.pantallas.cliente_informacion.extra_info
+            const userInfoScreenTmp = await getCurrentScreenInformationLocal();
+            const tempPantalla = JSON.parse(
+              userInfoScreenTmp.userInfo.extra_info
+            );
+            objUserInfo = tempPantalla.pantallas.cliente_informacion.extra_info;
             objUserInfo = {
               ...objUserInfo,
               ...{
-                pantallas: tempPantalla.pantallas
-              }
-            }
+                pantallas: tempPantalla.pantallas,
+              },
+            };
           } catch (error) {
-            objUserInfo = {}
-            console.log(e)
+            objUserInfo = {};
+            console.log(e);
           }
-
         }
-        saveCurrentScreenUser({
-          screenName: `briefcase`,
-          tableName: `portafolio`,
-          itemId: `id_portafolio`,
-          columnId: `id_portafolio`
-        },
+        saveCurrentScreenUser(
+          {
+            screenName: `briefcase`,
+            tableName: `portafolio`,
+            itemId: `id_portafolio`,
+            columnId: `id_portafolio`,
+          },
           {
             // complementaryPortfolioProducts: tempDataScreen.toString(),
             // auditorias_id: {
@@ -521,32 +532,35 @@ export const Briefcase = ({ navigation }) => {
             //   }
             // },
             pantallas: {
-              ...objUserInfo.pantallas ? objUserInfo.pantallas : {}, ...{
+              ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+              ...{
                 briefcase: {
                   principal: {
                     screenName: `briefcase`,
                     tableName: `portafolio`,
                     itemId: `id_portafolio`,
-                    columnId: `id_portafolio`
+                    columnId: `id_portafolio`,
                   },
                   extra_info: {
                     complementaryPortfolioProducts: tempDataScreen.toString(),
                     auditorias_id: {
-                      ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                        id_portafolio_auditoria: idPortafolioAuditoria
-                      }
+                      ...(objUserInfo.auditorias_id
+                        ? objUserInfo.auditorias_id
+                        : {}),
+                      ...{
+                        id_portafolio_auditoria: idPortafolioAuditoria,
+                      },
                     },
                     pantallas: {
-                      ...objUserInfo.pantallas ? objUserInfo.pantallas : {},
-                      briefcase: null
-                    }
-
-                  }
-                }
-              }
-            }
-
-          })
+                      ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                      briefcase: null,
+                    },
+                  },
+                },
+              },
+            },
+          }
+        );
       } catch (e) {
         Alert.alert("Error antes de enviar los datos", "Vuelva a intentarlo");
         setIsModalVisible(false);
@@ -564,11 +578,17 @@ export const Briefcase = ({ navigation }) => {
   };
   const handleDeleteRegisterLocal = async () => {
     if (infoScreen) {
-      saveCurrentScreenUser(infoScreen.pantallas.cliente_informacion.principal, infoScreen)
+      saveCurrentScreenUser(
+        infoScreen.pantallas.cliente_informacion.principal,
+        infoScreen
+      );
     } else {
-      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-      saveCurrentScreenUser(objUserInfo.pantallas.cliente_informacion.principal, objUserInfo)
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal();
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info);
+      saveCurrentScreenUser(
+        objUserInfo.pantallas.cliente_informacion.principal,
+        objUserInfo
+      );
     }
     complementaryPortfolioProducts.map((productos) => {
       const { id_portafolio, id, tipo_portafolio } = productos;
@@ -576,15 +596,19 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio",
         objectId: "id_portafolio",
-        valueId: id_portafolio
-      })
+        valueId: id_portafolio,
+      });
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${infoScreen ? infoScreen.id_portafolio_auditoria : idPortafolioAuditoria}`
-      })
-    })
-  }
+        valueId: `${
+          infoScreen
+            ? infoScreen.id_portafolio_auditoria
+            : idPortafolioAuditoria
+        }`,
+      });
+    });
+  };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -592,9 +616,9 @@ export const Briefcase = ({ navigation }) => {
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => {
-          handleDeleteRegisterLocal()
+          handleDeleteRegisterLocal();
           //navigation.goBack()
-          navigation.navigate("audit")
+          navigation.navigate("audit");
         }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
@@ -651,7 +675,9 @@ export const Briefcase = ({ navigation }) => {
             products={allProducts}
             complementaryPortfolioProducts={complementaryPortfolioProducts}
             isUserScreen={infoScreen ? true : false}
-            selectItemsId={complementaryPortfolioProducts.map((item) => { return item.id })}
+            selectItemsId={complementaryPortfolioProducts.map((item) => {
+              return item.id;
+            })}
           />
         </View>
         <View style={{ flex: 0.7, justifyContent: "center", width: "100%" }}>

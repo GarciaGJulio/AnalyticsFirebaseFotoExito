@@ -31,6 +31,15 @@ const Promos_Review = () => {
       };
     });*/
 
+    const promosConsulta = await realizarConsulta(
+      `SELECT pro.*, et.nombre_tipo_exhibidor, et.url_imagen_exhibidor
+      FROM promocion AS pro
+      INNER JOIN exhibidor AS ex ON ex.id_exhibidor = pro.id_exhibidor
+      INNER JOIN exhibidor_tipo AS et ON et.id_exhibidor_tipo = ex.id_exhibidor_tipo
+      WHERE pro.id_promocion = '${datosCompartidos.id_promocion}'
+      `
+    );
+
     const promosCompletas = datosPromocion.map((objeto) => {
       const exhibidor = exhibidores.find((cat) => {
         cat.id_exhibidor === objeto.id_exhibidor;
@@ -45,7 +54,7 @@ const Promos_Review = () => {
       }
       return objeto;
     });
-    setPromos(promosCompletas);
+    setPromos(promosConsulta);
 
     //const datosActualizados = await Promise.all(datosPromesas);
     /*const categoria_name = await realizarConsulta(
@@ -55,6 +64,11 @@ const Promos_Review = () => {
     //console.log("DATOS OBTENIDOS DE CATEGORIAS : ", perchasCompletas);
     console.log("DATOS OBTENIDOS DE PROMOCIONES : ", promosCompletas);
     //console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
+
+    console.log(
+      "DATOS OBTENIDOS DE PROMOCIONES CON JOINS - - - - - - -: ",
+      promosConsulta
+    );
   };
   useEffect(() => {
     getPromosData();
@@ -66,7 +80,7 @@ const Promos_Review = () => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 10,
+          marginTop: theme.dimensions.maxHeight / 12,
         }}
       >
         <ScreenInformationReview
@@ -79,7 +93,6 @@ const Promos_Review = () => {
           }
           text={"A continuación se muestran los exhibidores registrados"}
         />
-        <BackPage_Review />
       </View>
       <PromosItems_Review data={promos} />
     </View>
