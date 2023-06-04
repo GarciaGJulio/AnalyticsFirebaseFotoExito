@@ -27,6 +27,7 @@ import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -201,14 +202,14 @@ export const Prices = ({ navigation, route }) => {
                 "id_preciador",
                 "id_portafolio",
                 "id_producto",
-                "precio_preciador",
-                "estado_preciador",
+                "precio",
+                "estado",
                 "url_imagen1",
                 "url_imagen2",
                 "url_imagen3",
-                "usuario_creacion",
+                "usuario_creacion ",
                 "fecha_creacion",
-                "fecha_modificacion",
+                "fecha_modificacion"
               ],
               dataInsert: [
                 `'${idPreciador}'`,
@@ -223,7 +224,23 @@ export const Prices = ({ navigation, route }) => {
                 `'${dataTime()}'`,
                 `'${dataTime()}'`,
               ],
+              dataInsertRemote: [
+                `${idPreciador}`,
+                `${id_portafolio}`,
+                `${id}`,
+                `${price}`,
+                `${state ? 1: 0}`,
+                `${image1}`,
+                `${image2}`,
+                `${image3}`,
+                `${userInfo.givenName}`,
+                `${dataTime()}`,
+                `${dataTime()}`,
+              
+              ],
             };
+
+
             const sentence =
               "INSERT INTO " +
               dataSave.tableName +
@@ -234,6 +251,8 @@ export const Prices = ({ navigation, route }) => {
               ")";
             console.log("SENTENCIA A EJECUTAR: ", sentence);
             try {
+              // subidaBaseRemote(dataSave.tableName, dataSave.dataInsertType, dataSave.dataInsertRemote)
+
               db_insertGlobalDataAudit(dataSave);
               console.log("TODO BIEN");
               setShowButton1(false);
@@ -298,8 +317,8 @@ export const Prices = ({ navigation, route }) => {
             title={"Portafolio Complementario"}
             products={newComplementaryPortfolio}
             setProducts={setNewComplementaryPortfolio}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+          //idPreciador={idPreciadorPortafolioComplementario}
+          //idPortafolio={idPortafolioComplementario}
           />
         </View>
         <View style={{ flex: 0.45, width: "100%" }}>

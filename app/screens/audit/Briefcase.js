@@ -35,6 +35,7 @@ import { MultiSelectListV2 } from "../../components/MultiSelectListV2";
 import { Divider } from "@rneui/base";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 
 export const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -358,7 +359,15 @@ export const Briefcase = ({ navigation }) => {
               `'${idGrupoCliente}'`,
               `'${tipo_portafolio}'`,
             ],
+            dataInsertRemote: [
+              `${id_portafolio}`,
+              `${id}`,
+              `${idGrupoCliente}`,
+              `${tipo_portafolio}`,
+            ],
           };
+          // subidaBaseRemote(dataSave.tableName,dataSave.dataInsertType, dataSave.dataInsertRemote)
+
           const sentence =
             "INSERT INTO " +
             dataSave.tableName +

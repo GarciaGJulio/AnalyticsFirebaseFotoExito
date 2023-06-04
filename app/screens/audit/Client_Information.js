@@ -48,6 +48,7 @@ import {
   requestLocationPermission,
 } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
+import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -81,37 +82,37 @@ export const Client_Information = ({ navigation }) => {
 
 
 
-  const subirArrays = async (array1, array2) => {
-    const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
-    console.log("array1:", array1)
-    console.log("array2:", array2)
+  // const subirArrays = async (array1, array2) => {
+  //   const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
+  //   console.log("array1:", array1)
+  //   console.log("array2:", array2)
 
-    const requestBody = {
-      typeQuery: 'INSERT',
-      data: {
-        tableName: 'sucursal',
-        fieldType: array1,
-        fieldData: array2
-      }
-    };
+  //   const requestBody = {
+  //     typeQuery: 'INSERT',
+  //     data: {
+  //       tableName: 'sucursal',
+  //       fieldType: array1,
+  //       fieldData: array2
+  //     }
+  //   };
 
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Respuesta:', data);
-        // Aquí puedes procesar la respuesta recibida
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Aquí puedes manejar el error en caso de que ocurra
-      });
-  };
+  //   fetch(url, {
+  //     method: 'POST',
+  //     body: JSON.stringify(requestBody),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log('Respuesta:', data);
+  //       // Aquí puedes procesar la respuesta recibida
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //       // Aquí puedes manejar el error en caso de que ocurra
+  //     });
+  // };
 
 
 
@@ -375,7 +376,8 @@ export const Client_Information = ({ navigation }) => {
         //datosCompletos.longitude,
         console.log("datosInsertType:", dataSave.dataInsertType)
         console.log("dataInsert:", dataSave.dataInsertRemote)
-        await  subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
+        // await subidaBaseRemote(dataSave.tableName,dataSave.dataInsertType, dataSave.dataInsertRemote)
+        // await  subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
         const sentence =
           "INSERT INTO " +
           dataSave.tableName +

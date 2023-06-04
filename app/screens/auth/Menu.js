@@ -25,6 +25,7 @@ import { useFonts } from "expo-font";
 import ModernaHeader from "../../components/ModernaHeader";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
 import * as SQLite from "expo-sqlite";
+import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
 
 export const Menu = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -167,7 +168,7 @@ export const Menu = ({ navigation }) => {
             <StyledButton
               title={"Sincronizar Datos"}
               buttonColor={theme.colors.modernaYellow}
-              onPress={handleOpenModal}
+              onPress={subidaBaseRemoteTodaAuditoria}
               size={theme.buttonSize.sm}
               iconName={"cloud-sync"}
               iconType={"material-community"}
