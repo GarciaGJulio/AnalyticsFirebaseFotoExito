@@ -25,7 +25,10 @@ export const onedrive = async () => {
 };
 
 export const SubirAlonedrive = async (imageUri, IdFoto) => {
+  console.log("id Desde la fictf:",IdFoto)
+  RecuperarToken()
   // const folderPath = '/me/drive/root:/FolderA'; // Ruta de la carpeta en OneDrive
+ 
   const bearerToken = await AsyncStorage.getItem("userToken2");
   console.log("USERRRRRRRRRRRRR:", bearerToken)
   console.log("ID DESDE LA FUNCION SUBIR",IdFoto)
@@ -53,14 +56,14 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
     if (uploadResponse.ok) {
       const json = await uploadResponse.json();
       
-      console.log("TodAo bien", json["@microsoft.graph.downloadUrl"]);
+      console.log("TodAo bien", json);
 
       return json["@microsoft.graph.downloadUrl"];
     } else {
       console.error(
         "Error en la subida de la imagen:",
         uploadResponse.status,
-        uploadResponse.statusText
+        uploadResponse.json()
       );
       return null;
     }
