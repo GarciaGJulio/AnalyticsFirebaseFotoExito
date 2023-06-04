@@ -12,6 +12,7 @@ import { generateUIDDGeneric } from "../services/GenerateID";
 import LoaderModal from "./LoaderModal";
 import LOCATION_ANIMATION from "../../assets/camera.json";
 
+
 const TakeImage = ({ setProducts, item }) => {
   const [image, setImage] = useState(
     "https://static.vecteezy.com/system/resources/thumbnails/001/198/770/small_2x/camera.png"
@@ -31,19 +32,29 @@ const TakeImage = ({ setProducts, item }) => {
     console.log("Id dsde Taker:", item.id);
     setidItem(item.id);
   }, []);
-  const handleOpenModal = async (setRemote, setImg, actImg, NomImg) => {
+  const handleOpenModal = async (setImg, actImg, NomImg) => {
     setIsModalVisible(true);
     try {
+      //   await pickImages((img) => {
+      //     console.log("URLSSSSSS:", img);
+      //     const start = img.indexOf("UniqueId=") + 9;
+      //     const end = img.indexOf("&", start);
+      //     const uniqueId = img.substring(start, end !== -1 ? end : undefined);
+      //     console.log("uniqueIDDD:", uniqueId);
+      //     setRemote(uniqueId);
+      //     setImg(img);
+      //     actImg(item, img, NomImg);
+      //     console.log(NomImg + item.id.toString());
+      //   }, NomImg + "-" + item.id.toString() + "-" + generateUIDDGeneric());
+      // } catch (error) {
+      // } finally {
+      //   setIsModalVisible(false);
+      // }
       await pickImages((img) => {
-        console.log("URLSSSSSS:", img);
-        const start = img.indexOf("UniqueId=") + 9;
-        const end = img.indexOf("&", start);
-        const uniqueId = img.substring(start, end !== -1 ? end : undefined);
-        console.log("uniqueIDDD:", uniqueId);
-        setRemote(uniqueId);
         setImg(img);
         actImg(item, img, NomImg);
         console.log(NomImg + item.id.toString());
+        console.log("Uri ACT:",image1)
       }, NomImg + "-" + item.id.toString() + "-" + generateUIDDGeneric());
     } catch (error) {
     } finally {
@@ -70,7 +81,9 @@ const TakeImage = ({ setProducts, item }) => {
 
       // Devuelve el array actualizado como el nuevo estado
       return productosActualizados;
-    });
+    }
+    
+    );
   };
 
   const borrarImagen = (item, imagesNumber, idBorrar) => {
@@ -100,11 +113,13 @@ const TakeImage = ({ setProducts, item }) => {
         onPress={() => {
           setImageV1(!imageV1);
           handleOpenModal(
-            setRemoteImage1,
+            // setRemoteImage1,
             setImage1,
             actualizarImagen,
             "image1"
+            
           );
+          console.log("Productos items:",item)
         }}
         //actualizarImagen(item, setImage1, "image1",image1);
         style={styles.imageContainer}
@@ -116,11 +131,12 @@ const TakeImage = ({ setProducts, item }) => {
           onPress={() => {
             setImageV2(!imageV2);
             handleOpenModal(
-              setRemoteImage2,
+              // setRemoteImage2,
               setImage2,
               actualizarImagen,
               "image2"
             );
+            console.log("Productos items:",item)
           }}
           style={styles.imageContainer}
         >
@@ -134,6 +150,7 @@ const TakeImage = ({ setProducts, item }) => {
               setImageV1(!imageV1);
               borrarImagen(item, "image2", REimage2);
               setImage2("");
+              console.log("Productos items:",item)
             }}
           >
             <Icon name="remove-circle" type="ionicon" size={25} color={"red"} />
@@ -146,10 +163,11 @@ const TakeImage = ({ setProducts, item }) => {
         <TouchableOpacity
           onPress={() => {
             handleOpenModal(
-              setRemoteImage3,
+              // setRemoteImage3,
               setImage3,
               actualizarImagen,
               "image3"
+             
             );
           }}
           style={styles.imageContainer}
