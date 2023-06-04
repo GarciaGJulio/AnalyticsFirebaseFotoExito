@@ -25,6 +25,7 @@ import {
   PROMOCION,
   PORTAFOLIO,
   PORTAFOLIO_AUDITORIA,
+  PERSISTENCIA,
 } from "./table_columns";
 import { PermissionsAndroid } from "react-native";
 import { useEffect } from "react";
@@ -47,6 +48,11 @@ const createPerchaTable = () => {
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, PERCHA_TABLE_NAME);
 };*/
+
+const createPersistencia = () => {
+  const sentence = `create table if not exists ${PERSISTENCIA.NAME} (${PERSISTENCIA.KEY_1} text primary key not null , ${PERSISTENCIA.SCREEN_NAME} text not null, ${PERSISTENCIA.TABLE_NAME} text not null, ${PERSISTENCIA.ITEM_ID} text NOT NULL ,${PERSISTENCIA.COLUMN_ID} text NOT NULL,${PERSISTENCIA.EXTRA_INFO} text NULL)`;
+  createTable(sentence, PERSISTENCIA.NAME);
+};
 
 const createPerchaTable = () => {
   const sentence = `create table if not exists ${PERCHA.NAME} (${PERCHA.KEY_1} text not null,${PERCHA.ID_CATEGORIA} text not null,${PERCHA.ESTADO_PERCHA} int not null, ${PERCHA.CATEGORIA_GENERAL} int NOT NULL,${PERCHA.CATEGORIA_MODERNA} int NOT NULL,${PERCHA.URL_IMAGEN1} TEXT null,${PERCHA.URL_IMAGEN2} TEXT null,${PERCHA.URL_IMAGEN3} TEXT null,${PERCHA.USUARIO_CREACION} TEXT NULL,${PERCHA.FECHA_CREACION} TEXT NULL,${PERCHA.FECHA_MODIFICACION} TEXT NULL,PRIMARY KEY (${PERCHA.KEY_1}, ${PERCHA.ID_CATEGORIA}) ) `;
@@ -169,7 +175,7 @@ const createPortfolioTable = () => {
 };
 
 const createTable = async (sentence, table_name, createIndex) => {
-  console.log(sentence);
+ 
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
       sentence,
@@ -273,6 +279,7 @@ export const load_db_config = async () => {
   //createPreciadorPortafolioIdeaTable();
   createPlanogramaTable();
   createExhibidorTipoTable();
+  createPersistencia();
   //createPortfolioTable();
 };
 

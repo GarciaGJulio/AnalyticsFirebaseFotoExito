@@ -17,6 +17,7 @@ export const CheckBoxContainerV2 = ({
   idPortafolio,
   idPreciador,
   setProducts,
+  isUserScreen,
   item,
 }) => {
   const [check1, setCheck1] = useState(false);
@@ -27,7 +28,12 @@ export const CheckBoxContainerV2 = ({
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
   const [errorPrice, setErrorPrice] = useState();
-
+  useEffect(()=>{
+    if(isUserScreen){
+      setState(item.state=="1"?true:false)
+      setPrice(item.price+"")
+    }
+  },[])
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -270,7 +276,7 @@ export const CheckBoxContainerV2 = ({
                 </View>
               </View>
 
-              <TakeImage setProducts={setProducts} item={item} />
+              <TakeImage setProducts={setProducts} item={item} isUserScreen={isUserScreen} />
             </View>
           </View>
         </View>
