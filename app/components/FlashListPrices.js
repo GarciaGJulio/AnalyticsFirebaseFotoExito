@@ -11,6 +11,7 @@ export const FlashListPrices = ({
   setProducts,
   idPreciador,
   idPortafolio,
+  isUserScreen
 }) => {
   useEffect(() => {
     console.log(
@@ -38,6 +39,7 @@ export const FlashListPrices = ({
             idPreciador={idPreciador}
             idPortafolio={idPortafolio}
             item={item}
+            isUserScreen={isUserScreen}
           />
         )}
         estimatedItemSize={4}

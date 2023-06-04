@@ -88,16 +88,17 @@ export const RecuperarToken = () => {
     .then((response) => response.json())
     .then(async (data) => {
       // Manejar la respuesta de la solicitud
-      console.log("CLAVES SECUNDARIOS-------------------------", data.token);
+      // console.log("CLAVES SECUNDARIOS-------------------------", data.token);
   
       await AsyncStorage.setItem('userToken2',  data.token);
-      console.log("CLAVES SECUNDARIOS2-------------------------", await AsyncStorage.getItem('userToken2'));
+      // console.log("CLAVES SECUNDARIOS2-------------------------", await AsyncStorage.getItem('userToken2'));
     })
     .catch((error) => {
       // Manejar errores de la solicitud
       console.error(error);
     });
 };
+
 
 
 export const deleteImageFromOneDrive = async (itemId) => {

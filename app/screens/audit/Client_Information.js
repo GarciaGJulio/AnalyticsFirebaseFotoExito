@@ -49,6 +49,7 @@ import {
 } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
+import { saveCurrentScreenUser } from "../../utils/Utils";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -78,8 +79,35 @@ export const Client_Information = ({ navigation }) => {
   const [arrayClients, setArrayClients] = useState([]);
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
+  const [infoScreen, setInfoScreen] = useState(null);
+  useEffect(() => {
+    getInfoDatBaseScreen()
+  }, [])
 
+  const getInfoDatBaseScreen = () => {
+    try {
+      console.log("global.userInfoScreen", global.userInfoScreen)
+      if (global.userInfoScreen.userInfo.nombre_pantalla != "audit") {
+        return
+      }
+      const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const newObj = {
+        ...infoExtra,
+        ...global.userInfoScreen.infoScreen
+      }
+      // console.log("newObj-------------", newObj)
+      setInfoScreen(newObj)
+      setShowButton2(true)
+      setShowButton1(false)
+      AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
+      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
+      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
 
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   // const subirArrays = async (array1, array2) => {
@@ -152,9 +180,9 @@ export const Client_Information = ({ navigation }) => {
 
   const dataFormat = (array) => {
     setArrayClients(array);
-    console.log("ARRAY DE CONSULTA: ", array);
+    // console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
-      console.log("OBJETO: ", obj.id_cliente);
+      // console.log("OBJETO: ", obj.id_cliente);
       return { key: obj.id_cliente, value: obj.nombre_cliente };
     });
     console.log(arrayFormat);
@@ -183,11 +211,11 @@ export const Client_Information = ({ navigation }) => {
         nombre_sucursal,
       }));
       setBranchNames(branchs);
-      console.log(
-        "Copia de contenido completada con éxito: ",
-        resultadoConsultarBranch
-      );
-      console.log("NOMBRE DE BRANCHES: ", branchs);
+      // console.log(
+      //   "Copia de contenido completada con éxito: ",
+      //   resultadoConsultarBranch
+      // );
+      // console.log("NOMBRE DE BRANCHES: ", branchs);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -374,10 +402,28 @@ export const Client_Information = ({ navigation }) => {
         };
         //datosCompletos.latitude,
         //datosCompletos.longitude,
-        console.log("datosInsertType:", dataSave.dataInsertType)
-        console.log("dataInsert:", dataSave.dataInsertRemote)
-        // await subidaBaseRemote(dataSave.tableName,dataSave.dataInsertType, dataSave.dataInsertRemote)
-        // await  subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
+        await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
+        await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
+        const tmp_client_id = await AsyncStorage.getItem("id_cliente");
+        await AsyncStorage.setItem("nombre_cliente", selected);
+        saveCurrentScreenUser({
+          screenName: `audit`,
+          tableName: `sucursal`,
+          itemId: sucursalInformation.id,
+          columnId: `id_sucursal`
+        }, {
+          nombre_cliente: selected,
+          grupo_cliente: groupClient,
+          tipo_cliente: type,
+          auditorias_id: {
+            id_cliente: tmp_client_id,
+            nombre_cliente: selected,
+            id_sucursal: sucursalInformation.id,
+            nombre_sucursal:sucursalInformation.name
+          }
+        })
+
+      //  await subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
         const sentence =
           "INSERT INTO " +
           dataSave.tableName +
@@ -517,6 +563,7 @@ export const Client_Information = ({ navigation }) => {
             arrayClients={arrayClients}
         />*/}
           <Dropdown
+            valueInfoScreen={infoScreen ? infoScreen.nombre_cliente : null}
             placeholder={"Seleccione un cliente"}
             setSelected={setSelected}
             selected={selected}
@@ -571,7 +618,7 @@ export const Client_Information = ({ navigation }) => {
               }}
             >
               <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                {groupClient}
+                {infoScreen ? infoScreen.grupo_cliente : groupClient}
               </Text>
             </View>
           </View>
@@ -602,7 +649,7 @@ export const Client_Information = ({ navigation }) => {
               }}
             >
               <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                {type}
+                {infoScreen ? infoScreen.tipo_cliente : type}
               </Text>
             </View>
           </View>
@@ -629,8 +676,8 @@ export const Client_Information = ({ navigation }) => {
             maxLength={43}
             error={errorBranchName}
             keyboard="default"
-            editable={true}
-            value={sucursal}
+            editable={infoScreen ? false : true}
+            value={infoScreen ? infoScreen.nombre_sucursal : sucursal}
             width={"90%"}
             information={
               "* Solo se puede ingresar la misma sucursal una vez por día"
