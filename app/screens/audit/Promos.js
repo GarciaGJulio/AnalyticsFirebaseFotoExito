@@ -52,7 +52,7 @@ export const Promos = ({ navigation }) => {
   const [showButton2, setShowButton2] = useState(false);
 
   const consultarYCopiarContenido = async () => {
-    const clientName = await AsyncStorage.getItem("clientName");
+    const clientName = await AsyncStorage.getItem("nombre_cliente");
     try {
       // Realiza la consulta a la base de datos
       /*const resultadoConsulta = await realizarConsulta(
@@ -60,7 +60,7 @@ export const Promos = ({ navigation }) => {
       );*/
 
       const resultadoConsultaExhibidor = await realizarConsulta(
-        "SELECT * FROM exhibidor"
+        `SELECT * FROM exhibidor WHERE nombre_cliente='${clientName}'`
       );
 
       const tablaAuditorias = await realizarConsulta("SELECT * FROM auditoria");
@@ -159,6 +159,10 @@ export const Promos = ({ navigation }) => {
       console.log(
         "ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES : ",
         exhibidorFilter
+      );
+      console.log(
+        "DATOS DE EXHIBIDORES * * * * * * *: - - - - ",
+        resultadoConsultaExhibidor
       );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);

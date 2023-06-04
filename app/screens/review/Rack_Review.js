@@ -19,23 +19,38 @@ const Rack_Review = () => {
     );
 
     const category = await realizarConsulta(
-      `SELECT ca.nombre_categoria,p.* from percha as p inner join categoria as ca on ca.id_categoria=p.id_categoria where id_percha ='${datosCompartidos.id_percha}'`
+      `SELECT ca.nombre_categoria, p.*, pl.url_imagen1 AS url_planograma1 , pl.url_imagen2 AS url_planograma2, pl.url_imagen3 AS url_planograma3
+      FROM percha AS p
+      INNER JOIN categoria AS ca ON ca.id_categoria = p.id_categoria
+      INNER JOIN planograma AS pl ON pl.id_categoria = ca.id_categoria
+      WHERE p.id_percha = '${datosCompartidos.id_percha}'
+      `
     );
-    /*const datosPromesas = datos.map(async (item) => {
-      const nombre = await realizarConsulta(
-        `SELECT nombre_categoria FROM categoria where id_categoria ='${item.id_categoria}'`
-      );
-      console.log("NOMBRE DE LA CATEGORIA: ", nombre[0].nombre_categoria);
-      return {
-        ...item,
-        nombre_categoria: nombre[0].nombre_categoria,
-      };
-    });*/
 
     console.log(
       "CATEGORIAS CON PERCHAS - - - - - - - - - - - - - - * */ / /: ",
       category
     );
+
+    const datosConImagenesPlanograma = category.map((objeto) => {
+      const imagenesPlanograma = [];
+      if (objeto.url_imagen1) {
+        imagenesPlanograma.push(objeto.url_imagen1);
+      }
+      if (objeto.url_imagen2) {
+        imagenesPlanograma.push(objeto.url_imagen2);
+      }
+      if (objeto.url_imagen3) {
+        imagenesPlanograma.push(objeto.url_imagen3);
+      }
+      return { ...objeto, imagenesPlanograma };
+    });
+
+    console.log(
+      "PERCHAS CON CATEGORIAS FORMATEADO CON IMAGENES",
+      datosConImagenesPlanograma
+    );
+
     const perchasCompletas = datos.map((objeto) => {
       const categoria = categorias.find((cat) => {
         console.log(cat.id_categoria + " " + objeto.id_categoria);
@@ -50,13 +65,6 @@ const Rack_Review = () => {
       return objeto;
     });
     setRack(category);
-
-    //const datosActualizados = await Promise.all(datosPromesas);
-    /*const categoria_name = await realizarConsulta(
-      `SELECT * FROM categoria where id_categoria =${datos.id_categoria}`
-    );*/
-    //console.log("NOMBRE DE CATEGORIA : ", categoria_name);
-    //console.log("DATOS OBTENIDOS DE CATEGORIAS : ", perchasCompletas);
     console.log("DATOS OBTENIDOS DE PERCHAS : ", perchasCompletas);
     console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
   };
@@ -85,6 +93,7 @@ const Rack_Review = () => {
         <BackPage_Review />
       </View>
       <TarjetaRack_Review data={rack} />
+      <View style={{ flex: 0.1, backgroundColor: "red" }}></View>
     </View>
   );
 };

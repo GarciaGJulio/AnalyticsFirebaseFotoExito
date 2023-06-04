@@ -19,31 +19,7 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
   const [verificacionCategorias, setverificacionCategoria] = useState();
-  //const [objPercha, setObjPercha] = useState(itemCom)
-
-  /* useEffect(() => {
-     if (CateGeneral < CateModerna) {
-       setverificacionCategoria(true);
-       console.log("es mayor el de moderna", CateGeneral);
-     } else if (CateGeneral >= CateModerna) {
-       setverificacionCategoria(false);
-     }
-   }, [CateModerna]);
- 
-   useEffect(() => {
-     if (CateGeneral < CateModerna) {
-       setverificacionCategoria(true);
-       console.log("es mayor el de moderna", CateGeneral);
-     } else if (CateGeneral >= CateModerna) {
-       setverificacionCategoria(false);
-     }
-   }, [CateGeneral]);
- 
-   /*useEffect(() => {
-         console.log("itmDentroCompleto",itemCom)
-         console.log("itmDentroCompletoPER",objPercha)
- 
-     }, []);*/
+  //const [imagenesP, setverificacionCategoria] = useState();
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -297,40 +273,25 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
             >
               Planograma Ideal
             </Text>
-            {/* <Text   style={{textAlign: 'left'}}>
-              Titulo planograma Ideal
-            </Text> */}
-            {/*<Image
-              style={{
-                flex: 1,
-                width: "100%",
-                height: 150,
-                //margin: 10,
-                marginTop: 10,
-                resizeMode: "stretch",
-              }}
-              source={{
-                uri: "https://perchasecuador.com/wp-content/uploads/photo-gallery/imported_from_media_libray/thumb/banner-gondolas-1.jpeg?bwg=1538514531",
-              }}
-            />*/}
 
             <View style={{ flexDirection: "row" }}>
-              {item.imagesPlanograma.map((prodImages) => {
-                return (
-                  <Image
-                    //key={index}
-                    source={{ uri: prodImages }}
-                    style={{
-                      flex: 1,
-                      width: "100%",
-                      height: 150,
-                      //margin: 10,
-                      marginTop: 10,
-                      resizeMode: "stretch",
-                    }}
-                    resizeMode="cover"
-                  />
-                );
+              {item.imagesPlanograma.map((prodImages, index) => {
+                if (prodImages) {
+                  return (
+                    <Image
+                      key={index}
+                      source={{ uri: prodImages }}
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                        height: 150,
+                        marginTop: 10,
+                        resizeMode: "stretch",
+                      }}
+                      resizeMode="cover"
+                    />
+                  );
+                }
               })}
             </View>
           </View>

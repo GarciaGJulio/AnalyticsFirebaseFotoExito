@@ -14,42 +14,53 @@ import { Divider } from "react-native-paper";
 import StyledInput from "./StyledInput";
 
 export const Rack_View = ({ rack }) => {
-  const [CateGeneral, setCateGeneral] = useState("70");
-  const [CateModerna, setCateModerna] = useState("50");
   const [modalVisible, setModalVisible] = useState(false);
   const [extraImages, setExtraImages] = useState([]);
-
-  const handleTextGeneral = (txt) => {
-    setCateGeneral(txt);
-  };
-  const handleTextModerna = (txt) => {
-    setCateModerna(txt);
-  };
-
-  const handleOpenModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const acceptModal = () => {
-    setCheck1(!check1);
-    setCheck2(!check2);
-    setIsModalVisible(false);
-    setDisabled1(!disabled1);
-    setDisabled2(!disabled2);
-  };
+  const [imagesPlanograma, setImagesPlanograma] = useState([]);
 
   const validateExtraImages = (objeto) => {
-    const imagenes = [];
-    if (objeto.url_imagen2) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+    setExtraImages([]);
+    if (rack.hasOwnProperty("url_imagen1")) {
+      if (objeto.url_imagen1 != "null") {
+        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+      }
+
+      if (objeto.url_imagen2 != "null") {
+        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+      }
+
+      if (objeto.url_imagen3 != "null") {
+        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
+      }
     }
 
-    if (objeto.url_imagen3) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
+    let img = extraImages.join(",");
+    console.log("IMAGENES EXTRAS: - - - - ", img);
+  };
+
+  const validateImagesPlanograma = (objeto) => {
+    setImagesPlanograma([]);
+    if (rack.hasOwnProperty("url_planograma1")) {
+      if (objeto.url_planograma1 != "null" || objeto.url_planograma1 != null) {
+        setImagesPlanograma((prevImagenes) => [
+          ...prevImagenes,
+          objeto.url_planograma1,
+        ]);
+      }
+
+      if (objeto.url_planograma2 != "null" || objeto.url_planograma2 != null) {
+        setImagesPlanograma((prevImagenes) => [
+          ...prevImagenes,
+          objeto.url_planograma2,
+        ]);
+      }
+
+      if (objeto.url_planograma3 != "null" || objeto.url_planograma3 != null) {
+        setImagesPlanograma((prevImagenes) => [
+          ...prevImagenes,
+          objeto.url_planograma3,
+        ]);
+      }
     }
 
     let img = extraImages.join(",");
@@ -58,13 +69,10 @@ export const Rack_View = ({ rack }) => {
 
   useEffect(() => {
     validateExtraImages(rack);
-  }, []);
+    validateImagesPlanograma(rack);
+    console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
+  }, [rack]);
 
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disabled1, setDisabled1] = useState(false);
-  const [disabled2, setDisabled2] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
 
   const [fontLoaded] = useFonts({
@@ -91,17 +99,21 @@ export const Rack_View = ({ rack }) => {
         >
           {rack.nombre_categoria}
         </Text>
-        <TouchableOpacity
-          disabled={rack.estado_percha == 0 ? true : false}
-          style={{ position: "absolute", right: 4, top: 2 }}
-          onPress={() => {
-            //setOpenCamera(!openCamera);
-            //setModalVisible(true);
-          }}
-        >
-          <Icon name="camera" type="evilicon" size={40} />
-          {/* <Icon name='camerao' type='antdesign' size={32} /> */}
-        </TouchableOpacity>
+        {rack.estado_percha == "0" ? (
+          <></>
+        ) : (
+          <TouchableOpacity
+            style={{ position: "absolute", right: 4, top: 2 }}
+            onPress={() => {
+              setOpenCamera(!openCamera);
+              setModalVisible(true);
+            }}
+          >
+            <Icon name="camera" type="evilicon" size={40} />
+            {/* <Icon name='camerao' type='antdesign' size={32} /> */}
+          </TouchableOpacity>
+        )}
+
         <View style={{ width: "100%" }}>
           <Divider
             width={1}
@@ -164,12 +176,12 @@ export const Rack_View = ({ rack }) => {
         </View>
       </View>
       {openCamera ? (
-        <View>
+        <View style={{ flex: 1 }}>
           <View style={styles.centeredView}>
             <Modal
               animationType="slide"
               transparent={true}
-              visible={modalVisible}
+              visible={styles.modalVisible}
               onRequestClose={() => {
                 Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
@@ -177,39 +189,38 @@ export const Rack_View = ({ rack }) => {
             >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Image
-                    style={styles.imageContainer}
-                    source={{ uri: rack.url_imagen1 }}
-                  />
-                  <View style={{ flexDirection: "row" }}>
+                  <View
+                    style={{
+                      //backgroundColor: "red",
+                      //flex: 1,
+                      //marginVertical: 200,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      //flexDirection: "row",
+                      //padding: 5,
+                    }}
+                  >
+                    {imagesPlanograma.map((images) => {
+                      return (
+                        <Image
+                          key={images} // Se utiliza "images" como clave
+                          source={{ uri: images }}
+                          style={styles.imgContainer} // Utilizar el estilo "imgContainer"
+                          resizeMode="cover"
+                        />
+                      );
+                    })}
                     {extraImages.map((images) => {
                       return (
                         <Image
-                          //key={index}
+                          key={images} // Se utiliza "images" como clave
                           source={{ uri: images }}
-                          style={styles.imgContainer}
+                          style={styles.imgContainer} // Utilizar el estilo "imgContainer"
                           resizeMode="cover"
                         />
                       );
                     })}
                   </View>
-                  {/* <View style={{ flexDirection: 'row', }}>
-                                            <Image
-                                                source={{ uri: img }}
-                                                style={styles.imgContainer}
-                                                resizeMode="cover"
-                                            />
-                                            <Image
-                                                source={{ uri: img1 }}
-                                                style={styles.imgContainer}
-                                                resizeMode="cover"
-                                            />
-                                            <Image
-                                                source={{ uri: img2 }}
-                                                style={styles.imgContainer}
-                                                resizeMode="cover"
-                                            />
-                                        </View> */}
                   <TouchableOpacity
                     style={styles.closeButton}
                     onPress={() => {
@@ -285,6 +296,8 @@ const styles = StyleSheet.create({
   modalView: {
     borderRadius: 20,
     backgroundColor: "rgba(255, 255, 255, 0.85)",
+    //alignItems: "center",
+    justifyContent: "center",
     alignItems: "center",
     width: 280,
     height: 528,
@@ -302,13 +315,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
   },
+
   imgContainer: {
-    width: 66,
-    height: 49,
+    width: 200,
+    height: 120,
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: 20,
-    marginHorizontal: 10,
+    //marginTop: 20,
+    margin: 5,
+    //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
   },

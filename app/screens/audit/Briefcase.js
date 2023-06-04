@@ -111,19 +111,20 @@ export const Briefcase = ({ navigation }) => {
         "SELECT * FROM producto"
       );
 
-      const resultadoConsultaIdeal = await realizarConsulta(
-        "SELECT * FROM portafolio_ideal"
-      );
-
       const resultadoConsultaCategorias = await realizarConsulta(
         "SELECT * FROM categoria"
       );
 
-      const newAuxiliarArray = resultadoConsulta.map((objeto) => {
+      const productosIdeal = await realizarConsulta(
+        `SELECT DISTINCT producto.* FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND id_grupo_cliente='${idGroupClient}'`
+      );
+
+      const productosIdealFiltro = productosIdeal.map((objeto) => {
         return {
           id: objeto.id_producto,
           name: objeto.nombre_producto,
           url: objeto.url_imagen_producto,
+          id_categoria: objeto.id_categoria,
           price: null,
           state: false,
           images: {
@@ -134,9 +135,9 @@ export const Briefcase = ({ navigation }) => {
         };
       });
 
-      setAuxiliarArray([...newAuxiliarArray]);
+      setAuxiliarArray([...productosIdealFiltro]);
 
-      const newArrayEstado = resultadoConsulta.map((objeto) => {
+      /*const newArrayEstado = resultadoConsulta.map((objeto) => {
         return {
           id: objeto.id_producto,
           name: objeto.nombre_producto,
@@ -147,57 +148,37 @@ export const Briefcase = ({ navigation }) => {
             image1: null,
             image2: null,
             image3: null,
-          },*/
+          },
         };
-      });
+      });*/
 
       console.log("- - - - - - ", idGroupClient);
 
-      const productosIdealFiltro = resultadoConsultaIdeal.filter((objeto) => {
+      /*const productosIdealFiltro = newAuxiliarArray.filter((objeto) => {
         return objeto.id_grupo_cliente === idGroupClient;
-      });
-      const products = resultadoConsulta.map((objeto) => {
-        return {
-          key: objeto.id_producto,
-          value: objeto.nombre_producto + "-" + objeto.id_producto,
-        };
-      });
+      });*/
 
       const categorias = resultadoConsultaCategorias.map((item) => {
         return { id: item.id_categoria, category: item.nombre_categoria };
       });
 
-      const resultado = categorias
-        .map((categoria) => {
-          const productosCategoria = productosIdealFiltro.filter(
-            (producto) => producto.id_categoria === categoria.id
-          );
+      const resultado = categorias.reduce((acumulador, categoria) => {
+        const productosCategoria = productosIdealFiltro.filter(
+          (producto) => producto.id_categoria === categoria.id
+        );
 
-          // Verificar si existen productos de la categoría
-          if (productosCategoria.length === 0) {
-            return null; // Salir temprano si no hay productos
-          }
-
-          const productosInfo = productosCategoria.map((producto) => ({
-            id: producto.id_producto,
-            name: producto.nombre_producto,
-            url: producto.url_imagen_producto,
-            //price: producto.precio,
-          }));
-
-          return {
+        // Verificar si existen productos de la categoría
+        if (productosCategoria.length > 0) {
+          acumulador.push({
             categoria: categoria.category,
-            productos: productosInfo,
-          };
-        })
-        .filter(Boolean); // Filtrar categorías nulas
+            productos: productosCategoria,
+          });
+        }
+
+        return acumulador;
+      }, []);
 
       setIdealProducts([...resultado]);
-
-      console.log(
-        "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO ACTUAL. . . . . .",
-        productosIdealFiltro
-      );
 
       console.log(
         "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO NULO. . . . . .",
@@ -206,9 +187,7 @@ export const Briefcase = ({ navigation }) => {
 
       const filtroProductosNoIdeales = resultadoConsulta.filter(
         (obj1) =>
-          !productosIdealFiltro.some(
-            (obj2) => obj1.id_producto === obj2.id_producto
-          )
+          !productosIdealFiltro.some((obj2) => obj1.id_producto === obj2.id)
       );
 
       console.log(
@@ -274,10 +253,7 @@ export const Briefcase = ({ navigation }) => {
         "Copia de contenido completada con éxito - PRODUCTOS: ",
         resultadoConsulta
       );
-      console.log(
-        "\nresultado de la consulta de la tabla ------ PORTAFOLIO IDEAL: ",
-        resultadoConsultaIdeal
-      );
+
       console.log(
         "\nARRAY DE CATEGORIAS QUE SON INCLUIDAS EN EL PORTAFOLIO IDEAL POR GRUPO DE CLIENTE: ",
         categorias
@@ -289,6 +265,15 @@ export const Briefcase = ({ navigation }) => {
       );
       console.log("\nARRAY DE CATEGORIAS : ", resultado);
       console.log("VALOR RECUPERADO DE GRUPO DEL CLIENTE:", idGroupClient);
+      /*console.log(
+        "NUEVO ARRAY FORMATEADO DE PRODUCTOS DE PORTAFOLIO IDEAL: ",
+        newAuxiliarArray
+      );*/
+
+      console.log(
+        "ESTOS SON LOS PRODUCTOS PARA EL IDEAL:- - - - - -",
+        productosIdeal
+      );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }

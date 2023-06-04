@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   Animated,
+  Modal,
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import theme from "../theme/theme";
@@ -13,17 +14,64 @@ import TakeImage from "./TakeImage";
 import PromosItemsDetails_Review from "./PromosItemsDetails_Review";
 import { Divider, Icon } from "@rneui/base";
 
-export const ProductsDetails_Review = ({
-  productName,
-  productPrice,
-  state,
-}) => {
+export const ProductsDetails_Review = ({ item }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [openCamera, setOpenCamera] = useState(false);
+  /*const [extraImages, setExtraImages] = useState([
+    "https://thurrott.s3.amazonaws.com/wp-content/uploads/sites/2/2022/08/chrome-os-104-launcher.jpg",
+    "https://thurrott.s3.amazonaws.com/wp-content/uploads/sites/2/2022/08/chrome-os-104-launcher.jpg",
+    "https://thurrott.s3.amazonaws.com/wp-content/uploads/sites/2/2022/08/chrome-os-104-launcher.jpg",
+  ]);*/
+  const [extraImages, setExtraImages] = useState([]);
+
   const thumbPosition =
-    state === true ? "60%" : state === false ? "10%" : "35%";
-  const trackColor = state === null ? "#999999" : state ? "#00ff00" : "#ff0000";
+    item.estado === "1" ? "60%" : item.estado === "0" ? "10%" : "35%";
+  const trackColor =
+    item.estado === null
+      ? "#999999"
+      : item.estado === "1"
+      ? "#00ff00"
+      : "#ff0000";
+
+  const imagenes = [];
+
+  /*if (item.hasOwnProperty("url_imagen1") && item.url_imagen1 !== null) {
+    const { url_imagen1, url_imagen2, url_imagen3 } = item;
+    if (url_imagen1 != "null") {
+      imagenes.push(url_imagen1);
+      imagenes.push(url_imagen2);
+      imagenes.push(url_imagen3);
+    }
+  }*/
+
+  const validateExtraImages = (objeto) => {
+    setExtraImages([]);
+    if (item.hasOwnProperty("url_imagen1")) {
+      if (objeto.url_imagen1 != "null") {
+        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+      }
+
+      if (objeto.url_imagen2 != "null") {
+        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+      }
+
+      if (objeto.url_imagen3 != "null") {
+        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
+      }
+    }
+
+    let img = extraImages.join(",");
+    console.log("IMAGENES EXTRAS: - - - - ", img);
+  };
+
+  useEffect(() => {
+    validateExtraImages(item);
+    console.log("ESTO ES EL ITEM: - - - - -", item);
+  }, [item]);
+
   return (
     <View style={[styles.container]}>
-      <View style={[styles.primaryContainer, { marginLeft: 20 }]}>
+      <View style={[styles.primaryContainer, { marginLeft: 10 }]}>
         <Image source={HARINA} style={{ width: 100, height: 100, margin: 5 }} />
         <View style={styles.descriptionContainer}>
           <View
@@ -36,50 +84,87 @@ export const ProductsDetails_Review = ({
           >
             <View style={{ flex: 1 }}>
               <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-                {productName}
+                {item.nombre_producto}-{item.id_producto}
               </Text>
             </View>
           </View>
-          <View style={{ flexDirection: "row", marginVertical: 5 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              marginVertical: 5,
+              flex: 1,
+              alignContent: "center",
+            }}
+          >
             <View style={{ flex: 1 }}>
               <Text
                 style={{ marginTop: 5, fontSize: 12, fontFamily: "Metropolis" }}
               >
-                Precio disponible
+                Precio de la auditoria
               </Text>
             </View>
-            <View
-              style={{
-                //backgroundColor: "green",
-                flex: 0.3,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity
+            {extraImages.length > 0 ? (
+              <View
                 style={{
-                  position: "absolute",
-                  flex: 1,
                   //backgroundColor: "green",
-                }}
-                onPress={() => {
-                  //setOpenCamera(!openCamera);
-                  //setModalVisible(true);
+                  flex: 0.3,
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <Icon name="camera" type="evilicon" size={40} />
-                {/* <Icon name='camerao' type='antdesign' size={32} /> */}
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    flex: 1,
+                    //backgroundColor: "green",
+                  }}
+                  onPress={() => {
+                    setOpenCamera(!openCamera);
+                    setModalVisible(true);
+                  }}
+                >
+                  <Icon name="camera" type="evilicon" size={40} />
+                  {/* <Icon name='camerao' type='antdesign' size={32} /> */}
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <></>
+            )}
           </View>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              //backgroundColor: "red",
+            }}
           >
-            <View>
-              <Text style={{ fontSize: 14, marginTop: 10 }}>
-                ${productPrice}
+            {item.estado == "1" ? (
+              <View>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    marginTop: 10,
+                    fontFamily: "Metropolis",
+                    bottom: 5,
+                  }}
+                >
+                  ${item.precio}
+                </Text>
+              </View>
+            ) : (
+              <Text
+                style={{
+                  fontSize: 13,
+                  marginTop: 10,
+                  bottom: 5,
+                  fontFamily: "Metropolis",
+                }}
+              >
+                Precio no disponible
               </Text>
-            </View>
+            )}
+
             <View>
               <View
                 style={[
@@ -95,6 +180,59 @@ export const ProductsDetails_Review = ({
             </View>
           </View>
         </View>
+        {openCamera ? (
+          <View style={{ flex: 1 }}>
+            <View style={styles.centeredView}>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={styles.modalVisible}
+                onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <View
+                      style={{
+                        //backgroundColor: "red",
+                        //flex: 1,
+                        //marginVertical: 200,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        //flexDirection: "row",
+                        //padding: 5,
+                      }}
+                    >
+                      {extraImages.map((images) => {
+                        return (
+                          <Image
+                            key={images} // Se utiliza "images" como clave
+                            source={{ uri: images }}
+                            style={styles.imgContainer} // Utilizar el estilo "imgContainer"
+                            resizeMode="cover"
+                          />
+                        );
+                      })}
+                    </View>
+                    <TouchableOpacity
+                      style={styles.closeButton}
+                      onPress={() => {
+                        setModalVisible(!modalVisible);
+                        setOpenCamera(!openCamera);
+                      }}
+                    >
+                      <Icon name="close" size={24} color="black" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
+            </View>
+          </View>
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );
@@ -102,6 +240,7 @@ export const ProductsDetails_Review = ({
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     //borderRadius: 20,
     margin: 1,
     //marginVertical: 10,
@@ -152,5 +291,52 @@ const styles = StyleSheet.create({
     height: 20,
     backgroundColor: "white",
     borderRadius: 10,
+  },
+  //MODAL
+  imageContainer: {
+    width: 224,
+    height: 186,
+    resizeMode: "cover",
+    marginTop: 100,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    borderRadius: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    //alignItems: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 280,
+    height: 528,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "transparent",
+    borderRadius: 20,
+    padding: 10,
+  },
+
+  imgContainer: {
+    width: 200,
+    height: 120,
+    borderRadius: 10,
+    borderWidth: 1,
+    //marginTop: 20,
+    margin: 5,
+    //marginHorizontal: 10,
+    borderColor: theme.colors.black,
+    padding: 1,
   },
 });

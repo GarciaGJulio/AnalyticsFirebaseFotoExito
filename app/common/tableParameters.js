@@ -63,6 +63,14 @@ export const dataParameters = {
       ],
       foreingFields: [],
     },
+    portafolio_auditoria: {
+      data: ["id_portafolio_auditoria", "id_portafolio", "id_producto"],
+      foreingFields: [],
+    },
+    portafolio: {
+      data: ["id_portafolio", "id_producto", "id_grupo_cliente", "tipo"],
+      foreingFields: [],
+    },
     auditoria: {
       data: [
         "id_auditoria",
@@ -71,6 +79,10 @@ export const dataParameters = {
         "id_promocion",
         "id_sucursal",
         "id_cliente",
+        "id_portafolio_auditoria",
+        "usuario_creacion",
+        "fecha_creacion",
+        "fecha_modificacion",
       ],
       foreingFields: [
         {
@@ -104,39 +116,10 @@ export const dataParameters = {
     preciador: {
       data: [
         "id_preciador",
-        "id_preciador_portafolio_complementario",
-        "id_preciador_portafolio_ideal",
-      ],
-      foreingFields: [],
-    },
-    portafolio_complementario: {
-      data: [
-        "id_portafolio_complementario",
+        "id_portafolio",
         "id_producto",
-        "estado_portafolio_complementario",
-      ],
-      foreingFields: [],
-    },
-    preciador_portafolio_complementario: {
-      data: [
-        "id_preciador_portafolio_complementario",
-        "id_portafolio_complementario",
-        "precio_portafolio_complementario",
-        "estado_preciador_complementario",
-        "url_imagen1",
-        "url_imagen2",
-        "url_imagen3",
-        "usuario_creacion",
-        "fecha_creacion",
-        "fecha_modificacion",
-      ],
-      foreingFields: [],
-    },
-    preciador_portafolio_ideal: {
-      data: [
-        "id_preciador_portafolio_ideal",
-        "precio_portafolio_ideal",
-        "estado_preciador_ideal",
+        "precio",
+        "estado",
         "url_imagen1",
         "url_imagen2",
         "url_imagen3",
@@ -204,16 +187,6 @@ export const dataParameters = {
         "fecha_modificacion",
       ],
       foreingFields: [],
-    },
-    portafolio_ideal: {
-      data: ["id_portafolio_ideal", "id_producto", "id_grupo_cliente"],
-      foreingFields: [
-        {
-          tableName: "producto",
-          data: ["id_categoria", "nombre_producto", "url_imagen_producto"],
-          foreingKey: "id_producto",
-        },
-      ],
     },
     planograma: {
       data: [
