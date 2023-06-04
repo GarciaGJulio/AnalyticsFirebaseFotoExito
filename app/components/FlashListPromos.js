@@ -5,7 +5,7 @@ import CheckBoxContainer from "./CheckBoxContainer";
 import theme from "../theme/theme";
 import { CheckBoxContainerP } from "./CheckBoxContainerP";
 
-export const FlashListPromos = ({ data, setData,exhibidorType }) => {
+export const FlashListPromos = ({ data, setData }) => {
   useEffect(() => {
     console.log("ESTO LLEGA DE PROMOS DE LISTA: ", data);
   }, []);

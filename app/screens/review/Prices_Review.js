@@ -61,50 +61,75 @@ const Prices_Review = () => {
         };
       });
 
-      let productosIdeal = [];
-      let productosComplementario = [];
-      datosPreciador.forEach((producto) => {
-        if (idsC == null) {
-          console.log(
-            "NO SE HAN SELECCIONADO PORDUCTOS COMPLEMENTARIOS, SE PROCEDE A VALIDAR IDEALES - - - -: ",
-            producto.id_portafolio + " " + idsI
-          );
+      const productosIdeal = [];
+      const productosComplementario = [];
 
-          productosIdeal.push(producto);
-        }
-        if (idsI == null) {
+      datosPreciador.forEach((producto) => {
+        if (idsC === null && idsI === null) {
           console.log(
-            "NO SE HAN SELECCIONADO PORDUCTOS IDEALES, SE PROCEDE A VALIDAR COMPLEMENTARIOS - - - -: ",
-            producto.id_portafolio + " " + idsC
+            "NO SE HAN SELECCIONADO PRODUCTOS COMPLEMENTARIOS O IDEALES, SE PROCEDERÁ A VALIDAR TODO EL ARREGLO"
+          );
+          productosIdeal.push(producto);
+        } else if (idsC === null) {
+          console.log(
+            "NO SE HAN SELECCIONADO PRODUCTOS COMPLEMENTARIOS, SE PROCEDERÁ A VALIDAR LOS PRODUCTOS IDEALES"
+          );
+          console.log(
+            "PRODUCTO: " +
+              producto.nombre_producto +
+              " ID:" +
+              producto.id_portafolio +
+              "ID I: " +
+              idsI
+          );
+          if (producto.id_portafolio === idsI) {
+            console.log(
+              " \nGUARDANDO PRODUCTO :" + producto.nombre_producto + " EN IDEAL"
+            );
+            productosIdeal.push(producto);
+          }
+        } else if (idsI === null) {
+          console.log(
+            "NO SE HAN SELECCIONADO PRODUCTOS IDEALES, SE PROCEDERÁ A VALIDAR LOS PRODUCTOS COMPLEMENTARIOS"
           );
           if (producto.id_portafolio === idsC) {
             productosComplementario.push(producto);
-          } else {
-            productosIdeal.push(producto);
           }
         } else {
-          console.log(
-            "PRODUCTO A EVALUAR - - - -: ",
-            producto.id_portafolio + " " + idsI
-          );
+          console.log("SE HAN SELECCIONADO AMBOS TIPOS DE PRODUCTOS");
           if (producto.id_portafolio === idsI) {
             productosIdeal.push(producto);
-          } else {
+          } else if (producto.id_portafolio === idsC) {
             productosComplementario.push(producto);
           }
         }
       });
 
-      const productosAllIdeal = productosIdealSinPreciador.map((objeto1) => {
+      const productosAllIdeal = [];
+
+      productosIdealSinPreciador.forEach((objeto1) => {
         const matchingObj = productosIdeal.find(
           (objeto2) => objeto1.id_producto === objeto2.id_producto
         );
+
         if (matchingObj) {
-          return { ...matchingObj };
+          productosAllIdeal.push({ ...matchingObj });
         } else {
-          return { ...objeto1 };
+          productosAllIdeal.push({ ...objeto1 });
         }
       });
+
+      productosIdeal.forEach((objeto2) => {
+        const matchingObj = productosIdealSinPreciador.find(
+          (objeto1) => objeto2.id_producto === objeto1.id_producto
+        );
+
+        if (!matchingObj) {
+          productosAllIdeal.push({ ...objeto2 });
+        }
+      });
+
+      console.log(productosAllIdeal);
 
       setproductsIdeal([...productosAllIdeal]);
       setproductosComplementario([...productosComplementario]);
@@ -134,12 +159,16 @@ const Prices_Review = () => {
         productosIdeal2
       );
       console.log(
+        "ID LA AUDITORIA PRESENTE- - -/ / / / /  - : ",
+        datosCompartidos.id_portafolio_auditoria
+      );
+      console.log(
         "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
         idsPortafolioAuditoria
       );
       console.log(
-        "ID LA AUDITORIA PRESENTE- - -/ / / / /  - : ",
-        datosCompartidos.id_portafolio_auditoria
+        "ESTOS SON TODOS LOS PRODUCTOS IDEALES CON O SIN PRECIADOR:",
+        productosAllIdeal
       );
     } catch (e) {
       console.log("Error al ejecutar la funcion de consulta: ", e);

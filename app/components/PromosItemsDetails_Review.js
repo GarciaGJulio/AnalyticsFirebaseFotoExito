@@ -20,26 +20,30 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const [openCamera, setOpenCamera] = useState(false);
   const validateExtraImages = (objeto) => {
     setExtraImages([]);
+
     if (
-      objeto.url_imagen1 != null ||
-      objeto.url_imagen1 != "null" ||
-      objeto.url_imagen1 != undefined
+      objeto.url_imagen1 !== null &&
+      objeto.url_imagen1 !== undefined &&
+      objeto.url_imagen1 !== "null" &&
+      objeto.url_imagen1 !== "undefined"
     ) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
     }
-    setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+
     if (
-      objeto.url_imagen2 != null ||
-      objeto.url_imagen2 != "null" ||
-      objeto.url_imagen2 != undefined
+      objeto.url_imagen2 !== null &&
+      objeto.url_imagen2 !== undefined &&
+      objeto.url_imagen2 !== "null" &&
+      objeto.url_imagen2 !== "undefined"
     ) {
       setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
 
     if (
-      objeto.url_imagen3 != null ||
-      objeto.url_imagen3 != "null" ||
-      objeto.url_imagen3 != undefined
+      objeto.url_imagen3 !== null &&
+      objeto.url_imagen3 !== undefined &&
+      objeto.url_imagen3 !== "null" &&
+      objeto.url_imagen3 !== "undefined"
     ) {
       setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
@@ -50,7 +54,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
 
   useEffect(() => {
     validateExtraImages(exhibitor);
-    console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
+    //console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
   }, []);
 
   const [fontLoaded] = useFonts({

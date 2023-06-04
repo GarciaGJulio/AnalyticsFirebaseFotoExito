@@ -98,11 +98,11 @@ export const Promos = ({ navigation }) => {
           sucursal: objeto.sucursal,
           id_promocion: idPromocion,
           url: objeto.url_imagen_exhibidor,
-          state: objeto.state,
+          state: null,
           images: {
-            image1: objeto.image1,
-            image2: objeto.image2,
-            image3: objeto.image3,
+            image1: null,
+            image2: null,
+            image3: null,
           },
         };
       });
@@ -199,7 +199,7 @@ export const Promos = ({ navigation }) => {
     setSelected(null);
   };
 
-  useEffect(() => { });
+  useEffect(() => {});
 
   /*useEffect(() => {
     const disableBackButton = () => {
@@ -228,7 +228,7 @@ export const Promos = ({ navigation }) => {
     setIsModalVisibleCloseSucursal(true);
     setIsModalVisible(true);
     saveAudit();
-    cleanCurrentScreenUser()
+    cleanCurrentScreenUser();
     setTimeout(() => {
       setAnimation(SUCCESS_ANIMATION);
       setIsModalVisible(false);
@@ -240,7 +240,7 @@ export const Promos = ({ navigation }) => {
   const dataId = async () => {
     let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
     let idPercha = await AsyncStorage.getItem("id_percha"); //si
-    let idSucursal = await AsyncStorage.getItem("id_sucursal");//si
+    let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
     let idCliente = await AsyncStorage.getItem("id_cliente"); //si
     let nombreCliente = await AsyncStorage.getItem("nombre_cliente"); //si
     let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
@@ -269,7 +269,9 @@ export const Promos = ({ navigation }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     );
-    console.log("***********************************************************************************");
+    console.log(
+      "***********************************************************************************"
+    );
     console.log("ID DE PRECIADOR: ", idPreciador);
     console.log("ID DE PERCHA: ", idPercha);
     console.log("ID DE SUCURSAL: ", idSucursal);
@@ -277,7 +279,9 @@ export const Promos = ({ navigation }) => {
     console.log("NOMBRE CLIENTE: ", nombreCliente);
     console.log("NOMBRE SUCURSAL: ", nombreSucursal);
     console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
-    console.log("***********************************************************************************");
+    console.log(
+      "***********************************************************************************"
+    );
 
     let dataSave = {
       tableName: "auditoria",
@@ -331,7 +335,6 @@ export const Promos = ({ navigation }) => {
         "Vuelva a intentarlo"
       );
     }
-   
   };
 
   useEffect(() => {
@@ -442,8 +445,10 @@ export const Promos = ({ navigation }) => {
           console.log("TODO BIEN");
 
           saveAudit();
-          cleanCurrentScreenUser()
-          setTimeout(()=>{navigation.navigate("begin")},1200)
+          cleanCurrentScreenUser();
+          setTimeout(() => {
+            navigation.navigate("begin");
+          }, 1200);
         });
       } catch (e) {
         Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
