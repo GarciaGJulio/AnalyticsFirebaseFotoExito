@@ -243,3 +243,13 @@ export const PRECIADOR_PORTAFOLIO_IDEAL = {
   FECHA_MODIFICACION: "fecha_modificacion",
   INDEX_1: "id_preciador_portafolio_ideal",
 };
+
+export const PERSISTENCIA = {
+  NAME: "persistencia",
+  KEY_1: "id_persistencia",
+  SCREEN_NAME: "nombre_pantalla",
+  TABLE_NAME: "nombre_tabla",
+  ITEM_ID: "id_registro",
+  COLUMN_ID: "campo_id",
+  EXTRA_INFO:"extra_info"
+}

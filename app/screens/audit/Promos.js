@@ -34,6 +34,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import { cleanCurrentScreenUser } from "../../utils/Utils";
 
 export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -52,7 +53,7 @@ export const Promos = ({ navigation }) => {
   const [showButton2, setShowButton2] = useState(false);
 
   const consultarYCopiarContenido = async () => {
-    const clientName = await AsyncStorage.getItem("clientName");
+    const clientName = await AsyncStorage.getItem("nombre_cliente");
     try {
       // Realiza la consulta a la base de datos
       /*const resultadoConsulta = await realizarConsulta(
@@ -60,7 +61,7 @@ export const Promos = ({ navigation }) => {
       );*/
 
       const resultadoConsultaExhibidor = await realizarConsulta(
-        "SELECT * FROM exhibidor"
+        `SELECT * FROM exhibidor WHERE nombre_cliente='${clientName}'`
       );
 
       const tablaAuditorias = await realizarConsulta("SELECT * FROM auditoria");
@@ -160,6 +161,10 @@ export const Promos = ({ navigation }) => {
         "ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES : ",
         exhibidorFilter
       );
+      console.log(
+        "DATOS DE EXHIBIDORES * * * * * * *: - - - - ",
+        resultadoConsultaExhibidor
+      );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -194,7 +199,7 @@ export const Promos = ({ navigation }) => {
     setSelected(null);
   };
 
-  useEffect(() => {});
+  useEffect(() => { });
 
   /*useEffect(() => {
     const disableBackButton = () => {
@@ -208,21 +213,22 @@ export const Promos = ({ navigation }) => {
     };
   }, []);*/
 
-  const handleOpenModalFinish = () => {
-    setAnimation(SAVE_ANIMATION);
-    setIsModalVisible(true);
-    setTimeout(() => {
-      //setAnimation(SUCCESS_ANIMATION);
-      setIsModalVisible(false);
-      navigation.navigate("begin");
-    }, 5000);
-  };
+  // const handleOpenModalFinish = () => {
+  //   setAnimation(SAVE_ANIMATION);
+  //   setIsModalVisible(true);
+  //   setTimeout(() => {
+  //     //setAnimation(SUCCESS_ANIMATION);
+  //     setIsModalVisible(false);
+  //     navigation.navigate("begin");
+  //   }, 5000);
+  // };
 
   const handleOpenModalFinishWithoutBranch = () => {
     setAnimation(SAVE_ANIMATION);
     setIsModalVisibleCloseSucursal(true);
     setIsModalVisible(true);
     saveAudit();
+    cleanCurrentScreenUser()
     setTimeout(() => {
       setAnimation(SUCCESS_ANIMATION);
       setIsModalVisible(false);
@@ -232,15 +238,15 @@ export const Promos = ({ navigation }) => {
   };
 
   const dataId = async () => {
-    let idPreciador = await AsyncStorage.getItem("id_preciador");
-    let idPercha = await AsyncStorage.getItem("id_percha");
-    let idSucursal = await AsyncStorage.getItem("id_sucursal");
-    let idCliente = await AsyncStorage.getItem("id_cliente");
-    let nombreCliente = await AsyncStorage.getItem("nombre_cliente");
+    let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
+    let idPercha = await AsyncStorage.getItem("id_percha"); //si
+    let idSucursal = await AsyncStorage.getItem("id_sucursal");//si
+    let idCliente = await AsyncStorage.getItem("id_cliente"); //si
+    let nombreCliente = await AsyncStorage.getItem("nombre_cliente"); //si
     let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
-    );
+    ); //si
     console.log("ID DE PRECIADOR: ", idPreciador);
     console.log("ID DE PERCHA: ", idPercha);
     console.log("ID DE SUCURSAL: ", idSucursal);
@@ -263,6 +269,16 @@ export const Promos = ({ navigation }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     );
+    console.log("***********************************************************************************");
+    console.log("ID DE PRECIADOR: ", idPreciador);
+    console.log("ID DE PERCHA: ", idPercha);
+    console.log("ID DE SUCURSAL: ", idSucursal);
+    console.log("ID DE CLIENTE: ", idCliente);
+    console.log("NOMBRE CLIENTE: ", nombreCliente);
+    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+    console.log("***********************************************************************************");
+
     let dataSave = {
       tableName: "auditoria",
       dataInsertType: [
@@ -315,6 +331,7 @@ export const Promos = ({ navigation }) => {
         "Vuelva a intentarlo"
       );
     }
+   
   };
 
   useEffect(() => {
@@ -388,11 +405,11 @@ export const Promos = ({ navigation }) => {
         exhibidorSucursal.map((productos) => {
           const { id_promocion, id, state, images } = productos;
           const { image1, image2, image3 } = images;
-          console.log("Prod;", productos);
-          console.log(
-            "---------------------- imagenes",
-            JSON.stringify(images)
-          );
+          // console.log("Prod;", productos);
+          // console.log(
+          //   "---------------------- imagenes",
+          //   JSON.stringify(images)
+          // );
           let dataSave = {
             tableName: "promocion",
             dataInsertType: [
@@ -423,8 +440,10 @@ export const Promos = ({ navigation }) => {
           console.log("SENTENCIA A EJECUTAR: ", sentence);
           db_insertGlobalDataAudit(dataSave);
           console.log("TODO BIEN");
+
           saveAudit();
-          navigation.navigate("begin");
+          cleanCurrentScreenUser()
+          setTimeout(()=>{navigation.navigate("begin")},1200)
         });
       } catch (e) {
         Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");

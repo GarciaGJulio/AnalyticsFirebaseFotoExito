@@ -37,27 +37,18 @@ export const ListBranch = ({ navigation }) => {
       //await copiarContenido(resultadoConsulta);
       setAudit(resultadoConsulta);
       setFilteredData(resultadoConsulta);
-      console.log(
-        "Copia de contenido completada con éxito: ",
-        resultadoConsulta
-      );
-    } catch (error) {
-      console.error("Error al consultar o copiar el contenido:", error);
-    }
+  //     console.log(
+  //       "Copia de contenido completada con éxito: ",
+  //       resultadoConsulta
+  //     );
+     } catch (error) {
+       console.error("Error al consultar o copiar el contenido:", error);
+     }
   };
 
   useEffect(() => {
     consultarYCopiarContenido();
 
-    const disableBackButton = () => {
-      return false; // Bloquea la función de retroceso nativa
-    };
-
-    BackHandler.addEventListener("hardwareBackPress", disableBackButton);
-
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
-    };
   }, []);
 
   const [fontLoaded] = useFonts({
@@ -68,7 +59,18 @@ export const ListBranch = ({ navigation }) => {
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [clientes, setClientes] = useState([]);
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate("menu")
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
 
+    return () => backHandler.remove();
+  }, []);
   const searchFilter = (text) => {
     setSearchText(text);
     const newData = audit.filter((item) => {

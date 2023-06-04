@@ -14,15 +14,22 @@ export const MultiSelectListV2 = ({
   products,
   tipo,
   idPortafolio,
+  isUserScreen,
+  selectItemsId
 }) => {
   const [select, setSelected] = useState([]);
+ // const [selectItemsId, setSelectItemsId] = useState([]);
   const saveId = async () => {
     await AsyncStorage.setItem("id_portafolio_complementario", idPortafolio);
     await AsyncStorage.setItem("tipo_complementario", tipo);
   };
   useEffect(() => {
-    console.log("PRODUCTOS A MOSTRAR EN EL MULTISELECT: ", products);
+    if (isUserScreen) {
+      setSelected(complementaryPortfolioProducts)
+      //setSelectItemsId(complementaryPortfolioProducts.map((item) => { return item.id }))
+    }
   }, []);
+
   /*
   const validateProducts = (value) => {
     console.log("PRODUCTO SELECCIONADO: - - - " + value);
@@ -428,7 +435,7 @@ export const MultiSelectListV2 = ({
           showDropDowns={true}
           searchPlaceholderText="Busca el producto o la categoría"
           onSelectedItemsChange={onSelectedItemsChange}
-          selectedItems={select}
+          selectedItems={isUserScreen ? selectItemsId : select}
         />
       </View>
     </ScrollView>

@@ -12,7 +12,7 @@ import { generateUIDDGeneric } from "../services/GenerateID";
 import LoaderModal from "./LoaderModal";
 import LOCATION_ANIMATION from "../../assets/camera.json";
 
-const TakeImage = ({ setProducts, item }) => {
+const TakeImage = ({ setProducts, item, isUserScreen }) => {
   const [image, setImage] = useState(
     "https://static.vecteezy.com/system/resources/thumbnails/001/198/770/small_2x/camera.png"
   );
@@ -28,8 +28,21 @@ const TakeImage = ({ setProducts, item }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    console.log("Id dsde Taker:", item.id);
+    console.log("item dsde Taker:", item);
     setidItem(item.id);
+    if (isUserScreen) {
+      console.log("dentroooo",item.images.image1)
+      setImageV1(true)
+      if(item.images.image1){
+        setImage1(item.images.image1)
+      }
+      if(item.images.image2){
+        setImage2(item.images.image2)
+      }
+      if(item.images.image3){
+        setImage3(item.images.image3)
+      }
+    }
   }, []);
   const handleOpenModal = async (setRemote, setImg, actImg, NomImg) => {
     setIsModalVisible(true);

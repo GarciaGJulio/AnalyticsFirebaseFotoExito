@@ -17,12 +17,22 @@ import TarjPromo from "../../components/TarjetaPromo";
 import { RecuperarToken } from "../../services/onedrive";
 import LOG_ING from "../../../assets/login.json";
 import LoaderModal from "../../components/LoaderModal";
+import { getCurrentScreenInformation, saveCurrentScreenUser } from "../../utils/Utils";
 
 export const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
   const [isLoading, setIsLoading] = useState(false);
-  const log = () => {
-    console.log("DISPARANDO LOGIN DE AD");
+  const log = async () => {
+    // console.log("DISPARANDO LOGIN DE AD");
+    // saveCurrentScreenUser({
+    //   screenName: `home`,
+    //   tableName: `cliente`,
+    //   itemId: `123456789`
+
+    // })
+    // return
+    // const result = await getCurrentScreenInformation("2")
+    // console.log("result", result)
     login();
     RecuperarToken();
     //navigation.navigate('menu')
