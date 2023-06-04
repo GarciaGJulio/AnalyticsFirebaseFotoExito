@@ -35,6 +35,7 @@ import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import { cleanCurrentScreenUser } from "../../utils/Utils";
+import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
 
 export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -323,6 +324,12 @@ export const Promos = ({ navigation }) => {
     console.log("SENTENCIA A EJECUTAR: ", sentence);
     try {
       db_insertGlobalDataAudit(dataSave);
+
+      subidaBaseRemoteTodaAuditoria(`'${idAuditoria}'`);
+      const promocionData = await realizarConsulta("UPDATE auditoria SET <SINCRONIZADA> =trueWHERE id_auditoria="+idAuditoria+";")
+      console.log("resultado de la actualizacion:",promocionData)
+
+
       setShowButton1(false);
       setShowButton2(true);
     } catch (e) {
@@ -331,7 +338,7 @@ export const Promos = ({ navigation }) => {
         "Vuelva a intentarlo"
       );
     }
-   
+
   };
 
   useEffect(() => {
@@ -442,8 +449,18 @@ export const Promos = ({ navigation }) => {
           console.log("TODO BIEN");
 
           saveAudit();
+
           cleanCurrentScreenUser()
-          setTimeout(()=>{navigation.navigate("begin")},1200)
+
+
+
+          // setTimeout(() => { navigation.navigate("begin") }, 1200)
+
+
+
+
+
+
         });
       } catch (e) {
         Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
