@@ -14,9 +14,11 @@ export const pickImages = async (
     // base64:true
   });
   console.log("Imagen Uri:", resultado.assets[0].uri);
-  // fn(resultado.assets[0].uri);
+  let uri=resultado.assets[0].uri
+  console.log("uir desde cameraM:",uri)
+  await fn(uri, IdFoto);
   console.log("dESDE cAMERA iD", IdFoto);
-  fn(await SubirAlonedrive(resultado.assets[0].uri, IdFoto));
+  // fn(await SubirAlonedrive(resultado.assets[0].uri, IdFoto));
   // console.log("Desde el Camera",await SubirAlonedrive(resultado.assets[0].uri,IdFoto))
   //await setImageBase64(resultado.assets[0].uri);
   //await SubirFoto(resultado.assets[0].uri, Idaux, setUrl);
