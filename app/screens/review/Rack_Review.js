@@ -77,7 +77,7 @@ const Rack_Review = () => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 10,
+          marginTop: theme.dimensions.maxHeight / 12,
         }}
       >
         <ScreenInformationReview
@@ -90,7 +90,6 @@ const Rack_Review = () => {
           }
           text={"A continuación se muestran los datos de perchas registradas"}
         />
-        <BackPage_Review />
       </View>
       <TarjetaRack_Review data={rack} />
       <View style={{ flex: 0.1, backgroundColor: "red" }}></View>

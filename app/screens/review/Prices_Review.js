@@ -18,16 +18,20 @@ const Prices_Review = () => {
     const idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
       const idsPortafolioAuditoria = await realizarConsulta(
-        "SELECT DISTINCT  p.id_portafolio,p.id_producto,p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio"
+        `SELECT DISTINCT p.id_portafolio, p.id_producto, p.tipo
+        FROM portafolio p
+        INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio
+        WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}'
+        `
       );
 
       const datosPreciador = await realizarConsulta(
         `SELECT DISTINCT p.nombre_producto,p.url_imagen_producto,pr.* from auditoria as a inner join preciador as pr on pr.id_preciador=a.id_preciador inner join portafolio as pf on pr.id_portafolio=pf.id_portafolio and pr.id_producto= pf.id_producto inner join producto as p on p.id_producto=pf.id_producto where a.id_auditoria='${datosCompartidos.id_auditoria}'`
       );
 
-      const datosPreciador2 = await realizarConsulta(
+      /*const datosPreciador2 = await realizarConsulta(
         `SELECT * from preciador where id_preciador='${datosCompartidos.id_preciador}'`
-      );
+      );*/
 
       let idsI = null;
       let idsC = null;
@@ -60,6 +64,14 @@ const Prices_Review = () => {
       let productosIdeal = [];
       let productosComplementario = [];
       datosPreciador.forEach((producto) => {
+        if (idsC == null) {
+          console.log(
+            "NO SE HAN SELECCIONADO PORDUCTOS COMPLEMENTARIOS, SE PROCEDE A VALIDAR IDEALES - - - -: ",
+            producto.id_portafolio + " " + idsI
+          );
+
+          productosIdeal.push(producto);
+        }
         if (idsI == null) {
           console.log(
             "NO SE HAN SELECCIONADO PORDUCTOS IDEALES, SE PROCEDE A VALIDAR COMPLEMENTARIOS - - - -: ",
@@ -69,16 +81,6 @@ const Prices_Review = () => {
             productosComplementario.push(producto);
           } else {
             productosIdeal.push(producto);
-          }
-        } else if (idsC == null) {
-          console.log(
-            "NO SE HAN SELECCIONADO PORDUCTOS COMPLEMENTARIOS, SE PROCEDE A VALIDAR IDEALES - - - -: ",
-            producto.id_portafolio + " " + idsI
-          );
-          if (producto.id_portafolio === idsC) {
-            productosIdeal.push(producto);
-          } else {
-            productosComplementario.push(producto);
           }
         } else {
           console.log(
@@ -107,16 +109,8 @@ const Prices_Review = () => {
       setproductsIdeal([...productosAllIdeal]);
       setproductosComplementario([...productosComplementario]);
 
-      console.log(
-        "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
-        idsPortafolioAuditoria
-      );
-
       console.log("PRODUCTO IDEAL-- - - - - -- ", productosIdeal);
-      console.log(
-        "ESTO VIENE DE PRECIADOR TOTAL - - - - - - -",
-        datosPreciador2
-      );
+
       console.log("PRODUCTOS IDEALES TOTALES - - - - - - -", productosAllIdeal);
       console.log(
         "PRODUCTOS SIN PRECIADOR EN IDEAL-- - - - - -- ",
@@ -127,17 +121,25 @@ const Prices_Review = () => {
         productosComplementario
       );
       console.log(
-        "DATOS DE LA CONSULTA PRECIADOR * * * * * * * * *  : ",
+        "DATOS DE LA CONSULTA PRECIADOR UNO QUE ES MI REFERENCIA PRINCIPAL* * * * * * * * *  : ",
         datosPreciador
       );
-      console.log(
+      /*console.log(
         "DATOS DE LA CONSULTA PRECIADOR -/-/-/-/-/-/-/-/-/: ",
         datosPreciador2
-      );
+      );*/
 
       console.log(
         "ESTO TRAE PRODUCTOS IDEAL 2 -/-/-/-/-/-/-/-/-/: ",
         productosIdeal2
+      );
+      console.log(
+        "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
+        idsPortafolioAuditoria
+      );
+      console.log(
+        "ID LA AUDITORIA PRESENTE- - -/ / / / /  - : ",
+        datosCompartidos.id_portafolio_auditoria
       );
     } catch (e) {
       console.log("Error al ejecutar la funcion de consulta: ", e);
@@ -154,7 +156,7 @@ const Prices_Review = () => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 10,
+          marginTop: theme.dimensions.maxHeight / 12,
         }}
       >
         <ScreenInformationReview
@@ -169,7 +171,6 @@ const Prices_Review = () => {
             "A continuación se muestran los preciadores de los productos registrados"
           }
         />
-        <BackPage_Review />
       </View>
       <ProductsPrices_Review
         text={"Portafolio Ideal"}
