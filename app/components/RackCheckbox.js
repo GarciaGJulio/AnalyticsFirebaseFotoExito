@@ -15,10 +15,31 @@ import { FlashList } from "@shopify/flash-list";
 import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
 
-export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
+export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planograma }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
   const [verificacionCategorias, setverificacionCategoria] = useState();
+  const [check1, setCheck1] = useState(false);
+  const [check2, setCheck2] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [disabled1, setDisabled1] = useState(false);
+  const [disabled2, setDisabled2] = useState(false);
+  const [openCamera, setOpenCamera] = useState(false);
+  useEffect(()=>{
+    // console.log("------isUserScreen----------",isUserScreen)
+    if(isUserScreen){
+      setCateGeneral(item.carasGeneral+"")
+      setCateModerna(item.carasModerna+"")
+      if(item.state=="1"){
+        setCheck1(true)
+        setOpenCamera(true)
+      }else{
+        setCheck2(true)
+      }
+      
+      // console.log("----------------",item)
+    }
+  },[])
   //const [objPercha, setObjPercha] = useState(itemCom)
 
   /* useEffect(() => {
@@ -140,12 +161,7 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
     });
   };
 
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disabled1, setDisabled1] = useState(false);
-  const [disabled2, setDisabled2] = useState(false);
-  const [openCamera, setOpenCamera] = useState(false);
+
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
@@ -316,6 +332,7 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
 
             <View style={{ flexDirection: "row" }}>
               {item.imagesPlanograma.map((prodImages) => {
+                // console.log("---------------prodImages-------------------",prodImages)
                 return (
                   <Image
                     //key={index}
@@ -393,7 +410,7 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
               >
                 Planograma Real
               </Text>
-              <TakeImage setProducts={setData} item={item} />
+              <TakeImage isUserScreen={isUserScreen}  setProducts={setData} item={item} />
             </View>
           ) : (
             <></>

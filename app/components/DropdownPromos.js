@@ -32,12 +32,12 @@ export const DropdownPromos = ({
 
   const validateType = () => {
     arrayClients.forEach((type) => {
-      console.log("CLIENTE A ANALIZAR: ", type);
+      // console.log("CLIENTE A ANALIZAR: ", type);
       if (type.nombre_cliente == selected) {
-        console.log(
-          "CLIENTE ENCONTRADO - - - -ASIGNANDO TIPO DE CLIENTE: ",
-          type.nombre_tipo_cliente
-        );
+        // console.log(
+        //   "CLIENTE ENCONTRADO - - - -ASIGNANDO TIPO DE CLIENTE: ",
+        //   type.nombre_tipo_cliente
+        // );
         setType(type.nombre_tipo_cliente);
         setSucursalInformation({
           ...sucursalInformation,

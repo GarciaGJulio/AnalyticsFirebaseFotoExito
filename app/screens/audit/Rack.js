@@ -1,4 +1,4 @@
-  import {
+import {
   Alert,
   BackHandler,
   Image,
@@ -32,6 +32,8 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { TarjPercha } from "../../components/TarjetaPercha";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import LoaderModal from "../../components/LoaderModal";
+import { saveCurrentScreenUser } from "../../utils/Utils";
+import { RecuperarToken } from "../../services/onedrive";
 
 export const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
@@ -46,7 +48,46 @@ export const Racks = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [infoScreen, setInfoScreen] = useState(null);
+  useEffect(() => {
+    getInfoDatBaseScreen()
+  }, [])
+  const getInfoDatBaseScreen = () => {
+    try {
+      console.log("global.userInfoScreen en pricess", global.userInfoScreen)
+      if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
+        return
+      }
+      const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const newObj = {
+        ...infoExtra,
+        ...global.userInfoScreen.infoScreen
+      }
+      // console.log("newObj-------------", newObj)
+      // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
+      let tempItems = infoExtra.category.split("**")
+      // console.log("tempItems SPOPLIT-------------", tempItems)
+      tempItems = tempItems.filter((item) => item.length > 0 && item != ",")
+      // console.log("tempItems FILTER-------------", tempItems)
+      tempItems = tempItems.map((item) => { return JSON.parse(item) })
+      // console.log("tempItems-------------", tempItems)
+      setCategory(tempItems)
+      setInfoScreen(newObj)
+      setShowButton2(true)
+      setShowButton1(false)
+      AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
+      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
+      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
+      AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
+      AsyncStorage.setItem("id_preciador", infoExtra.auditorias_id.id_preciador);
+      AsyncStorage.setItem("id_percha", infoExtra.auditorias_id.id_percha);
+      
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
   /*const EnviaDatosLocal = async () => {
     db_insertPercha(1, checked, valueGeneral, valueModerna);
     await lookForPerchas(setPedidos);
@@ -54,27 +95,27 @@ export const Racks = ({ navigation }) => {
   };*/
 
   useEffect(() => {
-   
-    console.log("IDPERCHA",idPercha)
-    
+    RecuperarToken()
+    console.log("IDPERCHA", idPercha)
+
   }, []);
 
 
 
 
   const handleOpenModal = async () => {
-setIsModalVisible(true)
-try{
-   await validate()
-    setIsModalVisible(false)
-    // setShowButton2(true)
-    // setShowButton1(false)
-  } catch  (error){
-    // setIsModalVisible(false)
+    setIsModalVisible(true)
+    try {
+      await validate()
+      setIsModalVisible(false)
+      // setShowButton2(true)
+      // setShowButton1(false)
+    } catch (error) {
+      // setIsModalVisible(false)
 
-  }
+    }
 
-  
+
 
   }
   const consultarYCopiarContenido = async () => {
@@ -84,7 +125,7 @@ try{
       const resultadoConsulta = await realizarConsulta(
         "SELECT * FROM percha"
       );
-      console.log("percha llanda:",resultadoConsulta)
+      console.log("percha llanda:", resultadoConsulta)
 
       const resultadoConsultaPlanograma = await realizarConsulta(
         "SELECT * FROM planograma"
@@ -104,9 +145,9 @@ try{
         });
 
       const newArrayEstado = planogramaFiltro.map((objeto) => {
-        console.log("idQva:",objeto.id_percha)
+        console.log("idQva:", objeto.id_percha)
         return {
-          
+
           id: objeto.id,
           id_percha: idPercha,
           name: objeto.name,
@@ -130,19 +171,24 @@ try{
       }, []);*/
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
-      setCategory(newArrayEstado);
-      setRack(planogramaFiltro);
-      console.log(
-        "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
-        resultadoConsulta
-      );
 
-      console.log(
-        "ESTO ME TRAE DE LOS PLANOGRAMAS:-  -- - - :  -      ---------------------------",
-        resultadoConsultaPlanograma
-      );
-      console.log("Copia de contenido completada con éxito: ", newArrayEstado);
-      console.log("ARRAY DE PLANOGRAMA: ", planogramaFiltro);
+      if (global?.userInfoScreen != "rack") {
+        setCategory(newArrayEstado);
+        setRack(planogramaFiltro);
+      }
+
+
+      // console.log(
+      //   "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
+      //   resultadoConsulta
+      // );
+
+      // console.log(
+      //   "ESTO ME TRAE DE LOS PLANOGRAMAS:-  -- - - :  -      ---------------------------",
+      //   resultadoConsultaPlanograma
+      // );
+      // console.log("Copia de contenido completada con éxito: ", newArrayEstado);
+      // console.log("ARRAY DE PLANOGRAMA: ", planogramaFiltro);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -177,7 +223,7 @@ try{
 
     console.log("VALIDACION DE DATOS DE PERCHAS: ", rack);
     const isValid = category.every((item) => {
-      console.log("ItemModerna:",item)
+      console.log("ItemModerna:", item)
       if (
         item.state === null ||
         item.carasGeneral === null ||
@@ -204,79 +250,102 @@ try{
       console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(category));
     } else {
       try {
-        console.log("IDPERCHA21",idPercha)
+        console.log("IDPERCHA21", idPercha)
 
         await AsyncStorage.setItem("id_percha", idPercha);
-        let x=await AsyncStorage.getItem("id_percha")
-        console.log("IDPERCHA2",x)
+        let x = await AsyncStorage.getItem("id_percha")
+        console.log("IDPERCHA2", x)
         console.log("PERCHAS QUE VAN A SER GUARDADOS: ", JSON.stringify(category));
-        console.log("RACKS:",category)
+        console.log("RACKS:", category)
         category
-        .map((productos) => {
-          const { id_percha, id, state, carasGeneral, carasModerna, images } =
-            productos;
-            console.log("carasGenerales:",carasGeneral)
-            console.log("carasmODERNA:",carasModerna)
+          .map((productos) => {
+            const { id_percha, id, state, carasGeneral, carasModerna, images } =
+              productos;
+            console.log("carasGenerales:", carasGeneral)
+            console.log("carasmODERNA:", carasModerna)
 
-          const { image1, image2, image3 } = images;
-          console.log(
-            "---------------------- imagenes",
-            JSON.stringify(images)
-          );
-          console.log("PRODUC:",productos)
-          let dataSave = {
-            tableName: "percha",
-            dataInsertType: [
-              "id_percha",
-              "id_categoria",
-              "estado_percha",
-              "categoria_general",
-              "categoria_moderna",
-              "url_imagen1",
-              "url_imagen2",
-              "url_imagen3",
-              "usuario_creacion",
-              "fecha_creacion",
-              "fecha_modificacion",
-            ],
-            dataInsert: [
-              `'${idPercha}'`,
-              `'${id}'`,
-              `'${state}'`,
-              `'${carasGeneral}'`,
-              `'${carasModerna}'`,
-              `'${image1}'`,
-              `'${image2}'`,
-              `'${image3}'`,
-              `'${userInfo.givenName}'`,
-              `'${dataTime()}'`,
-              `'${dataTime()}'`,
-            ],
-          };
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          
-          console.log("TODO BIEN");
-          // navigation.navigate("promos");rrrrrrrrrr
-          try {
-  
-            db_insertGlobalDataAudit(dataSave);
-            setShowButton1(false)
-            setShowButton2(true)
-          } catch (error) {
-            
-            Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
-  
-          }
-        });
+            const { image1, image2, image3 } = images;
+            console.log(
+              "---------------------- imagenes",
+              JSON.stringify(images)
+            );
+            console.log("PRODUC:", productos)
+            let dataSave = {
+              tableName: "percha",
+              dataInsertType: [
+                "id_percha",
+                "id_categoria",
+                "estado_percha",
+                "categoria_general",
+                "categoria_moderna",
+                "url_imagen1",
+                "url_imagen2",
+                "url_imagen3",
+                "usuario_creacion",
+                "fecha_creacion",
+                "fecha_modificacion",
+              ],
+              dataInsert: [
+                `'${idPercha}'`,
+                `'${id}'`,
+                `'${state}'`,
+                `'${carasGeneral}'`,
+                `'${carasModerna}'`,
+                `'${image1}'`,
+                `'${image2}'`,
+                `'${image3}'`,
+                `'${userInfo.givenName}'`,
+                `'${dataTime()}'`,
+                `'${dataTime()}'`,
+              ],
+            };
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
 
+            console.log("TODO BIEN");
+            // navigation.navigate("promos");rrrrrrrrrr
+            try {
+
+              db_insertGlobalDataAudit(dataSave);
+              setShowButton1(false)
+              setShowButton2(true)
+            } catch (error) {
+
+              Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+
+            }
+          });
+        let tempDataScreen = category.map((item) => { return `**${JSON.stringify(item)}**` })
+        let objUserInfo = {}
+
+        try {
+          objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+
+        } catch (e) {
+          objUserInfo = {}
+          console.log(e)
+        }
+        saveCurrentScreenUser({
+          screenName: `rack`,
+          tableName: `percha`,
+          itemId: `id_percha`,
+          columnId: `id_percha`
+        },
+          {
+            category: tempDataScreen.toString(),
+            auditorias_id: {
+              ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+                id_percha: idPercha
+              }
+            }
+          })
 
 
       } catch (e) {
@@ -318,6 +387,7 @@ try{
         <View style={styles.cardContainer}>
           <TarjPercha
             //data={category}
+            isUserScreen={infoScreen ? true : false}
             data={category}
             rack={rack}
             // setRack={rsetRack}
