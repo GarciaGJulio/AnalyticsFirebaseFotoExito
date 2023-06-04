@@ -49,7 +49,8 @@ import {
 } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
-import { saveCurrentScreenUser } from "../../utils/Utils";
+import { cleanCurrentScreenUser, deleteRegisterAudit, getCurrentScreenInformation, saveCurrentScreenUser } from "../../utils/Utils";
+import { useIsFocused } from "@react-navigation/native";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -80,9 +81,17 @@ export const Client_Information = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
+  const isFocused = useIsFocused();
   useEffect(() => {
-    getInfoDatBaseScreen()
-  }, [])
+    const initDataLocal = async () => {
+      console.log("empexando a await de get current data ====================================")
+      await getCurrentScreenInformation()
+      getInfoDatBaseScreen()
+    }
+    initDataLocal()
+    setTimeout(()=>{initDataLocal()},2000)
+
+  }, [isFocused])
 
   const getInfoDatBaseScreen = () => {
     try {
@@ -90,7 +99,13 @@ export const Client_Information = ({ navigation }) => {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "audit") {
         return
       }
-      const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      console.log("tmpInfoExtra dewsde clietn infomart===================", tmpInfoExtra)
+      //const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion
+      const infoExtra = tmpPantalla.extra_info
+      /* const tmpPantalla=tmpInfoExtra.pantallas.cliente_informacion
+       const infoExtra = tmpPantalla.extra_info*/
       const newObj = {
         ...infoExtra,
         ...global.userInfoScreen.infoScreen
@@ -105,6 +120,9 @@ export const Client_Information = ({ navigation }) => {
       AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
 
     } catch (error) {
+      setInfoScreen(null)
+      setShowButton2(false)
+      setShowButton1(true)
       console.log(error)
     }
   }
@@ -412,18 +430,42 @@ export const Client_Information = ({ navigation }) => {
           itemId: sucursalInformation.id,
           columnId: `id_sucursal`
         }, {
-          nombre_cliente: selected,
-          grupo_cliente: groupClient,
-          tipo_cliente: type,
-          auditorias_id: {
-            id_cliente: tmp_client_id,
-            nombre_cliente: selected,
-            id_sucursal: sucursalInformation.id,
-            nombre_sucursal:sucursalInformation.name
+          // nombre_cliente: selected,
+          // grupo_cliente: groupClient,
+          // tipo_cliente: type,
+          // auditorias_id: {
+          //   id_cliente: tmp_client_id,
+          //   nombre_cliente: selected,
+          //   id_sucursal: sucursalInformation.id,
+          //   nombre_sucursal: sucursalInformation.name
+          // },
+          pantallas: {
+            cliente_informacion: {
+              principal: {
+                screenName: `audit`,
+                tableName: `sucursal`,
+                itemId: sucursalInformation.id,
+                columnId: `id_sucursal`
+              },
+              extra_info: {
+                nombre_cliente: selected,
+                grupo_cliente: groupClient,
+                tipo_cliente: type,
+                auditorias_id: {
+                  id_cliente: tmp_client_id,
+                  nombre_cliente: selected,
+                  id_sucursal: sucursalInformation.id,
+                  nombre_sucursal: sucursalInformation.name
+                },
+                pantallas: {
+                  cliente_informacion: null
+                }
+              }
+            }
           }
         })
 
-      //  await subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
+        //  await subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
         const sentence =
           "INSERT INTO " +
           dataSave.tableName +
@@ -501,7 +543,20 @@ export const Client_Information = ({ navigation }) => {
       console.error("Error al consultar o copiar el contenido:", error);
     }
   };*/
+  const handleDeleteRegisterLocal = async () => {
+    deleteRegisterAudit({
+      tableName: "sucursal",
+      objectId: "id_sucursal",
+      valueId: `${infoScreen ? infoScreen.id_sucursal : sucursalInformation.id}`
+    })
+    // const sqlsenten=`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`
+    // const res=await realizarConsulta(`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`)
+    // console.log("ressss",res)
+    // console.log("sqlsenten",sqlsenten)
+    // console.log("infoScreen",infoScreen)
 
+    cleanCurrentScreenUser()
+  }
   if (!fontLoaded) return null;
 
   return (
@@ -512,6 +567,7 @@ export const Client_Information = ({ navigation }) => {
         onClose={handleCloseModal}
         onPress={() => {
           setIsModalVisibleClose(false);
+          handleDeleteRegisterLocal()
           navigation.goBack();
         }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}

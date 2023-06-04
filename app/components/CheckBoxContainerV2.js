@@ -29,7 +29,11 @@ export const CheckBoxContainerV2 = ({
   const [disabled2, setDisabled2] = useState(false);
   const [errorPrice, setErrorPrice] = useState();
   useEffect(()=>{
+    console.log("////////////////////////////////////////////////isUserScreen: ", isUserScreen);
+    console.log("////////////////////////////////////////////////item: ", item);
+
     if(isUserScreen){
+      
       setState(item.state=="1"?true:false)
       setPrice(item.price+"")
     }

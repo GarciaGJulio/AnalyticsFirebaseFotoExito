@@ -28,7 +28,8 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
-import { saveCurrentScreenUser } from "../../utils/Utils";
+import { deleteRegisterAudit, getCurrentScreenInformation, getCurrentScreenInformationLocal, saveCurrentScreenUser } from "../../utils/Utils";
+import { useIsFocused } from "@react-navigation/native";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -55,21 +56,42 @@ export const Prices = ({ navigation, route }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
+  const isFocused = useIsFocused();
   useEffect(() => {
-    getInfoDatBaseScreen()
-  }, [])
-
+    const initDataLocal = async () => {
+      await getCurrentScreenInformation()
+      getInfoDatBaseScreen()
+    }
+    initDataLocal()
+    setTimeout(() => { initDataLocal() }, 2000)
+  }, [isFocused])
   const getInfoDatBaseScreen = () => {
     try {
       console.log("global.userInfoScreen en pricess", global.userInfoScreen)
       if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
         return
       }
-      const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      // const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      // const infoExtra =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.prices)
+
+      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      // console.log("tmpInfoExtra prices-----------------------------", tmpInfoExtra)
+      const tmpPantalla = tmpInfoExtra.pantallas.prices
+      const infoExtra = tmpPantalla.extra_info
       const newObj = {
         ...infoExtra,
         ...global.userInfoScreen.infoScreen
       }
+
+
+      // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      // const tmpPantalla = tmpInfoExtra.pantallas.prices
+      // const infoExtra = tmpPantalla.extra_info
+      // const newObj = {
+
+      //   ...infoExtra,
+      //   ...global.userInfoScreen.infoScreen
+      // }
       // console.log("newObj-------------", newObj)
       // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
       let tempItems = infoExtra.fullDataProducts.split("**")
@@ -78,8 +100,9 @@ export const Prices = ({ navigation, route }) => {
       // console.log("tempItems FILTER-------------", tempItems)
       tempItems = tempItems.map((item) => { return JSON.parse(item) })
       // console.log("tempItems-------------", tempItems)
-      setNewComplementaryPortfolio(tempItems)
-      setInfoScreen(newObj)
+      console.log("tempItems en prices", tempItems)
+      setNewComplementaryPortfolio(Object.assign([], tempItems))
+      setInfoScreen(Object.assign({}, newObj))
       setShowButton2(true)
       setShowButton1(false)
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
@@ -87,12 +110,18 @@ export const Prices = ({ navigation, route }) => {
       AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
       AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
       AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
+      console.log("infoExtra.auditorias_id.id_preciador--------", infoExtra.auditorias_id.id_preciador)
       AsyncStorage.setItem("id_preciador", infoExtra.auditorias_id.id_preciador);
 
 
-      
+
     } catch (error) {
-      console.log(error)
+      console.log("errrrorrrrrr en prices", error)
+
+      setNewComplementaryPortfolio([])
+      setInfoScreen(null)
+      setShowButton2(false)
+      setShowButton1(true)
     }
   }
   useEffect(() => {
@@ -178,15 +207,18 @@ export const Prices = ({ navigation, route }) => {
         "ARRAY DE COMPLEMENTARIO FORMATEADO: ",
         addParametersComplementaryP
       );*/
-      setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
-      setNewIdealPortfolio([...idealPortfolioProducts]);
-      //console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
-      console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
-      console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
-      console.log(
-        "PORTAFOLIO COMPLEMENTARIO: ",
-        JSON.stringify(newComplementaryPortfolio)
-      );
+      if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
+        setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
+        setNewIdealPortfolio([...idealPortfolioProducts]);
+        //console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
+        console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
+        console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
+        console.log(
+          "PORTAFOLIO COMPLEMENTARIO: ",
+          JSON.stringify(newComplementaryPortfolio)
+        );
+      }
+
     };
     if (complementaryPortfolioProducts) {
       getNewArrays();
@@ -284,14 +316,14 @@ export const Prices = ({ navigation, route }) => {
                 `${id_portafolio}`,
                 `${id}`,
                 `${price}`,
-                `${state ? 1: 0}`,
+                `${state ? 1 : 0}`,
                 `${image1}`,
                 `${image2}`,
                 `${image3}`,
                 `${userInfo.givenName}`,
                 `${dataTime()}`,
                 `${dataTime()}`,
-              
+
               ],
             };
 
@@ -326,11 +358,43 @@ export const Prices = ({ navigation, route }) => {
           let tempDataScreen = newComplementaryPortfolio.map((item) => { return `**${JSON.stringify(item)}**` })
           let objUserInfo = {}
           try {
-            objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-  
+            // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+            // const tmpPantalla = tmpInfoExtra.pantallas.prices
+            // const infoExtra = tmpPantalla.extra_info
+            // objUserInfo = infoExtra
+
+            const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+            const tmpPantalla = tmpInfoExtra.pantallas.briefcase
+            const infoExtra = tmpPantalla.extra_info
+            objUserInfo = infoExtra
+            objUserInfo = {
+              ...objUserInfo,
+              ...{
+                pantallas: tmpInfoExtra.pantallas
+              }
+            }
+
+            // objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.prices)
+
           } catch (e) {
-            objUserInfo = {}
-            console.log(e)
+            try {
+              // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+              // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+              // objUserInfo = tempPantalla
+              // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+              const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+              const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+              objUserInfo = tempPantalla.pantallas.briefcase.extra_info
+              objUserInfo = {
+                ...objUserInfo,
+                ...{
+                  pantallas: tempPantalla.pantallas
+                }
+              }
+            } catch (error) {
+              objUserInfo = {}
+              console.log(e)
+            }
           }
           saveCurrentScreenUser({
             screenName: `prices`,
@@ -339,10 +403,34 @@ export const Prices = ({ navigation, route }) => {
             columnId: `id_preciador`
           },
             {
-              fullDataProducts: tempDataScreen.toString(),
-              auditorias_id: {
-                ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                  id_preciador: idPreciador
+              // fullDataProducts: tempDataScreen.toString(),
+              // auditorias_id: {
+              //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+              //     id_preciador: idPreciador
+              //   }
+              // },
+              pantallas: {
+                ...objUserInfo.pantallas ? objUserInfo.pantallas : {}, ...{
+                  prices: {
+                    principal: {
+                      screenName: `prices`,
+                      tableName: `preciador`,
+                      itemId: `id_preciador`,
+                      columnId: `id_preciador`
+                    },
+                    extra_info: {
+                      fullDataProducts: tempDataScreen.toString(),
+                      auditorias_id: {
+                        ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+                          id_preciador: idPreciador
+                        }
+                      },
+                      pantallas: {
+                        ...objUserInfo.pantallas ? objUserInfo.pantallas : {},
+                        prices: null
+                      }
+                    }
+                  }
                 }
               }
             })
@@ -355,14 +443,38 @@ export const Prices = ({ navigation, route }) => {
       }
     }
   };
+  const handleDeleteRegisterLocal = async () => {
+    const idPreciador = await AsyncStorage.getItem("id_preciador");
+    // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
+    if (infoScreen) {
+      saveCurrentScreenUser(infoScreen.pantallas.briefcase.principal, infoScreen)
+    } else {
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+      saveCurrentScreenUser(objUserInfo.pantallas.briefcase.principal, objUserInfo)
+    }
 
+
+    // newComplementaryPortfolio.map((productos) => {
+
+    deleteRegisterAudit({
+      tableName: "preciador",
+      objectId: "id_preciador",
+      valueId: idPreciador
+    })
+
+    //})
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          handleDeleteRegisterLocal()
+          navigation.navigate("briefcase")
+        }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
       <View style={styles.headerContainer}>
@@ -391,14 +503,27 @@ export const Prices = ({ navigation, route }) => {
           />
         </View>
         <View style={{ flex: 2, width: "100%", alignItems: "center" }}>
-          <FlashListPrices
-            title={"Portafolio Complementario"}
-            products={newComplementaryPortfolio}
-            setProducts={setNewComplementaryPortfolio}
-            isUserScreen={infoScreen ? true : false}
-          //idPreciador={idPreciadorPortafolioComplementario}
-          //idPortafolio={idPortafolioComplementario}
-          />
+          {
+            infoScreen && <FlashListPrices
+              title={"Portafolio Complementario"}
+              products={newComplementaryPortfolio}
+              setProducts={setNewComplementaryPortfolio}
+              isUserScreen={true}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
+            />
+          }
+          {
+            !infoScreen && <FlashListPrices
+              title={"Portafolio Complementario"}
+              products={newComplementaryPortfolio}
+              setProducts={setNewComplementaryPortfolio}
+              isUserScreen={false}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
+            />
+          }
+
         </View>
         <View style={{ flex: 0.45, width: "100%" }}>
           {/*<DoubleStyledButton

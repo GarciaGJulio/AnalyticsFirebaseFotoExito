@@ -32,8 +32,9 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { TarjPercha } from "../../components/TarjetaPercha";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import LoaderModal from "../../components/LoaderModal";
-import { saveCurrentScreenUser } from "../../utils/Utils";
+import { deleteRegisterAudit, getCurrentScreenInformation, getCurrentScreenInformationLocal, saveCurrentScreenUser } from "../../utils/Utils";
 import { RecuperarToken } from "../../services/onedrive";
+import { useIsFocused } from "@react-navigation/native";
 
 export const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
@@ -49,20 +50,46 @@ export const Racks = ({ navigation }) => {
   const [showButton2, setShowButton2] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
+  const isFocused = useIsFocused();
   useEffect(() => {
-    getInfoDatBaseScreen()
-  }, [])
+    const initDataLocal = async () => {
+      await getCurrentScreenInformation()
+      getInfoDatBaseScreen()
+    }
+    initDataLocal()
+    setTimeout(() => { initDataLocal() }, 2000)
+  }, [isFocused])
+  // useEffect(() => {
+  //   console.log("category=========================================",category)
+  // }, [category])
+  // useEffect(() => {
+  //   console.log("infoScreen==============================================",infoScreen)
+  // }, [infoScreen])
+
   const getInfoDatBaseScreen = () => {
     try {
-      console.log("global.userInfoScreen en pricess", global.userInfoScreen)
+      //  console.log("global.userInfoScreen en pricess", global.userInfoScreen)
       if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
         return
       }
-      const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      // const infoExtra =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
+      // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      // const tmpPantalla = tmpInfoExtra.pantallas.rack
+      // const infoExtra = tmpPantalla.extra_info
+      // // const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      // const newObj = {
+      //   ...infoExtra,
+      //   ...global.userInfoScreen.infoScreen
+      // }
+
+      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const tmpPantalla = tmpInfoExtra.pantallas.rack
+      const infoExtra = tmpPantalla.extra_info
       const newObj = {
         ...infoExtra,
         ...global.userInfoScreen.infoScreen
       }
+
       // console.log("newObj-------------", newObj)
       // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
       let tempItems = infoExtra.category.split("**")
@@ -71,8 +98,8 @@ export const Racks = ({ navigation }) => {
       // console.log("tempItems FILTER-------------", tempItems)
       tempItems = tempItems.map((item) => { return JSON.parse(item) })
       // console.log("tempItems-------------", tempItems)
-      setCategory(tempItems)
-      setInfoScreen(newObj)
+      setCategory(Object.assign([], tempItems))
+      setInfoScreen(Object.assign({}, newObj))
       setShowButton2(true)
       setShowButton1(false)
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
@@ -82,9 +109,13 @@ export const Racks = ({ navigation }) => {
       AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
       AsyncStorage.setItem("id_preciador", infoExtra.auditorias_id.id_preciador);
       AsyncStorage.setItem("id_percha", infoExtra.auditorias_id.id_percha);
-      
-      
+
+
     } catch (error) {
+      setCategory([])
+      setInfoScreen(null)
+      setShowButton2(false)
+      setShowButton1(true)
       console.log(error)
     }
   }
@@ -172,7 +203,7 @@ export const Racks = ({ navigation }) => {
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
 
-      if (global?.userInfoScreen != "rack") {
+      if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
         setCategory(newArrayEstado);
         setRack(planogramaFiltro);
       }
@@ -326,11 +357,40 @@ export const Racks = ({ navigation }) => {
         let objUserInfo = {}
 
         try {
-          objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-
+          // objUserInfo =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
+          // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+          // const tmpPantalla = tmpInfoExtra.pantallas.rack
+          // const infoExtra = tmpPantalla.extra_info
+          // objUserInfo = infoExtra
+          const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+          const tmpPantalla = tmpInfoExtra.pantallas.prices
+          const infoExtra = tmpPantalla.extra_info
+          objUserInfo = infoExtra
+          objUserInfo = {
+            ...objUserInfo,
+            ...{
+              pantallas: tmpInfoExtra.pantallas
+            }
+          }
         } catch (e) {
-          objUserInfo = {}
-          console.log(e)
+          try {
+            // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+            // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+            // objUserInfo = tempPantalla
+            // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+            const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+            const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+            objUserInfo = tempPantalla.pantallas.prices.extra_info
+            objUserInfo = {
+              ...objUserInfo,
+              ...{
+                pantallas: tempPantalla.pantallas
+              }
+            }
+          } catch (error) {
+            objUserInfo = {}
+            console.log(e)
+          }
         }
         saveCurrentScreenUser({
           screenName: `rack`,
@@ -339,13 +399,38 @@ export const Racks = ({ navigation }) => {
           columnId: `id_percha`
         },
           {
-            category: tempDataScreen.toString(),
-            auditorias_id: {
-              ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                id_percha: idPercha
+            // category: tempDataScreen.toString(),
+            // auditorias_id: {
+            //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+            //     id_percha: idPercha
+            //   }
+            // },
+            pantallas: {
+              ...objUserInfo.pantallas ? objUserInfo.pantallas : {}, ...{
+                rack: {
+                  principal: {
+                    screenName: `rack`,
+                    tableName: `percha`,
+                    itemId: `id_percha`,
+                    columnId: `id_percha`
+                  },
+                  extra_info: {
+                    category: tempDataScreen.toString(),
+                    auditorias_id: {
+                      ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+                        id_percha: idPercha
+                      }
+                    },
+                    pantallas: {
+                      ...objUserInfo.pantallas ? objUserInfo.pantallas : {},
+                      rack: null
+                    }
+                  }
+                }
               }
             }
-          })
+          }
+        )
 
 
       } catch (e) {
@@ -358,14 +443,38 @@ export const Racks = ({ navigation }) => {
       //navigation.navigate("promos");
     }
   };
+  const handleDeleteRegisterLocal = async () => {
+    const id_percha = await AsyncStorage.getItem("id_percha");
+    // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
+    if (infoScreen) {
+      saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen)
+    } else {
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+      saveCurrentScreenUser(objUserInfo.pantallas.prices.principal, objUserInfo)
+    }
 
+
+    // newComplementaryPortfolio.map((productos) => {
+
+    deleteRegisterAudit({
+      tableName: "percha",
+      objectId: "id_percha",
+      valueId: id_percha
+    })
+
+    //})
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          navigation.navigate("prices")
+          handleDeleteRegisterLocal()
+        }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
       <View style={{ flex: 1, width: "100%" }}>
@@ -385,15 +494,32 @@ export const Racks = ({ navigation }) => {
           }
         />
         <View style={styles.cardContainer}>
-          <TarjPercha
-            //data={category}
-            isUserScreen={infoScreen ? true : false}
-            data={category}
-            rack={rack}
-            // setRack={rsetRack}
-            setData={setCategory}
-            view={"audit"}
-          />
+
+          {
+            <TarjPercha
+              //data={category}
+              isUserScreen={infoScreen ? true : false}
+              data={category}
+              rack={rack}
+              // setRack={rsetRack}
+              setData={setCategory}
+              view={"audit"}
+            />
+          }
+
+
+          {/* {
+            !infoScreen && <TarjPercha
+              //data={category}
+              isUserScreen={ false}
+              data={category}
+              rack={rack}
+              // setRack={rsetRack}
+              setData={setCategory}
+              view={"audit"}
+            />
+          } */}
+
         </View>
       </View>
       <DoubleDualStyledButton

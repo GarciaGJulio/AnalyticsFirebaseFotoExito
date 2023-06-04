@@ -450,7 +450,28 @@ export const Promos = ({ navigation }) => {
       }
     }
   };
+  const handleDeleteRegisterLocal = async () => {
+    const id_percha = await AsyncStorage.getItem("id_percha");
+    // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
+    if (infoScreen) {
+      saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen)
+    } else {
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+      saveCurrentScreenUser(objUserInfo.pantallas.prices.principal, objUserInfo)
+    }
 
+
+    // newComplementaryPortfolio.map((productos) => {
+
+    deleteRegisterAudit({
+      tableName: "percha",
+      objectId: "id_percha",
+      valueId: id_percha
+    })
+
+    //})
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />

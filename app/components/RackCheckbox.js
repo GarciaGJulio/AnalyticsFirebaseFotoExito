@@ -26,7 +26,8 @@ export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planogr
   const [disabled2, setDisabled2] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
   useEffect(()=>{
-    // console.log("------isUserScreen----------",isUserScreen)
+     console.log("------isUserScreen----------",isUserScreen)
+     console.log("------item----------",item)
     if(isUserScreen){
       setCateGeneral(item.carasGeneral+"")
       setCateModerna(item.carasModerna+"")
@@ -39,7 +40,7 @@ export const RackCheckbox = ({ isUserScreen,categoryName, item, setData, planogr
       
       // console.log("----------------",item)
     }
-  },[])
+  },[isUserScreen])
   //const [objPercha, setObjPercha] = useState(itemCom)
 
   /* useEffect(() => {

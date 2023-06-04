@@ -5,8 +5,11 @@ import { db_deleteGlobalLocalDataBase, db_insertGlobalLocalDataBase } from "../s
 export const getCurrentScreenInformation = async (navigation) => {
     try {
         let userFound = await getCurrentScreenUser()
+        // console.log("iniciadno traer datoss",userFound)
         if (userFound && userFound.length > 0) {
             const infoScreen = await realizarConsulta(`select * from ${userFound[0].nombre_tabla} where ${userFound[0].campo_id}='${userFound[0].id_registro}'`)
+            // console.log("iniciadno traer datoss 222",infoScreen)
+
             if (infoScreen && infoScreen.length > 0) {
                 //onGetInfo(infoScreen[0])
                 global.userInfoScreen = {
@@ -21,15 +24,53 @@ export const getCurrentScreenInformation = async (navigation) => {
 
                 //onGetInfo(null)
             }
+            if(navigation){
+                navigation.navigate(userFound[0].nombre_pantalla)
 
-            navigation.navigate(userFound[0].nombre_pantalla)
+            }
 
 
 
         } else {
             global.userInfoScreen = null
         }
+        return 0;
     } catch (error) {
+        return 0;
+        console.log(error)
+    }
+
+}
+
+export const getCurrentScreenInformationLocal = async () => {
+    try {
+        let userFound = await getCurrentScreenUser()
+        if (userFound && userFound.length > 0) {
+            const infoScreen = await realizarConsulta(`select * from ${userFound[0].nombre_tabla} where ${userFound[0].campo_id}='${userFound[0].id_registro}'`)
+            if (infoScreen && infoScreen.length > 0) {
+                //onGetInfo(infoScreen[0])
+                return {
+                    infoScreen: infoScreen[0],
+                    userInfo: userFound[0]
+                }
+            } else {
+                return {
+                    infoScreen: null,
+                    userInfo: userFound[0]
+                }
+
+                //onGetInfo(null)
+            }
+
+            // navigation.navigate(userFound[0].nombre_pantalla)
+
+
+
+        } else {
+            return null
+        }
+    } catch (error) {
+        return null
         console.log(error)
     }
 
@@ -39,7 +80,7 @@ export const getCurrentScreenUser = async () => {
     return await realizarConsulta(`select * from ${PERSISTENCIA.NAME} where ${PERSISTENCIA.KEY_1}='${userId}'`)
 }
 export const cleanCurrentScreenUser = async () => {
-    try{
+    try {
         const userId = await getCurrentUserId()
         global.userInfoScreen = null
         db_deleteGlobalLocalDataBase({
@@ -47,14 +88,30 @@ export const cleanCurrentScreenUser = async () => {
             dataInsertType: getTableKeys(PERSISTENCIA),
             dataInsert: [
                 `'${userId}'`
-    
+
             ]
-    
+
         })
-    }catch(error){
-        console.log("errrr al borrar la fata-----------------*-----------",error)
+    } catch (error) {
+        console.log("errrr al borrar la fata-----------------*-----------", error)
     }
-   
+
+}
+export const deleteRegisterAudit = async (objInfo) => {
+    try {
+        //const userId = await getCurrentUserId()
+        // global.userInfoScreen = null
+        db_deleteGlobalLocalDataBase({
+            tableName: objInfo.tableName,
+            dataInsertType: [objInfo.objectId],
+            dataInsert: [
+                `'${objInfo.valueId}'`
+            ]
+        })
+    } catch (error) {
+        console.log("errrr al borrar la fata-----------------*-----------", error)
+    }
+
 }
 
 export const saveCurrentScreenUser = async (objInfo, extraObj) => {

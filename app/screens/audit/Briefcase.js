@@ -36,7 +36,8 @@ import { Divider } from "@rneui/base";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
-import { saveCurrentScreenUser } from "../../utils/Utils";
+import { cleanCurrentScreenUser, deleteRegisterAudit, getCurrentScreenInformation, getCurrentScreenInformationLocal, saveCurrentScreenUser } from "../../utils/Utils";
+import { useIsFocused } from "@react-navigation/native";
 
 export const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -59,30 +60,32 @@ export const Briefcase = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
+  const isFocused = useIsFocused();
   useEffect(() => {
-    getInfoDatBaseScreen()
-  }, [])
+    const initDataLocal = async () => {
+      await getCurrentScreenInformation()
+      getInfoDatBaseScreen()
+    }
+    initDataLocal()
+    setTimeout(()=>{initDataLocal()},2000)
+  }, [isFocused])
 
 
   const getInfoDatBaseScreen = () => {
     try {
-      console.log("global.userInfoScreen", global.userInfoScreen)
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {
         return
       }
-      const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const tmpPantalla = tmpInfoExtra.pantallas.briefcase
+      const infoExtra = tmpPantalla.extra_info
       const newObj = {
         ...infoExtra,
         ...global.userInfoScreen.infoScreen
       }
-      // console.log("newObj-------------", newObj)
-      // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
       let tempItems = infoExtra.complementaryPortfolioProducts.split("**")
-      // console.log("tempItems SPOPLIT-------------", tempItems)
       tempItems = tempItems.filter((item) => item.length > 0 && item != ",")
-      // console.log("tempItems FILTER-------------", tempItems)
       tempItems = tempItems.map((item) => { return JSON.parse(item) })
-      // console.log("tempItems-------------", tempItems)
       setComplementaryPortfolioProducts(tempItems)
       setInfoScreen(newObj)
       setShowButton2(true)
@@ -92,10 +95,11 @@ export const Briefcase = ({ navigation }) => {
       AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
       AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
       AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
-
-
-      
     } catch (error) {
+      setComplementaryPortfolioProducts([])
+      setInfoScreen(null)
+      setShowButton2(false)
+      setShowButton1(true)
       console.log(error)
     }
   }
@@ -475,11 +479,33 @@ export const Briefcase = ({ navigation }) => {
         let tempDataScreen = complementaryPortfolioProducts.map((item) => { return `**${JSON.stringify(item)}**` })
         let objUserInfo = {}
         try {
-          objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+          const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+          const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion
+          const infoExtra = tmpPantalla.extra_info
+          objUserInfo = infoExtra
+          objUserInfo = {
+            ...objUserInfo,
+            ...{
+              pantallas: tmpInfoExtra.pantallas
+            }
+          }
 
         } catch (e) {
-          objUserInfo = {}
-          console.log(e)
+          try {
+            const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+            const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+            objUserInfo = tempPantalla.pantallas.cliente_informacion.extra_info
+            objUserInfo = {
+              ...objUserInfo,
+              ...{
+                pantallas: tempPantalla.pantallas
+              }
+            }
+          } catch (error) {
+            objUserInfo = {}
+            console.log(e)
+          }
+
         }
         saveCurrentScreenUser({
           screenName: `briefcase`,
@@ -488,10 +514,35 @@ export const Briefcase = ({ navigation }) => {
           columnId: `id_portafolio`
         },
           {
-            complementaryPortfolioProducts: tempDataScreen.toString(),
-            auditorias_id: {
-              ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                id_portafolio_auditoria: idPortafolioAuditoria
+            // complementaryPortfolioProducts: tempDataScreen.toString(),
+            // auditorias_id: {
+            //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+            //     id_portafolio_auditoria: idPortafolioAuditoria
+            //   }
+            // },
+            pantallas: {
+              ...objUserInfo.pantallas ? objUserInfo.pantallas : {}, ...{
+                briefcase: {
+                  principal: {
+                    screenName: `briefcase`,
+                    tableName: `portafolio`,
+                    itemId: `id_portafolio`,
+                    columnId: `id_portafolio`
+                  },
+                  extra_info: {
+                    complementaryPortfolioProducts: tempDataScreen.toString(),
+                    auditorias_id: {
+                      ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+                        id_portafolio_auditoria: idPortafolioAuditoria
+                      }
+                    },
+                    pantallas: {
+                      ...objUserInfo.pantallas ? objUserInfo.pantallas : {},
+                      briefcase: null
+                    }
+
+                  }
+                }
               }
             }
 
@@ -511,13 +562,40 @@ export const Briefcase = ({ navigation }) => {
 
     //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
   };
+  const handleDeleteRegisterLocal = async () => {
+    if (infoScreen) {
+      saveCurrentScreenUser(infoScreen.pantallas.cliente_informacion.principal, infoScreen)
+    } else {
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+      saveCurrentScreenUser(objUserInfo.pantallas.cliente_informacion.principal, objUserInfo)
+    }
+    complementaryPortfolioProducts.map((productos) => {
+      const { id_portafolio, id, tipo_portafolio } = productos;
+
+      deleteRegisterAudit({
+        tableName: "portafolio",
+        objectId: "id_portafolio",
+        valueId: id_portafolio
+      })
+      deleteRegisterAudit({
+        tableName: "portafolio_auditoria",
+        objectId: "id_portafolio_auditoria",
+        valueId: `${infoScreen ? infoScreen.id_portafolio_auditoria : idPortafolioAuditoria}`
+      })
+    })
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          handleDeleteRegisterLocal()
+          //navigation.goBack()
+          navigation.navigate("audit")
+        }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
       <View style={styles.headerContainer}>
