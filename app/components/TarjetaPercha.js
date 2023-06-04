@@ -21,7 +21,58 @@ import ConfirmationModal from "./ConfirmationModal";
 import Rack_View from "./Rack_View";
 import { RackCheckbox } from "./RackCheckbox";
 
-export const TarjPercha = ({ data, setData, rack, setRack }) => {
+export const TarjPercha = ({ isUserScreen, data, setData, rack, setRack }) => {
+  const [objPercha, setObjPercha] = useState({});
+  const [datos, setDatos] = useState([]);
+  /*let DATA = [
+    {
+      name: "Pan",
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+        },
+    {
+      name: "Harina",
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+    },
+    {
+      name: "Avena",
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+    },
+    {
+      name: "Arroz",
+      carasGeneral:0,
+      carasModerna:0,
+      state:null,
+      images: {
+        image1: null,
+        image2: null,
+        image3: null,
+      },
+    },
+  ];*/
+  /*useEffect(() => {
+    console.log("ESTO LLEGA DE PERCHAS: - - - - - ", data);
+  });*/
   return (
     <View style={styles.container}>
       <View style={{ flex: 1, width: "100%" }}>
@@ -35,6 +86,7 @@ export const TarjPercha = ({ data, setData, rack, setRack }) => {
             <RackCheckbox
               categoryName={item.name}
               //onchangeObjPercha={setObjPercha}
+              isUserScreen={isUserScreen}
               item={item}
               planograma={rack}
               setData={setData}

@@ -39,14 +39,14 @@ const Briefcase_branch_review = ({ route }) => {
         `SELECT  * FROM portafolio;`
       );
 
-      console.log(
-        "consulta de la tabla portafolios /////////------------------: ",
-        consultaPortafolio2
-      );
-      console.log(
-        "PORTAFOLIOS DE la sucursal ACTUAL: ",
-        consultaPortafolioAudit
-      );
+      // console.log(
+      //   "consulta de la tabla portafolios /////////------------------: ",
+      //   consultaPortafolio2
+      // );
+      // console.log(
+      //   "PORTAFOLIOS DE la sucursal ACTUAL: ",
+      //   consultaPortafolioAudit
+      // );
       const arrayIdsPortafolio = [];
 
       consultaPortafolioAudit.forEach((item) => {

@@ -27,6 +27,8 @@ import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
+import { saveCurrentScreenUser } from "../../utils/Utils";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -37,10 +39,62 @@ export const Prices = ({ navigation, route }) => {
   const [idPreciadorPortafolioComplementario] = useState(generateUIDD());
   const [idPreciador] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
-  const { complementaryPortfolioProducts, idealPortfolioProducts } =
-    route.params;
+  // let complementaryPortfolioProducts = [];
+  // let idealPortfolioProducts = [];
+
+  // try {
+  //   complementaryPortfolioProducts = route?.params.complementaryPortfolioProducts
+  //   idealPortfolioProducts = route?.params.idealPortfolioProducts
+  const { complementaryPortfolioProducts, idealPortfolioProducts } = route?.params || {};
+
+  // } catch (error) {
+  //   complementaryPortfolioProducts = [];
+  //   idealPortfolioProducts = [];
+  //   console.log(error)
+  // }
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
+  const [infoScreen, setInfoScreen] = useState(null);
+  useEffect(() => {
+    getInfoDatBaseScreen()
+  }, [])
+
+  const getInfoDatBaseScreen = () => {
+    try {
+      console.log("global.userInfoScreen en pricess", global.userInfoScreen)
+      if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
+        return
+      }
+      const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const newObj = {
+        ...infoExtra,
+        ...global.userInfoScreen.infoScreen
+      }
+      // console.log("newObj-------------", newObj)
+      // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
+      let tempItems = infoExtra.fullDataProducts.split("**")
+      // console.log("tempItems SPOPLIT-------------", tempItems)
+      tempItems = tempItems.filter((item) => item.length > 0 && item != ",")
+      // console.log("tempItems FILTER-------------", tempItems)
+      tempItems = tempItems.map((item) => { return JSON.parse(item) })
+      // console.log("tempItems-------------", tempItems)
+      setNewComplementaryPortfolio(tempItems)
+      setInfoScreen(newObj)
+      setShowButton2(true)
+      setShowButton1(false)
+      AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
+      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
+      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
+      AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
+      AsyncStorage.setItem("id_preciador", infoExtra.auditorias_id.id_preciador);
+
+
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
   useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
@@ -65,10 +119,10 @@ export const Prices = ({ navigation, route }) => {
         "SELECT * FROM portafolio"
       );
 
-      console.log(
-        "Copia de contenido completada con éxito - PRODUCTOS: ",
-        resultadoConsultaComp
-      );
+      // console.log(
+      //   "Copia de contenido completada con éxito - PRODUCTOS: ",
+      //   resultadoConsultaComp
+      // );
       //console.log("ID DEL PORTAFOLIO COMP: ", id_portafolio_complementario);
     } catch (e) {
       console.log("Error al consultar o copiar el contenido:", e);
@@ -134,8 +188,10 @@ export const Prices = ({ navigation, route }) => {
         JSON.stringify(newComplementaryPortfolio)
       );
     };
+    if (complementaryPortfolioProducts) {
+      getNewArrays();
+    }
 
-    getNewArrays();
   }, [complementaryPortfolioProducts]);
 
   const validateArrays = async () => {
@@ -187,14 +243,14 @@ export const Prices = ({ navigation, route }) => {
           fullDataProducts.map((productos) => {
             const { id_portafolio, id, state, price, images } = productos;
             const { image1, image2, image3 } = images;
-            console.log(
-              "---------------------- imagenes",
-              JSON.stringify(images)
-            );
-            console.log(
-              "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
-              id_portafolio + " " + id
-            );
+            // console.log(
+            //   "---------------------- imagenes",
+            //   JSON.stringify(images)
+            // );
+            // console.log(
+            //   "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
+            //   id_portafolio + " " + id
+            // );
             let dataSave = {
               tableName: "preciador",
               dataInsertType: [
@@ -206,9 +262,9 @@ export const Prices = ({ navigation, route }) => {
                 "url_imagen1",
                 "url_imagen2",
                 "url_imagen3",
-                "usuario_creacion",
+                "usuario_creacion ",
                 "fecha_creacion",
-                "fecha_modificacion",
+                "fecha_modificacion"
               ],
               dataInsert: [
                 `'${idPreciador}'`,
@@ -223,7 +279,23 @@ export const Prices = ({ navigation, route }) => {
                 `'${dataTime()}'`,
                 `'${dataTime()}'`,
               ],
+              dataInsertRemote: [
+                `${idPreciador}`,
+                `${id_portafolio}`,
+                `${id}`,
+                `${price}`,
+                `${state ? 1: 0}`,
+                `${image1}`,
+                `${image2}`,
+                `${image3}`,
+                `${userInfo.givenName}`,
+                `${dataTime()}`,
+                `${dataTime()}`,
+              
+              ],
             };
+
+
             const sentence =
               "INSERT INTO " +
               dataSave.tableName +
@@ -234,6 +306,8 @@ export const Prices = ({ navigation, route }) => {
               ")";
             console.log("SENTENCIA A EJECUTAR: ", sentence);
             try {
+              // subidaBaseRemote(dataSave.tableName, dataSave.dataInsertType, dataSave.dataInsertRemote)
+
               db_insertGlobalDataAudit(dataSave);
               console.log("TODO BIEN");
               setShowButton1(false);
@@ -249,6 +323,29 @@ export const Prices = ({ navigation, route }) => {
             savePreciador();*/
             //navigation.navigate("rack");
           });
+          let tempDataScreen = newComplementaryPortfolio.map((item) => { return `**${JSON.stringify(item)}**` })
+          let objUserInfo = {}
+          try {
+            objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+  
+          } catch (e) {
+            objUserInfo = {}
+            console.log(e)
+          }
+          saveCurrentScreenUser({
+            screenName: `prices`,
+            tableName: `preciador`,
+            itemId: `id_preciador`,
+            columnId: `id_preciador`
+          },
+            {
+              fullDataProducts: tempDataScreen.toString(),
+              auditorias_id: {
+                ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+                  id_preciador: idPreciador
+                }
+              }
+            })
         } catch (e) {
           Alert.alert(
             "Error antes de  insertar los datos",
@@ -298,8 +395,9 @@ export const Prices = ({ navigation, route }) => {
             title={"Portafolio Complementario"}
             products={newComplementaryPortfolio}
             setProducts={setNewComplementaryPortfolio}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+            isUserScreen={infoScreen ? true : false}
+          //idPreciador={idPreciadorPortafolioComplementario}
+          //idPortafolio={idPortafolioComplementario}
           />
         </View>
         <View style={{ flex: 0.45, width: "100%" }}>

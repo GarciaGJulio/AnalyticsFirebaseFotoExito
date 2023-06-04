@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Dropdown = ({
   placeholder,
+  valueInfoScreen,
   setSelected,
   error,
   setGroupClient,
@@ -46,12 +47,12 @@ export const Dropdown = ({
   const validateType = () => {
     setError("");
     arrayClients.forEach(async (type) => {
-      console.log("CLIENTE A ANALIZAR: ", type);
+      // console.log("CLIENTE A ANALIZAR: ", type);
       if (type.nombre_cliente == selected) {
-        console.log(
-          "CLIENTE ENCONTRADO - - - -ASIGNANDO TIPO DE CLIENTE: ",
-          type.nombre_tipo_cliente
-        );
+        // console.log(
+        //   "CLIENTE ENCONTRADO - - - -ASIGNANDO TIPO DE CLIENTE: ",
+        //   type.nombre_tipo_cliente
+        // );
         setType(type.nombre_tipo_cliente);
         setGroupClient(type.nombre_grupo_cliente);
         console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
@@ -186,6 +187,7 @@ export const Dropdown = ({
         </View>
       </View>
       <SelectList
+        defaultOption={valueInfoScreen&&{ key: 'randomItem', value: valueInfoScreen }}
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
         searchPlaceholder="Buscar"
@@ -261,5 +263,5 @@ export const DropdownDavid = ({ data }) => {
     })
 
   },[])*/
-  return <SelectList setSelected={() => {}} data={data} save="value" />;
+  return <SelectList setSelected={() => { }} data={data} save="value" />;
 };

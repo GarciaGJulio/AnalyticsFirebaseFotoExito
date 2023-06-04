@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
@@ -25,8 +25,13 @@ import { useFonts } from "expo-font";
 import ModernaHeader from "../../components/ModernaHeader";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
 import * as SQLite from "expo-sqlite";
+import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
+import { getCurrentScreenInformation } from "../../utils/Utils";
+import { useNavigation } from "@react-navigation/native";
 
 export const Menu = ({ navigation }) => {
+  const { handleScreenInfo } = useContext(ModernaContext)
+  // const navigation1 = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [animation, setAnimation] = useState("");
@@ -35,10 +40,12 @@ export const Menu = ({ navigation }) => {
 
   useEffect(() => {
     let UserOnedrive = Cli;
-    console.log("User:", UserOnedrive);
+    // console.log("User:", UserOnedrive);
     //onedrive(UserOnedrive);
   }, []);
-
+  useEffect(() => {
+    getCurrentScreenInformation(navigation)
+  }, [])
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
@@ -48,6 +55,7 @@ export const Menu = ({ navigation }) => {
       unsubscribe();
     };
   }, []);
+
 
   /*const onedrive = async (UserOnedrive) => {
     try {
@@ -121,7 +129,7 @@ export const Menu = ({ navigation }) => {
         for (let i = 0; i < result.rows.length; i++) {
           tables.push(result.rows.item(i).name);
         }
-        console.log("Lista de tablas:", tables);
+        // console.log("Lista de tablas:", tables);
         const tablas = tables.join(",\n ");
         //Alert.alert("Lista de las tablas de las bases de datos: ", tablas);
       },
@@ -167,7 +175,7 @@ export const Menu = ({ navigation }) => {
             <StyledButton
               title={"Sincronizar Datos"}
               buttonColor={theme.colors.modernaYellow}
-              onPress={handleOpenModal}
+              onPress={subidaBaseRemoteTodaAuditoria}
               size={theme.buttonSize.sm}
               iconName={"cloud-sync"}
               iconType={"material-community"}

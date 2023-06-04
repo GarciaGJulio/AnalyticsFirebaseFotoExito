@@ -15,11 +15,62 @@ import { FlashList } from "@shopify/flash-list";
 import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
 
-export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
+export const RackCheckbox = ({
+  isUserScreen,
+  categoryName,
+  item,
+  setData,
+  planograma,
+}) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
   const [verificacionCategorias, setverificacionCategoria] = useState();
-  //const [imagenesP, setverificacionCategoria] = useState();
+  const [check1, setCheck1] = useState(false);
+  const [check2, setCheck2] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [disabled1, setDisabled1] = useState(false);
+  const [disabled2, setDisabled2] = useState(false);
+  const [openCamera, setOpenCamera] = useState(false);
+  useEffect(() => {
+    // console.log("------isUserScreen----------",isUserScreen)
+    if (isUserScreen) {
+      setCateGeneral(item.carasGeneral + "");
+      setCateModerna(item.carasModerna + "");
+      if (item.state == "1") {
+        setCheck1(true);
+        setOpenCamera(true);
+      } else {
+        setCheck2(true);
+      }
+
+      // console.log("----------------",item)
+    }
+  }, []);
+  //const [objPercha, setObjPercha] = useState(itemCom)
+
+  /* useEffect(() => {
+     if (CateGeneral < CateModerna) {
+       setverificacionCategoria(true);
+       console.log("es mayor el de moderna", CateGeneral);
+     } else if (CateGeneral >= CateModerna) {
+       setverificacionCategoria(false);
+     }
+   }, [CateModerna]);
+ 
+   useEffect(() => {
+     if (CateGeneral < CateModerna) {
+       setverificacionCategoria(true);
+       console.log("es mayor el de moderna", CateGeneral);
+     } else if (CateGeneral >= CateModerna) {
+       setverificacionCategoria(false);
+     }
+   }, [CateGeneral]);
+ 
+   /*useEffect(() => {
+         console.log("itmDentroCompleto",itemCom)
+         console.log("itmDentroCompletoPER",objPercha)
+ 
+     }, []);*/
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -115,13 +166,6 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
       return perchaActualizados;
     });
   };
-
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disabled1, setDisabled1] = useState(false);
-  const [disabled2, setDisabled2] = useState(false);
-  const [openCamera, setOpenCamera] = useState(false);
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
@@ -354,7 +398,11 @@ export const RackCheckbox = ({ categoryName, item, setData, planograma }) => {
               >
                 Planograma Real
               </Text>
-              <TakeImage setProducts={setData} item={item} />
+              <TakeImage
+                isUserScreen={isUserScreen}
+                setProducts={setData}
+                item={item}
+              />
             </View>
           ) : (
             <></>
