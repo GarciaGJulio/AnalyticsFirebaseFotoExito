@@ -28,6 +28,7 @@ import { realizarConsulta } from "../../common/sqlite_config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import ModernaContext from "../../context/ModernaContext";
+import SAVE_ANIMATION from "../../../assets/save.json";
 import { ProgressBar } from "../../components/ProgressBar";
 import { TarjPercha } from "../../components/TarjetaPercha";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
@@ -500,7 +501,7 @@ export const Racks = ({ navigation }) => {
         <ModernaHeader />
       </View>
       <LoaderModal
-        animation={LOCATION_ANIMATION}
+        animation={SAVE_ANIMATION}
         visible={isModalVisible}
         warning={"subiendo datos"}
       />

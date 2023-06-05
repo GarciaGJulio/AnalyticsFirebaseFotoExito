@@ -195,7 +195,7 @@ export const Menu = ({ navigation }) => {
             <StyledButton
               title={"Sincronizar Datos"}
               buttonColor={theme.colors.modernaYellow}
-              onPress={subidaBaseRemoteTodaAuditoria2}
+              onPress={handleOpenModal}
               size={theme.buttonSize.sm}
               iconName={"cloud-sync"}
               iconType={"material-community"}

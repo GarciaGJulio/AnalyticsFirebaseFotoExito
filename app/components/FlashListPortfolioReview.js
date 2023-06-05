@@ -109,7 +109,7 @@ export const FlashListPortfolioReview = ({
           }}
         >
           <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
-            No existen productos registrados para esta sucursal
+            Esta auditoría no registró productos
           </Text>
         </View>
       ) : (

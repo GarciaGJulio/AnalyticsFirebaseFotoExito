@@ -116,7 +116,7 @@ export const ItemBranch_Review = ({ branch }) => {
         </View>
         {branch.sincronizada ? (
           <TouchableOpacity
-            onPress={() => subidaBaseRemoteTodaAuditoria(branch.id_auditoria)}
+          //onPress={() => subidaBaseRemoteTodaAuditoria(branch.id_auditoria)}
           >
             <Image
               source={SYNC_FAILED}

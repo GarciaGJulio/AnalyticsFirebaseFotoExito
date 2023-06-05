@@ -16,6 +16,7 @@ import theme from "../../theme/theme";
 import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
 import CheckBoxContainer from "../../components/CheckBoxContainer";
+import SAVE_ANIMATION from "../../../assets/save.json";
 import ModernaHeader from "../../components/ModernaHeader";
 import { Divider } from "@rneui/base";
 import ConfirmationModal from "../../components/ConfirmationModal";
@@ -27,6 +28,7 @@ import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import SAVE_ANIMATION from "../../../assets/save.json";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import {
   deleteRegisterAudit,
@@ -35,6 +37,7 @@ import {
   saveCurrentScreenUser,
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
+import LoaderModal from "../../components/LoaderModal";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -45,6 +48,7 @@ export const Prices = ({ navigation, route }) => {
   const [idPreciadorPortafolioComplementario] = useState(generateUIDD());
   const [idPreciador] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   // let complementaryPortfolioProducts = [];
   // let idealPortfolioProducts = [];
 
@@ -74,7 +78,10 @@ export const Prices = ({ navigation, route }) => {
     }, 2000);
   }, [isFocused]);
   useEffect(() => {
-    console.log("////////////////////newIdealPortfolio**************",newIdealPortfolio)
+    console.log(
+      "////////////////////newIdealPortfolio******",
+      newIdealPortfolio
+    );
   }, [newIdealPortfolio]);
   const getInfoDatBaseScreen = () => {
     try {
@@ -116,17 +123,17 @@ export const Prices = ({ navigation, route }) => {
 
       let tempItemsIdeal = infoExtra.newIdealPortfolio.split("**");
       // console.log("tempItems SPOPLIT-------------", tempItems)
-      tempItemsIdeal = tempItemsIdeal.filter((item) => item.length > 0 && item != ",");
+      tempItemsIdeal = tempItemsIdeal.filter(
+        (item) => item.length > 0 && item != ","
+      );
       // console.log("tempItems FILTER-------------", tempItems)
       tempItemsIdeal = tempItemsIdeal.map((item) => {
         return JSON.parse(item);
       });
 
-
-      
       // console.log("tempItems-------------", tempItems)
       console.log("tempItems en prices", tempItems);
-      setNewIdealPortfolio(tempItemsIdeal)
+      setNewIdealPortfolio(tempItemsIdeal);
       setNewComplementaryPortfolio(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
       setShowButton2(true);
@@ -155,7 +162,7 @@ export const Prices = ({ navigation, route }) => {
       );
     } catch (error) {
       console.log("errrrorrrrrr en prices", error);
-      setNewIdealPortfolio([])
+      setNewIdealPortfolio([]);
       setNewComplementaryPortfolio([]);
       setInfoScreen(null);
       setShowButton2(false);
@@ -266,7 +273,7 @@ export const Prices = ({ navigation, route }) => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
-      console.log("NO TIENES DATOPS - - - - - - - - - *- *- *- *- *-* -*- *- ");
+      console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
       navigation.navigate("rack");
     } else {
       const isValid = fullArrays.every((item) => {
@@ -299,6 +306,7 @@ export const Prices = ({ navigation, route }) => {
           JSON.stringify(newComplementaryPortfolio)
         );
       } else {
+        setIsModalVisible(true);
         const fullDataProducts = newIdealPortfolio.concat(
           newComplementaryPortfolio
         );
@@ -378,6 +386,7 @@ export const Prices = ({ navigation, route }) => {
               console.log("TODO BIEN");
               setShowButton1(false);
               setShowButton2(true);
+              setIsModalVisible(false);
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -390,12 +399,12 @@ export const Prices = ({ navigation, route }) => {
             //navigation.navigate("rack");
           });
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
-            return `**${JSON.stringify(item)}**`;
+            return `*${JSON.stringify(item)}*`;
           });
           let tempDataScreenIdeal = newIdealPortfolio.map((item) => {
-            return `**${JSON.stringify(item)}**`;
+            return `*${JSON.stringify(item)}*`;
           });
-          
+
           let objUserInfo = {};
           try {
             // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
@@ -466,7 +475,7 @@ export const Prices = ({ navigation, route }) => {
                     },
                     extra_info: {
                       fullDataProducts: tempDataScreen.toString(),
-                      newIdealPortfolio:tempDataScreenIdeal.toString(),
+                      newIdealPortfolio: tempDataScreenIdeal.toString(),
                       auditorias_id: {
                         ...(objUserInfo.auditorias_id
                           ? objUserInfo.auditorias_id
@@ -524,6 +533,11 @@ export const Prices = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
+      <LoaderModal
+        animation={SAVE_ANIMATION}
+        visible={isModalVisible}
+        warning={"Guardando datos en la base, por favor espere . . "}
+      />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
@@ -553,7 +567,7 @@ export const Prices = ({ navigation, route }) => {
               //idPortafolio={idPortafolioComplementario}
             />
           )}
-           {!infoScreen && (
+          {!infoScreen && (
             <FlashListPrices
               title={"Portafolio Ideal"}
               products={newIdealPortfolio}

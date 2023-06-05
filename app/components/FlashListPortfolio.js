@@ -12,7 +12,7 @@ const RenderItem = ({
   idealPortfolioProducts,
   tipo,
   idPortafolio,
-  isUserScreen
+  isUserScreen,
 }) => {
   const saveId = async () => {
     await AsyncStorage.setItem("id_portafolio_ideal", idPortafolio);
@@ -91,13 +91,11 @@ const RenderItemProd = ({
     if (isUserScreen) {
       idealPortfolioProducts.map((itemP) => {
         if (itemP.id == item.id) {
-          setCheck1(true)
+          setCheck1(true);
         }
-      })
+      });
     }
-  }, [idealPortfolioProducts, isUserScreen])
-
-
+  }, [idealPortfolioProducts, isUserScreen]);
 
   const validate = async (check1, name, id) => {
     if (check1) {
@@ -187,7 +185,7 @@ export const FlashListPortfolio = ({
           }}
         >
           <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
-            No existen productos registrados para este cliente
+            Esta auditoría no registró productos
           </Text>
         </View>
       ) : (

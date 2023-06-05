@@ -299,10 +299,10 @@ export const Promos = ({ navigation }) => {
       setShowButton1(false);
       setShowButton2(true);
     } catch (e) {
-      Alert.alert(
-        "Error al insertar los datos en la tabla auditoria",
-        "Vuelva a intentarlo"
-      );
+      // Alert.alert(
+      //   "Error al insertar los datos en la tabla auditoria",
+      //   "Vuelva a intentarlo"
+      // );
     }
   };
 
@@ -427,7 +427,7 @@ export const Promos = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <LoaderModal
-        animation={animation}
+        animation={SAVE_ANIMATION}
         visible={isModalVisible}
         warning={"Guardando datos en la base, por favor espere . . "}
       />
