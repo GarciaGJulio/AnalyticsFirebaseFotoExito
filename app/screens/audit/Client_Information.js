@@ -23,8 +23,16 @@ import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getLocation, } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
-import { cleanCurrentScreenUser, deleteRegisterAudit, getCurrentScreenInformation, saveCurrentScreenUser } from "../../utils/Utils";
+import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
+import {
+  cleanCurrentScreenUser,
+  deleteRegisterAudit,
+  getCurrentScreenInformation,
+  saveCurrentScreenUser,
+} from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
+import { getActualDate } from "../../common/utils";
+
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -69,38 +77,47 @@ export const Client_Information = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
-      console.log("global.userInfoScreen", global.userInfoScreen)
+      console.log("global.userInfoScreen", global.userInfoScreen);
       if (global.userInfoScreen.userInfo.nombre_pantalla != "audit") {
-        return
+        return;
       }
-      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      console.log("tmpInfoExtra dewsde clietn infomart===================", tmpInfoExtra)
+      const tmpInfoExtra = JSON.parse(
+        global.userInfoScreen.userInfo.extra_info
+      );
+      console.log(
+        "tmpInfoExtra dewsde clietn infomart===================",
+        tmpInfoExtra
+      );
       //const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion
-      const infoExtra = tmpPantalla.extra_info
+      const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion;
+      const infoExtra = tmpPantalla.extra_info;
       /* const tmpPantalla=tmpInfoExtra.pantallas.cliente_informacion
        const infoExtra = tmpPantalla.extra_info*/
       const newObj = {
         ...infoExtra,
-        ...global.userInfoScreen.infoScreen
-      }
+        ...global.userInfoScreen.infoScreen,
+      };
       // console.log("newObj-------------", newObj)
-      setInfoScreen(newObj)
-      setShowButton2(true)
-      setShowButton1(false)
+      setInfoScreen(newObj);
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
-      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem(
+        "nombre_cliente",
+        infoExtra.auditorias_id.nombre_cliente
+      );
       AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
-      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
-
+      AsyncStorage.setItem(
+        "nombre_sucursal",
+        infoExtra.auditorias_id.nombre_sucursal
+      );
     } catch (error) {
-      setInfoScreen(null)
-      setShowButton2(false)
-      setShowButton1(true)
-      console.log(error)
+      setInfoScreen(null);
+      setShowButton2(false);
+      setShowButton1(true);
+      console.log(error);
     }
-  }
-
+  };
 
   // const subirArrays = async (array1, array2) => {
   //   const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
@@ -133,10 +150,6 @@ export const Client_Information = ({ navigation }) => {
   //       // Aquí puedes manejar el error en caso de que ocurra
   //     });
   // };
-
-
-
-
 
   const consultarYCopiarContenidoClientes = async () => {
     try {
@@ -270,15 +283,43 @@ export const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const validateBranchName = () => {
+  const validateBranchName = async() => {
+    let verificacion
     console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
-    let result = branchNames.some((item) => {
-      console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
-      console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
-      return item.nombre_sucursal === sucursalInformation.name;
-    });
-    console.log(result);
-    return result;
+    // let result = branchNames.some((item) => {
+    //  console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
+    //  console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
+    //  console.log("ITEMcOMPLETO",item)
+    // return item.nombre_sucursal === sucursalInformation.name;
+    //});
+    let tempFecha
+    tempFecha = new Date().toISOString()
+    tempFecha = tempFecha.split("T")
+    tempFecha = tempFecha[0]
+    console.log("usereeeeee:", selected)
+    const auditorias = await realizarConsulta(`select * from auditoria as aud inner join sucursal as s on s.id_sucursal =aud.id_sucursal  where aud.nombre_sucursal='${sucursalInformation.name}' AND nombre_cliente LIKE '${selected}' AND aud.FECHA_CREACION  LIKE '%${tempFecha}%' `)
+
+
+
+
+
+    // Realizar acciones con el resultado de la consulta
+    console.log("RESULTADOS:", auditorias);
+    verificacion = true
+
+
+    if (auditorias.length === 0) {
+      console.log("El arreglo está vacío");
+      verificacion = false
+    } else {
+      console.log("El arreglo no está vacío");
+      verificacion = true
+    }
+    console.log("Auditorias:", auditorias)
+    console.log("verificador:", verificacion)
+
+
+    return verificacion;
   };
 
   /*const handleOpenModal = async () => {
@@ -326,8 +367,8 @@ export const Client_Information = ({ navigation }) => {
       setErrorClientName("");
       //setValidatePass(false)
     }
-    let validateBranch = validateBranchName();
-
+    let validateBranch = await validateBranchName();
+    console.log("dede antes de validar:", validateBranch)
     if (validateBranch) {
       Alert.alert(
         "El nombre de la sucursal ya ha sido registrado",
@@ -390,7 +431,7 @@ export const Client_Information = ({ navigation }) => {
             `${userInfo.givenName}`,
             `${dataTime()}`,
             `${dataTime()}`,
-          ]
+          ],
         };
         //datosCompletos.latitude,
         //datosCompletos.longitude,
@@ -398,46 +439,49 @@ export const Client_Information = ({ navigation }) => {
         await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
         const tmp_client_id = await AsyncStorage.getItem("id_cliente");
         await AsyncStorage.setItem("nombre_cliente", selected);
-        saveCurrentScreenUser({
-          screenName: `audit`,
-          tableName: `sucursal`,
-          itemId: sucursalInformation.id,
-          columnId: `id_sucursal`
-        }, {
-          // nombre_cliente: selected,
-          // grupo_cliente: groupClient,
-          // tipo_cliente: type,
-          // auditorias_id: {
-          //   id_cliente: tmp_client_id,
-          //   nombre_cliente: selected,
-          //   id_sucursal: sucursalInformation.id,
-          //   nombre_sucursal: sucursalInformation.name
-          // },
-          pantallas: {
-            cliente_informacion: {
-              principal: {
-                screenName: `audit`,
-                tableName: `sucursal`,
-                itemId: sucursalInformation.id,
-                columnId: `id_sucursal`
-              },
-              extra_info: {
-                nombre_cliente: selected,
-                grupo_cliente: groupClient,
-                tipo_cliente: type,
-                auditorias_id: {
-                  id_cliente: tmp_client_id,
-                  nombre_cliente: selected,
-                  id_sucursal: sucursalInformation.id,
-                  nombre_sucursal: sucursalInformation.name
+        saveCurrentScreenUser(
+          {
+            screenName: `audit`,
+            tableName: `sucursal`,
+            itemId: sucursalInformation.id,
+            columnId: `id_sucursal`,
+          },
+          {
+            // nombre_cliente: selected,
+            // grupo_cliente: groupClient,
+            // tipo_cliente: type,
+            // auditorias_id: {
+            //   id_cliente: tmp_client_id,
+            //   nombre_cliente: selected,
+            //   id_sucursal: sucursalInformation.id,
+            //   nombre_sucursal: sucursalInformation.name
+            // },
+            pantallas: {
+              cliente_informacion: {
+                principal: {
+                  screenName: `audit`,
+                  tableName: `sucursal`,
+                  itemId: sucursalInformation.id,
+                  columnId: `id_sucursal`,
                 },
-                pantallas: {
-                  cliente_informacion: null
-                }
-              }
-            }
+                extra_info: {
+                  nombre_cliente: selected,
+                  grupo_cliente: groupClient,
+                  tipo_cliente: type,
+                  auditorias_id: {
+                    id_cliente: tmp_client_id,
+                    nombre_cliente: selected,
+                    id_sucursal: sucursalInformation.id,
+                    nombre_sucursal: sucursalInformation.name,
+                  },
+                  pantallas: {
+                    cliente_informacion: null,
+                  },
+                },
+              },
+            },
           }
-        })
+        );
 
         //  await subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
         const sentence =
@@ -521,16 +565,18 @@ export const Client_Information = ({ navigation }) => {
     deleteRegisterAudit({
       tableName: "sucursal",
       objectId: "id_sucursal",
-      valueId: `${infoScreen ? infoScreen.id_sucursal : sucursalInformation.id}`
-    })
+      valueId: `${
+        infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
+      }`,
+    });
     // const sqlsenten=`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`
     // const res=await realizarConsulta(`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`)
     // console.log("ressss",res)
     // console.log("sqlsenten",sqlsenten)
     // console.log("infoScreen",infoScreen)
 
-    cleanCurrentScreenUser()
-  }
+    cleanCurrentScreenUser();
+  };
   if (!fontLoaded) return null;
 
   return (
@@ -542,7 +588,7 @@ export const Client_Information = ({ navigation }) => {
         onClose={handleCloseModal}
         onPress={() => {
           setIsModalVisibleClose(false);
-          handleDeleteRegisterLocal()
+          handleDeleteRegisterLocal();
           navigation.goBack();
         }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}

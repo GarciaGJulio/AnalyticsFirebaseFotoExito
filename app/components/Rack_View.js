@@ -100,7 +100,7 @@ export const Rack_View = ({ rack }) => {
         >
           {rack.nombre_categoria}
         </Text>
-        {rack.estado_percha == "0" ? (
+        {rack.estado_percha == 0 ? (
           <></>
         ) : (
           <TouchableOpacity

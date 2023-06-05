@@ -36,7 +36,7 @@ export const RackCheckbox = ({
     if (isUserScreen) {
       setCateGeneral(item.carasGeneral + "");
       setCateModerna(item.carasModerna + "");
-      if (item.state == "1") {
+      if (item.state == 1) {
         setCheck1(true);
         setOpenCamera(true);
       } else {
@@ -132,9 +132,9 @@ export const RackCheckbox = ({
       // Actualiza la propiedad del objeto
       if (percha) {
         if (state) {
-          percha.state = "1";
+          percha.state = 1;
         } else {
-          percha.state = "0";
+          percha.state = 0;
         }
 
         console.log("PARAMETRO ACTUALIZADO: ", percha);

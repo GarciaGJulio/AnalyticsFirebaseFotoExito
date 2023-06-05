@@ -78,16 +78,20 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
             <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
               {exhibitor.nombre_tipo_exhibidor}
             </Text>
-            <TouchableOpacity
-              style={{ position: "absolute", right: 4 }}
-              onPress={() => {
-                setOpenCamera(!openCamera);
-                setModalVisible(true);
-              }}
-            >
-              <Icon name="camera" type="evilicon" size={40} />
-              {/* <Icon name='camerao' type='antdesign' size={32} /> */}
-            </TouchableOpacity>
+            {exhibitor.estado_promocion == 1 ? (
+              <TouchableOpacity
+                style={{ position: "absolute", right: 4 }}
+                onPress={() => {
+                  setOpenCamera(!openCamera);
+                  setModalVisible(true);
+                }}
+              >
+                <Icon name="camera" type="evilicon" size={40} />
+                {/* <Icon name='camerao' type='antdesign' size={32} /> */}
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
           </View>
           {openCamera ? (
             <View style={{ flex: 1 }}>

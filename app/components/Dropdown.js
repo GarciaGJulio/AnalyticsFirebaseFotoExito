@@ -164,15 +164,7 @@ export const Dropdown = ({
   });
 
   if (!fontLoaded) return null;
-  const dataTmp = [
-    { key: "1", value: "Mobiles", disabled: true },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers", disabled: true },
-    { key: "5", value: "Vegetables" },
-    { key: "6", value: "Diary Products" },
-    { key: "7", value: "Drinks" },
-  ];
+
   return (
     <ScrollView style={styles.container}>
       <View style={{ flexDirection: "row" }}>
@@ -186,41 +178,34 @@ export const Dropdown = ({
           </Text>
         </View>
       </View>
-      <View style={{
-        // marginTop: 18,
-        // marginLeft: 35,
-        // position: "absolute",
-        zIndex: 999,
-      }}>
-        <SelectList
-          defaultOption={valueInfoScreen && { key: 'randomItem', value: valueInfoScreen }}
-          setSelected={(val) => setSelected(val)}
-          placeholder={placeholder}
-          searchPlaceholder="Buscar"
-          data={newArrayClients}
-          inputStyles={{
-            fontFamily: "Metropolis",
-            fontSize: 13,
-            flex: 1,
-            padding: 0,
-            flexShrink: 1,
-          }}
-          dropdownTextStyles={{ flexShrink: 1, right: 10 }}
-          dropdownStyles={{ top: -9, }}
-          save="value"
-          boxStyles={{
-            borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
-            borderRadius: 5,
-            //borderColor: theme.colors.lightgray, borderWidth: 2,
-            alignItems: "center",
-            borderWidth: 1 ? 2 : 0,
-            height: 50,
-            //fontSize: 12,
-            flex: 1,
-          }}
-
-        />
-      </View>
+      <SelectList
+        defaultOption={
+          valueInfoScreen && { key: "randomItem", value: valueInfoScreen }
+        }
+        setSelected={(val) => setSelected(val)}
+        placeholder={placeholder}
+        searchPlaceholder="Buscar"
+        data={newArrayClients}
+        inputStyles={{
+          fontFamily: "Metropolis",
+          fontSize: 13,
+          flex: 1,
+          padding: 0,
+          flexShrink: 1,
+        }}
+        dropdownTextStyles={{ flexShrink: 1, right: 10 }}
+        save="value"
+        boxStyles={{
+          borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
+          borderRadius: 5,
+          //borderColor: theme.colors.lightgray, borderWidth: 2,
+          alignItems: "center",
+          borderWidth: 1 ? 2 : 0,
+          height: 50,
+          //fontSize: 12,
+          flex: 1,
+        }}
+      />
 
       {error && (
         <Text
@@ -272,5 +257,5 @@ export const DropdownDavid = ({ data }) => {
     })
 
   },[])*/
-  return <SelectList setSelected={() => { }} data={data} save="value" />;
+  return <SelectList setSelected={() => {}} data={data} save="value" />;
 };

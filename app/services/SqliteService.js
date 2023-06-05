@@ -48,6 +48,64 @@ export const db_insertPercha = async (
   return;
 };
 
+// Función asincrónica para borrar la base de datos completa
+export const borrarBaseDeDatos = async () => {
+  console.log("INVOCANDO BORRADO EN FUNCION");
+  await new Promise((resolve, reject) => {
+    global.dbModerna.transaction((tx) => {
+      const borrarPromises = [
+        tx.executeSql(`DELETE FROM sqlite_master WHERE type='table';`),
+        tx.executeSql(`DELETE FROM sqlite_sequence;`),
+      ];
+      Promise.all(borrarPromises)
+        .then(() => {
+          console.log("La base de datos ha sido borrada.");
+          resolve(); // Resolve después de borrar todas las tablas
+        })
+        .catch((error) => {
+          console.error("Error al borrar la base de datos:", error);
+          reject(error); // Reject en caso de error
+        });
+    }, reject); // Pasar reject como el segundo argumento de db.transaction
+  });
+};
+
+// Función asincrónica para borrar la base de datos completa
+export const borrarTablasDeBaseDeDatos = async () => {
+  console.log("INVOCANDO BORRADO EN FUNCION");
+  await new Promise((resolve, reject) => {
+    global.dbModerna.transaction((tx) => {
+      const borrarPromises = [
+        tx.executeSql(`DELETE FROM cliente`),
+        tx.executeSql(`DELETE FROM sucursal`),
+        tx.executeSql(`DELETE FROM preciador`),
+        tx.executeSql(`DELETE FROM percha`),
+        tx.executeSql(`DELETE FROM promocion`),
+        tx.executeSql(`DELETE FROM cliente`),
+        tx.executeSql(`DELETE FROM tipo_cliente`),
+        tx.executeSql(`DELETE FROM grupo_cliente`),
+        tx.executeSql(`DELETE FROM portafolio`),
+        tx.executeSql(`DELETE FROM portafolio_auditoria`),
+        tx.executeSql(`DELETE FROM exhibidor`),
+        tx.executeSql(`DELETE FROM exhibidor_tipo`),
+        tx.executeSql(`DELETE FROM categoria`),
+        tx.executeSql(`DELETE FROM producto`),
+        tx.executeSql(`DELETE FROM planograma`),
+        tx.executeSql(`DELETE FROM auditoria`),
+      ];
+      Promise.all(borrarPromises)
+        .then(() => {
+          console.log("La base de datos ha sido borrada.");
+          resolve(); // Resolve después de borrar todas las tablas
+        })
+        .catch((error) => {
+          console.error("Error al borrar la base de datos:", error);
+          reject(error); // Reject en caso de error
+        });
+    }, reject); // Pasar reject como el segundo argumento de db.transaction
+  });
+};
+
 export const db_insertSucursal = async (
   id_sucursal,
   id_auditoria,
@@ -137,12 +195,12 @@ export const db_insertGlobalDataAudit = async (objSentence) => {
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
       "INSERT INTO " +
-      objSentence.tableName +
-      " (" +
-      objSentence.dataInsertType.join() +
-      ") VALUES(" +
-      objSentence.dataInsert.join() +
-      ")",
+        objSentence.tableName +
+        " (" +
+        objSentence.dataInsertType.join() +
+        ") VALUES(" +
+        objSentence.dataInsert.join() +
+        ")",
       [],
       () => {
         console.log(
@@ -164,84 +222,75 @@ export const db_insertGlobalDataAudit = async (objSentence) => {
 };
 
 export const db_insertGlobalLocalDataBase = async (objTable) => {
-
-
-  let sentenceSql = "INSERT INTO " +
+  let sentenceSql =
+    "INSERT INTO " +
     objTable.tableName +
     " (" +
     objTable.dataInsertType.join() +
     ") VALUES(" +
     objTable.dataInsert.join() +
     ")";
-  console.log("sentenceSql", sentenceSql)
+  console.log("sentenceSql", sentenceSql);
   global.dbModerna.transaction((tx) => {
-    tx.executeSql(sentenceSql,
+    tx.executeSql(
+      sentenceSql,
       [],
       (_, { rows }) => {
         const { _array } = rows;
         //_array);
-        console.log("campos de persistencia ingresados")
+        console.log("campos de persistencia ingresados");
       },
       (_, error) => {
-        console.log("error al campos de persistencia ingresados", error)
+        console.log("error al campos de persistencia ingresados", error);
         try {
-          db_updateGlobalLocalDataBase(objTable)
-
+          db_updateGlobalLocalDataBase(objTable);
         } catch (erro) {
-          console.log("error", erro)
+          console.log("error", erro);
         }
         // reject(error)
-
       }
     );
   });
-
 };
 
 export const db_updateGlobalLocalDataBase = async (objTable) => {
-  console.log("acutualizando userScreen", generateSenteceSql(objTable, "UPDATE"))
+  console.log(
+    "acutualizando userScreen",
+    generateSenteceSql(objTable, "UPDATE")
+  );
 
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
-      generateSenteceSql(objTable, "UPDATE")
-      ,
+      generateSenteceSql(objTable, "UPDATE"),
       [],
       (_, { rows }) => {
         const { _array } = rows;
-        console.log("actualizado con exito el userScreen")
-    
+        console.log("actualizado con exito el userScreen");
       },
       (_, error) => {
-        console.log(" error al actualizar el userScreen")
-
-     
-
+        console.log(" error al actualizar el userScreen");
       }
     );
   });
-
 };
 
 export const db_deleteGlobalLocalDataBase = async (objTable) => {
-  console.log("ELIMANDO userScreen//////////////////////////////////////////////////////////", generateSenteceSql(objTable, "DELETE"))
+  console.log(
+    "ELIMANDO userScreen//////////////////////////////////////////////////////////",
+    generateSenteceSql(objTable, "DELETE")
+  );
 
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
-      generateSenteceSql(objTable, "DELETE")
-      ,
+      generateSenteceSql(objTable, "DELETE"),
       [],
       (_, { rows }) => {
         const { _array } = rows;
-        console.log("actualizado con exito el userScreen")
-    
+        console.log("actualizado con exito el userScreen");
       },
       (_, error) => {
-        console.log(" error al actualizar el userScreen")
-
-     
-
+        console.log(" error al actualizar el userScreen");
       }
     );
   });
-
 };

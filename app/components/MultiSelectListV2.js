@@ -15,17 +15,17 @@ export const MultiSelectListV2 = ({
   tipo,
   idPortafolio,
   isUserScreen,
-  selectItemsId
+  selectItemsId,
 }) => {
   const [select, setSelected] = useState([]);
- // const [selectItemsId, setSelectItemsId] = useState([]);
+  // const [selectItemsId, setSelectItemsId] = useState([]);
   const saveId = async () => {
     await AsyncStorage.setItem("id_portafolio_complementario", idPortafolio);
     await AsyncStorage.setItem("tipo_complementario", tipo);
   };
   useEffect(() => {
     if (isUserScreen) {
-      setSelected(complementaryPortfolioProducts)
+      setSelected(complementaryPortfolioProducts);
       //setSelectItemsId(complementaryPortfolioProducts.map((item) => { return item.id }))
     }
   }, []);
@@ -142,7 +142,7 @@ export const MultiSelectListV2 = ({
           id_portafolio: idPortafolio,
           tipo_portafolio: tipo,
           name: existingProduct.name,
-          price: null,
+          price: 0.0,
           state: false,
           images: {
             image1: null,

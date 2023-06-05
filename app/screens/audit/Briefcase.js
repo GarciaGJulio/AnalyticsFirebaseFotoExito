@@ -63,6 +63,12 @@ export const Briefcase = ({ navigation }) => {
     }, 2000);
   }, [isFocused]);
 
+  useEffect(() => {
+    console.log("*****************************idealPortfolioProducts================",idealPortfolioProducts)
+  }, [idealPortfolioProducts]);
+
+  
+
   const getInfoDatBaseScreen = () => {
     try {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {
@@ -82,6 +88,16 @@ export const Briefcase = ({ navigation }) => {
       tempItems = tempItems.map((item) => {
         return JSON.parse(item);
       });
+
+      let tempItemsIdeal = infoExtra.idealPortfolioProducts.split("**");
+      tempItemsIdeal = tempItemsIdeal.filter((item) => item.length > 0 && item != ",");
+      tempItemsIdeal = tempItemsIdeal.map((item) => {
+        return JSON.parse(item);
+      });
+
+      
+      setIdealPortfolioProducts(tempItemsIdeal)
+
       setComplementaryPortfolioProducts(tempItems);
       setInfoScreen(newObj);
       setShowButton2(true);
@@ -109,6 +125,7 @@ export const Briefcase = ({ navigation }) => {
         infoExtra.auditorias_id.id_portafolio_auditoria
       );
     } catch (error) {
+      setIdealPortfolioProducts([])
       setComplementaryPortfolioProducts([]);
       setInfoScreen(null);
       setShowButton2(false);
@@ -185,8 +202,8 @@ export const Briefcase = ({ navigation }) => {
           name: objeto.nombre_producto,
           url: objeto.url_imagen_producto,
           id_categoria: objeto.id_categoria,
-          price: null,
-          state: false,
+          price: 0.0,
+          state: null,
           images: {
             image1: null,
             image2: null,
@@ -470,6 +487,10 @@ export const Briefcase = ({ navigation }) => {
         let tempDataScreen = complementaryPortfolioProducts.map((item) => {
           return `**${JSON.stringify(item)}**`;
         });
+        let tempDataScreenIdeal = idealPortfolioProducts.map((item) => {
+          return `**${JSON.stringify(item)}**`;
+        });
+
         let objUserInfo = {};
         try {
           const tmpInfoExtra = JSON.parse(
@@ -528,6 +549,7 @@ export const Briefcase = ({ navigation }) => {
                   },
                   extra_info: {
                     complementaryPortfolioProducts: tempDataScreen.toString(),
+                    idealPortfolioProducts: tempDataScreenIdeal.toString(),
                     auditorias_id: {
                       ...(objUserInfo.auditorias_id
                         ? objUserInfo.auditorias_id
@@ -575,7 +597,8 @@ export const Briefcase = ({ navigation }) => {
         objUserInfo
       );
     }
-    complementaryPortfolioProducts.map((productos) => {
+    let tmpDataDelete=idealPortfolioProducts.concat(complementaryPortfolioProducts)
+    tmpDataDelete.map((productos) => {
       const { id_portafolio, id, tipo_portafolio } = productos;
 
       deleteRegisterAudit({
@@ -587,8 +610,8 @@ export const Briefcase = ({ navigation }) => {
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
         valueId: `${infoScreen
-          ? infoScreen.id_portafolio_auditoria
-          : idPortafolioAuditoria
+            ? infoScreen.id_portafolio_auditoria
+            : idPortafolioAuditoria
           }`,
       });
     });
@@ -637,6 +660,7 @@ export const Briefcase = ({ navigation }) => {
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealProducts={idealProducts}
             tipo={portafolioTipoIdeal}
+            isUserScreen={infoScreen?true:false}
           />
         </View>
         <View
