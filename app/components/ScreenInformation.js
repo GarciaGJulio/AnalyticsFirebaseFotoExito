@@ -2,8 +2,6 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Divider } from "@rneui/base";
 import theme from "../theme/theme";
-import WifiIndicator from "./WifiIndicator";
-import { FAB } from "@rneui/themed";
 import { useFonts } from "expo-font";
 
 const ScreenInformation = ({ title, text }) => {
@@ -21,6 +19,7 @@ const ScreenInformation = ({ title, text }) => {
         justifyContent: "center",
         alignItems: "center",
         marginTop: 15,
+        // height: theme.dimensions.maxHeight
       }}
     >
       <View
@@ -73,8 +72,8 @@ const ScreenInformation = ({ title, text }) => {
         }}
       >
         <View style={{ flexDirection: "row" }}>
-          <View>
-            <Text style={{ color: "red", textAlign: "left", right: 5 }}>
+          <View style={{ marginVertical: 8 }}>
+            <Text style={{ color: "red", textAlign: "left", right: 5, top: -10 }}>
               *
               <Text
                 style={{

@@ -183,6 +183,7 @@ export const FlashListPortfolio = ({
       ) : (
         <FlashList
           data={idealProducts}
+          estimatedItemSize={100}
           //keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <RenderItem
