@@ -1,10 +1,4 @@
-import {
-  Image,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -17,7 +11,7 @@ import FAILED_ANIMATION from "../../../assets/failed.json";
 import DOWNLOAD_ANIMATION from "../../../assets/download.json";
 import NetInfo from "@react-native-community/netinfo";
 import ModernaContext from "../../context/ModernaContext";
-import { Cli, } from "../../azureConfig/graph/GraphManager";
+import { Cli } from "../../azureConfig/graph/GraphManager";
 import { useFonts } from "expo-font";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
 import * as SQLite from "expo-sqlite";
@@ -113,11 +107,13 @@ export const Menu = ({ navigation }) => {
       "Descargando variables para la auditoría, por favor espere..."
     );
     setIsModalVisible(true);
-    try {
+    /*try {
       await deleteInsertData(); // <--- Corregir aquí
     } catch {
       console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
-    }
+    }*/
+    setIsModalVisible(false);
+    navigation.navigate("audit");
   };
 
   const deleteInsertData = async () => {

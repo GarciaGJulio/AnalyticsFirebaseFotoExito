@@ -183,30 +183,6 @@ export const Promos = ({ navigation }) => {
     setSelected(null);
   };
 
-  useEffect(() => {});
-
-  /*useEffect(() => {
-    const disableBackButton = () => {
-      return true; // Bloquea la función de retroceso nativa
-    };
-
-    BackHandler.addEventListener("hardwareBackPress", disableBackButton);
-
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
-    };
-  }, []);*/
-
-  // const handleOpenModalFinish = () => {
-  //   setAnimation(SAVE_ANIMATION);
-  //   setIsModalVisible(true);
-  //   setTimeout(() => {
-  //     //setAnimation(SUCCESS_ANIMATION);
-  //     setIsModalVisible(false);
-  //     navigation.navigate("begin");
-  //   }, 5000);
-  // };
-
   const handleOpenModalFinishWithoutBranch = () => {
     setAnimation(SAVE_ANIMATION);
     setIsModalVisibleCloseSucursal(true);
@@ -312,7 +288,7 @@ export const Promos = ({ navigation }) => {
     try {
       db_insertGlobalDataAudit(dataSave);
 
-      subidaBaseRemoteTodaAuditoria(`'${idAuditoria}'`);
+      //subidaBaseRemoteTodaAuditoria(`'${idAuditoria}'`);
       const promocionData = await realizarConsulta(
         "UPDATE auditoria SET <SINCRONIZADA> =trueWHERE id_auditoria=" +
           idAuditoria +
