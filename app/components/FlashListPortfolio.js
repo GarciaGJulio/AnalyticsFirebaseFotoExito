@@ -106,7 +106,7 @@ const RenderItemProd = ({
           tipo_portafolio: tipo,
           id: id,
           url: item.url,
-          price: null,
+          price: 0.0,
           state: false,
           images: {
             image1: null,

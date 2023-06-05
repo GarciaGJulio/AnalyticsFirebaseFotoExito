@@ -32,7 +32,12 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { TarjPercha } from "../../components/TarjetaPercha";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import LoaderModal from "../../components/LoaderModal";
-import { deleteRegisterAudit, getCurrentScreenInformation, getCurrentScreenInformationLocal, saveCurrentScreenUser } from "../../utils/Utils";
+import {
+  deleteRegisterAudit,
+  getCurrentScreenInformation,
+  getCurrentScreenInformationLocal,
+  saveCurrentScreenUser,
+} from "../../utils/Utils";
 import { RecuperarToken } from "../../services/onedrive";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -53,12 +58,14 @@ export const Racks = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
-      await getCurrentScreenInformation()
-      getInfoDatBaseScreen()
-    }
-    initDataLocal()
-    setTimeout(() => { initDataLocal() }, 2000)
-  }, [isFocused])
+      await getCurrentScreenInformation();
+      getInfoDatBaseScreen();
+    };
+    initDataLocal();
+    setTimeout(() => {
+      initDataLocal();
+    }, 2000);
+  }, [isFocused]);
   // useEffect(() => {
   //   console.log("category=========================================",category)
   // }, [category])
@@ -70,7 +77,7 @@ export const Racks = ({ navigation }) => {
     try {
       //  console.log("global.userInfoScreen en pricess", global.userInfoScreen)
       if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
-        return
+        return;
       }
       // const infoExtra =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
       // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
@@ -82,43 +89,57 @@ export const Racks = ({ navigation }) => {
       //   ...global.userInfoScreen.infoScreen
       // }
 
-      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      const tmpPantalla = tmpInfoExtra.pantallas.rack
-      const infoExtra = tmpPantalla.extra_info
+      const tmpInfoExtra = JSON.parse(
+        global.userInfoScreen.userInfo.extra_info
+      );
+      const tmpPantalla = tmpInfoExtra.pantallas.rack;
+      const infoExtra = tmpPantalla.extra_info;
       const newObj = {
         ...infoExtra,
-        ...global.userInfoScreen.infoScreen
-      }
+        ...global.userInfoScreen.infoScreen,
+      };
 
       // console.log("newObj-------------", newObj)
       // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
-      let tempItems = infoExtra.category.split("**")
+      let tempItems = infoExtra.category.split("**");
       // console.log("tempItems SPOPLIT-------------", tempItems)
-      tempItems = tempItems.filter((item) => item.length > 0 && item != ",")
+      tempItems = tempItems.filter((item) => item.length > 0 && item != ",");
       // console.log("tempItems FILTER-------------", tempItems)
-      tempItems = tempItems.map((item) => { return JSON.parse(item) })
+      tempItems = tempItems.map((item) => {
+        return JSON.parse(item);
+      });
       // console.log("tempItems-------------", tempItems)
-      setCategory(Object.assign([], tempItems))
-      setInfoScreen(Object.assign({}, newObj))
-      setShowButton2(true)
-      setShowButton1(false)
+      setCategory(Object.assign([], tempItems));
+      setInfoScreen(Object.assign({}, newObj));
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
-      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem(
+        "nombre_cliente",
+        infoExtra.auditorias_id.nombre_cliente
+      );
       AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
-      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
-      AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
-      AsyncStorage.setItem("id_preciador", infoExtra.auditorias_id.id_preciador);
+      AsyncStorage.setItem(
+        "nombre_sucursal",
+        infoExtra.auditorias_id.nombre_sucursal
+      );
+      AsyncStorage.setItem(
+        "id_portafolio_auditoria",
+        infoExtra.auditorias_id.id_portafolio_auditoria
+      );
+      AsyncStorage.setItem(
+        "id_preciador",
+        infoExtra.auditorias_id.id_preciador
+      );
       AsyncStorage.setItem("id_percha", infoExtra.auditorias_id.id_percha);
-
-
     } catch (error) {
-      setCategory([])
-      setInfoScreen(null)
-      setShowButton2(false)
-      setShowButton1(true)
-      console.log(error)
+      setCategory([]);
+      setInfoScreen(null);
+      setShowButton2(false);
+      setShowButton1(true);
+      console.log(error);
     }
-  }
+  };
   /*const EnviaDatosLocal = async () => {
     db_insertPercha(1, checked, valueGeneral, valueModerna);
     await lookForPerchas(setPedidos);
@@ -126,37 +147,27 @@ export const Racks = ({ navigation }) => {
   };*/
 
   useEffect(() => {
-    RecuperarToken()
-    console.log("IDPERCHA", idPercha)
-
+    RecuperarToken();
+    console.log("IDPERCHA", idPercha);
   }, []);
 
-
-
-
   const handleOpenModal = async () => {
-    setIsModalVisible(true)
+    setIsModalVisible(true);
     try {
-      await validate()
-      setIsModalVisible(false)
+      await validate();
+      setIsModalVisible(false);
       // setShowButton2(true)
       // setShowButton1(false)
     } catch (error) {
       // setIsModalVisible(false)
-
     }
-
-
-
-  }
+  };
   const consultarYCopiarContenido = async () => {
     const idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
       // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta(
-        "SELECT * FROM percha"
-      );
-      console.log("percha llanda:", resultadoConsulta)
+      const resultadoConsulta = await realizarConsulta("SELECT * FROM percha");
+      console.log("percha llanda:", resultadoConsulta);
 
       const resultadoConsultaPlanograma = await realizarConsulta(
         "SELECT * FROM planograma"
@@ -176,14 +187,13 @@ export const Racks = ({ navigation }) => {
         });
 
       const newArrayEstado = planogramaFiltro.map((objeto) => {
-        console.log("idQva:", objeto.id_percha)
+        console.log("idQva:", objeto.id_percha);
         return {
-
           id: objeto.id,
           id_percha: idPercha,
           name: objeto.name,
-          carasGeneral: null,
-          carasModerna: null,
+          carasGeneral: 0,
+          carasModerna: 0,
           imagesPlanograma: objeto.images,
           state: null,
           images: {
@@ -207,7 +217,6 @@ export const Racks = ({ navigation }) => {
         setCategory(newArrayEstado);
         setRack(planogramaFiltro);
       }
-
 
       // console.log(
       //   "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
@@ -249,12 +258,9 @@ export const Racks = ({ navigation }) => {
   };
 
   const validate = async () => {
-
-
-
     console.log("VALIDACION DE DATOS DE PERCHAS: ", rack);
     const isValid = category.every((item) => {
-      console.log("ItemModerna:", item)
+      console.log("ItemModerna:", item);
       if (
         item.state === null ||
         item.carasGeneral === null ||
@@ -263,7 +269,7 @@ export const Racks = ({ navigation }) => {
         console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
-      if (item.state === "1") {
+      if (item.state === 1) {
         if (!item.images || item.images.image1 === null) {
           console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
           return false;
@@ -281,80 +287,81 @@ export const Racks = ({ navigation }) => {
       console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(category));
     } else {
       try {
-        console.log("IDPERCHA21", idPercha)
+        console.log("IDPERCHA21", idPercha);
 
         await AsyncStorage.setItem("id_percha", idPercha);
-        let x = await AsyncStorage.getItem("id_percha")
-        console.log("IDPERCHA2", x)
-        console.log("PERCHAS QUE VAN A SER GUARDADOS: ", JSON.stringify(category));
-        console.log("RACKS:", category)
-        category
-          .map((productos) => {
-            const { id_percha, id, state, carasGeneral, carasModerna, images } =
-              productos;
-            console.log("carasGenerales:", carasGeneral)
-            console.log("carasmODERNA:", carasModerna)
+        let x = await AsyncStorage.getItem("id_percha");
+        console.log("IDPERCHA2", x);
+        console.log(
+          "PERCHAS QUE VAN A SER GUARDADOS: ",
+          JSON.stringify(category)
+        );
+        console.log("RACKS:", category);
+        category.map((productos) => {
+          const { id_percha, id, state, carasGeneral, carasModerna, images } =
+            productos;
+          console.log("carasGenerales:", carasGeneral);
+          console.log("carasmODERNA:", carasModerna);
 
-            const { image1, image2, image3 } = images;
-            console.log(
-              "---------------------- imagenes",
-              JSON.stringify(images)
-            );
-            console.log("PRODUC:", productos)
-            let dataSave = {
-              tableName: "percha",
-              dataInsertType: [
-                "id_percha",
-                "id_categoria",
-                "estado_percha",
-                "categoria_general",
-                "categoria_moderna",
-                "url_imagen1",
-                "url_imagen2",
-                "url_imagen3",
-                "usuario_creacion",
-                "fecha_creacion",
-                "fecha_modificacion",
-              ],
-              dataInsert: [
-                `'${idPercha}'`,
-                `'${id}'`,
-                `'${state}'`,
-                `'${carasGeneral}'`,
-                `'${carasModerna}'`,
-                `'${image1}'`,
-                `'${image2}'`,
-                `'${image3}'`,
-                `'${userInfo.givenName}'`,
-                `'${dataTime()}'`,
-                `'${dataTime()}'`,
-              ],
-            };
-            const sentence =
-              "INSERT INTO " +
-              dataSave.tableName +
-              " (" +
-              dataSave.dataInsertType.join() +
-              ") VALUES(" +
-              dataSave.dataInsert.join() +
-              ")";
-            console.log("SENTENCIA A EJECUTAR: ", sentence);
+          const { image1, image2, image3 } = images;
+          console.log(
+            "---------------------- imagenes",
+            JSON.stringify(images)
+          );
+          console.log("PRODUC:", productos);
+          let dataSave = {
+            tableName: "percha",
+            dataInsertType: [
+              "id_percha",
+              "id_categoria",
+              "estado_percha",
+              "categoria_general",
+              "categoria_moderna",
+              "url_imagen1",
+              "url_imagen2",
+              "url_imagen3",
+              "usuario_creacion",
+              "fecha_creacion",
+              "fecha_modificacion",
+            ],
+            dataInsert: [
+              `'${idPercha}'`,
+              `'${id}'`,
+              `'${state}'`,
+              `'${carasGeneral}'`,
+              `'${carasModerna}'`,
+              `'${image1}'`,
+              `'${image2}'`,
+              `'${image3}'`,
+              `'${userInfo.givenName}'`,
+              `'${dataTime()}'`,
+              `'${dataTime()}'`,
+            ],
+          };
+          const sentence =
+            "INSERT INTO " +
+            dataSave.tableName +
+            " (" +
+            dataSave.dataInsertType.join() +
+            ") VALUES(" +
+            dataSave.dataInsert.join() +
+            ")";
+          console.log("SENTENCIA A EJECUTAR: ", sentence);
 
-            console.log("TODO BIEN");
-            // navigation.navigate("promos");rrrrrrrrrr
-            try {
-
-              db_insertGlobalDataAudit(dataSave);
-              setShowButton1(false)
-              setShowButton2(true)
-            } catch (error) {
-
-              Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
-
-            }
-          });
-        let tempDataScreen = category.map((item) => { return `**${JSON.stringify(item)}**` })
-        let objUserInfo = {}
+          console.log("TODO BIEN");
+          // navigation.navigate("promos");rrrrrrrrrr
+          try {
+            db_insertGlobalDataAudit(dataSave);
+            setShowButton1(false);
+            setShowButton2(true);
+          } catch (error) {
+            Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+          }
+        });
+        let tempDataScreen = category.map((item) => {
+          return `**${JSON.stringify(item)}**`;
+        });
+        let objUserInfo = {};
 
         try {
           // objUserInfo =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
@@ -362,42 +369,47 @@ export const Racks = ({ navigation }) => {
           // const tmpPantalla = tmpInfoExtra.pantallas.rack
           // const infoExtra = tmpPantalla.extra_info
           // objUserInfo = infoExtra
-          const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-          const tmpPantalla = tmpInfoExtra.pantallas.prices
-          const infoExtra = tmpPantalla.extra_info
-          objUserInfo = infoExtra
+          const tmpInfoExtra = JSON.parse(
+            global.userInfoScreen.userInfo.extra_info
+          );
+          const tmpPantalla = tmpInfoExtra.pantallas.prices;
+          const infoExtra = tmpPantalla.extra_info;
+          objUserInfo = infoExtra;
           objUserInfo = {
             ...objUserInfo,
             ...{
-              pantallas: tmpInfoExtra.pantallas
-            }
-          }
+              pantallas: tmpInfoExtra.pantallas,
+            },
+          };
         } catch (e) {
           try {
             // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
             // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
             // objUserInfo = tempPantalla
             // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-            const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-            const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-            objUserInfo = tempPantalla.pantallas.prices.extra_info
+            const userInfoScreenTmp = await getCurrentScreenInformationLocal();
+            const tempPantalla = JSON.parse(
+              userInfoScreenTmp.userInfo.extra_info
+            );
+            objUserInfo = tempPantalla.pantallas.prices.extra_info;
             objUserInfo = {
               ...objUserInfo,
               ...{
-                pantallas: tempPantalla.pantallas
-              }
-            }
+                pantallas: tempPantalla.pantallas,
+              },
+            };
           } catch (error) {
-            objUserInfo = {}
-            console.log(e)
+            objUserInfo = {};
+            console.log(e);
           }
         }
-        saveCurrentScreenUser({
-          screenName: `rack`,
-          tableName: `percha`,
-          itemId: `id_percha`,
-          columnId: `id_percha`
-        },
+        saveCurrentScreenUser(
+          {
+            screenName: `rack`,
+            tableName: `percha`,
+            itemId: `id_percha`,
+            columnId: `id_percha`,
+          },
           {
             // category: tempDataScreen.toString(),
             // auditorias_id: {
@@ -406,37 +418,42 @@ export const Racks = ({ navigation }) => {
             //   }
             // },
             pantallas: {
-              ...objUserInfo.pantallas ? objUserInfo.pantallas : {}, ...{
+              ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+              ...{
                 rack: {
                   principal: {
                     screenName: `rack`,
                     tableName: `percha`,
                     itemId: `id_percha`,
-                    columnId: `id_percha`
+                    columnId: `id_percha`,
                   },
                   extra_info: {
                     category: tempDataScreen.toString(),
                     auditorias_id: {
-                      ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                        id_percha: idPercha
-                      }
+                      ...(objUserInfo.auditorias_id
+                        ? objUserInfo.auditorias_id
+                        : {}),
+                      ...{
+                        id_percha: idPercha,
+                      },
                     },
                     pantallas: {
-                      ...objUserInfo.pantallas ? objUserInfo.pantallas : {},
-                      rack: null
-                    }
-                  }
-                }
-              }
-            }
+                      ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                      rack: null,
+                    },
+                  },
+                },
+              },
+            },
           }
-        )
-
-
+        );
       } catch (e) {
-        Alert.alert("Error antes de  insertar los datos", "Vuelva a intentarlo");
-        setShowButton1(true)
-        setShowButton2(false)
+        Alert.alert(
+          "Error antes de  insertar los datos",
+          "Vuelva a intentarlo"
+        );
+        setShowButton1(true);
+        setShowButton2(false);
       }
       console.log("TODO BIEN");
       //navigation.navigate('rack');
@@ -447,24 +464,26 @@ export const Racks = ({ navigation }) => {
     const id_percha = await AsyncStorage.getItem("id_percha");
     // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
-      saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen)
+      saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen);
     } else {
-      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-      saveCurrentScreenUser(objUserInfo.pantallas.prices.principal, objUserInfo)
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal();
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info);
+      saveCurrentScreenUser(
+        objUserInfo.pantallas.prices.principal,
+        objUserInfo
+      );
     }
-
 
     // newComplementaryPortfolio.map((productos) => {
 
     deleteRegisterAudit({
       tableName: "percha",
       objectId: "id_percha",
-      valueId: id_percha
-    })
+      valueId: id_percha,
+    });
 
     //})
-  }
+  };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -472,8 +491,8 @@ export const Racks = ({ navigation }) => {
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => {
-          navigation.navigate("prices")
-          handleDeleteRegisterLocal()
+          navigation.navigate("prices");
+          handleDeleteRegisterLocal();
         }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
@@ -494,7 +513,6 @@ export const Racks = ({ navigation }) => {
           }
         />
         <View style={styles.cardContainer}>
-
           {
             <TarjPercha
               //data={category}
@@ -507,7 +525,6 @@ export const Racks = ({ navigation }) => {
             />
           }
 
-
           {/* {
             !infoScreen && <TarjPercha
               //data={category}
@@ -519,7 +536,6 @@ export const Racks = ({ navigation }) => {
               view={"audit"}
             />
           } */}
-
         </View>
       </View>
       <DoubleDualStyledButton
@@ -533,7 +549,6 @@ export const Racks = ({ navigation }) => {
         sizeRigth={theme.buttonSize.df}
         iconRigth={"arrow-right-circle"}
         typeRigth={"feather"}
-
         colorRigth={theme.colors.modernaRed}
         onPressRigth={handleOpenModal}
         showButton1={showButton1}

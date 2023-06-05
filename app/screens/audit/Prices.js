@@ -28,7 +28,12 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
-import { deleteRegisterAudit, getCurrentScreenInformation, getCurrentScreenInformationLocal, saveCurrentScreenUser } from "../../utils/Utils";
+import {
+  deleteRegisterAudit,
+  getCurrentScreenInformation,
+  getCurrentScreenInformationLocal,
+  saveCurrentScreenUser,
+} from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 
 export const Prices = ({ navigation, route }) => {
@@ -46,7 +51,8 @@ export const Prices = ({ navigation, route }) => {
   // try {
   //   complementaryPortfolioProducts = route?.params.complementaryPortfolioProducts
   //   idealPortfolioProducts = route?.params.idealPortfolioProducts
-  const { complementaryPortfolioProducts, idealPortfolioProducts } = route?.params || {};
+  const { complementaryPortfolioProducts, idealPortfolioProducts } =
+    route?.params || {};
 
   // } catch (error) {
   //   complementaryPortfolioProducts = [];
@@ -59,30 +65,33 @@ export const Prices = ({ navigation, route }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
-      await getCurrentScreenInformation()
-      getInfoDatBaseScreen()
-    }
-    initDataLocal()
-    setTimeout(() => { initDataLocal() }, 2000)
-  }, [isFocused])
+      await getCurrentScreenInformation();
+      getInfoDatBaseScreen();
+    };
+    initDataLocal();
+    setTimeout(() => {
+      initDataLocal();
+    }, 2000);
+  }, [isFocused]);
   const getInfoDatBaseScreen = () => {
     try {
-      console.log("global.userInfoScreen en pricess", global.userInfoScreen)
+      console.log("global.userInfoScreen en pricess", global.userInfoScreen);
       if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
-        return
+        return;
       }
       // const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
       // const infoExtra =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.prices)
 
-      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+      const tmpInfoExtra = JSON.parse(
+        global.userInfoScreen.userInfo.extra_info
+      );
       // console.log("tmpInfoExtra prices-----------------------------", tmpInfoExtra)
-      const tmpPantalla = tmpInfoExtra.pantallas.prices
-      const infoExtra = tmpPantalla.extra_info
+      const tmpPantalla = tmpInfoExtra.pantallas.prices;
+      const infoExtra = tmpPantalla.extra_info;
       const newObj = {
         ...infoExtra,
-        ...global.userInfoScreen.infoScreen
-      }
-
+        ...global.userInfoScreen.infoScreen,
+      };
 
       // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
       // const tmpPantalla = tmpInfoExtra.pantallas.prices
@@ -94,36 +103,50 @@ export const Prices = ({ navigation, route }) => {
       // }
       // console.log("newObj-------------", newObj)
       // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
-      let tempItems = infoExtra.fullDataProducts.split("**")
+      let tempItems = infoExtra.fullDataProducts.split("**");
       // console.log("tempItems SPOPLIT-------------", tempItems)
-      tempItems = tempItems.filter((item) => item.length > 0 && item != ",")
+      tempItems = tempItems.filter((item) => item.length > 0 && item != ",");
       // console.log("tempItems FILTER-------------", tempItems)
-      tempItems = tempItems.map((item) => { return JSON.parse(item) })
+      tempItems = tempItems.map((item) => {
+        return JSON.parse(item);
+      });
       // console.log("tempItems-------------", tempItems)
-      console.log("tempItems en prices", tempItems)
-      setNewComplementaryPortfolio(Object.assign([], tempItems))
-      setInfoScreen(Object.assign({}, newObj))
-      setShowButton2(true)
-      setShowButton1(false)
+      console.log("tempItems en prices", tempItems);
+      setNewComplementaryPortfolio(Object.assign([], tempItems));
+      setInfoScreen(Object.assign({}, newObj));
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
-      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem(
+        "nombre_cliente",
+        infoExtra.auditorias_id.nombre_cliente
+      );
       AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
-      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
-      AsyncStorage.setItem("id_portafolio_auditoria", infoExtra.auditorias_id.id_portafolio_auditoria);
-      console.log("infoExtra.auditorias_id.id_preciador--------", infoExtra.auditorias_id.id_preciador)
-      AsyncStorage.setItem("id_preciador", infoExtra.auditorias_id.id_preciador);
-
-
-
+      AsyncStorage.setItem(
+        "nombre_sucursal",
+        infoExtra.auditorias_id.nombre_sucursal
+      );
+      AsyncStorage.setItem(
+        "id_portafolio_auditoria",
+        infoExtra.auditorias_id.id_portafolio_auditoria
+      );
+      console.log(
+        "infoExtra.auditorias_id.id_preciador--------",
+        infoExtra.auditorias_id.id_preciador
+      );
+      AsyncStorage.setItem(
+        "id_preciador",
+        infoExtra.auditorias_id.id_preciador
+      );
     } catch (error) {
-      console.log("errrrorrrrrr en prices", error)
+      console.log("errrrorrrrrr en prices", error);
 
-      setNewComplementaryPortfolio([])
-      setInfoScreen(null)
-      setShowButton2(false)
-      setShowButton1(true)
+      setNewComplementaryPortfolio([]);
+      setInfoScreen(null);
+      setShowButton2(false);
+      setShowButton1(true);
     }
-  }
+  };
   useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
@@ -218,12 +241,10 @@ export const Prices = ({ navigation, route }) => {
           JSON.stringify(newComplementaryPortfolio)
         );
       }
-
     };
     if (complementaryPortfolioProducts) {
       getNewArrays();
     }
-
   }, [complementaryPortfolioProducts]);
 
   const validateArrays = async () => {
@@ -238,7 +259,7 @@ export const Prices = ({ navigation, route }) => {
           console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
-        if (item.state === "1") {
+        if (item.state === 1) {
           if (
             item.price === null ||
             !item.images ||
@@ -296,14 +317,14 @@ export const Prices = ({ navigation, route }) => {
                 "url_imagen3",
                 "usuario_creacion ",
                 "fecha_creacion",
-                "fecha_modificacion"
+                "fecha_modificacion",
               ],
               dataInsert: [
                 `'${idPreciador}'`,
                 `'${id_portafolio}'`,
                 `'${id}'`,
                 `'${price}'`,
-                `'${state ? "1" : "0"}'`,
+                `'${state ? 1 : 0}'`,
                 `'${image1}'`,
                 `'${image2}'`,
                 `'${image3}'`,
@@ -323,10 +344,8 @@ export const Prices = ({ navigation, route }) => {
                 `${userInfo.givenName}`,
                 `${dataTime()}`,
                 `${dataTime()}`,
-
               ],
             };
-
 
             const sentence =
               "INSERT INTO " +
@@ -355,53 +374,60 @@ export const Prices = ({ navigation, route }) => {
             savePreciador();*/
             //navigation.navigate("rack");
           });
-          let tempDataScreen = newComplementaryPortfolio.map((item) => { return `**${JSON.stringify(item)}**` })
-          let objUserInfo = {}
+          let tempDataScreen = newComplementaryPortfolio.map((item) => {
+            return `**${JSON.stringify(item)}**`;
+          });
+          let objUserInfo = {};
           try {
             // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
             // const tmpPantalla = tmpInfoExtra.pantallas.prices
             // const infoExtra = tmpPantalla.extra_info
             // objUserInfo = infoExtra
 
-            const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-            const tmpPantalla = tmpInfoExtra.pantallas.briefcase
-            const infoExtra = tmpPantalla.extra_info
-            objUserInfo = infoExtra
+            const tmpInfoExtra = JSON.parse(
+              global.userInfoScreen.userInfo.extra_info
+            );
+            const tmpPantalla = tmpInfoExtra.pantallas.briefcase;
+            const infoExtra = tmpPantalla.extra_info;
+            objUserInfo = infoExtra;
             objUserInfo = {
               ...objUserInfo,
               ...{
-                pantallas: tmpInfoExtra.pantallas
-              }
-            }
+                pantallas: tmpInfoExtra.pantallas,
+              },
+            };
 
             // objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.prices)
-
           } catch (e) {
             try {
               // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
               // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
               // objUserInfo = tempPantalla
               // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-              const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-              const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-              objUserInfo = tempPantalla.pantallas.briefcase.extra_info
+              const userInfoScreenTmp =
+                await getCurrentScreenInformationLocal();
+              const tempPantalla = JSON.parse(
+                userInfoScreenTmp.userInfo.extra_info
+              );
+              objUserInfo = tempPantalla.pantallas.briefcase.extra_info;
               objUserInfo = {
                 ...objUserInfo,
                 ...{
-                  pantallas: tempPantalla.pantallas
-                }
-              }
+                  pantallas: tempPantalla.pantallas,
+                },
+              };
             } catch (error) {
-              objUserInfo = {}
-              console.log(e)
+              objUserInfo = {};
+              console.log(e);
             }
           }
-          saveCurrentScreenUser({
-            screenName: `prices`,
-            tableName: `preciador`,
-            itemId: `id_preciador`,
-            columnId: `id_preciador`
-          },
+          saveCurrentScreenUser(
+            {
+              screenName: `prices`,
+              tableName: `preciador`,
+              itemId: `id_preciador`,
+              columnId: `id_preciador`,
+            },
             {
               // fullDataProducts: tempDataScreen.toString(),
               // auditorias_id: {
@@ -410,30 +436,35 @@ export const Prices = ({ navigation, route }) => {
               //   }
               // },
               pantallas: {
-                ...objUserInfo.pantallas ? objUserInfo.pantallas : {}, ...{
+                ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                ...{
                   prices: {
                     principal: {
                       screenName: `prices`,
                       tableName: `preciador`,
                       itemId: `id_preciador`,
-                      columnId: `id_preciador`
+                      columnId: `id_preciador`,
                     },
                     extra_info: {
                       fullDataProducts: tempDataScreen.toString(),
                       auditorias_id: {
-                        ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                          id_preciador: idPreciador
-                        }
+                        ...(objUserInfo.auditorias_id
+                          ? objUserInfo.auditorias_id
+                          : {}),
+                        ...{
+                          id_preciador: idPreciador,
+                        },
                       },
                       pantallas: {
-                        ...objUserInfo.pantallas ? objUserInfo.pantallas : {},
-                        prices: null
-                      }
-                    }
-                  }
-                }
-              }
-            })
+                        ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                        prices: null,
+                      },
+                    },
+                  },
+                },
+              },
+            }
+          );
         } catch (e) {
           Alert.alert(
             "Error antes de  insertar los datos",
@@ -447,24 +478,29 @@ export const Prices = ({ navigation, route }) => {
     const idPreciador = await AsyncStorage.getItem("id_preciador");
     // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
-      saveCurrentScreenUser(infoScreen.pantallas.briefcase.principal, infoScreen)
+      saveCurrentScreenUser(
+        infoScreen.pantallas.briefcase.principal,
+        infoScreen
+      );
     } else {
-      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-      saveCurrentScreenUser(objUserInfo.pantallas.briefcase.principal, objUserInfo)
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal();
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info);
+      saveCurrentScreenUser(
+        objUserInfo.pantallas.briefcase.principal,
+        objUserInfo
+      );
     }
-
 
     // newComplementaryPortfolio.map((productos) => {
 
     deleteRegisterAudit({
       tableName: "preciador",
       objectId: "id_preciador",
-      valueId: idPreciador
-    })
+      valueId: idPreciador,
+    });
 
     //})
-  }
+  };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -472,8 +508,8 @@ export const Prices = ({ navigation, route }) => {
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => {
-          handleDeleteRegisterLocal()
-          navigation.navigate("briefcase")
+          handleDeleteRegisterLocal();
+          navigation.navigate("briefcase");
         }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />
@@ -503,27 +539,26 @@ export const Prices = ({ navigation, route }) => {
           />
         </View>
         <View style={{ flex: 2, width: "100%", alignItems: "center" }}>
-          {
-            infoScreen && <FlashListPrices
+          {infoScreen && (
+            <FlashListPrices
               title={"Portafolio Complementario"}
               products={newComplementaryPortfolio}
               setProducts={setNewComplementaryPortfolio}
               isUserScreen={true}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
-          }
-          {
-            !infoScreen && <FlashListPrices
+          )}
+          {!infoScreen && (
+            <FlashListPrices
               title={"Portafolio Complementario"}
               products={newComplementaryPortfolio}
               setProducts={setNewComplementaryPortfolio}
               isUserScreen={false}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
-          }
-
+          )}
         </View>
         <View style={{ flex: 0.45, width: "100%" }}>
           {/*<DoubleStyledButton

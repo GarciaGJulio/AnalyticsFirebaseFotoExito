@@ -25,12 +25,20 @@ import { useFonts } from "expo-font";
 import ModernaHeader from "../../components/ModernaHeader";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
 import * as SQLite from "expo-sqlite";
-import { subidaBaseRemoteTodaAuditoria, subidaBaseRemoteTodaAuditoria2 } from "../../services/SubidaBaseRemota";
+import {
+  subidaBaseRemoteTodaAuditoria,
+  subidaBaseRemoteTodaAuditoria2,
+} from "../../services/SubidaBaseRemota";
 import { getCurrentScreenInformation } from "../../utils/Utils";
 import { useNavigation } from "@react-navigation/native";
+import {
+  borrarBaseDeDatos,
+  borrarTablasDeBaseDeDatos,
+} from "../../services/SqliteService";
+import { dataAxiosQuery, load_db_config } from "../../common/sqlite_config";
 
 export const Menu = ({ navigation }) => {
-  const { handleScreenInfo } = useContext(ModernaContext)
+  const { handleScreenInfo } = useContext(ModernaContext);
   // const navigation1 = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -44,8 +52,8 @@ export const Menu = ({ navigation }) => {
     //onedrive(UserOnedrive);
   }, []);
   useEffect(() => {
-    getCurrentScreenInformation(navigation)
-  }, [])
+    getCurrentScreenInformation(navigation);
+  }, []);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
@@ -55,7 +63,6 @@ export const Menu = ({ navigation }) => {
       unsubscribe();
     };
   }, []);
-
 
   /*const onedrive = async (UserOnedrive) => {
     try {
@@ -104,17 +111,38 @@ export const Menu = ({ navigation }) => {
     }, 5000);
   };
 
-  const handleOpenModalAudit = () => {
+  const handleOpenModalAudit = async () => {
     setAnimation(DOWNLOAD_ANIMATION);
     setModalMessage(
       "Descargando variables para la auditoría, por favor espere..."
     );
     setIsModalVisible(true);
-    setTimeout(() => {
-      //setAnimation(SUCCESS_ANIMATION);
-      setIsModalVisible(false);
-      navigation.navigate("audit");
-    }, 5000);
+    try {
+      await deleteInsertData(); // <--- Corregir aquí
+    } catch {
+      console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
+    }
+  };
+
+  const deleteInsertData = async () => {
+    console.log("SE PROCEDE A ELIMINAR LAS TABLAS . . . . . ");
+    try {
+      console.log("ELIMINANDO TABLAS DE LA BASE DE DATOS . . . . . ");
+      await borrarTablasDeBaseDeDatos();
+      try {
+        await dataAxiosQuery();
+        setIsModalVisible(false);
+        navigation.navigate("audit");
+      } catch (e) {
+        console.log("Error al volver a insertar los datos * - * -* - * ");
+      }
+    } catch (e) {
+      console.log("Error al eliminar la base de datos");
+      Alert.alert(
+        "Error al eliminar los registros",
+        "Se procede a trabajar con datos anteriores"
+      );
+    }
   };
 
   const db = SQLite.openDatabase("MODERNAAPPMOBILEDB");

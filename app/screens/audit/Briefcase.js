@@ -200,8 +200,8 @@ export const Briefcase = ({ navigation }) => {
           name: objeto.nombre_producto,
           url: objeto.url_imagen_producto,
           id_categoria: objeto.id_categoria,
-          price: null,
-          state: false,
+          price: 0.0,
+          state: null,
           images: {
             image1: null,
             image2: null,

@@ -28,16 +28,18 @@ export const CheckBoxContainerV2 = ({
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
   const [errorPrice, setErrorPrice] = useState();
-  useEffect(()=>{
-    console.log("////////////////////////////////////////////////isUserScreen: ", isUserScreen);
+  useEffect(() => {
+    console.log(
+      "////////////////////////////////////////////////isUserScreen: ",
+      isUserScreen
+    );
     console.log("////////////////////////////////////////////////item: ", item);
 
-    if(isUserScreen){
-      
-      setState(item.state=="1"?true:false)
-      setPrice(item.price+"")
+    if (isUserScreen) {
+      setState(item.state == 1 ? true : false);
+      setPrice(item.price + "");
     }
-  },[])
+  }, []);
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -75,9 +77,9 @@ export const CheckBoxContainerV2 = ({
       // Actualiza la propiedad del objeto
       if (producto) {
         if (state) {
-          producto.state = "1";
+          producto.state = 1;
         } else {
-          producto.state = "0";
+          producto.state = 0;
         }
         //producto.id_portafolio_complementario = idPortafolio;
         //producto.id_preciador_portafolio_complementario = idPreciador;
@@ -280,7 +282,11 @@ export const CheckBoxContainerV2 = ({
                 </View>
               </View>
 
-              <TakeImage setProducts={setProducts} item={item} isUserScreen={isUserScreen} />
+              <TakeImage
+                setProducts={setProducts}
+                item={item}
+                isUserScreen={isUserScreen}
+              />
             </View>
           </View>
         </View>
