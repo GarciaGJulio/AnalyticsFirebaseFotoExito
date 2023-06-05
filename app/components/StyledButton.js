@@ -36,6 +36,7 @@ export const StyledButton = ({
           alignItems: "center",
           justifyContent: "space-around",
           width: size,
+          // height: size * 3 / 10,
           flex: 1,
           paddingHorizontal: 10,
           //backgroundColor:'blue'

@@ -1,7 +1,5 @@
 import {
-  Alert,
   Image,
-  ImageBackground,
   StatusBar,
   StyleSheet,
   Text,
@@ -12,7 +10,6 @@ import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
 import * as Animatable from "react-native-animatable";
-import SYNC_BACKGROUND from "../../../assets/resources/sync_background.jpg";
 import LoaderModal from "../../components/LoaderModal";
 import SYNC_ANIMATION from "../../../assets/sync-data.json";
 import SUCCESS_ANIMATION from "../../../assets/success.json";
@@ -20,14 +17,12 @@ import FAILED_ANIMATION from "../../../assets/failed.json";
 import DOWNLOAD_ANIMATION from "../../../assets/download.json";
 import NetInfo from "@react-native-community/netinfo";
 import ModernaContext from "../../context/ModernaContext";
-import { Cli, GraphInit } from "../../azureConfig/graph/GraphManager";
+import { Cli, } from "../../azureConfig/graph/GraphManager";
 import { useFonts } from "expo-font";
-import ModernaHeader from "../../components/ModernaHeader";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
 import * as SQLite from "expo-sqlite";
-import { subidaBaseRemoteTodaAuditoria, subidaBaseRemoteTodaAuditoria2 } from "../../services/SubidaBaseRemota";
+import { subidaBaseRemoteTodaAuditoria2 } from "../../services/SubidaBaseRemota";
 import { getCurrentScreenInformation } from "../../utils/Utils";
-import { useNavigation } from "@react-navigation/native";
 
 export const Menu = ({ navigation }) => {
   const { handleScreenInfo } = useContext(ModernaContext)
@@ -169,7 +164,7 @@ export const Menu = ({ navigation }) => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              marginHorizontal: 5,
+              marginLeft: 10,
             }}
           >
             <StyledButton
@@ -186,10 +181,10 @@ export const Menu = ({ navigation }) => {
               flex: 1.7,
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 1,
+              borderWidth: 0.5, //Detalles de los botones
               borderRadius: 10,
-              marginLeft: 5,
-              paddingHorizontal: 10,
+              marginLeft: 20,
+              paddingHorizontal: 8,
             }}
           >
             <Text style={styles.text}>
@@ -204,7 +199,7 @@ export const Menu = ({ navigation }) => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              marginHorizontal: 5,
+              marginLeft: 10,
             }}
           >
             <StyledButton
@@ -221,10 +216,10 @@ export const Menu = ({ navigation }) => {
               flex: 1.7,
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 1,
+              borderWidth: 0.5,
               borderRadius: 10,
-              marginLeft: 5,
-              paddingHorizontal: 10,
+              marginLeft: 20,
+              paddingHorizontal: 8,
             }}
           >
             <Text style={styles.text}>Crea una nueva auditoría.</Text>
@@ -237,7 +232,7 @@ export const Menu = ({ navigation }) => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              marginHorizontal: 5,
+              marginLeft: 10,
             }}
           >
             <StyledButton
@@ -254,10 +249,10 @@ export const Menu = ({ navigation }) => {
               flex: 1.7,
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 1,
+              borderWidth: 0.5,
               borderRadius: 10,
-              marginLeft: 5,
-              paddingHorizontal: 10,
+              marginLeft: 20,
+              paddingHorizontal: 8,
             }}
           >
             <Text style={styles.text}>

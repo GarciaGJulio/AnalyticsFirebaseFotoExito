@@ -47,9 +47,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: '90%',
-    flex:0.3,
+    flex: 0.3,
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   logoContainer: {
     //backgroundColor: 'blue',
@@ -65,21 +66,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   warningContainer: {
-    //backgroundColor: 'red',
+    // backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    width: '100%',
+    width: '95%',
+    // marginBottom: 5,
   },
   warningText: {
+    marginTop: 0,
     margin: 20,
     fontSize: 18,
   },
   buttonContainer: {
+    marginTop: -1,
     //backgroundColor: 'orange',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 0.6,
+    flex: 0.5,
     width: '100%',
   },
 })

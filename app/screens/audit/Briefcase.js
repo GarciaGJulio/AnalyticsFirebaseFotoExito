@@ -1,43 +1,28 @@
 import {
   Alert,
   BackHandler,
-  Image,
-  ImageBackground,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
-import StyledButton from "../../components/StyledButton";
-import * as Animatable from "react-native-animatable";
 import theme from "../../theme/theme";
-import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
 import ModernaHeader from "../../components/ModernaHeader";
-import BriefcaseList from "../../components/BriefcaseList";
-import { ScrollView } from "react-native";
-import { MultipleSelectList } from "react-native-dropdown-select-list";
-import LOADER_ANIMATION from "../../../assets/loader.json";
 import LoaderModal from "../../components/LoaderModal";
-import FlashListC from "../../components/FlashListC";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
-import ModernaContext from "../../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { generateUIDD } from "../../services/GenerateID";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { FlashListPortfolio } from "../../components/FlashListPortfolio";
-import { MultiSelectList } from "../../components/MultiSelectList";
 import { ProgressBar } from "../../components/ProgressBar";
 import { MultiSelectListV2 } from "../../components/MultiSelectListV2";
 import { Divider } from "@rneui/base";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
-import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import {
-  cleanCurrentScreenUser,
   deleteRegisterAudit,
   getCurrentScreenInformation,
   getCurrentScreenInformationLocal,
@@ -275,9 +260,9 @@ export const Briefcase = ({ navigation }) => {
             (producto) => {
               console.log(
                 "CATEGORIA: " +
-                  categoria.id_categoria +
-                  " PRODUCTO: " +
-                  producto.id_categoria
+                categoria.id_categoria +
+                " PRODUCTO: " +
+                producto.id_categoria
               );
               return producto.id_categoria === categoria.id_categoria;
             }
@@ -355,7 +340,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -392,11 +377,11 @@ export const Briefcase = ({ navigation }) => {
           console.log(
             "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
             "ID DEL PORTAFOLIO: " +
-              id_portafolio +
-              " ID DEL PRODUCTO: " +
-              id +
-              " TIPO DE PORTAFOLIO:" +
-              tipo_portafolio
+            id_portafolio +
+            " ID DEL PRODUCTO: " +
+            id +
+            " TIPO DE PORTAFOLIO:" +
+            tipo_portafolio
           );
           let dataSave = {
             tableName: "portafolio",
@@ -601,11 +586,10 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${
-          infoScreen
-            ? infoScreen.id_portafolio_auditoria
-            : idPortafolioAuditoria
-        }`,
+        valueId: `${infoScreen
+          ? infoScreen.id_portafolio_auditoria
+          : idPortafolioAuditoria
+          }`,
       });
     });
   };
@@ -643,7 +627,7 @@ export const Briefcase = ({ navigation }) => {
             flex: 3,
             width: "100%",
             alignItems: "center",
-            marginTop: 10,
+            marginTop: -8,
           }}
         >
           <Text style={styles.text}>Portafolio Ideal</Text>
