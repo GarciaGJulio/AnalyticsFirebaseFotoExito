@@ -49,7 +49,12 @@ import {
 } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
-import { cleanCurrentScreenUser, deleteRegisterAudit, getCurrentScreenInformation, saveCurrentScreenUser } from "../../utils/Utils";
+import {
+  cleanCurrentScreenUser,
+  deleteRegisterAudit,
+  getCurrentScreenInformation,
+  saveCurrentScreenUser,
+} from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 
 export const Client_Information = ({ navigation }) => {
@@ -84,49 +89,61 @@ export const Client_Information = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
-      console.log("empexando a await de get current data ====================================")
-      await getCurrentScreenInformation()
-      getInfoDatBaseScreen()
-    }
-    initDataLocal()
-    setTimeout(()=>{initDataLocal()},2000)
-
-  }, [isFocused])
+      console.log(
+        "empexando a await de get current data ===================================="
+      );
+      await getCurrentScreenInformation();
+      getInfoDatBaseScreen();
+    };
+    initDataLocal();
+    setTimeout(() => {
+      initDataLocal();
+    }, 2000);
+  }, [isFocused]);
 
   const getInfoDatBaseScreen = () => {
     try {
-      console.log("global.userInfoScreen", global.userInfoScreen)
+      console.log("global.userInfoScreen", global.userInfoScreen);
       if (global.userInfoScreen.userInfo.nombre_pantalla != "audit") {
-        return
+        return;
       }
-      const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      console.log("tmpInfoExtra dewsde clietn infomart===================", tmpInfoExtra)
+      const tmpInfoExtra = JSON.parse(
+        global.userInfoScreen.userInfo.extra_info
+      );
+      console.log(
+        "tmpInfoExtra dewsde clietn infomart===================",
+        tmpInfoExtra
+      );
       //const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion
-      const infoExtra = tmpPantalla.extra_info
+      const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion;
+      const infoExtra = tmpPantalla.extra_info;
       /* const tmpPantalla=tmpInfoExtra.pantallas.cliente_informacion
        const infoExtra = tmpPantalla.extra_info*/
       const newObj = {
         ...infoExtra,
-        ...global.userInfoScreen.infoScreen
-      }
+        ...global.userInfoScreen.infoScreen,
+      };
       // console.log("newObj-------------", newObj)
-      setInfoScreen(newObj)
-      setShowButton2(true)
-      setShowButton1(false)
+      setInfoScreen(newObj);
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
-      AsyncStorage.setItem("nombre_cliente", infoExtra.auditorias_id.nombre_cliente);
+      AsyncStorage.setItem(
+        "nombre_cliente",
+        infoExtra.auditorias_id.nombre_cliente
+      );
       AsyncStorage.setItem("id_sucursal", infoExtra.auditorias_id.id_sucursal);
-      AsyncStorage.setItem("nombre_sucursal", infoExtra.auditorias_id.nombre_sucursal);
-
+      AsyncStorage.setItem(
+        "nombre_sucursal",
+        infoExtra.auditorias_id.nombre_sucursal
+      );
     } catch (error) {
-      setInfoScreen(null)
-      setShowButton2(false)
-      setShowButton1(true)
-      console.log(error)
+      setInfoScreen(null);
+      setShowButton2(false);
+      setShowButton1(true);
+      console.log(error);
     }
-  }
-
+  };
 
   // const subirArrays = async (array1, array2) => {
   //   const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
@@ -159,10 +176,6 @@ export const Client_Information = ({ navigation }) => {
   //       // Aquí puedes manejar el error en caso de que ocurra
   //     });
   // };
-
-
-
-
 
   const consultarYCopiarContenidoClientes = async () => {
     try {
@@ -416,7 +429,7 @@ export const Client_Information = ({ navigation }) => {
             `${userInfo.givenName}`,
             `${dataTime()}`,
             `${dataTime()}`,
-          ]
+          ],
         };
         //datosCompletos.latitude,
         //datosCompletos.longitude,
@@ -424,46 +437,49 @@ export const Client_Information = ({ navigation }) => {
         await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
         const tmp_client_id = await AsyncStorage.getItem("id_cliente");
         await AsyncStorage.setItem("nombre_cliente", selected);
-        saveCurrentScreenUser({
-          screenName: `audit`,
-          tableName: `sucursal`,
-          itemId: sucursalInformation.id,
-          columnId: `id_sucursal`
-        }, {
-          // nombre_cliente: selected,
-          // grupo_cliente: groupClient,
-          // tipo_cliente: type,
-          // auditorias_id: {
-          //   id_cliente: tmp_client_id,
-          //   nombre_cliente: selected,
-          //   id_sucursal: sucursalInformation.id,
-          //   nombre_sucursal: sucursalInformation.name
-          // },
-          pantallas: {
-            cliente_informacion: {
-              principal: {
-                screenName: `audit`,
-                tableName: `sucursal`,
-                itemId: sucursalInformation.id,
-                columnId: `id_sucursal`
-              },
-              extra_info: {
-                nombre_cliente: selected,
-                grupo_cliente: groupClient,
-                tipo_cliente: type,
-                auditorias_id: {
-                  id_cliente: tmp_client_id,
-                  nombre_cliente: selected,
-                  id_sucursal: sucursalInformation.id,
-                  nombre_sucursal: sucursalInformation.name
+        saveCurrentScreenUser(
+          {
+            screenName: `audit`,
+            tableName: `sucursal`,
+            itemId: sucursalInformation.id,
+            columnId: `id_sucursal`,
+          },
+          {
+            // nombre_cliente: selected,
+            // grupo_cliente: groupClient,
+            // tipo_cliente: type,
+            // auditorias_id: {
+            //   id_cliente: tmp_client_id,
+            //   nombre_cliente: selected,
+            //   id_sucursal: sucursalInformation.id,
+            //   nombre_sucursal: sucursalInformation.name
+            // },
+            pantallas: {
+              cliente_informacion: {
+                principal: {
+                  screenName: `audit`,
+                  tableName: `sucursal`,
+                  itemId: sucursalInformation.id,
+                  columnId: `id_sucursal`,
                 },
-                pantallas: {
-                  cliente_informacion: null
-                }
-              }
-            }
+                extra_info: {
+                  nombre_cliente: selected,
+                  grupo_cliente: groupClient,
+                  tipo_cliente: type,
+                  auditorias_id: {
+                    id_cliente: tmp_client_id,
+                    nombre_cliente: selected,
+                    id_sucursal: sucursalInformation.id,
+                    nombre_sucursal: sucursalInformation.name,
+                  },
+                  pantallas: {
+                    cliente_informacion: null,
+                  },
+                },
+              },
+            },
           }
-        })
+        );
 
         //  await subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
         const sentence =
@@ -547,16 +563,18 @@ export const Client_Information = ({ navigation }) => {
     deleteRegisterAudit({
       tableName: "sucursal",
       objectId: "id_sucursal",
-      valueId: `${infoScreen ? infoScreen.id_sucursal : sucursalInformation.id}`
-    })
+      valueId: `${
+        infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
+      }`,
+    });
     // const sqlsenten=`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`
     // const res=await realizarConsulta(`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`)
     // console.log("ressss",res)
     // console.log("sqlsenten",sqlsenten)
     // console.log("infoScreen",infoScreen)
 
-    cleanCurrentScreenUser()
-  }
+    cleanCurrentScreenUser();
+  };
   if (!fontLoaded) return null;
 
   return (
@@ -567,7 +585,7 @@ export const Client_Information = ({ navigation }) => {
         onClose={handleCloseModal}
         onPress={() => {
           setIsModalVisibleClose(false);
-          handleDeleteRegisterLocal()
+          handleDeleteRegisterLocal();
           navigation.goBack();
         }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}

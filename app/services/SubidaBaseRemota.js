@@ -48,7 +48,7 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
   );
   console.log("RESULTADOS DE CONSULTA AUDITORIA: ", consultaAudit);
   const consulta = await realizarConsulta(
-    `SELECT * FROM sucursal where id_sucursal='4325b6f6-b5b5-40ba-9978-75d833388d7b'`
+    `SELECT * FROM sucursal where id_sucursal='${id_auditoria}'`
   );
   console.log("RESULTADOS DE CONSULTA: ", consulta);
   console.log("ID_AUDITORIA: ", id_auditoria);
@@ -57,7 +57,7 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
     `SELECT s.* 
     FROM sucursal AS s 
     INNER JOIN auditoria AS a ON a.id_sucursal = s.id_sucursal 
-    WHERE a.id_auditoria ='4325b6f6-b5b5-40ba-9978-75d833388d7b'`
+    WHERE a.id_auditoria ='${id_auditoria}'`
   );
   const promocionData = await realizarConsulta(
     `SELECT s.*  FROM sucursal AS s INNER JOIN auditoria AS a ON a.id_sucursal = s.id_sucursal WHERE a.id_auditoria = '${id_auditoria}'`
