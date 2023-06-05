@@ -25,11 +25,11 @@ export const ProductsDetails_Review = ({ item }) => {
   const [extraImages, setExtraImages] = useState([]);
 
   const thumbPosition =
-    item.estado === "1" ? "60%" : item.estado === "0" ? "10%" : "35%";
+    item.estado === 1 ? "60%" : item.estado === 0 ? "10%" : "35%";
   const trackColor =
     item.estado === null
       ? "#999999"
-      : item.estado === "1"
+      : item.estado === 1
       ? "#00ff00"
       : "#ff0000";
 
@@ -128,7 +128,7 @@ export const ProductsDetails_Review = ({ item }) => {
               marginRight: 5,
             }}
           >
-            {item.estado == "1" ? (
+            {item.estado == 1 ? (
               <View>
                 <Text
                   style={{

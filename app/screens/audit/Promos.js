@@ -348,7 +348,7 @@ export const Promos = ({ navigation }) => {
           console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
-        if (item.state === "1") {
+        if (item.state === 1) {
           if (!item.images || item.images.image1 === null) {
             console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
             return false;

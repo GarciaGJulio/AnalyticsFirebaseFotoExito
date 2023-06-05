@@ -21,6 +21,7 @@ import LoaderModal from "./LoaderModal";
 import ModernaContext from "../context/ModernaContext";
 import { DataContext } from "../context/DataProvider";
 import theme from "../theme/theme";
+import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 
 export const ItemBranch_Review = ({ branch }) => {
   const { setDatosCompartidos, datosCompartidos } = useContext(DataContext);
@@ -114,7 +115,9 @@ export const ItemBranch_Review = ({ branch }) => {
           </Text>
         </View>
         {branch.sincronizada ? (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => subidaBaseRemoteTodaAuditoria(branch.id_auditoria)}
+          >
             <Image
               source={SYNC_FAILED}
               style={{ width: 35, height: 30, resizeMode: "stretch" }}

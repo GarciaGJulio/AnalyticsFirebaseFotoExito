@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
   Button,
+  ScrollView,
 } from "react-native";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -37,18 +38,17 @@ export const ListBranch = ({ navigation }) => {
       //await copiarContenido(resultadoConsulta);
       setAudit(resultadoConsulta);
       setFilteredData(resultadoConsulta);
-  //     console.log(
-  //       "Copia de contenido completada con éxito: ",
-  //       resultadoConsulta
-  //     );
-     } catch (error) {
-       console.error("Error al consultar o copiar el contenido:", error);
-     }
+      //     console.log(
+      //       "Copia de contenido completada con éxito: ",
+      //       resultadoConsulta
+      //     );
+    } catch (error) {
+      console.error("Error al consultar o copiar el contenido:", error);
+    }
   };
 
   useEffect(() => {
     consultarYCopiarContenido();
-
   }, []);
 
   const [fontLoaded] = useFonts({
@@ -61,12 +61,12 @@ export const ListBranch = ({ navigation }) => {
   const [clientes, setClientes] = useState([]);
   useEffect(() => {
     const backAction = () => {
-      navigation.navigate("menu")
+      navigation.navigate("menu");
       return true;
     };
     const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
+      "hardwareBackPress",
+      backAction
     );
 
     return () => backHandler.remove();
@@ -126,51 +126,30 @@ export const ListBranch = ({ navigation }) => {
           Puedes revisar las auditorías ya realizadas presionando en el registro
           de interés.
         </Text>
-        {/*<Button
-          title="Go Back"
-          onPress={() =>  navigation.navigate("menu")}
-  />*/}
         <View style={styles.contentContainerBranch}>
-          {/*<TextInput
+          <TextInput
             style={{
-              height: 40,
+              height: 50,
               width: 320,
               borderColor: "gray",
               borderWidth: 1,
               paddingHorizontal: 10,
-              marginBottom: 30,
+              marginBottom: 20,
+              borderRadius: 10,
             }}
             placeholder="Buscar"
             onChangeText={searchFilter}
             value={searchText}
-          />*/}
-
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={filteredData}
-            renderItem={({ item }) => <ItemBranch_Review branch={item} />}
-            //keyExtractor={(item) => item.id}
           />
 
-          {/*<DropdownDavid
-            data={clientes}
-        >
-        </DropdownDavid>*/}
-          {/*clientes.length>0&&(<DropdownDavid
-            data={clientes}
-          >
-          </DropdownDavid>)*/}
-          {/*<FlatList
-            showsVerticalScrollIndicator={false}
-            data={clientes}
-            renderItem={({ item, index }) => {
-              return (<View key={index}>
-                <Text>{item.value}</Text>
-              </View>)
-            }
-            }
-            keyExtractor={(item) => item.id}
-          />*/}
+          <ScrollView style={{ bottom: 5 }}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={filteredData}
+              renderItem={({ item }) => <ItemBranch_Review branch={item} />}
+              //keyExtractor={(item) => item.id}
+            />
+          </ScrollView>
         </View>
       </Animatable.View>
     </View>
@@ -228,10 +207,10 @@ const styles = StyleSheet.create({
     height: "80%",
   },
   title: {
-    marginTop: 10,
+    //marginTop: 10,
     padding: 13,
     fontSize: theme.fontSize.subtitle,
-    marginBottom: 25,
+    marginBottom: 10,
     fontFamily: "Metropolis",
   },
 });

@@ -57,9 +57,9 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
       // Actualiza la propiedad del objeto
       if (exhibidor) {
         if (state) {
-          exhibidor.state = "1";
+          exhibidor.state = 1;
         } else {
-          exhibidor.state = "0";
+          exhibidor.state = 0;
         }
 
         console.log("PARAMETRO ACTUALIZADO: ", exhibidor);
