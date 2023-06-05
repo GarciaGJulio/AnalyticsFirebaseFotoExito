@@ -113,11 +113,13 @@ export const Menu = ({ navigation }) => {
       "Descargando variables para la auditoría, por favor espere..."
     );
     setIsModalVisible(true);
-    try {
+    /*try {
       await deleteInsertData(); // <--- Corregir aquí
     } catch {
       console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
-    }
+    }*/
+    setIsModalVisible(false);
+    navigation.navigate("audit");
   };
 
   const deleteInsertData = async () => {
