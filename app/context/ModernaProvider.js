@@ -133,48 +133,72 @@ export const ModernaProvider = ({ children }) => {
             "ID DEL USUARIO ACTUAL - - - - - : ",
             userDataBase[0].id_usuario
           );
-          const haveRol = await makeRolRequest(8);
-          if (haveRol) {
-            console.log("ROL DEL USUARIO: -------", haveRol);
+          const userRol = await makeRolRequest(userDataBase[0].id_usuario);
+          if (userRol.length == 0) {
+            console.log(
+              "ESTE USUARIO NO TIENE ASIGNADO NINGUN ROL: -------",
+              userRol
+            );
+            Alert.alert(
+              "Este usuario no tiene asignado ningún rol",
+              "No puedes acceder a los servicios de esta aplicación"
+            );
+            //console.log("ROL DEL USUARIO: -------", haveRol);
             fn(false);
           } else {
-            console.log(
-              "DISPOSITIVO DEL USUARIO: ",
-              userDataBase[0].usuario_dispositivo
+            const haveAuditRol = userRol.filter(
+              (objeto) => objeto.id_rol == "3"
             );
-            let deviceMacAdress = await DeviceInfo.getUniqueId();
-            if (
-              userDataBase[0].usuario_dispositivo === "null" ||
-              userDataBase[0].usuario_dispositivo === null
-            ) {
+            if (haveAuditRol) {
               console.log(
-                "El usuario no tiene un dispositivo conectado - - - - - - - -"
+                "DISPOSITIVO DEL USUARIO: ",
+                userDataBase[0].usuario_dispositivo
               );
-              console.log("MAC A INSERTAR EN LA BASE: ", deviceMacAdress);
-              const responseInsertMac = await insertMacCurrentUser(
-                user.mail,
-                user.userPrincipalName,
-                deviceMacAdress
-              );
-              console.log("INSERTO LA MAC?: ", responseInsertMac);
-              setIsAuthenticated(true);
-              fn(false);
-            } else {
-              console.log(
-                "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
-              );
-              if (userDataBase[0].usuario_dispositivo === deviceMacAdress) {
-                console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
+              let deviceMacAdress = await DeviceInfo.getUniqueId();
+              if (
+                userDataBase[0].usuario_dispositivo === "null" ||
+                userDataBase[0].usuario_dispositivo === null
+              ) {
+                console.log(
+                  "El usuario no tiene un dispositivo conectado - - - - - - - -"
+                );
+                console.log("MAC A INSERTAR EN LA BASE: ", deviceMacAdress);
+                const responseInsertMac = await insertMacCurrentUser(
+                  user.mail,
+                  user.userPrincipalName,
+                  deviceMacAdress
+                );
+                console.log("INSERTO LA MAC?: ", responseInsertMac);
                 setIsAuthenticated(true);
                 fn(false);
               } else {
-                AuthManager.signOutAsync();
-                Alert.alert(
-                  "Error",
-                  "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual"
+                console.log(
+                  "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
                 );
-                fn(false);
+                if (userDataBase[0].usuario_dispositivo === deviceMacAdress) {
+                  console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
+                  setIsAuthenticated(true);
+                  fn(false);
+                } else {
+                  AuthManager.signOutAsync();
+                  Alert.alert(
+                    "Error",
+                    "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual"
+                  );
+                  fn(false);
+                }
               }
+            } else {
+              console.log(
+                "ESTE USUARIO NO TIENE ASIGNADO EL ROL DE AUDITOR: -------",
+                userRol
+              );
+              Alert.alert(
+                "Este usuario no tiene asignado el rol auditor",
+                "No puedes acceder a los servicios de esta aplicación"
+              );
+              //console.log("ROL DEL USUARIO: -------", haveRol);
+              fn(false);
             }
           }
         }

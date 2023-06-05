@@ -34,7 +34,10 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
-import { cleanCurrentScreenUser } from "../../utils/Utils";
+import {
+  cleanCurrentScreenUser,
+  saveCurrentScreenUser,
+} from "../../utils/Utils";
 import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
 
 export const Promos = ({ navigation }) => {
@@ -43,6 +46,7 @@ export const Promos = ({ navigation }) => {
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [branch, setBranch] = useState([]);
   const [exhibidor, setExhibidor] = useState([]);
+  const [promos, setPromos] = useState([]);
   const [exhibidorSucursal, setExhibidorSucursal] = useState([]);
   const [exhibidorType, setExhibidorType] = useState([]);
   const [isModalVisibleCloseSucursal, setIsModalVisibleCloseSucursal] =
@@ -56,11 +60,6 @@ export const Promos = ({ navigation }) => {
   const consultarYCopiarContenido = async () => {
     const clientName = await AsyncStorage.getItem("nombre_cliente");
     try {
-      // Realiza la consulta a la base de datos
-      /*const resultadoConsulta = await realizarConsulta(
-        "SELECT * FROM exhibidor_tipo"
-      );*/
-
       const resultadoConsultaExhibidor = await realizarConsulta(
         `SELECT * FROM exhibidor WHERE nombre_cliente='${clientName}'`
       );
@@ -68,22 +67,6 @@ export const Promos = ({ navigation }) => {
       const tablaAuditorias = await realizarConsulta("SELECT * FROM auditoria");
 
       console.log("NOMBRE DEL CLIENTE: - - - - ", clientName);
-      /*const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
-        return {
-          id: objeto.id_exhibidor,
-          id_tipo_exhibidor: objeto.id_exhibidor_tipo,
-          name: objeto.nombre_tipo_exhibidor,
-          client_name: objeto.nombre_cliente,
-          sucursal: objeto.sucursal,
-          url: objeto.url_imagen_exhibidor,
-          state: null,
-          images: {
-            image1: null,
-            image2: null,
-            image3: null,
-          },
-        };
-      });*/
 
       console.log(
         "DATOS DE TABLA AUDITORIA * * * * * * *: - - - - ",
@@ -95,7 +78,7 @@ export const Promos = ({ navigation }) => {
           id: objeto.id_exhibidor,
           id_tipo_exhibidor: objeto.id_exhibidor_tipo,
           name: objeto.nombre_tipo_exhibidor,
-          client_name: objeto.nombre_cliente,
+          nombre_cliente: objeto.nombre_cliente,
           sucursal: objeto.sucursal,
           id_promocion: idPromocion,
           url: objeto.url_imagen_exhibidor,
@@ -109,7 +92,7 @@ export const Promos = ({ navigation }) => {
       });
 
       const exhibidorFilter = newArrayExhibidor.filter((objeto) => {
-        return objeto.client_name === clientName;
+        return objeto.nombre_cliente === clientName;
       });
       setExhibidorType(exhibidorFilter);
       const branchSucursal = [];
@@ -126,32 +109,13 @@ export const Promos = ({ navigation }) => {
         }
       });
 
-      /*const newFormatArrayExhibidor = exhibidorFilter.map((objeto)=> {
-        return {
-          id: objeto.id_exhibidor,
-          id_tipo_exhibidor: objeto.id_exhibidor_tipo,
-          name: objeto.nombre_tipo_exhibidor,
-          client_name: objeto.nombre_cliente,
-          sucursal: objeto.sucursal,
-          state: null,
-          images: {
-            image1: null,
-            image2: null,
-            image3: null,
-          },
-        }}
-      })*/
-
       branchSucursal.push({
         key: "C3V99M",
         value: "Esta sucursal no registra plan",
       });
 
       setBranch([...branchSucursal]);
-      // Copia el contenido después de la consulta
-      //await copiarContenido(resultadoConsulta),
-      //setExhibidorType(newArrayEstado);
-      setExhibidor(exhibidorFilter);
+
       console.log(
         "Copia de contenido completada con éxito: ",
         newArrayExhibidor
@@ -159,12 +123,12 @@ export const Promos = ({ navigation }) => {
       console.log("BRANCH FORMATEADO: ", branchSucursal);
       console.log("EXHIBIDORES FORMATEADOS: ", exhibidorFilter);
       console.log(
-        "ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES : ",
-        exhibidorFilter
+        "DATOS DE EXHIBIDORES * * * * * * * / / / / / /: - - - - ",
+        resultadoConsultaExhibidor
       );
       console.log(
-        "DATOS DE EXHIBIDORES * * * * * * *: - - - - ",
-        resultadoConsultaExhibidor
+        "ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES  * * * * * * * * * * * * * * **: ",
+        exhibidorFilter
       );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
@@ -175,10 +139,29 @@ export const Promos = ({ navigation }) => {
     if (selected === "Esta sucursal no registra plan") {
       setIsModalVisibleCloseSucursal(true);
     } else {
-      const filteredData = exhibidor.filter(
-        (objeto) => objeto.sucursal === selected
-      );
+      console.log("EXHIBIDORES ENCONTRADOS TOTALES: ", exhibidorType);
+      const filteredData = exhibidorType.filter((objeto) => {
+        console.log(
+          "NOMBRE DE LA SUCURSAL: " +
+            objeto.sucursal +
+            " SUC A COMPARAR: " +
+            selected
+        );
+        return objeto.sucursal === selected; // Retorna true si el nombre de sucursal coincide
+      });
+
       setExhibidorSucursal(filteredData);
+      setPromos(filteredData);
+      console.log(
+        "////////////////////////////////////////////////////////////////////////////"
+      );
+      console.log(
+        "EXHIBIDORES POR NOMBRE DE LA SUCURSAL - - - - - - - - - - - : ",
+        filteredData
+      );
+      console.log(
+        "////////////////////////////////////////////////////////////////////////////"
+      );
     }
   };
 
@@ -330,9 +313,12 @@ export const Promos = ({ navigation }) => {
       db_insertGlobalDataAudit(dataSave);
 
       subidaBaseRemoteTodaAuditoria(`'${idAuditoria}'`);
-      const promocionData = await realizarConsulta("UPDATE auditoria SET <SINCRONIZADA> =trueWHERE id_auditoria="+idAuditoria+";")
-      console.log("resultado de la actualizacion:",promocionData)
-
+      const promocionData = await realizarConsulta(
+        "UPDATE auditoria SET <SINCRONIZADA> =trueWHERE id_auditoria=" +
+          idAuditoria +
+          ";"
+      );
+      console.log("resultado de la actualizacion:", promocionData);
 
       setShowButton1(false);
       setShowButton2(true);
@@ -348,117 +334,92 @@ export const Promos = ({ navigation }) => {
     console.log();
   });
 
-  /*const savePreciador = async () => {
-    let idPreciadorPortafolioComplementario = await AsyncStorage.getItem(
-      "id_preciador_portafolio_complementario"
-    );
-    let dataSave = {
-      tableName: "preciador",
-      dataInsertType: [
-        "id_preciador",
-        "id_preciador_portafolio_complementario",
-        "id_preciador_portafolio_ideal",
-      ],
-      dataInsert: [
-        `'${idPreciador}'`,
-        `'${idPreciadorPortafolioComplementario}'`,
-        `'${null}'`,
-      ],
-    };
-    const sentence =
-      "INSERT INTO " +
-      dataSave.tableName +
-      " (" +
-      dataSave.dataInsertType.join() +
-      ") VALUES(" +
-      dataSave.dataInsert.join() +
-      ")";
-    console.log("SENTENCIA A EJECUTAR: ", sentence);
-    //db_insertGlobalDataAudit(dataSave);
-  };
-  useEffect(() => {
-    //savePortafolio();
-    //savePreciador();
-    //saveAudit();
-  }, []);*/
-
   const validate = async () => {
-    console.log("VALIDACION DE DATOS DE PERCHAS: ", exhibidor);
-    const isValid = +exhibidor.every((item) => {
-      if (item.state === null || selected === null) {
-        console.log("ESTE ITEM DA PROBLEMAS: ", item);
-        return false;
-      }
-      if (item.state === "1") {
-        if (!item.images || item.images.image1 === null) {
-          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+    console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
+    if (selected === null) {
+      console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
+      Alert.alert(
+        "Tiene que escoger una sucursal del campo desplegable",
+        "Para finalizar la auditoria, debe seleccionar una de las opciones listadas en el campo sucursal"
+      );
+    } else {
+      const isValid = promos.every((item) => {
+        if (item.state === null || selected === null) {
+          console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
-      }
-      return true;
-    });
+        if (item.state === "1") {
+          if (!item.images || item.images.image1 === null) {
+            console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+            return false;
+          }
+        }
+        return true;
+      });
 
-    if (!isValid) {
-      Alert.alert(
-        "Error al completar los datos",
-        "Necesita marcar el valor de las promociones de cada exhibidor"
-      );
-      //navigation.navigate('rack');
-      console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(exhibidor));
-    } else {
-      try {
-        //await AsyncStorage.setItem("id_promocion", idPercha);
-        console.log(
-          "PROMOCIONES QUE VAN A SER GUARDADOS: ",
-          JSON.stringify(exhibidorSucursal)
+      if (!isValid) {
+        Alert.alert(
+          "Error al completar los datos",
+          "Necesita marcar el valor de las promociones de cada exhibidor"
         );
-        exhibidorSucursal.map((productos) => {
-          const { id_promocion, id, state, images } = productos;
-          const { image1, image2, image3 } = images;
-          // console.log("Prod;", productos);
-          // console.log(
-          //   "---------------------- imagenes",
-          //   JSON.stringify(images)
-          // );
-          let dataSave = {
-            tableName: "promocion",
-            dataInsertType: [
-              "id_promocion",
-              "id_exhibidor",
-              "estado_promocion",
-              "url_imagen1",
-              "url_imagen2",
-              "url_imagen3",
-            ],
-            dataInsert: [
-              `'${id_promocion}'`,
-              `'${id}'`,
-              `'${state}'`,
-              `'${image1}'`,
-              `'${image2}'`,
-              `'${image3}'`,
-            ],
-          };
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          db_insertGlobalDataAudit(dataSave);
-          console.log("TODO BIEN");
+        //navigation.navigate('rack');
+        console.log("CONTENIDO DE PROMOCIONES: ", JSON.stringify(promos));
+      } else {
+        try {
+          //await AsyncStorage.setItem("id_promocion", idPercha);
+          console.log(
+            "PROMOCIONES QUE VAN A SER GUARDADOS: ",
+            JSON.stringify(exhibidorSucursal)
+          );
+          exhibidorSucursal.map((productos) => {
+            const { id_promocion, id, state, images } = productos;
+            const { image1, image2, image3 } = images;
+            // console.log("Prod;", productos);
+            // console.log(
+            //   "---------------------- imagenes",
+            //   JSON.stringify(images)
+            // );
+            let dataSave = {
+              tableName: "promocion",
+              dataInsertType: [
+                "id_promocion",
+                "id_exhibidor",
+                "estado_promocion",
+                "url_imagen1",
+                "url_imagen2",
+                "url_imagen3",
+              ],
+              dataInsert: [
+                `'${id_promocion}'`,
+                `'${id}'`,
+                `'${state}'`,
+                `'${image1}'`,
+                `'${image2}'`,
+                `'${image3}'`,
+              ],
+            };
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
+            db_insertGlobalDataAudit(dataSave);
+            console.log("TODO BIEN");
 
-          saveAudit();
-          cleanCurrentScreenUser();
-          setTimeout(() => {
-            navigation.navigate("begin");
-          }, 1200);
-        });
-      } catch (e) {
-        Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+            saveAudit();
+            cleanCurrentScreenUser();
+            setTimeout(() => {
+              navigation.navigate("begin");
+            }, 1200);
+          });
+        } catch (e) {
+          Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+        }
+        console.log("TODO BIEN  - - - - - - - -- ");
       }
     }
   };
@@ -466,24 +427,26 @@ export const Promos = ({ navigation }) => {
     const id_percha = await AsyncStorage.getItem("id_percha");
     // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
-      saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen)
+      saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen);
     } else {
-      const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-      saveCurrentScreenUser(objUserInfo.pantallas.prices.principal, objUserInfo)
+      const userInfoScreenTmp = await getCurrentScreenInformationLocal();
+      const objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info);
+      saveCurrentScreenUser(
+        objUserInfo.pantallas.prices.principal,
+        objUserInfo
+      );
     }
-
 
     // newComplementaryPortfolio.map((productos) => {
 
     deleteRegisterAudit({
       tableName: "percha",
       objectId: "id_percha",
-      valueId: id_percha
-    })
+      valueId: id_percha,
+    });
 
     //})
-  }
+  };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -526,7 +489,7 @@ export const Promos = ({ navigation }) => {
 
         <View style={styles.promosContent}>
           {exhibidorSucursal.length > 0 ? (
-            <FlashListPromos data={exhibidorSucursal} setData={setExhibidor} />
+            <FlashListPromos data={exhibidorSucursal} setData={setPromos} />
           ) : (
             <Text
               style={{
