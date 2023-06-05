@@ -323,7 +323,10 @@ const styles = StyleSheet.create({
     //marginHorizontal: 5,
     marginVertical: 5,
     borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: theme.colors.lightgray,
+    
+
   },
   header: {
     backgroundColor: theme.colors.modernaYellow,
@@ -334,6 +337,10 @@ const styles = StyleSheet.create({
     //left:10,
     flex: 1,
     //paddingVertical: 5,
+    borderBottomWidth: 2,
+    borderColor: theme.colors.lightgray,
+
+
   },
   categoryContainer: {
     //backgroundColor:'orange',

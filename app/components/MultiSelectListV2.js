@@ -417,11 +417,12 @@ export const MultiSelectListV2 = ({
             selectedItemText: { fontFamily: "Metropolis" },
             selectedSubItemText: { fontFamily: "Metropolis" },
             selectToggleText: { fontFamily: "Metropolis" },
-            subItemText: { fontFamily: "Metropolis", left: 10 },
+            //subItemText: { fontFamily: "Metropolis", left: 10 },
             itemText: { fontFamily: "Metropolis" },
             searchTextInput: { fontFamily: "Metropolis" },
             confirmText: { fontFamily: "Metropolis" },
             parentChipText: { fontFamily: "Metropolis" },
+            
 
             //chipsWrapper: { backgroundColor: "red" },
           }}
@@ -433,9 +434,11 @@ export const MultiSelectListV2 = ({
           selectText="Escoje un producto"
           readOnlyHeadings={true}
           showDropDowns={true}
-          searchPlaceholderText="Busca el producto o la categoría"
+          searchPlaceholderText="Busca el producto"
+
           onSelectedItemsChange={onSelectedItemsChange}
           selectedItems={isUserScreen ? selectItemsId : select}
+          
         />
       </View>
     </ScrollView>

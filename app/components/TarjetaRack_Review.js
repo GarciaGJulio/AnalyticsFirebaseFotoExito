@@ -19,6 +19,7 @@ export const TarjetaRack_Review = ({ data }) => {
           fontWeight: theme.fontWeight.softbold,
           fontSize: theme.fontSize.subtitle,
           fontFamily: "Metropolis",
+          
         }}
       >
         PERCHAS

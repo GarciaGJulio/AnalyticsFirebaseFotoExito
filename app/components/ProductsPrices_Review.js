@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "90%",
     marginBottom: 5,
+    
   },
   title: {
     fontWeight: theme.fontWeight.softbold,

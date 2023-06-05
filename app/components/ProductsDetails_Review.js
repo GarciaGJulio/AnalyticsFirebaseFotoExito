@@ -30,8 +30,8 @@ export const ProductsDetails_Review = ({ item }) => {
     item.estado === null
       ? "#999999"
       : item.estado === "1"
-      ? "#00ff00"
-      : "#ff0000";
+      ? theme.colors.modernaGreen
+      : theme.colors.modernaRed;
 
   const validateExtraImages = (objeto) => {
     setExtraImages([]);
@@ -238,7 +238,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "99%",
-    borderWidth: 1,
     marginBottom: 5,
     borderRadius: 10,
     overflow: "hidden",
