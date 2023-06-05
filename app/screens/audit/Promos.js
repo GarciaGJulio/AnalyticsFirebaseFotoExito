@@ -323,10 +323,10 @@ export const Promos = ({ navigation }) => {
       setShowButton1(false);
       setShowButton2(true);
     } catch (e) {
-      Alert.alert(
-        "Error al insertar los datos en la tabla auditoria",
-        "Vuelva a intentarlo"
-      );
+      // Alert.alert(
+      //   "Error al insertar los datos en la tabla auditoria",
+      //   "Vuelva a intentarlo"
+      // );
     }
   };
 
