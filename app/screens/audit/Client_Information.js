@@ -51,6 +51,8 @@ import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import { cleanCurrentScreenUser, deleteRegisterAudit, getCurrentScreenInformation, saveCurrentScreenUser } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
+import { getActualDate } from "../../common/utils";
+
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -89,7 +91,7 @@ export const Client_Information = ({ navigation }) => {
       getInfoDatBaseScreen()
     }
     initDataLocal()
-    setTimeout(()=>{initDataLocal()},2000)
+    setTimeout(() => { initDataLocal() }, 2000)
 
   }, [isFocused])
 
@@ -296,15 +298,43 @@ export const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const validateBranchName = () => {
+  const validateBranchName = async() => {
+    let verificacion
     console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
-    let result = branchNames.some((item) => {
-      console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
-      console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
-      return item.nombre_sucursal === sucursalInformation.name;
-    });
-    console.log(result);
-    return result;
+    // let result = branchNames.some((item) => {
+    //  console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
+    //  console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
+    //  console.log("ITEMcOMPLETO",item)
+    // return item.nombre_sucursal === sucursalInformation.name;
+    //});
+    let tempFecha
+    tempFecha = new Date().toISOString()
+    tempFecha = tempFecha.split("T")
+    tempFecha = tempFecha[0]
+    console.log("usereeeeee:", selected)
+    const auditorias = await realizarConsulta(`select * from auditoria as aud inner join sucursal as s on s.id_sucursal =aud.id_sucursal  where aud.nombre_sucursal='${sucursalInformation.name}' AND nombre_cliente LIKE '${selected}' AND aud.FECHA_CREACION  LIKE '%${tempFecha}%' `)
+
+
+
+
+
+    // Realizar acciones con el resultado de la consulta
+    console.log("RESULTADOS:", auditorias);
+    verificacion = true
+
+
+    if (auditorias.length === 0) {
+      console.log("El arreglo está vacío");
+      verificacion = false
+    } else {
+      console.log("El arreglo no está vacío");
+      verificacion = true
+    }
+    console.log("Auditorias:", auditorias)
+    console.log("verificador:", verificacion)
+
+
+    return verificacion;
   };
 
   /*const handleOpenModal = async () => {
@@ -352,8 +382,8 @@ export const Client_Information = ({ navigation }) => {
       setErrorClientName("");
       //setValidatePass(false)
     }
-    let validateBranch = validateBranchName();
-
+    let validateBranch = await validateBranchName();
+    console.log("dede antes de validar:", validateBranch)
     if (validateBranch) {
       Alert.alert(
         "El nombre de la sucursal ya ha sido registrado",
