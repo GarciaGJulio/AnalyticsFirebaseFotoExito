@@ -78,6 +78,12 @@ export const Briefcase = ({ navigation }) => {
     }, 2000);
   }, [isFocused]);
 
+  useEffect(() => {
+    console.log("*****************************idealPortfolioProducts================",idealPortfolioProducts)
+  }, [idealPortfolioProducts]);
+
+  
+
   const getInfoDatBaseScreen = () => {
     try {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {
@@ -97,6 +103,16 @@ export const Briefcase = ({ navigation }) => {
       tempItems = tempItems.map((item) => {
         return JSON.parse(item);
       });
+
+      let tempItemsIdeal = infoExtra.idealPortfolioProducts.split("**");
+      tempItemsIdeal = tempItemsIdeal.filter((item) => item.length > 0 && item != ",");
+      tempItemsIdeal = tempItemsIdeal.map((item) => {
+        return JSON.parse(item);
+      });
+
+      
+      setIdealPortfolioProducts(tempItemsIdeal)
+
       setComplementaryPortfolioProducts(tempItems);
       setInfoScreen(newObj);
       setShowButton2(true);
@@ -124,6 +140,7 @@ export const Briefcase = ({ navigation }) => {
         infoExtra.auditorias_id.id_portafolio_auditoria
       );
     } catch (error) {
+      setIdealPortfolioProducts([])
       setComplementaryPortfolioProducts([]);
       setInfoScreen(null);
       setShowButton2(false);
@@ -275,9 +292,9 @@ export const Briefcase = ({ navigation }) => {
             (producto) => {
               console.log(
                 "CATEGORIA: " +
-                  categoria.id_categoria +
-                  " PRODUCTO: " +
-                  producto.id_categoria
+                categoria.id_categoria +
+                " PRODUCTO: " +
+                producto.id_categoria
               );
               return producto.id_categoria === categoria.id_categoria;
             }
@@ -355,7 +372,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -392,11 +409,11 @@ export const Briefcase = ({ navigation }) => {
           console.log(
             "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
             "ID DEL PORTAFOLIO: " +
-              id_portafolio +
-              " ID DEL PRODUCTO: " +
-              id +
-              " TIPO DE PORTAFOLIO:" +
-              tipo_portafolio
+            id_portafolio +
+            " ID DEL PRODUCTO: " +
+            id +
+            " TIPO DE PORTAFOLIO:" +
+            tipo_portafolio
           );
           let dataSave = {
             tableName: "portafolio",
@@ -485,6 +502,10 @@ export const Briefcase = ({ navigation }) => {
         let tempDataScreen = complementaryPortfolioProducts.map((item) => {
           return `**${JSON.stringify(item)}**`;
         });
+        let tempDataScreenIdeal = idealPortfolioProducts.map((item) => {
+          return `**${JSON.stringify(item)}**`;
+        });
+
         let objUserInfo = {};
         try {
           const tmpInfoExtra = JSON.parse(
@@ -543,6 +564,7 @@ export const Briefcase = ({ navigation }) => {
                   },
                   extra_info: {
                     complementaryPortfolioProducts: tempDataScreen.toString(),
+                    idealPortfolioProducts: tempDataScreenIdeal.toString(),
                     auditorias_id: {
                       ...(objUserInfo.auditorias_id
                         ? objUserInfo.auditorias_id
@@ -590,7 +612,8 @@ export const Briefcase = ({ navigation }) => {
         objUserInfo
       );
     }
-    complementaryPortfolioProducts.map((productos) => {
+    let tmpDataDelete=idealPortfolioProducts.concat(complementaryPortfolioProducts)
+    tmpDataDelete.map((productos) => {
       const { id_portafolio, id, tipo_portafolio } = productos;
 
       deleteRegisterAudit({
@@ -601,11 +624,10 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${
-          infoScreen
+        valueId: `${infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-        }`,
+          }`,
       });
     });
   };
@@ -653,6 +675,7 @@ export const Briefcase = ({ navigation }) => {
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealProducts={idealProducts}
             tipo={portafolioTipoIdeal}
+            isUserScreen={infoScreen?true:false}
           />
         </View>
         <View
