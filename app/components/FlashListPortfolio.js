@@ -12,6 +12,7 @@ const RenderItem = ({
   idealPortfolioProducts,
   tipo,
   idPortafolio,
+  isUserScreen
 }) => {
   const saveId = async () => {
     await AsyncStorage.setItem("id_portafolio_ideal", idPortafolio);
@@ -22,6 +23,7 @@ const RenderItem = ({
     console.log("TIPO DE PORTAFOLIO: ", tipo);
     saveId();
   }, []);
+
   //const idPortafolio2 = idPortafolio;
   //const tipo2 = tipo;
 
@@ -63,6 +65,7 @@ const RenderItem = ({
             item={item}
             //idPortafolio={idPortafolio2}
             //tipo={tipo2}
+            isUserScreen={isUserScreen}
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealPortfolioProducts={idealPortfolioProducts}
           />
@@ -80,16 +83,22 @@ const RenderItemProd = ({
   setIdealPortfolioProducts,
   idealPortfolioProducts,
   idPortafolio,
+  isUserScreen,
   tipo,
 }) => {
   const [check1, setCheck1] = useState(false);
   useEffect(() => {
-    console.log(
-      "ID DEL PORTAFOLIO IDEAL:  *************************** ",
-      idPortafolio
-    );
-    console.log("TIPO DE PORTAFOLIO:  /*************************** ", tipo);
-  }, []);
+    if (isUserScreen) {
+      idealPortfolioProducts.map((itemP) => {
+        if (itemP.id == item.id) {
+          setCheck1(true)
+        }
+      })
+    }
+  }, [idealPortfolioProducts, isUserScreen])
+
+
+
   const validate = async (check1, name, id) => {
     if (check1) {
       console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
@@ -152,6 +161,7 @@ export const FlashListPortfolio = ({
   idealPortfolioProducts,
   idealProducts,
   idPortafolio,
+  isUserScreen,
   tipo,
 }) => {
   useEffect(() => {
@@ -189,6 +199,7 @@ export const FlashListPortfolio = ({
               item={item}
               idPortafolio={idPortafolio}
               tipo={tipo}
+              isUserScreen={isUserScreen}
               setIdealPortfolioProducts={setIdealPortfolioProducts}
               idealPortfolioProducts={idealPortfolioProducts}
             />

@@ -73,6 +73,9 @@ export const Prices = ({ navigation, route }) => {
       initDataLocal();
     }, 2000);
   }, [isFocused]);
+  useEffect(() => {
+    console.log("////////////////////newIdealPortfolio**************",newIdealPortfolio)
+  }, [newIdealPortfolio]);
   const getInfoDatBaseScreen = () => {
     try {
       console.log("global.userInfoScreen en pricess", global.userInfoScreen);
@@ -110,8 +113,20 @@ export const Prices = ({ navigation, route }) => {
       tempItems = tempItems.map((item) => {
         return JSON.parse(item);
       });
+
+      let tempItemsIdeal = infoExtra.newIdealPortfolio.split("**");
+      // console.log("tempItems SPOPLIT-------------", tempItems)
+      tempItemsIdeal = tempItemsIdeal.filter((item) => item.length > 0 && item != ",");
+      // console.log("tempItems FILTER-------------", tempItems)
+      tempItemsIdeal = tempItemsIdeal.map((item) => {
+        return JSON.parse(item);
+      });
+
+
+      
       // console.log("tempItems-------------", tempItems)
       console.log("tempItems en prices", tempItems);
+      setNewIdealPortfolio(tempItemsIdeal)
       setNewComplementaryPortfolio(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
       setShowButton2(true);
@@ -140,7 +155,7 @@ export const Prices = ({ navigation, route }) => {
       );
     } catch (error) {
       console.log("errrrorrrrrr en prices", error);
-
+      setNewIdealPortfolio([])
       setNewComplementaryPortfolio([]);
       setInfoScreen(null);
       setShowButton2(false);
@@ -377,6 +392,10 @@ export const Prices = ({ navigation, route }) => {
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
             return `**${JSON.stringify(item)}**`;
           });
+          let tempDataScreenIdeal = newIdealPortfolio.map((item) => {
+            return `**${JSON.stringify(item)}**`;
+          });
+          
           let objUserInfo = {};
           try {
             // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
@@ -447,6 +466,7 @@ export const Prices = ({ navigation, route }) => {
                     },
                     extra_info: {
                       fullDataProducts: tempDataScreen.toString(),
+                      newIdealPortfolio:tempDataScreenIdeal.toString(),
                       auditorias_id: {
                         ...(objUserInfo.auditorias_id
                           ? objUserInfo.auditorias_id
@@ -523,11 +543,26 @@ export const Prices = ({ navigation, route }) => {
           text={"Selecciona los productos que poseen preciador"}
         />
         <View style={{ flex: 2, width: "100%", alignItems: "center" }}>
-          <FlashListPrices
-            title={"Portafolio Ideal"}
-            products={newIdealPortfolio}
-            setProducts={setNewIdealPortfolio}
-          />
+          {infoScreen && (
+            <FlashListPrices
+              title={"Portafolio Ideal"}
+              products={newIdealPortfolio}
+              setProducts={setNewIdealPortfolio}
+              isUserScreen={true}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
+            />
+          )}
+           {!infoScreen && (
+            <FlashListPrices
+              title={"Portafolio Ideal"}
+              products={newIdealPortfolio}
+              setProducts={setNewIdealPortfolio}
+              isUserScreen={false}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
+            />
+          )}
         </View>
         <View
           style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 5 }}
