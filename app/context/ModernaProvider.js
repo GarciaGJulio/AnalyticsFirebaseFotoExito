@@ -130,41 +130,51 @@ export const ModernaProvider = ({ children }) => {
         } else {
           console.log("RESPUESTA DE CONSULTA USUARIO: ", userDataBase);
           console.log(
-            "DISPOSITIVO DEL USUARIO: ",
-            userDataBase[0].usuario_dispositivo
+            "ID DEL USUARIO ACTUAL - - - - - : ",
+            userDataBase[0].id_usuario
           );
-          let deviceMacAdress = await DeviceInfo.getUniqueId();
-          if (
-            userDataBase[0].usuario_dispositivo === "null" ||
-            userDataBase[0].usuario_dispositivo === null
-          ) {
-            console.log(
-              "El usuario no tiene un dispositivo conectado - - - - - - - -"
-            );
-            console.log("MAC A INSERTAR EN LA BASE: ", deviceMacAdress);
-            const responseInsertMac = await insertMacCurrentUser(
-              user.mail,
-              user.userPrincipalName,
-              deviceMacAdress
-            );
-            console.log("INSERTO LA MAC?: ", responseInsertMac);
-            setIsAuthenticated(true);
+          const haveRol = await makeRolRequest(8);
+          if (haveRol) {
+            console.log("ROL DEL USUARIO: -------", haveRol);
             fn(false);
           } else {
             console.log(
-              "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
+              "DISPOSITIVO DEL USUARIO: ",
+              userDataBase[0].usuario_dispositivo
             );
-            if (userDataBase[0].usuario_dispositivo === deviceMacAdress) {
-              console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
+            let deviceMacAdress = await DeviceInfo.getUniqueId();
+            if (
+              userDataBase[0].usuario_dispositivo === "null" ||
+              userDataBase[0].usuario_dispositivo === null
+            ) {
+              console.log(
+                "El usuario no tiene un dispositivo conectado - - - - - - - -"
+              );
+              console.log("MAC A INSERTAR EN LA BASE: ", deviceMacAdress);
+              const responseInsertMac = await insertMacCurrentUser(
+                user.mail,
+                user.userPrincipalName,
+                deviceMacAdress
+              );
+              console.log("INSERTO LA MAC?: ", responseInsertMac);
               setIsAuthenticated(true);
               fn(false);
             } else {
-              AuthManager.signOutAsync();
-              Alert.alert(
-                "Error",
-                "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual"
+              console.log(
+                "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
               );
-              fn(false);
+              if (userDataBase[0].usuario_dispositivo === deviceMacAdress) {
+                console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
+                setIsAuthenticated(true);
+                fn(false);
+              } else {
+                AuthManager.signOutAsync();
+                Alert.alert(
+                  "Error",
+                  "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual"
+                );
+                fn(false);
+              }
             }
           }
         }
@@ -175,60 +185,6 @@ export const ModernaProvider = ({ children }) => {
     }
   };
 
-  const postAzure = async (
-    urlRequest,
-    data,
-    succuesFunction,
-    errorFunction
-  ) => {
-    console.log("realizando fetch al al url ", urlRequest);
-    console.log("realizando fetch al al data ", data);
-
-    // request options
-    const options = {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    };
-
-    try {
-      const response = await fetch(urlRequest, options);
-      //  console.log("si hay response*----");
-      let bodyResponse;
-
-      try {
-        bodyResponse = await response.json();
-      } catch (e) {
-        bodyResponse = undefined;
-      }
-
-      //console.log("bodyResponse first", bodyResponse);
-
-      if (bodyResponse) {
-        if (response.status == 200 || response.status == 201) {
-          if (bodyResponse.success) {
-            //console.log("------- RESPONDE EL serviciocon éxito----------", bodyResponse);
-            succuesFunction(bodyResponse);
-          } else {
-            errorFunction(bodyResponse);
-          }
-        } else {
-          errorFunction(bodyResponse);
-        }
-      } else {
-        errorFunction(null);
-        console.log("no hay cuerpo del mensaje");
-      }
-    } catch (err) {
-      console.log("error al hacer la consulta al postman", err);
-      errorFunction(err);
-    }
-    return;
-  };
-
   const makeRequest = async (mail, userPrincipalName) => {
     try {
       const requestBody = {
@@ -237,6 +193,36 @@ export const ModernaProvider = ({ children }) => {
           tableName: "usuario",
           fieldType: ["correo"],
           fieldData: [`${mail === null ? userPrincipalName : mail}`],
+        },
+      };
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+
+      const response = await axios.post(
+        "https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==",
+        requestBody,
+        config
+      );
+      return response.data.data;
+    } catch (error) {
+      console.log("Error en la petición:", error);
+      return null;
+    }
+  };
+
+  const makeRolRequest = async (id_user) => {
+    try {
+      const requestBody = {
+        typeQuery: "LIKE",
+        data: {
+          tableName: "rol_usuario",
+          fieldType: ["id_usuario"],
+          fieldData: [`${id_user}`],
         },
       };
 
