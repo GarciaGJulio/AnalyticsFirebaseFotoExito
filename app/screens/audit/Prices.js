@@ -16,7 +16,6 @@ import theme from "../../theme/theme";
 import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
 import CheckBoxContainer from "../../components/CheckBoxContainer";
-import SAVE_ANIMATION from "../../../assets/save.json";
 import ModernaHeader from "../../components/ModernaHeader";
 import { Divider } from "@rneui/base";
 import ConfirmationModal from "../../components/ConfirmationModal";

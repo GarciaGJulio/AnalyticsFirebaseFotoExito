@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { commonStyles } from "../theme/stylesBranch";
 import { useFonts } from "expo-font";
-
+import CLOUD_LOADER from "../../assets/cloud-loader.json";
 import SYNC_BACKGROUND from "../../assets/resources/review_background.jpg";
 import SYNC_ANIMATION from "../../assets/sync-data.json";
 import SUCCESS_ANIMATION from "../../assets/success.json";
@@ -57,6 +57,18 @@ export const ItemBranch_Review = ({ branch }) => {
     }, 5000);
   };
 
+  const syncData = async () => {
+    setIsModalVisible(true);
+    try {
+      await subidaBaseRemoteTodaAuditoria(
+        branch.id_auditoria,
+        setIsModalVisible
+      );
+    } catch (e) {
+      console.log("ERROR: ", e);
+      setIsModalVisible(false);
+    }
+  };
   const goToReview = (value) => {
     // console.log("Ir a visitas");
     console.log("DATOS VIAJANDO: - - -  - - - ", value);
@@ -80,6 +92,11 @@ export const ItemBranch_Review = ({ branch }) => {
       bottomDivider
       style={{ margin: 0.5 }}
     >
+      <LoaderModal
+        animation={CLOUD_LOADER}
+        visible={isModalVisible}
+        warning={"Sincronizando auditoría seleccionada, por favor espere..."}
+      />
       <View
         style={{
           flex: 1,
@@ -115,9 +132,7 @@ export const ItemBranch_Review = ({ branch }) => {
           </Text>
         </View>
         {branch.sincronizada ? (
-          <TouchableOpacity
-          //onPress={() => subidaBaseRemoteTodaAuditoria(branch.id_auditoria)}
-          >
+          <TouchableOpacity onPress={syncData}>
             <Image
               source={SYNC_FAILED}
               style={{ width: 35, height: 30, resizeMode: "stretch" }}

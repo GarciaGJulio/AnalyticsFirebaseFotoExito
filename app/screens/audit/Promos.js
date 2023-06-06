@@ -350,11 +350,6 @@ export const Promos = ({ navigation }) => {
           exhibidorSucursal.map((productos) => {
             const { id_promocion, id, state, images } = productos;
             const { image1, image2, image3 } = images;
-            // console.log("Prod;", productos);
-            // console.log(
-            //   "---------------------- imagenes",
-            //   JSON.stringify(images)
-            // );
             let dataSave = {
               tableName: "promocion",
               dataInsertType: [
@@ -480,23 +475,6 @@ export const Promos = ({ navigation }) => {
           )}
         </View>
       </View>
-      {/*<DoubleStyledButton
-        titleLeft={"Cancelar"}
-        sizeLeft={theme.buttonSize.df}
-        colorLeft={theme.colors.modernaYellow}
-        iconLeft={"cancel"}
-        typeLeft={"material-icon"}
-        onPressLeft={() => {
-          //setText("¿Está seguro de querer cancelar el progreso actual?")
-          setIsModalVisibleClose(true);
-        }}
-        titleRigth={"Finalizar"}
-        sizeRigth={theme.buttonSize.df}
-        iconRigth={"arrow-right-circle"}
-        typeRigth={"feather"}
-        colorRigth={theme.colors.modernaRed}
-        onPressRigth={validate}
-      />*/}
       <DoubleDualStyledButton
         titleLeft={"Cancelar"}
         sizeLeft={theme.buttonSize.df}

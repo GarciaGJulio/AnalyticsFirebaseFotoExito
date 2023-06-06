@@ -1,27 +1,52 @@
-import { Image, StatusBar, StyleSheet, Text, View, Alert, BackHandler, ScrollView, } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  PermissionsAndroid,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Alert,
+  BackHandler,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
+import Geolocation from "@react-native-community/geolocation";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import * as Animatable from "react-native-animatable";
 import theme from "../../theme/theme";
+import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
 //import Dropdown from "../../components/Dropdown";
 import StyledInput from "../../components/StyledInput";
 import LOCATION_ANIMATION from "../../../assets/gps.json";
 import LoaderModal from "../../components/LoaderModal";
+import * as Location from "expo-location";
+import axios from "axios";
+import { capturarCoordenadas } from "../../services/GeolocationM";
 import ModernaContext from "../../context/ModernaContext";
 import {
   db_insertGlobal,
   db_insertGlobalDataAudit,
   db_insertSucursal,
 } from "../../services/SqliteService";
+import { lookForSucursal } from "../../services/SeleccionesService";
 import { validateNameBranch } from "../../utils/helpers";
 import ConfirmationModal from "../../components/ConfirmationModal";
-import { handleSelectDataBase, realizarConsulta, } from "../../common/sqlite_config";
+import StyledButton from "../../components/StyledButton";
+import {
+  handleSelectDataBase,
+  realizarConsulta,
+  selectData,
+} from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import { useFonts } from "expo-font";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getLocation, } from "../../services/GeolocationA";
+import {
+  getLocation,
+  requestLocationPermission,
+} from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import {
@@ -32,7 +57,6 @@ import {
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 import { getActualDate } from "../../common/utils";
-
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -66,14 +90,17 @@ export const Client_Information = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
-      console.log("empexando a await de get current data ====================================")
-      await getCurrentScreenInformation()
-      getInfoDatBaseScreen()
-    }
-    initDataLocal()
-    setTimeout(() => { initDataLocal() }, 2000)
-
-  }, [isFocused])
+      console.log(
+        "empexando a await de get current data ===================================="
+      );
+      await getCurrentScreenInformation();
+      getInfoDatBaseScreen();
+    };
+    initDataLocal();
+    setTimeout(() => {
+      initDataLocal();
+    }, 2000);
+  }, [isFocused]);
 
   const getInfoDatBaseScreen = () => {
     try {
@@ -283,8 +310,8 @@ export const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const validateBranchName = async() => {
-    let verificacion
+  const validateBranchName = async () => {
+    let verificacion;
     console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
     // let result = branchNames.some((item) => {
     //  console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
@@ -292,32 +319,28 @@ export const Client_Information = ({ navigation }) => {
     //  console.log("ITEMcOMPLETO",item)
     // return item.nombre_sucursal === sucursalInformation.name;
     //});
-    let tempFecha
-    tempFecha = new Date().toISOString()
-    tempFecha = tempFecha.split("T")
-    tempFecha = tempFecha[0]
-    console.log("usereeeeee:", selected)
-    const auditorias = await realizarConsulta(`select * from auditoria as aud inner join sucursal as s on s.id_sucursal =aud.id_sucursal  where aud.nombre_sucursal='${sucursalInformation.name}' AND nombre_cliente LIKE '${selected}' AND aud.FECHA_CREACION  LIKE '%${tempFecha}%' `)
-
-
-
-
+    let tempFecha;
+    tempFecha = new Date().toISOString();
+    tempFecha = tempFecha.split("T");
+    tempFecha = tempFecha[0];
+    console.log("usereeeeee:", selected);
+    const auditorias = await realizarConsulta(
+      `select * from auditoria as aud inner join sucursal as s on s.id_sucursal =aud.id_sucursal  where aud.nombre_sucursal='${sucursalInformation.name}' AND nombre_cliente LIKE '${selected}' AND aud.FECHA_CREACION  LIKE '%${tempFecha}%' `
+    );
 
     // Realizar acciones con el resultado de la consulta
     console.log("RESULTADOS:", auditorias);
-    verificacion = true
-
+    verificacion = true;
 
     if (auditorias.length === 0) {
       console.log("El arreglo está vacío");
-      verificacion = false
+      verificacion = false;
     } else {
       console.log("El arreglo no está vacío");
-      verificacion = true
+      verificacion = true;
     }
-    console.log("Auditorias:", auditorias)
-    console.log("verificador:", verificacion)
-
+    console.log("Auditorias:", auditorias);
+    console.log("verificador:", verificacion);
 
     return verificacion;
   };
@@ -368,7 +391,7 @@ export const Client_Information = ({ navigation }) => {
       //setValidatePass(false)
     }
     let validateBranch = await validateBranchName();
-    console.log("dede antes de validar:", validateBranch)
+    console.log("dede antes de validar:", validateBranch);
     if (validateBranch) {
       Alert.alert(
         "El nombre de la sucursal ya ha sido registrado",
@@ -580,7 +603,6 @@ export const Client_Information = ({ navigation }) => {
   if (!fontLoaded) return null;
 
   return (
-    // <ScrollView></ScrollView>
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
@@ -601,15 +623,13 @@ export const Client_Information = ({ navigation }) => {
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
-      {/* <ScrollView></ScrollView> */}
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <ScreenInformation title={"Información del Cliente"} text={""} />
         <View
           style={{
             //flexDirection: "row",
             //marginHorizontal: 20,
-            flex: 2, //backgroundColor:'orange'
-            marginTop: -10,
+            flex: 1.5, //backgroundColor:'orange'
           }}
         >
           {/*newArrayClients.length > 0 ? <Dropdown
@@ -664,12 +684,12 @@ export const Client_Information = ({ navigation }) => {
             flexDirection: "row",
             marginVertical: 15,
             justifyContent: "space-evenly",
-            flex: 1.5,
+            flex: 1.3,
             width: "100%",
-            // backgroundColor: "orange",
+            //backgroundColor: "orange",
           }}
         >
-          <View style={{ width: 160, marginTop: -15 }}>
+          <View style={{ width: 160 }}>
             <Text
               style={{
                 //paddingBottom: 5,
@@ -701,7 +721,7 @@ export const Client_Information = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          <View style={{ width: 160, marginTop: -15 }}>
+          <View style={{ width: 160 }}>
             <Text
               style={{
                 //paddingBottom: 2,
@@ -763,7 +783,7 @@ export const Client_Information = ({ navigation }) => {
             }
           />
         </View>
-        <View style={{ flex: 1.2, alignItems: "center", margin: 5, position: "relative", top: -5, left: 5, }}>
+        <View style={{ flex: 1.1, alignItems: "center", margin: 5 }}>
           <DoubleDualStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
@@ -827,7 +847,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },*/
   contentContainer: {
-    flex: 2,
+    flex: 1.5,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: "white",

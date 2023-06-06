@@ -1,3 +1,4 @@
+import axios from "axios";
 import { realizarConsulta } from "../common/sqlite_config";
 import { SubirAlonedrive } from "./onedrive";
 
@@ -18,7 +19,7 @@ export const subidaBaseRemote = (tablaName, array1, array2) => {
 
   fetch(url, {
     method: "POST",
-    body: JSON.stringify(requestBody),
+    body: requestBody,
     headers: {
       "Content-Type": "application/json",
     },
@@ -34,13 +35,35 @@ export const subidaBaseRemote = (tablaName, array1, array2) => {
     });
 };
 
-export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
+export const subidaBaseRemoteTodaAuditoria = async (id_auditoria, fn) => {
   // const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
   // console.log("array1:", array1)
   // console.log("array2:", array2)
 
   // realizarConsulta("select * from sucursal")r
 
+  // const portafolios = await axios.post(
+  //   "https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==",
+  //   { typeQuery: "SELECT", data: { tablaName: "portafolio" } }
+  // );
+  // portafolios.data?.data?.forEach((element) => {
+  //   try {
+  //     const requ = async (id) => {
+  //       await axios.post(
+  //         "https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==",
+  //         {
+  //           typeQuery: "DELETE",
+  //           data: {
+  //             tablaName: "portafolio",
+  //             fieldType: "id_portafolio",
+  //             fieldData: id,
+  //           },
+  //         }
+  //       );
+  //     };
+  //     requ(element.id_portafolio);
+  //   } catch (e) {}
+  // });
   //
   const consultaAudit = await realizarConsulta(`SELECT * FROM auditoria`);
   const consultaPromocion = await realizarConsulta(
@@ -53,6 +76,7 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
   console.log("RESULTADOS DE CONSULTA: ", consulta);
   console.log("ID_AUDITORIA: ", id_auditoria);
   console.log("RESULTADOS DE CONSULTA PROMOCION: ", consultaPromocion);
+
   const sucursalData = await realizarConsulta(
     `SELECT s.* 
     FROM sucursal AS s 
@@ -60,7 +84,7 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
     WHERE a.id_auditoria ='${id_auditoria}'`
   );
   const promocionData = await realizarConsulta(
-    `SELECT s.*  FROM sucursal AS s INNER JOIN auditoria AS a ON a.id_sucursal = s.id_sucursal WHERE a.id_auditoria = '${id_auditoria}'`
+    `SELECT p.*  FROM promocion AS p INNER JOIN auditoria AS a ON a.id_promocion = p.id_promocion WHERE a.id_auditoria = '${id_auditoria}'`
   );
 
   console.log("-----------completoPromo", promocionData);
@@ -284,8 +308,10 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
   console.log("-----------completoPerchadepuesFOR", preciadorData);
 
   const auditoriaData = await realizarConsulta(
-    "SELECT  id_auditoria,id_preciador,id_percha,id_promocion,id_sucursal,id_cliente,id_portafolio_auditoria from auditoria"
-  ); // where id_auditoria ="+ id_auditoria);
+    `SELECT id_auditoria, id_preciador, id_percha, id_promocion, id_sucursal, id_cliente, id_portafolio_auditoria 
+     FROM auditoria 
+     WHERE id_auditoria='${id_auditoria}'`
+  );
 
   console.log("sucursalData:", sucursalData);
   console.log("promocionData:", promocionData);
@@ -296,9 +322,10 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
   console.log("auditoriaData:", auditoriaData);
 
   const url =
-    "https://fotoexito1.azurewebsites.net/api/syncAllDataMobile?code=5iWwsyCDEC4IuFK8HgyfnC4DBpm4w_Trf75AwVSdJvGEAzFuezSbSg==";
+    "https://fotoexito1.azurewebsites.net/api/functionSync?code=lssWxD8c3jE3ioCuvj-xR-9uNa54TCNgxHu7MgqCb4YOAzFuPimo3g==";
 
   const requestBody = {
+    typeQuery: "SYNC",
     data: {
       sucursal: sucursalData,
       promocion: promocionData,
@@ -310,22 +337,33 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria) => {
     },
   };
 
-  fetch(url, {
-    method: "POST",
-    body: JSON.stringify(requestBody),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Respuesta:", data);
-      // Aquí puedes procesar la respuesta recibida
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Aquí puedes manejar el error en caso de que ocurra
+  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  console.log("REQUEST BODY;: - - - ", requestBody);
+  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  try {
+    const resp = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    //console.log(resp.data);
+    console.log(resp.data.result);
+    fn(false);
+    if (resp.data.result) {
+      console.log("CAMBIANDO ESTADO - - - -- - ");
+      const auditoriaData = await realizarConsulta(
+        `UPDATE auditoria SET sincronizada=true
+         WHERE id_auditoria='${id_auditoria}'`
+      );
+      console("CAMBIO EL ESTADO?  ", auditoriaData);
+    } else {
+      console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
+    }
+  } catch (e) {
+    console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data.result);
+    console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data);
+    fn(false);
+  }
 };
 
 ///falta el where de sincronizada
@@ -594,7 +632,7 @@ export const subidaBaseRemoteTodaAuditoria2 = async (id_auditoria) => {
 
   fetch(url, {
     method: "POST",
-    body: JSON.stringify(requestBody),
+    body: requestBody,
     headers: {
       "Content-Type": "application/json",
     },
