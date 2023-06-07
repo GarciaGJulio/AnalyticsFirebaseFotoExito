@@ -273,7 +273,7 @@ export const Promos = ({ navigation }) => {
         `'${dataTime()}'`,
         `'${nombreCliente}'`,
         `'${nombreSucursal}'`,
-        `'${false}'`,
+        `'${0}'`,
       ],
     };
     const sentence =
@@ -289,12 +289,12 @@ export const Promos = ({ navigation }) => {
       db_insertGlobalDataAudit(dataSave);
 
       //subidaBaseRemoteTodaAuditoria(`'${idAuditoria}'`);
-      const promocionData = await realizarConsulta(
-        "UPDATE auditoria SET <SINCRONIZADA> =trueWHERE id_auditoria=" +
+      /*const promocionData = await realizarConsulta(
+        "UPDATE auditoria SET <SINCRONIZADA> =true WHERE id_auditoria=" +
           idAuditoria +
           ";"
       );
-      console.log("resultado de la actualizacion:", promocionData);
+      console.log("resultado de la actualizacion:", promocionData);*/
 
       setShowButton1(false);
       setShowButton2(true);
@@ -363,7 +363,7 @@ export const Promos = ({ navigation }) => {
               dataInsert: [
                 `'${id_promocion}'`,
                 `'${id}'`,
-                `'${state}'`,
+                `'${parseInt(state)}'`,
                 `'${image1}'`,
                 `'${image2}'`,
                 `'${image3}'`,

@@ -15,7 +15,7 @@ const RenderItem = ({
   isUserScreen,
 }) => {
   const saveId = async () => {
-    await AsyncStorage.setItem("id_portafolio_ideal", idPortafolio);
+    //await AsyncStorage.setItem("id_portafolio_ideal", idPortafolio);
     await AsyncStorage.setItem("tipo_ideal", tipo);
   };
   useEffect(() => {
@@ -97,24 +97,24 @@ const RenderItemProd = ({
     }
   }, [idealPortfolioProducts, isUserScreen]);
 
-  const validate = async (check1, name, id) => {
+  const validate = async (check1, name, id, item) => {
     if (check1) {
       console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
       console.log("PRODUCTO A REGISTRAR: ", item.name, item.id);
-      const idPortafolio = await AsyncStorage.getItem("id_portafolio_ideal");
+      //const idPortafolio = await AsyncStorage.getItem("id_portafolio_ideal");
       const tipo = await AsyncStorage.getItem("tipo_ideal");
-      console.log("ID DEL PORTAFOLIO A INGRESAR . . . . ", idPortafolio);
+      //console.log("ID DEL PORTAFOLIO A INGRESAR . . . . ", idPortafolio);
       console.log("TIPO DE PORTAFOLIO: ", tipo);
       setIdealPortfolioProducts((prevProducts) => [
         ...prevProducts,
         {
           name: name,
-          id_portafolio: idPortafolio,
-          tipo_portafolio: tipo,
+          id_portafolio: item.id_portafolio,
+          tipo_portafolio: item.tipo_portafolio,
           id: id,
           url: item.url,
           price: 0.0,
-          state: false,
+          state: 0,
           images: {
             image1: null,
             image2: null,
@@ -137,7 +137,7 @@ const RenderItemProd = ({
           checked={check1}
           onPress={() => {
             setCheck1(!check1);
-            validate(!check1, item.name, item.id);
+            validate(!check1, item.name, item.id, item);
           }}
           // Use ThemeProvider to make change for all checkbox
           iconType="material-community"

@@ -611,7 +611,7 @@ export const Client_Information = ({ navigation }) => {
         onPress={() => {
           setIsModalVisibleClose(false);
           handleDeleteRegisterLocal();
-          navigation.goBack();
+          navigation.navigate("menu");
         }}
         warning={"¿Está seguro de querer cancelar el progreso actual?"}
       />

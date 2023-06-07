@@ -35,7 +35,12 @@ export const subidaBaseRemote = (tablaName, array1, array2) => {
     });
 };
 
-export const subidaBaseRemoteTodaAuditoria = async (id_auditoria, fn) => {
+export const subidaBaseRemoteTodaAuditoria = async (
+  id_auditoria,
+  fn,
+  setRefresh,
+  refresh
+) => {
   // const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
   // console.log("array1:", array1)
   // console.log("array2:", array2)
@@ -103,7 +108,7 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria, fn) => {
           "" + promocionData[i].id_promocion + "-" + "id_exhibidor"
         )
       );
-      promocionData[i].url_imagen2 = await SubirAlonedrive(
+      promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
         promocionData[i].url_imagen1,
         "" + promocionData[i].id_promocion + "-" + "id_exhibidor"
@@ -227,7 +232,7 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria, fn) => {
   console.log("-----------completoPerchadepuesFOR", perchaData);
 
   const portafolioData = await realizarConsulta(
-    `SELECT p.* from portafolio as p inner join portafolio_auditoria as pa on pa.id_portafolio=p.id_portafolio inner join auditoria as a on a.id_portafolio_auditoria=pa.id_portafolio_auditoria where a.id_auditoria ='${id_auditoria}'`
+    `SELECT DISTINCT p.* from portafolio as p inner join portafolio_auditoria as pa on pa.id_portafolio=p.id_portafolio inner join auditoria as a on a.id_portafolio_auditoria=pa.id_portafolio_auditoria where a.id_auditoria ='${id_auditoria}' AND p.tipo = 'C'`
   );
   const portafolio_auditoriaData = await realizarConsulta(
     `SELECT pa.* from portafolio_auditoria as pa inner join auditoria as a on a.id_portafolio_auditoria=pa.id_portafolio_auditoria where a.id_auditoria ='${id_auditoria}'`
@@ -308,7 +313,7 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria, fn) => {
   console.log("-----------completoPerchadepuesFOR", preciadorData);
 
   const auditoriaData = await realizarConsulta(
-    `SELECT id_auditoria, id_preciador, id_percha, id_promocion, id_sucursal, id_cliente, id_portafolio_auditoria 
+    `SELECT *
      FROM auditoria 
      WHERE id_auditoria='${id_auditoria}'`
   );
@@ -351,11 +356,13 @@ export const subidaBaseRemoteTodaAuditoria = async (id_auditoria, fn) => {
     fn(false);
     if (resp.data.result) {
       console.log("CAMBIANDO ESTADO - - - -- - ");
-      const auditoriaData = await realizarConsulta(
+      const stateAudit = await realizarConsulta(
         `UPDATE auditoria SET sincronizada=true
          WHERE id_auditoria='${id_auditoria}'`
       );
-      console("CAMBIO EL ESTADO?  ", auditoriaData);
+      console.log("respuesta de cambiar estado: ", stateAudit);
+      setRefresh(!refresh);
+      //console("CAMBIO EL ESTADO?  ", auditoriaData);
     } else {
       console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
     }

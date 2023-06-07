@@ -26,6 +26,7 @@ import { Navigation } from "../../navigation/Navigation";
 
 export const ListBranch = ({ navigation }) => {
   const [audit, setAudit] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -38,10 +39,10 @@ export const ListBranch = ({ navigation }) => {
       //await copiarContenido(resultadoConsulta);
       setAudit(resultadoConsulta);
       setFilteredData(resultadoConsulta);
-      //     console.log(
-      //       "Copia de contenido completada con éxito: ",
-      //       resultadoConsulta
-      //     );
+      console.log(
+        "Copia de contenido completada con éxito: ",
+        resultadoConsulta
+      );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -50,6 +51,11 @@ export const ListBranch = ({ navigation }) => {
   useEffect(() => {
     consultarYCopiarContenido();
   }, []);
+
+  useEffect(() => {
+    //filteredData;
+    console.log("DATOS DE AUDITORIA:", filteredData);
+  }, [refresh]);
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
@@ -85,24 +91,6 @@ export const ListBranch = ({ navigation }) => {
     });
     setFilteredData(newData);
   };
-
-  /*useEffect(() => {
-    try{
-      handleSelectDataBase("SELECT * FROM cliente",
-      (resultadoConsulta) => {
-
-        setClientes(dataFormat(resultadoConsulta));
-      }, (e) => {
-        console.log("error al consulatar cliente", e)
-        Alert.alert("error al consulatar cliente", e);
-
-      })
-    }catch(e){
-      console.log(e)
-    }
-   
-
-  }, [])*/
 
   const dataFormat = (array) => {
     // setArrayClients(array);
@@ -146,7 +134,13 @@ export const ListBranch = ({ navigation }) => {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={filteredData}
-              renderItem={({ item }) => <ItemBranch_Review branch={item} />}
+              renderItem={({ item }) => (
+                <ItemBranch_Review
+                  branch={item}
+                  setRefresh={setRefresh}
+                  refresh={refresh}
+                />
+              )}
               //keyExtractor={(item) => item.id}
             />
           </ScrollView>

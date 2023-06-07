@@ -74,7 +74,7 @@ const Briefcase_branch_review = ({ route }) => {
       }
 
       const idsPortafolioAuditoria = await realizarConsulta(
-        "SELECT DISTINCT  p.id_portafolio, p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio"
+        `SELECT DISTINCT  p.id_portafolio, p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio WHERE pa.id_portafolio = '${datosCompartidos.id_portafolio_auditoria}'`
       );
 
       const arrayTipoC = [];

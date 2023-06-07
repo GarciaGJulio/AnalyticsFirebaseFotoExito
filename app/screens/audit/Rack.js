@@ -329,8 +329,8 @@ export const Racks = ({ navigation }) => {
               `'${idPercha}'`,
               `'${id}'`,
               `'${state}'`,
-              `'${carasGeneral}'`,
-              `'${carasModerna}'`,
+              `'${parseInt(carasGeneral)}'`,
+              `'${parseInt(carasModerna)}'`,
               `'${image1}'`,
               `'${image2}'`,
               `'${image3}'`,
@@ -548,8 +548,8 @@ export const Racks = ({ navigation }) => {
         onPressLeft={() => setIsModalVisibleClose(true)}
         titleRigth={"Guardar"}
         sizeRigth={theme.buttonSize.df}
-        iconRigth={"arrow-right-circle"}
-        typeRigth={"feather"}
+        iconRigth={"content-save-all-outline"}
+        typeRigth={"material-community"}
         colorRigth={theme.colors.modernaRed}
         onPressRigth={handleOpenModal}
         showButton1={showButton1}
@@ -560,6 +560,8 @@ export const Racks = ({ navigation }) => {
         //typeRigth={"material-community"}
         colorRigthSecond={theme.colors.modernaRed}
         onPressRigthSecond={() => navigation.navigate("promos")}
+        iconRigthSecond={"arrow-right-circle"}
+        typeRigthSecond={"feather"}
         showButton1Second={showButton1}
         showButton2Second={showButton2}
       />

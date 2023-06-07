@@ -1,4 +1,4 @@
-import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StatusBar, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -25,7 +25,12 @@ import {
   borrarBaseDeDatos,
   borrarTablasDeBaseDeDatos,
 } from "../../services/SqliteService";
-import { dataAxiosQuery, load_db_config } from "../../common/sqlite_config";
+import {
+  dataAxiosQuery,
+  load_db_config,
+  realizarConsulta,
+} from "../../common/sqlite_config";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export const Menu = ({ navigation }) => {
   const { handleScreenInfo } = useContext(ModernaContext);
@@ -34,13 +39,21 @@ export const Menu = ({ navigation }) => {
   const [modalMessage, setModalMessage] = useState("");
   const [animation, setAnimation] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   //const { isConnected } = useContext(ModernaContext);
 
+  //const [isConnected, setIsConnected] = useState(false);
+
   useEffect(() => {
-    let UserOnedrive = Cli;
-    // console.log("User:", UserOnedrive);
-    //onedrive(UserOnedrive);
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
   useEffect(() => {
     getCurrentScreenInformation(navigation);
   }, []);
@@ -54,33 +67,9 @@ export const Menu = ({ navigation }) => {
     };
   }, []);
 
-  /*const onedrive = async (UserOnedrive) => {
-    try {
-      const response2 = await UserOnedrive.api("/me/drive").get()
-      console.log("IDDDDDDDDDDDD", response2.id)
-      const response = await UserOnedrive.api('/drives').get();
-      console.log("Reesss", response);
-
-      const base64Image = 'data:image/png;base64,iVBORw0KGg...'; // Aquí va el string base64 de la imagen
-      const response3 = await RNFetchBlob.config({
-        fileCache: true,
-      }).fetch('GET', base64Image);
-      const file = response3.path();
-
-
-      const fileData = await RNFetchBlob.fs.readFile(file, 'base64');
-      const uploadResult = await graphClient
-        .api(`/drives/${driveId}/root:${filePath}:/content`)
-        .put(fileData);
-      console.log('Archivo subido:', uploadResult);
-
-
-
-    } catch (error) {
-      console.log("Error al subir el archivo:", error);
-    }
-
-  }*/
+  const handleCloseModal = () => {
+    setIsModalVisibleClose(false);
+  };
 
   const handleOpenModal = () => {
     setAnimation(SYNC_ANIMATION);
@@ -106,34 +95,76 @@ export const Menu = ({ navigation }) => {
     setModalMessage(
       "Descargando variables para la auditoría, por favor espere..."
     );
-    setIsModalVisible(true);
-    /*try {
-      await deleteInsertData(); // <--- Corregir aquí
-    } catch {
-      console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
-    }*/
-    setIsModalVisible(false);
-    navigation.navigate("audit");
+    const validateAuditInBase = await realizarConsulta(
+      "SELECT * FROM auditoria WHERE sincronizada = 0"
+    );
+    if (validateAuditInBase.length == 0) {
+      try {
+        await deleteInsertData(); // <--- Corregir aquí
+        //navigation.navigate("audit");
+      } catch {
+        console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
+        //setIsModalVisible(false);
+      }
+    } else {
+      Alert.alert(
+        "Registros sin sincronizar encontrados",
+        "Todavía quedan registros que no han sido sincronizados a la base remota"
+      );
+      //setIsModalVisible(false);
+    }
+
+    //setIsModalVisible(false);
   };
 
+  const valueIsConnect = () => {
+    if (isConnected) {
+      deleteInsertData;
+    } else {
+      setIsModalVisibleClose(true);
+    }
+  };
   const deleteInsertData = async () => {
-    console.log("SE PROCEDE A ELIMINAR LAS TABLAS . . . . . ");
-    try {
-      console.log("ELIMINANDO TABLAS DE LA BASE DE DATOS . . . . . ");
-      await borrarTablasDeBaseDeDatos();
+    if (isConnected) {
+      setIsModalVisible(true);
+      console.log("SE PROCEDE A ELIMINAR LAS TABLAS . . . . . ");
       try {
-        await dataAxiosQuery();
-        setIsModalVisible(false);
-        navigation.navigate("audit");
+        console.log("ELIMINANDO TABLAS DE LA BASE DE DATOS . . . . . ");
+        await borrarTablasDeBaseDeDatos();
+        try {
+          const dataInsert = await dataAxiosQuery();
+          console.log("INSERCION DE DATOS NUEVOS - - - - - - - - -");
+          console.log(dataInsert);
+          if (dataInsert) {
+            console.log(
+              "datos insertados satisfactoriaemente- - - - - -- - - - - -- - - - - - - - - - -"
+            );
+
+            navigation.navigate("audit");
+            setIsModalVisible(false);
+          } else {
+            console.log(
+              "no tiene conexion a internet- - - - - -- - - - - -- - - - - - - - - - -"
+            );
+            setIsModalVisible(false);
+
+            /*Alert.alert(
+            "Registros de auditorias encontrados en la base local",
+            "Todavía no se han enviado los datos a la base remota, desea continuar?"
+          );*/
+          }
+        } catch (e) {
+          console.log("Error al volver a insertar los datos * - * -* - * ");
+        }
       } catch (e) {
-        console.log("Error al volver a insertar los datos * - * -* - * ");
+        console.log("Error al eliminar la base de datos");
+        Alert.alert(
+          "Error al eliminar los registros",
+          "Se procede a trabajar con datos anteriores"
+        );
       }
-    } catch (e) {
-      console.log("Error al eliminar la base de datos");
-      Alert.alert(
-        "Error al eliminar los registros",
-        "Se procede a trabajar con datos anteriores"
-      );
+    } else {
+      setIsModalVisibleClose(true);
     }
   };
 
@@ -170,6 +201,18 @@ export const Menu = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
+      <ConfirmationModal
+        visible={isModalVisibleClose}
+        onClose={handleCloseModal}
+        onPress={() => {
+          setIsModalVisibleClose(false);
+          //handleDeleteRegisterLocal();
+          navigation.navigate("audit");
+        }}
+        warning={
+          "No se ha encontrado conexión a internet, ¿quieres continuar con datos desactualizados?"
+        }
+      />
       <LoaderModal
         animation={animation}
         visible={isModalVisible}

@@ -25,13 +25,16 @@ export const onedrive = async () => {
 };
 
 export const SubirAlonedrive = async (imageUri, IdFoto) => {
-  console.log("id Desde la fictf:",IdFoto)
-  RecuperarToken()
+  console.log(
+    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  );
+  console.log("ID QUE VA A SER GUARDADO:", IdFoto);
+  RecuperarToken();
   // const folderPath = '/me/drive/root:/FolderA'; // Ruta de la carpeta en OneDrive
- 
+
   const bearerToken = await AsyncStorage.getItem("userToken2");
-  console.log("USERRRRRRRRRRRRR:", bearerToken)
-  console.log("ID DESDE LA FUNCION SUBIR",IdFoto)
+  console.log("USERRRRRRRRRRRRR:", bearerToken);
+  console.log("ID DESDE LA FUNCION SUBIR", IdFoto);
   const filename = "" + IdFoto + ".png";
   const driveId =
     "b!8xz3gdf43Eq0KCkvbna31vxpGAuGOrpPnBVuUAfQKqbgq9iLUK9GT5ZWD37MzEAh";
@@ -55,15 +58,20 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
 
     if (uploadResponse.ok) {
       const json = await uploadResponse.json();
-      
-      console.log("TodAo bien", json);
 
+      console.log("Todo bien", json);
+      console.log(
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      );
       return json["@microsoft.graph.downloadUrl"];
     } else {
+      console.log(
+        "------------------------------------------------------------------------"
+      );
       console.error(
-        "Error en la subida de la imagen:",
+        "ERROR EN LA SUBIDA DE IMAGENES:",
         uploadResponse.status,
-            uploadResponse.json()
+        uploadResponse.json()
       );
       return null;
     }
@@ -71,7 +79,6 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
     console.error(`Error al obtener la imagen: ${error}`);
     return null;
   }
-  
 };
 
 export const RecuperarToken = () => {
@@ -92,8 +99,8 @@ export const RecuperarToken = () => {
     .then(async (data) => {
       // Manejar la respuesta de la solicitud
       // console.log("CLAVES SECUNDARIOS-------------------------", data.token);
-  
-      await AsyncStorage.setItem('userToken2',  data.token);
+
+      await AsyncStorage.setItem("userToken2", data.token);
       // console.log("CLAVES SECUNDARIOS2-------------------------", await AsyncStorage.getItem('userToken2'));
     })
     .catch((error) => {
@@ -101,8 +108,6 @@ export const RecuperarToken = () => {
       console.error(error);
     });
 };
-
-
 
 export const deleteImageFromOneDrive = async (itemId) => {
   const endpoint = `https://graph.microsoft.com/v1.0/me/drive/items/${itemId}`;

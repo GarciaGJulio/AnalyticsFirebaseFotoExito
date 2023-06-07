@@ -42,8 +42,7 @@ export const Briefcase = ({ navigation }) => {
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   ///const { idClientGroup } = useContext(ModernaContext);
   const [idPortafolioComplementario] = useState(generateUIDD());
-  const [idPortafolioIdeal] = useState(generateUIDD());
-  //const [idPortafolio] = useState(generateUIDD());
+  const [idPortafolioIdeal, setPortafolioIdeal] = useState(null);
   const [idPortafolioAuditoria] = useState(generateUIDD());
   const [portafolioTipoIdeal] = useState("I");
   const [portafolioTipoComplementario] = useState("C");
@@ -64,10 +63,11 @@ export const Briefcase = ({ navigation }) => {
   }, [isFocused]);
 
   useEffect(() => {
-    console.log("*****************************idealPortfolioProducts================",idealPortfolioProducts)
+    console.log(
+      "*****************************idealPortfolioProducts================",
+      idealPortfolioProducts
+    );
   }, [idealPortfolioProducts]);
-
-  
 
   const getInfoDatBaseScreen = () => {
     try {
@@ -90,13 +90,14 @@ export const Briefcase = ({ navigation }) => {
       });
 
       let tempItemsIdeal = infoExtra.idealPortfolioProducts.split("**");
-      tempItemsIdeal = tempItemsIdeal.filter((item) => item.length > 0 && item != ",");
+      tempItemsIdeal = tempItemsIdeal.filter(
+        (item) => item.length > 0 && item != ","
+      );
       tempItemsIdeal = tempItemsIdeal.map((item) => {
         return JSON.parse(item);
       });
 
-      
-      setIdealPortfolioProducts(tempItemsIdeal)
+      setIdealPortfolioProducts(tempItemsIdeal);
 
       setComplementaryPortfolioProducts(tempItems);
       setInfoScreen(newObj);
@@ -125,7 +126,7 @@ export const Briefcase = ({ navigation }) => {
         infoExtra.auditorias_id.id_portafolio_auditoria
       );
     } catch (error) {
-      setIdealPortfolioProducts([])
+      setIdealPortfolioProducts([]);
       setComplementaryPortfolioProducts([]);
       setInfoScreen(null);
       setShowButton2(false);
@@ -145,13 +146,15 @@ export const Briefcase = ({ navigation }) => {
     console.log(
       " - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - "
     );
+    console.log("*******************************************************");
     console.log("ID DEL GRUPO DE CLIENTE: ", idGroupClient);
-    //console.log("ID DEL PORTAFOLIO: ", idPortafolio);
+    console.log("ID DEL PORTAFOLIO: ", idPortafolio);
     console.log("ID DEL PORTAFOLIO IDEAL: ", idPortafolioIdeal);
     console.log(
       "ID DEL PORTAFOLIO COMPLEMENTARIO: ",
       idPortafolioComplementario
     );
+    console.log("*******************************************************");
   };
   useEffect(() => {
     consultarDatosDeIDs();
@@ -193,17 +196,21 @@ export const Briefcase = ({ navigation }) => {
       );
 
       const productosIdeal = await realizarConsulta(
-        `SELECT DISTINCT producto.* FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND id_grupo_cliente='${idGroupClient}'`
+        `SELECT DISTINCT producto.*,portafolio.id_portafolio,portafolio.tipo FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND id_grupo_cliente='${idGroupClient}'`
       );
 
       const productosIdealFiltro = productosIdeal.map((objeto) => {
+        setPortafolioIdeal(objeto.id_portafolio);
+        //console.log("IDEAL SIN FORMATEAR: ----", objeto);
         return {
           id: objeto.id_producto,
           name: objeto.nombre_producto,
           url: objeto.url_imagen_producto,
           id_categoria: objeto.id_categoria,
+          id_portafolio: objeto.id_portafolio,
+          tipo_portafolio: objeto.tipo,
           price: 0.0,
-          state: null,
+          state: 0,
           images: {
             image1: null,
             image2: null,
@@ -213,21 +220,6 @@ export const Briefcase = ({ navigation }) => {
       });
 
       setAuxiliarArray([...productosIdealFiltro]);
-
-      /*const newArrayEstado = resultadoConsulta.map((objeto) => {
-        return {
-          id: objeto.id_producto,
-          name: objeto.nombre_producto,
-          url: objeto.imagen_producto,
-          /*price: null,
-          state: false,
-          images: {
-            image1: null,
-            image2: null,
-            image3: null,
-          },
-        };
-      });*/
 
       console.log("- - - - - - ", idGroupClient);
 
@@ -277,9 +269,9 @@ export const Briefcase = ({ navigation }) => {
             (producto) => {
               console.log(
                 "CATEGORIA: " +
-                categoria.id_categoria +
-                " PRODUCTO: " +
-                producto.id_categoria
+                  categoria.id_categoria +
+                  " PRODUCTO: " +
+                  producto.id_categoria
               );
               return producto.id_categoria === categoria.id_categoria;
             }
@@ -294,6 +286,7 @@ export const Briefcase = ({ navigation }) => {
                   id: producto.id_producto,
                   name: producto.nombre_producto,
                   url: producto.url_imagen_producto,
+                  tipo_portafolio: "C",
                 };
               }),
             ],
@@ -301,50 +294,13 @@ export const Briefcase = ({ navigation }) => {
         }
       );
 
-      //console.log(nuevaListaCategorias);
-
       console.log(
         "NUEVO ARRAY DE CATEGORIAS Y PRODUCTOS- - - - - - - : ",
         nuevaListaCategorias
       );
 
-      //setAllProducts([...nuevaListaCategorias]);
-
       setAllProducts([...nuevaListaCategorias]);
-
-      /*console.log(
-        "NUEVO ARRAY DE CATEGORIAS Y PRODUCTOS- - - - - - - : ",
-        resultadoConsulta
-      );*/
-
-      const uniqueArray = nuevaListaCategorias.filter(
-        (obj1) =>
-          !productosIdealFiltro.some((obj2) => obj2.id_producto === obj1.key)
-      );
-
-      // console.log("PRODUCTOS QUE VAN AL COMPLEMENTARIO: ", uniqueArray);
-
-      // //setAllProducts([...uniqueArray]);
-      // //setCategory(newArrayEstado);
-      // console.log(
-      //   "Copia de contenido completada con éxito - PRODUCTOS: ",
-      //   resultadoConsulta
-      // );
-      // console.log(
-      //   "\nresultado de la consulta de la tabla ------ PORTAFOLIO IDEAL: ",
-      //   resultadoConsultaIdeal
-      // );
-      // console.log(
-      //   "\nARRAY DE CATEGORIAS QUE SON INCLUIDAS EN EL PORTAFOLIO IDEAL POR GRUPO DE CLIENTE: ",
-      //   categorias
-      // );
-
-      // console.log(
-      //   "\nARRAY FORMATEADO DE PORTAFOLIO IDEAL: ",
-      //   productosIdealFiltro
-      // );
-      // console.log("\nARRAY DE CATEGORIAS : ", resultado);
-      // console.log("VALOR RECUPERADO DE GRUPO DEL CLIENTE:", idGroupClient);
+      //console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -357,7 +313,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -372,10 +328,7 @@ export const Briefcase = ({ navigation }) => {
         "id_portafolio_auditoria",
         idPortafolioAuditoria
       );
-      /*.alert(
-        "Productos validados: ",
-        "Redirigiendo a la siguiente pantalla"
-      );*/
+
       console.log(
         "PRODUCTOS DEL PORTAFOLIO IDEAL: ",
         JSON.stringify(idealPortfolioProducts)
@@ -384,65 +337,117 @@ export const Briefcase = ({ navigation }) => {
         "PRODUCTOS DEL PORTAFOLIO COMPLEMENTARIO: ",
         JSON.stringify(complementaryPortfolioProducts)
       );
+
       try {
         const fullDataProducts = idealPortfolioProducts.concat(
           complementaryPortfolioProducts
         );
-        fullDataProducts.map((productos) => {
-          const { id_portafolio, id, tipo_portafolio } = productos;
 
-          console.log(
-            "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
-            "ID DEL PORTAFOLIO: " +
-            id_portafolio +
-            " ID DEL PRODUCTO: " +
-            id +
-            " TIPO DE PORTAFOLIO:" +
-            tipo_portafolio
-          );
-          let dataSave = {
-            tableName: "portafolio",
-            dataInsertType: [
-              "id_portafolio",
-              "id_producto",
-              "id_grupo_cliente",
-              "tipo",
-            ],
-            dataInsert: [
-              `'${id_portafolio}'`,
-              `'${id}'`,
-              `'${idGrupoCliente}'`,
-              `'${tipo_portafolio}'`,
-            ],
-            dataInsertRemote: [
-              `${id_portafolio}`,
-              `${id}`,
-              `${idGrupoCliente}`,
-              `${tipo_portafolio}`,
-            ],
-          };
-          // subidaBaseRemote(dataSave.tableName,dataSave.dataInsertType, dataSave.dataInsertRemote)
+        for (const producto of fullDataProducts) {
+          const { id_portafolio, id, tipo_portafolio } = producto;
 
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-          try {
-            db_insertGlobalDataAudit(dataSave);
-
+          if (tipo_portafolio === "C") {
             console.log(
-              "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
+              "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
+              "ID DEL PORTAFOLIO: " +
+                id_portafolio +
+                " ID DEL PRODUCTO: " +
+                id +
+                " TIPO DE PORTAFOLIO:" +
+                tipo_portafolio
             );
+
+            let dataSave = {
+              tableName: "portafolio",
+              dataInsertType: [
+                "id_portafolio",
+                "id_producto",
+                "id_grupo_cliente",
+                "tipo",
+              ],
+              dataInsert: [
+                `'${id_portafolio}'`,
+                `'${id}'`,
+                `'${idGrupoCliente}'`,
+                `'${tipo_portafolio}'`,
+              ],
+              dataInsertRemote: [
+                `${id_portafolio}`,
+                `${id}`,
+                `${idGrupoCliente}`,
+                `${tipo_portafolio}`,
+              ],
+            };
+
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
+
+            try {
+              db_insertGlobalDataAudit(dataSave);
+
+              console.log(
+                "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
+              );
+              console.log(
+                "ID DEL PORTAFOLIO QUE SE VA A GUARDRA: ",
+                id_portafolio
+              );
+
+              let dataSave2 = {
+                tableName: "portafolio_auditoria",
+                dataInsertType: [
+                  "id_portafolio_auditoria",
+                  "id_portafolio",
+                  "id_producto",
+                ],
+                dataInsert: [
+                  `'${idPortafolioAuditoria}'`,
+                  `'${id_portafolio}'`,
+                  `'${id}'`,
+                ],
+              };
+              const sentence2 =
+                "INSERT INTO " +
+                dataSave2.tableName +
+                " (" +
+                dataSave2.dataInsertType.join() +
+                ") VALUES(" +
+                dataSave2.dataInsert.join() +
+                ")";
+              console.log("SENTENCIA A EJECUTAR: ", sentence2);
+
+              try {
+                db_insertGlobalDataAudit(dataSave2);
+                console.log("TODO BIEN");
+                setShowButton1(false);
+                setShowButton2(true);
+                setIsModalVisible(false);
+              } catch (e) {
+                Alert.alert(
+                  "Error al insertar los datos en la tabla portafolio_auditoria",
+                  "Vuelva a intentarlo"
+                );
+              }
+            } catch (e) {
+              console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", e);
+              Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+              setIsModalVisible(false);
+            }
+          } else {
+            console.log("PRODUCTO IDEAL - - - - - - - - - : ", producto);
             console.log(
-              "ID DEL PORTAFOLIO QUE SE VA A GUARDRA: ",
-              id_portafolio
+              "----------------- SALTANDO INSERCION  - - - - - - - - - : ",
+              producto
             );
-            let dataSave2 = {
+
+            let portafolioSave = {
               tableName: "portafolio_auditoria",
               dataInsertType: [
                 "id_portafolio_auditoria",
@@ -455,17 +460,19 @@ export const Briefcase = ({ navigation }) => {
                 `'${id}'`,
               ],
             };
+
             const sentence =
               "INSERT INTO " +
-              dataSave.tableName +
+              portafolioSave.tableName +
               " (" +
-              dataSave2.dataInsertType.join() +
+              portafolioSave.dataInsertType.join() +
               ") VALUES(" +
-              dataSave2.dataInsert.join() +
+              portafolioSave.dataInsert.join() +
               ")";
             console.log("SENTENCIA A EJECUTAR: ", sentence);
+
             try {
-              db_insertGlobalDataAudit(dataSave2);
+              db_insertGlobalDataAudit(portafolioSave);
               console.log("TODO BIEN");
               setShowButton1(false);
               setShowButton2(true);
@@ -476,14 +483,9 @@ export const Briefcase = ({ navigation }) => {
                 "Vuelva a intentarlo"
               );
             }
-          } catch (e) {
-            console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", e);
-            Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
-            setIsModalVisible(false);
           }
-          //savePreciador();
-          //navigation.navigate("rack");
-        });
+        }
+
         let tempDataScreen = complementaryPortfolioProducts.map((item) => {
           return `**${JSON.stringify(item)}**`;
         });
@@ -523,6 +525,7 @@ export const Briefcase = ({ navigation }) => {
             console.log(e);
           }
         }
+
         saveCurrentScreenUser(
           {
             screenName: `briefcase`,
@@ -531,37 +534,27 @@ export const Briefcase = ({ navigation }) => {
             columnId: `id_portafolio`,
           },
           {
-            // complementaryPortfolioProducts: tempDataScreen.toString(),
-            // auditorias_id: {
-            //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-            //     id_portafolio_auditoria: idPortafolioAuditoria
-            //   }
-            // },
             pantallas: {
               ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-              ...{
-                briefcase: {
-                  principal: {
-                    screenName: `briefcase`,
-                    tableName: `portafolio`,
-                    itemId: `id_portafolio`,
-                    columnId: `id_portafolio`,
+              briefcase: {
+                principal: {
+                  screenName: `briefcase`,
+                  tableName: `portafolio`,
+                  itemId: `id_portafolio`,
+                  columnId: `id_portafolio`,
+                },
+                extra_info: {
+                  complementaryPortfolioProducts: tempDataScreen.toString(),
+                  idealPortfolioProducts: tempDataScreenIdeal.toString(),
+                  auditorias_id: {
+                    ...(objUserInfo.auditorias_id
+                      ? objUserInfo.auditorias_id
+                      : {}),
+                    id_portafolio_auditoria: idPortafolioAuditoria,
                   },
-                  extra_info: {
-                    complementaryPortfolioProducts: tempDataScreen.toString(),
-                    idealPortfolioProducts: tempDataScreenIdeal.toString(),
-                    auditorias_id: {
-                      ...(objUserInfo.auditorias_id
-                        ? objUserInfo.auditorias_id
-                        : {}),
-                      ...{
-                        id_portafolio_auditoria: idPortafolioAuditoria,
-                      },
-                    },
-                    pantallas: {
-                      ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                      briefcase: null,
-                    },
+                  pantallas: {
+                    ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                    briefcase: null,
                   },
                 },
               },
@@ -572,17 +565,9 @@ export const Briefcase = ({ navigation }) => {
         Alert.alert("Error antes de enviar los datos", "Vuelva a intentarlo");
         setIsModalVisible(false);
       }
-      /*navigation.navigate("prices", {
-        currentStep,
-        complementaryPortfolioProducts,
-        idealPortfolioProducts,
-        setComplementaryPortfolioProducts,
-      });*/
-      //setIsModalVisible(false);
     }
-
-    //alert("PORTAFOLIO IDEAL: "+JSON.stringify(idealPortfolioProducts))
   };
+
   const handleDeleteRegisterLocal = async () => {
     if (infoScreen) {
       saveCurrentScreenUser(
@@ -597,7 +582,9 @@ export const Briefcase = ({ navigation }) => {
         objUserInfo
       );
     }
-    let tmpDataDelete=idealPortfolioProducts.concat(complementaryPortfolioProducts)
+    let tmpDataDelete = idealPortfolioProducts.concat(
+      complementaryPortfolioProducts
+    );
     tmpDataDelete.map((productos) => {
       const { id_portafolio, id, tipo_portafolio } = productos;
 
@@ -609,10 +596,11 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${infoScreen
+        valueId: `${
+          infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-          }`,
+        }`,
       });
     });
   };
@@ -655,12 +643,12 @@ export const Briefcase = ({ navigation }) => {
         >
           <Text style={styles.text}>Portafolio Ideal</Text>
           <FlashListPortfolio
-            idPortafolio={idPortafolioIdeal}
+            //idPortafolio={idPortafolioIdeal}
             idealPortfolioProducts={idealPortfolioProducts}
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealProducts={idealProducts}
             tipo={portafolioTipoIdeal}
-            isUserScreen={infoScreen?true:false}
+            isUserScreen={infoScreen ? true : false}
           />
         </View>
         <View
@@ -689,20 +677,6 @@ export const Briefcase = ({ navigation }) => {
           />
         </View>
         <View style={{ flex: 0.7, justifyContent: "center", width: "100%" }}>
-          {/*<DoubleStyledButton
-            titleLeft={"Cancelar"}
-            sizeLeft={theme.buttonSize.df}
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => setIsModalVisibleClose(true)}
-            titleRigth={"Guardar"}
-            sizeRigth={theme.buttonSize.df}
-            iconRigth={"content-save-all-outline"}
-            typeRigth={"material-community"}
-            colorRigth={theme.colors.modernaRed}
-            onPressRigth={handleOpenModal}
-          />*/}
           <DoubleDualStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}

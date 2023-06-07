@@ -30,68 +30,7 @@ export const MultiSelectListV2 = ({
     }
   }, []);
 
-  /*
-  const validateProducts = (value) => {
-    console.log("PRODUCTO SELECCIONADO: - - - " + value);
-    if (complementaryPortfolioProducts.length === 0) {
-      const product = data.find((prod) => {
-        console.log("PRODUCTO A COMPARAR: - - - - - ",prod.value)
-        prod.value === value
-      });
-      console.log("PRODUCTO EXTRAIDO: - - - - - ",product)
-      const { key } = product;
-      console.log("PRODUCTO A GUARDAR PRIMERO: - - - - -", product);
-      //console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
-      setComplementaryPortfolioProducts([{ value, key }]);
-    } 
-
-    const product = data.find((prod) => prod.value === value);
-  
-    if (product) {
-      const { key } = product;
-      console.log("PRODUCTO A EVALUAR: - - - - -", product);
-
-        const existingProduct = complementaryPortfolioProducts.find((prod) => prod.key === key);
-  
-        if (existingProduct) {
-          console.log("ELIMINANDO PRODUCTO . . . . ");
-          setComplementaryPortfolioProducts((prevProducts) =>
-            prevProducts.filter((prod) => prod.key !== key)
-          );
-        } else {
-          console.log("REGISTRANDO NUEVO PRODUCTO . . . . ");
-          setComplementaryPortfolioProducts((prevProducts) => [...prevProducts, { value, key }]);
-        }
-    }
-  };
-  
-*/
-
-  /*const updateObject = (select) => {
-    setComplementaryPortfolioProducts(
-      select.map((obj) => {
-        const myString = obj;
-        const valores = myString.split("-");
-        const valor1 = valores[0];
-        const valor2 = valores[1];
-        let newObject = {
-          id: valor2,
-          name: valor1,
-          price: null,
-          state: false,
-          images: {
-            image1: null,
-            image2: null,
-            image3: null,
-          },
-        };
-        console.log("OBJETO FORMATEADO: ", newObject);
-        return newObject;
-      })
-    );
-  };*/
-
-  const updateObject = (select) => {
+  /* const updateObject = (select) => {
     const newArray = auxiliarArray.filter((obj) => {
       console.log("ARRAY A COMPARAR: ", obj);
       const concatenatedValue = `${obj.name}-${obj.id}`;
@@ -107,7 +46,7 @@ export const MultiSelectListV2 = ({
 
     setComplementaryPortfolioProducts([...newArrayWithInitial]);
     console.log("ARRAY DE VALORES ENCONTRADOS: ", newArrayWithInitial);
-  };
+  };*/
 
   useEffect(() => {
     console.log("ESTO GUARDA SELECT: ", JSON.stringify(select));
@@ -140,10 +79,10 @@ export const MultiSelectListV2 = ({
         return {
           id: existingProduct.id,
           id_portafolio: idPortafolio,
-          tipo_portafolio: tipo,
+          tipo_portafolio: existingProduct.tipo_portafolio,
           name: existingProduct.name,
           price: 0.0,
-          state: false,
+          state: 0,
           images: {
             image1: null,
             image2: null,
@@ -225,9 +164,9 @@ export const MultiSelectListV2 = ({
     let newObject = {
       id: extractedObject.id,
       name: extractedObject.name,
-      price: null,
+      price: 0.0,
       url: extractedObject.url,
-      state: false,
+      state: 0,
       images: {
         image1: null,
         image2: null,
@@ -267,8 +206,8 @@ export const MultiSelectListV2 = ({
     let newObject = {
       id: value.id,
       name: value.name,
-      price: null,
-      state: false,
+      price: 0.0,
+      state: 0,
       images: {
         image1: null,
         image2: null,
@@ -344,8 +283,8 @@ export const MultiSelectListV2 = ({
             tipo_portafolio: tipo,
             name: productName,
             url: productImage,
-            price: null,
-            state: false,
+            price: 0.0,
+            state: 0,
             images: {
               image1: null,
               image2: null,
@@ -422,7 +361,6 @@ export const MultiSelectListV2 = ({
             searchTextInput: { fontFamily: "Metropolis" },
             confirmText: { fontFamily: "Metropolis" },
             parentChipText: { fontFamily: "Metropolis" },
-            
 
             //chipsWrapper: { backgroundColor: "red" },
           }}
@@ -435,10 +373,8 @@ export const MultiSelectListV2 = ({
           readOnlyHeadings={true}
           showDropDowns={true}
           searchPlaceholderText="Busca el producto"
-
           onSelectedItemsChange={onSelectedItemsChange}
           selectedItems={isUserScreen ? selectItemsId : select}
-          
         />
       </View>
     </ScrollView>

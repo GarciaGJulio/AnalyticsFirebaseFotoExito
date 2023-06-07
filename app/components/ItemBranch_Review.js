@@ -23,7 +23,7 @@ import { DataContext } from "../context/DataProvider";
 import theme from "../theme/theme";
 import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 
-export const ItemBranch_Review = ({ branch }) => {
+export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
   const { setDatosCompartidos, datosCompartidos } = useContext(DataContext);
   const [animation, setAnimation] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -57,12 +57,14 @@ export const ItemBranch_Review = ({ branch }) => {
     }, 5000);
   };
 
-  const syncData = async () => {
+  const syncData = async (setRefresh, refresh) => {
     setIsModalVisible(true);
     try {
       await subidaBaseRemoteTodaAuditoria(
         branch.id_auditoria,
-        setIsModalVisible
+        setIsModalVisible,
+        setRefresh,
+        refresh
       );
     } catch (e) {
       console.log("ERROR: ", e);
@@ -131,18 +133,18 @@ export const ItemBranch_Review = ({ branch }) => {
             {branch.fecha_modificacion}
           </Text>
         </View>
-        {branch.sincronizada ? (
-          <TouchableOpacity onPress={syncData}>
+        {branch.sincronizada == 0 ? (
+          <TouchableOpacity onPress={() => syncData(setRefresh, refresh)}>
             <Image
               source={SYNC_FAILED}
-              style={{ width: 35, height: 30, resizeMode: "stretch" }}
+              style={{ width: 30, height: 30, resizeMode: "stretch" }}
             />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity disabled={true}>
             <Image
               source={SYNC_SUCCESS}
-              style={{ width: 60, height: 50, resizeMode: "stretch" }}
+              style={{ width: 30, height: 30, resizeMode: "stretch" }}
             />
           </TouchableOpacity>
         )}

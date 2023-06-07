@@ -29,7 +29,7 @@ export const ProductsDetails_Review = ({ item }) => {
   const trackColor =
     item.estado === null
       ? "#999999"
-      : item.estado === "1"
+      : item.estado === 1
       ? theme.colors.modernaGreen
       : theme.colors.modernaRed;
 

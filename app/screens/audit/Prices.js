@@ -318,14 +318,6 @@ export const Prices = ({ navigation, route }) => {
           fullDataProducts.map((productos) => {
             const { id_portafolio, id, state, price, images } = productos;
             const { image1, image2, image3 } = images;
-            // console.log(
-            //   "---------------------- imagenes",
-            //   JSON.stringify(images)
-            // );
-            // console.log(
-            //   "PRODUCTO ACTAUL A INSERTAR EN BASE: ",
-            //   id_portafolio + " " + id
-            // );
             let dataSave = {
               tableName: "preciador",
               dataInsertType: [
@@ -337,7 +329,7 @@ export const Prices = ({ navigation, route }) => {
                 "url_imagen1",
                 "url_imagen2",
                 "url_imagen3",
-                "usuario_creacion ",
+                "usuario_creacion",
                 "fecha_creacion",
                 "fecha_modificacion",
               ],
@@ -345,8 +337,8 @@ export const Prices = ({ navigation, route }) => {
                 `'${idPreciador}'`,
                 `'${id_portafolio}'`,
                 `'${id}'`,
-                `'${price}'`,
-                `'${state ? 1 : 0}'`,
+                `${parseFloat(price)}`,
+                `${state ? 1 : 0}`,
                 `'${image1}'`,
                 `'${image2}'`,
                 `'${image3}'`,
@@ -389,14 +381,10 @@ export const Prices = ({ navigation, route }) => {
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+              setIsModalVisible(false);
             }
-            /*db_insertGlobalDataAudit(dataSave);
-            console.log("TODO BIEN");
-            setShowButton1(false);
-            setShowButton2(true);
-            savePreciador();*/
-            //navigation.navigate("rack");
           });
+
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
             return `*${JSON.stringify(item)}*`;
           });
@@ -426,6 +414,7 @@ export const Prices = ({ navigation, route }) => {
 
             // objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.prices)
           } catch (e) {
+            setIsModalVisible(false);
             try {
               // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
               // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
@@ -498,6 +487,7 @@ export const Prices = ({ navigation, route }) => {
             "Error antes de  insertar los datos",
             "Vuelva a intentarlo"
           );
+          setIsModalVisible(false);
         }
       }
     }
@@ -609,20 +599,6 @@ export const Prices = ({ navigation, route }) => {
           )}
         </View>
         <View style={{ flex: 0.45, width: "100%" }}>
-          {/*<DoubleStyledButton
-            titleLeft={"Cancelar"}
-            sizeLeft={theme.buttonSize.df}
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => setIsModalVisibleClose(true)}
-            titleRigth={"Siguiente"}
-            sizeRigth={theme.buttonSize.df}
-            iconRigth={"arrow-right-circle"}
-            typeRigth={"feather"}
-            colorRigth={theme.colors.modernaRed}
-            onPressRigth={validateArrays}
-  />*/}
           <DoubleDualStyledButton
             titleLeft={"Cancelar"}
             sizeLeft={theme.buttonSize.df}
@@ -644,8 +620,8 @@ export const Prices = ({ navigation, route }) => {
             onPressRigthSecond={() => navigation.navigate("rack")}
             showButton1Second={showButton1}
             showButton2Second={showButton2}
-            iconRigthSecond={"content-save-all-outline"}
-            typeRigthSecond={"material-community"}
+            iconRigthSecond={"arrow-right-circle"}
+            typeRigthSecond={"feather"}
           />
         </View>
       </View>

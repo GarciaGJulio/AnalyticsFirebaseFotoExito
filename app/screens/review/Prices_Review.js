@@ -92,6 +92,13 @@ const Prices_Review = () => {
           console.log(
             "NO SE HAN SELECCIONADO PRODUCTOS IDEALES, SE PROCEDERÁ A VALIDAR LOS PRODUCTOS COMPLEMENTARIOS"
           );
+          console.log(
+            "********************PRODUCTO A EVALUAR*********************"
+          );
+          console.log(producto);
+          console.log(
+            "***********************************************************"
+          );
           if (producto.id_portafolio === idsC) {
             productosComplementario.push(producto);
           }
@@ -163,7 +170,7 @@ const Prices_Review = () => {
         datosCompartidos.id_portafolio_auditoria
       );
       console.log(
-        "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
+        "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN EN LA PANTALLA DE PRECIADOR- - -/ / / / /  - : ",
         idsPortafolioAuditoria
       );
       console.log(
@@ -222,10 +229,4 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
     alignItems: "center",
   },
-
-
-  
-
-
-  
 });
