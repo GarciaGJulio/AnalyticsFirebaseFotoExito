@@ -146,38 +146,6 @@ export const Client_Information = ({ navigation }) => {
     }
   };
 
-  // const subirArrays = async (array1, array2) => {
-  //   const url = 'https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==';
-  //   console.log("array1:", array1)
-  //   console.log("array2:", array2)
-
-  //   const requestBody = {
-  //     typeQuery: 'INSERT',
-  //     data: {
-  //       tableName: 'sucursal',
-  //       fieldType: array1,
-  //       fieldData: array2
-  //     }
-  //   };
-
-  //   fetch(url, {
-  //     method: 'POST',
-  //     body: JSON.stringify(requestBody),
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log('Respuesta:', data);
-  //       // Aquí puedes procesar la respuesta recibida
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error);
-  //       // Aquí puedes manejar el error en caso de que ocurra
-  //     });
-  // };
-
   const consultarYCopiarContenidoClientes = async () => {
     try {
       // Realiza la consulta a la base de datos
@@ -193,18 +161,6 @@ export const Client_Information = ({ navigation }) => {
           Alert.alert("error al consulatar cliente", e);
         }
       );
-
-      // Copia el contenido después de la consulta
-      //await copiarContenido(resultadoConsulta);
-      /*setNewArrayClients(dataFormat(resultadoConsulta));
-      console.log("Copia de contenido completada con éxito: ");
-      const clientes = resultadoConsulta
-        .map(
-          (objeto) =>
-            `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
-        )
-        .join("\n");*/
-      //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -221,15 +177,6 @@ export const Client_Information = ({ navigation }) => {
     return arrayFormat;
   };
   useEffect(() => {
-    /*console.log("SELECT DE LA TABLA CLIENTE",);
-    selectData("SELECT * FROM cliente",setArrayClients)
-    dataFormat(arrayFormat)
-    console.log("FORMATO NUEVO PARA DROPDOWN: ",arrayFormat)
-    /*if(location){
-      Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
-    
-    }*/
-    //realizarConsulta("SELECT * FROM cliente")
     consultarYCopiarContenidoClientes();
   }, []);
 
@@ -239,15 +186,15 @@ export const Client_Information = ({ navigation }) => {
         "SELECT * FROM sucursal"
       );
 
-      const branchs = resultadoConsultarBranch.map(({ nombre_sucursal }) => ({
-        nombre_sucursal,
-      }));
+      const branchs = resultadoConsultarBranch.map(
+        ({ nombre_sucursal, fecha_creacion }) => ({
+          nombre_sucursal,
+          fecha_creacion: fecha_creacion.split("T")[0],
+        })
+      );
+
       setBranchNames(branchs);
-      // console.log(
-      //   "Copia de contenido completada con éxito: ",
-      //   resultadoConsultarBranch
-      // );
-      // console.log("NOMBRE DE BRANCHES: ", branchs);
+      console.log("DATOS DE SUCURSALES :", branchs);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -258,41 +205,12 @@ export const Client_Information = ({ navigation }) => {
     //consultarYCopiarContenidoClientes();
   }, []);
 
-  /*const sendLocalData = async (setSucursalData) => {
-    db_insertSucursal(
-      1,
-      1,
-      sucursalInformation.name,
-      sucursalInformation.latitude,
-      sucursalInformation.length
-    );
-    await lookForSucursal(setSucursalData);
-    console.log("Pedidos desde Screen:", sucursalData);
-  };*/
-
   const validate = (objeto) => {
     const valores = Object.values(objeto);
     return valores.every(
       (valor) => valor !== null && valor !== undefined && valor !== ""
     );
   };
-
-  useEffect(() => {
-    console.log("location from context", location);
-  }, [location]);
-
-  /*useEffect(() => {
-    console.log("SELECT DE LA TABLA CLIENTE",);
-    selectData("SELECT * FROM cliente",setArrayClients)
-    /*if(location){
-      Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
-    
-    }
-  }, []);*/
-
-  /*const handleOpenModal = () => {
-    setIsModalVisible(true);
-  };*/
 
   useEffect(() => {
     const disableBackButton = () => {
@@ -313,67 +231,35 @@ export const Client_Information = ({ navigation }) => {
   const validateBranchName = async () => {
     let verificacion;
     console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
-    // let result = branchNames.some((item) => {
-    //  console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
-    //  console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
-    //  console.log("ITEMcOMPLETO",item)
-    // return item.nombre_sucursal === sucursalInformation.name;
-    //});
+    /*let result = branchNames.some((item) => {
+      console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
+      console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
+      console.log("ITEMcOMPLETO", item);
+      return item.nombre_sucursal === sucursalInformation.name;
+    });*/
     let tempFecha;
     tempFecha = new Date().toISOString();
     tempFecha = tempFecha.split("T");
     tempFecha = tempFecha[0];
-    console.log("usereeeeee:", selected);
-    const auditorias = await realizarConsulta(
+    //console.log("usereeeeee:", selected);
+    let result = branchNames.some((item) => {
+      console.log(
+        "ITEM DEL ARRAY: ",
+        item.nombre_sucursal + " " + item.fecha_creacion
+      );
+      console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
+      console.log("FCEHA ACTUAL: ", tempFecha);
+      return (
+        item.nombre_sucursal === sucursalInformation.name &&
+        item.fecha_creacion === tempFecha
+      );
+    });
+    /*const auditorias = await realizarConsulta(
       `select * from auditoria as aud inner join sucursal as s on s.id_sucursal =aud.id_sucursal  where aud.nombre_sucursal='${sucursalInformation.name}' AND nombre_cliente LIKE '${selected}' AND aud.FECHA_CREACION  LIKE '%${tempFecha}%' `
-    );
+    );*/
 
-    // Realizar acciones con el resultado de la consulta
-    console.log("RESULTADOS:", auditorias);
-    verificacion = true;
-
-    if (auditorias.length === 0) {
-      console.log("El arreglo está vacío");
-      verificacion = false;
-    } else {
-      console.log("El arreglo no está vacío");
-      verificacion = true;
-    }
-    console.log("Auditorias:", auditorias);
-    console.log("verificador:", verificacion);
-
-    return verificacion;
+    return result;
   };
-
-  /*const handleOpenModal = async () => {
-    const validador = validate(sucursalInformation);
-    if(validador){
-      setIsModalVisible(true)
-      try{
-        capturarCoordenadas(sucursalInformation, setDatosCompletos, ()=>{
-          //setIsModalVisible(false)
-          //navigation.navigate('briefcase');
-          setIsModalVisible(false)
-          console.log("JSON FINAL: ",JSON.stringify(datosCompletos))
-          if(datosCompletos.latitude){
-            //sendLocalData(setSucursalData)
-            navigation.navigate('briefcase');
-            console.log("ENVIANDO DATOS A BASE . . . . .")
-            //setIsModalVisible(false)
-          }else{
-            alert("NO SE HAN PODIDO REGISTRAR LOS DATOS DE LOCALIZACION")
-          }
-        },)
-      }catch(e){
-        console.log(e)
-        setIsModalVisible(false)
-      }
-        
-    }else{
-      Alert.alert('Error', 'Debe ingresar todos los datos indicados')
-    }
-    
-  };*/
 
   const handleOpenModal = async () => {
     const validador = validate(sucursalInformation);

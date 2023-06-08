@@ -1,6 +1,7 @@
 import axios from "axios";
 import { realizarConsulta } from "../common/sqlite_config";
 import { SubirAlonedrive } from "./onedrive";
+import { Alert } from "react-native";
 
 export const subidaBaseRemote = (tablaName, array1, array2) => {
   const url =
@@ -31,6 +32,10 @@ export const subidaBaseRemote = (tablaName, array1, array2) => {
     })
     .catch((error) => {
       console.error("Error:", error);
+      Alert.alert(
+        "Pérdida de conexión",
+        "La sincronización de los datos ha fallado debido a una desconexión a internet. Por favor, vuelve a intentarlo cuando tengas una conexión estable"
+      );
       // Aquí puedes manejar el error en caso de que ocurra
     });
 };
@@ -384,12 +389,25 @@ export const subidaBaseRemoteTodaAuditoria = async (
       console.log("respuesta de cambiar estado: ", stateAudit);
       setRefresh(!refresh);
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
+      Alert.alert(
+        "Auditoria registrada",
+        "Se ha registrado la auditoria en la base remota"
+      );
     } else {
       console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
+      fn(false);
+      Alert.alert(
+        "Error al registrar la auditoria",
+        "No se ha podido registrar la auditoria en estos momentos, por favor vuelva a intentarlo"
+      );
     }
   } catch (e) {
     console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data.result);
     console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data);
     fn(false);
+    /*Alert.alert(
+      "Error al registrar la auditoria a traves de la función",
+      "Ha ocurrido un error inesperado al tratar de subir los datos a la base, por favor vuelva a intentarlo"
+    );*/
   }
 };

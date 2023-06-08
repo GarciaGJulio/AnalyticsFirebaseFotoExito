@@ -20,9 +20,13 @@ export const ProductsPrices_Review = ({ text, products }) => {
     <View style={styles.container}>
       {text ? <Text style={styles.title}> {text}</Text> : <></>}
       {products.length == 0 ? (
-        <Text style={{ fontFamily: "Metropolis", fontSize: 14 }}>
-          Esta auditoría no registró productos
-        </Text>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text style={{ fontFamily: "Metropolis", fontSize: 14 }}>
+            Esta auditoría no registró productos
+          </Text>
+        </View>
       ) : (
         <FlashList
           data={products}

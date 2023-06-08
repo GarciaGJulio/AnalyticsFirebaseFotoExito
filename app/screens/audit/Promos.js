@@ -34,6 +34,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import NetInfo from "@react-native-community/netinfo";
 import {
   cleanCurrentScreenUser,
   saveCurrentScreenUser,
@@ -55,6 +56,7 @@ export const Promos = ({ navigation }) => {
   const [idAuditoria] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
   const [showButton1, setShowButton1] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
   const [showButton2, setShowButton2] = useState(false);
 
   const consultarYCopiarContenido = async () => {
@@ -174,6 +176,16 @@ export const Promos = ({ navigation }) => {
     consultarYCopiarContenido();
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -183,18 +195,18 @@ export const Promos = ({ navigation }) => {
     setSelected(null);
   };
 
-  const handleOpenModalFinishWithoutBranch = () => {
+  const handleOpenModalFinishWithoutBranch = async () => {
     setAnimation(SAVE_ANIMATION);
     setIsModalVisibleCloseSucursal(true);
     setIsModalVisible(true);
     saveAudit();
     cleanCurrentScreenUser();
-    setTimeout(() => {
+    /*setTimeout(() => {
       setAnimation(SUCCESS_ANIMATION);
       setIsModalVisible(false);
       setIsModalVisibleCloseSucursal(false);
       navigation.navigate("begin");
-    }, 3000);
+    }, 3000);*/
   };
 
   const dataId = async () => {
@@ -263,7 +275,7 @@ export const Promos = ({ navigation }) => {
         `'${idAuditoria}'`,
         `'${idPreciador}'`,
         `'${idPercha}'`,
-        `'${idPromocion}'`,
+        `'${exhibidorSucursal.length == 0 ? null : idPromocion}'`,
         `'${idSucursal}'`,
         `'${idCliente}'`,
         `'${idPortafolioAuditoria}'`,
@@ -285,17 +297,32 @@ export const Promos = ({ navigation }) => {
     console.log("SENTENCIA A EJECUTAR: ", sentence);
     try {
       db_insertGlobalDataAudit(dataSave);
-
-      //subidaBaseRemoteTodaAuditoria(`'${idAuditoria}'`);
-      /*const promocionData = await realizarConsulta(
-        "UPDATE auditoria SET <SINCRONIZADA> =true WHERE id_auditoria=" +
-          idAuditoria +
-          ";"
-      );
-      console.log("resultado de la actualizacion:", promocionData);*/
-
-      setShowButton1(false);
-      setShowButton2(true);
+      //setShowButton1(false);
+      //setShowButton2(true);
+      if (isConnected) {
+        try {
+          await subidaBaseRemoteTodaAuditoria(
+            idAuditoria,
+            setIsModalVisible,
+            setIsModalVisibleCloseSucursal,
+            setIsModalVisible,
+            isModalVisible
+          );
+          navigation.navigate("begin");
+        } catch (e) {
+          console.log("ERROR: ", e);
+          setIsModalVisible(false);
+          Alert.alert(
+            "Error al subir los datos",
+            "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
+          );
+          navigation.navigate("begin");
+        }
+      } else {
+        setIsModalVisibleCloseSucursal(false);
+        setIsModalVisible(false);
+        navigation.navigate("begin");
+      }
     } catch (e) {
       // Alert.alert(
       //   "Error al insertar los datos en la tabla auditoria",
@@ -339,6 +366,7 @@ export const Promos = ({ navigation }) => {
         //navigation.navigate('rack');
         console.log("CONTENIDO DE PROMOCIONES: ", JSON.stringify(promos));
       } else {
+        setIsModalVisible(true);
         try {
           //await AsyncStorage.setItem("id_promocion", idPercha);
           console.log(
@@ -378,12 +406,11 @@ export const Promos = ({ navigation }) => {
             console.log("SENTENCIA A EJECUTAR: ", sentence);
             db_insertGlobalDataAudit(dataSave);
             console.log("TODO BIEN");
-
             saveAudit();
             cleanCurrentScreenUser();
-            setTimeout(() => {
+            /*setTimeout(() => {
               navigation.navigate("begin");
-            }, 1200);
+            }, 1200);*/
           });
         } catch (e) {
           Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");

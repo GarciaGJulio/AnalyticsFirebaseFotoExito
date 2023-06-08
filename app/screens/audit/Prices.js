@@ -28,6 +28,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import SAVE_ANIMATION from "../../../assets/save.json";
+import NetInfo from "@react-native-community/netinfo";
 import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import {
   deleteRegisterAudit,
@@ -78,7 +79,7 @@ export const Prices = ({ navigation, route }) => {
   }, [isFocused]);
   useEffect(() => {
     console.log(
-      "////////////////////newIdealPortfolio******",
+      "////////////////////newIdealPortfolio**************",
       newIdealPortfolio
     );
   }, [newIdealPortfolio]);
@@ -168,6 +169,7 @@ export const Prices = ({ navigation, route }) => {
       setShowButton1(true);
     }
   };
+
   useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
@@ -384,12 +386,11 @@ export const Prices = ({ navigation, route }) => {
               setIsModalVisible(false);
             }
           });
-
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
-            return `*${JSON.stringify(item)}*`;
+            return `**${JSON.stringify(item)}**`;
           });
           let tempDataScreenIdeal = newIdealPortfolio.map((item) => {
-            return `*${JSON.stringify(item)}*`;
+            return `**${JSON.stringify(item)}**`;
           });
 
           let objUserInfo = {};
@@ -414,7 +415,6 @@ export const Prices = ({ navigation, route }) => {
 
             // objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.prices)
           } catch (e) {
-            setIsModalVisible(false);
             try {
               // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
               // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)

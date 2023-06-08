@@ -41,6 +41,7 @@ export const Briefcase = ({ navigation }) => {
   const [currentStep] = useState(0);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   ///const { idClientGroup } = useContext(ModernaContext);
+  //const [idPortafolio] = useState(generateUIDD());
   const [idPortafolioComplementario] = useState(generateUIDD());
   const [idPortafolioIdeal, setPortafolioIdeal] = useState(null);
   const [idPortafolioAuditoria] = useState(generateUIDD());
@@ -148,7 +149,7 @@ export const Briefcase = ({ navigation }) => {
     );
     console.log("*******************************************************");
     console.log("ID DEL GRUPO DE CLIENTE: ", idGroupClient);
-    console.log("ID DEL PORTAFOLIO: ", idPortafolio);
+    //console.log("ID DEL PORTAFOLIO: ", idPortafolio);
     console.log("ID DEL PORTAFOLIO IDEAL: ", idPortafolioIdeal);
     console.log(
       "ID DEL PORTAFOLIO COMPLEMENTARIO: ",
@@ -321,6 +322,7 @@ export const Briefcase = ({ navigation }) => {
       0
     ) {
       setIsModalVisible(false);
+      await AsyncStorage.setItem("id_portafolio_auditoria", "null");
       navigation.navigate("rack");
       console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
@@ -485,7 +487,6 @@ export const Briefcase = ({ navigation }) => {
             }
           }
         }
-
         let tempDataScreen = complementaryPortfolioProducts.map((item) => {
           return `**${JSON.stringify(item)}**`;
         });
@@ -525,7 +526,6 @@ export const Briefcase = ({ navigation }) => {
             console.log(e);
           }
         }
-
         saveCurrentScreenUser(
           {
             screenName: `briefcase`,
@@ -534,27 +534,37 @@ export const Briefcase = ({ navigation }) => {
             columnId: `id_portafolio`,
           },
           {
+            // complementaryPortfolioProducts: tempDataScreen.toString(),
+            // auditorias_id: {
+            //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+            //     id_portafolio_auditoria: idPortafolioAuditoria
+            //   }
+            // },
             pantallas: {
               ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-              briefcase: {
-                principal: {
-                  screenName: `briefcase`,
-                  tableName: `portafolio`,
-                  itemId: `id_portafolio`,
-                  columnId: `id_portafolio`,
-                },
-                extra_info: {
-                  complementaryPortfolioProducts: tempDataScreen.toString(),
-                  idealPortfolioProducts: tempDataScreenIdeal.toString(),
-                  auditorias_id: {
-                    ...(objUserInfo.auditorias_id
-                      ? objUserInfo.auditorias_id
-                      : {}),
-                    id_portafolio_auditoria: idPortafolioAuditoria,
+              ...{
+                briefcase: {
+                  principal: {
+                    screenName: `briefcase`,
+                    tableName: `portafolio`,
+                    itemId: `id_portafolio`,
+                    columnId: `id_portafolio`,
                   },
-                  pantallas: {
-                    ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                    briefcase: null,
+                  extra_info: {
+                    complementaryPortfolioProducts: tempDataScreen.toString(),
+                    idealPortfolioProducts: tempDataScreenIdeal.toString(),
+                    auditorias_id: {
+                      ...(objUserInfo.auditorias_id
+                        ? objUserInfo.auditorias_id
+                        : {}),
+                      ...{
+                        id_portafolio_auditoria: idPortafolioAuditoria,
+                      },
+                    },
+                    pantallas: {
+                      ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                      briefcase: null,
+                    },
                   },
                 },
               },
@@ -604,6 +614,7 @@ export const Briefcase = ({ navigation }) => {
       });
     });
   };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />

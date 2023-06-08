@@ -32,21 +32,9 @@ const Briefcase_branch_review = ({ route }) => {
       );*/
 
       const consultaPortafolioAudit = await realizarConsulta(
-        `SELECT  * FROM portafolio_auditoria where id_portafolio_auditoria='${datosCompartidos.id_portafolio_auditoria}';`
+        `SELECT  * FROM portafolio_auditoria where id_portafolio_auditoria='${datosCompartidos.id_portafolio_auditoria}'; AND a.id_auditoria='${datosCompartidos.id_auditoria}''`
       );
 
-      const consultaPortafolio2 = await realizarConsulta(
-        `SELECT  * FROM portafolio;`
-      );
-
-      // console.log(
-      //   "consulta de la tabla portafolios /////////------------------: ",
-      //   consultaPortafolio2
-      // );
-      // console.log(
-      //   "PORTAFOLIOS DE la sucursal ACTUAL: ",
-      //   consultaPortafolioAudit
-      // );
       const arrayIdsPortafolio = [];
 
       consultaPortafolioAudit.forEach((item) => {
@@ -61,11 +49,18 @@ const Briefcase_branch_review = ({ route }) => {
       let consultaPortafolio = [];
       if (arrayIdsPortafolio.length > 1) {
         consultaPortafolio = await realizarConsulta(
-          `SELECT p.nombre_producto, pf.tipo,c.nombre_categoria,pf.id_portafolio,p.id_producto from portafolio as pf inner join producto as p on p.id_producto=pf.id_producto inner join categoria as c on c.id_categoria=p.id_categoria WHERE pf.id_portafolio='${arrayIdsPortafolio[0]}' OR pf.id_portafolio='${arrayIdsPortafolio[1]}';`
+          `SELECT DISTINCT p.nombre_producto, pf.tipo, c.nombre_categoria, pf.id_portafolio, p.id_producto
+          FROM portafolio AS pf
+          INNER JOIN producto AS p ON p.id_producto = pf.id_producto
+          INNER JOIN categoria AS c ON c.id_categoria = p.id_categoria
+          INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = pf.id_portafolio
+          INNER JOIN auditoria AS a ON pa.id_portafolio_auditoria = a.id_portafolio_auditoria
+          WHERE pf.id_portafolio = '${arrayIdsPortafolio[0]}' OR pf.id_portafolio = '${arrayIdsPortafolio[1]}'
+          AND pf.id_producto = pa.id_producto;`
         );
       } else if (arrayIdsPortafolio.length == 1) {
         consultaPortafolio = await realizarConsulta(
-          `SELECT p.nombre_producto, pf.tipo,c.nombre_categoria,pf.id_portafolio,p.id_producto from portafolio as pf inner join producto as p on p.id_producto=pf.id_producto inner join categoria as c on c.id_categoria=p.id_categoria WHERE pf.id_portafolio='${arrayIdsPortafolio[0]}';`
+          `SELECT DISTINCT p.nombre_producto, pf.tipo,c.nombre_categoria,pf.id_portafolio,p.id_producto from portafolio as pf inner join producto as p on p.id_producto=pf.id_producto inner join categoria as c on c.id_categoria=p.id_categoria inner join portafolio_auditoria as pa on pa.id_portafolio = pf.id_portafolio WHERE pf.id_portafolio='${arrayIdsPortafolio[0]}';`
         );
       } else {
         console.log(

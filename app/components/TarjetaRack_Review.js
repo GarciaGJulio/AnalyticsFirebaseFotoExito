@@ -19,18 +19,27 @@ export const TarjetaRack_Review = ({ data }) => {
           fontWeight: theme.fontWeight.softbold,
           fontSize: theme.fontSize.subtitle,
           fontFamily: "Metropolis",
-          
         }}
       >
         PERCHAS
       </Text>
       <View style={{ flex: 1, width: "100%", marginVertical: 5 }}>
-        <FlashList
-          data={data}
-          renderItem={({ item }) => <Rack_View rack={item} />}
-          estimatedItemSize={10}
-          showsVerticalScrollIndicator={false}
-        />
+        {data.length === 0 ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Text style={{ fontFamily: "Metropolis", fontSize: 14 }}>
+              Esta auditoría no registró perchas
+            </Text>
+          </View>
+        ) : (
+          <FlashList
+            data={data}
+            renderItem={({ item }) => <Rack_View rack={item} />}
+            estimatedItemSize={10}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
     </View>
   );

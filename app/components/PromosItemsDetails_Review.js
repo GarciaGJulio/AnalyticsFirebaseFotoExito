@@ -303,6 +303,7 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
+    resizeMode: "stretch",
   },
   imgContainer2: {
     width: 200,
@@ -314,5 +315,6 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
+    resizeMode: "stretch",
   },
 });

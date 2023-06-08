@@ -21,18 +21,32 @@ export const Rack_View = ({ rack }) => {
 
   const validateExtraImages = (objeto) => {
     setExtraImages([]);
-    if (rack.hasOwnProperty("url_imagen1")) {
-      if (objeto.url_imagen1 != "null") {
-        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
-      }
 
-      if (objeto.url_imagen2 != "null") {
-        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
-      }
+    if (
+      objeto.url_imagen1 !== null &&
+      objeto.url_imagen1 !== undefined &&
+      objeto.url_imagen1 !== "null" &&
+      objeto.url_imagen1 !== "undefined"
+    ) {
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+    }
 
-      if (objeto.url_imagen3 != "null") {
-        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
-      }
+    if (
+      objeto.url_imagen2 !== null &&
+      objeto.url_imagen2 !== undefined &&
+      objeto.url_imagen2 !== "null" &&
+      objeto.url_imagen2F !== "undefined"
+    ) {
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+    }
+
+    if (
+      objeto.url_imagen3 !== null &&
+      objeto.url_imagen3 !== undefined &&
+      objeto.url_imagen3 !== "null" &&
+      objeto.url_imagen3 !== "undefined"
+    ) {
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
     let img = extraImages.join(",");
@@ -325,8 +339,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 2,
     borderColor: theme.colors.lightgray,
-    
-
   },
   header: {
     backgroundColor: theme.colors.modernaYellow,
@@ -339,8 +351,6 @@ const styles = StyleSheet.create({
     //paddingVertical: 5,
     borderBottomWidth: 2,
     borderColor: theme.colors.lightgray,
-
-
   },
   categoryContainer: {
     //backgroundColor:'orange',
@@ -405,6 +415,7 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
+    resizeMode: "stretch",
   },
   imgContainer2: {
     width: 200,
@@ -416,5 +427,6 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
+    resizeMode: "stretch",
   },
 });

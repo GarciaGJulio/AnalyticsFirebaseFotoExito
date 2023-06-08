@@ -156,7 +156,6 @@ export const AUDITORIA = {
   NOMBRE_SUCURSAL: "nombre_sucursal",
   USUARIO_CREACION: "usuario_creacion",
   FECHA_CREACION: "fecha_creacion",
-  FECHA_MODIFICACION: "fecha_modificacion",
   SINCRONIZADA: "sincronizada",
   INDEX_1: "id_auditoria",
 };
@@ -202,46 +201,6 @@ export const PRECIADOR = {
   FECHA_CREACION: "fecha_creacion",
   FECHA_MODIFICACION: "fecha_modificacion",
   INDEX_1: "id_preciador",
-};
-
-export const COMPLEMENTARY_PORTFOLIO = {
-  NAME: "portafolio_complementario",
-  KEY_1: "id_portafolio_complementario",
-  ID_PRODUCTO: "id_producto",
-  ESTADO_PORTAFOLIO_COMPLEMENTARIO: "estado_portafolio_complementario",
-  INDEX_1: "id_portafolio_complementario",
-};
-
-export const PRECIADOR_PORTAFOLIO_COMPLEMENTARIO = {
-  NAME: "preciador_portafolio_complementario",
-  KEY_1: "id_preciador_portafolio_complementario",
-  ID_PORTAFOLIO_COMPLEMENTARIO: "id_portafolio_complementario",
-  ID_PRODUCTO: "id_producto",
-  PRECIO_PORTAFOLIO_COMPLEMENTARIO: "precio_portafolio_complementario",
-  ESTADO_PRECIADOR_COMPLEMENTARIO: "estado_preciador_complementario",
-  URL_IMAGEN1: "url_imagen1",
-  URL_IMAGEN2: "url_imagen2",
-  URL_IMAGEN3: "url_imagen3",
-  USUARIO_CREACION: "usuario_creacion",
-  FECHA_CREACION: "fecha_creacion",
-  FECHA_MODIFICACION: "fecha_modificacion",
-  INDEX_1: "id_preciador_portafolio_complementario",
-};
-
-export const PRECIADOR_PORTAFOLIO_IDEAL = {
-  NAME: "preciador_portafolio_ideal",
-  KEY_1: "id_preciador_portafolio_ideal",
-  ID_PORTAFOLIO_IDEAL: "id_portafolio_ideal",
-  ID_PRODUCTO: "id_producto",
-  PRECIO_PORTAFOLIO_IDEAL: "precio_portafolio_ideal",
-  ESTADO_PRECIADOR_IDEAL: "estado_preciador_ideal",
-  URL_IMAGEN1: "url_imagen1",
-  URL_IMAGEN2: "url_imagen2",
-  URL_IMAGEN3: "url_imagen3",
-  USUARIO_CREACION: "usuario_creacion",
-  FECHA_CREACION: "fecha_creacion",
-  FECHA_MODIFICACION: "fecha_modificacion",
-  INDEX_1: "id_preciador_portafolio_ideal",
 };
 
 export const PERSISTENCIA = {

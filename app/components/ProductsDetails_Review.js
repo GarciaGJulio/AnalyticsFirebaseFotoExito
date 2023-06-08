@@ -35,18 +35,17 @@ export const ProductsDetails_Review = ({ item }) => {
 
   const validateExtraImages = (objeto) => {
     setExtraImages([]);
-    if (item.hasOwnProperty("url_imagen1")) {
-      if (objeto.url_imagen1 != "null") {
-        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
-      }
 
-      if (objeto.url_imagen2 != "null") {
-        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
-      }
+    if (objeto.url_imagen1 && objeto.url_imagen1 !== "null") {
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+    }
 
-      if (objeto.url_imagen3 != "null") {
-        setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
-      }
+    if (objeto.url_imagen2 && objeto.url_imagen2 !== "null") {
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+    }
+
+    if (objeto.url_imagen3 && objeto.url_imagen3 !== "null") {
+      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
     let img = extraImages.join(",");
@@ -92,7 +91,7 @@ export const ProductsDetails_Review = ({ item }) => {
                 Precio de la auditoria
               </Text>
             </View>
-            {extraImages.length > 0 ? (
+            {item.estado === 1 ? (
               <View
                 style={{
                   //backgroundColor: "blue",
@@ -329,5 +328,6 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
+    resizeMode: "stretch",
   },
 });

@@ -39,6 +39,7 @@ export const Menu = ({ navigation }) => {
   const [modalMessage, setModalMessage] = useState("");
   const [animation, setAnimation] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const [validate, setValidate] = useState(false);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   //const { isConnected } = useContext(ModernaContext);
 
@@ -73,7 +74,7 @@ export const Menu = ({ navigation }) => {
 
   const handleOpenModal = async () => {
     setAnimation(SYNC_ANIMATION);
-
+    //setIsModalVisible(!isModalVisible);
     const auditoriasSinSincronizar = await realizarConsulta(
       "SELECT * FROM auditoria where sincronizada = 0"
     );
@@ -83,10 +84,14 @@ export const Menu = ({ navigation }) => {
         "Datos ya sincronizados",
         "No se detectan auditorias que se necesite sincronizar"
       );
-    } else {
-      setIsModalVisible(true);
+    } else if (auditoriasSinSincronizar.length > 0 && isConnected) {
+      setIsModalVisible(!isModalVisible);
       setModalMessage("Sincronizando datos, por favor espere...");
-      setTimeout(() => {
+      console.log(
+        "----------------ENTRANDO A SINCRONIZAR DATOS DE AUTIROIAS: ",
+        auditoriasSinSincronizar.length
+      );
+      /*setTimeout(() => {
         setAnimation(SUCCESS_ANIMATION);
         if (isConnected) {
           setTimeout(() => {
@@ -98,7 +103,33 @@ export const Menu = ({ navigation }) => {
             setIsModalVisible(false);
           }, 4000);
         }
-      }, 5000);
+      }, 5000);*/
+      auditoriasSinSincronizar.forEach(async (auditoria) => {
+        console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
+        try {
+          await subidaBaseRemoteTodaAuditoria(
+            auditoria.id_auditoria,
+            setIsModalVisible,
+            setValidate,
+            validate
+            //setIsModalVisible,
+            //isModalVisible
+          );
+        } catch (e) {
+          console.log("ERROR: ", e);
+          setIsModalVisible(false);
+          Alert.alert(
+            "Error al subir los datos",
+            "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
+          );
+        }
+      });
+      //setIsModalVisible(false);
+    } else {
+      Alert.alert(
+        "No se ha detectado conexión a internet",
+        "Necesitas conectarte a internet para sincronizar las auditorias"
+      );
     }
   };
 
@@ -118,6 +149,8 @@ export const Menu = ({ navigation }) => {
         console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
         //setIsModalVisible(false);
       }
+    } else if (!isConnected) {
+      setIsModalVisibleClose(true);
     } else {
       Alert.alert(
         "Registros sin sincronizar encontrados",

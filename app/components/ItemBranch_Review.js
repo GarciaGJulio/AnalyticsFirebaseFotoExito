@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Icon, ListItem } from "@rneui/themed";
 import React, { useState, useContext, useEffect } from "react";
 import {
+  Alert,
   Image,
   ImageBackground,
   Text,
@@ -68,6 +69,10 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
       );
     } catch (e) {
       console.log("ERROR: ", e);
+      Alert.alert(
+        "Pérdida de conexión",
+        "La sincronización de los datos ha fallado debido a una desconexión a internet. Por favor, vuelve a intentarlo cuando tengas una conexión estable"
+      );
       setIsModalVisible(false);
     }
   };

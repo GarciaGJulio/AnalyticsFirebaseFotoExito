@@ -259,206 +259,213 @@ export const Racks = ({ navigation }) => {
   };
 
   const validate = async () => {
-    console.log("VALIDACION DE DATOS DE PERCHAS: ", rack);
-    const isValid = category.every((item) => {
-      console.log("ItemModerna:", item);
-      if (
-        item.state === null ||
-        item.carasGeneral === null ||
-        item.carasModerna === null
-      ) {
-        console.log("ESTE ITEM DA PROBLEMAS: ", item);
-        return false;
-      }
-      if (item.state === 1) {
-        if (!item.images || item.images.image1 === null) {
-          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+    console.log("VALIDACION DE DATOS DE PERCHAS: ", category);
+    if (category.length === 0) {
+      await AsyncStorage.setItem("id_percha", "null");
+      setIsModalVisible(false);
+      navigation.navigate("promos");
+    } else {
+      const isValid = category.every((item) => {
+        console.log("ItemModerna:", item);
+        if (
+          item.state === null ||
+          item.carasGeneral === null ||
+          item.carasModerna === null
+        ) {
+          console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
-      }
-      return true;
-    });
-
-    if (!isValid) {
-      Alert.alert(
-        "Error al completar los datos",
-        "Necesita marcar el valor de las perchas de cada producto"
-      );
-      //navigation.navigate('rack');
-      console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(category));
-    } else {
-      try {
-        console.log("IDPERCHA21", idPercha);
-
-        await AsyncStorage.setItem("id_percha", idPercha);
-        let x = await AsyncStorage.getItem("id_percha");
-        console.log("IDPERCHA2", x);
-        console.log(
-          "PERCHAS QUE VAN A SER GUARDADOS: ",
-          JSON.stringify(category)
-        );
-        console.log("RACKS:", category);
-        category.map((productos) => {
-          const { id_percha, id, state, carasGeneral, carasModerna, images } =
-            productos;
-          console.log("carasGenerales:", carasGeneral);
-          console.log("carasmODERNA:", carasModerna);
-
-          const { image1, image2, image3 } = images;
-          console.log(
-            "---------------------- imagenes",
-            JSON.stringify(images)
-          );
-          console.log("PRODUC:", productos);
-          let dataSave = {
-            tableName: "percha",
-            dataInsertType: [
-              "id_percha",
-              "id_categoria",
-              "estado_percha",
-              "categoria_general",
-              "categoria_moderna",
-              "url_imagen1",
-              "url_imagen2",
-              "url_imagen3",
-              "usuario_creacion",
-              "fecha_creacion",
-              "fecha_modificacion",
-            ],
-            dataInsert: [
-              `'${idPercha}'`,
-              `'${id}'`,
-              `'${state}'`,
-              `'${parseInt(carasGeneral)}'`,
-              `'${parseInt(carasModerna)}'`,
-              `'${image1}'`,
-              `'${image2}'`,
-              `'${image3}'`,
-              `'${userInfo.givenName}'`,
-              `'${dataTime()}'`,
-              `'${dataTime()}'`,
-            ],
-          };
-          const sentence =
-            "INSERT INTO " +
-            dataSave.tableName +
-            " (" +
-            dataSave.dataInsertType.join() +
-            ") VALUES(" +
-            dataSave.dataInsert.join() +
-            ")";
-          console.log("SENTENCIA A EJECUTAR: ", sentence);
-
-          console.log("TODO BIEN");
-          // navigation.navigate("promos");rrrrrrrrrr
-          try {
-            db_insertGlobalDataAudit(dataSave);
-            setShowButton1(false);
-            setShowButton2(true);
-          } catch (error) {
-            Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+        if (item.state === 1) {
+          if (!item.images || item.images.image1 === null) {
+            console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+            return false;
           }
-        });
-        let tempDataScreen = category.map((item) => {
-          return `**${JSON.stringify(item)}**`;
-        });
-        let objUserInfo = {};
+        }
+        return true;
+      });
 
+      if (!isValid) {
+        Alert.alert(
+          "Error al completar los datos",
+          "Necesita marcar el valor de las perchas de cada producto"
+        );
+        //navigation.navigate('rack');
+        console.log("CONTENIDO DE PERCHAS: ", JSON.stringify(category));
+      } else {
         try {
-          // objUserInfo =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
-          // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-          // const tmpPantalla = tmpInfoExtra.pantallas.rack
-          // const infoExtra = tmpPantalla.extra_info
-          // objUserInfo = infoExtra
-          const tmpInfoExtra = JSON.parse(
-            global.userInfoScreen.userInfo.extra_info
+          console.log("IDPERCHA21", idPercha);
+
+          await AsyncStorage.setItem("id_percha", idPercha);
+          let x = await AsyncStorage.getItem("id_percha");
+          console.log("IDPERCHA2", x);
+          console.log(
+            "PERCHAS QUE VAN A SER GUARDADOS: ",
+            JSON.stringify(category)
           );
-          const tmpPantalla = tmpInfoExtra.pantallas.prices;
-          const infoExtra = tmpPantalla.extra_info;
-          objUserInfo = infoExtra;
-          objUserInfo = {
-            ...objUserInfo,
-            ...{
-              pantallas: tmpInfoExtra.pantallas,
-            },
-          };
-        } catch (e) {
-          try {
-            // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-            // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-            // objUserInfo = tempPantalla
-            // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-            const userInfoScreenTmp = await getCurrentScreenInformationLocal();
-            const tempPantalla = JSON.parse(
-              userInfoScreenTmp.userInfo.extra_info
+          console.log("RACKS:", category);
+          category.map((productos) => {
+            const { id_percha, id, state, carasGeneral, carasModerna, images } =
+              productos;
+            console.log("carasGenerales:", carasGeneral);
+            console.log("carasmODERNA:", carasModerna);
+
+            const { image1, image2, image3 } = images;
+            console.log(
+              "---------------------- imagenes",
+              JSON.stringify(images)
             );
-            objUserInfo = tempPantalla.pantallas.prices.extra_info;
+            console.log("PRODUC:", productos);
+            let dataSave = {
+              tableName: "percha",
+              dataInsertType: [
+                "id_percha",
+                "id_categoria",
+                "estado_percha",
+                "categoria_general",
+                "categoria_moderna",
+                "url_imagen1",
+                "url_imagen2",
+                "url_imagen3",
+                "usuario_creacion",
+                "fecha_creacion",
+                "fecha_modificacion",
+              ],
+              dataInsert: [
+                `'${idPercha}'`,
+                `'${id}'`,
+                `'${state}'`,
+                `'${parseInt(carasGeneral)}'`,
+                `'${parseInt(carasModerna)}'`,
+                `'${image1}'`,
+                `'${image2}'`,
+                `'${image3}'`,
+                `'${userInfo.givenName}'`,
+                `'${dataTime()}'`,
+                `'${dataTime()}'`,
+              ],
+            };
+            const sentence =
+              "INSERT INTO " +
+              dataSave.tableName +
+              " (" +
+              dataSave.dataInsertType.join() +
+              ") VALUES(" +
+              dataSave.dataInsert.join() +
+              ")";
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
+
+            console.log("TODO BIEN");
+            // navigation.navigate("promos");rrrrrrrrrr
+            try {
+              db_insertGlobalDataAudit(dataSave);
+              setShowButton1(false);
+              setShowButton2(true);
+            } catch (error) {
+              Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+            }
+          });
+          let tempDataScreen = category.map((item) => {
+            return `**${JSON.stringify(item)}**`;
+          });
+          let objUserInfo = {};
+
+          try {
+            // objUserInfo =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
+            // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
+            // const tmpPantalla = tmpInfoExtra.pantallas.rack
+            // const infoExtra = tmpPantalla.extra_info
+            // objUserInfo = infoExtra
+            const tmpInfoExtra = JSON.parse(
+              global.userInfoScreen.userInfo.extra_info
+            );
+            const tmpPantalla = tmpInfoExtra.pantallas.prices;
+            const infoExtra = tmpPantalla.extra_info;
+            objUserInfo = infoExtra;
             objUserInfo = {
               ...objUserInfo,
               ...{
-                pantallas: tempPantalla.pantallas,
+                pantallas: tmpInfoExtra.pantallas,
               },
             };
-          } catch (error) {
-            objUserInfo = {};
-            console.log(e);
+          } catch (e) {
+            try {
+              // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
+              // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+              // objUserInfo = tempPantalla
+              // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
+              const userInfoScreenTmp =
+                await getCurrentScreenInformationLocal();
+              const tempPantalla = JSON.parse(
+                userInfoScreenTmp.userInfo.extra_info
+              );
+              objUserInfo = tempPantalla.pantallas.prices.extra_info;
+              objUserInfo = {
+                ...objUserInfo,
+                ...{
+                  pantallas: tempPantalla.pantallas,
+                },
+              };
+            } catch (error) {
+              objUserInfo = {};
+              console.log(e);
+            }
           }
-        }
-        saveCurrentScreenUser(
-          {
-            screenName: `rack`,
-            tableName: `percha`,
-            itemId: `id_percha`,
-            columnId: `id_percha`,
-          },
-          {
-            // category: tempDataScreen.toString(),
-            // auditorias_id: {
-            //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-            //     id_percha: idPercha
-            //   }
-            // },
-            pantallas: {
-              ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-              ...{
-                rack: {
-                  principal: {
-                    screenName: `rack`,
-                    tableName: `percha`,
-                    itemId: `id_percha`,
-                    columnId: `id_percha`,
-                  },
-                  extra_info: {
-                    category: tempDataScreen.toString(),
-                    auditorias_id: {
-                      ...(objUserInfo.auditorias_id
-                        ? objUserInfo.auditorias_id
-                        : {}),
-                      ...{
-                        id_percha: idPercha,
-                      },
+          saveCurrentScreenUser(
+            {
+              screenName: `rack`,
+              tableName: `percha`,
+              itemId: `id_percha`,
+              columnId: `id_percha`,
+            },
+            {
+              // category: tempDataScreen.toString(),
+              // auditorias_id: {
+              //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
+              //     id_percha: idPercha
+              //   }
+              // },
+              pantallas: {
+                ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                ...{
+                  rack: {
+                    principal: {
+                      screenName: `rack`,
+                      tableName: `percha`,
+                      itemId: `id_percha`,
+                      columnId: `id_percha`,
                     },
-                    pantallas: {
-                      ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                      rack: null,
+                    extra_info: {
+                      category: tempDataScreen.toString(),
+                      auditorias_id: {
+                        ...(objUserInfo.auditorias_id
+                          ? objUserInfo.auditorias_id
+                          : {}),
+                        ...{
+                          id_percha: idPercha,
+                        },
+                      },
+                      pantallas: {
+                        ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                        rack: null,
+                      },
                     },
                   },
                 },
               },
-            },
-          }
-        );
-      } catch (e) {
-        Alert.alert(
-          "Error antes de  insertar los datos",
-          "Vuelva a intentarlo"
-        );
-        setShowButton1(true);
-        setShowButton2(false);
+            }
+          );
+        } catch (e) {
+          Alert.alert(
+            "Error antes de  insertar los datos",
+            "Vuelva a intentarlo"
+          );
+          setShowButton1(true);
+          setShowButton2(false);
+        }
+        console.log("TODO BIEN");
+        //navigation.navigate('rack');
+        //navigation.navigate("promos");
       }
-      console.log("TODO BIEN");
-      //navigation.navigate('rack');
-      //navigation.navigate("promos");
     }
   };
   const handleDeleteRegisterLocal = async () => {

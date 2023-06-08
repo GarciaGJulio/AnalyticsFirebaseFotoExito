@@ -26,7 +26,18 @@ const Prices_Review = () => {
       );
 
       const datosPreciador = await realizarConsulta(
-        `SELECT DISTINCT p.nombre_producto,p.url_imagen_producto,pr.* from auditoria as a inner join preciador as pr on pr.id_preciador=a.id_preciador inner join portafolio as pf on pr.id_portafolio=pf.id_portafolio and pr.id_producto= pf.id_producto inner join producto as p on p.id_producto=pf.id_producto where a.id_auditoria='${datosCompartidos.id_auditoria}'`
+        `SELECT p.nombre_producto,p.url_imagen_producto,pr.* from auditoria as a 
+        inner join preciador as pr on pr.id_preciador=a.id_preciador 
+        inner join portafolio as pf on pr.id_portafolio=pf.id_portafolio and pr.id_producto= pf.id_producto 
+        inner join producto as p on p.id_producto=pf.id_producto where a.id_auditoria='${datosCompartidos.id_auditoria}'`
+      );
+
+      const idsPortafolioAuditoria2 = await realizarConsulta(
+        `SELECT DISTINCT p.id_portafolio, p.id_producto, p.tipo
+        FROM portafolio p
+        INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio
+        WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}'
+        `
       );
 
       /*const datosPreciador2 = await realizarConsulta(
@@ -63,7 +74,10 @@ const Prices_Review = () => {
 
       const productosIdeal = [];
       const productosComplementario = [];
-
+      console.log(
+        "NUMERO DE ELEMENTOS ENCONTRADOS EN EL PRECIADOR: ",
+        datosPreciador.length
+      );
       datosPreciador.forEach((producto) => {
         if (idsC === null && idsI === null) {
           console.log(
@@ -104,9 +118,31 @@ const Prices_Review = () => {
           }
         } else {
           console.log("SE HAN SELECCIONADO AMBOS TIPOS DE PRODUCTOS");
+          console.log(
+            "evaluando producto: " +
+              producto.id_portafolio +
+              " " +
+              producto.id_producto
+          );
           if (producto.id_portafolio === idsI) {
+            console.log(
+              "ID DEL PRODUCTO A EVALUAR: " +
+                producto.id_portafolio +
+                " " +
+                producto.id_producto +
+                " ---- " +
+                idsI
+            );
             productosIdeal.push(producto);
           } else if (producto.id_portafolio === idsC) {
+            console.log(
+              "ID DEL PRODUCTO A EVALUAR C: " +
+                producto.id_portafolio +
+                " " +
+                producto.id_producto +
+                " ---- " +
+                idsC
+            );
             productosComplementario.push(producto);
           }
         }
@@ -156,10 +192,6 @@ const Prices_Review = () => {
         "DATOS DE LA CONSULTA PRECIADOR UNO QUE ES MI REFERENCIA PRINCIPAL* * * * * * * * *  : ",
         datosPreciador
       );
-      /*console.log(
-        "DATOS DE LA CONSULTA PRECIADOR -/-/-/-/-/-/-/-/-/: ",
-        datosPreciador2
-      );*/
 
       console.log(
         "ESTO TRAE PRODUCTOS IDEAL 2 -/-/-/-/-/-/-/-/-/: ",
