@@ -127,10 +127,10 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
               //backgroundColor: "red",
             }}
           >
-            {branch.id_cliente}-{branch.nombre_cliente}-{branch.nombre_sucursal}
+            {branch.nombre_cliente}-{branch.id_cliente}-{branch.nombre_sucursal}
           </Text>
           <Text style={{ margin: 5, fontSize: 12 }}>
-            {branch.fecha_modificacion}
+            {branch.fecha_creacion}
           </Text>
         </View>
         {branch.sincronizada == 0 ? (

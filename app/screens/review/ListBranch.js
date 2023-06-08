@@ -50,11 +50,12 @@ export const ListBranch = ({ navigation }) => {
 
   useEffect(() => {
     consultarYCopiarContenido();
-  }, []);
+  }, [refresh]);
 
   useEffect(() => {
     //filteredData;
     console.log("DATOS DE AUDITORIA:", filteredData);
+    //consultarYCopiarContenido
   }, [refresh]);
 
   const [fontLoaded] = useFonts({

@@ -130,6 +130,10 @@ const Briefcase_branch_review = ({ route }) => {
         "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
         idsPortafolioAuditoria
       );
+      console.log(
+        "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
+        consultaPortafolioAudit
+      );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -137,6 +141,10 @@ const Briefcase_branch_review = ({ route }) => {
 
   useEffect(() => {
     consultarYCopiarContenido();
+    console.log(
+      "ID DE PORTAFOLIO AUDITORIA: ",
+      datosCompartidos.id_portafolio_auditoria
+    );
   }, []);
 
   return (

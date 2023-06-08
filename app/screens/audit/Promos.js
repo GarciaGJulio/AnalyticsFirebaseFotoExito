@@ -255,7 +255,6 @@ export const Promos = ({ navigation }) => {
         "id_portafolio_auditoria",
         "usuario_creacion",
         "fecha_creacion",
-        "fecha_modificacion",
         "nombre_cliente",
         "nombre_sucursal",
         "sincronizada",
@@ -270,10 +269,9 @@ export const Promos = ({ navigation }) => {
         `'${idPortafolioAuditoria}'`,
         `'${userInfo.givenName}'`,
         `'${dataTime()}'`,
-        `'${dataTime()}'`,
         `'${nombreCliente}'`,
         `'${nombreSucursal}'`,
-        `'${0}'`,
+        `${parseInt(0)}`,
       ],
     };
     const sentence =

@@ -71,23 +71,35 @@ export const Menu = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = async () => {
     setAnimation(SYNC_ANIMATION);
-    setIsModalVisible(true);
-    setModalMessage("Sincronizando datos, por favor espere...");
-    setTimeout(() => {
-      setAnimation(SUCCESS_ANIMATION);
-      if (isConnected) {
-        setTimeout(() => {
-          setIsModalVisible(false);
-        }, 2000);
-      } else {
-        setAnimation(FAILED_ANIMATION);
-        setTimeout(() => {
-          setIsModalVisible(false);
-        }, 4000);
-      }
-    }, 5000);
+
+    const auditoriasSinSincronizar = await realizarConsulta(
+      "SELECT * FROM auditoria where sincronizada = 0"
+    );
+    console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
+    if (auditoriasSinSincronizar.length === 0) {
+      Alert.alert(
+        "Datos ya sincronizados",
+        "No se detectan auditorias que se necesite sincronizar"
+      );
+    } else {
+      setIsModalVisible(true);
+      setModalMessage("Sincronizando datos, por favor espere...");
+      setTimeout(() => {
+        setAnimation(SUCCESS_ANIMATION);
+        if (isConnected) {
+          setTimeout(() => {
+            setIsModalVisible(false);
+          }, 2000);
+        } else {
+          setAnimation(FAILED_ANIMATION);
+          setTimeout(() => {
+            setIsModalVisible(false);
+          }, 4000);
+        }
+      }, 5000);
+    }
   };
 
   const handleOpenModalAudit = async () => {
@@ -117,13 +129,6 @@ export const Menu = ({ navigation }) => {
     //setIsModalVisible(false);
   };
 
-  const valueIsConnect = () => {
-    if (isConnected) {
-      deleteInsertData;
-    } else {
-      setIsModalVisibleClose(true);
-    }
-  };
   const deleteInsertData = async () => {
     if (isConnected) {
       setIsModalVisible(true);
@@ -256,7 +261,7 @@ export const Menu = ({ navigation }) => {
             }}
           >
             <Text style={styles.text}>
-              Revisa y sincroniza las auditorías pendientes de envió.
+              Revisa y sincroniza las auditorías pendientes de envio.
             </Text>
           </View>
         </View>

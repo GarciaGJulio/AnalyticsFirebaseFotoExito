@@ -79,6 +79,7 @@ export const dataParameters = {
         "id_promocion",
         "id_sucursal",
         "id_cliente",
+        "id_portafolio_auditoria",
         "usuario_creacion",
         "fecha_creacion",
       ],
@@ -86,11 +87,6 @@ export const dataParameters = {
         {
           tableName: "cliente",
           data: ["nombre_cliente"],
-          foreingKey: "id_cliente",
-        },
-        {
-          tableName: "cliente",
-          data: ["nombre_grupo_cliente"],
           foreingKey: "id_cliente",
         },
         {
