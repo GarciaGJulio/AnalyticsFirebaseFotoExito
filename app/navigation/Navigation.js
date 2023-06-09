@@ -21,12 +21,13 @@ import { Briefcase } from "../screens/audit/Briefcase";
 import { Prices } from "../screens/audit/Prices";
 import { Racks } from "../screens/audit/Rack";
 import { Promos } from "../screens/audit/Promos";
+import { GlobalContext } from "../context/GlobalContext";
+import { automaticSync } from "../services/SqliteService";
 
 const Stack = createStackNavigator();
 
 export const Navigation = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(ModernaContext);
-
   useEffect(() => {
     console.log("VARIABLE DE VERIFICACION DE LOGIN: ", isAuthenticated);
   }, []);
@@ -65,7 +66,15 @@ export const Navigation = () => {
     );
   };
   // getCurrentScreenInformation
-  return <>{isAuthenticated ? <LoginStack isAuthenticated={isAuthenticated} /> : <Login />}</>;
+  return (
+    <>
+      {isAuthenticated ? (
+        <LoginStack isAuthenticated={isAuthenticated} />
+      ) : (
+        <Login />
+      )}
+    </>
+  );
 };
 
 //export default Navigation

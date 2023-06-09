@@ -85,15 +85,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     } else if (promocionData[i].url_imagen1 === "null") {
       promocionData[i].url_imagen1 = "null";
     } else {
-      /*console.log(
-        "URL PROVISIONAL: ------",
-        await SubirAlonedrive(
-          promocionData[i].url_imagen1,
-          promocionData[i].url_imagen1,
-          "" + promocionData[i].id_promocion + "-" + "id_exhibidor"
-        )
-      );*/
       console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log(
+        "URL ACTUAL * * * * * * ** * : ",
+        promocionData[i].url_imagen1
+      );
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
         "" + promocionData[i].id_promocion + "-" + "id_exhibidor" + "-" + "1"
@@ -108,14 +104,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     } else if (promocionData[i].url_imagen2 === "null") {
       promocionData[i].url_imagen2 = "null";
     } else {
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          promocionData[i].url_imagen2,
-          promocionData[i].url_imagen2,
-          "" + promocionData[i].id_promocion + "-" + "id_exhibidor"
-        )
-      );*/
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log(
+        "URL ACTUAL * * * * * * ** * : ",
+        promocionData[i].url_imagen2
+      );
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
         "" + promocionData[i].id_promocion + "-" + "id_exhibidor" + "-" + "2"
@@ -130,14 +123,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     } else if (promocionData[i].url_imagen3 === "null") {
       promocionData[i].url_imagen2 = "null";
     } else {
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          promocionData[i].url_imagen3,
-          promocionData[i].url_imagen3,
-          "" + promocionData[i].id_promocion + "-" + "id_exhibidor"
-        )
-      );*/
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log(
+        "URL ACTUAL * * * * * * ** * : ",
+        promocionData[i].url_imagen3
+      );
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
         "" + promocionData[i].id_promocion + "-" + "id_exhibidor" + "-" + "3"
@@ -166,20 +156,18 @@ export const subidaBaseRemoteTodaAuditoria = async (
     console.log("ANALIZANDO REGISTRO - IMAGEN 1: ", perchaData[i].url_imagen1);
     if (perchaData[i].url_imagen1 === "undefined") {
       perchaData[i].url_imagen1 = "null";
-    } else if (perchaData[i].url_imagen1 === "null") {
+    } else if (
+      perchaData[i].url_imagen1 === "null" ||
+      perchaData[i].url_imagen1 === null
+    ) {
       perchaData[i].url_imagen1 = "null";
     } else {
       console.log(
         "ID PERCHA 1: ",
         "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
       );
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          perchaData[i].url_imagen1,
-          "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
-        )
-      );*/
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen1);
       perchaData[i].url_imagen1 = await SubirAlonedrive(
         perchaData[i].url_imagen1,
         "" + perchaData[i].id_percha + "-" + "id_percha" + "-" + "1"
@@ -188,21 +176,19 @@ export const subidaBaseRemoteTodaAuditoria = async (
     console.log("ANALIZANDO REGISTRO - IMAGEN 2:", perchaData[i].url_imagen2);
     if (perchaData[i].url_imagen2 === "undefined") {
       perchaData[i].url_imagen2 = "null";
-    } else if (perchaData[i].url_imagen2 === "null") {
+    } else if (
+      perchaData[i].url_imagen2 === "null" ||
+      perchaData[i].url_imagen2 === null
+    ) {
       perchaData[i].url_imagen2 = "null";
     } else {
       console.log(
         "ID PERCHA 2: ",
         "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
       );
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          perchaData[i].url_imagen2,
-          "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
-        )
-      );*/
-      perchaData[i].url_imagen2 = SubirAlonedrive(
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen2);
+      perchaData[i].url_imagen2 = await SubirAlonedrive(
         perchaData[i].url_imagen2,
         "" + perchaData[i].id_percha + "-" + "id_percha" + "-" + "2"
       );
@@ -210,21 +196,19 @@ export const subidaBaseRemoteTodaAuditoria = async (
     console.log("ANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
     if (perchaData[i].url_imagen3 === "undefined") {
       perchaData[i].url_imagen3 = "null";
-    } else if (perchaData[i].url_imagen3 === "null") {
+    } else if (
+      perchaData[i].url_imagen3 === "null" ||
+      perchaData[i].url_imagen3 === null
+    ) {
       perchaData[i].url_imagen3 = "null";
     } else {
       console.log(
         "ID PERCHA 3: ",
         "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
       );
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          perchaData[i].url_imagen3,
-          "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
-        )
-      );*/
-      perchaData[i].url_imagen3 = SubirAlonedrive(
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen3);
+      perchaData[i].url_imagen3 = await SubirAlonedrive(
         perchaData[i].url_imagen3,
         "" + perchaData[i].id_categoria + "-" + "id_percha" + "-" + "3"
       );
@@ -269,13 +253,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "ID DE PRECIADOR 1:",
         "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
       );
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          preciadorData[i].url_imagen1,
-          "" + preciadorData[i].id_categoria + "-" + preciadorData[i].id_percha
-        )
-      );*/
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log(
+        "URL ACTUAL * * * * * * ** * : ",
+        preciadorData[i].url_imagen1
+      );
       preciadorData[i].url_imagen1 = await SubirAlonedrive(
         preciadorData[i].url_imagen1,
         "" + preciadorData[i].id_preciador + "-" + "id_preciador" + "-" + "1"
@@ -294,14 +276,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "ID DE PRECIADOR 2:",
         "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
       );
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          preciadorData[i].url_imagen2,
-          "" + preciadorData[i].id_categoria + "-" + preciadorData[i].id_percha
-        )
-      );*/
-      preciadorData[i].url_imagen2 = SubirAlonedrive(
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log(
+        "URL ACTUAL * * * * * * ** * : ",
+        preciadorData[i].url_imagen2
+      );
+      preciadorData[i].url_imagen2 = await SubirAlonedrive(
         preciadorData[i].url_imagen2,
         "" + preciadorData[i].id_preciador + "-" + "id_preciador" + "-" + "2"
       );
@@ -316,14 +296,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "ID DE PRECIADOR 3:",
         "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
       );
-      /*console.log(
-        "URLProvisional",
-        await SubirAlonedrive(
-          preciadorData[i].url_imagen3,
-          "" + preciadorData[i].id_categoria + "-" + preciadorData[i].id_percha
-        )
-      );*/
-      preciadorData[i].url_imagen3 = SubirAlonedrive(
+      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      console.log(
+        "URL ACTUAL * * * * * * ** * : ",
+        preciadorData[i].url_imagen3
+      );
+      preciadorData[i].url_imagen3 = await SubirAlonedrive(
         preciadorData[i].url_imagen3,
         "" + preciadorData[i].id_preciador + "-" + "id_preciador" + "-" + "3"
       );

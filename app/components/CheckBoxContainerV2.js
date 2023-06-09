@@ -19,6 +19,8 @@ export const CheckBoxContainerV2 = ({
   setProducts,
   isUserScreen,
   item,
+  errorPrice,
+  setErrorPrice,
 }) => {
   const [check1, setCheck1] = useState(false);
   const [check2, setCheck2] = useState(false);
@@ -27,7 +29,7 @@ export const CheckBoxContainerV2 = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
-  const [errorPrice, setErrorPrice] = useState();
+  //const [errorPrice, setErrorPrice] = useState();
   useEffect(() => {
     console.log(
       "////////////////////////////////////////////////isUserScreen: ",
@@ -79,7 +81,12 @@ export const CheckBoxContainerV2 = ({
         if (state) {
           producto.state = 1;
         } else {
+          setPrice("");
           producto.state = 0;
+          producto.price = 0.0;
+          (producto.images.image1 = null),
+            (producto.images.image2 = null),
+            (producto.images.image3 = null);
         }
         //producto.id_portafolio_complementario = idPortafolio;
         //producto.id_preciador_portafolio_complementario = idPreciador;
@@ -104,7 +111,12 @@ export const CheckBoxContainerV2 = ({
 
       // Actualiza la propiedad del objeto
       if (producto) {
-        producto.price = price;
+        if (isNaN(price)) {
+          producto.price = 0.0;
+        } else {
+          producto.price = price;
+        }
+
         //producto.id_portafolio_complementario = idPortafolio;
         //producto.id_preciador_portafolio_complementario = idPreciador;
         console.log("PORDUCTO ACTUALIZADO: ", producto);
@@ -148,7 +160,7 @@ export const CheckBoxContainerV2 = ({
         </View>
         <View style={styles.descriptionContainer}>
           <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-            {item.id}-{productName}
+            {productName}-{item.id}
           </Text>
           <View
             style={{
@@ -243,6 +255,7 @@ export const CheckBoxContainerV2 = ({
                 onChangeText={(txt) => {
                   setPrice(txt);
                   validatePriceProduct(txt, setErrorPrice);
+                  //setErrorPrice()
                   actualizarPrecio(item, parseFloat(txt));
                 }}
                 label="Preciador del producto"
@@ -250,6 +263,7 @@ export const CheckBoxContainerV2 = ({
                 maxLength={6}
                 keyboard="numeric"
                 editable={true}
+                error={errorPrice}
                 value={price}
                 width={"100%"}
                 // information={"* Este campo es obligatorio"}

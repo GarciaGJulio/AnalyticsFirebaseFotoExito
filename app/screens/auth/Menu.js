@@ -22,6 +22,7 @@ import {
 import { getCurrentScreenInformation } from "../../utils/Utils";
 import { useNavigation } from "@react-navigation/native";
 import {
+  automaticSync,
   borrarBaseDeDatos,
   borrarTablasDeBaseDeDatos,
 } from "../../services/SqliteService";
@@ -31,6 +32,7 @@ import {
   realizarConsulta,
 } from "../../common/sqlite_config";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export const Menu = ({ navigation }) => {
   const { handleScreenInfo } = useContext(ModernaContext);
@@ -41,32 +43,77 @@ export const Menu = ({ navigation }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [validate, setValidate] = useState(false);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
-  //const { isConnected } = useContext(ModernaContext);
+  const [isModalVisible2, setIsModalVisible2] = useState();
+  const { globalVariable, setGlobalVariable, isConnectionActivate } =
+    useContext(GlobalContext);
 
-  //const [isConnected, setIsConnected] = useState(false);
+  const automaticSync = async () => {
+    const auditoriasSinSincronizar = await realizarConsulta(
+      "SELECT * FROM auditoria where sincronizada = 0"
+    );
+    console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
+    if (auditoriasSinSincronizar.length === 0) {
+      console.log("NADA QUE SINCRONIZAR POR EL MOMENTO");
+    } else if (auditoriasSinSincronizar.length > 0) {
+      setIsModalVisible2(!isModalVisible2);
+      console.log("CAMBIANDO EL ESTADO GLOBAL DE LA VARIABLE A TRUE");
+      setGlobalVariable(!globalVariable);
+      console.log(
+        "ENTRANDO A SINCRONIZAR DATOS DE AUDITORIAS AUTOMATICAMENTE: ",
+        auditoriasSinSincronizar.length
+      );
 
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsConnected(state.isConnected);
-    });
+      let showAlert = true; // Variable para controlar si se debe mostrar el alert
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+      for (const auditoria of auditoriasSinSincronizar) {
+        console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
+        try {
+          await subidaBaseRemoteTodaAuditoria(
+            auditoria.id_auditoria,
+            setIsModalVisible,
+            setGlobalVariable,
+            globalVariable
+          );
+        } catch (e) {
+          console.log("ERROR: ", e);
+          setIsModalVisible2(false);
+          console.log("CAMBIANDO EL ESTADO GLOBAL DE LA VARIABLE A FALSE");
+          setGlobalVariable(false);
+          if (showAlert) {
+            showAlert = false; // Actualizar la variable para evitar mostrar más de un alert
+          }
+        }
+      }
+
+      // Si aún no se ha mostrado el alert, mostrarlo fuera del bucle
+      if (showAlert) {
+        console.log(
+          "**************************** ABORTANDO LA SINCRONIZACION AUTOMATICA ************************"
+        );
+      }
+    } else {
+      console.log(
+        "**************************** ABORTANDO LA SINCRONIZACION AUTOMATICA ************************"
+      );
+    }
+  };
+
+  const verificarSincronizacion = () => {
+    console.log("ESTADO DE LA CONEXION ACTUAL: ", isConnectionActivate);
+    if (isConnectionActivate) {
+      automaticSync();
+    } else {
+      console.log("NO HAY CONEXION PARA SINCRONIZAR LOS DATOS");
+    }
+  };
 
   useEffect(() => {
     getCurrentScreenInformation(navigation);
   }, []);
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsConnected(state.isConnected);
-    });
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  useEffect(() => {
+    verificarSincronizacion();
+  }, [isConnectionActivate]);
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -84,7 +131,7 @@ export const Menu = ({ navigation }) => {
         "Datos ya sincronizados",
         "No se detectan auditorias que se necesite sincronizar"
       );
-    } else if (auditoriasSinSincronizar.length > 0 && isConnected) {
+    } else if (auditoriasSinSincronizar.length > 0 && isConnectionActivate) {
       setIsModalVisible(!isModalVisible);
       setModalMessage("Sincronizando datos, por favor espere...");
       console.log(
@@ -149,7 +196,7 @@ export const Menu = ({ navigation }) => {
         console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
         //setIsModalVisible(false);
       }
-    } else if (!isConnected) {
+    } else if (!isConnectionActivate) {
       setIsModalVisibleClose(true);
     } else {
       Alert.alert(
@@ -163,7 +210,7 @@ export const Menu = ({ navigation }) => {
   };
 
   const deleteInsertData = async () => {
-    if (isConnected) {
+    if (isConnectionActivate) {
       setIsModalVisible(true);
       console.log("SE PROCEDE A ELIMINAR LAS TABLAS . . . . . ");
       try {

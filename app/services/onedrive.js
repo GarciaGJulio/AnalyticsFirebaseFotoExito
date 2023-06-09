@@ -109,6 +109,93 @@ export const RecuperarToken = () => {
     });
 };
 
+export const verifyUrlImage = async (url_imagen, name_image) => {
+  try {
+    const response = await fetch(url_imagen, {
+      method: "GET",
+    });
+    console.log(
+      "******************** INVOCANDO A LA FUNCION:  URL CORRECTA ***************************" +
+        " " +
+        response.status
+    );
+    if (response.status != 401) {
+      return url_imagen;
+    } else {
+      throw new Error("Error al genenrar");
+    }
+  } catch (e) {
+    console.log("errrrrror".e);
+    try {
+      console.log(
+        "INICIANDO TRAER IMAGEN POR EL NOMBRE * * * * * " +
+          " nombre:" +
+          name_image
+      );
+      const data = await getItemIdImgOneDrive(name_image);
+      console.log("respuesta de imagen", data);
+      console.log(
+        "###########################################################"
+      );
+      console.log("CREANDO NUEVA URL DE LA IMAGEN: ");
+      console.log(
+        "###########################################################"
+      );
+      return data["@microsoft.graph.downloadUrl"];
+    } catch (e) {
+      console.log("ERROR AL CREAR UNA NUEVA IMAGEN - - - - ", e);
+      return url_imagen;
+    }
+  }
+};
+
+export const getItemIdImgOneDrive = async (imgId) => {
+  try {
+    const {
+      data: { token },
+    } = await axiosGetToken();
+    let itemResponse1 = await fetch(
+      `https://graph.microsoft.com/v1.0/me/drive/root:/Test/${imgId}.png`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    let itemResponse = await itemResponse1.json();
+    console.log("ITEM: ", itemResponse);
+    console.log("ITEM STATUS: ", itemResponse1.status);
+    if (itemResponse1.status === 200) {
+      console.log("APUNTO DE RETORNAR NUEVA IMAGEN");
+      return itemResponse;
+    } else {
+      throw new Error("error");
+    }
+  } catch (error) {
+    console.log("ERROR; ", error);
+    throw new Error(error);
+  }
+};
+
+export const axiosGetToken = async () => {
+  let response;
+  try {
+    const data = {
+      clientSecret: "wQU8Q~WjEgKYC1U9ggNVBY8XV3PQi1ckWKX4ia.p",
+    };
+    response = await axios.post(
+      "https://fotoexito1.azurewebsites.net/api/getAccesToken?code=kyjbYT96Qfu_70h8FiMD0LqXHhbS7-pr_AMrXCjePuMlAzFuV4ZKLA==",
+      data
+    );
+    return response;
+  } catch (e) {
+    //console.log(e);
+    response = e;
+    throw new Error(e);
+  }
+};
+
 export const deleteImageFromOneDrive = async (itemId) => {
   const endpoint = `https://graph.microsoft.com/v1.0/me/drive/items/${itemId}`;
   const bearerToken = await AsyncStorage.getItem("userToken2");

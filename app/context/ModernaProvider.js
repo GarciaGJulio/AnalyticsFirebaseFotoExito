@@ -22,31 +22,18 @@ export const ModernaProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({});
-  //const [idClientGroup, setIdClientGroup] = useState("");
-  //const idClientGroupRef = useRef("");
-
-  /*const setIdClientGroup = (value) => {
-    idClientGroupRef.current = value;
-    console.log("ACTUALIZANDO VALOR A  .. . . . ",value)
-    console.log("VALOR NUEVO DE IDCLIENTE  .. . . . ",idClientGroupRef.current)
-  };*/
 
   const isLoggedIn = async () => {
     console.log("CARGANDO LOS DATOS DE INCIO");
     try {
-      //setLogged(true)
-      //setIsLoading(true)
       let userInfo = await AsyncStorage.getItem("user");
       userInfo = JSON.parse(userInfo);
       if (userInfo) {
-        /*setTimeout(() => setIsLogged(false)
-            ,2300)*/
         setUserInfo(userInfo);
         console.log("DATO CONSEGUIDO DE ASYNC ---------------");
         console.log("\nDATOS DE USUARIO:\n");
         console.log(userInfo);
       } else {
-        //setTimeout(() => setIsLogged(false),2300)
         console.log("NO SE HAN ENCONTRADO LOS DATOS DE USUARIO");
       }
     } catch (e) {
@@ -64,15 +51,7 @@ export const ModernaProvider = ({ children }) => {
     idClientGroup: null,
   };
   const [state, dispatch] = useReducer(ModernaReducer, initialState);
-  /*useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsConnected(state.isConnected);
-    });
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);*/
   const handleLocations = useCallback(async (locations) => {
     console.log("locations from context", locations);
     dispatch({ type: LOAD_LOCATIONS, payload: locations });

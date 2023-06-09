@@ -60,6 +60,9 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
           exhibidor.state = 1;
         } else {
           exhibidor.state = 0;
+          (exhibidor.images.image1 = null),
+            (exhibidor.images.image2 = null),
+            (exhibidor.images.image3 = null);
         }
 
         console.log("PARAMETRO ACTUALIZADO: ", exhibidor);

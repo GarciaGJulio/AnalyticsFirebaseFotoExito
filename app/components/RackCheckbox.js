@@ -46,31 +46,6 @@ export const RackCheckbox = ({
       // console.log("----------------",item)
     }
   }, [isUserScreen]);
-  //const [objPercha, setObjPercha] = useState(itemCom)
-
-  /* useEffect(() => {
-     if (CateGeneral < CateModerna) {
-       setverificacionCategoria(true);
-       console.log("es mayor el de moderna", CateGeneral);
-     } else if (CateGeneral >= CateModerna) {
-       setverificacionCategoria(false);
-     }
-   }, [CateModerna]);
- 
-   useEffect(() => {
-     if (CateGeneral < CateModerna) {
-       setverificacionCategoria(true);
-       console.log("es mayor el de moderna", CateGeneral);
-     } else if (CateGeneral >= CateModerna) {
-       setverificacionCategoria(false);
-     }
-   }, [CateGeneral]);
- 
-   /*useEffect(() => {
-         console.log("itmDentroCompleto",itemCom)
-         console.log("itmDentroCompletoPER",objPercha)
- 
-     }, []);*/
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -135,6 +110,9 @@ export const RackCheckbox = ({
           percha.state = 1;
         } else {
           percha.state = 0;
+          (percha.images.image1 = null),
+            (percha.images.image2 = null),
+            (percha.images.image3 = null);
         }
 
         console.log("PARAMETRO ACTUALIZADO: ", percha);

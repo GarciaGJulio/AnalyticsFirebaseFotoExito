@@ -53,6 +53,8 @@ const handleInputChange = (text) => {
 export const validatePriceProduct = (price, fn) => {
   const number = parseFloat(price);
 
+  const priceRegex = /^\d+(\.\d{1,2})?$/;
+
   if (price === "" || price === null) {
     console.log("INFO precio INVALIDO");
     fn("El campo precio del producto no puede estar vacío");
@@ -65,6 +67,11 @@ export const validatePriceProduct = (price, fn) => {
   } else if (isNaN(number)) {
     console.log("Precio invalido");
     fn("El precio del producto no es un número válido");
+  } else if (!priceRegex.test(price)) {
+    console.log("Formato de precio inválido");
+    fn(
+      "El formato de precio no es válido. Utilice un formato como 9.29 o 1.00"
+    );
   } else {
     console.log("Precio válido");
     fn("");

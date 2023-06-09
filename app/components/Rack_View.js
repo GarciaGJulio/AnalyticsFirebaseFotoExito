@@ -13,6 +13,7 @@ import { Icon, Input } from "@rneui/base";
 import { useFonts } from "expo-font";
 import { Divider } from "react-native-paper";
 import StyledInput from "./StyledInput";
+import { verifyUrlImage } from "../services/onedrive";
 
 export const Rack_View = ({ rack }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -50,42 +51,77 @@ export const Rack_View = ({ rack }) => {
     }
 
     let img = extraImages.join(",");
-    console.log("IMAGENES EXTRAS: - - - - ", img);
+    //console.log("IMAGENES EXTRAS: - - - - ", img);
   };
 
-  const validateImagesPlanograma = (objeto) => {
+  const validateImagesPlanograma = async (objeto) => {
     setImagesPlanograma([]);
+
     if (rack.hasOwnProperty("url_planograma1")) {
-      if (objeto.url_planograma1 != "null" || objeto.url_planograma1 != null) {
-        setImagesPlanograma((prevImagenes) => [
-          ...prevImagenes,
+      if (
+        objeto.url_planograma1 !== null &&
+        objeto.url_planograma1 !== undefined &&
+        objeto.url_planograma1 !== "null" &&
+        objeto.url_planograma1 !== "undefined"
+      ) {
+        const imagenVerificada = await verifyUrlImage(
           objeto.url_planograma1,
+          `${objeto.id_planograma}1`
+        );
+        //console.log("IMAGEN ACTUALIZADA 1: ", imagenVerificada);
+        setImagesPlanograma((prevImagenes) => [
+          ...prevImagenes,
+          imagenVerificada,
         ]);
       }
 
-      if (objeto.url_planograma2 != "null" || objeto.url_planograma2 != null) {
-        setImagesPlanograma((prevImagenes) => [
-          ...prevImagenes,
+      if (
+        objeto.url_planograma2 !== null &&
+        objeto.url_planograma2 !== undefined &&
+        objeto.url_planograma2 !== "null" &&
+        objeto.url_planograma2 !== "undefined"
+      ) {
+        const imagenVerificada = await verifyUrlImage(
           objeto.url_planograma2,
+          `${objeto.id_planograma}2`
+        );
+        /*console.log(
+          "\nNOMBRE DE LA IMAGEN A TRAER: ",
+          `${objeto.id_planograma}2`
+        );
+        console.log("IMAGEN ACTUALIZADA 2: ", imagenVerificada);*/
+        setImagesPlanograma((prevImagenes) => [
+          ...prevImagenes,
+          imagenVerificada,
         ]);
       }
 
-      if (objeto.url_planograma3 != "null" || objeto.url_planograma3 != null) {
+      if (
+        objeto.url_planograma3 !== null &&
+        objeto.url_planograma3 !== undefined &&
+        objeto.url_planograma3 !== "null" &&
+        objeto.url_planograma3 !== "undefined"
+      ) {
+        const imagenVerificada = await verifyUrlImage(
+          objeto.url_planograma3,
+          `${objeto.id_planograma}3`
+        );
+        //console.log("IMAGEN ACTUALIZADA 3: ", imagenVerificada);
         setImagesPlanograma((prevImagenes) => [
           ...prevImagenes,
-          objeto.url_planograma3,
+          imagenVerificada,
         ]);
       }
     }
 
-    let img = extraImages.join(",");
-    console.log("IMAGENES EXTRAS: - - - - ", img);
+    let img = imagesPlanograma.join(",");
+    //console.log("IMAGENES EXTRAS DE PLANOGRAMA: - - - - ", img);
   };
 
   useEffect(() => {
     validateExtraImages(rack);
     validateImagesPlanograma(rack);
-    console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
+    //console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
   }, [rack]);
 
   const [openCamera, setOpenCamera] = useState(false);

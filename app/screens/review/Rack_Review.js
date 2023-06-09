@@ -19,7 +19,7 @@ const Rack_Review = () => {
     );
 
     const category = await realizarConsulta(
-      `SELECT ca.nombre_categoria, p.*, pl.url_imagen1 AS url_planograma1, pl.url_imagen2 AS url_planograma2, pl.url_imagen3 AS url_planograma3
+      `SELECT ca.nombre_categoria, p.*, pl.id_planograma,pl.url_imagen1 AS url_planograma1, pl.url_imagen2 AS url_planograma2, pl.url_imagen3 AS url_planograma3
       FROM percha AS p
       INNER JOIN categoria AS ca ON ca.id_categoria = p.id_categoria
       INNER JOIN planograma AS pl ON pl.id_categoria = ca.id_categoria

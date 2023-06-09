@@ -1,5 +1,5 @@
 import { Alert } from "react-native";
-import { PERCHA_TABLE_NAME } from "../common/sqlite_config";
+import { PERCHA_TABLE_NAME, realizarConsulta } from "../common/sqlite_config";
 import { PERCHA_TABLE, CLIENT_TABLE } from "../common/table_columns";
 import {
   generateUIDD,
@@ -7,6 +7,9 @@ import {
   getActualDateStock,
 } from "../common/utils";
 import { generateSenteceSql } from "../utils/Utils";
+import { subidaBaseRemoteTodaAuditoria } from "./SubidaBaseRemota";
+import { useContext, useState } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 // import { updateLocalProduct } from "./ProductoService";
 
 export const db_insertPercha = async (

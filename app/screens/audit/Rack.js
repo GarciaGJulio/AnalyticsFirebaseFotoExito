@@ -41,6 +41,7 @@ import {
 } from "../../utils/Utils";
 import { RecuperarToken } from "../../services/onedrive";
 import { useIsFocused } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 
 export const Racks = ({ navigation }) => {
   const [valueGeneral, setValueGeneral] = useState();
@@ -67,28 +68,12 @@ export const Racks = ({ navigation }) => {
       initDataLocal();
     }, 2000);
   }, [isFocused]);
-  // useEffect(() => {
-  //   console.log("category=========================================",category)
-  // }, [category])
-  // useEffect(() => {
-  //   console.log("infoScreen==============================================",infoScreen)
-  // }, [infoScreen])
 
   const getInfoDatBaseScreen = () => {
     try {
-      //  console.log("global.userInfoScreen en pricess", global.userInfoScreen)
       if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
         return;
       }
-      // const infoExtra =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
-      // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      // const tmpPantalla = tmpInfoExtra.pantallas.rack
-      // const infoExtra = tmpPantalla.extra_info
-      // // const infoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      // const newObj = {
-      //   ...infoExtra,
-      //   ...global.userInfoScreen.infoScreen
-      // }
 
       const tmpInfoExtra = JSON.parse(
         global.userInfoScreen.userInfo.extra_info
@@ -100,8 +85,6 @@ export const Racks = ({ navigation }) => {
         ...global.userInfoScreen.infoScreen,
       };
 
-      // console.log("newObj-------------", newObj)
-      // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
       let tempItems = infoExtra.category.split("**");
       // console.log("tempItems SPOPLIT-------------", tempItems)
       tempItems = tempItems.filter((item) => item.length > 0 && item != ",");
@@ -141,14 +124,9 @@ export const Racks = ({ navigation }) => {
       console.log(error);
     }
   };
-  /*const EnviaDatosLocal = async () => {
-    db_insertPercha(1, checked, valueGeneral, valueModerna);
-    await lookForPerchas(setPedidos);
-    console.log("Pedidos desde Screen:", pedidos);
-  };*/
 
   useEffect(() => {
-    RecuperarToken();
+    //RecuperarToken();
     console.log("IDPERCHA", idPercha);
   }, []);
 
@@ -492,6 +470,13 @@ export const Racks = ({ navigation }) => {
 
     //})
   };
+
+  const [fontLoaded] = useFonts({
+    Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
+    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
+  });
+
+  if (!fontLoaded) return null;
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
@@ -521,7 +506,13 @@ export const Racks = ({ navigation }) => {
           }
         />
         <View style={styles.cardContainer}>
-          {
+          {category.length === 0 ? (
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ fontFamily: "Metropolis" }}>
+                No hay perchas asignadas para este grupo de cliente
+              </Text>
+            </View>
+          ) : (
             <TarjPercha
               //data={category}
               isUserScreen={infoScreen ? true : false}
@@ -531,7 +522,7 @@ export const Racks = ({ navigation }) => {
               setData={setCategory}
               view={"audit"}
             />
-          }
+          )}
 
           {/* {
             !infoScreen && <TarjPercha

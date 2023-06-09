@@ -12,6 +12,7 @@ import { dataAxiosQuery, load_db_config } from "./app/common/sqlite_config";
 import { DataProvider } from "./app/context/DataProvider";
 import { ModernaProvider } from "./app/context/ModernaProvider";
 import { Navigation } from "./app/navigation/Navigation";
+import { GlobalProvider } from "./app/context/GlobalContext";
 
 export default function App() {
   useEffect(() => {
@@ -20,13 +21,15 @@ export default function App() {
   load_db_config();
 
   return (
-    <DataProvider>
-      <ModernaProvider>
-        <NavigationContainer>
-          <Navigation />
-        </NavigationContainer>
-      </ModernaProvider>
-    </DataProvider>
+    <GlobalProvider>
+      <DataProvider>
+        <ModernaProvider>
+          <NavigationContainer>
+            <Navigation />
+          </NavigationContainer>
+        </ModernaProvider>
+      </DataProvider>
+    </GlobalProvider>
   );
 }
 

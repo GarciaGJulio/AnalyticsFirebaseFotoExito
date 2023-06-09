@@ -13,6 +13,8 @@ export const FlashListPrices = ({
   idPreciador,
   idPortafolio,
   isUserScreen,
+  errorPrice,
+  setErrorPrice,
 }) => {
   useEffect(() => {
     console.log(
@@ -58,6 +60,8 @@ export const FlashListPrices = ({
               idPreciador={idPreciador}
               idPortafolio={idPortafolio}
               item={item}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
               isUserScreen={isUserScreen}
             />
           )}

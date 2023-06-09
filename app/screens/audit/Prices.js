@@ -49,6 +49,7 @@ export const Prices = ({ navigation, route }) => {
   const [idPreciador] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [errorPrice, setErrorPrice] = useState("");
   // let complementaryPortfolioProducts = [];
   // let idealPortfolioProducts = [];
 
@@ -277,6 +278,10 @@ export const Prices = ({ navigation, route }) => {
       console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
       navigation.navigate("rack");
     } else {
+      if (errorPrice != "") {
+        setErrorPrice("* El campo precio es obligatorio");
+        //setValidatePass(false)
+      }
       const isValid = fullArrays.every((item) => {
         if (item.state === null) {
           console.log("ESTE ITEM DA PROBLEMAS: ", item);
@@ -562,6 +567,8 @@ export const Prices = ({ navigation, route }) => {
               products={newIdealPortfolio}
               setProducts={setNewIdealPortfolio}
               isUserScreen={false}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
               //idPreciador={idPreciadorPortafolioComplementario}
               //idPortafolio={idPortafolioComplementario}
             />
@@ -583,6 +590,8 @@ export const Prices = ({ navigation, route }) => {
               products={newComplementaryPortfolio}
               setProducts={setNewComplementaryPortfolio}
               isUserScreen={true}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
               //idPreciador={idPreciadorPortafolioComplementario}
               //idPortafolio={idPortafolioComplementario}
             />

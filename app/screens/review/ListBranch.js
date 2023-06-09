@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -23,10 +23,12 @@ import { DropdownDavid } from "../../components/Dropdown";
 import { ItemBranch_Review } from "../../components/ItemBranch_Review";
 // import { Button } from "react-native-paper";
 import { Navigation } from "../../navigation/Navigation";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export const ListBranch = ({ navigation }) => {
   const [audit, setAudit] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -50,7 +52,7 @@ export const ListBranch = ({ navigation }) => {
 
   useEffect(() => {
     consultarYCopiarContenido();
-  }, [refresh]);
+  }, [refresh, globalVariable]);
 
   useEffect(() => {
     //filteredData;
@@ -111,41 +113,51 @@ export const ListBranch = ({ navigation }) => {
         <Image source={Logotipo} style={styles.image} />
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <Text style={styles.title}>
-          Puedes revisar las auditorías ya realizadas presionando en el registro
-          de interés.
-        </Text>
-        <View style={styles.contentContainerBranch}>
-          <TextInput
-            style={{
-              height: 50,
-              width: 320,
-              borderColor: "gray",
-              borderWidth: 1,
-              paddingHorizontal: 10,
-              marginBottom: 20,
-              borderRadius: 10,
-            }}
-            placeholder="Buscar"
-            onChangeText={searchFilter}
-            value={searchText}
-          />
+        {filteredData.length === 0 ? (
+          <View>
+            <Text style={styles.title}>
+              No se han registrado auditorías aún.
+            </Text>
+          </View>
+        ) : (
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Text style={styles.title}>
+              Puedes revisar las auditorías ya realizadas presionando en el
+              registro de interés.
+            </Text>
+            <View style={styles.contentContainerBranch}>
+              <TextInput
+                style={{
+                  height: 50,
+                  width: 320,
+                  borderColor: "gray",
+                  borderWidth: 1,
+                  paddingHorizontal: 10,
+                  marginBottom: 20,
+                  borderRadius: 10,
+                }}
+                placeholder="Buscar"
+                onChangeText={searchFilter}
+                value={searchText}
+              />
 
-          <ScrollView style={{ bottom: 5 }}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={filteredData}
-              renderItem={({ item }) => (
-                <ItemBranch_Review
-                  branch={item}
-                  setRefresh={setRefresh}
-                  refresh={refresh}
+              <ScrollView style={{ bottom: 5 }}>
+                <FlatList
+                  showsVerticalScrollIndicator={false}
+                  data={filteredData}
+                  renderItem={({ item }) => (
+                    <ItemBranch_Review
+                      branch={item}
+                      setRefresh={setRefresh}
+                      refresh={refresh}
+                    />
+                  )}
+                  //keyExtractor={(item) => item.id}
                 />
-              )}
-              //keyExtractor={(item) => item.id}
-            />
-          </ScrollView>
-        </View>
+              </ScrollView>
+            </View>
+          </View>
+        )}
       </Animatable.View>
     </View>
   );

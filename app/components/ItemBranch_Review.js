@@ -23,6 +23,7 @@ import ModernaContext from "../context/ModernaContext";
 import { DataContext } from "../context/DataProvider";
 import theme from "../theme/theme";
 import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
+import { GlobalContext } from "../context/GlobalContext";
 
 export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
   const { setDatosCompartidos, datosCompartidos } = useContext(DataContext);
@@ -30,11 +31,13 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { isConnected } = useContext(ModernaContext);
   const [stateBranch, setStateBranch] = useState(branch.state);
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   const navigation = useNavigation();
 
   useEffect(() => {
     console.log("ESTO LLEGA DE LAS AUDITORIAS: ", branch);
+    console.log("ESTADO GLOBAL DE LA VARIABLE: ", globalVariable);
   }, []);
   const handleOpenModal = () => {
     setAnimation(SYNC_ANIMATION);
@@ -139,7 +142,10 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
           </Text>
         </View>
         {branch.sincronizada == 0 ? (
-          <TouchableOpacity onPress={() => syncData(setRefresh, refresh)}>
+          <TouchableOpacity
+            disabled={globalVariable}
+            onPress={() => syncData(setRefresh, refresh)}
+          >
             <Image
               source={SYNC_FAILED}
               style={{ width: 30, height: 30, resizeMode: "stretch" }}

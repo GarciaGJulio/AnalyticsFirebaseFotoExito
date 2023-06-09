@@ -31,16 +31,16 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
     console.log("item dsde Taker:", item);
     setidItem(item.id);
     if (isUserScreen) {
-      console.log("dentroooo",item.images.image1)
-      setImageV1(true)
-      if(item.images.image1){
-        setImage1(item.images.image1)
+      console.log("dentroooo", item.images.image1);
+      setImageV1(true);
+      if (item.images.image1) {
+        setImage1(item.images.image1);
       }
-      if(item.images.image2){
-        setImage2(item.images.image2)
+      if (item.images.image2) {
+        setImage2(item.images.image2);
       }
-      if(item.images.image3){
-        setImage3(item.images.image3)
+      if (item.images.image3) {
+        setImage3(item.images.image3);
       }
     }
   }, []);
@@ -66,7 +66,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
         setImg(img);
         actImg(item, img, NomImg);
         console.log(NomImg + item.id.toString());
-        console.log("Uri ACT:",image1)
+        console.log("Uri ACT:", image1);
       }, NomImg + "-" + item.id.toString() + "-" + generateUIDDGeneric());
     } catch (error) {
     } finally {
@@ -93,9 +93,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
 
       // Devuelve el array actualizado como el nuevo estado
       return productosActualizados;
-    }
-    
-    );
+    });
   };
 
   const borrarImagen = (item, imagesNumber, idBorrar) => {
@@ -113,6 +111,9 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
       // Actualiza la propiedad del objeto
       if (producto) {
         producto.images["" + imagesNumber + ""] = null;
+        if (imagesNumber === "image2") {
+          producto.images.image3 = null;
+        }
         console.log(producto);
       }
       // Devuelve el array actualizado como el nuevo estado
@@ -123,15 +124,14 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
     <ScrollView horizontal style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          setImageV1(!imageV1);
+          setImageV1(true);
           handleOpenModal(
             // setRemoteImage1,
             setImage1,
             actualizarImagen,
             "image1"
-            
           );
-          console.log("Productos items:",item)
+          console.log("Productos items:", item);
         }}
         //actualizarImagen(item, setImage1, "image1",image1);
         style={styles.imageContainer}
@@ -141,14 +141,14 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
       {imageV1 ? (
         <TouchableOpacity
           onPress={() => {
-            setImageV2(!imageV2);
+            setImageV2(true);
             handleOpenModal(
               // setRemoteImage2,
               setImage2,
               actualizarImagen,
               "image2"
             );
-            console.log("Productos items:",item)
+            console.log("Productos items:", item);
           }}
           style={styles.imageContainer}
         >
@@ -159,10 +159,12 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
           <TouchableOpacity
             style={styles.deleteButton}
             onPress={() => {
-              setImageV1(!imageV1);
+              setImageV1(false);
+              setImageV2(false);
               borrarImagen(item, "image2", REimage2);
               setImage2("");
-              console.log("Productos items:",item)
+              setImage3("");
+              console.log("Productos items:", item);
             }}
           >
             <Icon name="remove-circle" type="ionicon" size={25} color={"red"} />
@@ -179,7 +181,6 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
               setImage3,
               actualizarImagen,
               "image3"
-             
             );
           }}
           style={styles.imageContainer}
@@ -191,7 +192,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
           <TouchableOpacity
             style={styles.deleteButton}
             onPress={() => {
-              setImageV2(!imageV2);
+              setImageV2(false);
               borrarImagen(item, "image3", REimage3);
               setImage3("");
             }}

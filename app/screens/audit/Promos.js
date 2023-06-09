@@ -176,16 +176,6 @@ export const Promos = ({ navigation }) => {
     consultarYCopiarContenido();
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsConnected(state.isConnected);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
