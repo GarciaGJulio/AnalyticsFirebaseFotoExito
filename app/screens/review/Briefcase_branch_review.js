@@ -32,7 +32,11 @@ const Briefcase_branch_review = ({ route }) => {
       );*/
 
       const consultaPortafolioAudit = await realizarConsulta(
-        `SELECT  * FROM portafolio_auditoria where id_portafolio_auditoria='${datosCompartidos.id_portafolio_auditoria}'; AND a.id_auditoria='${datosCompartidos.id_auditoria}''`
+        `SELECT DISTINCT pa.*,pf.tipo
+        FROM portafolio_auditoria AS pa
+        INNER JOIN auditoria AS a ON a.id_portafolio_auditoria = pa.id_portafolio_auditoria
+        inner JOIN portafolio as pf on pf.id_portafolio = pa.id_portafolio
+        WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}' AND a.id_auditoria = '${datosCompartidos.id_auditoria}'`
       );
 
       const arrayIdsPortafolio = [];
@@ -46,27 +50,50 @@ const Briefcase_branch_review = ({ route }) => {
 
       console.log("IDS DE PORTAFOLIOS: - - - - - - - - -", arrayIdsPortafolio);
 
-      let consultaPortafolio = [];
+      const consultaPortafolio = [];
+      for (const producto of consultaPortafolioAudit) {
+        const consulta = await realizarConsulta(
+          `SELECT DISTINCT p.nombre_producto, pf.tipo, c.nombre_categoria, pf.id_portafolio, p.id_producto
+          FROM portafolio AS pf
+          INNER JOIN producto AS p ON p.id_producto = pf.id_producto
+          INNER JOIN categoria AS c ON c.id_categoria = p.id_categoria
+          INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = pf.id_portafolio AND pa.id_producto = p.id_producto
+          INNER JOIN auditoria AS a ON pa.id_portafolio_auditoria = a.id_portafolio_auditoria
+          WHERE (pf.id_producto = '${producto.id_producto}')
+          AND (pf.tipo ='${producto.tipo}' )
+          GROUP BY p.id_producto`
+        );
+        consultaPortafolio.push(consulta);
+      }
+
+      /*let consultaPortafolio = [];
       if (arrayIdsPortafolio.length > 1) {
         consultaPortafolio = await realizarConsulta(
           `SELECT DISTINCT p.nombre_producto, pf.tipo, c.nombre_categoria, pf.id_portafolio, p.id_producto
           FROM portafolio AS pf
           INNER JOIN producto AS p ON p.id_producto = pf.id_producto
           INNER JOIN categoria AS c ON c.id_categoria = p.id_categoria
-          INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = pf.id_portafolio
+          INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = pf.id_portafolio AND pa.id_producto = p.id_producto
           INNER JOIN auditoria AS a ON pa.id_portafolio_auditoria = a.id_portafolio_auditoria
-          WHERE pf.id_portafolio = '${arrayIdsPortafolio[0]}' OR pf.id_portafolio = '${arrayIdsPortafolio[1]}'
-          AND pf.id_producto = pa.id_producto;`
+          WHERE (pf.id_portafolio = '${arrayIdsPortafolio[0]}' OR pf.id_portafolio = '${arrayIdsPortafolio[1]}')
+          AND (p.id_producto = pa.id_producto);`
         );
       } else if (arrayIdsPortafolio.length == 1) {
         consultaPortafolio = await realizarConsulta(
-          `SELECT DISTINCT p.nombre_producto, pf.tipo,c.nombre_categoria,pf.id_portafolio,p.id_producto from portafolio as pf inner join producto as p on p.id_producto=pf.id_producto inner join categoria as c on c.id_categoria=p.id_categoria inner join portafolio_auditoria as pa on pa.id_portafolio = pf.id_portafolio WHERE pf.id_portafolio='${arrayIdsPortafolio[0]}';`
+          `SELECT DISTINCT p.nombre_producto, pf.tipo, c.nombre_categoria, pf.id_portafolio, p.id_producto
+          FROM portafolio AS pf
+          INNER JOIN producto AS p ON p.id_producto = pf.id_producto
+          INNER JOIN categoria AS c ON c.id_categoria = p.id_categoria
+          INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = pf.id_portafolio AND pa.id_producto = p.id_producto
+          INNER JOIN auditoria AS a ON pa.id_portafolio_auditoria = a.id_portafolio_auditoria
+          WHERE (pf.id_portafolio = '${arrayIdsPortafolio[0]}')
+          AND p.id_producto = pa.id_producto;`
         );
       } else {
         console.log(
           "NO SE HA ENCONTRADO IDS DE PORTAFOLIO ASOCIADOS A ESTA AUDITORIA - - - - - - -  -"
         );
-      }
+      }*/
 
       const idsPortafolioAuditoria = await realizarConsulta(
         `SELECT DISTINCT  p.id_portafolio, p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio WHERE pa.id_portafolio = '${datosCompartidos.id_portafolio_auditoria}'`
@@ -75,45 +102,53 @@ const Briefcase_branch_review = ({ route }) => {
       const arrayTipoC = [];
       const arrayTipoI = [];
 
-      consultaPortafolio.forEach((objeto) => {
-        const {
-          tipo,
-          nombre_categoria,
-          nombre_producto,
-          id_producto,
-          ...resto
-        } = objeto;
-        const producto = { nombre_producto, id_producto, ...resto };
+      consultaPortafolio.forEach((elementoInterior) => {
+        elementoInterior.forEach((objeto) => {
+          const {
+            tipo,
+            nombre_categoria,
+            nombre_producto,
+            id_producto,
+            ...resto
+          } = objeto;
+          const producto = {
+            nombre_producto,
+            id_producto,
+            tipo,
+            nombre_categoria,
+            ...resto,
+          };
+          console.log("OBJETO A ANALIZAR: ", tipo);
+          if (tipo === "C") {
+            const categoriaExistente = arrayTipoC.find(
+              (item) => item.nombre_categoria === nombre_categoria
+            );
 
-        if (tipo === "C") {
-          const categoriaExistente = arrayTipoC.find(
-            (item) => item.nombre_categoria === nombre_categoria
-          );
+            if (categoriaExistente) {
+              categoriaExistente.productos.push(producto);
+            } else {
+              arrayTipoC.push({
+                nombre_categoria,
+                tipo,
+                productos: [producto],
+              });
+            }
+          } else if (tipo === "I") {
+            const categoriaExistente = arrayTipoI.find(
+              (item) => item.nombre_categoria === nombre_categoria
+            );
 
-          if (categoriaExistente) {
-            categoriaExistente.productos.push(producto);
-          } else {
-            arrayTipoC.push({
-              nombre_categoria,
-              tipo,
-              productos: [producto],
-            });
+            if (categoriaExistente) {
+              categoriaExistente.productos.push(producto);
+            } else {
+              arrayTipoI.push({
+                nombre_categoria,
+                tipo,
+                productos: [producto],
+              });
+            }
           }
-        } else if (tipo === "I") {
-          const categoriaExistente = arrayTipoI.find(
-            (item) => item.nombre_categoria === nombre_categoria
-          );
-
-          if (categoriaExistente) {
-            categoriaExistente.productos.push(producto);
-          } else {
-            arrayTipoI.push({
-              nombre_categoria,
-              tipo,
-              productos: [producto],
-            });
-          }
-        }
+        });
       });
 
       console.log("Array - - - - - - - - - Tipo C:", arrayTipoC);
@@ -128,6 +163,10 @@ const Briefcase_branch_review = ({ route }) => {
       console.log(
         "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
         consultaPortafolioAudit
+      );
+      console.log(
+        "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
+        consultaPortafolio
       );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
