@@ -240,20 +240,6 @@ export const Prices = ({ navigation, route }) => {
 
   useEffect(() => {
     const getNewArrays = async () => {
-      /*let id_portafolio_complementario = await AsyncStorage.getItem(
-        "id_portafolio_complementario"
-      );
-      const addParametersComplementaryP = complementaryPortfolioProducts.map(
-        (producto) => {
-          return {
-            ...producto,
-          };
-        }
-      );
-      console.log(
-        "ARRAY DE COMPLEMENTARIO FORMATEADO: ",
-        addParametersComplementaryP
-      );*/
       if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
         setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
         setNewIdealPortfolio([...idealPortfolioProducts]);
@@ -279,7 +265,7 @@ export const Prices = ({ navigation, route }) => {
       navigation.navigate("rack");
     } else {
       if (errorPrice != "") {
-        setErrorPrice("* El campo precio es obligatorio");
+        setErrorPrice("* El campo precio es debe ser llenado correctamente");
         //setValidatePass(false)
       }
       const isValid = fullArrays.every((item) => {
@@ -289,7 +275,7 @@ export const Prices = ({ navigation, route }) => {
         }
         if (item.state === 1) {
           if (
-            item.price === null ||
+            item.price === null || errorPrice != "" ||
             !item.images ||
             item.images.image1 === null
           ) {
@@ -303,7 +289,7 @@ export const Prices = ({ navigation, route }) => {
       if (!isValid) {
         Alert.alert(
           "Error al completar los datos",
-          "Necesita marcar el valor de preciador de cada producto"
+          "Necesita marcar el valor de preciador de cada producto correctamente y tomar la fotografía respectiva"
         );
         //navigation.navigate('rack');
         console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
@@ -381,7 +367,7 @@ export const Prices = ({ navigation, route }) => {
               // subidaBaseRemote(dataSave.tableName, dataSave.dataInsertType, dataSave.dataInsertRemote)
 
               db_insertGlobalDataAudit(dataSave);
-              console.log("TODO BIEN");
+              console.log("TODO BIEN PARA GUARDAR");
               setShowButton1(false);
               setShowButton2(true);
               setIsModalVisible(false);
@@ -557,8 +543,10 @@ export const Prices = ({ navigation, route }) => {
               products={newIdealPortfolio}
               setProducts={setNewIdealPortfolio}
               isUserScreen={true}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
           {!infoScreen && (
@@ -569,8 +557,8 @@ export const Prices = ({ navigation, route }) => {
               isUserScreen={false}
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
@@ -592,8 +580,8 @@ export const Prices = ({ navigation, route }) => {
               isUserScreen={true}
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
           {!infoScreen && (
@@ -602,8 +590,10 @@ export const Prices = ({ navigation, route }) => {
               products={newComplementaryPortfolio}
               setProducts={setNewComplementaryPortfolio}
               isUserScreen={false}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>

@@ -27,38 +27,39 @@ const ScreenInformationReview = ({ title, text }) => {
     >
       <View
         style={{
-          //backgroundColor: "purple",
           paddingHorizontal: 10,
           flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
+          justifyContent: "space-around",
+          alignItems: "center",
           width: theme.dimensions.maxWidth / 1.1,
         }}
       >
-        <FAB
-          title=""
-          placement="left"
-          onPress={() => navigation.goBack()}
-          icon={{
-            name: "arrow-left-top",
-            color: "white",
-            type: "material-community",
-          }}
-          style={{ left: -10, top: 1 }}
-          color={theme.colors.modernaYellow}
-          size="small"
-        />
-        <Text
-          style={{
-            fontSize: theme.fontSize.title,
-            fontWeight: "600",
-            fontFamily: "Metropolis",
-            left: 50,
-          }}
-        >
-          {title}
-        </Text>
+          <FAB
+            title=""
+            placement="left"
+            onPress={() => navigation.goBack()}
+            icon={{
+              name: "arrow-left-top",
+              color: "white",
+              type: "material-community",
+            }}
+            color={theme.colors.modernaYellow}
+            size="small"
+            style={{width:1,height:5, backgroundColor:'blue'}}
+          />
+        <View style={{ marginLeft:30 }}>
+          <Text
+            style={{
+              fontSize: theme.fontSize.subtitle,
+              fontWeight: "600",
+              fontFamily: "Metropolis",
+            }}
+          >
+            {title}
+          </Text>
+        </View>
       </View>
+
       <View
         style={{
           width: theme.dimensions.maxWidth / 1.1,

@@ -76,10 +76,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
     "*****************************************************************************************"
   );
   for (let i = 0; i < promocionData.length; i++) {
+    console.log("###########################################################################")
     console.log(
-      "ANALIZANDO REGISTRO - IMAGEN 1: ",
+      "\nANALIZANDO REGISTRO - IMAGEN 1: ",
       promocionData[i].url_imagen1
     );
+    console.log("###########################################################################")
     if (promocionData[i].url_imagen1 === "undefined") {
       promocionData[i].url_imagen1 = "null";
     } else if (promocionData[i].url_imagen1 === "null") {
@@ -92,13 +94,15 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
-        "" + promocionData[i].id_promocion + "-" + "id_exhibidor" + "-" + "1"
+        "" + promocionData[i].id_promocion + [i] + "-" + "id_exhibidor" + "-" + "1"
       );
     }
+    console.log("///////////////////////////////////////////////////////////////////////////")
     console.log(
-      "ANALIZANDO REGISTRO - IMAGEN 2: ",
+      "\nANALIZANDO REGISTRO - IMAGEN 2: ",
       promocionData[i].url_imagen2
     );
+    console.log("///////////////////////////////////////////////////////////////////////////")
     if (promocionData[i].url_imagen2 === "undefined") {
       promocionData[i].url_imagen2 = "null";
     } else if (promocionData[i].url_imagen2 === "null") {
@@ -111,13 +115,15 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
-        "" + promocionData[i].id_promocion + "-" + "id_exhibidor" + "-" + "2"
+        "" + promocionData[i].id_promocion + [i] + "-" + "id_exhibidor" + "-" + "2"
       );
     }
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     console.log(
-      "ANALIZANDO REGISTRO - IMAGEN 3: ",
+      "\nANALIZANDO REGISTRO - IMAGEN 3: ",
       promocionData[i].url_imagen3
     );
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     if (promocionData[i].url_imagen3 === "undefined") {
       promocionData[i].url_imagen3 = "null";
     } else if (promocionData[i].url_imagen3 === "null") {
@@ -130,7 +136,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
-        "" + promocionData[i].id_promocion + "-" + "id_exhibidor" + "-" + "3"
+        "" + promocionData[i].id_promocion + [i] + "-" + "id_exhibidor" + "-" + "3"
       );
     }
   }
@@ -153,7 +159,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
     "*****************************************************************************************"
   );
   for (let i = 0; i < perchaData.length; i++) {
-    console.log("ANALIZANDO REGISTRO - IMAGEN 1: ", perchaData[i].url_imagen1);
+    console.log("###########################################################################")
+    console.log("\nANALIZANDO REGISTRO - IMAGEN 1: ", perchaData[i].url_imagen1);
+    console.log("###########################################################################")
     if (perchaData[i].url_imagen1 === "undefined") {
       perchaData[i].url_imagen1 = "null";
     } else if (
@@ -170,10 +178,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
       console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen1);
       perchaData[i].url_imagen1 = await SubirAlonedrive(
         perchaData[i].url_imagen1,
-        "" + perchaData[i].id_percha + "-" + "id_percha" + "-" + "1"
+        "" + perchaData[i].id_percha + [i] + "-" + "id_percha" + "-" + "1"
       );
     }
-    console.log("ANALIZANDO REGISTRO - IMAGEN 2:", perchaData[i].url_imagen2);
+    console.log("///////////////////////////////////////////////////////////////////////////")
+    console.log("\nANALIZANDO REGISTRO - IMAGEN 2:", perchaData[i].url_imagen2);
+    console.log("///////////////////////////////////////////////////////////////////////////")
     if (perchaData[i].url_imagen2 === "undefined") {
       perchaData[i].url_imagen2 = "null";
     } else if (
@@ -190,10 +200,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
       console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen2);
       perchaData[i].url_imagen2 = await SubirAlonedrive(
         perchaData[i].url_imagen2,
-        "" + perchaData[i].id_percha + "-" + "id_percha" + "-" + "2"
+        "" + perchaData[i].id_percha + [i] + "-" + "id_percha" + "-" + "2"
       );
     }
-    console.log("ANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    console.log("\nANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     if (perchaData[i].url_imagen3 === "undefined") {
       perchaData[i].url_imagen3 = "null";
     } else if (
@@ -210,7 +222,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen3);
       perchaData[i].url_imagen3 = await SubirAlonedrive(
         perchaData[i].url_imagen3,
-        "" + perchaData[i].id_categoria + "-" + "id_percha" + "-" + "3"
+        "" + perchaData[i].id_categoria + [i] + "-" + "id_percha" + "-" + "3"
       );
     }
   }
@@ -240,10 +252,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
     "*****************************************************************************************"
   );
   for (let i = 0; i < preciadorData.length; i++) {
+    console.log("###########################################################################")
     console.log(
-      "ANALIZANDO REGISTRO - IMAGEN 1: ",
+      "\nANALIZANDO REGISTRO - IMAGEN 1: ",
       preciadorData[i].url_imagen1
     );
+    console.log("###########################################################################")
     if (preciadorData[i].url_imagen1 === "undefined") {
       preciadorData[i].url_imagen1 = "null";
     } else if (preciadorData[i].url_imagen1 === "null") {
@@ -260,13 +274,15 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       preciadorData[i].url_imagen1 = await SubirAlonedrive(
         preciadorData[i].url_imagen1,
-        "" + preciadorData[i].id_preciador + "-" + "id_preciador" + "-" + "1"
+        "" + preciadorData[i].id_preciador + [i] + "-" + "id_preciador" + "-" + "1"
       );
     }
+    console.log("///////////////////////////////////////////////////////////////////////////")
     console.log(
-      "ANALIZANDO REGISTRO - IMAGEN 2: ",
+      "\nANALIZANDO REGISTRO - IMAGEN 2: ",
       preciadorData[i].url_imagen2
     );
+    console.log("///////////////////////////////////////////////////////////////////////////")
     if (preciadorData[i].url_imagen2 === "undefined") {
       preciadorData[i].url_imagen2 = "null";
     } else if (preciadorData[i].url_imagen2 === "null") {
@@ -283,10 +299,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       preciadorData[i].url_imagen2 = await SubirAlonedrive(
         preciadorData[i].url_imagen2,
-        "" + preciadorData[i].id_preciador + "-" + "id_preciador" + "-" + "2"
+        "" + preciadorData[i].id_preciador + [i] + "-" + "id_preciador" + "-" + "2"
       );
     }
-    console.log("objeto  img3 promocion", preciadorData[i].url_imagen3);
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    console.log("\nANALIZANDO REGISTRO - IMAGEN 3: ", preciadorData[i].url_imagen3);
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     if (preciadorData[i].url_imagen3 === "undefined") {
       preciadorData[i].url_imagen3 = "null";
     } else if (preciadorData[i].url_imagen3 === "null") {
@@ -303,7 +321,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       preciadorData[i].url_imagen3 = await SubirAlonedrive(
         preciadorData[i].url_imagen3,
-        "" + preciadorData[i].id_preciador + "-" + "id_preciador" + "-" + "3"
+        "" + preciadorData[i].id_preciador + [i] + "-" + "id_preciador" + "-" + "3"
       );
     }
   }

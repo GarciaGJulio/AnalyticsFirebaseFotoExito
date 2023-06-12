@@ -8,6 +8,7 @@ import StyledInput from "./StyledInput";
 import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import { useFonts } from "expo-font";
+import { verifyUrlImage } from "../services/onedrive";
 
 export const CheckBoxContainerP = ({ productName, item, setData }) => {
   const [check1, setCheck1] = useState(false);
@@ -15,6 +16,7 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
+  const [newImage, setNewImage] = useState("");
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -24,6 +26,19 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
     setIsModalVisible(false);
   };
 
+  const updateImage = async (item) => {
+    const imagenVerificada = await verifyUrlImage(
+      objeto.url,
+      `${objeto.url}`
+    );
+    setNewImage(
+      imagenVerificada
+    );
+  }
+
+  useEffect(() => {
+    updateImage(item)
+  }, [])
   const acceptModal = () => {
     setCheck1(!check1);
     setCheck2(!check2);

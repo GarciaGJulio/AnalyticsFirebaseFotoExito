@@ -130,6 +130,7 @@ export const ListBranch = ({ navigation }) => {
                 style={{
                   height: 50,
                   width: 320,
+                  fontFamily:'Metropolis',
                   borderColor: "gray",
                   borderWidth: 1,
                   paddingHorizontal: 10,

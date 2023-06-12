@@ -13,12 +13,14 @@ import HARINA from ".././../assets/resources/harina.png";
 import ImageViewer from "react-native-image-zoom-viewer";
 import { useFonts } from "expo-font";
 import { Divider, Icon } from "@rneui/base";
+import { verifyUrlImage } from "../services/onedrive";
 
 export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const [extraImages, setExtraImages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
-  const validateExtraImages = (objeto) => {
+
+  const validateExtraImages = async (objeto) => {
     setExtraImages([]);
 
     if (
@@ -27,7 +29,15 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
       objeto.url_imagen1 !== "null" &&
       objeto.url_imagen1 !== "undefined"
     ) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen1,
+        `${objeto.url_imagen1}1`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+      //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
     }
 
     if (
@@ -36,7 +46,15 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
       objeto.url_imagen2 !== "null" &&
       objeto.url_imagen2 !== "undefined"
     ) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen2,
+        `${objeto.url_imagen2}2`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+      //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
 
     if (
@@ -45,7 +63,15 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
       objeto.url_imagen3 !== "null" &&
       objeto.url_imagen3 !== "undefined"
     ) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen3,
+        `${objeto.url_imagen3}3`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+      //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
     let img = extraImages.join(",");

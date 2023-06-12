@@ -20,7 +20,7 @@ export const Rack_View = ({ rack }) => {
   const [extraImages, setExtraImages] = useState([]);
   const [imagesPlanograma, setImagesPlanograma] = useState([]);
 
-  const validateExtraImages = (objeto) => {
+  const validateExtraImages = async (objeto) => {
     setExtraImages([]);
 
     if (
@@ -29,7 +29,14 @@ export const Rack_View = ({ rack }) => {
       objeto.url_imagen1 !== "null" &&
       objeto.url_imagen1 !== "undefined"
     ) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen1,
+        `${objeto.url_imagen1}1`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
     }
 
     if (
@@ -38,7 +45,14 @@ export const Rack_View = ({ rack }) => {
       objeto.url_imagen2 !== "null" &&
       objeto.url_imagen2F !== "undefined"
     ) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen2,
+        `${objeto.url_imagen2}2`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
     }
 
     if (
@@ -47,7 +61,14 @@ export const Rack_View = ({ rack }) => {
       objeto.url_imagen3 !== "null" &&
       objeto.url_imagen3 !== "undefined"
     ) {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen3,
+        `${objeto.url_imagen3}3`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
     }
 
     let img = extraImages.join(",");
@@ -160,7 +181,7 @@ export const Rack_View = ({ rack }) => {
               setModalVisible(true);
             }}
           >
-            <Icon name="camera" type="evilicon" size={40} />
+            <Icon name="camera" type="evilicon" size={40} color={'white'} />
             {/* <Icon name='camerao' type='antdesign' size={32} /> */}
           </TouchableOpacity>
         )}
@@ -185,8 +206,8 @@ export const Rack_View = ({ rack }) => {
               editable={false}
               value={rack.categoria_general.toString()}
               width={"100%"}
-              // error={errorPrice}
-              // information={"* Este campo es obligatorio"}
+            // error={errorPrice}
+            // information={"* Este campo es obligatorio"}
             />
           </View>
           <Text
@@ -210,8 +231,8 @@ export const Rack_View = ({ rack }) => {
               editable={false}
               value={rack.categoria_moderna.toString()}
               width={"100%"}
-              // error={errorPrice}
-              // information={"* Este campo es obligatorio"}
+            // error={errorPrice}
+            // information={"* Este campo es obligatorio"}
             />
           </View>
           <Text

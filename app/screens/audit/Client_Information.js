@@ -515,38 +515,9 @@ export const Client_Information = ({ navigation }) => {
           style={{
             //flexDirection: "row",
             //marginHorizontal: 20,
-            flex: 1.5, //backgroundColor:'orange'
+            flex: 1.6, //backgroundColor:'orange'
           }}
         >
-          {/*newArrayClients.length > 0 ? <Dropdown
-            placeholder={"Seleccione un cliente"}
-            setSelected={setSelected}
-            selected={selected}
-            setType={setType}
-            newArrayClients={newArrayClients}
-            setGroupClient={setGroupClient}
-            error={errorClientName}
-            clients={newArrayClients}
-            setClientGroupId={setClientGroupId}
-            setSucursalInformation={setSucursalInformation}
-            sucursalInformation={sucursalInformation}
-            setError={setErrorClientName}
-            arrayClients={arrayClients}
-          /> : <Dropdown
-            placeholder={"Seleccione un cliente"}
-            setSelected={setSelected}
-            selected={selected}
-            setType={setType}
-            newArrayClients={[]}
-            setGroupClient={setGroupClient}
-            error={errorClientName}
-            clients={newArrayClients}
-            setClientGroupId={setClientGroupId}
-            setSucursalInformation={setSucursalInformation}
-            sucursalInformation={sucursalInformation}
-            setError={setErrorClientName}
-            arrayClients={arrayClients}
-        />*/}
           <Dropdown
             valueInfoScreen={infoScreen ? infoScreen.nombre_cliente : null}
             placeholder={"Seleccione un cliente"}

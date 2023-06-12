@@ -13,6 +13,7 @@ import HARINA from ".././../assets/resources/harina.png";
 import TakeImage from "./TakeImage";
 import PromosItemsDetails_Review from "./PromosItemsDetails_Review";
 import { Divider, Icon } from "@rneui/base";
+import { verifyUrlImage } from "../services/onedrive";
 
 export const ProductsDetails_Review = ({ item }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,22 +31,46 @@ export const ProductsDetails_Review = ({ item }) => {
     item.estado === null
       ? "#999999"
       : item.estado === 1
-      ? theme.colors.modernaGreen
-      : theme.colors.modernaRed;
+        ? theme.colors.modernaGreen
+        : theme.colors.modernaRed;
 
-  const validateExtraImages = (objeto) => {
+  const validateExtraImages = async (objeto) => {
     setExtraImages([]);
 
     if (objeto.url_imagen1 && objeto.url_imagen1 !== "null") {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen1,
+        `${objeto.url_imagen1}1`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+      //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
     }
 
     if (objeto.url_imagen2 && objeto.url_imagen2 !== "null") {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen2,
+        `${objeto.url_imagen2}2`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+      //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
 
     if (objeto.url_imagen3 && objeto.url_imagen3 !== "null") {
-      setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen3,
+        `${objeto.url_imagen3}3`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+      //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
     let img = extraImages.join(",");

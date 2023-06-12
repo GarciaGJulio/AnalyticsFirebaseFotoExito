@@ -270,9 +270,9 @@ export const Briefcase = ({ navigation }) => {
             (producto) => {
               console.log(
                 "CATEGORIA: " +
-                  categoria.id_categoria +
-                  " PRODUCTO: " +
-                  producto.id_categoria
+                categoria.id_categoria +
+                " PRODUCTO: " +
+                producto.id_categoria
               );
               return producto.id_categoria === categoria.id_categoria;
             }
@@ -314,7 +314,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -352,11 +352,11 @@ export const Briefcase = ({ navigation }) => {
             console.log(
               "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
               "ID DEL PORTAFOLIO: " +
-                id_portafolio +
-                " ID DEL PRODUCTO: " +
-                id +
-                " TIPO DE PORTAFOLIO:" +
-                tipo_portafolio
+              id_portafolio +
+              " ID DEL PRODUCTO: " +
+              id +
+              " TIPO DE PORTAFOLIO:" +
+              tipo_portafolio
             );
 
             let dataSave = {
@@ -606,11 +606,10 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${
-          infoScreen
+        valueId: `${infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-        }`,
+          }`,
       });
     });
   };
@@ -716,8 +715,8 @@ export const Briefcase = ({ navigation }) => {
             }
             showButton1Second={showButton1}
             showButton2Second={showButton2}
-            iconRigthSecond={"content-save-all-outline"}
-            typeRigthSecond={"material-community"}
+            iconRigthSecond={"arrow-right-circle"}
+            typeRigthSecond={"feather"}
           />
         </View>
       </View>

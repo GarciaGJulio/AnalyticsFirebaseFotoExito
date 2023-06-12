@@ -23,7 +23,7 @@ const WifiIndicator = () => {
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(async (state) => {
       setIsConnected(state.isConnected);
-      if (state.isConnected && !isConnectionActivate) {
+      if (state.isConnected) {
         console.log("CAMBIANDO A ESTADO A TRUE PRIMERA VEZ :");
         setIsConnectionActivate(true);
       } else {

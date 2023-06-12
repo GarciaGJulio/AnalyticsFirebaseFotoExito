@@ -14,13 +14,17 @@ import TakeImage from "./TakeImage";
 import { FlashList } from "@shopify/flash-list";
 import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
+import { validatePercha } from "../utils/helpers";
+import { verifyUrlImage } from "../services/onedrive";
 
 export const RackCheckbox = ({
   isUserScreen,
   categoryName,
   item,
   setData,
-  planograma,
+  setErrorPercha,
+  errorPercha,
+  setValueGeneralValidate
 }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
@@ -31,6 +35,8 @@ export const RackCheckbox = ({
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
+  const [extraImages, setExtraImages] = useState([]);
+
   useEffect(() => {
     // console.log("------isUserScreen----------",isUserScreen)
     if (isUserScreen) {
@@ -64,6 +70,67 @@ export const RackCheckbox = ({
     setDisabled2(!disabled2);
   };
 
+  const validateExtraImages = async (objeto) => {
+    console.log("****** esto llega de objeto********",objeto)
+    setExtraImages([]);
+
+    if (
+      objeto.url_imagen1 !== null &&
+      objeto.url_imagen1 !== undefined &&
+      objeto.url_imagen1 !== "null" &&
+      objeto.url_imagen1 !== "undefined"
+    ) {
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen1,
+        `${objeto.url_imagen1}1`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+    }
+
+    if (
+      objeto.url_imagen2 !== null &&
+      objeto.url_imagen2 !== undefined &&
+      objeto.url_imagen2 !== "null" &&
+      objeto.url_imagen2F !== "undefined"
+    ) {
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen2,
+        `${objeto.url_imagen2}2`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+    }
+
+    if (
+      objeto.url_imagen3 !== null &&
+      objeto.url_imagen3 !== undefined &&
+      objeto.url_imagen3 !== "null" &&
+      objeto.url_imagen3 !== "undefined"
+    ) {
+      const imagenVerificada = await verifyUrlImage(
+        objeto.url_imagen3,
+        `${objeto.url_imagen3}3`
+      );
+      setExtraImages((prevImagenes) => [
+        ...prevImagenes,
+        imagenVerificada,
+      ]);
+    }
+
+    let img = extraImages.join(",");
+    console.log("IMAGENES EXTRAS: - - - - ", img);
+  };
+
+  useEffect(() => {
+    validateExtraImages(item.imagesPlanograma);
+    //console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
+  }, [item.imagesPlanograma]);
+
   const validateNumbers = (num1, num2) => {
     if (num1 === "" || num2 === "") {
       console.log("Por favor, ingrese ambos números");
@@ -85,10 +152,12 @@ export const RackCheckbox = ({
       setverificacionCategoria(
         "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
       );
+      setValueGeneralValidate("El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General")
       // Puedes mostrar un mensaje de error o realizar otra acción en caso de validación incorrecta
     } else if (parseInt(num1) >= parseInt(num2)) {
       console.log("Validación exitosa");
       setverificacionCategoria("");
+      setValueGeneralValidate("")
       // Puedes realizar alguna acción cuando la validación sea exitosa
     }
   };
@@ -197,6 +266,7 @@ export const RackCheckbox = ({
                 setCateGeneral(txt);
                 actualizarCantidad(item, "carasGeneral", txt);
                 validateNumbers(txt, item.carasModerna);
+                validatePercha(txt, setErrorPercha)
                 /*setObjPercha({...objPercha,
                               CarasGeneral:txt
                           })*/
@@ -209,8 +279,8 @@ export const RackCheckbox = ({
               editable={true}
               value={CateGeneral}
               width={"100%"}
-              // error={errorPrice}
-              // information={"* Este campo es obligatorio"}
+              error={errorPercha}
+            // information={"* Este campo es obligatorio"}
             />
           </View>
           <Text
@@ -230,6 +300,7 @@ export const RackCheckbox = ({
               setCateModerna(txt);
               actualizarCantidad(item, "carasModerna", txt);
               validateNumbers(item.carasGeneral, txt);
+              validatePercha(txt, setErrorPercha)
               /*setObjPercha({...objPercha,
                                 CarasModerna:txt
                             })
@@ -237,13 +308,13 @@ export const RackCheckbox = ({
             }}
             label="Categoría Moderna"
             placeholder="Caras"
-            maxLength={6}
+            maxLength={3}
             keyboard="numeric"
             editable={true}
             value={CateModerna}
             width={"100%"}
-            // error={errorPrice}
-            // information={"* Este campo es obligatorio"}
+            error={errorPercha}
+          // information={"* Este campo es obligatorio"}
           />
 
           <Text
@@ -297,7 +368,7 @@ export const RackCheckbox = ({
             </Text>
 
             <View style={{ flexDirection: "row" }}>
-              {item.imagesPlanograma.map((prodImages, index) => {
+              {extraImages.map((prodImages, index) => {
                 if (prodImages) {
                   return (
                     <Image
