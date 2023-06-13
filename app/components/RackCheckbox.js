@@ -278,19 +278,9 @@ export const RackCheckbox = ({
               value={CateGeneral}
               width={"100%"}
               error={errorPerchaG}
-              // information={"* Este campo es obligatorio"}
+              information={"Número de caras"}
             />
           </View>
-          <Text
-            style={{
-              bottom: 25,
-              right: 20,
-              fontFamily: "Metropolis",
-              textAlign: "center",
-            }}
-          >
-            Número de caras
-          </Text>
         </View>
         <View style={styles.category}>
           <StyledInput
@@ -312,19 +302,8 @@ export const RackCheckbox = ({
             value={CateModerna}
             width={"100%"}
             error={errorPerchaM}
-            // information={"* Este campo es obligatorio"}
+            information={"Número de caras"}
           />
-
-          <Text
-            style={{
-              bottom: 25,
-              right: 20,
-              fontFamily: "Metropolis",
-              textAlign: "center",
-            }}
-          >
-            Número de caras
-          </Text>
         </View>
       </View>
       <View style={{ flexDirection: "row" }}>
