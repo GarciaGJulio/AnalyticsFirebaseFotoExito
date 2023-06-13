@@ -38,6 +38,7 @@ import {
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 import LoaderModal from "../../components/LoaderModal";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -68,6 +69,7 @@ export const Prices = ({ navigation, route }) => {
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
   const isFocused = useIsFocused();
+  const { hadSavePreciador, setHadSavePreciador } = useContext(GlobalContext);
   useEffect(() => {
     const initDataLocal = async () => {
       await getCurrentScreenInformation();
@@ -275,7 +277,8 @@ export const Prices = ({ navigation, route }) => {
         }
         if (item.state === 1) {
           if (
-            item.price === null || errorPrice != "" ||
+            item.price === null ||
+            errorPrice != "" ||
             !item.images ||
             item.images.image1 === null
           ) {
@@ -298,6 +301,7 @@ export const Prices = ({ navigation, route }) => {
           JSON.stringify(newComplementaryPortfolio)
         );
       } else {
+        setHadSavePreciador(true);
         setIsModalVisible(true);
         const fullDataProducts = newIdealPortfolio.concat(
           newComplementaryPortfolio
@@ -479,11 +483,13 @@ export const Prices = ({ navigation, route }) => {
             "Vuelva a intentarlo"
           );
           setIsModalVisible(false);
+          setHadSavePreciador(false);
         }
       }
     }
   };
   const handleDeleteRegisterLocal = async () => {
+    setHadSavePreciador(false);
     const idPreciador = await AsyncStorage.getItem("id_preciador");
     // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
@@ -534,7 +540,9 @@ export const Prices = ({ navigation, route }) => {
         <ProgressBar currentStep={1} />
         <ScreenInformation
           title={"Preciador"}
-          text={"Selecciona los productos que poseen preciador"}
+          text={
+            "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
+          }
         />
         <View style={{ flex: 2, width: "100%", alignItems: "center" }}>
           {infoScreen && (
@@ -545,8 +553,8 @@ export const Prices = ({ navigation, route }) => {
               isUserScreen={true}
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
           )}
           {!infoScreen && (
@@ -557,8 +565,8 @@ export const Prices = ({ navigation, route }) => {
               isUserScreen={false}
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
@@ -580,8 +588,8 @@ export const Prices = ({ navigation, route }) => {
               isUserScreen={true}
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
           )}
           {!infoScreen && (
@@ -592,8 +600,8 @@ export const Prices = ({ navigation, route }) => {
               isUserScreen={false}
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>

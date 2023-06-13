@@ -21,7 +21,17 @@ import ConfirmationModal from "./ConfirmationModal";
 import Rack_View from "./Rack_View";
 import { RackCheckbox } from "./RackCheckbox";
 
-export const TarjPercha = ({ isUserScreen, data, setData, rack, setErrorPercha, errorPercha,setValueGeneralValidate }) => {
+export const TarjPercha = ({
+  isUserScreen,
+  data,
+  setData,
+  rack,
+  setErrorPerchaG,
+  errorPerchaG,
+  setErrorPerchaM,
+  errorPerchaM,
+  setValueGeneralValidate,
+}) => {
   const [objPercha, setObjPercha] = useState({});
   const [datos, setDatos] = useState([]);
 
@@ -38,9 +48,11 @@ export const TarjPercha = ({ isUserScreen, data, setData, rack, setErrorPercha, 
             <RackCheckbox
               categoryName={item.name}
               //onchangeObjPercha={setObjPercha}
-              errorPercha={errorPercha}
+              errorPerchaG={errorPerchaG}
+              errorPerchaM={errorPerchaM}
               setValueGeneralValidate={setValueGeneralValidate}
-              setErrorPercha={setErrorPercha}
+              setErrorPerchaG={setErrorPerchaG}
+              setErrorPerchaM={setErrorPerchaM}
               isUserScreen={isUserScreen}
               item={item}
               planograma={rack}

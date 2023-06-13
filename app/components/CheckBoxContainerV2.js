@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import theme from "../theme/theme";
 import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
@@ -11,6 +11,7 @@ import { validatePriceProduct } from "../utils/helpers";
 import ToggleSwitch from "toggle-switch-react-native";
 import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
+import { GlobalContext } from "../context/GlobalContext";
 
 export const CheckBoxContainerV2 = ({
   productName,
@@ -29,6 +30,7 @@ export const CheckBoxContainerV2 = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
+  const { hadSavePreciador, setHadSavePreciador } = useContext(GlobalContext);
   //const [errorPrice, setErrorPrice] = useState();
   useEffect(() => {
     console.log(
@@ -183,6 +185,7 @@ export const CheckBoxContainerV2 = ({
             <ToggleSwitch
               isOn={state}
               onColor="green"
+              disabled={hadSavePreciador}
               offColor={theme.colors.modernaYellow}
               //label="Example label"
               //labelStyle={{ color: "black", fontWeight: "900" }}
@@ -193,49 +196,6 @@ export const CheckBoxContainerV2 = ({
               }}
             />
           </View>
-          {/*<View
-            style={{ flexDirection: "row", alignItems: "center", right: 10 }}
-          >
-            <CheckBox
-              checked={check1}
-              onPress={() => {
-                check2
-                  ? (setCheck2(!check2),
-                    actualizarEstado(item, !check1),
-                    setDisabled2(!disabled2),
-                    setCheck1(!check1),
-                    setDisabled1(!disabled1))
-                  : (setCheck1(!check1),
-                    actualizarEstado(item, !check1),
-                    setDisabled1(!disabled1));
-              }}
-              // Use ThemeProvider to make change for all checkbox
-              iconType="material-community"
-              checkedIcon="checkbox-marked"
-              uncheckedIcon="checkbox-blank-outline"
-              checkedColor={theme.colors.modernaRed}
-              containerStyle={{ backgroundColor: "transparent" }}
-              disabled={disabled1}
-            />
-            <Text>Si</Text>
-            <CheckBox
-              checked={check2}
-              onPress={() => {
-                check1
-                  ? handleOpenModal()
-                  : (setCheck2(!check2),
-                    actualizarEstado(item, check2),
-                    setDisabled2(!disabled2));
-              }}
-              iconType="material-community"
-              checkedIcon="checkbox-marked"
-              uncheckedIcon="checkbox-blank-outline"
-              checkedColor={theme.colors.modernaRed}
-              containerStyle={{ backgroundColor: "transparent" }}
-              disabled={disabled2}
-            />
-            <Text>No</Text>
-          </View>*/}
         </View>
       </View>
       {state ? (
@@ -246,9 +206,6 @@ export const CheckBoxContainerV2 = ({
                 width: "50%",
                 flex: 1,
                 padding: 10,
-                //justifyContent: "center",
-                //alignItems: "center",
-                //backgroundColor: "red",
               }}
             >
               <StyledInput
@@ -262,7 +219,7 @@ export const CheckBoxContainerV2 = ({
                 placeholder="Precio"
                 maxLength={6}
                 keyboard="numeric"
-                editable={true}
+                editable={!hadSavePreciador}
                 error={errorPrice}
                 value={price}
                 width={"100%"}
@@ -300,6 +257,7 @@ export const CheckBoxContainerV2 = ({
                 setProducts={setProducts}
                 item={item}
                 isUserScreen={isUserScreen}
+                disabled={hadSavePreciador}
               />
             </View>
           </View>

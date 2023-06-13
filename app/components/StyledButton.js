@@ -42,21 +42,35 @@ export const StyledButton = ({
           //backgroundColor:'blue'
         }}
       >
-        {iconName && iconType ? (
-          <Icon
-            name={iconName}
-            type={iconType}
-            color={"white"}
-            style={{
-              //flex: 0.3,
-              marginHorizontal: 2,
-              //backgroundColor: "green"
-            }}
-          />
-        ) : (
-          <></>
-        )}
-        <Text style={styles.buttonText}>{title}</Text>
+        <View
+          style={{
+            //backgroundColor: "blue",
+            flex: 0.3,
+          }}
+        >
+          {iconName && iconType ? (
+            <Icon
+              name={iconName}
+              type={iconType}
+              color={"white"}
+              style={{
+                //flex: 0.3,
+                marginHorizontal: 2,
+                //backgroundColor: "green"
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </View>
+        <View
+          style={{
+            //backgroundColor: "orange",
+            flex: 1,
+          }}
+        >
+          <Text style={styles.buttonText}>{title}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );

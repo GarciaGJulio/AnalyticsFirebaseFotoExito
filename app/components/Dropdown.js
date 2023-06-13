@@ -2,12 +2,6 @@ import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
-import axios from "axios";
-import {
-  handleSelectDataBase,
-  realizarConsulta,
-  selectData,
-} from "../common/sqlite_config";
 import { useFonts } from "expo-font";
 import ModernaContext from "../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,35 +23,15 @@ export const Dropdown = ({
 }) => {
   const { handleIdClientGroup } = useContext(ModernaContext);
 
-  /*const dataFormat = (array) => {
-    setArrayClients(array);
-    console.log("ARRAY DE CONSULTA: ", array);
-    const arrayFormat = array.map((obj) => {
-      console.log("OBJETO: ", obj.id_cliente);
-      return { key: obj.id_cliente, value: obj.nombre_cliente };
-    });
-    console.log(arrayFormat);
-    return arrayFormat;
-  };*/
-
-  /*useEffect(() => {
-    Alert.alert("DATOS DE LA BASE LOCAL:", newArrayClients);
-  }, []);*/
-
   const validateType = () => {
     setError("");
     arrayClients.forEach(async (type) => {
-      // console.log("CLIENTE A ANALIZAR: ", type);
       if (type.nombre_cliente == selected) {
-        // console.log(
-        //   "CLIENTE ENCONTRADO - - - -ASIGNANDO TIPO DE CLIENTE: ",
-        //   type.nombre_tipo_cliente
-        // );
         setType(type.nombre_tipo_cliente);
         setGroupClient(type.nombre_grupo_cliente);
         console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
         setClientGroupId(type.id_grupo_cliente);
-        //handleIdClientGroup(type.id_grupo_cliente)
+
         await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
         await AsyncStorage.setItem("id_cliente", type.id_cliente);
         await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
@@ -75,88 +49,7 @@ export const Dropdown = ({
   }, [selected]);
   useEffect(() => {
     let tmpData = newArrayClients.map((item) => JSON.stringify(item));
-    //Alert.alert("éxito al consulatar cliente en useEfect",tmpData.toString());
   }, [newArrayClients]);
-
-  /*const consultarYCopiarContenido = async () => {
-    try {
-      // Realiza la consulta a la base de datos
-      // const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
-      handleSelectDataBase("SELECT * FROM cliente",
-        (resultadoConsulta) => {
-          Alert.alert("éxito al consulatar cliente",resultadoConsulta.toString());
-          setNewArrayClients(dataFormat(resultadoConsulta));
-        },(e)=>{
-          console.log("error al consulatar cliente",e)
-          Alert.alert("error al consulatar cliente", e);
-         
-        })
-
-      // Copia el contenido después de la consulta
-      //await copiarContenido(resultadoConsulta);
-
-      console.log("Copia de contenido completada con éxito: ");
-     /* const clientes = resultadoConsulta
-        .map(
-          (objeto) =>
-            `Id: ${objeto.id_cliente}, Nombre: ${objeto.nombre_cliente}`
-        )
-        .join("\n");
-      //Alert.alert("DATOS DE LA BASE LOCAL:", clientes);
-    } catch (error) {
-      console.error("Error al consultar o copiar el contenido:", error);
-    }
-  };
-
-  useEffect(() => {
-    /*console.log("SELECT DE LA TABLA CLIENTE",);
-    selectData("SELECT * FROM cliente",setArrayClients)
-    dataFormat(arrayFormat)
-    console.log("FORMATO NUEVO PARA DROPDOWN: ",arrayFormat)
-    /*if(location){
-      Alert.alert("Las coordenadas se han capturado exitosamente!", 'Latitud: ' + location.latitude + 'Longitud: ' + location.longitude)
-    
-    }
-    //realizarConsulta("SELECT * FROM cliente")
-    consultarYCopiarContenido();
-  }, []);*/
-
-  /*useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log("Realizando peticion de datos del cliente")
-        const response = await axios.post(
-          "https://fotoexito1.azurewebsites.net/api/queryInsert?code=Pd_oqC3bfYtub9E13hybiElqLCtsPgO9FErzdxdzL-ISAzFuhWl7ug==",
-          { operation:"Q", data:{ tableName:"cliente" } },
-          { headers: { 'accept': 'application/json' } }
-        )
-        console.log("DATOS EXTRAIDOS")
-        const clientsArray = response.data.data.dataBaseResult;
-        const clientsArrayFormat = clientsArray.map(client => {
-            return {
-              key: client.id_cliente,
-              value: client.nombre_cliente
-            }}
-        )
-        console.log("NUEVO FORMATO",clientsArrayFormat) 
-        setClient(clientsArrayFormat)
-        console.log(response.data.data.dataBaseResult)
-      } catch (e) {
-        console.log(e.response.data.message)
-        //Alert.alert("Error de inicio de sesion", e.response.data.message);
-      }
-    };
-
-    fetchData();
-  }, []);*/
-
-  /*useEffect(() => {
-    console.log("DATOS DEL DROPDOWN",data)
-  },[])*/
-
-  /*useEffect(() => {
-    console.log("ESTO LLEGA DE LA CONSULTA DE CLIENTES: ",clients)
-  },[])*/
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
@@ -193,6 +86,7 @@ export const Dropdown = ({
           padding: 0,
           flexShrink: 1,
         }}
+        notFoundText="Cliente ya seleccionado"
         dropdownTextStyles={{ flexShrink: 1, right: 10 }}
         save="value"
         boxStyles={{

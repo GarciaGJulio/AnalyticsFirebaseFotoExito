@@ -6,7 +6,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 import theme from "../theme/theme";
 import { CheckBox, Divider, Icon, Input } from "@rneui/base";
@@ -16,15 +16,18 @@ import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
 import { validatePercha } from "../utils/helpers";
 import { verifyUrlImage } from "../services/onedrive";
+import { GlobalContext } from "../context/GlobalContext";
 
 export const RackCheckbox = ({
   isUserScreen,
   categoryName,
   item,
   setData,
-  setErrorPercha,
-  errorPercha,
-  setValueGeneralValidate
+  setErrorPerchaG,
+  errorPerchaG,
+  setErrorPerchaM,
+  errorPerchaM,
+  setValueGeneralValidate,
 }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
@@ -36,6 +39,7 @@ export const RackCheckbox = ({
   const [disabled2, setDisabled2] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
   const [extraImages, setExtraImages] = useState([]);
+  const { hadSaveRack, setHadSaveRack } = useContext(GlobalContext);
 
   useEffect(() => {
     // console.log("------isUserScreen----------",isUserScreen)
@@ -71,55 +75,46 @@ export const RackCheckbox = ({
   };
 
   const validateExtraImages = async (objeto) => {
-    console.log("****** esto llega de objeto********",objeto)
+    console.log("****** esto llega de objeto********", objeto);
     setExtraImages([]);
 
     if (
-      objeto.url_imagen1 !== null &&
-      objeto.url_imagen1 !== undefined &&
-      objeto.url_imagen1 !== "null" &&
-      objeto.url_imagen1 !== "undefined"
+      objeto.imagesPlanograma.url_imagen1 !== null &&
+      objeto.imagesPlanograma.url_imagen1 !== undefined &&
+      objeto.imagesPlanograma.url_imagen1 !== "null" &&
+      objeto.imagesPlanograma.url_imagen1 !== "undefined"
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen1,
-        `${objeto.url_imagen1}1`
+        `${objeto.id_planograma}1`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }
 
     if (
-      objeto.url_imagen2 !== null &&
-      objeto.url_imagen2 !== undefined &&
-      objeto.url_imagen2 !== "null" &&
-      objeto.url_imagen2F !== "undefined"
+      objeto.imagesPlanograma.url_imagen2 !== null &&
+      objeto.imagesPlanograma.url_imagen2 !== undefined &&
+      objeto.imagesPlanograma.url_imagen2 !== "null" &&
+      objeto.imagesPlanograma.url_imagen2F !== "undefined"
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen2,
-        `${objeto.url_imagen2}2`
+        `${objeto.id_planograma}2`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }
 
     if (
-      objeto.url_imagen3 !== null &&
-      objeto.url_imagen3 !== undefined &&
-      objeto.url_imagen3 !== "null" &&
-      objeto.url_imagen3 !== "undefined"
+      objeto.imagesPlanograma.url_imagen3 !== null &&
+      objeto.imagesPlanograma.url_imagen3 !== undefined &&
+      objeto.imagesPlanograma.url_imagen3 !== "null" &&
+      objeto.imagesPlanograma.url_imagen3 !== "undefined"
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen3,
-        `${objeto.url_imagen3}3`
+        `${objeto.id_planograma}3`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }
 
     let img = extraImages.join(",");
@@ -127,9 +122,9 @@ export const RackCheckbox = ({
   };
 
   useEffect(() => {
-    validateExtraImages(item.imagesPlanograma);
+    validateExtraImages(item);
     //console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
-  }, [item.imagesPlanograma]);
+  }, [item]);
 
   const validateNumbers = (num1, num2) => {
     if (num1 === "" || num2 === "") {
@@ -152,12 +147,14 @@ export const RackCheckbox = ({
       setverificacionCategoria(
         "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
       );
-      setValueGeneralValidate("El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General")
+      setValueGeneralValidate(
+        "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
+      );
       // Puedes mostrar un mensaje de error o realizar otra acción en caso de validación incorrecta
     } else if (parseInt(num1) >= parseInt(num2)) {
       console.log("Validación exitosa");
       setverificacionCategoria("");
-      setValueGeneralValidate("")
+      setValueGeneralValidate("");
       // Puedes realizar alguna acción cuando la validación sea exitosa
     }
   };
@@ -245,10 +242,11 @@ export const RackCheckbox = ({
           {categoryName}
         </Text>
         <TouchableOpacity
+          disabled={hadSaveRack}
           style={{ position: "absolute", right: 5 }}
           onPress={() => setOpenCamera(!openCamera)}
         >
-          <Icon name="camerao" type="antdesign" size={30} color={"white"} />
+          <Icon name="camera" type="evilicon" size={40} color={"white"} />
         </TouchableOpacity>
       </View>
       <View style={{ width: "100%" }}>
@@ -266,7 +264,7 @@ export const RackCheckbox = ({
                 setCateGeneral(txt);
                 actualizarCantidad(item, "carasGeneral", txt);
                 validateNumbers(txt, item.carasModerna);
-                validatePercha(txt, setErrorPercha)
+                validatePercha(txt, setErrorPerchaG);
                 /*setObjPercha({...objPercha,
                               CarasGeneral:txt
                           })*/
@@ -276,11 +274,11 @@ export const RackCheckbox = ({
               placeholder="Caras"
               maxLength={6}
               keyboard="numeric"
-              editable={true}
+              editable={!hadSaveRack}
               value={CateGeneral}
               width={"100%"}
-              error={errorPercha}
-            // information={"* Este campo es obligatorio"}
+              error={errorPerchaG}
+              // information={"* Este campo es obligatorio"}
             />
           </View>
           <Text
@@ -300,7 +298,7 @@ export const RackCheckbox = ({
               setCateModerna(txt);
               actualizarCantidad(item, "carasModerna", txt);
               validateNumbers(item.carasGeneral, txt);
-              validatePercha(txt, setErrorPercha)
+              validatePercha(txt, setErrorPerchaM);
               /*setObjPercha({...objPercha,
                                 CarasModerna:txt
                             })
@@ -310,11 +308,11 @@ export const RackCheckbox = ({
             placeholder="Caras"
             maxLength={3}
             keyboard="numeric"
-            editable={true}
+            editable={!hadSaveRack}
             value={CateModerna}
             width={"100%"}
-            error={errorPercha}
-          // information={"* Este campo es obligatorio"}
+            error={errorPerchaM}
+            // information={"* Este campo es obligatorio"}
           />
 
           <Text
@@ -416,9 +414,9 @@ export const RackCheckbox = ({
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
               containerStyle={{ backgroundColor: "transparent" }}
-              disabled={disabled1}
+              disabled={hadSaveRack ? hadSaveRack : disabled1}
             />
-            <Text>Cumple</Text>
+            <Text style={{ fontFamily: "Metropolis" }}>Cumple</Text>
             <CheckBox
               checked={check2}
               onPress={() => {
@@ -433,9 +431,9 @@ export const RackCheckbox = ({
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
               containerStyle={{ backgroundColor: "transparent" }}
-              disabled={disabled2}
+              disabled={hadSaveRack ? hadSaveRack : disabled2}
             />
-            <Text>No cumple</Text>
+            <Text style={{ fontFamily: "Metropolis" }}>No cumple</Text>
           </View>
           {check1 ? (
             <View style={{ paddingHorizontal: 25, flex: 1 }}>
@@ -451,6 +449,7 @@ export const RackCheckbox = ({
                 isUserScreen={isUserScreen}
                 setProducts={setData}
                 item={item}
+                disabled={hadSaveRack}
               />
             </View>
           ) : (

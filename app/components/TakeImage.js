@@ -12,7 +12,7 @@ import { generateUIDDGeneric } from "../services/GenerateID";
 import LoaderModal from "./LoaderModal";
 import LOCATION_ANIMATION from "../../assets/camera.json";
 
-const TakeImage = ({ setProducts, item, isUserScreen }) => {
+const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
   const [image, setImage] = useState(
     "https://static.vecteezy.com/system/resources/thumbnails/001/198/770/small_2x/camera.png"
   );
@@ -47,21 +47,6 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
   const handleOpenModal = async (setImg, actImg, NomImg) => {
     setIsModalVisible(true);
     try {
-      //   await pickImages((img) => {
-      //     console.log("URLSSSSSS:", img);
-      //     const start = img.indexOf("UniqueId=") + 9;
-      //     const end = img.indexOf("&", start);
-      //     const uniqueId = img.substring(start, end !== -1 ? end : undefined);
-      //     console.log("uniqueIDDD:", uniqueId);
-      //     setRemote(uniqueId);
-      //     setImg(img);
-      //     actImg(item, img, NomImg);
-      //     console.log(NomImg + item.id.toString());
-      //   }, NomImg + "-" + item.id.toString() + "-" + generateUIDDGeneric());
-      // } catch (error) {
-      // } finally {
-      //   setIsModalVisible(false);
-      // }
       await pickImages((img) => {
         setImg(img);
         actImg(item, img, NomImg);
@@ -123,6 +108,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
   return (
     <ScrollView horizontal style={styles.container}>
       <TouchableOpacity
+        disabled={disabled}
         onPress={() => {
           setImageV1(true);
           handleOpenModal(
@@ -140,6 +126,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
       </TouchableOpacity>
       {imageV1 ? (
         <TouchableOpacity
+          disabled={disabled}
           onPress={() => {
             setImageV2(true);
             handleOpenModal(
@@ -157,6 +144,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
             style={styles.image}
           />
           <TouchableOpacity
+            disabled={disabled}
             style={styles.deleteButton}
             onPress={() => {
               setImageV1(false);
@@ -175,6 +163,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
       )}
       {imageV2 ? (
         <TouchableOpacity
+          disabled={disabled}
           onPress={() => {
             handleOpenModal(
               // setRemoteImage3,
@@ -190,6 +179,7 @@ const TakeImage = ({ setProducts, item, isUserScreen }) => {
             style={styles.image}
           />
           <TouchableOpacity
+            disabled={disabled}
             style={styles.deleteButton}
             onPress={() => {
               setImageV2(false);

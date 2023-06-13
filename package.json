@@ -61,6 +61,7 @@
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "^3.20.0",
     "react-native-sectioned-multi-select": "^0.10.0",
+    "react-native-snackbar": "^2.6.2",
     "react-native-step-indicator": "^1.0.3",
     "react-native-step-progress-bar": "^1.0.3",
     "react-native-uuid": "^2.0.1",

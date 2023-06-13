@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import theme from "../theme/theme";
 import { CheckBox } from "@rneui/base";
 import { useFonts } from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GlobalContext } from "../context/GlobalContext";
 
 const RenderItem = ({
   item,
@@ -13,6 +14,7 @@ const RenderItem = ({
   tipo,
   idPortafolio,
   isUserScreen,
+  hadSave,
 }) => {
   const saveId = async () => {
     //await AsyncStorage.setItem("id_portafolio_ideal", idPortafolio);
@@ -65,6 +67,7 @@ const RenderItem = ({
             item={item}
             //idPortafolio={idPortafolio2}
             //tipo={tipo2}
+            hadSave={hadSave}
             isUserScreen={isUserScreen}
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealPortfolioProducts={idealPortfolioProducts}
@@ -85,7 +88,12 @@ const RenderItemProd = ({
   idPortafolio,
   isUserScreen,
   tipo,
+  hadSave,
 }) => {
+  const { hadSaveBriefCase } = useContext(GlobalContext);
+  useEffect(() => {
+    console.log("HA GUARDADO? -- --- ", hadSaveBriefCase);
+  }, [hadSaveBriefCase]);
   const [check1, setCheck1] = useState(false);
   useEffect(() => {
     if (isUserScreen) {
@@ -135,6 +143,7 @@ const RenderItemProd = ({
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <CheckBox
           checked={check1}
+          disabled={hadSaveBriefCase}
           onPress={() => {
             setCheck1(!check1);
             validate(!check1, item.name, item.id, item);
@@ -161,6 +170,7 @@ export const FlashListPortfolio = ({
   idPortafolio,
   isUserScreen,
   tipo,
+  hadSave,
 }) => {
   useEffect(() => {
     console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ", idealProducts);
@@ -198,6 +208,7 @@ export const FlashListPortfolio = ({
               item={item}
               idPortafolio={idPortafolio}
               tipo={tipo}
+              hadSave={hadSave}
               isUserScreen={isUserScreen}
               setIdealPortfolioProducts={setIdealPortfolioProducts}
               idealPortfolioProducts={idealPortfolioProducts}

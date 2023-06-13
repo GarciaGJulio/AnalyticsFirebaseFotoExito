@@ -74,7 +74,6 @@ export const Client_Information = ({ navigation }) => {
     id: generateUIDD(),
   });
   //const [newArrayClients, setNewArrayClients] = useState([]);
-  const [datosCompletos, setDatosCompletos] = useState({});
   const [newArrayClients, setNewArrayClients] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
 
@@ -87,6 +86,7 @@ export const Client_Information = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
+  const [hadSave, setHadSave] = useState(false);
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
@@ -231,12 +231,7 @@ export const Client_Information = ({ navigation }) => {
   const validateBranchName = async () => {
     let verificacion;
     console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
-    /*let result = branchNames.some((item) => {
-      console.log("ITEM DEL ARRAY: ", item.nombre_sucursal);
-      console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
-      console.log("ITEMcOMPLETO", item);
-      return item.nombre_sucursal === sucursalInformation.name;
-    });*/
+
     let tempFecha;
     tempFecha = new Date().toISOString();
     tempFecha = tempFecha.split("T");
@@ -254,9 +249,6 @@ export const Client_Information = ({ navigation }) => {
         item.fecha_creacion === tempFecha
       );
     });
-    /*const auditorias = await realizarConsulta(
-      `select * from auditoria as aud inner join sucursal as s on s.id_sucursal =aud.id_sucursal  where aud.nombre_sucursal='${sucursalInformation.name}' AND nombre_cliente LIKE '${selected}' AND aud.FECHA_CREACION  LIKE '%${tempFecha}%' `
-    );*/
 
     return result;
   };
@@ -342,8 +334,7 @@ export const Client_Information = ({ navigation }) => {
             `${dataTime()}`,
           ],
         };
-        //datosCompletos.latitude,
-        //datosCompletos.longitude,
+
         await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
         await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
         const tmp_client_id = await AsyncStorage.getItem("id_cliente");
@@ -356,15 +347,6 @@ export const Client_Information = ({ navigation }) => {
             columnId: `id_sucursal`,
           },
           {
-            // nombre_cliente: selected,
-            // grupo_cliente: groupClient,
-            // tipo_cliente: type,
-            // auditorias_id: {
-            //   id_cliente: tmp_client_id,
-            //   nombre_cliente: selected,
-            //   id_sucursal: sucursalInformation.id,
-            //   nombre_sucursal: sucursalInformation.name
-            // },
             pantallas: {
               cliente_informacion: {
                 principal: {
@@ -392,7 +374,6 @@ export const Client_Information = ({ navigation }) => {
           }
         );
 
-        //  await subirArrays(dataSave.dataInsertType, dataSave.dataInsertRemote)
         const sentence =
           "INSERT INTO " +
           dataSave.tableName +
@@ -405,7 +386,11 @@ export const Client_Information = ({ navigation }) => {
         try {
           db_insertGlobalDataAudit(dataSave);
           //navigation.navigate("briefcase");
+          //setNewArrayClients([]);
+          //setInfoScreen(true);
+          setHadSave(true);
           setShowButton1(false);
+          setNewArrayClients([]);
           setShowButton2(true);
           setValidatePass(true);
           setIsModalVisible(false);
@@ -418,12 +403,6 @@ export const Client_Information = ({ navigation }) => {
           setValidatePass(true);
           setIsModalVisible(false);
         }
-        //db_insertGlobalDataAudit(dataSave);
-        //navigation.navigate("briefcase");
-        //setShowButton1(false);
-        //setShowButton2(true);
-        //setValidatePass(true);
-        //setIsModalVisible(false);
       } catch (e) {
         Alert.alert(
           "Se ha producido un error al recopilar datos",
@@ -432,44 +411,14 @@ export const Client_Information = ({ navigation }) => {
         console.log(e);
         setIsModalVisible(false);
       }
-      /*if (locationCoords) {
-        
-      } else {
-        console.log(error);
-        setIsModalVisible(false);
-        // El permiso de ubicación fue denegado o ocurrió un error al obtener la ubicación
-      }*/
     }
   };
-
-  /*const insertar = () => {
-    let sentencia =
-      "INSERT INTO cliente (id_cliente,id_tipo_cliente,nombre_cliente,usuario_creacion,fecha_creacion,fecha_modificacion) values ('C2B47Q','T3D44S','Supermaxi',null,null,null)";
-    db_insertGlobal({ tableName: "cliente", sentence: sentencia });
-  };*/
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
-  /*
-  useEffect(() => {
-    Alert.alert("DATOS DE LA BASE LOCAL:", newArrayClients);
-  }, []);*/
 
-  /*const consultarYCopiarContenidoClientes = async () => {
-    try {
-      // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
-
-      // Copia el contenido después de la consulta
-      //await copiarContenido(resultadoConsulta);
-      setNewArrayClients(dataFormat(resultadoConsulta));
-      console.log("Copia de contenido completada con éxito: ");
-    } catch (error) {
-      console.error("Error al consultar o copiar el contenido:", error);
-    }
-  };*/
   const handleDeleteRegisterLocal = async () => {
     deleteRegisterAudit({
       tableName: "sucursal",
@@ -478,11 +427,6 @@ export const Client_Information = ({ navigation }) => {
         infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
       }`,
     });
-    // const sqlsenten=`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`
-    // const res=await realizarConsulta(`select * from sucursal where id_sucursal='${infoScreen.id_sucursal}'`)
-    // console.log("ressss",res)
-    // console.log("sqlsenten",sqlsenten)
-    // console.log("infoScreen",infoScreen)
 
     cleanCurrentScreenUser();
   };
@@ -510,12 +454,20 @@ export const Client_Information = ({ navigation }) => {
         <Image source={Logotipo} style={styles.image} />
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <ScreenInformation title={"Información del Cliente"} text={""} />
+        <View style={{ flex: 3 }}>
+          <ScreenInformation
+            title={"Información del Cliente"}
+            text={
+              "Seleccione la información del cliente y la sucursal a auditar"
+            }
+          />
+        </View>
+
         <View
           style={{
             //flexDirection: "row",
             //marginHorizontal: 20,
-            flex: 1.6, //backgroundColor:'orange'
+            flex: 2, //backgroundColor:'orange'
           }}
         >
           <Dropdown
@@ -610,7 +562,6 @@ export const Client_Information = ({ navigation }) => {
             </View>
           </View>
         </View>
-
         <View
           style={{
             flex: 3,
@@ -632,7 +583,7 @@ export const Client_Information = ({ navigation }) => {
             maxLength={43}
             error={errorBranchName}
             keyboard="default"
-            editable={infoScreen ? false : true}
+            editable={hadSave ? false : infoScreen ? false : true}
             value={infoScreen ? infoScreen.nombre_sucursal : sucursal}
             width={"90%"}
             information={
@@ -704,7 +655,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },*/
   contentContainer: {
-    flex: 1.5,
+    flex: 2,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: "white",

@@ -1,10 +1,11 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 import { useFonts } from "expo-font";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
+import { GlobalContext } from "../context/GlobalContext";
 
 export const MultiSelectListV2 = ({
   setComplementaryPortfolioProducts,
@@ -18,6 +19,7 @@ export const MultiSelectListV2 = ({
   selectItemsId,
 }) => {
   const [select, setSelected] = useState([]);
+  const { hadSaveBriefCase } = useContext(GlobalContext);
   // const [selectItemsId, setSelectItemsId] = useState([]);
   const saveId = async () => {
     await AsyncStorage.setItem("id_portafolio_complementario", idPortafolio);
@@ -29,6 +31,10 @@ export const MultiSelectListV2 = ({
       //setSelectItemsId(complementaryPortfolioProducts.map((item) => { return item.id }))
     }
   }, []);
+
+  useEffect(() => {
+    console.log("HA GUARDADO EN MULTISELECTED? -- --- ", hadSaveBriefCase);
+  }, [hadSaveBriefCase]);
 
   /* const updateObject = (select) => {
     const newArray = auxiliarArray.filter((obj) => {
@@ -343,6 +349,7 @@ export const MultiSelectListV2 = ({
         <SectionedMultiSelect
           items={products}
           IconRenderer={Icon}
+          disabled={hadSaveBriefCase}
           styles={{
             cancelButton: { backgroundColor: "red" },
             listContainer: { backgroundColor: "red" },

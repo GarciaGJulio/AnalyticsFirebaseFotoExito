@@ -24,17 +24,26 @@ import { ItemBranch_Review } from "../../components/ItemBranch_Review";
 // import { Button } from "react-native-paper";
 import { Navigation } from "../../navigation/Navigation";
 import { GlobalContext } from "../../context/GlobalContext";
+import ModernaContext from "../../context/ModernaContext";
 
 export const ListBranch = ({ navigation }) => {
   const [audit, setAudit] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+  const { userInfo } = useContext(ModernaContext);
 
   const consultarYCopiarContenido = async () => {
+    const subStringName = userInfo
+      ? userInfo.displayName.split(" ")
+      : "Datos Perdidos";
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
-        "SELECT * FROM auditoria"
+        `SELECT * FROM auditoria where usuario_creacion='${userInfo.givenName}'`
+      );
+      console.log(
+        "PETICION ACTUAL - - -- - ",
+        `SELECT * FROM auditoria where usuario_creacion='${userInfo.givenName}'`
       );
 
       // Copia el contenido después de la consulta
@@ -113,35 +122,34 @@ export const ListBranch = ({ navigation }) => {
         <Image source={Logotipo} style={styles.image} />
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        {filteredData.length === 0 ? (
-          <View>
-            <Text style={styles.title}>
-              No se han registrado auditorías aún.
-            </Text>
-          </View>
-        ) : (
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text style={styles.title}>
-              Puedes revisar las auditorías ya realizadas presionando en el
-              registro de interés.
-            </Text>
-            <View style={styles.contentContainerBranch}>
-              <TextInput
-                style={{
-                  height: 50,
-                  width: 320,
-                  fontFamily:'Metropolis',
-                  borderColor: "gray",
-                  borderWidth: 1,
-                  paddingHorizontal: 10,
-                  marginBottom: 20,
-                  borderRadius: 10,
-                }}
-                placeholder="Buscar"
-                onChangeText={searchFilter}
-                value={searchText}
-              />
-
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={styles.title}>
+            Puedes revisar las auditorías ya realizadas presionando en el
+            registro de interés.
+          </Text>
+          <View style={styles.contentContainerBranch}>
+            <TextInput
+              style={{
+                height: 50,
+                width: 320,
+                fontFamily: "Metropolis",
+                borderColor: "gray",
+                borderWidth: 1,
+                paddingHorizontal: 10,
+                marginBottom: 20,
+                borderRadius: 10,
+              }}
+              placeholder="Buscar"
+              onChangeText={searchFilter}
+              value={searchText}
+            />
+            {filteredData.length === 0 ? (
+              <View>
+                <Text style={styles.title}>
+                  No se han registrado auditorías aún.
+                </Text>
+              </View>
+            ) : (
               <ScrollView style={{ bottom: 5 }}>
                 <FlatList
                   showsVerticalScrollIndicator={false}
@@ -156,9 +164,9 @@ export const ListBranch = ({ navigation }) => {
                   //keyExtractor={(item) => item.id}
                 />
               </ScrollView>
-            </View>
+            )}
           </View>
-        )}
+        </View>
       </Animatable.View>
     </View>
   );

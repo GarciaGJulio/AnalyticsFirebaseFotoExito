@@ -29,6 +29,7 @@ import {
   saveCurrentScreenUser,
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -51,7 +52,10 @@ export const Briefcase = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
+  const [hadSave, setHadSave] = useState(false);
   const isFocused = useIsFocused();
+
+  const { hadSaveBriefCase, setHadSaveBriefCase } = useContext(GlobalContext);
   useEffect(() => {
     const initDataLocal = async () => {
       await getCurrentScreenInformation();
@@ -270,9 +274,9 @@ export const Briefcase = ({ navigation }) => {
             (producto) => {
               console.log(
                 "CATEGORIA: " +
-                categoria.id_categoria +
-                " PRODUCTO: " +
-                producto.id_categoria
+                  categoria.id_categoria +
+                  " PRODUCTO: " +
+                  producto.id_categoria
               );
               return producto.id_categoria === categoria.id_categoria;
             }
@@ -314,7 +318,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -323,6 +327,7 @@ export const Briefcase = ({ navigation }) => {
     ) {
       setIsModalVisible(false);
       await AsyncStorage.setItem("id_portafolio_auditoria", "null");
+      setHadSaveBriefCase(true);
       navigation.navigate("rack");
       console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
@@ -330,7 +335,10 @@ export const Briefcase = ({ navigation }) => {
         "id_portafolio_auditoria",
         idPortafolioAuditoria
       );
-
+      console.log(
+        "\n***************** DESACTIVANDO CHECKS *****************************\n"
+      );
+      setHadSaveBriefCase(true);
       console.log(
         "PRODUCTOS DEL PORTAFOLIO IDEAL: ",
         JSON.stringify(idealPortfolioProducts)
@@ -352,11 +360,11 @@ export const Briefcase = ({ navigation }) => {
             console.log(
               "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
               "ID DEL PORTAFOLIO: " +
-              id_portafolio +
-              " ID DEL PRODUCTO: " +
-              id +
-              " TIPO DE PORTAFOLIO:" +
-              tipo_portafolio
+                id_portafolio +
+                " ID DEL PRODUCTO: " +
+                id +
+                " TIPO DE PORTAFOLIO:" +
+                tipo_portafolio
             );
 
             let dataSave = {
@@ -393,7 +401,6 @@ export const Briefcase = ({ navigation }) => {
 
             try {
               db_insertGlobalDataAudit(dataSave);
-
               console.log(
                 "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
               );
@@ -579,6 +586,7 @@ export const Briefcase = ({ navigation }) => {
   };
 
   const handleDeleteRegisterLocal = async () => {
+    setHadSaveBriefCase(false);
     if (infoScreen) {
       saveCurrentScreenUser(
         infoScreen.pantallas.cliente_informacion.principal,
@@ -597,19 +605,31 @@ export const Briefcase = ({ navigation }) => {
     );
     tmpDataDelete.map((productos) => {
       const { id_portafolio, id, tipo_portafolio } = productos;
+      console.log("*******************************************************");
+      console.log(
+        "******************ENTRANDO AL CICLO DE ELIMINADO DEL PORTAFOLIO***********************"
+      );
+      console.log("*******************************************************");
+      console.log("PRODUCTO A ANALIZAR: - - - - - ", productos);
+      if (id_portafolio !== "12" && id_portafolio !== "56") {
+        console.log(
+          " - - - - - - - - - - - ENTRANDO A ELIMINAR LOS DATOS DEL PORTAFOLIO - - - - - - - - - -- "
+        );
+        deleteRegisterAudit({
+          tableName: "portafolio",
+          objectId: "id_portafolio",
+          valueId: id_portafolio,
+        });
+      }
 
-      deleteRegisterAudit({
-        tableName: "portafolio",
-        objectId: "id_portafolio",
-        valueId: id_portafolio,
-      });
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${infoScreen
+        valueId: `${
+          infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-          }`,
+        }`,
       });
     });
   };
@@ -637,12 +657,14 @@ export const Briefcase = ({ navigation }) => {
       />
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={currentStep} />
-        <ScreenInformation
-          title={"Portafolio"}
-          text={
-            "Selecciona los productos del portafolio ideal o del portafolio complementario"
-          }
-        />
+        <View style={{ flex: 2 }}>
+          <ScreenInformation
+            title={"Portafolio"}
+            text={
+              "Selecciona los productos del portafolio ideal o del portafolio complementario"
+            }
+          />
+        </View>
         <View
           style={{
             flex: 3,
@@ -658,6 +680,7 @@ export const Briefcase = ({ navigation }) => {
             setIdealPortfolioProducts={setIdealPortfolioProducts}
             idealProducts={idealProducts}
             tipo={portafolioTipoIdeal}
+            hadSave={hadSave}
             isUserScreen={infoScreen ? true : false}
           />
         </View>

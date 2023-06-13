@@ -40,6 +40,7 @@ import {
   saveCurrentScreenUser,
 } from "../../utils/Utils";
 import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -58,6 +59,8 @@ export const Promos = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
   const [showButton2, setShowButton2] = useState(false);
+  const { setHadSavePreciador, setHadSaveBriefCase, setHadSaveRack } =
+    useContext(GlobalContext);
 
   const consultarYCopiarContenido = async () => {
     const clientName = await AsyncStorage.getItem("nombre_cliente");
@@ -231,6 +234,9 @@ export const Promos = ({ navigation }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     );
+    setHadSavePreciador(false),
+      setHadSaveBriefCase(false),
+      setHadSaveRack(false);
     console.log(
       "***********************************************************************************"
     );
@@ -460,10 +466,13 @@ export const Promos = ({ navigation }) => {
       </View>
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={3} />
-        <ScreenInformation
-          title={"Promociones"}
-          text={"Selecciona la sucursal que aplica promociones"}
-        />
+        <View style={{ flex: 1 }}>
+          <ScreenInformation
+            title={"Promociones"}
+            text={"Selecciona la sucursal que aplica promociones"}
+          />
+        </View>
+
         <View style={{ flex: 1, marginTop: 10 }}>
           <DropdownPromos
             nameTitle={"Sucursal"}

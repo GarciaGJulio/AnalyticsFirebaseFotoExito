@@ -15,75 +15,106 @@ const ScreenInformation = ({ title, text }) => {
   return (
     <View
       style={{
-        width: theme.dimensions.maxWidth,
+        width: theme.dimensions.maxWidth / 1.1,
+        flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 15,
+        marginVertical: 15,
+        //backgroundColor: "red",
         // height: theme.dimensions.maxHeight
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          width: theme.dimensions.maxWidth,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: theme.fontSize.title,
-            fontWeight: "600",
-            fontFamily: "Metropolis",
-          }}
-        >
-          {title}
-        </Text>
+      <View>
         <View
-          style={{ position: "absolute", left: theme.dimensions.maxWidth - 35 }}
-        ></View>
-      </View>
-      <View
-        style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 15 }}
-      >
-        <Divider
-          width={2}
-          color={"#D9D9D9"}
-          style={{ backgroundColor: "blue" }}
-        />
-      </View>
-      {text ? (
-        <Text
           style={{
-            fontSize: theme.fontSize.body,
-            width: "91%",
-            fontFamily: "Metropolis",
+            flex: 0.8,
+            width: theme.dimensions.maxWidth / 1.1,
+            justifyContent: "center",
+            alignItems: "center",
+            //backgroundColor: "yellow",
           }}
         >
-          {text.toString()}
-        </Text>
-      ) : null}
-      <View
-        style={{
-          alignSelf: "flex-start",
-          marginLeft: 23,
-          marginTop: 5,
-          marginBottom: 13,
-        }}
-      >
-        <View style={{ flexDirection: "row" }}>
-          <View style={{ marginVertical: 8 }}>
-            <Text style={{ color: "red", textAlign: "left", right: 5, top: -10 }}>
+          <Text
+            style={{
+              fontSize: theme.fontSize.title,
+              fontWeight: "600",
+              fontFamily: "Metropolis",
+            }}
+          >
+            {title}
+          </Text>
+        </View>
+        <View
+          style={{
+            //width: theme.dimensions.maxWidth / 1.1,
+            //marginVertical: 5,
+            //backgroundColor: "orange",
+            flex: 0.1,
+          }}
+        >
+          <Divider
+            width={2}
+            color={"#D9D9D9"}
+            style={{ backgroundColor: "blue" }}
+          />
+        </View>
+        <View
+          style={{
+            //backgroundColor: "blue",
+            //marginHorizontal: 0.9,
+            width: theme.dimensions.maxWidth / 1.1,
+            flex: 1,
+            //marginVertical: 5,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {text ? (
+            <Text
+              style={{
+                fontSize: theme.fontSize.body,
+                width: theme.dimensions.maxWidth / 1.1,
+                //width: "90%",
+                //backgroundColor: "purple",
+                //justifyContent: "center",
+                //alignItems: "center",
+                textAlign: "justify",
+                //flex: 1,
+                fontFamily: "Metropolis",
+              }}
+            >
+              {text.toString()}
+            </Text>
+          ) : null}
+        </View>
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            //backgroundColor: "blue",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View style={{ flex: 0 }}>
+            <Text
+              style={{
+                color: "red",
+                textAlign: "left",
+              }}
+            >
               *
-              <Text
-                style={{
-                  textAlign: "left",
-                  fontFamily: "Metropolis",
-                  color: "black",
-                }}
-              >
-                Campos obligatorios
-              </Text>
+            </Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                textAlign: "left",
+                fontFamily: "Metropolis",
+                color: "black",
+              }}
+            >
+              Campos obligatorios
             </Text>
           </View>
         </View>

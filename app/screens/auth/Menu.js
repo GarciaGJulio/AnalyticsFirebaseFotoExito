@@ -138,19 +138,7 @@ export const Menu = ({ navigation }) => {
         "----------------ENTRANDO A SINCRONIZAR DATOS DE AUTIROIAS: ",
         auditoriasSinSincronizar.length
       );
-      /*setTimeout(() => {
-        setAnimation(SUCCESS_ANIMATION);
-        if (isConnected) {
-          setTimeout(() => {
-            setIsModalVisible(false);
-          }, 2000);
-        } else {
-          setAnimation(FAILED_ANIMATION);
-          setTimeout(() => {
-            setIsModalVisible(false);
-          }, 4000);
-        }
-      }, 5000);*/
+
       auditoriasSinSincronizar.forEach(async (auditoria) => {
         console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
         try {
@@ -341,7 +329,7 @@ export const Menu = ({ navigation }) => {
             }}
           >
             <Text style={styles.text}>
-              Revisa y sincroniza las auditorías pendientes de envio.
+              Revisa y sincroniza las auditorías pendientes de envío.
             </Text>
           </View>
         </View>

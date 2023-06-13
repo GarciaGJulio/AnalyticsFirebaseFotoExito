@@ -42,6 +42,7 @@ import {
 import { RecuperarToken } from "../../services/onedrive";
 import { useIsFocused } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export const Racks = ({ navigation }) => {
   const [valueGeneralValidate, setValueGeneralValidate] = useState();
@@ -49,7 +50,8 @@ export const Racks = ({ navigation }) => {
   const [category, setCategory] = useState([]);
   const [rack, setRack] = useState([]);
   const [checked, setChecked] = useState(false);
-  const [errorPercha, setErrorPercha] = useState();
+  const [errorPerchaG, setErrorPerchaG] = useState(null);
+  const [errorPerchaM, setErrorPerchaM] = useState(null);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [idPercha] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
@@ -58,6 +60,7 @@ export const Racks = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
   const isFocused = useIsFocused();
+  const { hadSaveRack, setHadSaveRack } = useContext(GlobalContext);
   useEffect(() => {
     const initDataLocal = async () => {
       await getCurrentScreenInformation();
@@ -156,6 +159,7 @@ export const Racks = ({ navigation }) => {
           return {
             id: objeto.id_categoria,
             name: objeto.nombre_categoria,
+            id_planograma: objeto.id_planograma,
             images: {
               url_imagen1: objeto.url_imagen1,
               url_imagen2: objeto.url_imagen2,
@@ -169,6 +173,7 @@ export const Racks = ({ navigation }) => {
         return {
           id: objeto.id,
           id_percha: idPercha,
+          id_planograma: objeto.id_planograma,
           name: objeto.name,
           carasGeneral: 0,
           carasModerna: 0,
@@ -237,8 +242,12 @@ export const Racks = ({ navigation }) => {
 
   const validate = async () => {
     console.log("VALIDACION DE DATOS DE PERCHAS: ", category);
-    if (errorPercha !== "") {
-      setErrorPercha("* Los campos número de caras no pueden estar vacios");
+    if (errorPerchaG != "") {
+      setErrorPerchaG("* El campos Categoría General no puede estar vacio");
+      //setValidatePass(false)
+    }
+    if (errorPerchaM != "") {
+      setErrorPerchaM("* El campos Categoría Moderna no puede estar vacio");
       //setValidatePass(false)
     }
     if (category.length === 0) {
@@ -265,7 +274,7 @@ export const Racks = ({ navigation }) => {
         return true;
       });
 
-      if (!isValid) {
+      if (!isValid || errorPerchaM != "" || errorPerchaG != "") {
         //setErrorPercha("* Los campos número de caras no pueden estar vacios");
         //setErrorPercha("* Los campos número de caras no pueden estar vacios");
         Alert.alert(
@@ -275,7 +284,17 @@ export const Racks = ({ navigation }) => {
         //navigation.navigate('rack');
         console.log("\nCONTENIDO DE PERCHAS: ", JSON.stringify(category));
       } else {
-        if (errorPercha === "" && valueGeneralValidate === "") {
+        if (valueGeneralValidate != "") {
+          Alert.alert(
+            "Error al introducir los datos",
+            "La categoría Moderna no puede ser mayor a la categoría General"
+          );
+        }
+        if (
+          errorPerchaG === "" &&
+          errorPerchaM === "" &&
+          valueGeneralValidate === ""
+        ) {
           setIsModalVisible(true);
           try {
             console.log("IDPERCHA21", idPercha);
@@ -289,8 +308,14 @@ export const Racks = ({ navigation }) => {
             );
             console.log("RACKS:", category);
             category.map((productos) => {
-              const { id_percha, id, state, carasGeneral, carasModerna, images } =
-                productos;
+              const {
+                id_percha,
+                id,
+                state,
+                carasGeneral,
+                carasModerna,
+                images,
+              } = productos;
               console.log("carasGenerales:", carasGeneral);
               console.log("carasmODERNA:", carasModerna);
 
@@ -343,11 +368,16 @@ export const Racks = ({ navigation }) => {
               // navigation.navigate("promos");rrrrrrrrrr
               try {
                 db_insertGlobalDataAudit(dataSave);
+                setHadSaveRack(true);
                 setIsModalVisible(false);
                 setShowButton1(false);
                 setShowButton2(true);
               } catch (error) {
-                Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+                Alert.alert(
+                  "Error al insertar los datos",
+                  "Vuelva a intentarlo"
+                );
+                setHadSaveRack(false);
                 setIsModalVisible(false);
               }
             });
@@ -432,7 +462,9 @@ export const Racks = ({ navigation }) => {
                           },
                         },
                         pantallas: {
-                          ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                          ...(objUserInfo.pantallas
+                            ? objUserInfo.pantallas
+                            : {}),
                           rack: null,
                         },
                       },
@@ -459,6 +491,7 @@ export const Racks = ({ navigation }) => {
   };
   const handleDeleteRegisterLocal = async () => {
     const id_percha = await AsyncStorage.getItem("id_percha");
+    setHadSaveRack(false);
     // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
       saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen);
@@ -510,12 +543,15 @@ export const Racks = ({ navigation }) => {
       />
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={2} />
-        <ScreenInformation
-          title={"Perchas"}
-          text={
-            "Selecciona las perchas de los productos disponibles en el punto de venta actual"
-          }
-        />
+        <View style={{ flex: 3 }}>
+          <ScreenInformation
+            title={"Perchas"}
+            text={
+              "Selecciona las perchas de los productos disponibles en el punto de venta actual"
+            }
+          />
+        </View>
+
         <View style={styles.cardContainer}>
           {category.length === 0 ? (
             <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -531,8 +567,10 @@ export const Racks = ({ navigation }) => {
               rack={rack}
               setValueGeneralValidate={setValueGeneralValidate}
               // setRack={rsetRack}
-              errorPercha={errorPercha}
-              setErrorPercha={setErrorPercha}
+              errorPerchaG={errorPerchaG}
+              setErrorPerchaG={setErrorPerchaG}
+              errorPerchaM={errorPerchaM}
+              setErrorPerchaM={setErrorPerchaM}
               setData={setCategory}
               view={"audit"}
             />
