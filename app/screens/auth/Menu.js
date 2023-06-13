@@ -299,13 +299,20 @@ export const Menu = ({ navigation }) => {
       </View>
 
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            flex: 1,
+            margin: 5,
+            //backgroundColor: "brown",
+          }}
+        >
           <View
             style={{
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              marginLeft: 10,
+              //marginLeft: 10,
             }}
           >
             <StyledButton
@@ -319,13 +326,13 @@ export const Menu = ({ navigation }) => {
           </View>
           <View
             style={{
-              flex: 1.7,
+              flex: 1.4,
               justifyContent: "center",
               alignItems: "center",
               borderWidth: 0.5, //Detalles de los botones
               borderRadius: 10,
-              marginLeft: 20,
-              paddingHorizontal: 8,
+              marginLeft: 5,
+              //paddingHorizontal: 8,
             }}
           >
             <Text style={styles.text}>
@@ -340,7 +347,7 @@ export const Menu = ({ navigation }) => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              marginLeft: 10,
+              //marginLeft: 10,
             }}
           >
             <StyledButton
@@ -354,13 +361,13 @@ export const Menu = ({ navigation }) => {
           </View>
           <View
             style={{
-              flex: 1.7,
+              flex: 1.4,
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 0.5,
+              borderWidth: 0.5, //Detalles de los botones
               borderRadius: 10,
-              marginLeft: 20,
-              paddingHorizontal: 8,
+              marginLeft: 5,
+              //paddingHorizontal: 8,
             }}
           >
             <Text style={styles.text}>Crea una nueva auditoría.</Text>
@@ -373,7 +380,7 @@ export const Menu = ({ navigation }) => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              marginLeft: 10,
+              //marginLeft: 10,
             }}
           >
             <StyledButton
@@ -387,13 +394,13 @@ export const Menu = ({ navigation }) => {
           </View>
           <View
             style={{
-              flex: 1.7,
+              flex: 1.4,
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 0.5,
+              borderWidth: 0.5, //Detalles de los botones
               borderRadius: 10,
-              marginLeft: 20,
-              paddingHorizontal: 8,
+              marginLeft: 5,
+              //paddingHorizontal: 8,
             }}
           >
             <Text style={styles.text}>
@@ -428,23 +435,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 3,
     width: theme.dimensions.maxWidth,
-    //bottom: '35%',
-    //backgroundColor: "blue",
-    //alignItems:'center',
-    //justifyContent:'center'
   },
-  /*contentContainer: {
-    width: theme.dimensions.maxWidth,
-    //height: 536,
-    flex: 3,
-    backgroundColor: 'white',
-    position: 'absolute',
-    //bottom: 0,
-    borderTopStartRadius: 15,
-    borderTopEndRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },*/
   contentContainer: {
     flex: 2,
     borderTopStartRadius: 15,
@@ -453,6 +444,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     //padding:5,
+    paddingHorizontal: 1,
     paddingVertical: 20,
   },
   text: {

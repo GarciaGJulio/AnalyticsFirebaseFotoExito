@@ -82,13 +82,15 @@ export default ModernaHeader;
 const styles = StyleSheet.create({
   statusbar: {
     width: theme.dimensions.maxWidth,
-    height: 55,
+    //height: 55,
     flexDirection: "row",
+    flex: 1,
     //paddingHorizontal:10,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: theme.colors.modernaRed,
     position: "absolute",
+    paddingHorizontal: 10,
     //top: Constants.statusBarHeight,
   },
   modernaLogo: {
@@ -106,7 +108,9 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     //backgroundColor: "blue",
-    justifyContent: "center",
+    //justifyContent: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     flex: 1,
   },
   logOutButton: {

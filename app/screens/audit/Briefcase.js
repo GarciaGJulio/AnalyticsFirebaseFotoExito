@@ -673,7 +673,9 @@ export const Briefcase = ({ navigation }) => {
             marginTop: -8,
           }}
         >
-          <Text style={styles.text}>Portafolio Ideal</Text>
+          <View style={{ flex: 0.1, width: "90%" }}>
+            <Text style={styles.text}>Portafolio Ideal</Text>
+          </View>
           <FlashListPortfolio
             //idPortafolio={idPortafolioIdeal}
             idealPortfolioProducts={idealPortfolioProducts}
@@ -768,8 +770,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
-    right: 130,
+    //right: 130,
     fontSize: 14,
+    //padding: 10,
     fontFamily: "Metropolis",
   },
   scrollView: {

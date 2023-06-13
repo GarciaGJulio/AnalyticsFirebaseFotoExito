@@ -17,7 +17,10 @@ import TarjPromo from "../../components/TarjetaPromo";
 import { RecuperarToken } from "../../services/onedrive";
 import LOG_ING from "../../../assets/login.json";
 import LoaderModal from "../../components/LoaderModal";
-import { getCurrentScreenInformation, saveCurrentScreenUser } from "../../utils/Utils";
+import {
+  getCurrentScreenInformation,
+  saveCurrentScreenUser,
+} from "../../utils/Utils";
 
 export const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
@@ -82,8 +85,6 @@ export const Login = ({ navigation }) => {
     </View>
   );
 };
-
-// export default Login;
 
 const styles = StyleSheet.create({
   container: {

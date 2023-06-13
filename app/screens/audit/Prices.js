@@ -211,35 +211,6 @@ export const Prices = ({ navigation, route }) => {
     consultarYCopiarContenido();
   }, []);
 
-  /*const savePreciador = async () => {
-    /*let idPreciadorPortafolioComplementario = await AsyncStorage.getItem(
-      "id_preciador_portafolio_complementario"
-    );
-    let dataSave = {
-      tableName: "preciador",
-      dataInsertType: [
-        "id_preciador",
-        "id_preciador_portafolio_complementario",
-        "id_preciador_portafolio_ideal",
-      ],
-      dataInsert: [
-        `'${idPreciador}'`,
-        `'${idPreciadorPortafolioComplementario}'`,
-        `'${null}'`,
-      ],
-    };
-    const sentence =
-      "INSERT INTO " +
-      dataSave.tableName +
-      " (" +
-      dataSave.dataInsertType.join() +
-      ") VALUES(" +
-      dataSave.dataInsert.join() +
-      ")";
-    console.log("SENTENCIA A EJECUTAR: ", sentence);
-    //db_insertGlobalDataAudit(dataSave);
-  };*/
-
   useEffect(() => {
     const getNewArrays = async () => {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
@@ -538,12 +509,15 @@ export const Prices = ({ navigation, route }) => {
       </View>
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={1} />
-        <ScreenInformation
-          title={"Preciador"}
-          text={
-            "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
-          }
-        />
+        <View style={{ flex: 1.2 }}>
+          <ScreenInformation
+            title={"Preciador"}
+            text={
+              "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
+            }
+          />
+        </View>
+
         <View style={{ flex: 2, width: "100%", alignItems: "center" }}>
           {infoScreen && (
             <FlashListPrices

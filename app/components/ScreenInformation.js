@@ -19,7 +19,7 @@ const ScreenInformation = ({ title, text }) => {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginVertical: 15,
+        marginVertical: 20,
         //backgroundColor: "red",
         // height: theme.dimensions.maxHeight
       }}
