@@ -1,12 +1,5 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  useReducer,
-  useRef,
-} from "react";
+import React, { useEffect, useState, useMemo, useReducer } from "react";
 import ModernaContext from "./ModernaContext";
 import NetInfo from "@react-native-community/netinfo";
 import { AuthManager } from "../azureConfig/auth/AuthManager";
@@ -16,33 +9,35 @@ import { GraphManager } from "../azureConfig/graph/GraphManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 import axios from "axios";
+import { useCallback } from "react";
 
 export const ModernaProvider = ({ children }) => {
   const [isLogging, setIsLogging] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({}); // Inicializar con un objeto vacío
 
   const isLoggedIn = async () => {
-    console.log("CARGANDO LOS DATOS DE INCIO");
+    console.log("CARGANDO LOS DATOS DE INICIO");
     try {
-      let userInfo = await AsyncStorage.getItem("user");
-      userInfo = JSON.parse(userInfo);
-      if (userInfo) {
-        setUserInfo(userInfo);
+      let user = await AsyncStorage.getItem("user");
+      let infoSaved = JSON.parse(user);
+      if (infoSaved && typeof infoSaved === "object") {
+        setUserInfo(infoSaved);
         console.log("DATO CONSEGUIDO DE ASYNC ---------------");
         console.log("\nDATOS DE USUARIO:\n");
-        console.log(userInfo);
+        console.log(infoSaved);
       } else {
         console.log("NO SE HAN ENCONTRADO LOS DATOS DE USUARIO");
+        setUserInfo({}); // Establecer userInfo como un objeto vacío
       }
     } catch (e) {
       console.log(`IS LOGGED ERROR ${e}`);
+      setUserInfo({}); // Establecer userInfo como un objeto vacío
     }
   };
 
   useEffect(() => {
-    //fetchUser()
     isLoggedIn();
   }, []);
 
@@ -50,29 +45,15 @@ export const ModernaProvider = ({ children }) => {
     location: null,
     idClientGroup: null,
   };
-  const [state, dispatch] = useReducer(ModernaReducer, initialState);
-
-  const handleLocations = useCallback(async (locations) => {
-    console.log("locations from context", locations);
-    dispatch({ type: LOAD_LOCATIONS, payload: locations });
-  }, []);
 
   const handleIdClientGroup = (idClientGroup) => {
     console.log("actualizando id de grupo de cliente", idClientGroup);
     dispatch({ type: LOAD_ID_CLIENT_GROUP, payload: idClientGroup });
   };
 
-  const handleLoading = useCallback(async (isLoading) => {
-    //dispatch({ type: LOADING_START, payload: isLoading });
-    await handleWasUpdatedLocalData(true);
-  }, []);
+  const [state, dispatch] = useReducer(ModernaReducer, initialState);
 
-  const handleWasUpdatedLocalData = useCallback(async (wasUpdatedLocal) => {
-    //console.log("cambiando desde dispachs", wasUpdatedLocal)
-    //dispatch({ type: WAS_UPDATED_LOCAL_DATA, payload: wasUpdatedLocal });
-  }, []);
-
-  const handleLoginAzure = async (funcionQA, fn) => {
+  const handleLoginAzure = useCallback(async () => {
     try {
       await AuthManager.signInAsync();
       const token = await AuthManager.getAccessTokenAsync();
@@ -186,7 +167,32 @@ export const ModernaProvider = ({ children }) => {
       console.log("flujo cancelado . . . ", e);
       fn(false);
     }
-  };
+  }, []);
+
+  const handleLogoutAzure = useCallback(async () => {
+    let mail = null;
+    let userPrincipalName = null;
+    try {
+      console.log("CERRANDO SESION---------------");
+      if (userInfo.mail != null) {
+        mail = userInfo.mail.toLowerCase();
+        userPrincipalName = userInfo.userPrincipalName.toLowerCase();
+      } else {
+        userPrincipalName = userInfo.userPrincipalName.toLowerCase();
+      }
+      const responseInsertMac = await insertMacCurrentUser(
+        mail,
+        userPrincipalName,
+        null
+      );
+      console.log("ELIMINANDO MAC: ", responseInsertMac);
+      await AuthManager.signOutAsync();
+      setIsAuthenticated(false);
+    } catch (e) {
+      console.log("datos al momento de cerrar la sesión", e);
+    }
+    setIsAuthenticated(false);
+  }, [userInfo]);
 
   const makeRequest = async (mail, userPrincipalName) => {
     try {
@@ -277,49 +283,21 @@ export const ModernaProvider = ({ children }) => {
     }
   };
 
-  const handleLogoutAzure = async () => {
-    let mail = null;
-    let userPrincipalName = null;
-    try {
-      console.log("CERRANDO SESION---------------");
-      if (userInfo.mail != null) {
-        mail = userInfo.mail.toLowerCase();
-        userPrincipalName = userInfo.userPrincipalName.toLowerCase();
-      } else {
-        userPrincipalName = userInfo.userPrincipalName.toLowerCase();
-      }
-      const responseInsertMac = await insertMacCurrentUser(
-        mail,
-        userPrincipalName,
-        null
-      );
-      console.log("ELIMINANDO MAC: ", responseInsertMac);
-      await AuthManager.signOutAsync();
-      setIsAuthenticated(false);
-    } catch (e) {
-      console.log("datos al moemtno de cerrar la sesion", e);
-    }
-    setIsAuthenticated(false);
-  };
   return (
     <ModernaContext.Provider
       value={{
         isLogging,
         isConnected,
-        isAuthenticated: isAuthenticated,
+        isAuthenticated,
         setIsAuthenticated,
         userInfo,
         location: state.location,
         idClientGroup: state.idClientGroup,
-        //setIdClientGroup,
         setIsLogging,
         setIsConnected,
-        handleLocations,
         handleIdClientGroup,
         handleLoginAzure,
         handleLogoutAzure,
-        //handleLogoutAzure,
-        handleLoading,
       }}
     >
       {children}
@@ -328,3 +306,5 @@ export const ModernaProvider = ({ children }) => {
 };
 
 const styles = StyleSheet.create({});
+
+export default ModernaProvider;

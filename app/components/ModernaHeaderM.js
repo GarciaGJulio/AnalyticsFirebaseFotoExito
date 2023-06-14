@@ -21,7 +21,12 @@ const ModernaHeaderM = () => {
   const { userInfo, handleLogoutAzure } = useContext(ModernaContext);
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log(
+      "DATOS DEL USUARIO EN EL HEADER DE MENU: - -- - - - ",
+      userInfo
+    );
+  });
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -35,9 +40,10 @@ const ModernaHeaderM = () => {
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  const subStringName = userInfo
+  /*const subStringName = userInfo
     ? userInfo.displayName.split(" ")
-    : "Datos Perdidos";
+    : "Datos Perdidos";*/
+  const subStringName = userInfo.displayName.split(" ");
   if (!fontLoaded) return null;
 
   return (
@@ -49,8 +55,15 @@ const ModernaHeaderM = () => {
         warning={"¿Está seguro de querer cerrar sesión?"}
       />
       <View style={styles.userInfo}>
-        <Icon name="user-tag" type="font-awesome-5" size={18} color={"white"} />
-        <View style={{ paddingLeft: 10 }}>
+        <View style={{ flex: 1 }}>
+          <Icon
+            name="user-tag"
+            type="font-awesome-5"
+            size={18}
+            color={"white"}
+          />
+        </View>
+        <View style={{ flex: 4 }}>
           <Text
             style={{
               color: "white",
@@ -103,7 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     //backgroundColor: "blue",
   },
   imageContainer: {

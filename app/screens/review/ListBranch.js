@@ -33,9 +33,6 @@ export const ListBranch = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
 
   const consultarYCopiarContenido = async () => {
-    const subStringName = userInfo
-      ? userInfo.displayName.split(" ")
-      : "Datos Perdidos";
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
@@ -121,6 +118,7 @@ export const ListBranch = ({ navigation }) => {
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
+
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Text style={styles.title}>

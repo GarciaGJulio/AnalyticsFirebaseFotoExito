@@ -328,16 +328,20 @@ export const Menu = ({ navigation }) => {
             style={{
               flex: 1.4,
               justifyContent: "center",
-              alignItems: "center",
+              //alignItems: "center",
+              padding: 0,
               borderWidth: 0.5, //Detalles de los botones
               borderRadius: 10,
               marginLeft: 5,
-              //paddingHorizontal: 8,
+              paddingHorizontal: 15,
+              //backgroundColor: "blue",
             }}
           >
-            <Text style={styles.text}>
-              Revisa y sincroniza las auditorías pendientes de envío.
-            </Text>
+            <View style={{ left: 0 }}>
+              <Text style={[styles.text]}>
+                Sincroniza las auditorías pendientes de envió.
+              </Text>
+            </View>
           </View>
         </View>
 
@@ -363,11 +367,13 @@ export const Menu = ({ navigation }) => {
             style={{
               flex: 1.4,
               justifyContent: "center",
-              alignItems: "center",
+              //alignItems: "center",
+              padding: 0,
               borderWidth: 0.5, //Detalles de los botones
               borderRadius: 10,
               marginLeft: 5,
-              //paddingHorizontal: 8,
+              paddingHorizontal: 15,
+              //backgroundColor: "blue",
             }}
           >
             <Text style={styles.text}>Crea una nueva auditoría.</Text>
@@ -396,11 +402,13 @@ export const Menu = ({ navigation }) => {
             style={{
               flex: 1.4,
               justifyContent: "center",
-              alignItems: "center",
+              //alignItems: "center",
+              padding: 0,
               borderWidth: 0.5, //Detalles de los botones
               borderRadius: 10,
               marginLeft: 5,
-              //paddingHorizontal: 8,
+              paddingHorizontal: 15,
+              //backgroundColor: "blue",
             }}
           >
             <Text style={styles.text}>
@@ -451,6 +459,7 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeight.softbold,
     fontSize: 15,
     fontFamily: "Metropolis",
-    //textAlign:'justify'
+    //textAlign:'justify',
+    //flex: 1,
   },
 });

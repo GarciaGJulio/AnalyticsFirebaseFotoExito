@@ -21,7 +21,9 @@ const ModernaHeader = () => {
   const { userInfo, handleLogoutAzure } = useContext(ModernaContext);
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log("DATOS DEL USUARIO EN EL HEADER: - -- - - - ", userInfo);
+  });
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -30,9 +32,10 @@ const ModernaHeader = () => {
     setIsModalVisible(false);
   };
 
-  const subStringName = userInfo
+  /*const subStringName = userInfo
     ? userInfo.displayName.split(" ")
-    : "Datos Perdidos";
+    : "Datos Perdidos";*/
+  const subStringName = userInfo.displayName.split(" ");
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
