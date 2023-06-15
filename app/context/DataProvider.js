@@ -8,7 +8,12 @@ export const DataProvider = ({ children }) => {
 
   return (
     <DataContext.Provider
-      value={{ datosCompartidos, setDatosCompartidos, setUserDataInformation }}
+      value={{
+        datosCompartidos,
+        setDatosCompartidos,
+        setUserDataInformation,
+        userDataInformation,
+      }}
     >
       {children}
     </DataContext.Provider>

@@ -12,19 +12,24 @@ import { Icon } from "@rneui/base";
 import Logotipo from "../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import ConfirmationModal from "./ConfirmationModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import ModernaContext from "../context/ModernaContext";
 import { useFonts } from "expo-font";
 import WifiIndicator from "./WifiIndicator";
+import { ModernaContext } from "../context/ModernaProvider";
 
 const ModernaHeaderM = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { userInfo, handleLogoutAzure } = useContext(ModernaContext);
+  const { userInfo, handleLogoutAzure, displayName } =
+    useContext(ModernaContext);
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
     console.log(
       "DATOS DEL USUARIO EN EL HEADER DE MENU: - -- - - - ",
       userInfo
+    );
+    console.log(
+      "NOMBRE DEL USUARIO ACTUAL EN EL HEADER DEL MENU: - -- - - - ",
+      displayName
     );
   });
   const handleOpenModal = () => {
@@ -43,7 +48,7 @@ const ModernaHeaderM = () => {
   /*const subStringName = userInfo
     ? userInfo.displayName.split(" ")
     : "Datos Perdidos";*/
-  const subStringName = userInfo.displayName.split(" ");
+  const subStringName = displayName.split(" ");
   if (!fontLoaded) return null;
 
   return (

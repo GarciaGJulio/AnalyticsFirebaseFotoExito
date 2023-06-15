@@ -3,8 +3,8 @@ export const validateNameBranch2 = (name, fn) => {
     console.log("INFO name INVALIDA");
     fn("El campo nombre  no puede estar vacio");
   } else {
-    if (name.length < 8) {
-      fn("El campo nombre no puede tener 8 o menos dígitos");
+    if (name.length < 5) {
+      fn("El campo nombre no puede tener 4 o menos dígitos");
     } else {
       let regex = new RegExp(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/);
       if (!regex.test(name)) {
@@ -34,7 +34,7 @@ export const validateNameBranch = (name, fn) => {
     fn("El campo nombre no puede contener caracteres en minúsculas");
   } else if (/\s$/.test(name)) {
     fn("El campo nombre no puede tener espacios al final");
-  } else if (name.length < 8) {
+  } else if (name.length < 5) {
     fn("El campo nombre no puede tener 8 o menos dígitos");
   } else {
     fn("");

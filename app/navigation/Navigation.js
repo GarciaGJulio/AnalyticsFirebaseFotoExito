@@ -12,7 +12,6 @@ import { Menu } from "../screens/auth/Menu";
 // import AuditNavigation from './AuditNavigation';
 import { ListBranch } from "../screens/review/ListBranch";
 import { TabsNavigation } from "./TabsNavigation";
-import ModernaContext from "../context/ModernaContext";
 import { Login } from "../screens/auth/Login";
 import { AuditNavigation } from "./AuditNavigation";
 import { getCurrentScreenInformation } from "../utils/Utils";
@@ -21,13 +20,13 @@ import { Briefcase } from "../screens/audit/Briefcase";
 import { Prices } from "../screens/audit/Prices";
 import { Racks } from "../screens/audit/Rack";
 import { Promos } from "../screens/audit/Promos";
-import { GlobalContext } from "../context/GlobalContext";
-import { automaticSync } from "../services/SqliteService";
+import { ModernaContext } from "../context/ModernaProvider";
 
 const Stack = createStackNavigator();
 
 export const Navigation = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(ModernaContext);
+
   useEffect(() => {
     console.log("VARIABLE DE VERIFICACION DE LOGIN: ", isAuthenticated);
   }, []);

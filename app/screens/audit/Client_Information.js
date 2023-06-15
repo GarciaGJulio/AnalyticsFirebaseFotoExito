@@ -24,7 +24,7 @@ import LoaderModal from "../../components/LoaderModal";
 import * as Location from "expo-location";
 import axios from "axios";
 import { capturarCoordenadas } from "../../services/GeolocationM";
-import ModernaContext from "../../context/ModernaContext";
+import { ModernaContext } from "../../context/ModernaProvider";
 import {
   db_insertGlobal,
   db_insertGlobalDataAudit,
@@ -57,6 +57,7 @@ import {
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 import { getActualDate } from "../../common/utils";
+import { ScrollView } from "react-native";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -454,168 +455,186 @@ export const Client_Information = ({ navigation }) => {
         <Image source={Logotipo} style={styles.image} />
       </View>
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <View style={{ flex: 3 }}>
-          <ScreenInformation
-            title={"Información del Cliente"}
-            text={
-              "Seleccione la información del cliente y la sucursal a auditar"
-            }
-          />
-        </View>
-
-        <View
-          style={{
-            //flexDirection: "row",
-            //marginHorizontal: 20,
-            flex: 2, //backgroundColor:'orange'
-          }}
-        >
-          <Dropdown
-            valueInfoScreen={infoScreen ? infoScreen.nombre_cliente : null}
-            placeholder={"Seleccione un cliente"}
-            setSelected={setSelected}
-            selected={selected}
-            setType={setType}
-            newArrayClients={newArrayClients}
-            setGroupClient={setGroupClient}
-            error={errorClientName}
-            clients={newArrayClients}
-            setClientGroupId={setClientGroupId}
-            setSucursalInformation={setSucursalInformation}
-            sucursalInformation={sucursalInformation}
-            setError={setErrorClientName}
-            arrayClients={arrayClients}
-          />
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            marginVertical: 15,
-            justifyContent: "space-evenly",
-            flex: 1.3,
-            width: "100%",
-            //backgroundColor: "orange",
-          }}
-        >
-          <View style={{ width: 160 }}>
-            <Text
-              style={{
-                //paddingBottom: 5,
-                fontFamily: "Metropolis",
-                flex: 1,
-                fontSize: 14,
-                //backgroundColor: "blue",
-              }}
-            >
-              Grupo de cliente
-            </Text>
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            style={styles.scrollView}
+          >
             <View
               style={{
-                //width: "100%",
-                //height: 45,
-                flex: 1.5,
-                borderWidth: 2,
-                borderColor: theme.colors.lightgray,
-                //borderColor: "black",
-                borderRadius: 5,
                 justifyContent: "center",
-                //padding: 10,
                 alignItems: "center",
-                backgroundColor: "rgba(169,169,169,0.15)",
-              }}
-            >
-              <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                {infoScreen ? infoScreen.grupo_cliente : groupClient}
-              </Text>
-            </View>
-          </View>
-          <View style={{ width: 160 }}>
-            <Text
-              style={{
-                //paddingBottom: 2,
-                fontFamily: "Metropolis",
                 flex: 1,
-                fontSize: 14,
               }}
             >
-              Tipo de cliente
-            </Text>
-            <View
-              style={{
-                width: "100%",
-                //height: 100,
-                //height: "100%",
-                flex: 1.5,
-                borderWidth: 2,
-                borderColor: theme.colors.lightgray,
-                borderRadius: 5,
-                //padding: 5,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "rgba(169,169,169,0.15)",
-              }}
-            >
-              <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                {infoScreen ? infoScreen.tipo_cliente : type}
-              </Text>
+              <View style={{ flex: 3 }}>
+                <ScreenInformation
+                  title={"Información del Cliente"}
+                  text={
+                    "Seleccione la información del cliente y la sucursal a auditar"
+                  }
+                />
+              </View>
+
+              <View
+                style={{
+                  //flexDirection: "row",
+                  //marginHorizontal: 20,
+                  flex: 1,
+                  //backgroundColor: "orange",
+                }}
+              >
+                <Dropdown
+                  valueInfoScreen={
+                    infoScreen ? infoScreen.nombre_cliente : null
+                  }
+                  placeholder={"Seleccione un cliente"}
+                  setSelected={setSelected}
+                  selected={selected}
+                  setType={setType}
+                  newArrayClients={newArrayClients}
+                  setGroupClient={setGroupClient}
+                  error={errorClientName}
+                  clients={newArrayClients}
+                  setClientGroupId={setClientGroupId}
+                  setSucursalInformation={setSucursalInformation}
+                  sucursalInformation={sucursalInformation}
+                  setError={setErrorClientName}
+                  arrayClients={arrayClients}
+                />
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginVertical: 20,
+                  justifyContent: "space-evenly",
+                  flex: 1,
+                  width: "100%",
+                  //backgroundColor: "orange",
+                }}
+              >
+                <View style={{ width: 160 }}>
+                  <Text
+                    style={{
+                      //paddingBottom: 5,
+                      fontFamily: "Metropolis",
+                      flex: 1,
+                      fontSize: 14,
+                      //backgroundColor: "blue",
+                    }}
+                  >
+                    Grupo de cliente
+                  </Text>
+                  <View
+                    style={{
+                      //width: "100%",
+                      //height: 45,
+                      flex: 1.5,
+                      borderWidth: 2,
+                      borderColor: theme.colors.lightgray,
+                      //borderColor: "black",
+                      borderRadius: 5,
+                      justifyContent: "center",
+                      //padding: 10,
+                      alignItems: "center",
+                      backgroundColor: "rgba(169,169,169,0.15)",
+                    }}
+                  >
+                    <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
+                      {infoScreen ? infoScreen.grupo_cliente : groupClient}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{ width: 160 }}>
+                  <Text
+                    style={{
+                      //paddingBottom: 2,
+                      fontFamily: "Metropolis",
+                      flex: 1,
+                      fontSize: 14,
+                    }}
+                  >
+                    Tipo de cliente
+                  </Text>
+                  <View
+                    style={{
+                      width: "100%",
+                      //height: 100,
+                      //height: "100%",
+                      flex: 1.5,
+                      borderWidth: 2,
+                      borderColor: theme.colors.lightgray,
+                      borderRadius: 5,
+                      //padding: 5,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: "rgba(169,169,169,0.15)",
+                    }}
+                  >
+                    <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
+                      {infoScreen ? infoScreen.tipo_cliente : type}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View
+                style={{
+                  flex: 3,
+                  alignItems: "center",
+                  //backgroundColor:'red',
+                }}
+              >
+                <StyledInput
+                  onChangeText={(txt) => {
+                    setSucursal(txt);
+                    validateNameBranch(txt, setErrorBranchName);
+                    setSucursalInformation({
+                      ...sucursalInformation,
+                      name: txt.toUpperCase(),
+                    });
+                  }}
+                  label="Sucursal"
+                  placeholder="Ingresa el nombre de la sucursal"
+                  maxLength={43}
+                  error={errorBranchName}
+                  keyboard="default"
+                  editable={hadSave ? false : infoScreen ? false : true}
+                  value={infoScreen ? infoScreen.nombre_sucursal : sucursal}
+                  width={"90%"}
+                  information={
+                    "* Solo se puede ingresar la misma sucursal una vez por día"
+                  }
+                />
+              </View>
+              <View style={{ flex: 3, alignItems: "center", margin: 5 }}>
+                <DoubleDualStyledButton
+                  titleLeft={"Cancelar"}
+                  sizeLeft={theme.buttonSize.df}
+                  colorLeft={theme.colors.modernaYellow}
+                  iconLeft={"cancel"}
+                  typeLeft={"material-icon"}
+                  onPressLeft={() => setIsModalVisibleClose(true)}
+                  titleRigth={"Iniciar Visita"}
+                  sizeRigth={theme.buttonSize.df}
+                  //iconRigth={"content-save-all-outline"}
+                  //typeRigth={"material-community"}
+                  colorRigth={theme.colors.modernaRed}
+                  onPressRigth={handleOpenModal}
+                  showButton1={showButton1}
+                  showButton2={showButton2}
+                  titleRigthSecond={"Siguiente"}
+                  sizeRigthSecond={theme.buttonSize.df}
+                  //iconRigth={"content-save-all-outline"}
+                  //typeRigth={"material-community"}
+                  colorRigthSecond={theme.colors.modernaRed}
+                  onPressRigthSecond={() => navigation.navigate("briefcase")}
+                  showButton1Second={showButton1}
+                  showButton2Second={showButton2}
+                />
+              </View>
             </View>
-          </View>
-        </View>
-        <View
-          style={{
-            flex: 3,
-            alignItems: "center",
-            //backgroundColor:'red',
-          }}
-        >
-          <StyledInput
-            onChangeText={(txt) => {
-              setSucursal(txt);
-              validateNameBranch(txt, setErrorBranchName);
-              setSucursalInformation({
-                ...sucursalInformation,
-                name: txt.toUpperCase(),
-              });
-            }}
-            label="Sucursal"
-            placeholder="Ingresa el nombre de la sucursal"
-            maxLength={43}
-            error={errorBranchName}
-            keyboard="default"
-            editable={hadSave ? false : infoScreen ? false : true}
-            value={infoScreen ? infoScreen.nombre_sucursal : sucursal}
-            width={"90%"}
-            information={
-              "* Solo se puede ingresar la misma sucursal una vez por día"
-            }
-          />
-        </View>
-        <View style={{ flex: 1.1, alignItems: "center", margin: 5 }}>
-          <DoubleDualStyledButton
-            titleLeft={"Cancelar"}
-            sizeLeft={theme.buttonSize.df}
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => setIsModalVisibleClose(true)}
-            titleRigth={"Iniciar Visita"}
-            sizeRigth={theme.buttonSize.df}
-            //iconRigth={"content-save-all-outline"}
-            //typeRigth={"material-community"}
-            colorRigth={theme.colors.modernaRed}
-            onPressRigth={handleOpenModal}
-            showButton1={showButton1}
-            showButton2={showButton2}
-            titleRigthSecond={"Siguiente"}
-            sizeRigthSecond={theme.buttonSize.df}
-            //iconRigth={"content-save-all-outline"}
-            //typeRigth={"material-community"}
-            colorRigthSecond={theme.colors.modernaRed}
-            onPressRigthSecond={() => navigation.navigate("briefcase")}
-            showButton1Second={showButton1}
-            showButton2Second={showButton2}
-          />
+          </ScrollView>
         </View>
       </Animatable.View>
     </View>
@@ -655,16 +674,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },*/
   contentContainer: {
-    flex: 2,
+    flex: 1.5,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-    //padding:5,
-    //paddingVertical:5//
   },
+
   text: {
     fontWeight: theme.fontWeight.bold,
+  },
+  scrollView: {
+    flex: 20,
+    //backgroundColor: "blue",
   },
 });

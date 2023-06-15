@@ -29,7 +29,7 @@ import { convertImageUrl } from "../../services/convertUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
-import ModernaContext from "../../context/ModernaContext";
+import { ModernaContext } from "../../context/ModernaProvider";
 import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";

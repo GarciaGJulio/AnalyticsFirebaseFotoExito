@@ -22,7 +22,7 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { realizarConsulta } from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
-import ModernaContext from "../../context/ModernaContext";
+import { ModernaContext } from "../../context/ModernaProvider";
 import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";

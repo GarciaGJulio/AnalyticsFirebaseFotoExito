@@ -10,7 +10,6 @@ import SUCCESS_ANIMATION from "../../../assets/success.json";
 import FAILED_ANIMATION from "../../../assets/failed.json";
 import DOWNLOAD_ANIMATION from "../../../assets/download.json";
 import NetInfo from "@react-native-community/netinfo";
-import ModernaContext from "../../context/ModernaContext";
 import { Cli } from "../../azureConfig/graph/GraphManager";
 import { useFonts } from "expo-font";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
@@ -20,7 +19,7 @@ import {
   subidaBaseRemoteTodaAuditoria2,
 } from "../../services/SubidaBaseRemota";
 import { getCurrentScreenInformation } from "../../utils/Utils";
-import { useNavigation } from "@react-navigation/native";
+import { PrivateValueStore, useNavigation } from "@react-navigation/native";
 import {
   automaticSync,
   borrarBaseDeDatos,
@@ -33,6 +32,7 @@ import {
 } from "../../common/sqlite_config";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { GlobalContext } from "../../context/GlobalContext";
+import { ModernaContext } from "../../context/ModernaProvider";
 
 export const Menu = ({ navigation }) => {
   const { handleScreenInfo } = useContext(ModernaContext);
@@ -120,6 +120,11 @@ export const Menu = ({ navigation }) => {
   };
 
   const handleOpenModal = async () => {
+    /*const producto = await realizarConsulta("SELECT * FROM producto");
+    const insert =
+      "INSERT INTO producto (id_producto,id_categoria,nombre_producto,url_imagen_producto,precio,usuario_creacion,fecha_creacion,fecha_modificacion ) values ('100541','PAEMP31','FIDEO CAYAMBE BABETIN 200 G','https://storage.googleapis.com/apk_pedidos_tat/100541.png','1.1000',null,'2023-06-13T18:13:18.000Z',null ),('100562','PAEMP31','FIDEO CAYAMBE CAB DE ANGEL 400 G','https://storage.googleapis.com/apk_pedidos_tat/100562.png','1.2000',null,'2023-06-13T18:13:18.000Z',null ),('100613','COMIN45','CREMA RICH'S WHIPP TOPPING BASE 4 KG','https://storage.googleapis.com/apk_pedidos_tat/100613.png','23.6500',null,'2023-06-13T18:13:18.000Z',null ),('100699','COMIN47','LEVADURA BAKELS PLATINUM','https://storage.googleapis.com/apk_pedidos_tat/100699.png','3.5700',null,'2023-06-13T18:13:18.000Z',null ),('100712','GRASA53','MANTECA MANTEPLUS COSTA 15 KG','https://storage.googleapis.com/apk_pedidos_tat/100712.png','2.9700',null,'2023-06-13T18:13:18.000Z',null ),('100713','GRASA53','MANTECA MANTEPLUS COSTA 27.5 KG','https://storage.googleapis.com/apk_pedidos_tat/100713.png','55.4400',null,'2023-06-13T18:13:18.000Z',null ),('100715','GRASA53','MANTECA MANTEPLUS SIERRA 15 KG','https://storage.googleapis.com/apk_pedidos_tat/100715.png','32.9700',null,'2023-06-13T18:13:18.000Z',null ),('100716','GRASA53','MANTECA MANTEPLUS SIERRA 27.5 KG','https://storage.googleapis.com/apk_pedidos_tat/100716.png','60.4400',null,'2023-06-13T18:13:18.000Z',null )";
+    await realizarConsulta(insert);
+    console.log("********** LISTA DE PRODUCTOS *******************", producto);*/
     setAnimation(SYNC_ANIMATION);
     //setIsModalVisible(!isModalVisible);
     const auditoriasSinSincronizar = await realizarConsulta(
@@ -176,6 +181,7 @@ export const Menu = ({ navigation }) => {
     const validateAuditInBase = await realizarConsulta(
       "SELECT * FROM auditoria WHERE sincronizada = 0"
     );
+
     if (validateAuditInBase.length == 0) {
       try {
         await deleteInsertData(); // <--- Corregir aquí

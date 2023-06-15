@@ -24,7 +24,7 @@ import { ItemBranch_Review } from "../../components/ItemBranch_Review";
 // import { Button } from "react-native-paper";
 import { Navigation } from "../../navigation/Navigation";
 import { GlobalContext } from "../../context/GlobalContext";
-import ModernaContext from "../../context/ModernaContext";
+import { ModernaContext } from "../../context/ModernaProvider";
 
 export const ListBranch = ({ navigation }) => {
   const [audit, setAudit] = useState([]);
@@ -113,8 +113,8 @@ export const ListBranch = ({ navigation }) => {
   };
   if (!fontLoaded) return null;
 
-  return (
-    <View style={styles.container}>
+  {
+    /*<View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
@@ -166,65 +166,127 @@ export const ListBranch = ({ navigation }) => {
           </View>
         </View>
       </Animatable.View>
-    </View>
+                  </View>*/
+  }
+  return (
+    <ScrollView style={styles.scrollViewContainer}>
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image source={Logotipo} style={styles.image} />
+        </View>
+        <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
+          <View style={styles.content}>
+            <Text style={styles.title}>
+              Puedes revisar las auditorías ya realizadas presionando en el
+              registro de interés.
+            </Text>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Buscar"
+                onChangeText={searchFilter}
+                value={searchText}
+              />
+              {filteredData.length === 0 ? (
+                <View style={styles.noAuditsContainer}>
+                  <Text style={styles.noAuditsText}>
+                    No se han registrado auditorías aún.
+                  </Text>
+                </View>
+              ) : (
+                <ScrollView style={styles.auditsListContainer}>
+                  <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={filteredData}
+                    renderItem={({ item }) => (
+                      <ItemBranch_Review
+                        branch={item}
+                        setRefresh={setRefresh}
+                        refresh={refresh}
+                      />
+                    )}
+                  />
+                </ScrollView>
+              )}
+            </View>
+          </View>
+        </Animatable.View>
+      </View>
+    </ScrollView>
   );
 };
 
 //export default ListBranch;
 
 const styles = StyleSheet.create({
+  scrollViewContainer: {
+    flex: 1,
+    backgroundColor: theme.colors.modernaRed,
+  },
   container: {
     flex: 1,
     backgroundColor: theme.colors.modernaRed,
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
-  },
   imageContainer: {
     flex: 1,
     width: theme.dimensions.maxWidth,
-    //bottom: '35%',
-    //backgroundColor:'blue',
-    //alignItems:'center',
-    //justifyContent:'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
-  /*contentContainer: {
-    width: theme.dimensions.maxWidth,
-    //height: 536,
-    flex: 3,
-    backgroundColor: 'white',
-    position: 'absolute',
-    //bottom: 0,
-    borderTopStartRadius: 15,
-    borderTopEndRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },*/
+  image: {
+    width: "100%",
+    height: "100%",
+    aspectRatio: 1, // Mantener la relación de aspecto original de la imagen
+    resizeMode: "contain",
+  },
   contentContainer: {
-    flex: 1.5,
+    flex: 2,
     width: theme.dimensions.maxWidth,
+    height: theme.dimensions.maxHeight - theme.dimensions.maxHeight / 2.1,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
-    //padding:5,
-    //paddingVertical: 20
   },
-  contentContainerBranch: {
-    margin: 1,
-    width: 320,
-    height: "80%",
+
+  content: {
+    flex: 1,
+    width: theme.dimensions.maxWidth,
+    padding: 13,
   },
   title: {
-    //marginTop: 10,
-    padding: 13,
     fontSize: theme.fontSize.subtitle,
-    marginBottom: 10,
     fontFamily: "Metropolis",
+    marginBottom: 10,
+  },
+  searchContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  searchInput: {
+    height: 50,
+    width: 320,
+    fontFamily: "Metropolis",
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  noAuditsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noAuditsText: {
+    fontSize: theme.fontSize.subtitle,
+    fontFamily: "Metropolis",
+  },
+  auditsListContainer: {
+    flex: 1,
+    marginBottom: 5,
   },
 });

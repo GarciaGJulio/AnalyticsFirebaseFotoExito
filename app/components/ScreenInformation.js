@@ -112,6 +112,7 @@ const ScreenInformation = ({ title, text }) => {
                 textAlign: "left",
                 fontFamily: "Metropolis",
                 color: "black",
+                fontSize: theme.fontSize.details,
               }}
             >
               Campos obligatorios

@@ -11,7 +11,6 @@ import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import StyledButton from "../../components/StyledButton";
 import * as Animatable from "react-native-animatable";
-import ModernaContext from "../../context/ModernaContext";
 import TarjPercha from "../../components/TarjetaPercha";
 import TarjPromo from "../../components/TarjetaPromo";
 import { RecuperarToken } from "../../services/onedrive";
@@ -21,6 +20,7 @@ import {
   getCurrentScreenInformation,
   saveCurrentScreenUser,
 } from "../../utils/Utils";
+import { ModernaContext } from "../../context/ModernaProvider";
 
 export const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);

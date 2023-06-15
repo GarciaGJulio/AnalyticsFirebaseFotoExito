@@ -85,7 +85,7 @@ const StyledInput = ({
           style={{
             marginTop: 7,
             color: theme.colors.modernaRed,
-            fontSize: 12,
+            fontSize: theme.fontSize.error,
             fontFamily: "Metropolis",
             fontWeight: "600",
           }}
@@ -96,7 +96,7 @@ const StyledInput = ({
       <Text
         style={{
           marginTop: 7,
-          fontSize: 13,
+          fontSize: theme.fontSize.details,
           fontFamily: "Metropolis",
           fontWeight: "600",
         }}

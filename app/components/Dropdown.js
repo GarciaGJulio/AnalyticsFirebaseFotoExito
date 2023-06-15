@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 import { useFonts } from "expo-font";
-import ModernaContext from "../context/ModernaContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ModernaContext } from "../context/ModernaProvider";
 
 export const Dropdown = ({
   placeholder,
@@ -59,7 +59,7 @@ export const Dropdown = ({
   if (!fontLoaded) return null;
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={{ flexDirection: "row" }}>
         <View>
           <Text style={{ color: "red", textAlign: "left" }}>*</Text>
@@ -97,7 +97,7 @@ export const Dropdown = ({
           borderWidth: 1 ? 2 : 0,
           height: 50,
           //fontSize: 12,
-          flex: 1,
+          //flex: 1,
         }}
       />
 
@@ -114,7 +114,7 @@ export const Dropdown = ({
           {error}
         </Text>
       )}
-    </ScrollView>
+    </View>
   );
 };
 

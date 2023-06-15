@@ -27,7 +27,7 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import { realizarConsulta } from "../../common/sqlite_config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
-import ModernaContext from "../../context/ModernaContext";
+import { ModernaContext } from "../../context/ModernaProvider";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import { ProgressBar } from "../../components/ProgressBar";
 import { TarjPercha } from "../../components/TarjetaPercha";

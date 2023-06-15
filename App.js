@@ -9,10 +9,10 @@ import ModernaContext from "./app/context/ModernaContext";
 import Login from "./app/screens/auth/Login";
 // import ModernaProvider from "./app/context/ModernaProvider";
 import { dataAxiosQuery, load_db_config } from "./app/common/sqlite_config";
-import { DataProvider } from "./app/context/DataProvider";
-import { ModernaProvider } from "./app/context/ModernaProvider";
 import { Navigation } from "./app/navigation/Navigation";
 import { GlobalProvider } from "./app/context/GlobalContext";
+import { ModernaProvider } from "./app/context/ModernaProvider";
+import { DataProvider } from "./app/context/DataProvider";
 
 export default function App() {
   useEffect(() => {

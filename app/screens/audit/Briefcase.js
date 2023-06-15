@@ -244,6 +244,7 @@ export const Briefcase = ({ navigation }) => {
         // Verificar si existen productos de la categoría
         if (productosCategoria.length > 0) {
           acumulador.push({
+            id_categoria: productosCategoria[0].id_categoria,
             categoria: categoria.category,
             productos: productosCategoria,
           });
