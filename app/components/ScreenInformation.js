@@ -19,7 +19,8 @@ const ScreenInformation = ({ title, text }) => {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginVertical: 20,
+        //marginVertical: 20,
+        marginBottom: 5,
         //backgroundColor: "red",
         // height: theme.dimensions.maxHeight
       }}
@@ -78,22 +79,25 @@ const ScreenInformation = ({ title, text }) => {
                 //backgroundColor: "purple",
                 //justifyContent: "center",
                 //alignItems: "center",
-                textAlign: "justify",
+                //textAlign: "justify",
                 //flex: 1,
                 fontFamily: "Metropolis",
               }}
             >
               {text.toString()}
             </Text>
-          ) : null}
+          ) : (
+            <></>
+          )}
         </View>
         <View
           style={{
-            flex: 0.5,
+            flex: 1,
             flexDirection: "row",
             //backgroundColor: "blue",
             justifyContent: "center",
             alignItems: "center",
+            bottom: 5,
           }}
         >
           <View style={{ flex: 0 }}>

@@ -24,7 +24,7 @@ export const validateNameBranch2 = (name, fn) => {
 export const validateNameBranch = (name, fn) => {
   if (name.trim() === "") {
     fn("El campo nombre no puede estar vacío");
-  } else if (/[!@#$%^&*(),.?":{}|<>]/.test(name)) {
+  } else if (/[!@#$%^&*(),.?":{}|<>+\-]/.test(name)) {
     fn("El campo nombre no puede contener caracteres especiales");
   } else if (/([A-Za-z0-9])\1\1/.test(name)) {
     fn(
@@ -34,12 +34,11 @@ export const validateNameBranch = (name, fn) => {
     fn("El campo nombre no puede contener caracteres en minúsculas");
   } else if (/\s$/.test(name)) {
     fn("El campo nombre no puede tener espacios al final");
-  } else if (name.length < 5) {
-    fn("El campo nombre no puede tener 8 o menos dígitos");
   } else {
     fn("");
   }
 };
+
 const handleInputChange = (text) => {
   setInputValue(text);
   const number = parseFloat(text);

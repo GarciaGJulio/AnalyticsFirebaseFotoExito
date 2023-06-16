@@ -3,6 +3,7 @@ import {
   BackHandler,
   Image,
   ImageBackground,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -100,7 +101,7 @@ export const Racks = ({ navigation }) => {
       setInfoScreen(Object.assign({}, newObj));
       setShowButton2(true);
       setShowButton1(false);
-      setHadSaveRack(true)
+      setHadSaveRack(true);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",
@@ -544,7 +545,7 @@ export const Racks = ({ navigation }) => {
       />
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={2} />
-        <View style={{ flex: 3 }}>
+        <View style={{ flex: 4 }}>
           <ScreenInformation
             title={"Perchas"}
             text={
@@ -552,43 +553,34 @@ export const Racks = ({ navigation }) => {
             }
           />
         </View>
-
-        <View style={styles.cardContainer}>
-          {category.length === 0 ? (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontFamily: "Metropolis" }}>
-                No hay perchas asignadas para este grupo de cliente
-              </Text>
-            </View>
-          ) : (
-            <TarjPercha
-              //data={category}
-              isUserScreen={infoScreen ? true : false}
-              data={category}
-              rack={rack}
-              setValueGeneralValidate={setValueGeneralValidate}
-              // setRack={rsetRack}
-              errorPerchaG={errorPerchaG}
-              setErrorPerchaG={setErrorPerchaG}
-              errorPerchaM={errorPerchaM}
-              setErrorPerchaM={setErrorPerchaM}
-              setData={setCategory}
-              view={"audit"}
-            />
-          )}
-
-          {/* {
-            !infoScreen && <TarjPercha
-              //data={category}
-              isUserScreen={ false}
-              data={category}
-              rack={rack}
-              // setRack={rsetRack}
-              setData={setCategory}
-              view={"audit"}
-            />
-          } */}
-        </View>
+        <ScrollView
+          contentContainerStyle={styles.scrollViewContent}
+          keyboardShouldPersistTaps="handled"
+          style={{ width: "100%", height: "70%" }}
+        >
+          <View style={styles.cardContainer}>
+            {category.length === 0 ? (
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <Text style={{ fontFamily: "Metropolis" }}>
+                  No hay perchas asignadas para este grupo de cliente
+                </Text>
+              </View>
+            ) : (
+              <TarjPercha
+                isUserScreen={infoScreen ? true : false}
+                data={category}
+                rack={rack}
+                setValueGeneralValidate={setValueGeneralValidate}
+                errorPerchaG={errorPerchaG}
+                setErrorPerchaG={setErrorPerchaG}
+                errorPerchaM={errorPerchaM}
+                setErrorPerchaM={setErrorPerchaM}
+                setData={setCategory}
+                view={"audit"}
+              />
+            )}
+          </View>
+        </ScrollView>
       </View>
       <DoubleDualStyledButton
         titleLeft={"Cancelar"}
@@ -628,24 +620,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    flex: 12,
+    flex: 13,
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
-    //borderTopStartRadius: 15,
-    //borderTopEndRadius: 15,
     alignItems: "center",
     padding: 20,
   },
+  scrollViewContent: {
+    flexGrow: 1,
+    alignItems: "center",
+  },
   cardContainer: {
-    flex: 9,
-    //height: 160,
-    //borderWidth: 1,
+    height: "auto",
     width: "100%",
-    marginVertical: 5,
-    //marginHorizontal:10,
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    //backgroundColor:'blue',
+  },
+
+  scrollView: {
+    flex: 1,
+    width: "100%",
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+  },
+  noPerchasContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noPerchasText: {
+    fontFamily: "Metropolis",
   },
 });

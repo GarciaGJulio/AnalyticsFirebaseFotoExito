@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import theme from "../theme/theme";
 import { useFonts } from "expo-font";
@@ -40,46 +47,48 @@ const StyledInput = ({
           </Text>
         </View>
       </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View
+          style={[
+            style.inputContainer,
+            {
+              borderColor: error
+                ? theme.colors.modernaRed
+                : isFocused
+                ? theme.colors.inputcolor
+                : theme.colors.lightgray,
+              borderRadius: 5,
+              alignItems: "center",
+              borderWidth: 1 ? 2 : 0,
+              height: 50,
+            },
+          ]}
+        >
+          <TextInput
+            autoCorrect={false}
+            onFocus={() => {
+              //onFocus();
+              setIsFocused(true);
+            }}
+            autoCapitalize="characters"
+            onBlur={() => setIsFocused(false)}
+            maxLength={maxLength}
+            style={{
+              flex: 1,
+              //height: 50,
+              //backgroundColor: "blue"
+              fontSize: 13,
+              fontFamily: "Metropolis",
+            }}
+            {...props}
+            onChangeText={onChangeText}
+            keyboardType={keyboard}
+            editable={editable}
+            value={value}
+          />
+        </View>
+      </TouchableWithoutFeedback>
 
-      <View
-        style={[
-          style.inputContainer,
-          {
-            borderColor: error
-              ? theme.colors.modernaRed
-              : isFocused
-              ? theme.colors.inputcolor
-              : theme.colors.lightgray,
-            borderRadius: 5,
-            alignItems: "center",
-            borderWidth: 1 ? 2 : 0,
-            height: 50,
-          },
-        ]}
-      >
-        <TextInput
-          autoCorrect={false}
-          onFocus={() => {
-            //onFocus();
-            setIsFocused(true);
-          }}
-          autoCapitalize="characters"
-          onBlur={() => setIsFocused(false)}
-          maxLength={maxLength}
-          style={{
-            flex: 1,
-            //height: 50,
-            //backgroundColor: "blue"
-            fontSize: 13,
-            fontFamily: "Metropolis",
-          }}
-          {...props}
-          onChangeText={onChangeText}
-          keyboardType={keyboard}
-          editable={editable}
-          value={value}
-        />
-      </View>
       {error && (
         <Text
           style={{

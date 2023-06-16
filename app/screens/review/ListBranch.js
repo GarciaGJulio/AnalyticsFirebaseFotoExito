@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 9,
   },
 
   content: {
@@ -287,7 +288,7 @@ const styles = StyleSheet.create({
   },
   auditsListContainer: {
     flex: 1,
-    width:'90%',
+    width: "90%",
     marginBottom: 5,
   },
 });

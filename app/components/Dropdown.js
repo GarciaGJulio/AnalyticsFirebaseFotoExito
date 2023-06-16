@@ -87,7 +87,7 @@ export const Dropdown = ({
           flexShrink: 1,
         }}
         notFoundText="Cliente ya seleccionado"
-        dropdownTextStyles={{ flexShrink: 1, right: 10 }}
+        dropdownTextStyles={{ flexShrink: 1, right: 10, flex: 1 }}
         save="value"
         boxStyles={{
           borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
@@ -97,7 +97,7 @@ export const Dropdown = ({
           borderWidth: 1 ? 2 : 0,
           height: 50,
           //fontSize: 12,
-          //flex: 1,
+          flex: 1,
         }}
       />
 

@@ -1,7 +1,11 @@
 import {
   StyleSheet,
+  TouchableWithoutFeedback,
   Text,
+  Keyboard,
+  ScrollView,
   View,
+  KeyboardAvoidingView,
   FlatList,
   Alert,
   TouchableOpacity,
@@ -20,6 +24,7 @@ import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import Rack_View from "./Rack_View";
 import { RackCheckbox } from "./RackCheckbox";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const TarjPercha = ({
   isUserScreen,
@@ -37,17 +42,16 @@ export const TarjPercha = ({
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, width: "100%" }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.scrollViewContent}
+        keyboardShouldPersistTaps="handled"
+        style={{ width: "100%" }}
+      >
         <FlashList
           data={data}
-          // onEndReached={({ index }) => {
-          //   const itemDatos = DATA[index];
-          //   setDatos(prevDatos => [...prevDatos, itemDatos]); // Agrega los datos al arreglo
-          // }}
           renderItem={({ item }) => (
             <RackCheckbox
               categoryName={item.name}
-              //onchangeObjPercha={setObjPercha}
               errorPerchaG={errorPerchaG}
               errorPerchaM={errorPerchaM}
               setValueGeneralValidate={setValueGeneralValidate}
@@ -59,10 +63,9 @@ export const TarjPercha = ({
               setData={setData}
             />
           )}
-          //estimatedItemSize={10}
           showsVerticalScrollIndicator={false}
         />
-      </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

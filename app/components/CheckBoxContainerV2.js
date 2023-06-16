@@ -162,7 +162,7 @@ export const CheckBoxContainerV2 = ({
         </View>
         <View style={styles.descriptionContainer}>
           <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-            {productName}-{item.id}
+            {item.id}-{productName}
           </Text>
           <View
             style={{

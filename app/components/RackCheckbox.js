@@ -5,6 +5,9 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
@@ -17,6 +20,7 @@ import StyledInput from "./StyledInput";
 import { validatePercha } from "../utils/helpers";
 import { verifyUrlImage } from "../services/onedrive";
 import { GlobalContext } from "../context/GlobalContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const RackCheckbox = ({
   isUserScreen,
@@ -225,11 +229,11 @@ export const RackCheckbox = ({
         onClose={handleCloseModal}
         onPress={acceptModal}
         warning={
-          "Al presionar el boton Aceptar se va a eliminar el registro ingresado."
+          "Al presionar el botón Aceptar se va a eliminar el registro ingresado."
         }
       />
       <View style={styles.header}>
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
           <Text
             style={{
               fontWeight: theme.fontWeight.softbold,
@@ -243,16 +247,16 @@ export const RackCheckbox = ({
             {categoryName}
           </Text>
         </View>
-        <View style={{flex:0.2,justifyContent:'center',alignItems:'center'}}>
+        <View
+          style={{ flex: 0.2, justifyContent: "center", alignItems: "center" }}
+        >
           <TouchableOpacity
             disabled={hadSaveRack}
-            //style={{ }}
             onPress={() => setOpenCamera(!openCamera)}
           >
             <Icon name="camera" type="evilicon" size={40} color={"white"} />
           </TouchableOpacity>
         </View>
-
       </View>
       <View style={{ width: "100%" }}>
         <Divider
@@ -261,61 +265,62 @@ export const RackCheckbox = ({
           style={{ borderColor: theme.colors.lightgray }}
         />
       </View>
-      <View style={styles.categoryContainer}>
-        <View style={styles.category}>
-          <View style={{ flex: 1 }}>
-            <StyledInput
-              onChangeText={(txt) => {
-                setCateGeneral(txt);
-                actualizarCantidad(item, "carasGeneral", txt);
-                validateNumbers(txt, item.carasModerna);
-                validatePercha(txt, setErrorPerchaG);
-                /*setObjPercha({...objPercha,
-                              CarasGeneral:txt
-                          })*/
-                //onchangeObjPercha(objPercha)
-              }}
-              label="Categoria General"
-              placeholder="Caras"
-              maxLength={6}
-              keyboard="numeric"
-              editable={!hadSaveRack}
-              value={CateGeneral}
-              width={"100%"}
-              error={errorPerchaG}
-              information={"Número de caras"}
-            />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.categoryContainer}>
+            <View style={styles.category}>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <StyledInput
+                  onChangeText={(txt) => {
+                    setCateGeneral(txt);
+                    actualizarCantidad(item, "carasGeneral", txt);
+                    validateNumbers(txt, item.carasModerna);
+                    validatePercha(txt, setErrorPerchaG);
+                  }}
+                  label="Categoría General"
+                  placeholder="Caras"
+                  maxLength={6}
+                  keyboard="numeric"
+                  editable={!hadSaveRack}
+                  value={CateGeneral}
+                  width={"100%"}
+                  error={errorPerchaG}
+                  information={"Número de caras"}
+                />
+              </TouchableWithoutFeedback>
+            </View>
+            <View style={styles.category}>
+              <StyledInput
+                onChangeText={(txt) => {
+                  setCateModerna(txt);
+                  actualizarCantidad(item, "carasModerna", txt);
+                  validateNumbers(item.carasGeneral, txt);
+                  validatePercha(txt, setErrorPerchaM);
+                }}
+                label="Categoría Moderna"
+                placeholder="Caras"
+                maxLength={3}
+                keyboard="numeric"
+                editable={!hadSaveRack}
+                value={CateModerna}
+                width={"100%"}
+                error={errorPerchaM}
+                information={"Número de caras"}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.category}>
-          <StyledInput
-            onChangeText={(txt) => {
-              setCateModerna(txt);
-              actualizarCantidad(item, "carasModerna", txt);
-              validateNumbers(item.carasGeneral, txt);
-              validatePercha(txt, setErrorPerchaM);
-              /*setObjPercha({...objPercha,
-                                CarasModerna:txt
-                            })
-                            onchangeObjPercha(objPercha)*/
-            }}
-            label="Categoría Moderna"
-            placeholder="Caras"
-            maxLength={3}
-            keyboard="numeric"
-            editable={!hadSaveRack}
-            value={CateModerna}
-            width={"100%"}
-            error={errorPerchaM}
-            information={"Número de caras"}
-          />
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
       <View style={{ flexDirection: "row" }}>
         {verificacionCategorias ? (
           <Text
             style={{
-              // flex: 1,
               padding: 5,
               textAlign: "justify",
               color: "red",
@@ -338,7 +343,7 @@ export const RackCheckbox = ({
                 fontFamily: "Metropolis",
               }}
             >
-              Indique si la percha de la categoria cumple o no con lo esperado
+              Indique si la percha de la categoría cumple o no con lo esperado
             </Text>
             <Text
               style={{
@@ -468,7 +473,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     //left:10,
-    flexDirection:'row',
+    flexDirection: "row",
     paddingVertical: 5,
   },
   categoryContainer: {

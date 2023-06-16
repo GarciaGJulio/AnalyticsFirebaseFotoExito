@@ -424,8 +424,9 @@ export const Client_Information = ({ navigation }) => {
     deleteRegisterAudit({
       tableName: "sucursal",
       objectId: "id_sucursal",
-      valueId: `${infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
-        }`,
+      valueId: `${
+        infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
+      }`,
     });
     setHadSave(false);
     cleanCurrentScreenUser();
@@ -469,9 +470,9 @@ export const Client_Information = ({ navigation }) => {
               <View style={{ flex: 3 }}>
                 <ScreenInformation
                   title={"Información del Cliente"}
-                  text={
+                  /*text={
                     "Seleccione la información del cliente y la sucursal a auditar"
-                  }
+                  }*/
                 />
               </View>
 
@@ -479,7 +480,7 @@ export const Client_Information = ({ navigation }) => {
                 style={{
                   //flexDirection: "row",
                   //marginHorizontal: 20,
-                  flex: 1,
+                  flex: 0.1,
                   //backgroundColor: "orange",
                 }}
               >
@@ -528,8 +529,8 @@ export const Client_Information = ({ navigation }) => {
                   <View
                     style={{
                       //width: "100%",
-                      //height: 45,
-                      flex: 1.5,
+                      height: 35,
+                      //flex: 1.5,
                       borderWidth: 2,
                       borderColor: theme.colors.lightgray,
                       //borderColor: "black",
@@ -559,9 +560,9 @@ export const Client_Information = ({ navigation }) => {
                   <View
                     style={{
                       width: "100%",
-                      //height: 100,
+                      height: 35,
                       //height: "100%",
-                      flex: 1.5,
+                      //flex: 1.5,
                       borderWidth: 2,
                       borderColor: theme.colors.lightgray,
                       borderRadius: 5,
@@ -606,7 +607,7 @@ export const Client_Information = ({ navigation }) => {
                   }
                 />
               </View>
-              <View style={{ flex: 3, alignItems: "center", margin: 5 }}>
+              <View style={{ height: 50, alignItems: "center", margin: 5 }}>
                 <DoubleDualStyledButton
                   titleLeft={"Cancelar"}
                   sizeLeft={theme.buttonSize.df}

@@ -141,7 +141,7 @@ export const Prices = ({ navigation, route }) => {
       setInfoScreen(Object.assign({}, newObj));
       setShowButton2(true);
       setShowButton1(false);
-      setHadSavePreciador(true)
+      setHadSavePreciador(true);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",
@@ -510,7 +510,7 @@ export const Prices = ({ navigation, route }) => {
       </View>
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={1} />
-        <View style={{ flex: 1.2 }}>
+        <View style={{ flex: 1.3 }}>
           <ScreenInformation
             title={"Preciador"}
             text={

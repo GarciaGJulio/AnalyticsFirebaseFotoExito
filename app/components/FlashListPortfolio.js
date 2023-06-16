@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { FlatList } from "react-native";
 import theme from "../theme/theme";
-import CheckBox from "@react-native-community/checkbox";
 import { useFonts } from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalContext } from "../context/GlobalContext";
+import { CheckBox } from "@rneui/base";
 
 const RenderItem = React.memo(
   ({
@@ -118,9 +118,15 @@ const RenderItemProd = React.memo(
       <View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <CheckBox
+            checked={isChecked}
             disabled={hadSaveBriefCase}
-            value={isChecked}
-            onValueChange={toggleCheck}
+            onPress={toggleCheck}
+            // Use ThemeProvider to make change for all checkbox
+            iconType="material-community"
+            checkedIcon="checkbox-marked"
+            uncheckedIcon="checkbox-blank-outline"
+            checkedColor={theme.colors.modernaRed}
+            containerStyle={{ backgroundColor: "transparent" }}
           />
           <Text style={{ flex: 1, fontFamily: "Metropolis", fontSize: 15 }}>
             {item.id}-{item.name}
