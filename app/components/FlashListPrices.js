@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
-import { FlashList } from "@shopify/flash-list";
-import CheckBoxContainer from "./CheckBoxContainer";
-import theme from "../theme/theme";
-import { CheckBoxContainerV2 } from "./CheckBoxContainerV2";
+import { Image } from "react-native";
 import { useFonts } from "expo-font";
+import theme from "../theme/theme";
+import StyledInput from "./StyledInput";
+import TakeImage from "./TakeImage";
+import ToggleSwitch from "toggle-switch-react-native";
+import ConfirmationModal from "./ConfirmationModal";
+import { validatePriceProduct } from "../utils/helpers";
+import { GlobalContext } from "../context/GlobalContext";
+import { CheckBoxContainerV2 } from "./CheckBoxContainerV2";
 
 export const FlashListPrices = React.memo(
   ({
@@ -72,19 +77,13 @@ export const FlashListPrices = React.memo(
                 isUserScreen={isUserScreen}
                 isSelected={item.id === selectedItemId}
                 onToggleSelection={handleToggleSelection}
+                price={item.price.toString()}
               />
             )}
             keyExtractor={(item) => item.id.toString()}
-            /*getItemLayout={(data, index) => ({
-              length: ITEM_HEIGHT,
-              offset: ITEM_HEIGHT * index,
-              index,
-            })}
-            initialNumToRender={INITIAL_RENDER_COUNT}
-            maxToRenderPerBatch={MAX_RENDER_PER_BATCH}
-            windowSize={WINDOW_SIZE}*/
             removeClippedSubviews={true}
             showsVerticalScrollIndicator={false}
+            extraData={selectedItemId}
           />
         )}
       </View>

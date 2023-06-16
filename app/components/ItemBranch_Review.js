@@ -19,11 +19,11 @@ import FAILED_ANIMATION from "../../assets/failed.json";
 import SYNC_FAILED from "../../assets/resources/sync-failed.png";
 import SYNC_SUCCESS from "../../assets/resources/sync-success.png";
 import LoaderModal from "./LoaderModal";
-import ModernaContext from "../context/ModernaContext";
 import { DataContext } from "../context/DataProvider";
 import theme from "../theme/theme";
 import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 import { GlobalContext } from "../context/GlobalContext";
+import { ModernaContext } from "../context/ModernaProvider";
 
 export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
   const { setDatosCompartidos, datosCompartidos } = useContext(DataContext);

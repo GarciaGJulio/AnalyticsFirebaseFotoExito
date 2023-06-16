@@ -123,7 +123,7 @@ const RenderItemProd = React.memo(
             onValueChange={toggleCheck}
           />
           <Text style={{ flex: 1, fontFamily: "Metropolis", fontSize: 15 }}>
-            {item.name}-{item.id}
+            {item.id}-{item.name}
           </Text>
         </View>
       </View>

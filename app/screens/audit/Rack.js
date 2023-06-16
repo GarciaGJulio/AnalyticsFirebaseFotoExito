@@ -100,6 +100,7 @@ export const Racks = ({ navigation }) => {
       setInfoScreen(Object.assign({}, newObj));
       setShowButton2(true);
       setShowButton1(false);
+      setHadSaveRack(true)
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",

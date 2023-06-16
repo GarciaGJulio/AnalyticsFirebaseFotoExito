@@ -11,11 +11,9 @@ import {
   BackHandler,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import Geolocation from "@react-native-community/geolocation";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import * as Animatable from "react-native-animatable";
 import theme from "../../theme/theme";
-import DoubleStyledButton from "../../components/DoubleStyledButton";
 import ScreenInformation from "../../components/ScreenInformation";
 //import Dropdown from "../../components/Dropdown";
 import StyledInput from "../../components/StyledInput";
@@ -129,6 +127,8 @@ export const Client_Information = ({ navigation }) => {
       setInfoScreen(newObj);
       setShowButton2(true);
       setShowButton1(false);
+      setHadSave(true);
+      setNewArrayClients([]);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",
@@ -424,11 +424,10 @@ export const Client_Information = ({ navigation }) => {
     deleteRegisterAudit({
       tableName: "sucursal",
       objectId: "id_sucursal",
-      valueId: `${
-        infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
-      }`,
+      valueId: `${infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
+        }`,
     });
-
+    setHadSave(false);
     cleanCurrentScreenUser();
   };
   if (!fontLoaded) return null;

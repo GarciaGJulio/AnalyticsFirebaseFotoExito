@@ -103,11 +103,12 @@ export const Briefcase = ({ navigation }) => {
       });
 
       setIdealPortfolioProducts(tempItemsIdeal);
-
       setComplementaryPortfolioProducts(tempItems);
       setInfoScreen(newObj);
       setShowButton2(true);
       setShowButton1(false);
+      setHadSave(true)
+      setHadSaveBriefCase(true)
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",
@@ -275,9 +276,9 @@ export const Briefcase = ({ navigation }) => {
             (producto) => {
               console.log(
                 "CATEGORIA: " +
-                  categoria.id_categoria +
-                  " PRODUCTO: " +
-                  producto.id_categoria
+                categoria.id_categoria +
+                " PRODUCTO: " +
+                producto.id_categoria
               );
               return producto.id_categoria === categoria.id_categoria;
             }
@@ -319,7 +320,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -361,11 +362,11 @@ export const Briefcase = ({ navigation }) => {
             console.log(
               "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
               "ID DEL PORTAFOLIO: " +
-                id_portafolio +
-                " ID DEL PRODUCTO: " +
-                id +
-                " TIPO DE PORTAFOLIO:" +
-                tipo_portafolio
+              id_portafolio +
+              " ID DEL PRODUCTO: " +
+              id +
+              " TIPO DE PORTAFOLIO:" +
+              tipo_portafolio
             );
 
             let dataSave = {
@@ -622,15 +623,13 @@ export const Briefcase = ({ navigation }) => {
           valueId: id_portafolio,
         });
       }
-
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${
-          infoScreen
+        valueId: `${infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-        }`,
+          }`,
       });
     });
   };

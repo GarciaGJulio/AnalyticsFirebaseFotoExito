@@ -287,6 +287,7 @@ const styles = StyleSheet.create({
   },
   auditsListContainer: {
     flex: 1,
+    width:'90%',
     marginBottom: 5,
   },
 });

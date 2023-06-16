@@ -141,6 +141,7 @@ export const Prices = ({ navigation, route }) => {
       setInfoScreen(Object.assign({}, newObj));
       setShowButton2(true);
       setShowButton1(false);
+      setHadSavePreciador(true)
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",

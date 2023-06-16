@@ -229,25 +229,30 @@ export const RackCheckbox = ({
         }
       />
       <View style={styles.header}>
-        <Text
-          style={{
-            fontWeight: theme.fontWeight.softbold,
-            fontSize: theme.fontSize.subtitle,
-            left: 10,
-            borderColor: theme.colors.lightgray,
-            fontFamily: "Metropolis",
-            color: "white",
-          }}
-        >
-          {categoryName}
-        </Text>
-        <TouchableOpacity
-          disabled={hadSaveRack}
-          style={{ position: "absolute", right: 5 }}
-          onPress={() => setOpenCamera(!openCamera)}
-        >
-          <Icon name="camera" type="evilicon" size={40} color={"white"} />
-        </TouchableOpacity>
+        <View style={{flex:1}}>
+          <Text
+            style={{
+              fontWeight: theme.fontWeight.softbold,
+              fontSize: theme.fontSize.subtitle,
+              left: 10,
+              borderColor: theme.colors.lightgray,
+              fontFamily: "Metropolis",
+              color: "white",
+            }}
+          >
+            {categoryName}
+          </Text>
+        </View>
+        <View style={{flex:0.2,justifyContent:'center',alignItems:'center'}}>
+          <TouchableOpacity
+            disabled={hadSaveRack}
+            //style={{ }}
+            onPress={() => setOpenCamera(!openCamera)}
+          >
+            <Icon name="camera" type="evilicon" size={40} color={"white"} />
+          </TouchableOpacity>
+        </View>
+
       </View>
       <View style={{ width: "100%" }}>
         <Divider
@@ -463,6 +468,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-start",
     //left:10,
+    flexDirection:'row',
     paddingVertical: 5,
   },
   categoryContainer: {
