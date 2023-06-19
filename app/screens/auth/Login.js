@@ -63,7 +63,6 @@ export const Login = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <LoaderModal
         animation={LOG_ING}
         visible={isLoading}

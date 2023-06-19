@@ -55,6 +55,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-keyboard-aware-view": "^0.0.14",
     "react-native-multiple-select": "^0.5.12",
+    "react-native-pagination": "^1.5.5",
     "react-native-paper": "^5.7.2",
     "react-native-permissions": "^3.8.0",
     "react-native-progress-bar-multi-step": "^0.2.5",

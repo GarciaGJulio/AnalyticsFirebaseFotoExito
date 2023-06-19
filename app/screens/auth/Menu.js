@@ -134,7 +134,7 @@ export const Menu = ({ navigation }) => {
     if (auditoriasSinSincronizar.length === 0) {
       Alert.alert(
         "Datos ya sincronizados",
-        "No se detectan auditorias que se necesite sincronizar"
+        "No se detectan auditorías pendientes de enviar"
       );
     } else if (auditoriasSinSincronizar.length > 0 && isConnectionActivate) {
       setIsModalVisible(!isModalVisible);
@@ -279,7 +279,6 @@ export const Menu = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
@@ -345,7 +344,7 @@ export const Menu = ({ navigation }) => {
           >
             <View style={{ left: 0 }}>
               <Text style={[styles.text]}>
-                Sincroniza las auditorías pendientes de envió.
+                Sincroniza las auditorías pendientes por enviar.
               </Text>
             </View>
           </View>
@@ -396,7 +395,7 @@ export const Menu = ({ navigation }) => {
             }}
           >
             <StyledButton
-              title={"Consultar Auditorias"}
+              title={"Consultar Auditorías"}
               buttonColor={theme.colors.modernaGreen}
               onPress={() => navigation.navigate("listBranch")}
               size={theme.buttonSize.sm}
@@ -465,7 +464,7 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeight.softbold,
     fontSize: 15,
     fontFamily: "Metropolis",
-    //textAlign:'justify',
+    textAlign: "justify",
     //flex: 1,
   },
 });

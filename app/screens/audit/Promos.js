@@ -441,7 +441,6 @@ export const Promos = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalVisible}

@@ -13,7 +13,6 @@ import { Menu } from "../screens/auth/Menu";
 import { ListBranch } from "../screens/review/ListBranch";
 import { TabsNavigation } from "./TabsNavigation";
 import { Login } from "../screens/auth/Login";
-import { AuditNavigation } from "./AuditNavigation";
 import { getCurrentScreenInformation } from "../utils/Utils";
 import { Client_Information } from "../screens/audit/Client_Information";
 import { Briefcase } from "../screens/audit/Briefcase";
@@ -45,17 +44,12 @@ export const Navigation = () => {
   }, []); // Ejecuta la función solo una vez al montar el componente
 
   const LoginStack = ({ isAuthenticated }) => {
-    // useEffect(() => {
-    //   getCurrentScreenInformation(() => { })
-    // }, [isAuthenticated])
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="menu" component={Menu} />
-        {/* <Stack.Screen name="audit" component={AuditNavigation} /> */}
         <Stack.Screen name="audit" component={Client_Information} />
         <Stack.Screen name="listBranch" component={ListBranch} />
         <Stack.Screen name="review" component={TabsNavigation} />
-        {/* <Stack.Screen name="client" component={Client_Information} /> */}
         <Stack.Screen name="briefcase" component={Briefcase} />
         <Stack.Screen name="prices" component={Prices} />
         <Stack.Screen name="rack" component={Racks} />

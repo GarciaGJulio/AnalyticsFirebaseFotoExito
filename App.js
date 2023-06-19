@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import TarjPercha from "./app/components/TarjetaPercha";
 import React, { useEffect, useState, useContext } from "react";
 import TarjPromo from "./app/components/TarjetaPromo";
@@ -13,6 +13,7 @@ import { Navigation } from "./app/navigation/Navigation";
 import { GlobalProvider } from "./app/context/GlobalContext";
 import { ModernaProvider } from "./app/context/ModernaProvider";
 import { DataProvider } from "./app/context/DataProvider";
+import theme from "./app/theme/theme";
 
 export default function App() {
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function App() {
   return (
     <GlobalProvider>
       <DataProvider>
+        <StatusBar backgroundColor={theme.colors.modernaRed} />
         <ModernaProvider>
           <NavigationContainer>
             <Navigation />

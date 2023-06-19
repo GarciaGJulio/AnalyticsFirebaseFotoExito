@@ -4,13 +4,13 @@ export const validateNameBranch2 = (name, fn) => {
     fn("El campo nombre  no puede estar vacio");
   } else {
     if (name.length < 5) {
-      fn("El campo nombre no puede tener 4 o menos dígitos");
+      fn("El campo sucursal no puede tener 4 o menos dígitos");
     } else {
       let regex = new RegExp(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/);
       if (!regex.test(name)) {
         console.log("Nombre de sucursal no valido");
         fn(
-          "El campo nombre de sucursal no puede contener caracteres especiales o espacios al final"
+          "El campo sucursal de sucursal no puede contener caracteres especiales o espacios al final"
         );
         return false;
       } else {
@@ -23,17 +23,15 @@ export const validateNameBranch2 = (name, fn) => {
 
 export const validateNameBranch = (name, fn) => {
   if (name.trim() === "") {
-    fn("El campo nombre no puede estar vacío");
-  } else if (/[!@#$%^&*(),.?":{}|<>+\-]/.test(name)) {
-    fn("El campo nombre no puede contener caracteres especiales");
+    fn("El campo sucursal no puede estar vacío");
   } else if (/([A-Za-z0-9])\1\1/.test(name)) {
     fn(
-      "El campo nombre no puede contener tres caracteres consecutivos iguales"
+      "El campo sucursal no puede contener tres caracteres consecutivos iguales"
     );
   } else if (/[a-z]/.test(name)) {
-    fn("El campo nombre no puede contener caracteres en minúsculas");
+    fn("El campo sucursal no puede contener caracteres en minúsculas");
   } else if (/\s$/.test(name)) {
-    fn("El campo nombre no puede tener espacios al final");
+    fn("El campo sucursal no puede tener espacios al final");
   } else {
     fn("");
   }

@@ -4,6 +4,7 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+  ScrollViewBase,
   StatusBar,
   StyleSheet,
   Text,
@@ -267,7 +268,7 @@ export const Racks = ({ navigation }) => {
           console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
-        if (item.state === 1) {
+        if (item.state === 1 || item.state === 0) {
           if (!item.images || item.images.image1 === null) {
             console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
             return false;
@@ -525,7 +526,6 @@ export const Racks = ({ navigation }) => {
   if (!fontLoaded) return null;
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
@@ -533,7 +533,7 @@ export const Racks = ({ navigation }) => {
           navigation.navigate("prices");
           handleDeleteRegisterLocal();
         }}
-        warning={"¿Está seguro de querer cancelar el progreso actual?"}
+        warning={"¿Está seguro de cancelar el progreso actual?"}
       />
       <View style={{ flex: 1, width: "100%" }}>
         <ModernaHeader />
@@ -554,7 +554,8 @@ export const Racks = ({ navigation }) => {
           />
         </View>
         <ScrollView
-          contentContainerStyle={styles.scrollViewContent}
+          contentContainerStyle={{ width: theme.dimensions.width, flex: 1 }}
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           style={{ width: "100%", height: "70%" }}
         >
@@ -636,6 +637,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
+    flex: 1,
   },
 
   scrollView: {

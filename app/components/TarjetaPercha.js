@@ -47,7 +47,7 @@ export const TarjPercha = ({
         keyboardShouldPersistTaps="handled"
         style={{ width: "100%" }}
       >
-        <FlashList
+        <FlatList
           data={data}
           renderItem={({ item }) => (
             <RackCheckbox

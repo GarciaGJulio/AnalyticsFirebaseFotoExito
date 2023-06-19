@@ -81,10 +81,10 @@ export const Prices = ({ navigation, route }) => {
     }, 2000);
   }, [isFocused]);
   useEffect(() => {
-    console.log(
+    /*console.log(
       "////////////////////newIdealPortfolio**************",
       newIdealPortfolio
-    );
+    );*/
   }, [newIdealPortfolio]);
   const getInfoDatBaseScreen = () => {
     try {
@@ -189,28 +189,6 @@ export const Prices = ({ navigation, route }) => {
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
   };
-
-  const consultarYCopiarContenido = async () => {
-    try {
-      // Realiza la consulta a la base de datos
-
-      const resultadoConsultaComp = await realizarConsulta(
-        "SELECT * FROM portafolio"
-      );
-
-      // console.log(
-      //   "Copia de contenido completada con éxito - PRODUCTOS: ",
-      //   resultadoConsultaComp
-      // );
-      //console.log("ID DEL PORTAFOLIO COMP: ", id_portafolio_complementario);
-    } catch (e) {
-      console.log("Error al consultar o copiar el contenido:", e);
-    }
-  };
-
-  useEffect(() => {
-    consultarYCopiarContenido();
-  }, []);
 
   useEffect(() => {
     const getNewArrays = async () => {
@@ -490,7 +468,6 @@ export const Prices = ({ navigation, route }) => {
   };
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalVisible}
@@ -503,7 +480,7 @@ export const Prices = ({ navigation, route }) => {
           handleDeleteRegisterLocal();
           navigation.navigate("briefcase");
         }}
-        warning={"¿Está seguro de querer cancelar el progreso actual?"}
+        warning={"¿Está seguro de cancelar el progreso actual?"}
       />
       <View style={styles.headerContainer}>
         <ModernaHeader />

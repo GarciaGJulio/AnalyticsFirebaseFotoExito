@@ -25,8 +25,9 @@ export const Dropdown = ({
 
   const validateType = () => {
     setError("");
+    const nombre_cliente = selected.split("-")[1];
     arrayClients.forEach(async (type) => {
-      if (type.nombre_cliente == selected) {
+      if (type.nombre_cliente == nombre_cliente) {
         setType(type.nombre_tipo_cliente);
         setGroupClient(type.nombre_grupo_cliente);
         console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
@@ -86,7 +87,7 @@ export const Dropdown = ({
           padding: 0,
           flexShrink: 1,
         }}
-        notFoundText="Cliente ya seleccionado"
+        notFoundText="No se han encontrado coincidencias"
         dropdownTextStyles={{ flexShrink: 1, right: 10, flex: 1 }}
         save="value"
         boxStyles={{

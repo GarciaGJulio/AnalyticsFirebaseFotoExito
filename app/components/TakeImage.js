@@ -122,9 +122,12 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
         //actualizarImagen(item, setImage1, "image1",image1);
         style={styles.imageContainer}
       >
-        <Image source={{ uri: image1 ? image1 : image }} style={styles.image} />
+        <Image
+          source={{ uri: item.images.image1 ? item.images.image1 : image }}
+          style={styles.image}
+        />
       </TouchableOpacity>
-      {imageV1 ? (
+      {item.images.image1 ? (
         <TouchableOpacity
           disabled={disabled}
           onPress={() => {
@@ -140,7 +143,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
           style={styles.imageContainer}
         >
           <Image
-            source={{ uri: image2 ? image2 : image }}
+            source={{ uri: item.images.image2 ? item.images.image2 : image }}
             style={styles.image}
           />
           <TouchableOpacity
@@ -161,7 +164,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
       ) : (
         <></>
       )}
-      {imageV2 ? (
+      {item.images.image2 ? (
         <TouchableOpacity
           disabled={disabled}
           onPress={() => {
@@ -175,7 +178,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
           style={styles.imageContainer}
         >
           <Image
-            source={{ uri: image3 ? image3 : image }}
+            source={{ uri: item.images.image3 ? item.images.image3 : image }}
             style={styles.image}
           />
           <TouchableOpacity

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
 import { Image } from "react-native";
 import { useFonts } from "expo-font";
@@ -26,8 +26,8 @@ export const FlashListPrices = React.memo(
 
     useEffect(() => {
       console.log(
-        "ESTO LLEGA DE LA PANTALLA PRECIOS: ",
-        idPreciador + " " + " " + idPortafolio
+        "PRODUCTOS QUE LLEGAN AL PRECIADOR - - - - - - - - - - -: ",
+        products
       );
     }, []);
 
@@ -67,7 +67,7 @@ export const FlashListPrices = React.memo(
             renderItem={({ item }) => (
               <CheckBoxContainerV2
                 productName={item.name}
-                products={products}
+                products={products} // Usar productsPreciador en lugar de products
                 setProducts={setProducts}
                 idPreciador={idPreciador}
                 idPortafolio={idPortafolio}

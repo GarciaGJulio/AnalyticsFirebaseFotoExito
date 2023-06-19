@@ -8,6 +8,10 @@ export const GlobalProvider = ({ children }) => {
   const [hadSaveBriefCase, setHadSaveBriefCase] = useState(false);
   const [hadSavePreciador, setHadSavePreciador] = useState(false);
   const [hadSaveRack, setHadSaveRack] = useState(false);
+  const [productsPreciador, setProductsPreciador] = useState([]);
+  /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
+  const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
+    useState([]);*/
 
   return (
     <GlobalContext.Provider
@@ -22,6 +26,8 @@ export const GlobalProvider = ({ children }) => {
         setHadSavePreciador,
         hadSaveRack,
         setHadSaveRack,
+        productsPreciador,
+        setProductsPreciador,
       }}
     >
       {children}

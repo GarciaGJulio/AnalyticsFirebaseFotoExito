@@ -13,261 +13,253 @@ import { useFonts } from "expo-font";
 import StyledInput from "./StyledInput";
 import { GlobalContext } from "../context/GlobalContext";
 
-export const CheckBoxContainerV2 = ({
-  productName,
-  idPortafolio,
-  idPreciador,
-  setProducts,
-  isUserScreen,
-  item,
-  errorPrice,
-  setErrorPrice,
-}) => {
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
-  const [state, setState] = useState(0);
-  const [price, setPrice] = useState("");
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disabled1, setDisabled1] = useState(false);
-  const [disabled2, setDisabled2] = useState(false);
-  const { hadSavePreciador, setHadSavePreciador } = useContext(GlobalContext);
-  //const [errorPrice, setErrorPrice] = useState();
-  useEffect(() => {
-    console.log(
-      "////////////////////////////////////////////////isUserScreen: ",
-      isUserScreen
-    );
-    console.log("////////////////////////////////////////////////item: ", item);
+export const CheckBoxContainerV2 = React.memo(
+  ({
+    productName,
+    idPortafolio,
+    idPreciador,
+    setProducts,
+    isUserScreen,
+    item,
+    errorPrice,
+    setErrorPrice,
+  }) => {
+    const [state, setState] = useState(0);
+    const [price, setPrice] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const { hadSavePreciador, setHadSavePreciador } = useContext(GlobalContext);
 
-    if (isUserScreen) {
-      setState(item.state == 1 ? true : false);
-      setPrice(item.price + "");
-    }
-  }, []);
-  const handleOpenModal = () => {
-    setIsModalVisible(true);
-  };
+    useEffect(() => {
+      //console.log("isUserScreen: ", isUserScreen);
+      //console.log("item: ", item);
 
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const acceptModal = () => {
-    actualizarEstado(item, false);
-    //setCheck1(!check1);
-    //setCheck2(!check2);
-    setIsModalVisible(false);
-    //setDisabled1(!disabled1);
-    //setDisabled2(!disabled2);
-    //setState(!state);
-  };
-
-  useEffect(() => {
-    console.log("PRECIADOR QUE ESTA LLEGANDO: - - - - -", idPreciador);
-    console.log("PORTAFOLIO QUE ESTA LLEGANDO: - - - - -", idPortafolio);
-  }, []);
-  const actualizarEstado = (item, state) => {
-    console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ");
-    console.log("PRODUCTO: ", item);
-    console.log("ESTADO: ", state);
-    setState(state);
-    setProducts((products) => {
-      // Obtén una copia del array actual
-      const productosActualizados = [...products];
-
-      // Encuentra el objeto con el ID correspondiente
-      const producto = productosActualizados.find((p) => p.id === item.id);
-
-      // Actualiza la propiedad del objeto
-      if (producto) {
-        if (state) {
-          producto.state = 1;
-        } else {
-          setPrice("");
-          producto.state = 0;
-          producto.price = 0.0;
-          (producto.images.image1 = null),
-            (producto.images.image2 = null),
-            (producto.images.image3 = null);
-        }
-        //producto.id_portafolio_complementario = idPortafolio;
-        //producto.id_preciador_portafolio_complementario = idPreciador;
-        console.log("PORDUCTO ACTUALIZADO: ", producto);
+      if (isUserScreen) {
+        setState(item.state == 1 ? true : false);
+        setPrice(item.price + "");
       }
+    }, []);
 
-      // Devuelve el array actualizado como el nuevo estado
-      return productosActualizados;
-    });
-  };
+    const handleOpenModal = () => {
+      setIsModalVisible(true);
+    };
 
-  const actualizarPrecio = (item, price) => {
-    console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
-    console.log("PRODUCTO: ", item);
-    console.log("PRECIO: ", price);
-    setProducts((products) => {
-      // Obtén una copia del array actual
-      const productosActualizados = [...products];
+    const handleCloseModal = () => {
+      setIsModalVisible(false);
+    };
 
-      // Encuentra el objeto con el ID correspondiente
-      const producto = productosActualizados.find((p) => p.id === item.id);
+    const acceptModal = () => {
+      actualizarEstado(item.id, false);
+      setIsModalVisible(false);
+    };
 
-      // Actualiza la propiedad del objeto
-      if (producto) {
-        if (isNaN(price)) {
-          producto.price = 0.0;
-        } else {
-          producto.price = price;
+    const actualizarEstado = (id, state) => {
+      console.log(
+        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      );
+      console.log(
+        `\n * * * * * * * * * ACTUALIZANDO EL ESTADO DEL PRODUCTO :${id}  * * * * * * * * * \n`
+      );
+      console.log(
+        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      );
+      setState(state);
+      setProducts((products) => {
+        let productosActualizados = [...products];
+        let producto = productosActualizados.find((p) => p.id === id);
+
+        if (producto) {
+          if (state) {
+            producto.state = 1;
+          } else {
+            setPrice("");
+            producto.state = 0;
+            producto.price = 0.0;
+            producto.images = {
+              image1: null,
+              image2: null,
+              image3: null,
+            };
+          }
         }
 
-        //producto.id_portafolio_complementario = idPortafolio;
-        //producto.id_preciador_portafolio_complementario = idPreciador;
-        console.log("PORDUCTO ACTUALIZADO: ", producto);
-      }
+        return productosActualizados;
+      });
+    };
 
-      // Devuelve el array actualizado como el nuevo estado
-      return productosActualizados;
-    });
-  };
+    const actualizarPrecio = (id, price) => {
+      console.log(
+        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      );
+      console.log(
+        `\n * * * * * * * * * ACTUALIZANDO PRECIO DEL PRODUCTO :${id}  * * * * * * * * * \n`
+      );
+      console.log(
+        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      );
+      setProducts((products) => {
+        let productosActualizados = [...products];
+        let producto = productosActualizados.find((p) => p.id === id);
 
-  const [fontLoaded] = useFonts({
-    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
-    // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
-  });
-
-  if (!fontLoaded) return null;
-
-  return (
-    <View style={[styles.container, { flex: 1 }]}>
-      <ConfirmationModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-        onPress={acceptModal}
-        warning={
-          "Al presionar el boton Aceptar se borraran los datos ingresados de este producto."
+        if (producto) {
+          if (isNaN(price)) {
+            producto.price = 0.0;
+          } else {
+            producto.price = price;
+          }
         }
-      />
-      <View style={styles.primaryContainer}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 6,
-          }}
-        >
-          <Image
-            source={{ uri: item.url }}
-            style={{ width: 75, height: 75, resizeMode: "cover" }}
-          />
-        </View>
-        <View style={styles.descriptionContainer}>
-          <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-            {item.id}-{productName}
-          </Text>
+
+        return productosActualizados;
+      });
+    };
+
+    const [fontLoaded] = useFonts({
+      Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
+    });
+
+    if (!fontLoaded) return null;
+
+    return (
+      <View style={[styles.container, { flex: 1 }]}>
+        <ConfirmationModal
+          visible={isModalVisible}
+          onClose={handleCloseModal}
+          onPress={acceptModal}
+          warning={
+            "Al presionar el boton Aceptar se borraran los datos ingresados de este producto."
+          }
+        />
+        <View style={styles.primaryContainer}>
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              //backgroundColor: "blue",
-              justifyContent: "space-between",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: 6,
             }}
           >
-            <Text
-              style={{
-                //marginHorizontal: 10,
-                marginTop: 5,
-                fontSize: 14,
-                fontFamily: "Metropolis",
-              }}
-            >
-              Preciador visible
-            </Text>
-            <ToggleSwitch
-              isOn={state}
-              onColor="green"
-              disabled={hadSavePreciador}
-              offColor={theme.colors.modernaYellow}
-              //label="Example label"
-              //labelStyle={{ color: "black", fontWeight: "900" }}
-              size="small"
-              onToggle={() => {
-                console.log("CAMBIA A: ", !state);
-                !state ? actualizarEstado(item, !state) : handleOpenModal();
-              }}
+            <Image
+              source={{ uri: item.url }}
+              style={{ width: 75, height: 75, resizeMode: "cover" }}
             />
           </View>
-        </View>
-      </View>
-      {state ? (
-        <View style={styles.secondaryContainer}>
-          <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={styles.descriptionContainer}>
+            <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
+              {item.id}-{productName}
+            </Text>
             <View
               style={{
-                width: "50%",
                 flex: 1,
-                padding: 10,
+                flexDirection: "row",
+                //backgroundColor: "blue",
+                justifyContent: "space-between",
               }}
             >
-              <StyledInput
-                onChangeText={(txt) => {
-                  setPrice(txt);
-                  validatePriceProduct(txt, setErrorPrice);
-                  //setErrorPrice()
-                  actualizarPrecio(item, parseFloat(txt));
+              <Text
+                style={{
+                  //marginHorizontal: 10,
+                  marginTop: 5,
+                  fontSize: 14,
+                  fontFamily: "Metropolis",
                 }}
-                label="Preciador del producto"
-                placeholder="Precio"
-                maxLength={6}
-                keyboard="numeric"
-                editable={!hadSavePreciador}
-                error={errorPrice}
-                value={price}
-                width={"100%"}
-                // information={"* Este campo es obligatorio"}
-              />
-            </View>
-            <View
-              style={{
-                //backgroundColor: "green",
-                flex: 1.2,
-                // padding: 10,
-                justifyContent: "center",
-                //alignItems: "center",
-              }}
-            >
-              <View style={{ flexDirection: "row" }}>
-                <View>
-                  <Text style={{ color: "red", textAlign: "left" }}>*</Text>
-                </View>
-
-                <View>
-                  <Text
-                    style={{
-                      fontSize: 13.5,
-                      fontWeight: "500",
-                      fontFamily: "Metropolis",
-                    }}
-                  >
-                    Foto del preciador del producto
-                  </Text>
-                </View>
-              </View>
-
-              <TakeImage
-                setProducts={setProducts}
-                item={item}
-                isUserScreen={isUserScreen}
+              >
+                Preciador visible
+              </Text>
+              <ToggleSwitch
+                isOn={item.state === 1 ? true : state && item.state !== 1}
+                onColor="green"
                 disabled={hadSavePreciador}
+                offColor={theme.colors.modernaYellow}
+                // label="Example label"
+                // labelStyle={{ color: "black", fontWeight: "900" }}
+                onToggle={() => {
+                  console.log("CAMBIA A: ", !state);
+                  if (item.state === 1 && state) {
+                    handleOpenModal();
+                  } else {
+                    setState(!state);
+                    actualizarEstado(item.id, !state);
+                  }
+                }}
               />
             </View>
           </View>
         </View>
-      ) : (
-        <></>
-      )}
-    </View>
-  );
-};
+        {item.state ? (
+          <View style={styles.secondaryContainer}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <View
+                style={{
+                  width: "50%",
+                  flex: 1,
+                  padding: 10,
+                }}
+              >
+                <StyledInput
+                  onChangeText={(txt) => {
+                    setPrice(txt);
+                    validatePriceProduct(txt, setErrorPrice);
+                    actualizarPrecio(item.id, parseFloat(txt));
+                  }}
+                  label="Preciador del producto"
+                  placeholder="Precio"
+                  maxLength={6}
+                  keyboard="numeric"
+                  editable={!hadSavePreciador}
+                  error={errorPrice}
+                  value={
+                    price !== ""
+                      ? price
+                      : item.price
+                      ? item.price.toString()
+                      : ""
+                  }
+                  width={"100%"}
+                  // information={"* Este campo es obligatorio"}
+                />
+              </View>
+              <View
+                style={{
+                  //backgroundColor: "green",
+                  flex: 1.2,
+                  // padding: 10,
+                  justifyContent: "center",
+                  //alignItems: "center",
+                }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <View>
+                    <Text style={{ color: "red", textAlign: "left" }}>*</Text>
+                  </View>
+
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 13.5,
+                        fontWeight: "500",
+                        fontFamily: "Metropolis",
+                      }}
+                    >
+                      Foto del preciador del producto
+                    </Text>
+                  </View>
+                </View>
+
+                <TakeImage
+                  setProducts={setProducts}
+                  item={item}
+                  isUserScreen={isUserScreen}
+                  disabled={hadSavePreciador}
+                />
+              </View>
+            </View>
+          </View>
+        ) : (
+          <></>
+        )}
+      </View>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {

@@ -67,12 +67,12 @@ export const Briefcase = ({ navigation }) => {
     }, 2000);
   }, [isFocused]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(
       "*****************************idealPortfolioProducts================",
       idealPortfolioProducts
     );
-  }, [idealPortfolioProducts]);
+  }, [idealPortfolioProducts]);*/
 
   const getInfoDatBaseScreen = () => {
     try {
@@ -202,7 +202,7 @@ export const Briefcase = ({ navigation }) => {
       );
 
       const productosIdeal = await realizarConsulta(
-        `SELECT DISTINCT producto.*,portafolio.id_portafolio,portafolio.tipo FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND id_grupo_cliente='${idGroupClient}'`
+        `SELECT DISTINCT producto.*,portafolio.id_portafolio,portafolio.tipo FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND portafolio.id_portafolio='${idGroupClient}'`
       );
 
       const productosIdealFiltro = productosIdeal.map((objeto) => {
@@ -307,7 +307,7 @@ export const Briefcase = ({ navigation }) => {
       );
 
       setAllProducts([...nuevaListaCategorias]);
-      //console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
+      console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -637,16 +637,16 @@ export const Briefcase = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => {
           handleDeleteRegisterLocal();
           //navigation.goBack()
+          setHadSaveBriefCase(false);
           navigation.navigate("audit");
         }}
-        warning={"¿Está seguro de querer cancelar el progreso actual?"}
+        warning={"¿Está seguro de cancelar el progreso actual?"}
       />
       <View style={styles.headerContainer}>
         <ModernaHeader />

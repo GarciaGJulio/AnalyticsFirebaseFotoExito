@@ -56,6 +56,7 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import { getActualDate } from "../../common/utils";
 import { ScrollView } from "react-native";
+import { GlobalContext } from "../../context/GlobalContext";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -86,6 +87,7 @@ export const Client_Information = ({ navigation }) => {
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
+  const { setHadSaveBriefCase } = useContext(GlobalContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
@@ -172,7 +174,10 @@ export const Client_Information = ({ navigation }) => {
     // console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
       // console.log("OBJETO: ", obj.id_cliente);
-      return { key: obj.id_cliente, value: obj.nombre_cliente };
+      return {
+        key: obj.id_cliente,
+        value: obj.id_cliente + "-" + obj.nombre_cliente,
+      };
     });
     console.log(arrayFormat);
     return arrayFormat;
@@ -258,7 +263,7 @@ export const Client_Information = ({ navigation }) => {
     const validador = validate(sucursalInformation);
     console.log("ERROR DE NOMBRE DE SUCURURAL", errorBranchName);
     if (errorBranchName != "") {
-      setErrorBranchName("* El campo nombre de sucursal es obligatorio");
+      setErrorBranchName("* El campo sucursal es obligatorio");
       //setValidatePass(false)
     }
     if (selected == "") {
@@ -435,7 +440,6 @@ export const Client_Information = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
@@ -444,7 +448,7 @@ export const Client_Information = ({ navigation }) => {
           handleDeleteRegisterLocal();
           navigation.navigate("menu");
         }}
-        warning={"¿Está seguro de querer cancelar el progreso actual?"}
+        warning={"¿Está seguro de cancelar el progreso actual?"}
       />
       <LoaderModal
         animation={LOCATION_ANIMATION}
@@ -628,7 +632,10 @@ export const Client_Information = ({ navigation }) => {
                   //iconRigth={"content-save-all-outline"}
                   //typeRigth={"material-community"}
                   colorRigthSecond={theme.colors.modernaRed}
-                  onPressRigthSecond={() => navigation.navigate("briefcase")}
+                  onPressRigthSecond={() => {
+                    navigation.navigate("briefcase"),
+                      setHadSaveBriefCase(false);
+                  }}
                   showButton1Second={showButton1}
                   showButton2Second={showButton2}
                 />

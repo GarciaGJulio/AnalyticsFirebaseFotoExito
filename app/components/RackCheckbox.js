@@ -424,7 +424,7 @@ export const RackCheckbox = ({
             />
             <Text style={{ fontFamily: "Metropolis" }}>No cumple</Text>
           </View>
-          {check1 ? (
+          {check1 || check2 ? (
             <View style={{ paddingHorizontal: 25, flex: 1 }}>
               <Text
                 style={{
