@@ -49,7 +49,7 @@ const theme = {
   buttonSize: {
     lg: 270,
     df: 180,
-    sm: 150,
+    sm: "100%",
   },
 };
 export default theme;

@@ -44,6 +44,13 @@ export const Dropdown = ({
       }
     });
   };
+  useEffect(()=>{
+    console.log("ARRAY DE CLIENTES",newArrayClients)
+    newArrayClients.sort(function(a, b) {
+      return b.key - a.key;
+    });
+
+  },[])
 
   useEffect(() => {
     validateType();
