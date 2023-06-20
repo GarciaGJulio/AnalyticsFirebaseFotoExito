@@ -9,6 +9,7 @@ import { DataContext } from "../../context/DataProvider";
 import { realizarConsulta } from "../../common/sqlite_config";
 import { FlashListPortfolio } from "../../components/FlashListPortfolio";
 import { FlashListPortfolioReview } from "../../components/FlashListPortfolioReview";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Briefcase_branch_review = ({ route }) => {
   const { datosCompartidos } = useContext(DataContext);
@@ -39,6 +40,12 @@ const Briefcase_branch_review = ({ route }) => {
         WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}' AND a.id_auditoria = '${datosCompartidos.id_auditoria}'`
       );
 
+      const consultaTodos = await realizarConsulta(`SELECT * FROM portafolio`);
+
+      const consultaPortafolioAuditoriaTodos = await realizarConsulta(
+        `SELECT * FROM portafolio_auditoria`
+      );
+
       const arrayIdsPortafolio = [];
 
       consultaPortafolioAudit.forEach((item) => {
@@ -49,6 +56,10 @@ const Briefcase_branch_review = ({ route }) => {
       });
 
       console.log("IDS DE PORTAFOLIOS: - - - - - - - - -", arrayIdsPortafolio);
+      console.log(
+        "TODOS LOS PORTAFOLIO DE LA BASE AUDITORIA: - - - - - - - - -",
+        consultaPortafolioAuditoriaTodos
+      );
 
       const consultaPortafolio = [];
       for (const producto of consultaPortafolioAudit) {
@@ -99,8 +110,31 @@ const Briefcase_branch_review = ({ route }) => {
         `SELECT DISTINCT  p.id_portafolio, p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio WHERE pa.id_portafolio = '${datosCompartidos.id_portafolio_auditoria}'`
       );
 
+      const idGroupClient = await AsyncStorage.getItem("idGroupClient");
+      const productosIdealPortafolioExtra = await realizarConsulta(
+        `SELECT DISTINCT p.*, po.id_portafolio 
+        FROM producto AS p 
+        LEFT JOIN portafolio po ON p.id_producto = po.id_producto 
+          AND po.tipo = 'I'
+          AND po.id_grupo_cliente = '${idGroupClient}' 
+          AND po.estado = true OR po.estado = 1`
+      );
+
       const arrayTipoC = [];
       const arrayTipoI = [];
+
+      const productosIdealesExtras = productosIdealPortafolioExtra.map(
+        (objeto) => {
+          return {
+            id_producto: objeto.id_producto,
+            nombre_producto: objeto.nombre_producto,
+            url_imagen_producto: objeto.url_imagen_producto,
+            id_categoria: objeto.id_categoria,
+            precio: null,
+            estado: false,
+          };
+        }
+      );
 
       consultaPortafolio.forEach((elementoInterior) => {
         elementoInterior.forEach((objeto) => {
@@ -115,6 +149,7 @@ const Briefcase_branch_review = ({ route }) => {
             nombre_producto,
             id_producto,
             tipo,
+            estado: true,
             nombre_categoria,
             ...resto,
           };
@@ -162,11 +197,17 @@ const Briefcase_branch_review = ({ route }) => {
       );
       console.log(
         "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
-        consultaPortafolioAudit
-      );
-      console.log(
-        "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
         consultaPortafolio
+      );
+      /*console.log(
+        " - - --  ELEMENTOS EXTRAS - - - - - ",
+        productosIdealesExtras
+      );*/
+      console.log("ELEMENTOSA DE LA BASE DE DATOS, ", consultaPortafolioAudit);
+      console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
+      console.log(
+        " - - --  CONSULTA TODOS - - - - - ",
+        productosIdealPortafolioExtra
       );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);

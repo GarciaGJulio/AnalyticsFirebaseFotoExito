@@ -67,6 +67,15 @@ const RenderItemProd = ({
   return (
     <View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <CheckBox
+          checked={item.estado ? true : false}
+          iconType="material-community"
+          checkedIcon="checkbox-marked"
+          uncheckedIcon="checkbox-blank-outline"
+          checkedColor={theme.colors.modernaRed}
+          containerStyle={{ backgroundColor: "transparent" }}
+          disabled={true}
+        />
         <Text
           style={{
             flex: 1,

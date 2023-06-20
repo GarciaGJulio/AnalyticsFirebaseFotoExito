@@ -65,12 +65,7 @@ export const dataParameters = {
       foreingFields: [],
     },
     portafolio_auditoria: {
-      data: [
-        "id_portafolio_auditoria",
-        "id_portafolio",
-        "id_producto",
-        "estado",
-      ],
+      data: ["id_portafolio_auditoria", "id_portafolio", "id_producto"],
       foreingFields: [],
     },
     portafolio: {

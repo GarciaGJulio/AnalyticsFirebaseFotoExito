@@ -19,7 +19,7 @@ const Prices_Review = () => {
     try {
       const idsPortafolioAuditoria = await realizarConsulta(
         `SELECT DISTINCT p.id_portafolio, p.id_producto, p.tipo
-        FROM portafolio p
+        FROM portafolio as p
         INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio
         WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}'
         `
@@ -31,18 +31,6 @@ const Prices_Review = () => {
         inner join portafolio as pf on pr.id_portafolio=pf.id_portafolio and pr.id_producto= pf.id_producto 
         inner join producto as p on p.id_producto=pf.id_producto where a.id_auditoria='${datosCompartidos.id_auditoria}'`
       );
-
-      const idsPortafolioAuditoria2 = await realizarConsulta(
-        `SELECT DISTINCT p.id_portafolio, p.id_producto, p.tipo
-        FROM portafolio p
-        INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio
-        WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}'
-        `
-      );
-
-      /*const datosPreciador2 = await realizarConsulta(
-        `SELECT * from preciador where id_preciador='${datosCompartidos.id_preciador}'`
-      );*/
 
       let idsI = null;
       let idsC = null;
@@ -56,7 +44,7 @@ const Prices_Review = () => {
       });
 
       const productosIdeal2 = await realizarConsulta(
-        `SELECT DISTINCT p.* FROM producto p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}'`
+        `SELECT DISTINCT p.* FROM producto as p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}' AND po.estado=true`
       );
       console.log("ID IDEAL-- - - - - -- ", idsI);
       console.log("ID COMPLEMENTARIO-- - - - - -- ", idsC);

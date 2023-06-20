@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: theme.colors.lightgray,
     //height:200,
-    width: "100%",
+    width: theme.dimensions.maxWidth / 1.09,
     alignContent: "center",
     //backgroundColor: "red",
     shadowColor: "#000",

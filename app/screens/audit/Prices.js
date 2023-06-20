@@ -39,6 +39,7 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import LoaderModal from "../../components/LoaderModal";
 import { GlobalContext } from "../../context/GlobalContext";
+import { KeyboardAvoidingView } from "react-native";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -51,6 +52,10 @@ export const Prices = ({ navigation, route }) => {
   const { userInfo } = useContext(ModernaContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [errorPrice, setErrorPrice] = useState("");
+  const isAndroid = Platform.OS === "android";
+  const statusBarHeight = 0;
+  const navBarHeight = isAndroid ? 44 : 56;
+  const headerHeight = statusBarHeight + navBarHeight;
   // let complementaryPortfolioProducts = [];
   // let idealPortfolioProducts = [];
 
@@ -289,7 +294,7 @@ export const Prices = ({ navigation, route }) => {
                 `'${image1}'`,
                 `'${image2}'`,
                 `'${image3}'`,
-                `'${userInfo.givenName}'`,
+                `'${userInfo.mail}'`,
                 `'${dataTime()}'`,
                 `'${dataTime()}'`,
               ],
@@ -302,7 +307,7 @@ export const Prices = ({ navigation, route }) => {
                 `${image1}`,
                 `${image2}`,
                 `${image3}`,
-                `${userInfo.givenName}`,
+                `${userInfo.mail}`,
                 `${dataTime()}`,
                 `${dataTime()}`,
               ],
@@ -467,7 +472,11 @@ export const Prices = ({ navigation, route }) => {
     //})
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={""}
+      keyboardVerticalOffset={headerHeight}
+    >
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalVisible}
@@ -584,7 +593,7 @@ export const Prices = ({ navigation, route }) => {
           />
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

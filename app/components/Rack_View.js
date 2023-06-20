@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import theme from "../theme/theme";
-import { Icon, Input } from "@rneui/base";
+import { CheckBox, Icon, Input } from "@rneui/base";
 import { useFonts } from "expo-font";
 import { Divider } from "react-native-paper";
 import StyledInput from "./StyledInput";
@@ -97,11 +97,6 @@ export const Rack_View = ({ rack }) => {
           objeto.url_planograma2,
           `${objeto.id_planograma}2`
         );
-        /*console.log(
-          "\nNOMBRE DE LA IMAGEN A TRAER: ",
-          `${objeto.id_planograma}2`
-        );
-        console.log("IMAGEN ACTUALIZADA 2: ", imagenVerificada);*/
         setImagesPlanograma((prevImagenes) => [
           ...prevImagenes,
           imagenVerificada,
@@ -118,7 +113,6 @@ export const Rack_View = ({ rack }) => {
           objeto.url_planograma3,
           `${objeto.id_planograma}3`
         );
-        //console.log("IMAGEN ACTUALIZADA 3: ", imagenVerificada);
         setImagesPlanograma((prevImagenes) => [
           ...prevImagenes,
           imagenVerificada,
@@ -128,6 +122,7 @@ export const Rack_View = ({ rack }) => {
 
     let img = imagesPlanograma.join(",");
     //console.log("IMAGENES EXTRAS DE PLANOGRAMA: - - - - ", img);
+    console.log("IMAGENES DE PLANOGRAMA:   -- - - - -", img);
   };
 
   useEffect(() => {
@@ -162,21 +157,16 @@ export const Rack_View = ({ rack }) => {
         >
           {rack.nombre_categoria}
         </Text>
-        {rack.estado_percha == 0 ? (
-          <></>
-        ) : (
-          <TouchableOpacity
-            style={{ position: "absolute", right: 4, top: 2 }}
-            onPress={() => {
-              setOpenCamera(!openCamera);
-              setModalVisible(true);
-            }}
-          >
-            <Icon name="camera" type="evilicon" size={40} color={"white"} />
-            {/* <Icon name='camerao' type='antdesign' size={32} /> */}
-          </TouchableOpacity>
-        )}
-
+        <TouchableOpacity
+          style={{ position: "absolute", right: 4, top: 2 }}
+          onPress={() => {
+            setOpenCamera(!openCamera);
+            setModalVisible(true);
+          }}
+        >
+          <Icon name="camera" type="evilicon" size={40} color={"white"} />
+          {/* <Icon name='camerao' type='antdesign' size={32} /> */}
+        </TouchableOpacity>
         <View style={{ width: "100%" }}>
           <Divider
             width={1}
@@ -286,7 +276,7 @@ export const Rack_View = ({ rack }) => {
                       </View>
                       <View
                         style={{
-                          flex: 1.5,
+                          flex: 2,
                           justifyContent: "center",
                           alignItems: "center",
                         }}
@@ -312,7 +302,38 @@ export const Rack_View = ({ rack }) => {
                           })}
                         </ScrollView>
                       </View>
-
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexDirection: "row",
+                          flex: 0.5,
+                          right: 15,
+                        }}
+                      >
+                        <CheckBox
+                          checked={rack.estado_percha === 1 ? true : false}
+                          iconType="material-community"
+                          checkedIcon="checkbox-marked"
+                          uncheckedIcon="checkbox-blank-outline"
+                          checkedColor={theme.colors.modernaRed}
+                          containerStyle={{ backgroundColor: "transparent" }}
+                          disabled={true}
+                        />
+                        <Text style={{ fontFamily: "Metropolis" }}>Cumple</Text>
+                        <CheckBox
+                          checked={rack.estado_percha === 0 ? true : false}
+                          iconType="material-community"
+                          checkedIcon="checkbox-marked"
+                          uncheckedIcon="checkbox-blank-outline"
+                          checkedColor={theme.colors.modernaRed}
+                          containerStyle={{ backgroundColor: "transparent" }}
+                          disabled={true}
+                        />
+                        <Text style={{ fontFamily: "Metropolis" }}>
+                          No cumple
+                        </Text>
+                      </View>
                       <View
                         style={{
                           justifyContent: "center",
@@ -436,7 +457,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 280,
-    height: 528,
+    height: 555,
     borderWidth: 1,
   },
   button: {

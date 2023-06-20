@@ -36,11 +36,11 @@ export const ListBranch = ({ navigation }) => {
     try {
       // Realiza la consulta a la base de datos
       const resultadoConsulta = await realizarConsulta(
-        `SELECT * FROM auditoria where usuario_creacion='${userInfo.givenName}'`
+        `SELECT * FROM auditoria where usuario_creacion='${userInfo.mail}'`
       );
       console.log(
         "PETICION ACTUAL - - -- - ",
-        `SELECT * FROM auditoria where usuario_creacion='${userInfo.givenName}'`
+        `SELECT * FROM auditoria where usuario_creacion='${userInfo.mail}'`
       );
 
       // Copia el contenido después de la consulta

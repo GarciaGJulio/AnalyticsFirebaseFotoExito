@@ -310,6 +310,7 @@ export const Client_Information = ({ navigation }) => {
           modificacion: dataTime(),
         });
         console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
+        const tmp_client_id = await AsyncStorage.getItem("id_cliente");
         let dataSave = {
           tableName: "sucursal",
           dataInsertType: [
@@ -320,22 +321,24 @@ export const Client_Information = ({ navigation }) => {
             "usuario_creacion",
             "fecha_creacion",
             "fecha_modificacion",
+            "id_cliente",
           ],
           dataInsert: [
             `'${sucursalInformation.id}'`,
             `'${sucursalInformation.name}'`,
             `'${latitude}'`,
             `'${longitude}'`,
-            `'${userInfo.givenName}'`,
+            `'${userInfo.mail}'`,
             `'${dataTime()}'`,
             `'${dataTime()}'`,
+            `'${tmp_client_id}'`,
           ],
           dataInsertRemote: [
             `${sucursalInformation.id}`,
             `${sucursalInformation.name}`,
             `${latitude}`,
             `${longitude}`,
-            `${userInfo.givenName}`,
+            `${userInfo.mail}`,
             `${dataTime()}`,
             `${dataTime()}`,
           ],
@@ -343,7 +346,6 @@ export const Client_Information = ({ navigation }) => {
 
         await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
         await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
-        const tmp_client_id = await AsyncStorage.getItem("id_cliente");
         await AsyncStorage.setItem("nombre_cliente", selected);
         saveCurrentScreenUser(
           {

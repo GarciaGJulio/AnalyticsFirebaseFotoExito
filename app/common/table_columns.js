@@ -39,6 +39,7 @@ export const PORTAFOLIO = {
   ID_PRODUCTO: "id_producto",
   ID_GRUPO_CLIENTE: "id_grupo_cliente",
   TIPO: "tipo",
+  ESTADO: "estado",
 };
 
 export const GROUP_CLIENT_TABLE = {

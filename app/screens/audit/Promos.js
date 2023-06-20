@@ -275,7 +275,7 @@ export const Promos = ({ navigation }) => {
         `'${idSucursal}'`,
         `'${idCliente}'`,
         `'${idPortafolioAuditoria}'`,
-        `'${userInfo.givenName}'`,
+        `'${userInfo.mail}'`,
         `'${dataTime()}'`,
         `'${nombreCliente}'`,
         `'${nombreSucursal}'`,

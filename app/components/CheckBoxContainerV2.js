@@ -24,7 +24,7 @@ export const CheckBoxContainerV2 = React.memo(
     errorPrice,
     setErrorPrice,
   }) => {
-    const [state, setState] = useState(0);
+    const [state, setState] = useState(false);
     const [price, setPrice] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { hadSavePreciador, setHadSavePreciador } = useContext(GlobalContext);

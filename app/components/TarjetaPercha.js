@@ -42,26 +42,24 @@ export const TarjPercha = ({
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior={behavior} keyboardVerticalOffset={offset}>
-        <FlatList
-          data={data}
-          renderItem={({ item }) => (
-            <RackCheckbox
-              categoryName={item.name}
-              errorPerchaG={errorPerchaG}
-              errorPerchaM={errorPerchaM}
-              setValueGeneralValidate={setValueGeneralValidate}
-              setErrorPerchaG={setErrorPerchaG}
-              setErrorPerchaM={setErrorPerchaM}
-              isUserScreen={isUserScreen}
-              item={item}
-              planograma={rack}
-              setData={setData}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-        />
-      </KeyboardAvoidingView>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <RackCheckbox
+            categoryName={item.name}
+            errorPerchaG={errorPerchaG}
+            errorPerchaM={errorPerchaM}
+            setValueGeneralValidate={setValueGeneralValidate}
+            setErrorPerchaG={setErrorPerchaG}
+            setErrorPerchaM={setErrorPerchaM}
+            isUserScreen={isUserScreen}
+            item={item}
+            planograma={rack}
+            setData={setData}
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 };

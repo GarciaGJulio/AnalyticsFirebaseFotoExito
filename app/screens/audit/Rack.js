@@ -352,7 +352,7 @@ export const Racks = ({ navigation }) => {
                   `'${image1}'`,
                   `'${image2}'`,
                   `'${image3}'`,
-                  `'${userInfo.givenName}'`,
+                  `'${userInfo.mail}'`,
                   `'${dataTime()}'`,
                   `'${dataTime()}'`,
                 ],
@@ -553,35 +553,28 @@ export const Racks = ({ navigation }) => {
             }
           />
         </View>
-        <ScrollView
-          contentContainerStyle={{ width: theme.dimensions.width, flex: 1 }}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          style={{ width: "100%", height: "70%" }}
-        >
-          <View style={styles.cardContainer}>
-            {category.length === 0 ? (
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontFamily: "Metropolis" }}>
-                  No hay perchas asignadas para este grupo de cliente
-                </Text>
-              </View>
-            ) : (
-              <TarjPercha
-                isUserScreen={infoScreen ? true : false}
-                data={category}
-                rack={rack}
-                setValueGeneralValidate={setValueGeneralValidate}
-                errorPerchaG={errorPerchaG}
-                setErrorPerchaG={setErrorPerchaG}
-                errorPerchaM={errorPerchaM}
-                setErrorPerchaM={setErrorPerchaM}
-                setData={setCategory}
-                view={"audit"}
-              />
-            )}
-          </View>
-        </ScrollView>
+        <View style={styles.cardContainer}>
+          {category.length === 0 ? (
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ fontFamily: "Metropolis" }}>
+                No hay perchas asignadas para este grupo de cliente
+              </Text>
+            </View>
+          ) : (
+            <TarjPercha
+              isUserScreen={infoScreen ? true : false}
+              data={category}
+              rack={rack}
+              setValueGeneralValidate={setValueGeneralValidate}
+              errorPerchaG={errorPerchaG}
+              setErrorPerchaG={setErrorPerchaG}
+              errorPerchaM={errorPerchaM}
+              setErrorPerchaM={setErrorPerchaM}
+              setData={setCategory}
+              view={"audit"}
+            />
+          )}
+        </View>
       </View>
       <DoubleDualStyledButton
         titleLeft={"Cancelar"}
@@ -632,14 +625,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardContainer: {
-    height: "auto",
-    width: "100%",
+    //height: "auto",
+    width: theme.dimensions.maxWidth,
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
+    flex: 9,
   },
-
   scrollView: {
     flex: 1,
     width: "100%",

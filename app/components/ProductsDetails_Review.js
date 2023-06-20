@@ -18,11 +18,7 @@ import { verifyUrlImage } from "../services/onedrive";
 export const ProductsDetails_Review = ({ item }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
-  /*const [extraImages, setExtraImages] = useState([
-    "https://thurrott.s3.amazonaws.com/wp-content/uploads/sites/2/2022/08/chrome-os-104-launcher.jpg",
-    "https://thurrott.s3.amazonaws.com/wp-content/uploads/sites/2/2022/08/chrome-os-104-launcher.jpg",
-    "https://thurrott.s3.amazonaws.com/wp-content/uploads/sites/2/2022/08/chrome-os-104-launcher.jpg",
-  ]);*/
+
   const [extraImages, setExtraImages] = useState([]);
 
   const thumbPosition =
@@ -31,8 +27,8 @@ export const ProductsDetails_Review = ({ item }) => {
     item.estado === null
       ? "#999999"
       : item.estado === 1
-        ? theme.colors.modernaGreen
-        : theme.colors.modernaRed;
+      ? theme.colors.modernaGreen
+      : theme.colors.modernaRed;
 
   const validateExtraImages = async (objeto) => {
     setExtraImages([]);
@@ -42,10 +38,7 @@ export const ProductsDetails_Review = ({ item }) => {
         objeto.url_imagen1,
         `${objeto.url_imagen1}1`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
     }
 
@@ -54,10 +47,7 @@ export const ProductsDetails_Review = ({ item }) => {
         objeto.url_imagen2,
         `${objeto.url_imagen2}2`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
 
@@ -66,20 +56,17 @@ export const ProductsDetails_Review = ({ item }) => {
         objeto.url_imagen3,
         `${objeto.url_imagen3}3`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
     let img = extraImages.join(",");
-    console.log("IMAGENES EXTRAS: - - - - ", img);
+    console.log("IMAGENES EXTRAS: - - - - - - - - -  ", img);
   };
 
   useEffect(() => {
     validateExtraImages(item);
-    console.log("ESTO ES EL ITEM: - - - - -", item);
+    console.log("ESTO ES EL ITEM: - - - - - - - - - - -", item);
   }, [item]);
 
   return (
