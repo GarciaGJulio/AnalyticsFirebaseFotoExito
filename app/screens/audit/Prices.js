@@ -144,8 +144,8 @@ export const Prices = ({ navigation, route }) => {
       setNewIdealPortfolio(tempItemsIdeal);
       setNewComplementaryPortfolio(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
-      setShowButton2(true);
-      setShowButton1(false);
+      //setShowButton2(true);
+      //setShowButton1(false);
       setHadSavePreciador(true);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
@@ -174,8 +174,8 @@ export const Prices = ({ navigation, route }) => {
       setNewIdealPortfolio([]);
       setNewComplementaryPortfolio([]);
       setInfoScreen(null);
-      setShowButton2(false);
-      setShowButton1(true);
+      //setShowButton2(false);
+      //setShowButton1(true);
     }
   };
 
@@ -256,7 +256,6 @@ export const Prices = ({ navigation, route }) => {
           JSON.stringify(newComplementaryPortfolio)
         );
       } else {
-        setHadSavePreciador(true);
         setIsModalVisible(true);
         const fullDataProducts = newIdealPortfolio.concat(
           newComplementaryPortfolio
@@ -327,9 +326,11 @@ export const Prices = ({ navigation, route }) => {
 
               db_insertGlobalDataAudit(dataSave);
               console.log("TODO BIEN PARA GUARDAR");
-              setShowButton1(false);
-              setShowButton2(true);
+              //setShowButton1(false);
+              //setShowButton2(true);
               setIsModalVisible(false);
+              navigation.navigate("rack");
+              setHadSavePreciador(true);
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -442,6 +443,10 @@ export const Prices = ({ navigation, route }) => {
         }
       }
     }
+  };
+
+  const onlyNavigation = () => {
+    navigation.navigate("rack");
   };
   const handleDeleteRegisterLocal = async () => {
     setHadSavePreciador(false);
@@ -579,17 +584,17 @@ export const Prices = ({ navigation, route }) => {
             iconRigth={"content-save-all-outline"}
             typeRigth={"material-community"}
             colorRigth={theme.colors.modernaRed}
-            onPressRigth={validateArrays}
-            showButton1={showButton1}
-            showButton2={showButton2}
-            titleRigthSecond={"Siguiente"}
-            sizeRigthSecond={theme.buttonSize.df}
-            colorRigthSecond={theme.colors.modernaRed}
-            onPressRigthSecond={() => navigation.navigate("rack")}
-            showButton1Second={showButton1}
-            showButton2Second={showButton2}
-            iconRigthSecond={"arrow-right-circle"}
-            typeRigthSecond={"feather"}
+            onPressRigth={hadSavePreciador ? onlyNavigation : validateArrays}
+            showButton1={true}
+            //showButton2={showButton2}
+            //titleRigthSecond={"Siguiente"}
+            //sizeRigthSecond={theme.buttonSize.df}
+            //colorRigthSecond={theme.colors.modernaRed}
+            //onPressRigthSecond={() => navigation.navigate("rack")}
+            //showButton1Second={showButton1}
+            //showButton2Second={showButton2}
+            //iconRigthSecond={"arrow-right-circle"}
+            //typeRigthSecond={"feather"}
           />
         </View>
       </View>

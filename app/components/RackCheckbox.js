@@ -61,22 +61,22 @@ export const RackCheckbox = ({
     }
   }, [isUserScreen]);
 
-  const handleOpenModal = () => {
+  /*const handleOpenModal = () => {
     setIsModalVisible(true);
   };
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
-  };
+  };*/
 
-  const acceptModal = () => {
+  /*const acceptModal = () => {
     setCheck1(!check1);
     actualizarEstado(item, check2);
     setCheck2(!check2);
     setIsModalVisible(false);
     setDisabled1(!disabled1);
     setDisabled2(!disabled2);
-  };
+  };*/
 
   const validateExtraImages = async (objeto) => {
     console.log("****** esto llega de objeto********", objeto);
@@ -224,14 +224,14 @@ export const RackCheckbox = ({
 
   return (
     <View style={styles.container}>
-      <ConfirmationModal
+      {/*<ConfirmationModal
         visible={isModalVisible}
         onClose={handleCloseModal}
         onPress={acceptModal}
         warning={
           "Al presionar el botón Aceptar se va a eliminar el registro ingresado."
         }
-      />
+      />*/}
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
           <Text
@@ -333,8 +333,7 @@ export const RackCheckbox = ({
           <></>
         )}
       </View>
-
-      {openCamera ? (
+      {openCamera || hadSaveRack ? (
         <View>
           <View style={styles.imageContainer}>
             <Text
@@ -410,7 +409,11 @@ export const RackCheckbox = ({
               checked={check2}
               onPress={() => {
                 check1
-                  ? handleOpenModal()
+                  ? (setCheck2(!check2),
+                    setCheck1(!check1),
+                    actualizarEstado(item, check2),
+                    setDisabled2(!disabled2),
+                    setDisabled1(!disabled1))
                   : (setCheck2(!check2),
                     actualizarEstado(item, check2),
                     setDisabled2(!disabled2));

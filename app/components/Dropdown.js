@@ -14,6 +14,7 @@ export const Dropdown = ({
   setGroupClient,
   setError,
   selected,
+  hadSave,
   setSucursalInformation,
   sucursalInformation,
   setType,
@@ -85,6 +86,8 @@ export const Dropdown = ({
         }
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
+        search={!hadSave}
+        //dropdownShown={false}
         searchPlaceholder="Buscar"
         data={newArrayClients}
         inputStyles={{
@@ -94,7 +97,11 @@ export const Dropdown = ({
           padding: 0,
           flexShrink: 1,
         }}
-        notFoundText="No se han encontrado coincidencias"
+        notFoundText={
+          !hadSave
+            ? "No se han encontrado coincidencias"
+            : "Cliente ya seleccionado"
+        }
         dropdownTextStyles={{ flexShrink: 1, right: 10, flex: 1 }}
         save="value"
         boxStyles={{

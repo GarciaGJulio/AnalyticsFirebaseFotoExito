@@ -105,8 +105,8 @@ export const Briefcase = ({ navigation }) => {
       setIdealPortfolioProducts(tempItemsIdeal);
       setComplementaryPortfolioProducts(tempItems);
       setInfoScreen(newObj);
-      setShowButton2(true);
-      setShowButton1(false);
+      //setShowButton2(true);
+      //setShowButton1(false);
       setHadSave(true);
       setHadSaveBriefCase(true);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
@@ -135,8 +135,8 @@ export const Briefcase = ({ navigation }) => {
       setIdealPortfolioProducts([]);
       setComplementaryPortfolioProducts([]);
       setInfoScreen(null);
-      setShowButton2(false);
-      setShowButton1(true);
+      //setShowButton2(false);
+      //setShowButton1(true);
       console.log(error);
     }
   };
@@ -317,6 +317,15 @@ export const Briefcase = ({ navigation }) => {
     consultarYCopiarContenido();
   }, []);
 
+  const onlyNavigation = () => {
+    navigation.navigate("prices", {
+      currentStep,
+      complementaryPortfolioProducts,
+      idealPortfolioProducts,
+      setComplementaryPortfolioProducts,
+    });
+  };
+
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
@@ -433,8 +442,8 @@ export const Briefcase = ({ navigation }) => {
               try {
                 db_insertGlobalDataAudit(dataSave2);
                 console.log("TODO BIEN");
-                setShowButton1(false);
-                setShowButton2(true);
+                //setShowButton1(false);
+                //setShowButton2(true);
                 setIsModalVisible(false);
               } catch (e) {
                 Alert.alert(
@@ -481,8 +490,14 @@ export const Briefcase = ({ navigation }) => {
             try {
               db_insertGlobalDataAudit(portafolioSave);
               console.log("TODO BIEN");
-              setShowButton1(false);
-              setShowButton2(true);
+              //setShowButton1(false);
+              //setShowButton2(true);
+              navigation.navigate("prices", {
+                currentStep,
+                complementaryPortfolioProducts,
+                idealPortfolioProducts,
+                setComplementaryPortfolioProducts,
+              });
               setIsModalVisible(false);
             } catch (e) {
               Alert.alert(
@@ -638,8 +653,8 @@ export const Briefcase = ({ navigation }) => {
         onClose={handleCloseModal}
         onPress={() => {
           handleDeleteRegisterLocal();
-          //navigation.goBack()
           setHadSaveBriefCase(false);
+          setHadSave(false);
           navigation.navigate("audit");
         }}
         warning={"¿Está seguro de cancelar el progreso actual?"}
@@ -715,30 +730,24 @@ export const Briefcase = ({ navigation }) => {
             colorLeft={theme.colors.modernaYellow}
             iconLeft={"cancel"}
             typeLeft={"material-icon"}
-            onPressLeft={() => setIsModalVisibleClose(true)}
+            onPressLeft={() => {
+              setIsModalVisibleClose(true), console.log("REGRESANDO  . . . ");
+            }}
             titleRigth={"Guardar"}
             sizeRigth={theme.buttonSize.df}
             colorRigth={theme.colors.modernaRed}
             iconRigth={"content-save-all-outline"}
             typeRigth={"material-community"}
-            onPressRigth={handleOpenModal}
-            showButton1={showButton1}
-            showButton2={showButton2}
-            titleRigthSecond={"Siguiente"}
-            sizeRigthSecond={theme.buttonSize.df}
-            colorRigthSecond={theme.colors.modernaRed}
-            onPressRigthSecond={() =>
-              navigation.navigate("prices", {
-                currentStep,
-                complementaryPortfolioProducts,
-                idealPortfolioProducts,
-                setComplementaryPortfolioProducts,
-              })
-            }
-            showButton1Second={showButton1}
-            showButton2Second={showButton2}
-            iconRigthSecond={"arrow-right-circle"}
-            typeRigthSecond={"feather"}
+            onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
+            showButton1={true}
+            //showButton2={showButton2}
+            //titleRigthSecond={"Siguiente"}
+            //sizeRigthSecond={theme.buttonSize.df}
+            // colorRigthSecond={theme.colors.modernaRed}
+            //showButton1Second={showButton1}
+            //showButton2Second={showButton2}
+            //iconRigthSecond={"arrow-right-circle"}
+            //typeRigthSecond={"feather"}
           />
         </View>
       </View>

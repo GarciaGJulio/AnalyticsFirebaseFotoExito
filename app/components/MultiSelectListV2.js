@@ -324,21 +324,6 @@ export const MultiSelectListV2 = ({
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>Portafolio Complementario</Text>
-      {/*<MultipleSelectList
-        setSelected={(val) => {
-          //setValue(val)
-          //addProduct(val);
-          setSelected(val);
-          //setComplementaryPortfolioProducts(val);
-        }}
-        inputStyles={{ fontFamily: "Metropolis" }}
-        data={products}
-        searchPlaceholder="Buscar producto"
-        save="value"
-        //onSelect={() => alert(selected)}
-        label="Productos"
-        placeholder="Selecciona productos adicionales al portafolio"
-      />*/}
       <View
         style={{
           borderRadius: 15,
@@ -350,6 +335,7 @@ export const MultiSelectListV2 = ({
           items={products}
           IconRenderer={Icon}
           disabled={hadSaveBriefCase}
+          hideChipRemove={hadSaveBriefCase}
           styles={{
             cancelButton: { backgroundColor: "red" },
             listContainer: { backgroundColor: "red" },

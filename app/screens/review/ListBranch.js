@@ -114,41 +114,33 @@ export const ListBranch = ({ navigation }) => {
   if (!fontLoaded) return null;
 
   {
-    /*<View style={styles.container}>
+  }
+  return (
+    <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={Logotipo} style={styles.image} />
       </View>
-
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View style={styles.content}>
           <Text style={styles.title}>
             Puedes revisar las auditorías ya realizadas presionando en el
             registro de interés.
           </Text>
-          <View style={styles.contentContainerBranch}>
+          <View style={styles.searchContainer}>
             <TextInput
-              style={{
-                height: 50,
-                width: 320,
-                fontFamily: "Metropolis",
-                borderColor: "gray",
-                borderWidth: 1,
-                paddingHorizontal: 10,
-                marginBottom: 20,
-                borderRadius: 10,
-              }}
+              style={styles.searchInput}
               placeholder="Buscar"
               onChangeText={searchFilter}
               value={searchText}
             />
             {filteredData.length === 0 ? (
-              <View>
-                <Text style={styles.title}>
+              <View style={styles.noAuditsContainer}>
+                <Text style={styles.noAuditsText}>
                   No se han registrado auditorías aún.
                 </Text>
               </View>
             ) : (
-              <ScrollView style={{ bottom: 5 }}>
+              <ScrollView style={styles.auditsListContainer}>
                 <FlatList
                   showsVerticalScrollIndicator={false}
                   data={filteredData}
@@ -159,60 +151,13 @@ export const ListBranch = ({ navigation }) => {
                       refresh={refresh}
                     />
                   )}
-                  //keyExtractor={(item) => item.id}
                 />
               </ScrollView>
             )}
           </View>
         </View>
       </Animatable.View>
-                  </View>*/
-  }
-  return (
-    <ScrollView style={styles.scrollViewContainer}>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={Logotipo} style={styles.image} />
-        </View>
-        <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
-          <View style={styles.content}>
-            <Text style={styles.title}>
-              Puedes revisar las auditorías ya realizadas presionando en el
-              registro de interés.
-            </Text>
-            <View style={styles.searchContainer}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Buscar"
-                onChangeText={searchFilter}
-                value={searchText}
-              />
-              {filteredData.length === 0 ? (
-                <View style={styles.noAuditsContainer}>
-                  <Text style={styles.noAuditsText}>
-                    No se han registrado auditorías aún.
-                  </Text>
-                </View>
-              ) : (
-                <ScrollView style={styles.auditsListContainer}>
-                  <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={filteredData}
-                    renderItem={({ item }) => (
-                      <ItemBranch_Review
-                        branch={item}
-                        setRefresh={setRefresh}
-                        refresh={refresh}
-                      />
-                    )}
-                  />
-                </ScrollView>
-              )}
-            </View>
-          </View>
-        </Animatable.View>
-      </View>
-    </ScrollView>
+    </View>
   );
 };
 

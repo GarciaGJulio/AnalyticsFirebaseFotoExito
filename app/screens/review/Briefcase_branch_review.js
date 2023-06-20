@@ -28,9 +28,24 @@ const Briefcase_branch_review = ({ route }) => {
         WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}' AND a.id_auditoria = '${datosCompartidos.id_auditoria}'`
       );
 
-      const consultaPortafolioAuditoriaTodos = await realizarConsulta(
+      /*const consultaPortafolioAuditoriaTodos = await realizarConsulta(
         `SELECT pa.*,p.tipo FROM portafolio_auditoria as pa inner join portafolio as p on p.id_producto=pa.id_producto WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}'`
+      );*/
+
+      const productosIdeal2 = await realizarConsulta(
+        `SELECT DISTINCT p.* FROM producto as p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}' AND po.estado=true`
       );
+
+      const productosIdealSinElegir = productosIdeal2.map((objeto) => {
+        return {
+          id_producto: objeto.id_producto,
+          nombre_producto: objeto.nombre_producto,
+          url_imagen_prodcuto: objeto.url_imagen_producto,
+          id_categoria: objeto.id_categoria,
+          precio: null,
+          estado: null,
+        };
+      });
 
       const arrayIdsPortafolio = [];
 
@@ -42,10 +57,6 @@ const Briefcase_branch_review = ({ route }) => {
       });
 
       console.log("IDS DE PORTAFOLIOS: - - - - - - - - -", arrayIdsPortafolio);
-      console.log(
-        "TODOS LOS PORTAFOLIO DE LA BASE AUDITORIA: - - - - - - - - -",
-        consultaPortafolioAuditoriaTodos
-      );
 
       const consultaPortafolio = [];
       for (const producto of consultaPortafolioAudit) {
@@ -69,12 +80,13 @@ const Briefcase_branch_review = ({ route }) => {
 
       const idGroupClient = await AsyncStorage.getItem("idGroupClient");
       const productosIdealPortafolioExtra = await realizarConsulta(
-        `SELECT DISTINCT p.*, po.id_portafolio 
+        `SELECT DISTINCT p.*, po.id_portafolio ,ca.nombre_categoria
         FROM producto AS p 
         LEFT JOIN portafolio po ON p.id_producto = po.id_producto 
-          AND po.tipo = 'I'
+        LEFT JOIN categoria ca ON p.id_categoria = ca.id_categoria
+          WHERE po.tipo = 'I'
           AND po.id_grupo_cliente = '${idGroupClient}' 
-          AND po.estado = true OR po.estado = 1`
+          AND po.estado = true`
       );
 
       const arrayTipoC = [];
@@ -87,6 +99,7 @@ const Briefcase_branch_review = ({ route }) => {
             nombre_producto: objeto.nombre_producto,
             url_imagen_producto: objeto.url_imagen_producto,
             id_categoria: objeto.id_categoria,
+            nombre_categoria: objeto.nombre_categoria,
             precio: null,
             estado: false,
           };
@@ -143,11 +156,56 @@ const Briefcase_branch_review = ({ route }) => {
         });
       });
 
+      /*let categoriasNoIguales = productosIdealesExtras.filter((categoria) => {
+        return !arrayTipoI.some(
+          (c) => c.nombre_categoria === categoria.nombre_categoria
+        );
+      });*/
+
+      let categoriasNoIguales = productosIdealPortafolioExtra.filter((pa) => {
+        return !arrayTipoI.some((c) => {
+          return c.productos.some(
+            (producto) => producto.id_producto === pa.id_producto
+          );
+        });
+      });
+
+      const categorias = {};
+
+      // Iterar sobre el arreglo
+      for (const objeto of categoriasNoIguales) {
+        const categoriaActual = objeto.nombre_categoria;
+
+        // Verificar si la categoría ya existe en el objeto de categorías
+        if (categoriaActual in categorias) {
+          // Agregar el objeto al arreglo de productos de la categoría existente
+          categorias[categoriaActual].productos.push(objeto);
+        } else {
+          // Crear una nueva categoría con el objeto como primer producto
+          categorias[categoriaActual] = {
+            nombre_categoria: categoriaActual,
+            tipo: "I",
+            productos: [objeto],
+          };
+        }
+      }
+
+      // Convertir el objeto de categorías en un arreglo de objetos
+      const categoriasnNoSeleccionadas = Object.values(categorias);
+
+      // Imprimir el resultado
+      console.log(categoriasnNoSeleccionadas);
+
+      const arrayTipoIIntegrado = [
+        ...categoriasnNoSeleccionadas,
+        ...arrayTipoI,
+      ];
+
       console.log("Array - - - - - - - - - Tipo C:", arrayTipoC);
       setComplementaryPortafolio(arrayTipoC);
       console.log("Array  * * * * * * * *  Tipo I:", arrayTipoI);
 
-      setIdealPortafolio(arrayTipoI);
+      setIdealPortafolio(arrayTipoIIntegrado);
       console.log(
         "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
         idsPortafolioAuditoria
@@ -156,17 +214,11 @@ const Briefcase_branch_review = ({ route }) => {
         "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
         consultaPortafolio
       );
-      /*console.log(
+      console.log(
         " - - --  ELEMENTOS EXTRAS - - - - - ",
         productosIdealesExtras
-      );*/
-      console.log("ELEMENTOSA DE LA BASE DE DATOS, ", consultaPortafolioAudit);
-      console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
-      console.log(
-        " - - --  CONSULTA TODOS - - - - - ",
-        consultaPortafolioAuditoriaTodos
       );
-      console.log(datosCompartidos.id_auditoria);
+      console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }

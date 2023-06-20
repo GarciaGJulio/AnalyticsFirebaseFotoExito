@@ -404,6 +404,7 @@ export const Promos = ({ navigation }) => {
             console.log("TODO BIEN");
             saveAudit();
             cleanCurrentScreenUser();
+            navigation.navigate("begin");
             /*setTimeout(() => {
               navigation.navigate("begin");
             }, 1200);*/
@@ -511,16 +512,16 @@ export const Promos = ({ navigation }) => {
         typeRigth={"material-community"}
         colorRigth={theme.colors.modernaRed}
         onPressRigth={validate}
-        showButton1={showButton1}
-        showButton2={showButton2}
-        titleRigthSecond={"Siguiente"}
-        sizeRigthSecond={theme.buttonSize.df}
-        colorRigthSecond={theme.colors.modernaRed}
-        onPressRigthSecond={() => navigation.navigate("begin")}
-        showButton1Second={showButton1}
-        showButton2Second={showButton2}
-        iconRigthSecond={"content-save-all-outline"}
-        typeRigthSecond={"material-community"}
+        showButton1={true}
+        //showButton2={showButton2}
+        //titleRigthSecond={"Siguiente"}
+        //sizeRigthSecond={theme.buttonSize.df}
+        //colorRigthSecond={theme.colors.modernaRed}
+        //onPressRigthSecond={() => navigation.navigate("begin")}
+        //showButton1Second={showButton1}
+        //showButton2Second={showButton2}
+        //iconRigthSecond={"content-save-all-outline"}
+        //typeRigthSecond={"material-community"}
       />
     </View>
   );
