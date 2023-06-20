@@ -333,8 +333,7 @@ export const RackCheckbox = ({
           <></>
         )}
       </View>
-
-      {openCamera ? (
+      {openCamera || hadSaveRack ? (
         <View>
           <View style={styles.imageContainer}>
             <Text

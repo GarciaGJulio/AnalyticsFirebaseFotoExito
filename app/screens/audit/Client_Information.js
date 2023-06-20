@@ -83,8 +83,8 @@ export const Client_Information = ({ navigation }) => {
   const [clientGroupId, setClientGroupId] = useState("");
   const [groupClient, setGroupClient] = useState("");
   const [arrayClients, setArrayClients] = useState([]);
-  const [showButton1, setShowButton1] = useState(true);
-  const [showButton2, setShowButton2] = useState(false);
+  /*const [showButton1, setShowButton1] = useState(true);
+  const [showButton2, setShowButton2] = useState(false);*/
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
   const { setHadSaveBriefCase } = useContext(GlobalContext);
@@ -127,8 +127,8 @@ export const Client_Information = ({ navigation }) => {
       };
       // console.log("newObj-------------", newObj)
       setInfoScreen(newObj);
-      setShowButton2(true);
-      setShowButton1(false);
+      //setShowButton2(true);
+      //setShowButton1(false);
       setHadSave(true);
       setNewArrayClients([]);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
@@ -143,8 +143,8 @@ export const Client_Information = ({ navigation }) => {
       );
     } catch (error) {
       setInfoScreen(null);
-      setShowButton2(false);
-      setShowButton1(true);
+      //setShowButton2(false);
+      //setShowButton1(true);
       console.log(error);
     }
   };
@@ -257,6 +257,10 @@ export const Client_Information = ({ navigation }) => {
     });
 
     return result;
+  };
+
+  const onlyNavigate = () => {
+    navigation.navigate("briefcase"), setHadSaveBriefCase(false);
   };
 
   const handleOpenModal = async () => {
@@ -397,11 +401,12 @@ export const Client_Information = ({ navigation }) => {
           //setNewArrayClients([]);
           //setInfoScreen(true);
           setHadSave(true);
-          setShowButton1(false);
+          //setShowButton1(false);
           setNewArrayClients([]);
-          setShowButton2(true);
+          //setShowButton2(true);
           setValidatePass(true);
           setIsModalVisible(false);
+          navigation.navigate("briefcase"), setHadSaveBriefCase(false);
         } catch (e) {
           console.log(e);
           Alert.alert(
@@ -498,6 +503,7 @@ export const Client_Information = ({ navigation }) => {
                   setSelected={setSelected}
                   selected={selected}
                   setType={setType}
+                  hadSave={hadSave}
                   newArrayClients={newArrayClients}
                   setGroupClient={setGroupClient}
                   error={errorClientName}
@@ -626,20 +632,20 @@ export const Client_Information = ({ navigation }) => {
                   //iconRigth={"content-save-all-outline"}
                   //typeRigth={"material-community"}
                   colorRigth={theme.colors.modernaRed}
-                  onPressRigth={handleOpenModal}
-                  showButton1={showButton1}
-                  showButton2={showButton2}
-                  titleRigthSecond={"Siguiente"}
-                  sizeRigthSecond={theme.buttonSize.df}
+                  onPressRigth={hadSave ? onlyNavigate : handleOpenModal}
+                  showButton1={true}
+                  //showButton2={showButton2}
+                  //titleRigthSecond={"Siguiente"}
+                  //sizeRigthSecond={theme.buttonSize.df}
                   //iconRigth={"content-save-all-outline"}
                   //typeRigth={"material-community"}
-                  colorRigthSecond={theme.colors.modernaRed}
-                  onPressRigthSecond={() => {
+                  //colorRigthSecond={theme.colors.modernaRed}
+                  /*onPressRigthSecond={() => {
                     navigation.navigate("briefcase"),
                       setHadSaveBriefCase(false);
-                  }}
-                  showButton1Second={showButton1}
-                  showButton2Second={showButton2}
+                  }}*/
+                  //showButton1Second={showButton1}
+                  //showButton2Second={showButton2}
                 />
               </View>
             </View>

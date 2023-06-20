@@ -100,8 +100,8 @@ export const Racks = ({ navigation }) => {
       // console.log("tempItems-------------", tempItems)
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
-      setShowButton2(true);
-      setShowButton1(false);
+      //setShowButton2(true);
+      //setShowButton1(false);
       setHadSaveRack(true);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
@@ -125,8 +125,8 @@ export const Racks = ({ navigation }) => {
     } catch (error) {
       setCategory([]);
       setInfoScreen(null);
-      setShowButton2(false);
-      setShowButton1(true);
+      //setShowButton2(false);
+      //setShowButton1(true);
       console.log(error);
     }
   };
@@ -241,6 +241,10 @@ export const Racks = ({ navigation }) => {
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
+  };
+
+  const onlyNavigation = () => {
+    navigation.navigate("promos");
   };
 
   const validate = async () => {
@@ -371,10 +375,11 @@ export const Racks = ({ navigation }) => {
               // navigation.navigate("promos");rrrrrrrrrr
               try {
                 db_insertGlobalDataAudit(dataSave);
-                setHadSaveRack(true);
                 setIsModalVisible(false);
-                setShowButton1(false);
-                setShowButton2(true);
+                navigation.navigate("promos");
+                setHadSaveRack(true);
+                //setShowButton1(false);
+                //setShowButton2(true);
               } catch (error) {
                 Alert.alert(
                   "Error al insertar los datos",
@@ -588,19 +593,19 @@ export const Racks = ({ navigation }) => {
         iconRigth={"content-save-all-outline"}
         typeRigth={"material-community"}
         colorRigth={theme.colors.modernaRed}
-        onPressRigth={handleOpenModal}
-        showButton1={showButton1}
-        showButton2={showButton2}
-        titleRigthSecond={"Siguiente"}
-        sizeRigthSecond={theme.buttonSize.df}
+        onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
+        showButton1={true}
+        //showButton2={showButton2}
+        //titleRigthSecond={"Siguiente"}
+        //sizeRigthSecond={theme.buttonSize.df}
         //iconRigth={"content-save-all-outline"}
         //typeRigth={"material-community"}
-        colorRigthSecond={theme.colors.modernaRed}
-        onPressRigthSecond={() => navigation.navigate("promos")}
-        iconRigthSecond={"arrow-right-circle"}
-        typeRigthSecond={"feather"}
-        showButton1Second={showButton1}
-        showButton2Second={showButton2}
+        //colorRigthSecond={theme.colors.modernaRed}
+        //onPressRigthSecond={() => navigation.navigate("promos")}
+        //iconRigthSecond={"arrow-right-circle"}
+        //typeRigthSecond={"feather"}
+        //showButton1Second={showButton1}
+        //showButton2Second={showButton2}
       />
     </View>
   );
