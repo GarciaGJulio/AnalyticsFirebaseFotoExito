@@ -10,9 +10,9 @@ import { realizarConsulta } from "../../common/sqlite_config";
 import { FlashListPortfolio } from "../../components/FlashListPortfolio";
 import { FlashListPortfolioReview } from "../../components/FlashListPortfolioReview";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FAB } from "react-native-paper";
+import { FAB } from "@rneui/base";
 
-const Briefcase_branch_review = ({ route }) => {
+const Briefcase_branch_review = ({ navigation }) => {
   const { datosCompartidos } = useContext(DataContext);
   const [idealPortafolio, setIdealPortafolio] = useState([]);
   const [complementaryPortafolio, setComplementaryPortafolio] = useState([]);
@@ -239,10 +239,19 @@ const Briefcase_branch_review = ({ route }) => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 12,
+          marginTop: theme.dimensions.maxHeight / 9,
         }}
       >
-        <View style={{ flex: 1, width: "100%" }}>
+        <View
+          style={{
+            flex: 1,
+            width: "100%",
+            backgroundColor: "blue",
+            height: "10%",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+          }}
+        >
           <FAB
             title=""
             placement="left"
@@ -254,7 +263,7 @@ const Briefcase_branch_review = ({ route }) => {
             }}
             color={theme.colors.modernaYellow}
             size="small"
-            style={{ width: 1, height: 5, backgroundColor: "blue" }}
+            style={{ width: 40, height: 25, backgroundColor: "blue" }}
           />
         </View>
         <ScreenInformationReview

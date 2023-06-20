@@ -7,8 +7,9 @@ import { PromosItems_Review } from "../../components/PromosItems_Review";
 import { BackPage_Review } from "../../components/BackPage_Review";
 import { realizarConsulta } from "../../common/sqlite_config";
 import { DataContext } from "../../context/DataProvider";
+import { FAB } from "@rneui/base";
 
-const Promos_Review = () => {
+const Promos_Review = ({ navigation }) => {
   const { datosCompartidos } = useContext(DataContext);
   const [promos, setPromos] = useState([]);
   const getPromosData = async () => {
@@ -80,9 +81,33 @@ const Promos_Review = () => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 12,
+          marginTop: theme.dimensions.maxHeight / 9,
         }}
       >
+        <View
+          style={{
+            flex: 1,
+            width: "100%",
+            backgroundColor: "blue",
+            height: "10%",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+          }}
+        >
+          <FAB
+            title=""
+            placement="left"
+            onPress={() => navigation.goBack()}
+            icon={{
+              name: "arrow-left-top",
+              color: "white",
+              type: "material-community",
+            }}
+            color={theme.colors.modernaYellow}
+            size="small"
+            style={{ width: 40, height: 25, backgroundColor: "blue" }}
+          />
+        </View>
         <ScreenInformationReview
           title={
             datosCompartidos.id_cliente +

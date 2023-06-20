@@ -87,7 +87,7 @@ export const ProductsDetails_Review = ({ item }) => {
           >
             <View style={{ flex: 1 }}>
               <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>
-                {item.nombre_producto}-{item.id_producto}
+                {item.id_producto}-{item.nombre_producto}
               </Text>
             </View>
           </View>

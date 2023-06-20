@@ -84,7 +84,7 @@ const RenderItemProd = ({
             padding: 10,
           }}
         >
-          {item.nombre_producto}-{item.id_producto}
+          {item.id_producto}-{item.nombre_producto}
         </Text>
       </View>
     </View>
@@ -118,7 +118,7 @@ export const FlashListPortfolioReview = ({
           }}
         >
           <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
-            Esta auditoría no registró productos
+            En esta auditoría no se seleccionó ningún producto del portafolio.
           </Text>
         </View>
       ) : (

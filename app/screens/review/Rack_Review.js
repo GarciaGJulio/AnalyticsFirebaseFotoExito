@@ -7,8 +7,9 @@ import { BackPage_Review } from "../../components/BackPage_Review";
 import { DataContext } from "../../context/DataProvider";
 import { realizarConsulta } from "../../common/sqlite_config";
 import { TarjetaRack_Review } from "../../components/TarjetaRack_Review";
+import { FAB } from "@rneui/base";
 
-const Rack_Review = () => {
+const Rack_Review = ({ navigation }) => {
   const { datosCompartidos } = useContext(DataContext);
   const [rack, setRack] = useState([]);
   const getRackData = async () => {
@@ -77,9 +78,33 @@ const Rack_Review = () => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 12,
+          marginTop: theme.dimensions.maxHeight / 9,
         }}
       >
+        <View
+          style={{
+            flex: 1,
+            width: "100%",
+            backgroundColor: "blue",
+            height: "10%",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+          }}
+        >
+          <FAB
+            title=""
+            placement="left"
+            onPress={() => navigation.goBack()}
+            icon={{
+              name: "arrow-left-top",
+              color: "white",
+              type: "material-community",
+            }}
+            color={theme.colors.modernaYellow}
+            size="small"
+            style={{ width: 40, height: 25, backgroundColor: "blue" }}
+          />
+        </View>
         <ScreenInformationReview
           title={
             datosCompartidos.id_cliente +

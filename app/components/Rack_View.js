@@ -143,39 +143,42 @@ export const Rack_View = ({ rack }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text
-          style={{
-            fontWeight: theme.fontWeight.softbold,
-            fontSize: theme.fontSize.subtitle,
-            left: 10,
-            marginVertical: 5,
-            borderColor: theme.colors.lightgray,
-            fontFamily: "Metropolis",
-            color: "white",
-            flex: 1,
-          }}
-        >
-          {rack.nombre_categoria}
-        </Text>
-        <TouchableOpacity
-          style={{ position: "absolute", right: 4, top: 2 }}
-          onPress={() => {
-            setOpenCamera(!openCamera);
-            setModalVisible(true);
-          }}
-        >
-          <Icon name="camera" type="evilicon" size={40} color={"white"} />
-          {/* <Icon name='camerao' type='antdesign' size={32} /> */}
-        </TouchableOpacity>
-        <View style={{ width: "100%" }}>
-          <Divider
-            width={1}
-            color={theme.colors.lightgray}
-            style={{ borderColor: theme.colors.lightgray }}
-          />
+        <View style={{ flex: 7 }}>
+          <Text
+            style={{
+              fontWeight: theme.fontWeight.softbold,
+              fontSize: theme.fontSize.subtitle,
+              left: 10,
+              marginVertical: 5,
+              borderColor: theme.colors.lightgray,
+              fontFamily: "Metropolis",
+              color: "white",
+              flex: 1,
+            }}
+          >
+            {rack.nombre_categoria}
+          </Text>
+        </View>
+        <View View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={{ position: "absolute", right: 4, top: 2 }}
+            onPress={() => {
+              setOpenCamera(!openCamera);
+              setModalVisible(true);
+            }}
+          >
+            <Icon name="camera" type="evilicon" size={40} color={"white"} />
+            {/* <Icon name='camerao' type='antdesign' size={32} /> */}
+          </TouchableOpacity>
         </View>
       </View>
-
+      <View style={{ width: "100%" }}>
+        <Divider
+          width={1}
+          color={theme.colors.lightgray}
+          style={{ borderColor: theme.colors.lightgray }}
+        />
+      </View>
       <View style={styles.categoryContainer}>
         <View style={styles.category}>
           <View style={{ flex: 1 }}>
@@ -417,6 +420,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     //left:10,
     flex: 1,
+    flexDirection: "row",
     //paddingVertical: 5,
     borderBottomWidth: 2,
     borderColor: theme.colors.lightgray,
