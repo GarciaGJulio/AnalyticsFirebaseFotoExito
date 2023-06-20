@@ -19,6 +19,7 @@ export const BackPage_Review = () => {
       color={theme.colors.modernaYellow}
       style={styles.fab}
       size="small"
+
     />
   );
 };
@@ -29,5 +30,6 @@ const styles = StyleSheet.create({
     //marginRight: theme.dimensions.maxWidth - 80,
     bottom: 105,
     left: -10,
+    margin:10
   },
 });

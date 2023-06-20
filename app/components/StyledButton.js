@@ -35,10 +35,10 @@ export const StyledButton = ({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-around",
-          width: size,
+          width: 100,
           // height: size * 3 / 10,
-          flex: 1,
-          paddingHorizontal: 10,
+          
+         
           //backgroundColor:'blue'
         }}
       >
@@ -56,7 +56,7 @@ export const StyledButton = ({
               color={"white"}
               style={{
                 //flex: 0.3,
-                marginHorizontal: 2,
+                
                 //backgroundColor: "green"
               }}
             />
@@ -68,7 +68,7 @@ export const StyledButton = ({
         <View
           style={{
             //backgroundColor: "orange",
-            marginLeft:3
+            
           }}
         >
           <Text style={styles.buttonText}>{title}</Text>

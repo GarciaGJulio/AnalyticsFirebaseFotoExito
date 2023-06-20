@@ -614,9 +614,9 @@ export const Client_Information = ({ navigation }) => {
                   editable={hadSave ? false : infoScreen ? false : true}
                   value={infoScreen ? infoScreen.nombre_sucursal : sucursal}
                   width={"90%"}
-                  information={
-                    "* Solo se puede ingresar la misma sucursal una vez por día"
-                  }
+                  // information={
+                  //   "* Solo se puede ingresar la misma sucursal una vez por día"
+                  // }
                 />
               </View>
               <View style={{ height: 50, alignItems: "center", margin: 5 }}>
