@@ -27,32 +27,19 @@ const ScreenInformationReview = ({ title, text }) => {
     >
       <View
         style={{
-          paddingHorizontal: 10,
-          flexDirection: "row",
+          paddingHorizontal: 14,
           justifyContent: "space-around",
           alignItems: "center",
-          width: theme.dimensions.maxWidth / 1.1,
+          width: "100%",
         }}
       >
-          <FAB
-            title=""
-            placement="left"
-            onPress={() => navigation.goBack()}
-            icon={{
-              name: "arrow-left-top",
-              color: "white",
-              type: "material-community",
-            }}
-            color={theme.colors.modernaYellow}
-            size="small"
-            style={{width:1,height:5, backgroundColor:'blue'}}
-          />
-        <View style={{ marginLeft:30 }}>
+        <View>
           <Text
             style={{
               fontSize: theme.fontSize.subtitle,
               fontWeight: "600",
               fontFamily: "Metropolis",
+              textAlign: "justify",
             }}
           >
             {title}
@@ -73,21 +60,6 @@ const ScreenInformationReview = ({ title, text }) => {
           style={{ backgroundColor: "blue" }}
         />
       </View>
-      {text ? (
-        <Text
-          style={{
-            fontSize: theme.fontSize.body,
-            width: "91%",
-            fontFamily: "Metropolis",
-            alignSelf: "flex-start",
-            marginLeft: 23,
-            marginTop: 5,
-            marginBottom: 13,
-          }}
-        >
-          {text.toString()}
-        </Text>
-      ) : null}
     </View>
   );
 };

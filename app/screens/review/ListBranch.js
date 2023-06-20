@@ -123,8 +123,7 @@ export const ListBranch = ({ navigation }) => {
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <View style={styles.content}>
           <Text style={styles.title}>
-            Puedes revisar las auditorías ya realizadas presionando en el
-            registro de interés.
+            Seleccione la auditoría que desea visualizar.
           </Text>
           <View style={styles.searchContainer}>
             <TextInput

@@ -10,6 +10,7 @@ import { realizarConsulta } from "../../common/sqlite_config";
 import { FlashListPortfolio } from "../../components/FlashListPortfolio";
 import { FlashListPortfolioReview } from "../../components/FlashListPortfolioReview";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FAB } from "react-native-paper";
 
 const Briefcase_branch_review = ({ route }) => {
   const { datosCompartidos } = useContext(DataContext);
@@ -241,6 +242,21 @@ const Briefcase_branch_review = ({ route }) => {
           marginTop: theme.dimensions.maxHeight / 12,
         }}
       >
+        <View style={{ flex: 1, width: "100%" }}>
+          <FAB
+            title=""
+            placement="left"
+            onPress={() => navigation.goBack()}
+            icon={{
+              name: "arrow-left-top",
+              color: "white",
+              type: "material-community",
+            }}
+            color={theme.colors.modernaYellow}
+            size="small"
+            style={{ width: 1, height: 5, backgroundColor: "blue" }}
+          />
+        </View>
         <ScreenInformationReview
           title={
             datosCompartidos.id_cliente +

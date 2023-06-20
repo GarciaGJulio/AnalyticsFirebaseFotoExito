@@ -55,7 +55,7 @@ const ModernaHeader = () => {
         visible={isModalVisible}
         onClose={handleCloseModal}
         onPress={handleLogoutAzure}
-        warning={"¿Está seguro de querer cerrar sesión?"}
+        warning={"¿Está seguro de cerrar sesión?"}
       />
       <View style={styles.userInfo}>
         <Icon name="user-tag" type="font-awesome-5" size={18} color={"white"} />
