@@ -156,10 +156,18 @@ const Briefcase_branch_review = ({ route }) => {
         });
       });
 
-      let categoriasNoIguales = productosIdealesExtras.filter((categoria) => {
+      /*let categoriasNoIguales = productosIdealesExtras.filter((categoria) => {
         return !arrayTipoI.some(
           (c) => c.nombre_categoria === categoria.nombre_categoria
         );
+      });*/
+
+      let categoriasNoIguales = productosIdealPortafolioExtra.filter((pa) => {
+        return !arrayTipoI.some((c) => {
+          return c.productos.some(
+            (producto) => producto.id_producto === pa.id_producto
+          );
+        });
       });
 
       const categorias = {};
@@ -210,7 +218,6 @@ const Briefcase_branch_review = ({ route }) => {
         " - - --  ELEMENTOS EXTRAS - - - - - ",
         productosIdealesExtras
       );
-      console.log("ELEMENTOSA DE LA BASE DE DATOS, ", consultaPortafolioAudit);
       console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);

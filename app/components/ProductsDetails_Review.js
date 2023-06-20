@@ -72,7 +72,10 @@ export const ProductsDetails_Review = ({ item }) => {
   return (
     <View style={[styles.container]}>
       <View style={[styles.primaryContainer, { marginLeft: 5 }]}>
-        <Image source={HARINA} style={{ width: 100, height: 100, margin: 5 }} />
+        <Image
+          source={{ uri: item.url_imagen_producto }}
+          style={{ width: 100, height: 100, margin: 5 }}
+        />
         <View style={styles.descriptionContainer}>
           <View
             style={{
