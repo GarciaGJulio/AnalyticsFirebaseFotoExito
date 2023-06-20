@@ -76,12 +76,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
     "*****************************************************************************************"
   );
   for (let i = 0; i < promocionData.length; i++) {
-    console.log("###########################################################################")
+    console.log(
+      "###########################################################################"
+    );
     console.log(
       "\nANALIZANDO REGISTRO - IMAGEN 1: ",
       promocionData[i].url_imagen1
     );
-    console.log("###########################################################################")
+    console.log(
+      "###########################################################################"
+    );
     if (promocionData[i].url_imagen1 === "undefined") {
       promocionData[i].url_imagen1 = "null";
     } else if (promocionData[i].url_imagen1 === "null") {
@@ -94,15 +98,25 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
-        "" + promocionData[i].id_promocion + [i] + "-" + "id_exhibidor" + "-" + "1"
+        "" +
+          promocionData[i].id_promocion +
+          [i] +
+          "-" +
+          "id_exhibidor" +
+          "-" +
+          "1"
       );
     }
-    console.log("///////////////////////////////////////////////////////////////////////////")
+    console.log(
+      "///////////////////////////////////////////////////////////////////////////"
+    );
     console.log(
       "\nANALIZANDO REGISTRO - IMAGEN 2: ",
       promocionData[i].url_imagen2
     );
-    console.log("///////////////////////////////////////////////////////////////////////////")
+    console.log(
+      "///////////////////////////////////////////////////////////////////////////"
+    );
     if (promocionData[i].url_imagen2 === "undefined") {
       promocionData[i].url_imagen2 = "null";
     } else if (promocionData[i].url_imagen2 === "null") {
@@ -115,15 +129,25 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
-        "" + promocionData[i].id_promocion + [i] + "-" + "id_exhibidor" + "-" + "2"
+        "" +
+          promocionData[i].id_promocion +
+          [i] +
+          "-" +
+          "id_exhibidor" +
+          "-" +
+          "2"
       );
     }
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    console.log(
+      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
     console.log(
       "\nANALIZANDO REGISTRO - IMAGEN 3: ",
       promocionData[i].url_imagen3
     );
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    console.log(
+      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
     if (promocionData[i].url_imagen3 === "undefined") {
       promocionData[i].url_imagen3 = "null";
     } else if (promocionData[i].url_imagen3 === "null") {
@@ -136,7 +160,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
-        "" + promocionData[i].id_promocion + [i] + "-" + "id_exhibidor" + "-" + "3"
+        "" +
+          promocionData[i].id_promocion +
+          [i] +
+          "-" +
+          "id_exhibidor" +
+          "-" +
+          "3"
       );
     }
   }
@@ -159,9 +189,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
     "*****************************************************************************************"
   );
   for (let i = 0; i < perchaData.length; i++) {
-    console.log("###########################################################################")
-    console.log("\nANALIZANDO REGISTRO - IMAGEN 1: ", perchaData[i].url_imagen1);
-    console.log("###########################################################################")
+    console.log(
+      "###########################################################################"
+    );
+    console.log(
+      "\nANALIZANDO REGISTRO - IMAGEN 1: ",
+      perchaData[i].url_imagen1
+    );
+    console.log(
+      "###########################################################################"
+    );
     if (perchaData[i].url_imagen1 === "undefined") {
       perchaData[i].url_imagen1 = "null";
     } else if (
@@ -181,9 +218,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "" + perchaData[i].id_percha + [i] + "-" + "id_percha" + "-" + "1"
       );
     }
-    console.log("///////////////////////////////////////////////////////////////////////////")
+    console.log(
+      "///////////////////////////////////////////////////////////////////////////"
+    );
     console.log("\nANALIZANDO REGISTRO - IMAGEN 2:", perchaData[i].url_imagen2);
-    console.log("///////////////////////////////////////////////////////////////////////////")
+    console.log(
+      "///////////////////////////////////////////////////////////////////////////"
+    );
     if (perchaData[i].url_imagen2 === "undefined") {
       perchaData[i].url_imagen2 = "null";
     } else if (
@@ -203,9 +244,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "" + perchaData[i].id_percha + [i] + "-" + "id_percha" + "-" + "2"
       );
     }
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    console.log(
+      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
     console.log("\nANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    console.log(
+      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
     if (perchaData[i].url_imagen3 === "undefined") {
       perchaData[i].url_imagen3 = "null";
     } else if (
@@ -235,8 +280,18 @@ export const subidaBaseRemoteTodaAuditoria = async (
   );
 
   const portafolioData = await realizarConsulta(
-    `SELECT DISTINCT p.* from portafolio as p inner join portafolio_auditoria as pa on pa.id_portafolio=p.id_portafolio inner join auditoria as a on a.id_portafolio_auditoria=pa.id_portafolio_auditoria where a.id_auditoria ='${id_auditoria}' AND p.tipo = 'C'`
+    `SELECT DISTINCT p.*, CASE WHEN p.estado = 1 THEN true ELSE false END AS estado_modificado
+    FROM portafolio AS p
+    INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = p.id_portafolio
+    INNER JOIN auditoria AS a ON a.id_portafolio_auditoria = pa.id_portafolio_auditoria
+    WHERE a.id_auditoria = '${id_auditoria}' AND p.tipo = 'C'`
   );
+
+  const portafolioDataModificado = portafolioData.map((item) => ({
+    ...item,
+    estado: item.estado === 1 ? true : false,
+  }));
+
   const portafolio_auditoriaData = await realizarConsulta(
     `SELECT pa.* from portafolio_auditoria as pa inner join auditoria as a on a.id_portafolio_auditoria=pa.id_portafolio_auditoria where a.id_auditoria ='${id_auditoria}'`
   );
@@ -252,12 +307,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
     "*****************************************************************************************"
   );
   for (let i = 0; i < preciadorData.length; i++) {
-    console.log("###########################################################################")
+    console.log(
+      "###########################################################################"
+    );
     console.log(
       "\nANALIZANDO REGISTRO - IMAGEN 1: ",
       preciadorData[i].url_imagen1
     );
-    console.log("###########################################################################")
+    console.log(
+      "###########################################################################"
+    );
     if (preciadorData[i].url_imagen1 === "undefined") {
       preciadorData[i].url_imagen1 = "null";
     } else if (preciadorData[i].url_imagen1 === "null") {
@@ -274,15 +333,25 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       preciadorData[i].url_imagen1 = await SubirAlonedrive(
         preciadorData[i].url_imagen1,
-        "" + preciadorData[i].id_preciador + [i] + "-" + "id_preciador" + "-" + "1"
+        "" +
+          preciadorData[i].id_preciador +
+          [i] +
+          "-" +
+          "id_preciador" +
+          "-" +
+          "1"
       );
     }
-    console.log("///////////////////////////////////////////////////////////////////////////")
+    console.log(
+      "///////////////////////////////////////////////////////////////////////////"
+    );
     console.log(
       "\nANALIZANDO REGISTRO - IMAGEN 2: ",
       preciadorData[i].url_imagen2
     );
-    console.log("///////////////////////////////////////////////////////////////////////////")
+    console.log(
+      "///////////////////////////////////////////////////////////////////////////"
+    );
     if (preciadorData[i].url_imagen2 === "undefined") {
       preciadorData[i].url_imagen2 = "null";
     } else if (preciadorData[i].url_imagen2 === "null") {
@@ -299,12 +368,25 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       preciadorData[i].url_imagen2 = await SubirAlonedrive(
         preciadorData[i].url_imagen2,
-        "" + preciadorData[i].id_preciador + [i] + "-" + "id_preciador" + "-" + "2"
+        "" +
+          preciadorData[i].id_preciador +
+          [i] +
+          "-" +
+          "id_preciador" +
+          "-" +
+          "2"
       );
     }
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    console.log("\nANALIZANDO REGISTRO - IMAGEN 3: ", preciadorData[i].url_imagen3);
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    console.log(
+      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
+    console.log(
+      "\nANALIZANDO REGISTRO - IMAGEN 3: ",
+      preciadorData[i].url_imagen3
+    );
+    console.log(
+      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
     if (preciadorData[i].url_imagen3 === "undefined") {
       preciadorData[i].url_imagen3 = "null";
     } else if (preciadorData[i].url_imagen3 === "null") {
@@ -321,7 +403,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       preciadorData[i].url_imagen3 = await SubirAlonedrive(
         preciadorData[i].url_imagen3,
-        "" + preciadorData[i].id_preciador + [i] + "-" + "id_preciador" + "-" + "3"
+        "" +
+          preciadorData[i].id_preciador +
+          [i] +
+          "-" +
+          "id_preciador" +
+          "-" +
+          "3"
       );
     }
   }
@@ -343,7 +431,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
   console.log("sucursalData:", sucursalData);
   console.log("promocionData:", promocionData);
   console.log("perchaData:", perchaData);
-  console.log("portafolioData:", portafolioData);
+  console.log("portafolioData:", portafolioDataModificado);
   console.log("portafolio_auditoriaData:", portafolio_auditoriaData);
   console.log("preciadorData:", preciadorData);
   console.log("auditoriaData:", auditoriaData);
@@ -357,7 +445,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       sucursal: sucursalData,
       promocion: promocionData,
       percha: perchaData,
-      portafolio: portafolioData,
+      portafolio: portafolioDataModificado,
       portafolio_auditoria: portafolio_auditoriaData,
       preciador: preciadorData,
       auditoria: auditoriaData,

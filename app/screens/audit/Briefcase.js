@@ -375,22 +375,15 @@ export const Briefcase = ({ navigation }) => {
                 "id_portafolio",
                 "id_producto",
                 "id_grupo_cliente",
-                "tipo",
                 "estado",
+                "tipo",
               ],
               dataInsert: [
                 `'${id_portafolio}'`,
                 `'${id}'`,
                 `'${idGrupoCliente}'`,
+                true,
                 `'${tipo_portafolio}'`,
-                `${true}`,
-              ],
-              dataInsertRemote: [
-                `${id_portafolio}`,
-                `${id}`,
-                `${idGrupoCliente}`,
-                `${tipo_portafolio}`,
-                `${true}`,
               ],
             };
 

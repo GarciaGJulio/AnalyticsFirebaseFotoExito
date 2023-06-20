@@ -20,18 +20,6 @@ const Briefcase_branch_review = ({ route }) => {
 
   const consultarYCopiarContenido = async () => {
     try {
-      /*const consultaPortafolioAuditoria = await realizarConsulta(
-        "SELECT c.nombre_categoria, p.nombre_producto, pf.tipo FROM portafolio_auditoria AS pa INNER JOIN portafolio AS pf ON pa.id_portafolio = pf.id_portafolio inner join producto as p on p.id_producto=pf.id_producto inner join categoria as c on c.id_categoria=p.id_categoria  WHERE pa.id_portafolio_auditoria = 'f6bc685e-b406-42ba-b1ce-842b6fbeabc6';"
-      );*/
-
-      /*const consultaPortafolioAuditoria = await realizarConsulta(
-        "SELECT  c.nombre_categoria, p.nombre_producto,p.id_producto, pf.tipo FROM portafolio_auditoria AS pa INNER JOIN portafolio AS pf ON pa.id_portafolio = pf.id_portafolio inner join producto as p on p.id_producto=pf.id_producto inner join categoria as c on c.id_categoria=p.id_categoria  WHERE pa.id_portafolio = 'f6bc685e-b406-42ba-b1ce-842b6fbeabc6';"
-      );*/
-
-      /*const consultaPortafolioAuditoria = await realizarConsulta(
-        "SELECT * from portafolio_auditoria;"
-      );*/
-
       const consultaPortafolioAudit = await realizarConsulta(
         `SELECT DISTINCT pa.*,pf.tipo
         FROM portafolio_auditoria AS pa
@@ -40,10 +28,8 @@ const Briefcase_branch_review = ({ route }) => {
         WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}' AND a.id_auditoria = '${datosCompartidos.id_auditoria}'`
       );
 
-      const consultaTodos = await realizarConsulta(`SELECT * FROM portafolio`);
-
       const consultaPortafolioAuditoriaTodos = await realizarConsulta(
-        `SELECT * FROM portafolio_auditoria`
+        `SELECT pa.*,p.tipo FROM portafolio_auditoria as pa inner join portafolio as p on p.id_producto=pa.id_producto WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}'`
       );
 
       const arrayIdsPortafolio = [];
@@ -76,35 +62,6 @@ const Briefcase_branch_review = ({ route }) => {
         );
         consultaPortafolio.push(consulta);
       }
-
-      /*let consultaPortafolio = [];
-      if (arrayIdsPortafolio.length > 1) {
-        consultaPortafolio = await realizarConsulta(
-          `SELECT DISTINCT p.nombre_producto, pf.tipo, c.nombre_categoria, pf.id_portafolio, p.id_producto
-          FROM portafolio AS pf
-          INNER JOIN producto AS p ON p.id_producto = pf.id_producto
-          INNER JOIN categoria AS c ON c.id_categoria = p.id_categoria
-          INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = pf.id_portafolio AND pa.id_producto = p.id_producto
-          INNER JOIN auditoria AS a ON pa.id_portafolio_auditoria = a.id_portafolio_auditoria
-          WHERE (pf.id_portafolio = '${arrayIdsPortafolio[0]}' OR pf.id_portafolio = '${arrayIdsPortafolio[1]}')
-          AND (p.id_producto = pa.id_producto);`
-        );
-      } else if (arrayIdsPortafolio.length == 1) {
-        consultaPortafolio = await realizarConsulta(
-          `SELECT DISTINCT p.nombre_producto, pf.tipo, c.nombre_categoria, pf.id_portafolio, p.id_producto
-          FROM portafolio AS pf
-          INNER JOIN producto AS p ON p.id_producto = pf.id_producto
-          INNER JOIN categoria AS c ON c.id_categoria = p.id_categoria
-          INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = pf.id_portafolio AND pa.id_producto = p.id_producto
-          INNER JOIN auditoria AS a ON pa.id_portafolio_auditoria = a.id_portafolio_auditoria
-          WHERE (pf.id_portafolio = '${arrayIdsPortafolio[0]}')
-          AND p.id_producto = pa.id_producto;`
-        );
-      } else {
-        console.log(
-          "NO SE HA ENCONTRADO IDS DE PORTAFOLIO ASOCIADOS A ESTA AUDITORIA - - - - - - -  -"
-        );
-      }*/
 
       const idsPortafolioAuditoria = await realizarConsulta(
         `SELECT DISTINCT  p.id_portafolio, p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio WHERE pa.id_portafolio = '${datosCompartidos.id_portafolio_auditoria}'`
@@ -207,8 +164,9 @@ const Briefcase_branch_review = ({ route }) => {
       console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
       console.log(
         " - - --  CONSULTA TODOS - - - - - ",
-        productosIdealPortafolioExtra
+        consultaPortafolioAuditoriaTodos
       );
+      console.log(datosCompartidos.id_auditoria);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
