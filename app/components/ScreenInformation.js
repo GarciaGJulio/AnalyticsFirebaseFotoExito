@@ -40,6 +40,7 @@ const ScreenInformation = ({ title, text }) => {
               fontSize: theme.fontSize.title,
               fontWeight: "600",
               fontFamily: "Metropolis",
+              textAlign:"justify"
             }}
           >
             {title}

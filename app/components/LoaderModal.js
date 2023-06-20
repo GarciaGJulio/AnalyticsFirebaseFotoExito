@@ -30,7 +30,7 @@ const LoaderModal = ({visible, children,warning,animation }) => {
             alignItems:'center'
           }}
         >
-          <Text style={{margin:10,fontSize:20,fontFamily:'Metropolis'}}>{warning}</Text>
+          <Text style={{margin:10,fontSize:20,fontFamily:'Metropolis',textAlign:"justify"}}>{warning}</Text>
           <View style={{height:150,width:450}}>
             <AnimatedLottieView source={animation} autoPlay loop />
           </View>

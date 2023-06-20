@@ -134,7 +134,7 @@ export const Menu = ({ navigation }) => {
     if (auditoriasSinSincronizar.length === 0) {
       Alert.alert(
         "Datos ya sincronizados",
-        "No se detectan auditorías pendientes de enviar"
+        "No se detectan auditorías."
       );
     } else if (auditoriasSinSincronizar.length > 0 && isConnectionActivate) {
       setIsModalVisible(!isModalVisible);
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
-    fontSize: 15,
+    fontSize: 14.6,
     fontFamily: "Metropolis",
     textAlign: "justify",
     //flex: 1,

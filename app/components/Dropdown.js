@@ -93,8 +93,7 @@ export const Dropdown = ({
         inputStyles={{
           fontFamily: "Metropolis",
           fontSize: 13,
-          flex: 1,
-          padding: 0,
+          padding:0.5,
           flexShrink: 1,
         }}
         notFoundText={
@@ -110,9 +109,10 @@ export const Dropdown = ({
           //borderColor: theme.colors.lightgray, borderWidth: 2,
           alignItems: "center",
           borderWidth: 1 ? 2 : 0,
-          height: 50,
+          height: 60,
           //fontSize: 12,
           flex: 1,
+          padding:2
         }}
       />
 
