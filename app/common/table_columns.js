@@ -15,6 +15,7 @@ export const CLIENT_TABLE = {
 export const BRANCH_TABLE = {
   NAME: "sucursal",
   KEY_1: "id_sucursal",
+  ID_CLIENTE: "id_cliente",
   LATITUD: "latitud",
   LONGITUD: "longitud",
   //FOREIGH_KEY_1: "id_auditoria",

@@ -6,6 +6,7 @@ export const dataParameters = {
         "nombre_sucursal",
         "latitud",
         "longitud",
+        "id_cliente",
         "usuario_creacion",
         "fecha_creacion",
         "fecha_modificacion",
@@ -64,11 +65,22 @@ export const dataParameters = {
       foreingFields: [],
     },
     portafolio_auditoria: {
-      data: ["id_portafolio_auditoria", "id_portafolio", "id_producto"],
+      data: [
+        "id_portafolio_auditoria",
+        "id_portafolio",
+        "id_producto",
+        "estado",
+      ],
       foreingFields: [],
     },
     portafolio: {
-      data: ["id_portafolio", "id_producto", "id_grupo_cliente", "tipo"],
+      data: [
+        "id_portafolio",
+        "id_producto",
+        "id_grupo_cliente",
+        "tipo",
+        "estado",
+      ],
       foreingFields: [],
     },
     auditoria: {

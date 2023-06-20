@@ -42,11 +42,7 @@ export const TarjPercha = ({
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView
-        contentContainerStyle={styles.scrollViewContent}
-        keyboardShouldPersistTaps="handled"
-        style={{ width: "100%" }}
-      >
+      <KeyboardAvoidingView behavior={behavior} keyboardVerticalOffset={offset}>
         <FlatList
           data={data}
           renderItem={({ item }) => (
@@ -65,7 +61,7 @@ export const TarjPercha = ({
           )}
           showsVerticalScrollIndicator={false}
         />
-      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
