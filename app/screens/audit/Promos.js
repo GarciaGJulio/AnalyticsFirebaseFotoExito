@@ -451,7 +451,7 @@ export const Promos = ({ navigation }) => {
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => navigation.goBack()}
-        warning={"¿Está seguro de querer cancelar el progreso actual?"}
+        warning={"¿Está seguro de cancelar el progreso actual?"}
       />
       <ConfirmationModalBranch
         visible={isModalVisibleCloseSucursal}
