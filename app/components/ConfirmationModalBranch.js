@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   warningText: {
     margin: 10,
     fontSize: 18,
+    textAlign:'justify'
   },
   buttonContainer: {
     //backgroundColor: 'orange',

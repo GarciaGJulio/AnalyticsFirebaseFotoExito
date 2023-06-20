@@ -458,7 +458,7 @@ export const Promos = ({ navigation }) => {
         onClose={handleCloseModalBranch}
         onPress={handleOpenModalFinishWithoutBranch}
         warning={
-          "¿Al presionar la opción 'Aceptar', el flujo de la auditoria terminará, quiere confirmar este proceso?"
+          "Al presionar 'Aceptar', el flujo de auditoría terminará ¿Desea confirmar este proceso?"
         }
       />
       <View style={{ flex: 1, width: "100%" }}>

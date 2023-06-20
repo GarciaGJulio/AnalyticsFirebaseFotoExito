@@ -510,7 +510,7 @@ export const Prices = ({ navigation, route }) => {
           />
         </View>
 
-        <View style={{ flex: 2, width: "100%", alignItems: "center" }}>
+        <View style={{ height:254, width: "100%", alignItems: "center" }}>
           {infoScreen && (
             <FlashListPrices
               title={"Portafolio Ideal"}

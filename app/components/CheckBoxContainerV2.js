@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
   secondaryContainer: {
     //backgroundColor: "brown",
     flex: 1,
-    //height: 290,
+    height: 130,
     width: "100%",
   },
 });

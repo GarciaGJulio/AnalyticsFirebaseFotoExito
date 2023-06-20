@@ -475,7 +475,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
       Alert.alert(
         "Auditoria registrada",
-        "Se ha registrado la auditoria en la base remota"
+        "Auditoría registrada con éxito"
       );
     } else {
       console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
