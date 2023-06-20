@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
-    fontSize: 15,
+    fontSize: 14.6,
     fontFamily: "Metropolis",
     textAlign: "justify",
     //flex: 1,

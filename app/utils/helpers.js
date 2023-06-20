@@ -1,7 +1,7 @@
 export const validateNameBranch2 = (name, fn) => {
   if (name == "" || name == null) {
     console.log("INFO name INVALIDA");
-    fn("El campo nombre  no puede estar vacio");
+    fn("El campo sucursal  no puede estar vacio");
   } else {
     if (name.length < 5) {
       fn("El campo sucursal no puede tener 4 o menos dígitos");

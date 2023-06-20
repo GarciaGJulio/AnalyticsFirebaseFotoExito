@@ -42,13 +42,14 @@ export const StyledButton = ({
           //backgroundColor:'blue'
         }}
       >
-        <View
-          style={{
-            //backgroundColor: "blue",
-            flex: 0.3,
-          }}
-        >
+        
           {iconName && iconType ? (
+            <View
+            style={{
+              //backgroundColor: "blue",
+             
+            }}
+          >
             <Icon
               name={iconName}
               type={iconType}
@@ -59,14 +60,15 @@ export const StyledButton = ({
                 //backgroundColor: "green"
               }}
             />
+        </View>
+
           ) : (
             <></>
           )}
-        </View>
         <View
           style={{
             //backgroundColor: "orange",
-            flex: 1,
+            marginLeft:3
           }}
         >
           <Text style={styles.buttonText}>{title}</Text>
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     //flex: 1,
     color: "white",
     //backgroundColor: "blue",
-    fontSize: 17,
+    fontSize: 16,
     //left: 5,
     fontFamily: "Metropolis",
     fontWeight: "600",
