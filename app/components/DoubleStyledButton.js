@@ -27,6 +27,7 @@ const DoubleStyledButton = ({
                 iconType={typeLeft}
                 size={sizeLeft}
                 onPress={onPressLeft}
+                
             />
             <StyledButton
                 title={titleRigth}
@@ -35,6 +36,7 @@ const DoubleStyledButton = ({
                 iconType={typeRigth}
                 size={sizeRigth}
                 onPress={onPressRigth}
+                
             />
         </View>
     )

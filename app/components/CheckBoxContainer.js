@@ -86,7 +86,7 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
         onClose={handleCloseModal}
         onPress={acceptModal}
         warning={
-          "Al presionar el boton Aceptar se va a eliminar el registro ingresado."
+          "nar el boton Aceptar se va a eliminar el registro ingresado."
         }
       />
       <View style={styles.primaryContainer}>

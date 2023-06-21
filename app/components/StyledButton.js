@@ -11,6 +11,7 @@ export const StyledButton = ({
   iconName,
   iconType,
   size,
+  newstyle,
   ...restOfProps
 }) => {
   const [fontLoaded] = useFonts({
@@ -35,7 +36,7 @@ export const StyledButton = ({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-around",
-          width: 100,
+          width: '100%',
           // height: size * 3 / 10,
           
          
@@ -46,7 +47,11 @@ export const StyledButton = ({
           {iconName && iconType ? (
             <View
             style={{
-              //backgroundColor: "blue",
+              flex: 1,
+              //marginLeft:4,
+              marginRight:5,
+              alignItems:'flex-end',
+              //backgroundColor: "black",
              
             }}
           >
@@ -55,7 +60,7 @@ export const StyledButton = ({
               type={iconType}
               color={"white"}
               style={{
-                //flex: 0.3,
+           
                 
                 //backgroundColor: "green"
               }}
@@ -66,10 +71,22 @@ export const StyledButton = ({
             <></>
           )}
         <View
-          style={{
+          style={newstyle?{
             //backgroundColor: "orange",
-            
-          }}
+            flex:2,
+            // justifyContent:'center',
+           // alignItems:'center'
+           
+            //paddingHorizontal: 3
+          }:{
+            //backgroundColor: "blue",
+            flex:3,
+            // justifyContent:'center',
+            alignItems:'center'
+            // paddingHorizontal:
+            // padding: 2
+          }
+        }
         >
           <Text style={styles.buttonText}>{title}</Text>
         </View>
@@ -104,8 +121,11 @@ const styles = StyleSheet.create({
     color: "white",
     //backgroundColor: "blue",
     fontSize: 16,
+    // textAlign:'center',
     //left: 5,
     fontFamily: "Metropolis",
     fontWeight: "600",
+    //paddingRight: 20
+    
   },
 });

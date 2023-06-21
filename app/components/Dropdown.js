@@ -45,17 +45,20 @@ export const Dropdown = ({
       }
     });
   };
-  useEffect(()=>{
-    console.log("ARRAY DE CLIENTES",newArrayClients)
-    newArrayClients.sort(function(a, b) {
-      return b.key - a.key;
-    });
+  // useEffect(()=>{
+  //   console.log("ARRAY DE CLIENTES",newArrayClients);
+  //   newArrayClients.sort(function(a, b) {
+  //     return b.key - a.key;
+  //   });
 
-  },[])
+  // },[])
 
   useEffect(() => {
+    console.log("ARRAY DE CLIENTES",newArrayClients);
     validateType();
   }, [selected]);
+
+  
   useEffect(() => {
     let tmpData = newArrayClients.map((item) => JSON.stringify(item));
   }, [newArrayClients]);
@@ -84,6 +87,7 @@ export const Dropdown = ({
         defaultOption={
           valueInfoScreen && { key: "randomItem", value: valueInfoScreen }
         }
+        // onSelect={() => alert(selected)}
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
         search={!hadSave}
@@ -91,17 +95,19 @@ export const Dropdown = ({
         searchPlaceholder="Buscar"
         data={newArrayClients}
         inputStyles={{
+          //color: "blue",
           fontFamily: "Metropolis",
           fontSize: 13,
           padding:0.5,
           flexShrink: 1,
+          // backgroundColor:'orange'
         }}
         notFoundText={
           !hadSave
             ? "No se han encontrado coincidencias"
             : "Cliente ya seleccionado"
         }
-        dropdownTextStyles={{ flexShrink: 1, right: 10, flex: 1 }}
+        dropdownTextStyles={{ flexShrink: 1, right: 10 }}
         save="value"
         boxStyles={{
           borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
@@ -152,7 +158,7 @@ const dataFormat2 = (array) => {
   return arrayFormat;
 };
 
-export const DropdownDavid = ({ data }) => {
+// export const DropdownDavid = ({ data }) => {
   /*const [datasTempo,setDatasTemp]=useState([])
   useEffect(()=>{
     handleSelectDataBase("SELECT * FROM cliente",
@@ -166,5 +172,5 @@ export const DropdownDavid = ({ data }) => {
     })
 
   },[])*/
-  return <SelectList setSelected={() => {}} data={data} save="value" />;
-};
+//   return <SelectList setSelected={() => {}} data={data} save="value" />;
+// };
