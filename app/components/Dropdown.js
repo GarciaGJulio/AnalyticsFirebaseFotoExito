@@ -32,8 +32,14 @@ export const Dropdown = ({
         setType(type.nombre_tipo_cliente);
         setGroupClient(type.nombre_grupo_cliente);
         console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
+        console.log(
+          " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+        );
+        console.log("DATOS A GUARDAR:", type);
+        console.log(
+          " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+        );
         setClientGroupId(type.id_grupo_cliente);
-
         await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
         await AsyncStorage.setItem("id_cliente", type.id_cliente);
         await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);

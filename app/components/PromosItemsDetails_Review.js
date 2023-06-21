@@ -19,6 +19,9 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const [extraImages, setExtraImages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
+  const [newImage, setNewImage] = useState(
+    "https://www.herbolariosivana.com/sites/default/files/default_images/default.jpg"
+  );
 
   const validateExtraImages = async (objeto) => {
     setExtraImages([]);
@@ -69,6 +72,18 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     console.log("IMAGENES EXTRAS: - - - - ", img);
   };
 
+  const updateImage = async (item) => {
+    const imagenVerificada = await verifyUrlImage(
+      item.url,
+      `${item.id_tipo_exhibidor}`
+    );
+    setNewImage(imagenVerificada);
+  };
+
+  useEffect(() => {
+    updateImage(exhibitor);
+  }, []);
+
   useEffect(() => {
     validateExtraImages(exhibitor);
     //console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
@@ -95,7 +110,8 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
             <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
               {exhibitor.nombre_tipo_exhibidor}
             </Text>
-            {exhibitor.estado_promocion == 1 ? (
+            {exhibitor.estado_promocion == 1 ||
+            exhibitor.estado_promocion == 0 ? (
               <TouchableOpacity
                 style={{ position: "absolute", right: 4 }}
                 onPress={() => {
@@ -174,7 +190,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                             >
                               <Image
                                 //key={images} // Se utiliza "images" como clave
-                                source={{ uri: exhibitor.url_imagen_exhibidor }}
+                                source={{ uri: newImage }}
                                 style={styles.imgContainer} // Utilizar el estilo "imgContainer"
                                 resizeMode="cover"
                               />

@@ -16,7 +16,9 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
-  const [newImage, setNewImage] = useState("");
+  const [newImage, setNewImage] = useState(
+    "https://www.herbolariosivana.com/sites/default/files/default_images/default.jpg"
+  );
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -26,10 +28,17 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    console.log(
+      "ESTO LLEGA A PROMOCIONES: ----------------------------------- ",
+      item
+    );
+  });
+
   const updateImage = async (item) => {
     const imagenVerificada = await verifyUrlImage(
-      objeto.url,
-      `${objeto.id_exhibidor}`
+      item.url,
+      `${item.id_tipo_exhibidor}`
     );
     setNewImage(imagenVerificada);
   };
@@ -37,14 +46,14 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
   useEffect(() => {
     updateImage(item);
   }, []);
-  const acceptModal = () => {
+  /*const acceptModal = () => {
     setCheck1(!check1);
     setCheck2(!check2);
     actualizarEstado(item, check2);
     setIsModalVisible(false);
     setDisabled1(!disabled1);
     setDisabled2(!disabled2);
-  };
+  };*/
   useEffect(() => {
     console.log("NOMBRE DE LOS IMAGENES: ", item.url);
   }, []);
@@ -73,9 +82,9 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
           exhibidor.state = 1;
         } else {
           exhibidor.state = 0;
-          (exhibidor.images.image1 = null),
+          /*(exhibidor.images.image1 = null),
             (exhibidor.images.image2 = null),
-            (exhibidor.images.image3 = null);
+            (exhibidor.images.image3 = null);*/
         }
 
         console.log("PARAMETRO ACTUALIZADO: ", exhibidor);
@@ -88,14 +97,6 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
 
   return (
     <View style={[styles.container]}>
-      <ConfirmationModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-        onPress={acceptModal}
-        warning={
-          "Al presionar el boton Aceptar se va a eliminar el registro ingresado."
-        }
-      />
       <View style={styles.primaryContainer}>
         <View style={styles.descriptionContainer}>
           <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
@@ -112,12 +113,23 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
               </Text>
             </View>
           </View>
-
+          <Image
+            source={{ uri: newImage }}
+            style={{
+              flex: 1,
+              width: "100%",
+              height: 150,
+              marginTop: 10,
+              resizeMode: "stretch",
+            }}
+            resizeMode="cover"
+          />
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              right: 20,
+              justifyContent: "center",
+              //right: 20,
               //backgroundColor: "red",
               flex: 1,
             }}
@@ -141,14 +153,18 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
               containerStyle={{ backgroundColor: "transparent" }}
-              disabled={disabled1}
+              //disabled={had ? hadSaveRack : disabled1}
             />
-            <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>Si</Text>
+            <Text style={{ fontFamily: "Metropolis" }}>Cumple</Text>
             <CheckBox
               checked={check2}
               onPress={() => {
                 check1
-                  ? handleOpenModal()
+                  ? (setCheck2(!check2),
+                    setCheck1(!check1),
+                    actualizarEstado(item, check2),
+                    setDisabled2(!disabled2),
+                    setDisabled1(!disabled1))
                   : (setCheck2(!check2),
                     actualizarEstado(item, check2),
                     setDisabled2(!disabled2));
@@ -158,13 +174,13 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
               uncheckedIcon="checkbox-blank-outline"
               checkedColor={theme.colors.modernaRed}
               containerStyle={{ backgroundColor: "transparent" }}
-              disabled={disabled2}
+              //disabled={hadSaveRack ? hadSaveRack : disabled2}
             />
-            <Text style={{ fontSize: 15, fontFamily: "Metropolis" }}>No</Text>
+            <Text style={{ fontFamily: "Metropolis" }}>No cumple</Text>
           </View>
         </View>
       </View>
-      {check1 ? (
+      {check1 || check2 ? (
         <View style={styles.secondaryContainer}>
           <View style={{ padding: 10, flex: 2 }}>
             <View style={{ flex: 1.2 }}>
@@ -181,12 +197,6 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
                   Planograma Ideal
                 </Text>
               </View>
-              <Image
-                source={{
-                  uri: item.url,
-                }}
-                style={{ resizeMode: "stretch", width: "100%", height: 200 }}
-              />
             </View>
             <Text
               style={{

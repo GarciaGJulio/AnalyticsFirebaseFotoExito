@@ -63,7 +63,12 @@ export const Promos = ({ navigation }) => {
     useContext(GlobalContext);
 
   const consultarYCopiarContenido = async () => {
-    const clientName = await AsyncStorage.getItem("nombre_cliente");
+    const nombre_cliente = await AsyncStorage.getItem("nombre_cliente");
+    const clientName = nombre_cliente.split("-")[1].trim();
+    console.log(
+      "NOMBRE DE LA CONSULTA PARA EXHIBIDOR - - - - - - -",
+      clientName
+    );
     try {
       const resultadoConsultaExhibidor = await realizarConsulta(
         `SELECT * FROM exhibidor WHERE nombre_cliente='${clientName}'`
@@ -71,7 +76,7 @@ export const Promos = ({ navigation }) => {
 
       const tablaAuditorias = await realizarConsulta("SELECT * FROM auditoria");
 
-      console.log("NOMBRE DEL CLIENTE: - - - - ", clientName);
+      //console.log("NOMBRE DEL CLIENTE: - - - - ", clientName);
 
       console.log(
         "DATOS DE TABLA AUDITORIA * * * * * * *: - - - - ",
@@ -203,6 +208,9 @@ export const Promos = ({ navigation }) => {
   };
 
   const dataId = async () => {
+    console.log(
+      "\nDESDE PROMOCION *********************************************************\n"
+    );
     let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
     let idPercha = await AsyncStorage.getItem("id_percha"); //si
     let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
@@ -212,6 +220,9 @@ export const Promos = ({ navigation }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     ); //si
+    console.log(
+      "\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n\n"
+    );
     console.log("ID DE PRECIADOR: ", idPreciador);
     console.log("ID DE PERCHA: ", idPercha);
     console.log("ID DE SUCURSAL: ", idSucursal);
@@ -223,7 +234,8 @@ export const Promos = ({ navigation }) => {
 
   useEffect(() => {
     dataId();
-  });
+  }, []);
+
   const saveAudit = async () => {
     let idPreciador = await AsyncStorage.getItem("id_preciador");
     let idPercha = await AsyncStorage.getItem("id_percha");
@@ -416,6 +428,25 @@ export const Promos = ({ navigation }) => {
       }
     }
   };
+
+  const validateData = () => {
+    const isDataValid = promos.every((item) => {
+      if (item.state === null) {
+        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        return false;
+      }
+      if (item.state === 1 || item.state === 0) {
+        if (!item.images || item.images.image1 === null) {
+          console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+          return false;
+        }
+      }
+      return true;
+    });
+
+    return isDataValid;
+  };
+
   const handleDeleteRegisterLocal = async () => {
     const id_percha = await AsyncStorage.getItem("id_percha");
     // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
@@ -511,6 +542,7 @@ export const Promos = ({ navigation }) => {
         iconRigth={"content-save-all-outline"}
         typeRigth={"material-community"}
         colorRigth={theme.colors.modernaRed}
+        disableAction={!validateData()}
         onPressRigth={validate}
         showButton1={true}
         //showButton2={showButton2}

@@ -74,6 +74,35 @@ export const Briefcase = ({ navigation }) => {
     );
   }, [idealPortfolioProducts]);*/
 
+  const dataId = async () => {
+    console.log(
+      "\nDESDE PORTAFOLIO *********************************************************\n"
+    );
+    let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
+    let idPercha = await AsyncStorage.getItem("id_percha"); //si
+    let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
+    let idCliente = await AsyncStorage.getItem("id_cliente"); //si
+    let nombreCliente = await AsyncStorage.getItem("nombre_cliente"); //si
+    let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+    let idPortafolioAuditoria = await AsyncStorage.getItem(
+      "id_portafolio_auditoria"
+    ); //si
+    console.log(
+      "\n////////////////////////////////////////////////////////////////////////\n\n"
+    );
+    console.log("ID DE PRECIADOR: ", idPreciador);
+    console.log("ID DE PERCHA: ", idPercha);
+    console.log("ID DE SUCURSAL: ", idSucursal);
+    console.log("ID DE CLIENTE: ", idCliente);
+    console.log("NOMBRE CLIENTE: ", nombreCliente);
+    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+  };
+
+  useEffect(() => {
+    dataId();
+  }, []);
+
   const getInfoDatBaseScreen = () => {
     try {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {

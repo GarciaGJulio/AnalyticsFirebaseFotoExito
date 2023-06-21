@@ -271,7 +271,7 @@ export const Client_Information = ({ navigation }) => {
       );
     }
 
-    if (validador && errorBranchName == "" && errorBranchNameRepeat == "") {
+    if (validador && errorBranchName == "") {
       //navigation.navigate("briefcase");
       setIsModalVisible(true);
       //console.log("DATOS DE COORDENADAS: ", locationCoords);
@@ -279,6 +279,7 @@ export const Client_Information = ({ navigation }) => {
         const locationCoords = await getLocation();
         await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
         await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
+        //await AsyncStorage.setItem("nombre_cliente", selected.split("-")[1]);
         setIsModalVisible(false);
         const { latitude, longitude } = locationCoords;
         console.log("DATOS A GUARDAR: ", {
@@ -324,10 +325,6 @@ export const Client_Information = ({ navigation }) => {
             `${dataTime()}`,
           ],
         };
-
-        await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
-        await AsyncStorage.setItem("nombre_sucursal", sucursalInformation.name);
-        await AsyncStorage.setItem("nombre_cliente", selected);
         saveCurrentScreenUser(
           {
             screenName: `audit`,
