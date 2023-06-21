@@ -11,13 +11,12 @@ export const generateUIDD = () => {
 };
 
 export const dataTime = () => {
-  return moment().toISOString();
+  console.log("mi fecha ecuador::::::", moment().format("DD/MM/YYYY HH:mm:ss"));
+  return moment().format("DD/MM/YYYY HH:mm:ss");
 };
 
-
 export const generateUIDDGeneric = () => {
-  
-    constantUUID = uuid.v4();
-  
+  constantUUID = uuid.v4();
+
   return uuid.v4();
 };

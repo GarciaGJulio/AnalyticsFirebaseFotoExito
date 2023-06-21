@@ -25,6 +25,7 @@ import { ItemBranch_Review } from "../../components/ItemBranch_Review";
 import { Navigation } from "../../navigation/Navigation";
 import { GlobalContext } from "../../context/GlobalContext";
 import { ModernaContext } from "../../context/ModernaProvider";
+import { FAB } from "@rneui/base";
 
 export const ListBranch = ({ navigation }) => {
   const [audit, setAudit] = useState([]);
@@ -118,8 +119,22 @@ export const ListBranch = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
+        <FAB
+          title=""
+          placement="left"
+          onPress={() => navigation.navigate("menu")}
+          icon={{
+            name: "arrow-left-top",
+            color: "white",
+            type: "material-community",
+          }}
+          color={theme.colors.modernaYellow}
+          size="small"
+          style={{ width: 40, height: 25, backgroundColor: "blue" }}
+        />
         <Image source={Logotipo} style={styles.image} />
       </View>
+
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
         <View style={styles.content}>
           <Text style={styles.title}>

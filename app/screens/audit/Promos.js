@@ -57,7 +57,6 @@ export const Promos = ({ navigation }) => {
   const [idAuditoria] = useState(generateUIDD());
   const { userInfo } = useContext(ModernaContext);
   const [showButton1, setShowButton1] = useState(true);
-  const [isConnected, setIsConnected] = useState(false);
   const [showButton2, setShowButton2] = useState(false);
   const [hasVariable, setHasVariable] = useState(true);
 
@@ -65,6 +64,7 @@ export const Promos = ({ navigation }) => {
     setHadSavePreciador,
     setHadSaveBriefCase,
     setHadSaveRack,
+    isConnectionActivate,
     handleDoesClientHaveVariable,
   } = useContext(GlobalContext);
 
@@ -321,7 +321,7 @@ export const Promos = ({ navigation }) => {
       db_insertGlobalDataAudit(dataSave);
       //setShowButton1(false);
       //setShowButton2(true);
-      if (isConnected) {
+      if (isConnectionActivate) {
         try {
           await subidaBaseRemoteTodaAuditoria(
             idAuditoria,
@@ -359,7 +359,8 @@ export const Promos = ({ navigation }) => {
 
   const validate = async () => {
     console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
-    if (selected === null) {
+
+    if (selected === null && hasVariable) {
       console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
       Alert.alert(
         "Tiene que escoger una sucursal del campo desplegable",
@@ -395,47 +396,55 @@ export const Promos = ({ navigation }) => {
             "PROMOCIONES QUE VAN A SER GUARDADOS: ",
             JSON.stringify(exhibidorSucursal)
           );
-          exhibidorSucursal.map((productos) => {
-            const { id_promocion, id, state, images } = productos;
-            const { image1, image2, image3 } = images;
-            let dataSave = {
-              tableName: "promocion",
-              dataInsertType: [
-                "id_promocion",
-                "id_exhibidor",
-                "estado_promocion",
-                "url_imagen1",
-                "url_imagen2",
-                "url_imagen3",
-              ],
-              dataInsert: [
-                `'${id_promocion}'`,
-                `'${id}'`,
-                `'${parseInt(state)}'`,
-                `'${image1}'`,
-                `'${image2}'`,
-                `'${image3}'`,
-              ],
-            };
-            const sentence =
-              "INSERT INTO " +
-              dataSave.tableName +
-              " (" +
-              dataSave.dataInsertType.join() +
-              ") VALUES(" +
-              dataSave.dataInsert.join() +
-              ")";
-            console.log("SENTENCIA A EJECUTAR: ", sentence);
-            db_insertGlobalDataAudit(dataSave);
+          if (exhibidorSucursal.length > 0) {
+            exhibidorSucursal.map((productos) => {
+              const { id_promocion, id, state, images } = productos;
+              const { image1, image2, image3 } = images;
+              let dataSave = {
+                tableName: "promocion",
+                dataInsertType: [
+                  "id_promocion",
+                  "id_exhibidor",
+                  "estado_promocion",
+                  "url_imagen1",
+                  "url_imagen2",
+                  "url_imagen3",
+                ],
+                dataInsert: [
+                  `'${id_promocion}'`,
+                  `'${id}'`,
+                  `'${parseInt(state)}'`,
+                  `'${image1}'`,
+                  `'${image2}'`,
+                  `'${image3}'`,
+                ],
+              };
+              const sentence =
+                "INSERT INTO " +
+                dataSave.tableName +
+                " (" +
+                dataSave.dataInsertType.join() +
+                ") VALUES(" +
+                dataSave.dataInsert.join() +
+                ")";
+              console.log("SENTENCIA A EJECUTAR: ", sentence);
+              db_insertGlobalDataAudit(dataSave);
+              console.log("TODO BIEN");
+              saveAudit();
+              cleanCurrentScreenUser();
+              navigation.navigate("begin");
+              /*setTimeout(() => {
+              navigation.navigate("begin");
+            }, 1200);*/
+            });
+          } else {
             console.log("TODO BIEN");
             saveAudit();
             cleanCurrentScreenUser();
             navigation.navigate("begin");
-            /*setTimeout(() => {
-              navigation.navigate("begin");
-            }, 1200);*/
-          });
+          }
         } catch (e) {
+          console.log("errordel drop?::", e);
           Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
         }
         console.log("TODO BIEN  - - - - - - - -- ");

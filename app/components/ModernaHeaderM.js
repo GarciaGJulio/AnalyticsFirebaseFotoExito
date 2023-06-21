@@ -88,8 +88,8 @@ const ModernaHeaderM = () => {
         </View>
       </View>
       <View style={styles.imageContainer}></View>
+      <WifiIndicator />
       <TouchableOpacity style={styles.logOutButton} onPress={handleOpenModal}>
-        <WifiIndicator />
         <Icon name="log-out-outline" type="ionicon" size={25} color={"white"} />
       </TouchableOpacity>
     </View>
@@ -130,10 +130,10 @@ const styles = StyleSheet.create({
     flex: 0.5,
   },
   logOutButton: {
-    //backgroundColor: "brown",
+    // backgroundColor: "brown",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    flex: 0.5,
+    flex: 0.2,
   },
 });

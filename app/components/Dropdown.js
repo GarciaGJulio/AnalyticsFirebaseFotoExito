@@ -106,7 +106,7 @@ export const Dropdown = ({
             ? "No se han encontrado coincidencias"
             : "Cliente ya seleccionado"
         }
-        dropdownTextStyles={{ flexShrink: 1, right: 10, flex: 1 }}
+        dropdownTextStyles={{ flexShrink: 1, right: 10 }}
         save="value"
         boxStyles={{
           borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,

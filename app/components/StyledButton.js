@@ -7,7 +7,6 @@ import { useFonts } from "expo-font";
 export const StyledButton = ({
   title,
   onPress,
-  disabled,
   buttonColor,
   iconName,
   iconType,
@@ -23,15 +22,7 @@ export const StyledButton = ({
 
   return (
     <TouchableOpacity
-      disabled={disabled}
-      style={[
-        styles.container,
-        {
-          width: size,
-          backgroundColor: buttonColor,
-          opacity: disabled ? 0.5 : null,
-        },
-      ]}
+      style={[styles.container, { width: size, backgroundColor: buttonColor }]}
       onPress={() => {
         if (onPress) {
           onPress();
@@ -44,41 +35,39 @@ export const StyledButton = ({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-around",
-          width: 100,
+          width: size,
           // height: size * 3 / 10,
-
+          flex: 1,
+          paddingHorizontal: 10,
           //backgroundColor:'blue'
         }}
       >
-        {iconName && iconType ? (
-          <View
-            style={
-              {
-                //backgroundColor: "blue",
-              }
-            }
-          >
+        <View
+          style={{
+            //backgroundColor: "blue",
+            flex: 0.3,
+          }}
+        >
+          {iconName && iconType ? (
             <Icon
               name={iconName}
               type={iconType}
               color={"white"}
-              style={
-                {
-                  //flex: 0.3,
-                  //backgroundColor: "green"
-                }
-              }
+              style={{
+                //flex: 0.3,
+                marginHorizontal: 2,
+                //backgroundColor: "green"
+              }}
             />
-          </View>
-        ) : (
-          <></>
-        )}
+          ) : (
+            <></>
+          )}
+        </View>
         <View
-          style={
-            {
-              //backgroundColor: "orange",
-            }
-          }
+          style={{
+            //backgroundColor: "orange",
+            flex: 1,
+          }}
         >
           <Text style={styles.buttonText}>{title}</Text>
         </View>
@@ -112,7 +101,7 @@ const styles = StyleSheet.create({
     //flex: 1,
     color: "white",
     //backgroundColor: "blue",
-    fontSize: 16,
+    fontSize: 17,
     //left: 5,
     fontFamily: "Metropolis",
     fontWeight: "600",

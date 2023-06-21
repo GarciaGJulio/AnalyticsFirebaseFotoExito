@@ -134,11 +134,6 @@ export const Menu = ({ navigation }) => {
   };
 
   const handleOpenModal = async () => {
-    /*const producto = await realizarConsulta("SELECT * FROM producto");
-    const insert =
-      "INSERT INTO producto (id_producto,id_categoria,nombre_producto,url_imagen_producto,precio,usuario_creacion,fecha_creacion,fecha_modificacion ) values ('100541','PAEMP31','FIDEO CAYAMBE BABETIN 200 G','https://storage.googleapis.com/apk_pedidos_tat/100541.png','1.1000',null,'2023-06-13T18:13:18.000Z',null ),('100562','PAEMP31','FIDEO CAYAMBE CAB DE ANGEL 400 G','https://storage.googleapis.com/apk_pedidos_tat/100562.png','1.2000',null,'2023-06-13T18:13:18.000Z',null ),('100613','COMIN45','CREMA RICH'S WHIPP TOPPING BASE 4 KG','https://storage.googleapis.com/apk_pedidos_tat/100613.png','23.6500',null,'2023-06-13T18:13:18.000Z',null ),('100699','COMIN47','LEVADURA BAKELS PLATINUM','https://storage.googleapis.com/apk_pedidos_tat/100699.png','3.5700',null,'2023-06-13T18:13:18.000Z',null ),('100712','GRASA53','MANTECA MANTEPLUS COSTA 15 KG','https://storage.googleapis.com/apk_pedidos_tat/100712.png','2.9700',null,'2023-06-13T18:13:18.000Z',null ),('100713','GRASA53','MANTECA MANTEPLUS COSTA 27.5 KG','https://storage.googleapis.com/apk_pedidos_tat/100713.png','55.4400',null,'2023-06-13T18:13:18.000Z',null ),('100715','GRASA53','MANTECA MANTEPLUS SIERRA 15 KG','https://storage.googleapis.com/apk_pedidos_tat/100715.png','32.9700',null,'2023-06-13T18:13:18.000Z',null ),('100716','GRASA53','MANTECA MANTEPLUS SIERRA 27.5 KG','https://storage.googleapis.com/apk_pedidos_tat/100716.png','60.4400',null,'2023-06-13T18:13:18.000Z',null )";
-    await realizarConsulta(insert);
-    console.log("********** LISTA DE PRODUCTOS *******************", producto);*/
     setAnimation(SYNC_ANIMATION);
     //setIsModalVisible(!isModalVisible);
     const auditoriasSinSincronizar = await realizarConsulta(
@@ -334,7 +329,7 @@ export const Menu = ({ navigation }) => {
         >
           <View
             style={{
-              flex: 1,
+              // flex: 1,
               justifyContent: "center",
               alignItems: "center",
               //marginLeft: 10,
@@ -361,7 +356,7 @@ export const Menu = ({ navigation }) => {
         <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
           <View
             style={{
-              flex: 1,
+              // flex: 1,
               justifyContent: "center",
               alignItems: "center",
               //marginLeft: 10,
@@ -384,7 +379,7 @@ export const Menu = ({ navigation }) => {
         <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
           <View
             style={{
-              flex: 1,
+              // flex: 1,
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -402,40 +397,6 @@ export const Menu = ({ navigation }) => {
             <Text style={styles.text}>
               Visualiza los datos de las auditorías registradas.
             </Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              //marginLeft: 10,
-            }}
-          >
-            <StyledButton
-              title={"Realizar Auditoría"}
-              buttonColor={theme.colors.modernaRed}
-              onPress={() => navigation.navigate("logs")}
-              size={theme.buttonSize.sm}
-              iconName={"clipboard"}
-              iconType={"entypo"}
-            />
-          </View>
-          <View
-            style={{
-              flex: 1.4,
-              justifyContent: "center",
-              //alignItems: "center",
-              padding: 0,
-              borderWidth: 0.5, //Detalles de los botones
-              borderRadius: 10,
-              marginLeft: 5,
-              paddingHorizontal: 15,
-              //backgroundColor: "blue",
-            }}
-          >
-            <Text style={styles.text}>Ver Logs.</Text>
           </View>
         </View>
       </Animatable.View>
@@ -465,7 +426,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 5,
     paddingHorizontal: 15,
-    width: global.widthContainer,
+    // width: global.widthContainer,
   },
   headerContainer: {
     flex: 0.5,
@@ -484,14 +445,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     //padding:5,
-    paddingHorizontal: 1,
+    paddingHorizontal: 50,
     paddingVertical: 20,
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
     fontSize: 15,
     fontFamily: "Metropolis",
-    textAlign: "auto",
+    textAlign: "justify",
     //flex: 1,
   },
 });

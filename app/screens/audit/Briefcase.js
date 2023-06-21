@@ -324,12 +324,12 @@ export const Briefcase = ({ navigation }) => {
         (categoria) => {
           const productosCategoria = filtroProductosNoIdeales.filter(
             (producto) => {
-              console.log(
+              /*console.log(
                 "CATEGORIA: " +
                   categoria.id_categoria +
                   " PRODUCTO: " +
                   producto.id_categoria
-              );
+              );*/
               return producto.id_categoria === categoria.id_categoria;
             }
           );
