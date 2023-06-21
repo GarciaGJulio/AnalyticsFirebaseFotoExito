@@ -7,6 +7,7 @@ import { useFonts } from "expo-font";
 export const StyledButton = ({
   title,
   onPress,
+  disabled,
   buttonColor,
   iconName,
   iconType,
@@ -22,7 +23,15 @@ export const StyledButton = ({
 
   return (
     <TouchableOpacity
-      style={[styles.container, { width: size, backgroundColor: buttonColor }]}
+      disabled={disabled}
+      style={[
+        styles.container,
+        {
+          width: size,
+          backgroundColor: buttonColor,
+          opacity: disabled ? 0.5 : null,
+        },
+      ]}
       onPress={() => {
         if (onPress) {
           onPress();
@@ -37,39 +46,39 @@ export const StyledButton = ({
           justifyContent: "space-around",
           width: 100,
           // height: size * 3 / 10,
-          
-         
+
           //backgroundColor:'blue'
         }}
       >
-        
-          {iconName && iconType ? (
-            <View
-            style={{
-              //backgroundColor: "blue",
-             
-            }}
+        {iconName && iconType ? (
+          <View
+            style={
+              {
+                //backgroundColor: "blue",
+              }
+            }
           >
             <Icon
               name={iconName}
               type={iconType}
               color={"white"}
-              style={{
-                //flex: 0.3,
-                
-                //backgroundColor: "green"
-              }}
+              style={
+                {
+                  //flex: 0.3,
+                  //backgroundColor: "green"
+                }
+              }
             />
-        </View>
-
-          ) : (
-            <></>
-          )}
+          </View>
+        ) : (
+          <></>
+        )}
         <View
-          style={{
-            //backgroundColor: "orange",
-            
-          }}
+          style={
+            {
+              //backgroundColor: "orange",
+            }
+          }
         >
           <Text style={styles.buttonText}>{title}</Text>
         </View>

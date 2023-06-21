@@ -125,16 +125,6 @@ export const Prices = ({ navigation, route }) => {
         ...global.userInfoScreen.infoScreen,
       };
 
-      // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-      // const tmpPantalla = tmpInfoExtra.pantallas.prices
-      // const infoExtra = tmpPantalla.extra_info
-      // const newObj = {
-
-      //   ...infoExtra,
-      //   ...global.userInfoScreen.infoScreen
-      // }
-      // console.log("newObj-------------", newObj)
-      // console.log("newObj-------------", infoExtra.complementaryPortfolioProducts.split("**"))
       let tempItems = infoExtra.fullDataProducts.split("**");
       // console.log("tempItems SPOPLIT-------------", tempItems)
       tempItems = tempItems.filter((item) => item.length > 0 && item != ",");
@@ -158,8 +148,8 @@ export const Prices = ({ navigation, route }) => {
       setNewIdealPortfolio(tempItemsIdeal);
       setNewComplementaryPortfolio(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
-      //setShowButton2(true);
-      //setShowButton1(false);
+      setShowButton2(true);
+      setShowButton1(false);
       setHadSavePreciador(true);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
@@ -188,8 +178,8 @@ export const Prices = ({ navigation, route }) => {
       setNewIdealPortfolio([]);
       setNewComplementaryPortfolio([]);
       setInfoScreen(null);
-      //setShowButton2(false);
-      //setShowButton1(true);
+      setShowButton2(false);
+      setShowButton1(true);
     }
   };
 
@@ -227,6 +217,61 @@ export const Prices = ({ navigation, route }) => {
       getNewArrays();
     }
   }, [complementaryPortfolioProducts]);
+
+  const validateData = () => {
+    const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
+    console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
+
+    const isDataValid = fullArrays.every((item) => {
+      if (item.state === null) {
+        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        return false;
+      }
+      if (item.state === 1) {
+        if (
+          item.price === null ||
+          errorPrice !== "" ||
+          !item.images ||
+          item.images.image1 === null
+        ) {
+          console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+          return false;
+        }
+      }
+      return true;
+    });
+
+    return isDataValid;
+  };
+
+  const dataId = async () => {
+    console.log(
+      "\nDESDE PRECIADOR *********************************************************\n"
+    );
+    let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
+    let idPercha = await AsyncStorage.getItem("id_percha"); //si
+    let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
+    let idCliente = await AsyncStorage.getItem("id_cliente"); //si
+    let nombreCliente = await AsyncStorage.getItem("nombre_cliente"); //si
+    let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+    let idPortafolioAuditoria = await AsyncStorage.getItem(
+      "id_portafolio_auditoria"
+    ); //si
+    console.log(
+      "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n"
+    );
+    console.log("ID DE PRECIADOR: ", idPreciador);
+    console.log("ID DE PERCHA: ", idPercha);
+    console.log("ID DE SUCURSAL: ", idSucursal);
+    console.log("ID DE CLIENTE: ", idCliente);
+    console.log("NOMBRE CLIENTE: ", nombreCliente);
+    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+  };
+
+  useEffect(() => {
+    dataId();
+  }, []);
 
   const validateArrays = async () => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
@@ -345,6 +390,8 @@ export const Prices = ({ navigation, route }) => {
               setIsModalVisible(false);
               navigation.navigate("rack");
               setHadSavePreciador(true);
+              setShowButton1(false);
+              setShowButton2(true);
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -360,11 +407,6 @@ export const Prices = ({ navigation, route }) => {
 
           let objUserInfo = {};
           try {
-            // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-            // const tmpPantalla = tmpInfoExtra.pantallas.prices
-            // const infoExtra = tmpPantalla.extra_info
-            // objUserInfo = infoExtra
-
             const tmpInfoExtra = JSON.parse(
               global.userInfoScreen.userInfo.extra_info
             );
@@ -377,14 +419,8 @@ export const Prices = ({ navigation, route }) => {
                 pantallas: tmpInfoExtra.pantallas,
               },
             };
-
-            // objUserInfo = JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.prices)
           } catch (e) {
             try {
-              // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-              // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-              // objUserInfo = tempPantalla
-              // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
               const userInfoScreenTmp =
                 await getCurrentScreenInformationLocal();
               const tempPantalla = JSON.parse(
@@ -603,16 +639,28 @@ export const Prices = ({ navigation, route }) => {
               typeRigth={"material-community"}
               colorRigth={theme.colors.modernaRed}
               onPressRigth={hadSavePreciador ? onlyNavigation : validateArrays}
-              showButton1={true}
-              //showButton2={showButton2}
+              // showButton1={false}
+              // showButton2={showButton2}
               //titleRigthSecond={"Siguiente"}
               //sizeRigthSecond={theme.buttonSize.df}
               //colorRigthSecond={theme.colors.modernaRed}
-              //onPressRigthSecond={() => navigation.navigate("rack")}
-              //showButton1Second={showButton1}
-              //showButton2Second={showButton2}
-              //iconRigthSecond={"arrow-right-circle"}
-              //typeRigthSecond={"feather"}
+              // onPressRigthSecond={() => navigation.navigate("rack")}
+              // showButton1Second={showButton1}
+              // showButton2Second={showButton2}
+              // iconRigthSecond={"arrow-right-circle"}
+              // typeRigthSecond={"feather"}
+              //cambios del merge
+              disableAction={!validateData()}
+              showButton1={true}
+              // showButton2={showButton2}
+              // titleRigthSecond={"Siguiente"}
+              // sizeRigthSecond={theme.buttonSize.df}
+              // colorRigthSecond={theme.colors.modernaRed}
+              // onPressRigthSecond={() => navigation.navigate("rack")}
+              // showButton1Second={showButton1}
+              // showButton2Second={showButton2}
+              // iconRigthSecond={"arrow-right-circle"}
+              // typeRigthSecond={"feather"}
             />
           </View>
         </View>

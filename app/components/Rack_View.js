@@ -31,7 +31,7 @@ export const Rack_View = ({ rack }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen1,
-        `${objeto.url_imagen1}1`
+        `${objeto.id_percha + "-" + objeto.id_categoria}-1`
       );
       setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }
@@ -44,7 +44,7 @@ export const Rack_View = ({ rack }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen2,
-        `${objeto.url_imagen2}2`
+        `${objeto.id_percha + "-" + objeto.id_categoria}-2`
       );
       setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }
@@ -57,7 +57,7 @@ export const Rack_View = ({ rack }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen3,
-        `${objeto.url_imagen3}3`
+        `${objeto.id_percha + "-" + objeto.id_categoria}-3`
       );
       setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }

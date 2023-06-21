@@ -98,13 +98,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
-        "" +
-          promocionData[i].id_promocion +
-          [i] +
-          "-" +
-          "id_exhibidor" +
-          "-" +
-          "1"
+        "" + promocionData[i].id_promocion + promocionData[i].id_exhibidor
       );
     }
     console.log(
@@ -129,13 +123,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
-        "" +
-          promocionData[i].id_promocion +
-          [i] +
-          "-" +
-          "id_exhibidor" +
-          "-" +
-          "2"
+        "" + promocionData[i].id_promocion + promocionData[i].id_exhibidor
       );
     }
     console.log(
@@ -160,13 +148,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
-        "" +
-          promocionData[i].id_promocion +
-          [i] +
-          "-" +
-          "id_exhibidor" +
-          "-" +
-          "3"
+        "" + promocionData[i].id_promocion + promocionData[i].id_exhibidor
       );
     }
   }
@@ -209,13 +191,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
     } else {
       console.log(
         "ID PERCHA 1: ",
-        "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
+        "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria
       );
       console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
       console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen1);
       perchaData[i].url_imagen1 = await SubirAlonedrive(
         perchaData[i].url_imagen1,
-        "" + perchaData[i].id_percha + [i] + "-" + "id_percha" + "-" + "1"
+        "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-1"
       );
     }
     console.log(
@@ -241,7 +223,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen2);
       perchaData[i].url_imagen2 = await SubirAlonedrive(
         perchaData[i].url_imagen2,
-        "" + perchaData[i].id_percha + [i] + "-" + "id_percha" + "-" + "2"
+        "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-2"
       );
     }
     console.log(
@@ -261,13 +243,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
     } else {
       console.log(
         "ID PERCHA 3: ",
-        "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
+        "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria
       );
       console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
       console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen3);
       perchaData[i].url_imagen3 = await SubirAlonedrive(
         perchaData[i].url_imagen3,
-        "" + perchaData[i].id_categoria + [i] + "-" + "id_percha" + "-" + "3"
+        "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-3"
       );
     }
   }
@@ -335,11 +317,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
         preciadorData[i].url_imagen1,
         "" +
           preciadorData[i].id_preciador +
-          [i] +
           "-" +
-          "id_preciador" +
-          "-" +
-          "1"
+          preciadorData[i].id_producto +
+          "-1"
       );
     }
     console.log(
@@ -370,11 +350,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
         preciadorData[i].url_imagen2,
         "" +
           preciadorData[i].id_preciador +
-          [i] +
           "-" +
-          "id_preciador" +
-          "-" +
-          "2"
+          preciadorData[i].id_producto +
+          "-2"
       );
     }
     console.log(
@@ -405,11 +383,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
         preciadorData[i].url_imagen3,
         "" +
           preciadorData[i].id_preciador +
-          [i] +
           "-" +
-          "id_preciador" +
-          "-" +
-          "3"
+          preciadorData[i].id_producto +
+          "-3"
       );
     }
   }
@@ -473,10 +449,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       console.log("respuesta de cambiar estado: ", stateAudit);
       setRefresh(!refresh);
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
-      Alert.alert(
-        "Auditoria registrada",
-        "Auditoría registrada con éxito"
-      );
+      Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
     } else {
       console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
       fn(false);

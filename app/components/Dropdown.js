@@ -10,9 +10,9 @@ export const Dropdown = ({
   placeholder,
   valueInfoScreen,
   setSelected,
-  error,
   setGroupClient,
   setError,
+  error,
   selected,
   hadSave,
   setSucursalInformation,
@@ -32,8 +32,14 @@ export const Dropdown = ({
         setType(type.nombre_tipo_cliente);
         setGroupClient(type.nombre_grupo_cliente);
         console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
+        console.log(
+          " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+        );
+        console.log("DATOS A GUARDAR:", type);
+        console.log(
+          " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+        );
         setClientGroupId(type.id_grupo_cliente);
-
         await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
         await AsyncStorage.setItem("id_cliente", type.id_cliente);
         await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
@@ -45,13 +51,12 @@ export const Dropdown = ({
       }
     });
   };
-  useEffect(()=>{
-    console.log("ARRAY DE CLIENTES",newArrayClients)
-    newArrayClients.sort(function(a, b) {
+  useEffect(() => {
+    console.log("ARRAY DE CLIENTES", newArrayClients);
+    newArrayClients.sort(function (a, b) {
       return b.key - a.key;
     });
-
-  },[])
+  }, []);
 
   useEffect(() => {
     validateType();
@@ -93,7 +98,7 @@ export const Dropdown = ({
         inputStyles={{
           fontFamily: "Metropolis",
           fontSize: 13,
-          padding:0.5,
+          padding: 0.5,
           flexShrink: 1,
         }}
         notFoundText={
@@ -112,7 +117,7 @@ export const Dropdown = ({
           height: 60,
           //fontSize: 12,
           flex: 1,
-          padding:2
+          padding: 2,
         }}
       />
 

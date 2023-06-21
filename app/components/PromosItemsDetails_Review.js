@@ -19,6 +19,9 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const [extraImages, setExtraImages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
+  const [newImage, setNewImage] = useState(
+    "https://www.herbolariosivana.com/sites/default/files/default_images/default.jpg"
+  );
 
   const validateExtraImages = async (objeto) => {
     setExtraImages([]);
@@ -31,12 +34,9 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen1,
-        `${objeto.url_imagen1}1`
+        `${objeto.id_promocion + "-" + objeto.id_exhibidor}-1`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
     }
 
@@ -48,12 +48,9 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen2,
-        `${objeto.url_imagen2}2`
+        `${objeto.id_promocion + "-" + objeto.id_exhibidor}-2`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
 
@@ -65,18 +62,28 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen3,
-        `${objeto.url_imagen3}3`
+        `${objeto.id_promocion + "-" + objeto.id_exhibidor}-3`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
     let img = extraImages.join(",");
     console.log("IMAGENES EXTRAS: - - - - ", img);
   };
+
+  const updateImage = async (item) => {
+    const imagenVerificada = await verifyUrlImage(
+      item.url_imagen_exhibidor,
+      `${item.id_tipo_exhibidor}`
+    );
+    setNewImage(imagenVerificada);
+  };
+
+  useEffect(() => {
+    updateImage(exhibitor);
+    console.log("ESTO LLEGA -------", exhibitor);
+  }, []);
 
   useEffect(() => {
     validateExtraImages(exhibitor);
@@ -104,7 +111,8 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
             <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
               {exhibitor.nombre_tipo_exhibidor}
             </Text>
-            {exhibitor.estado_promocion == 1 ? (
+            {exhibitor.estado_promocion == 1 ||
+            exhibitor.estado_promocion == 0 ? (
               <TouchableOpacity
                 style={{ position: "absolute", right: 4 }}
                 onPress={() => {
@@ -183,7 +191,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                             >
                               <Image
                                 //key={images} // Se utiliza "images" como clave
-                                source={{ uri: exhibitor.url_imagen_exhibidor }}
+                                source={{ uri: newImage }}
                                 style={styles.imgContainer} // Utilizar el estilo "imgContainer"
                                 resizeMode="cover"
                               />

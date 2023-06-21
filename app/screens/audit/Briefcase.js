@@ -92,6 +92,35 @@ export const Briefcase = ({ navigation }) => {
     );
   }, [idealPortfolioProducts]);*/
 
+  const dataId = async () => {
+    console.log(
+      "\nDESDE PORTAFOLIO *********************************************************\n"
+    );
+    let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
+    let idPercha = await AsyncStorage.getItem("id_percha"); //si
+    let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
+    let idCliente = await AsyncStorage.getItem("id_cliente"); //si
+    let nombreCliente = await AsyncStorage.getItem("nombre_cliente"); //si
+    let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+    let idPortafolioAuditoria = await AsyncStorage.getItem(
+      "id_portafolio_auditoria"
+    ); //si
+    console.log(
+      "\n////////////////////////////////////////////////////////////////////////\n\n"
+    );
+    console.log("ID DE PRECIADOR: ", idPreciador);
+    console.log("ID DE PERCHA: ", idPercha);
+    console.log("ID DE SUCURSAL: ", idSucursal);
+    console.log("ID DE CLIENTE: ", idCliente);
+    console.log("NOMBRE CLIENTE: ", nombreCliente);
+    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+  };
+
+  useEffect(() => {
+    dataId();
+  }, []);
+
   const getInfoDatBaseScreen = () => {
     try {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {
@@ -123,8 +152,8 @@ export const Briefcase = ({ navigation }) => {
       setIdealPortfolioProducts(tempItemsIdeal);
       setComplementaryPortfolioProducts(tempItems);
       setInfoScreen(newObj);
-      //setShowButton2(true);
-      //setShowButton1(false);
+      setShowButton2(true);
+      setShowButton1(false);
       setHadSave(true);
       setHadSaveBriefCase(true);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
@@ -153,8 +182,8 @@ export const Briefcase = ({ navigation }) => {
       setIdealPortfolioProducts([]);
       setComplementaryPortfolioProducts([]);
       setInfoScreen(null);
-      //setShowButton2(false);
-      //setShowButton1(true);
+      setShowButton2(false);
+      setShowButton1(true);
       console.log(error);
     }
   };
@@ -511,8 +540,6 @@ export const Briefcase = ({ navigation }) => {
             try {
               db_insertGlobalDataAudit(portafolioSave);
               console.log("TODO BIEN");
-              //setShowButton1(false);
-              //setShowButton2(true);
               navigation.navigate("prices", {
                 currentStep,
                 complementaryPortfolioProducts,
@@ -520,6 +547,8 @@ export const Briefcase = ({ navigation }) => {
                 setComplementaryPortfolioProducts,
               });
               setIsModalVisible(false);
+              setShowButton1(false);
+              setShowButton2(true);
             } catch (e) {
               Alert.alert(
                 "Error al insertar los datos en la tabla portafolio_auditoria",
@@ -707,6 +736,7 @@ export const Briefcase = ({ navigation }) => {
               alignItems: "center",
               marginTop: -8,
             }}
+            //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
           >
             <View style={{ flex: 0.1, width: "90%" }}>
               <Text style={styles.text}>Portafolio Ideal</Text>
@@ -767,8 +797,26 @@ export const Briefcase = ({ navigation }) => {
               typeRigth={"material-community"}
               onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
               showButton1={true}
+              //   showButton1={showButton1}
+              // showButton2={showButton2}
+              // titleRigthSecond={"Siguiente"}
+              // sizeRigthSecond={theme.buttonSize.df}
+              // colorRigthSecond={theme.colors.modernaRed}
+              // showButton1Second={showButton1}
+              // showButton2Second={showButton2}
+              // onPressRigthSecond={() => {
+              //   navigation.navigate("prices", {
+              //     currentStep,
+              //     complementaryPortfolioProducts,
+              //     idealPortfolioProducts,
+              //     setComplementaryPortfolioProducts,
+              //   });
+              // }}
+              // iconRigthSecond={"arrow-right-circle"}
+              // typeRigthSecond={"feather"}
             />
           </View>
+          {/* //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd--------------------------------- */}
         </View>
       ) : (
         <View style={styles.contentContainer}>

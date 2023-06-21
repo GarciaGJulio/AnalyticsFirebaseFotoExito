@@ -79,11 +79,41 @@ export const Racks = ({ navigation }) => {
       await getCurrentScreenInformation();
       getInfoDatBaseScreen();
     };
+    setHadSaveRack(false);
     initDataLocal();
     setTimeout(() => {
       initDataLocal();
     }, 2000);
   }, [isFocused]);
+
+  const dataId = async () => {
+    console.log(
+      "\nDESDE PORTAFOLIO *********************************************************\n"
+    );
+    let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
+    let idPercha = await AsyncStorage.getItem("id_percha"); //si
+    let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
+    let idCliente = await AsyncStorage.getItem("id_cliente"); //si
+    let nombreCliente = await AsyncStorage.getItem("nombre_cliente"); //si
+    let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+    let idPortafolioAuditoria = await AsyncStorage.getItem(
+      "id_portafolio_auditoria"
+    ); //si
+    console.log(
+      "\n////////////////////////////////////////////////////////////////////////\n\n"
+    );
+    console.log("ID DE PRECIADOR: ", idPreciador);
+    console.log("ID DE PERCHA: ", idPercha);
+    console.log("ID DE SUCURSAL: ", idSucursal);
+    console.log("ID DE CLIENTE: ", idCliente);
+    console.log("NOMBRE CLIENTE: ", nombreCliente);
+    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+  };
+
+  useEffect(() => {
+    dataId();
+  }, []);
 
   const getInfoDatBaseScreen = () => {
     try {
@@ -111,9 +141,9 @@ export const Racks = ({ navigation }) => {
       // console.log("tempItems-------------", tempItems)
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
-      //setShowButton2(true);
-      //setShowButton1(false);
       setHadSaveRack(true);
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",
@@ -136,8 +166,9 @@ export const Racks = ({ navigation }) => {
     } catch (error) {
       setCategory([]);
       setInfoScreen(null);
-      //setShowButton2(false);
-      //setShowButton1(true);
+      setShowButton2(false);
+      setShowButton1(true);
+      setHadSaveRack(false);
       console.log(error);
     }
   };
@@ -256,6 +287,32 @@ export const Racks = ({ navigation }) => {
 
   const onlyNavigation = () => {
     navigation.navigate("promos");
+  };
+
+  const validateData = () => {
+    const isDataValid = category.every((item) => {
+      console.log("ItemModerna:", item);
+      if (
+        item.state === null ||
+        item.carasGeneral === null ||
+        item.carasModerna === null ||
+        isNaN(item.carasGeneral) ||
+        isNaN(item.carasModerna) ||
+        valueGeneralValidate
+      ) {
+        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        return false;
+      }
+      if (item.state === 1 || item.state === 0) {
+        if (!item.images || item.images.image1 === null) {
+          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+          return false;
+        }
+      }
+      return true;
+    });
+
+    return isDataValid;
   };
 
   const validate = async () => {
@@ -389,8 +446,8 @@ export const Racks = ({ navigation }) => {
                 setIsModalVisible(false);
                 navigation.navigate("promos");
                 setHadSaveRack(true);
-                //setShowButton1(false);
-                //setShowButton2(true);
+                setShowButton1(false);
+                setShowButton2(true);
               } catch (error) {
                 Alert.alert(
                   "Error al insertar los datos",
@@ -406,11 +463,6 @@ export const Racks = ({ navigation }) => {
             let objUserInfo = {};
 
             try {
-              // objUserInfo =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
-              // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-              // const tmpPantalla = tmpInfoExtra.pantallas.rack
-              // const infoExtra = tmpPantalla.extra_info
-              // objUserInfo = infoExtra
               const tmpInfoExtra = JSON.parse(
                 global.userInfoScreen.userInfo.extra_info
               );
@@ -425,10 +477,6 @@ export const Racks = ({ navigation }) => {
               };
             } catch (e) {
               try {
-                // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-                // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-                // objUserInfo = tempPantalla
-                // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
                 const userInfoScreenTmp =
                   await getCurrentScreenInformationLocal();
                 const tempPantalla = JSON.parse(
@@ -454,12 +502,6 @@ export const Racks = ({ navigation }) => {
                 columnId: `id_percha`,
               },
               {
-                // category: tempDataScreen.toString(),
-                // auditorias_id: {
-                //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                //     id_percha: idPercha
-                //   }
-                // },
                 pantallas: {
                   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
                   ...{
@@ -625,17 +667,20 @@ export const Racks = ({ navigation }) => {
           hadSaveRack || !hasVariable ? onlyNavigation : handleOpenModal
         }
         showButton1={true}
-        //showButton2={showButton2}
-        //titleRigthSecond={"Siguiente"}
-        //sizeRigthSecond={theme.buttonSize.df}
-        //iconRigth={"content-save-all-outline"}
-        //typeRigth={"material-community"}
-        //colorRigthSecond={theme.colors.modernaRed}
-        //onPressRigthSecond={() => navigation.navigate("promos")}
-        //iconRigthSecond={"arrow-right-circle"}
-        //typeRigthSecond={"feather"}
-        //showButton1Second={showButton1}
-        //showButton2Second={showButton2}
+        //antes del merge
+        // colorRigth={theme.colors.modernaRed}
+        // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
+        disableAction={hasVariable ? !validateData() : validateData()}
+        // showButton1={showButton1}
+        // showButton2={showButton2}
+        // titleRigthSecond={"Siguiente"}
+        // sizeRigthSecond={theme.buttonSize.df}
+        // colorRigthSecond={theme.colors.modernaRed}
+        // onPressRigthSecond={() => navigation.navigate("promos")}
+        // iconRigthSecond={"arrow-right-circle"}
+        // typeRigthSecond={"feather"}
+        // showButton1Second={showButton1}
+        // showButton2Second={showButton2}
       />
     </View>
   );

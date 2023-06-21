@@ -41,6 +41,7 @@ import {
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { GlobalContext } from "../../context/GlobalContext";
 import { ModernaContext } from "../../context/ModernaProvider";
+import { showDebug } from "../../common/logs";
 
 export const Menu = ({ navigation }) => {
   const { handleScreenInfo } = useContext(ModernaContext);
@@ -187,30 +188,36 @@ export const Menu = ({ navigation }) => {
   };
 
   const handleOpenModalAudit = async () => {
-    setAnimation(DOWNLOAD_ANIMATION);
-    setModalMessage(
-      "Descargando variables para la auditoría, por favor espere..."
-    );
-    const validateAuditInBase = await realizarConsulta(
-      "SELECT * FROM auditoria WHERE sincronizada = 0"
-    );
+    try {
+      setAnimation(DOWNLOAD_ANIMATION);
+      setModalMessage(
+        "Descargando variables para la auditoría, por favor espere..."
+      );
+      const validateAuditInBase = await realizarConsulta(
+        "SELECT * FROM auditoria WHERE sincronizada = 0"
+      );
 
-    if (validateAuditInBase.length == 0) {
-      try {
-        await deleteInsertData(); // <--- Corregir aquí
-        //navigation.navigate("audit");
-      } catch {
-        console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
+      if (validateAuditInBase.length == 0) {
+        try {
+          await deleteInsertData(); // <--- Corregir aquí
+          //navigation.navigate("audit");
+        } catch {
+          console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
+          //setIsModalVisible(false);
+        }
+      } else if (!isConnectionActivate) {
+        setIsModalVisibleClose(true);
+      } else {
+        Alert.alert(
+          "Registros sin sincronizar encontrados",
+          "Todavía quedan registros que no han sido sincronizados a la base remota"
+        );
         //setIsModalVisible(false);
       }
-    } else if (!isConnectionActivate) {
-      setIsModalVisibleClose(true);
-    } else {
-      Alert.alert(
-        "Registros sin sincronizar encontrados",
-        "Todavía quedan registros que no han sido sincronizados a la base remota"
-      );
-      //setIsModalVisible(false);
+    } catch (e) {
+      console.log("ERROR EN EL MENU DE BAJA DE DATOS: - - - - -", e);
+      showDebug("Error al presentar los datos del menu", e);
+      setIsModalVisibleClose(false);
     }
     fetchVariables();
     //setIsModalVisible(false);
@@ -397,6 +404,40 @@ export const Menu = ({ navigation }) => {
             </Text>
           </View>
         </View>
+        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              //marginLeft: 10,
+            }}
+          >
+            <StyledButton
+              title={"Realizar Auditoría"}
+              buttonColor={theme.colors.modernaRed}
+              onPress={() => navigation.navigate("logs")}
+              size={theme.buttonSize.sm}
+              iconName={"clipboard"}
+              iconType={"entypo"}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1.4,
+              justifyContent: "center",
+              //alignItems: "center",
+              padding: 0,
+              borderWidth: 0.5, //Detalles de los botones
+              borderRadius: 10,
+              marginLeft: 5,
+              paddingHorizontal: 15,
+              //backgroundColor: "blue",
+            }}
+          >
+            <Text style={styles.text}>Ver Logs.</Text>
+          </View>
+        </View>
       </Animatable.View>
     </View>
   );
@@ -448,7 +489,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
-    fontSize: 14,
+    fontSize: 15,
     fontFamily: "Metropolis",
     textAlign: "auto",
     //flex: 1,
