@@ -74,7 +74,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
 
   const updateImage = async (item) => {
     const imagenVerificada = await verifyUrlImage(
-      item.url,
+      item.url_imagen_exhibidor,
       `${item.id_tipo_exhibidor}`
     );
     setNewImage(imagenVerificada);
@@ -82,6 +82,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
 
   useEffect(() => {
     updateImage(exhibitor);
+    console.log("ESTO LLEGA -------", exhibitor);
   }, []);
 
   useEffect(() => {
