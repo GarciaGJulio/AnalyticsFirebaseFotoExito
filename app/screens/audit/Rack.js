@@ -100,9 +100,9 @@ export const Racks = ({ navigation }) => {
       // console.log("tempItems-------------", tempItems)
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
-      //setShowButton2(true);
-      //setShowButton1(false);
       setHadSaveRack(true);
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",
@@ -125,8 +125,9 @@ export const Racks = ({ navigation }) => {
     } catch (error) {
       setCategory([]);
       setInfoScreen(null);
-      //setShowButton2(false);
-      //setShowButton1(true);
+      setShowButton2(false);
+      setShowButton1(true);
+      setHadSaveRack(false);
       console.log(error);
     }
   };
@@ -245,6 +246,32 @@ export const Racks = ({ navigation }) => {
 
   const onlyNavigation = () => {
     navigation.navigate("promos");
+  };
+
+  const validateData = () => {
+    const isDataValid = category.every((item) => {
+      console.log("ItemModerna:", item);
+      if (
+        item.state === null ||
+        item.carasGeneral === null ||
+        item.carasModerna === null ||
+        isNaN(item.carasGeneral) ||
+        isNaN(item.carasModerna) ||
+        valueGeneralValidate
+      ) {
+        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        return false;
+      }
+      if (item.state === 1 || item.state === 0) {
+        if (!item.images || item.images.image1 === null) {
+          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+          return false;
+        }
+      }
+      return true;
+    });
+
+    return isDataValid;
   };
 
   const validate = async () => {
@@ -378,8 +405,8 @@ export const Racks = ({ navigation }) => {
                 setIsModalVisible(false);
                 navigation.navigate("promos");
                 setHadSaveRack(true);
-                //setShowButton1(false);
-                //setShowButton2(true);
+                setShowButton1(false);
+                setShowButton2(true);
               } catch (error) {
                 Alert.alert(
                   "Error al insertar los datos",
@@ -395,11 +422,6 @@ export const Racks = ({ navigation }) => {
             let objUserInfo = {};
 
             try {
-              // objUserInfo =  JSON.parse(global.userInfoScreen.userInfo.extra_info.pantallas.rack)
-              // const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
-              // const tmpPantalla = tmpInfoExtra.pantallas.rack
-              // const infoExtra = tmpPantalla.extra_info
-              // objUserInfo = infoExtra
               const tmpInfoExtra = JSON.parse(
                 global.userInfoScreen.userInfo.extra_info
               );
@@ -414,10 +436,6 @@ export const Racks = ({ navigation }) => {
               };
             } catch (e) {
               try {
-                // const userInfoScreenTmp = await getCurrentScreenInformationLocal()
-                // const tempPantalla = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
-                // objUserInfo = tempPantalla
-                // // objUserInfo = JSON.parse(userInfoScreenTmp.userInfo.extra_info)
                 const userInfoScreenTmp =
                   await getCurrentScreenInformationLocal();
                 const tempPantalla = JSON.parse(
@@ -443,12 +461,6 @@ export const Racks = ({ navigation }) => {
                 columnId: `id_percha`,
               },
               {
-                // category: tempDataScreen.toString(),
-                // auditorias_id: {
-                //   ...objUserInfo.auditorias_id ? objUserInfo.auditorias_id : {}, ...{
-                //     id_percha: idPercha
-                //   }
-                // },
                 pantallas: {
                   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
                   ...{
@@ -594,18 +606,17 @@ export const Racks = ({ navigation }) => {
         typeRigth={"material-community"}
         colorRigth={theme.colors.modernaRed}
         onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
-        showButton1={true}
-        //showButton2={showButton2}
-        //titleRigthSecond={"Siguiente"}
-        //sizeRigthSecond={theme.buttonSize.df}
-        //iconRigth={"content-save-all-outline"}
-        //typeRigth={"material-community"}
-        //colorRigthSecond={theme.colors.modernaRed}
-        //onPressRigthSecond={() => navigation.navigate("promos")}
-        //iconRigthSecond={"arrow-right-circle"}
-        //typeRigthSecond={"feather"}
-        //showButton1Second={showButton1}
-        //showButton2Second={showButton2}
+        disableAction={!validateData()}
+        showButton1={showButton1}
+        showButton2={showButton2}
+        titleRigthSecond={"Siguiente"}
+        sizeRigthSecond={theme.buttonSize.df}
+        colorRigthSecond={theme.colors.modernaRed}
+        onPressRigthSecond={() => navigation.navigate("promos")}
+        iconRigthSecond={"arrow-right-circle"}
+        typeRigthSecond={"feather"}
+        showButton1Second={showButton1}
+        showButton2Second={showButton2}
       />
     </View>
   );

@@ -24,6 +24,7 @@ const DoubleDualStyledButton = ({
   onPressRigthSecond,
   showButton1,
   showButton2,
+  disableAction,
 }) => {
   return (
     <View style={styles.containerButtons}>
@@ -43,6 +44,7 @@ const DoubleDualStyledButton = ({
           iconType={typeRigth}
           size={sizeRigth}
           onPress={onPressRigth}
+          disabled={disableAction}
         />
       )}
       {showButton2 && (

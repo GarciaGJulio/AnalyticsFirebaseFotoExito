@@ -36,8 +36,9 @@ export const ProductsDetails_Review = ({ item }) => {
     if (objeto.url_imagen1 && objeto.url_imagen1 !== "null") {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen1,
-        `${objeto.url_imagen1}1`
+        `${objeto.id_preciador + "-" + objeto.id_producto}-1`
       );
+
       setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
     }
@@ -45,7 +46,7 @@ export const ProductsDetails_Review = ({ item }) => {
     if (objeto.url_imagen2 && objeto.url_imagen2 !== "null") {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen2,
-        `${objeto.url_imagen2}2`
+        `${objeto.id_preciador + "-" + objeto.id_producto}-2`
       );
       setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
@@ -54,7 +55,7 @@ export const ProductsDetails_Review = ({ item }) => {
     if (objeto.url_imagen3 && objeto.url_imagen3 !== "null") {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen3,
-        `${objeto.url_imagen3}3`
+        `${objeto.id_preciador + "-" + objeto.id_producto}-3`
       );
       setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);

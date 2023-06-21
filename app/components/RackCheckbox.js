@@ -180,9 +180,9 @@ export const RackCheckbox = ({
           percha.state = 1;
         } else {
           percha.state = 0;
-          (percha.images.image1 = null),
+          /*(percha.images.image1 = null),
             (percha.images.image2 = null),
-            (percha.images.image3 = null);
+            (percha.images.image3 = null);*/
         }
 
         console.log("PARAMETRO ACTUALIZADO: ", percha);

@@ -1,11 +1,7 @@
 import {
   Image,
-  ImageBackground,
-  PermissionsAndroid,
-  StatusBar,
   StyleSheet,
   Text,
-  TextInput,
   View,
   Alert,
   BackHandler,
@@ -15,38 +11,23 @@ import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-bl
 import * as Animatable from "react-native-animatable";
 import theme from "../../theme/theme";
 import ScreenInformation from "../../components/ScreenInformation";
-//import Dropdown from "../../components/Dropdown";
 import StyledInput from "../../components/StyledInput";
 import LOCATION_ANIMATION from "../../../assets/gps.json";
 import LoaderModal from "../../components/LoaderModal";
-import * as Location from "expo-location";
-import axios from "axios";
-import { capturarCoordenadas } from "../../services/GeolocationM";
 import { ModernaContext } from "../../context/ModernaProvider";
-import {
-  db_insertGlobal,
-  db_insertGlobalDataAudit,
-  db_insertSucursal,
-} from "../../services/SqliteService";
-import { lookForSucursal } from "../../services/SeleccionesService";
+import { db_insertGlobalDataAudit } from "../../services/SqliteService";
 import { validateNameBranch } from "../../utils/helpers";
 import ConfirmationModal from "../../components/ConfirmationModal";
-import StyledButton from "../../components/StyledButton";
 import {
   handleSelectDataBase,
   realizarConsulta,
-  selectData,
 } from "../../common/sqlite_config";
 import { dataTime, generateUIDD } from "../../services/GenerateID";
 import { useFonts } from "expo-font";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  getLocation,
-  requestLocationPermission,
-} from "../../services/GeolocationA";
+import { getLocation } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
-import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import {
   cleanCurrentScreenUser,
   deleteRegisterAudit,
@@ -54,7 +35,6 @@ import {
   saveCurrentScreenUser,
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
-import { getActualDate } from "../../common/utils";
 import { ScrollView } from "react-native";
 import { GlobalContext } from "../../context/GlobalContext";
 
@@ -64,7 +44,10 @@ export const Client_Information = ({ navigation }) => {
   const [validatePass, setValidatePass] = useState(false);
   const [sucursal, setSucursal] = useState("");
   const [errorBranchName, setErrorBranchName] = useState();
+  const [errorBranchNameRepeat, setErrorBranchNameRepeat] = useState();
   const [errorClientName, setErrorClientName] = useState();
+  const [showButton1, setShowButton1] = useState(true);
+  const [showButton2, setShowButton2] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [sucursalInformation, setSucursalInformation] = useState({
@@ -73,18 +56,13 @@ export const Client_Information = ({ navigation }) => {
     name: "",
     id: generateUIDD(),
   });
-  //const [newArrayClients, setNewArrayClients] = useState([]);
   const [newArrayClients, setNewArrayClients] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
-
-  const { location } = useContext(ModernaContext);
 
   const [type, setType] = useState("");
   const [clientGroupId, setClientGroupId] = useState("");
   const [groupClient, setGroupClient] = useState("");
   const [arrayClients, setArrayClients] = useState([]);
-  /*const [showButton1, setShowButton1] = useState(true);
-  const [showButton2, setShowButton2] = useState(false);*/
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
   const { setHadSaveBriefCase } = useContext(GlobalContext);
@@ -116,21 +94,17 @@ export const Client_Information = ({ navigation }) => {
         "tmpInfoExtra dewsde clietn infomart===================",
         tmpInfoExtra
       );
-      //const tmpInfoExtra = JSON.parse(global.userInfoScreen.userInfo.extra_info)
       const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion;
       const infoExtra = tmpPantalla.extra_info;
-      /* const tmpPantalla=tmpInfoExtra.pantallas.cliente_informacion
-       const infoExtra = tmpPantalla.extra_info*/
       const newObj = {
         ...infoExtra,
         ...global.userInfoScreen.infoScreen,
       };
-      // console.log("newObj-------------", newObj)
       setInfoScreen(newObj);
-      //setShowButton2(true);
-      //setShowButton1(false);
       setHadSave(true);
       setNewArrayClients([]);
+      setShowButton2(true);
+      setShowButton1(false);
       AsyncStorage.setItem("id_cliente", infoExtra.auditorias_id.id_cliente);
       AsyncStorage.setItem(
         "nombre_cliente",
@@ -143,8 +117,8 @@ export const Client_Information = ({ navigation }) => {
       );
     } catch (error) {
       setInfoScreen(null);
-      //setShowButton2(false);
-      //setShowButton1(true);
+      setShowButton2(false);
+      setShowButton1(true);
       console.log(error);
     }
   };
@@ -185,6 +159,14 @@ export const Client_Information = ({ navigation }) => {
   useEffect(() => {
     consultarYCopiarContenidoClientes();
   }, []);
+
+  const validarFormulario = () => {
+    return (
+      errorClientName == "" &&
+      errorBranchName == "" &&
+      errorBranchNameRepeat == ""
+    );
+  };
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -234,8 +216,7 @@ export const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const validateBranchName = async () => {
-    let verificacion;
+  const validateBranchNameRepeat = (currentName, error) => {
     console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
 
     let tempFecha;
@@ -248,12 +229,16 @@ export const Client_Information = ({ navigation }) => {
         "ITEM DEL ARRAY: ",
         item.nombre_sucursal + " " + item.fecha_creacion
       );
-      console.log("ITEM DE COMPARACION: ", sucursalInformation.name);
+      console.log("ITEM DE COMPARACION: ", currentName);
       console.log("FCEHA ACTUAL: ", tempFecha);
-      return (
-        item.nombre_sucursal === sucursalInformation.name &&
+      if (
+        item.nombre_sucursal === currentName &&
         item.fecha_creacion === tempFecha
-      );
+      ) {
+        error("*Solo se puede realizar una auditoría al día por sucursal");
+      } else {
+        error("");
+      }
     });
 
     return result;
@@ -278,23 +263,15 @@ export const Client_Information = ({ navigation }) => {
       setErrorClientName("");
       //setValidatePass(false)
     }
-    let validateBranch = await validateBranchName();
-    console.log("dede antes de validar:", validateBranch);
-    if (validateBranch) {
-      Alert.alert(
-        "El nombre de la sucursal ya ha sido registrado",
-        "No se puede realizar más de una auditoria al día"
-      );
-    }
 
     if (!validador && errorBranchName != "") {
       Alert.alert(
         "Error al ingresar los datos",
-        "Debe ingresar todos los datos indicados cumpliendo con las indicaciones"
+        "Debe ingresar todos los datos cumpliendo con las indicaciones"
       );
     }
 
-    if (validador && errorBranchName == "" && !validateBranch) {
+    if (validador && errorBranchName == "" && errorBranchNameRepeat == "") {
       //navigation.navigate("briefcase");
       setIsModalVisible(true);
       //console.log("DATOS DE COORDENADAS: ", locationCoords);
@@ -401,12 +378,13 @@ export const Client_Information = ({ navigation }) => {
           //setNewArrayClients([]);
           //setInfoScreen(true);
           setHadSave(true);
-          //setShowButton1(false);
           setNewArrayClients([]);
-          //setShowButton2(true);
           setValidatePass(true);
           setIsModalVisible(false);
-          navigation.navigate("briefcase"), setHadSaveBriefCase(false);
+          navigation.navigate("briefcase");
+          setHadSaveBriefCase(false);
+          setShowButton1(false);
+          setShowButton2(true);
         } catch (e) {
           console.log(e);
           Alert.alert(
@@ -479,20 +457,12 @@ export const Client_Information = ({ navigation }) => {
               }}
             >
               <View style={{ flex: 3 }}>
-                <ScreenInformation
-                  title={"Información del Cliente"}
-                  /*text={
-                    "Seleccione la información del cliente y la sucursal a auditar"
-                  }*/
-                />
+                <ScreenInformation title={"Información del Cliente"} />
               </View>
 
               <View
                 style={{
-                  //flexDirection: "row",
-                  //marginHorizontal: 20,
                   flex: 0.1,
-                  //backgroundColor: "orange",
                 }}
               >
                 <Dropdown
@@ -601,6 +571,7 @@ export const Client_Information = ({ navigation }) => {
                   onChangeText={(txt) => {
                     setSucursal(txt);
                     validateNameBranch(txt, setErrorBranchName);
+                    validateBranchNameRepeat(txt, setErrorBranchNameRepeat);
                     setSucursalInformation({
                       ...sucursalInformation,
                       name: txt.toUpperCase(),
@@ -609,7 +580,11 @@ export const Client_Information = ({ navigation }) => {
                   label="Sucursal"
                   placeholder="Ingresa el nombre de la sucursal"
                   maxLength={43}
-                  error={errorBranchName}
+                  error={
+                    errorBranchNameRepeat
+                      ? errorBranchNameRepeat
+                      : errorBranchName
+                  }
                   keyboard="default"
                   editable={hadSave ? false : infoScreen ? false : true}
                   value={infoScreen ? infoScreen.nombre_sucursal : sucursal}
@@ -633,19 +608,20 @@ export const Client_Information = ({ navigation }) => {
                   //typeRigth={"material-community"}
                   colorRigth={theme.colors.modernaRed}
                   onPressRigth={hadSave ? onlyNavigate : handleOpenModal}
-                  showButton1={true}
-                  //showButton2={showButton2}
-                  //titleRigthSecond={"Siguiente"}
-                  //sizeRigthSecond={theme.buttonSize.df}
-                  //iconRigth={"content-save-all-outline"}
-                  //typeRigth={"material-community"}
-                  //colorRigthSecond={theme.colors.modernaRed}
-                  /*onPressRigthSecond={() => {
+                  showButton1={showButton1}
+                  disableAction={!validarFormulario()}
+                  showButton2={showButton2}
+                  titleRigthSecond={"Siguiente"}
+                  sizeRigthSecond={theme.buttonSize.df}
+                  iconRigthSecond={"arrow-right-circle"}
+                  typeRigthSecond={"feather"}
+                  colorRigthSecond={theme.colors.modernaRed}
+                  onPressRigthSecond={() => {
                     navigation.navigate("briefcase"),
                       setHadSaveBriefCase(false);
-                  }}*/
-                  //showButton1Second={showButton1}
-                  //showButton2Second={showButton2}
+                  }}
+                  showButton1Second={showButton1}
+                  showButton2Second={showButton2}
                 />
               </View>
             </View>

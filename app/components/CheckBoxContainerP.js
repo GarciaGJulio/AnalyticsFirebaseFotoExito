@@ -29,16 +29,14 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
   const updateImage = async (item) => {
     const imagenVerificada = await verifyUrlImage(
       objeto.url,
-      `${objeto.url}`
+      `${objeto.id_exhibidor}`
     );
-    setNewImage(
-      imagenVerificada
-    );
-  }
+    setNewImage(imagenVerificada);
+  };
 
   useEffect(() => {
-    updateImage(item)
-  }, [])
+    updateImage(item);
+  }, []);
   const acceptModal = () => {
     setCheck1(!check1);
     setCheck2(!check2);

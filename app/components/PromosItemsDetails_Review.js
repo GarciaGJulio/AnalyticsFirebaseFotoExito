@@ -31,12 +31,9 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen1,
-        `${objeto.url_imagen1}1`
+        `${objeto.id_promocion + "-" + objeto.id_exhibidor}-1`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen1]);
     }
 
@@ -48,12 +45,9 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen2,
-        `${objeto.url_imagen2}2`
+        `${objeto.id_promocion + "-" + objeto.id_exhibidor}-2`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen2]);
     }
 
@@ -65,12 +59,9 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen3,
-        `${objeto.url_imagen3}3`
+        `${objeto.id_promocion + "-" + objeto.id_exhibidor}-3`
       );
-      setExtraImages((prevImagenes) => [
-        ...prevImagenes,
-        imagenVerificada,
-      ]);
+      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
       //setExtraImages((prevImagenes) => [...prevImagenes, objeto.url_imagen3]);
     }
 
