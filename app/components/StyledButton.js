@@ -35,8 +35,9 @@ export const StyledButton = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-around",
+          // justifyContent: "space-around",
           width: '100%',
+          // paddingHorizontal:20
           // height: size * 3 / 10,
           
          
@@ -47,11 +48,9 @@ export const StyledButton = ({
           {iconName && iconType ? (
             <View
             style={{
-              flex: 1,
-              //marginLeft:4,
-              marginRight:5,
-              alignItems:'flex-end',
-              //backgroundColor: "black",
+              flex: 0.9,
+              // backgroundColor:'black'
+              //backgroundColor: "blue",
              
             }}
           >
@@ -71,24 +70,9 @@ export const StyledButton = ({
             <></>
           )}
         <View
-          style={newstyle?{
-            //backgroundColor: "orange",
-            flex:2,
-            // justifyContent:'center',
-           // alignItems:'center'
-           
-            //paddingHorizontal: 3
-          }:{
-            //backgroundColor: "blue",
-            flex:3,
-            // justifyContent:'center',
-            alignItems:'center'
-            // paddingHorizontal:
-            // padding: 2
-          }
-        }
+          style={newstyle?styles.butonCentrado:styles.butonormal}
         >
-          <Text style={styles.buttonText}>{title}</Text>
+          <Text numberOfLines={1} style={styles.buttonText}>{title}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -125,7 +109,17 @@ const styles = StyleSheet.create({
     //left: 5,
     fontFamily: "Metropolis",
     fontWeight: "600",
-    //paddingRight: 20
-    
+    // paddingRight: 1
   },
+
+  butonCentrado:{
+    // backgroundColor:'green',
+    alignItems:'center',
+    flex:1
+  },
+  butonormal:{
+    flex:1.5,
+    // backgroundColor:'green',
+    // flex:2
+  }
 });
