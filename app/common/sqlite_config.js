@@ -26,6 +26,7 @@ import {
   PORTAFOLIO,
   PORTAFOLIO_AUDITORIA,
   PERSISTENCIA,
+  VARIABLE,
 } from "./table_columns";
 import { PermissionsAndroid } from "react-native";
 import { useEffect } from "react";
@@ -150,6 +151,12 @@ const createExhibidorTipoTable = () => {
   createTable(sentence, TYPE_EXHIBIDOR.NAME);
 };
 
+const createVariableTable = () => {
+  const sentence = `create table if not exists ${VARIABLE.NAME} (${VARIABLE.KEY_1} text primary key not null,${VARIABLE.ID_GRUPO_CLIENTE} TEXT not null,${VARIABLE.NOMBRE_VARIABLE} TEXT null,${VARIABLE.ESTADO_VARIABLE} BOOLEAN null,${VARIABLE.PORCENTAJE_VARIABLE} DECIMAL NULL,${VARIABLE.USUARIO_CREACION} TEXT NULL,${VARIABLE.FECHA_CREACION} TEXT NULL,${TYPE_EXHIBIDOR.FECHA_MODIFICACION} TEXT NULL)`;
+  // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
+  createTable(sentence, TYPE_EXHIBIDOR.NAME);
+};
+
 const createTable = async (sentence, table_name, createIndex) => {
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
@@ -260,6 +267,7 @@ export const load_db_config = async () => {
   createExhibidorTipoTable();
   createPersistencia();
   //createPortfolioTable();
+  createVariableTable();
 };
 
 export const realizarConsulta = (sentence) => {

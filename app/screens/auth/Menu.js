@@ -1,4 +1,12 @@
-import { Alert, Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+} from "react-native";
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import theme from "../../theme/theme";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -44,8 +52,13 @@ export const Menu = ({ navigation }) => {
   const [validate, setValidate] = useState(false);
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState();
-  const { globalVariable, setGlobalVariable, isConnectionActivate } =
-    useContext(GlobalContext);
+  const {
+    globalVariable,
+    setGlobalVariable,
+    isConnectionActivate,
+    fetchVariables,
+  } = useContext(GlobalContext);
+  global.widthContainer = Dimensions.get("window").width / 1.8;
 
   const automaticSync = async () => {
     const auditoriasSinSincronizar = await realizarConsulta(
@@ -133,7 +146,7 @@ export const Menu = ({ navigation }) => {
     console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
     if (auditoriasSinSincronizar.length === 0) {
       Alert.alert(
-        "Datos sincronizados",
+        "Datos ya sincronizados",
         "No se detectan auditorías pendientes de enviar"
       );
     } else if (auditoriasSinSincronizar.length > 0 && isConnectionActivate) {
@@ -199,7 +212,7 @@ export const Menu = ({ navigation }) => {
       );
       //setIsModalVisible(false);
     }
-
+    fetchVariables();
     //setIsModalVisible(false);
   };
 
@@ -329,19 +342,7 @@ export const Menu = ({ navigation }) => {
               iconType={"material-community"}
             />
           </View>
-          <View
-            style={{
-              flex: 1.4,
-              justifyContent: "center",
-              //alignItems: "center",
-              padding: 0,
-              borderWidth: 0.5, //Detalles de los botones
-              borderRadius: 10,
-              marginLeft: 5,
-              paddingHorizontal: 15,
-              //backgroundColor: "blue",
-            }}
-          >
+          <View style={styles.secondContainerText}>
             <View style={{ left: 0 }}>
               <Text style={[styles.text]}>
                 Sincroniza las auditorías pendientes por enviar.
@@ -368,19 +369,7 @@ export const Menu = ({ navigation }) => {
               iconType={"entypo"}
             />
           </View>
-          <View
-            style={{
-              flex: 1.4,
-              justifyContent: "center",
-              //alignItems: "center",
-              padding: 0,
-              borderWidth: 0.5, //Detalles de los botones
-              borderRadius: 10,
-              marginLeft: 5,
-              paddingHorizontal: 15,
-              //backgroundColor: "blue",
-            }}
-          >
+          <View style={styles.secondContainerText}>
             <Text style={styles.text}>Crea una nueva auditoría.</Text>
           </View>
         </View>
@@ -391,7 +380,6 @@ export const Menu = ({ navigation }) => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              //marginLeft: 10,
             }}
           >
             <StyledButton
@@ -403,19 +391,7 @@ export const Menu = ({ navigation }) => {
               iconType={"material-community"}
             />
           </View>
-          <View
-            style={{
-              flex: 1.4,
-              justifyContent: "center",
-              //alignItems: "center",
-              padding: 0,
-              borderWidth: 0.5, //Detalles de los botones
-              borderRadius: 10,
-              marginLeft: 5,
-              paddingHorizontal: 15,
-              //backgroundColor: "blue",
-            }}
-          >
+          <View style={styles.secondContainerText}>
             <Text style={styles.text}>
               Visualiza los datos de las auditorías registradas.
             </Text>
@@ -440,6 +416,16 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "contain",
   },
+  secondContainerText: {
+    justifyContent: "center",
+    //alignItems: "center",
+    padding: 0,
+    borderWidth: 0.5, //Detalles de los botones
+    borderRadius: 10,
+    marginLeft: 5,
+    paddingHorizontal: 15,
+    width: global.widthContainer,
+  },
   headerContainer: {
     flex: 0.5,
     width: "100%",
@@ -462,9 +448,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: theme.fontWeight.softbold,
-    fontSize: 14.6,
+    fontSize: 14,
     fontFamily: "Metropolis",
-    textAlign: "justify",
+    textAlign: "auto",
     //flex: 1,
   },
 });

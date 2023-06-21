@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Modal,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import theme from "../../theme/theme";
@@ -30,6 +31,8 @@ import {
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
+import StyledButton from "../../components/StyledButton";
+import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
 
 export const Briefcase = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -53,9 +56,24 @@ export const Briefcase = ({ navigation }) => {
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
+  const [hasVariable, setHasVariable] = useState(true);
+
   const isFocused = useIsFocused();
 
-  const { hadSaveBriefCase, setHadSaveBriefCase } = useContext(GlobalContext);
+  const {
+    hadSaveBriefCase,
+    setHadSaveBriefCase,
+    handleDoesClientHaveVariable,
+  } = useContext(GlobalContext);
+
+  useEffect(() => {
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Portafolio");
+      setHasVariable(response);
+    };
+    checkForVariable();
+  }, []);
+
   useEffect(() => {
     const initDataLocal = async () => {
       await getCurrentScreenInformation();
@@ -178,6 +196,9 @@ export const Briefcase = ({ navigation }) => {
     };
   }, []);
 
+  const handleNextPageEmptyBriefcase = () => {
+    onlyNavigation();
+  };
   const handleOpenModal = () => {
     setIsModalVisible(true);
     //console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
@@ -662,95 +683,126 @@ export const Briefcase = ({ navigation }) => {
       <View style={styles.headerContainer}>
         <ModernaHeader />
       </View>
+
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalVisible}
         warning={"Almacenando datos, por favor espere..."}
       />
-      <View style={styles.contentContainer}>
-        <ProgressBar currentStep={currentStep} />
-        <View style={{ flex: 2 }}>
-          <ScreenInformation
-            title={"Portafolio"}
-            text={
-              "Selecciona los productos del portafolio ideal o del portafolio complementario"
-            }
-          />
-        </View>
-        <View
-          style={{
-            flex: 3,
-            width: "100%",
-            alignItems: "center",
-            marginTop: -8,
-          }}
-        >
-          <View style={{ flex: 0.1, width: "90%" }}>
-            <Text style={styles.text}>Portafolio Ideal</Text>
+      {hasVariable ? (
+        <View style={styles.contentContainer}>
+          <ProgressBar currentStep={currentStep} />
+          <View style={{ flex: 2 }}>
+            <ScreenInformation
+              title={"Portafolio"}
+              text={
+                "Selecciona los productos del portafolio ideal o del portafolio complementario"
+              }
+            />
           </View>
-          <FlashListPortfolio
-            //idPortafolio={idPortafolioIdeal}
-            idealPortfolioProducts={idealPortfolioProducts}
-            setIdealPortfolioProducts={setIdealPortfolioProducts}
-            idealProducts={idealProducts}
-            tipo={portafolioTipoIdeal}
-            hadSave={hadSave}
-            isUserScreen={infoScreen ? true : false}
-          />
-        </View>
-        <View
-          style={{ width: theme.dimensions.maxWidth / 1.1, marginVertical: 5 }}
-        >
-          <Divider
-            width={2}
-            color={"#D9D9D9"}
-            style={{ backgroundColor: "blue" }}
-          />
-        </View>
-        <View style={{ flex: 3 }}>
-          <MultiSelectListV2
-            setComplementaryPortfolioProducts={
-              setComplementaryPortfolioProducts
-            }
-            tipo={portafolioTipoComplementario}
-            idPortafolio={idPortafolioComplementario}
-            auxiliarArray={auxiliarArray}
-            products={allProducts}
-            complementaryPortfolioProducts={complementaryPortfolioProducts}
-            isUserScreen={infoScreen ? true : false}
-            selectItemsId={complementaryPortfolioProducts.map((item) => {
-              return item.id;
-            })}
-          />
-        </View>
-        <View style={{ flex: 0.7, justifyContent: "center", width: "100%" }}>
-          <DoubleDualStyledButton
-            titleLeft={"Cancelar"}
-            sizeLeft={theme.buttonSize.df}
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => {
-              setIsModalVisibleClose(true), console.log("REGRESANDO  . . . ");
+          <View
+            style={{
+              flex: 3,
+              width: "100%",
+              alignItems: "center",
+              marginTop: -8,
             }}
-            titleRigth={"Guardar"}
-            sizeRigth={theme.buttonSize.df}
-            colorRigth={theme.colors.modernaRed}
-            iconRigth={"content-save-all-outline"}
-            typeRigth={"material-community"}
-            onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
-            showButton1={true}
-            //showButton2={showButton2}
-            //titleRigthSecond={"Siguiente"}
-            //sizeRigthSecond={theme.buttonSize.df}
-            // colorRigthSecond={theme.colors.modernaRed}
-            //showButton1Second={showButton1}
-            //showButton2Second={showButton2}
-            //iconRigthSecond={"arrow-right-circle"}
-            //typeRigthSecond={"feather"}
-          />
+          >
+            <View style={{ flex: 0.1, width: "90%" }}>
+              <Text style={styles.text}>Portafolio Ideal</Text>
+            </View>
+            <FlashListPortfolio
+              //idPortafolio={idPortafolioIdeal}
+              idealPortfolioProducts={idealPortfolioProducts}
+              setIdealPortfolioProducts={setIdealPortfolioProducts}
+              idealProducts={idealProducts}
+              tipo={portafolioTipoIdeal}
+              hadSave={hadSave}
+              isUserScreen={infoScreen ? true : false}
+            />
+          </View>
+
+          <View
+            style={{
+              width: theme.dimensions.maxWidth / 1.1,
+              marginVertical: 5,
+            }}
+          >
+            <Divider
+              width={2}
+              color={"#D9D9D9"}
+              style={{ backgroundColor: "blue" }}
+            />
+          </View>
+          <View style={{ flex: 3 }}>
+            <MultiSelectListV2
+              setComplementaryPortfolioProducts={
+                setComplementaryPortfolioProducts
+              }
+              tipo={portafolioTipoComplementario}
+              idPortafolio={idPortafolioComplementario}
+              auxiliarArray={auxiliarArray}
+              products={allProducts}
+              complementaryPortfolioProducts={complementaryPortfolioProducts}
+              isUserScreen={infoScreen ? true : false}
+              selectItemsId={complementaryPortfolioProducts.map((item) => {
+                return item.id;
+              })}
+            />
+          </View>
+          <View style={{ flex: 0.7, justifyContent: "center", width: "100%" }}>
+            <DoubleDualStyledButton
+              titleLeft={"Cancelar"}
+              sizeLeft={theme.buttonSize.df}
+              colorLeft={theme.colors.modernaYellow}
+              iconLeft={"cancel"}
+              typeLeft={"material-icon"}
+              onPressLeft={() => {
+                setIsModalVisibleClose(true), console.log("REGRESANDO  . . . ");
+              }}
+              titleRigth={"Guardar"}
+              sizeRigth={theme.buttonSize.df}
+              colorRigth={theme.colors.modernaRed}
+              iconRigth={"content-save-all-outline"}
+              typeRigth={"material-community"}
+              onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
+              showButton1={true}
+            />
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={styles.contentContainer}>
+          <ProgressBar currentStep={currentStep} />
+          <View style={{ flex: 2 }}>
+            <ScreenInformation
+              title={"Portafolio"}
+              text={`Portafolio no está asignado a este cliente`}
+              clean
+            />
+          </View>
+
+          <View style={{ flex: 6 }}></View>
+          <View style={{ flex: 0.7, justifyContent: "center", width: "100%" }}>
+            <DoubleDualStyledButton
+              titleLeft={"Cancelar"}
+              sizeLeft={theme.buttonSize.df}
+              colorLeft={theme.colors.modernaYellow}
+              iconLeft={"cancel"}
+              typeLeft={"material-icon"}
+              onPressLeft={() => {
+                setIsModalVisibleClose(true), console.log("REGRESANDO  . . . ");
+              }}
+              titleRigth={"Siguiente"}
+              sizeRigth={theme.buttonSize.df}
+              colorRigth={theme.colors.modernaAqua}
+              iconRigth={"content-save-all-outline"}
+              typeRigth={"material-community"}
+              onPressRigth={onlyNavigation}
+              showButton1={true}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };

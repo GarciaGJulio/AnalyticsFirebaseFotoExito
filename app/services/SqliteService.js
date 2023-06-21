@@ -95,6 +95,7 @@ export const borrarTablasDeBaseDeDatos = async () => {
         tx.executeSql(`DELETE FROM producto`),
         tx.executeSql(`DELETE FROM planograma`),
         tx.executeSql(`DELETE FROM auditoria`),
+        tx.executeSql(`DELETE FROM variable`),
       ];
       Promise.all(borrarPromises)
         .then(() => {

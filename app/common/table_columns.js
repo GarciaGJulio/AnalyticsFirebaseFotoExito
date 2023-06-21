@@ -214,3 +214,16 @@ export const PERSISTENCIA = {
   COLUMN_ID: "campo_id",
   EXTRA_INFO: "extra_info",
 };
+
+export const VARIABLE = {
+  NAME: "variable",
+  KEY_1: "id_variable",
+  ID_GRUPO_CLIENTE: "id_grupo_cliente",
+  NOMBRE_VARIABLE: "nombre_variable",
+  ESTADO_VARIABLE: "estado_variable",
+  PORCENTAJE_VARIABLE: "porcentaje_variable",
+  USUARIO_CREACION: "usuario_creacion",
+  FECHA_CREACION: "fecha_creacion",
+  FECHA_MODIFICACION: "fecha_modificacion",
+  INDEX_1: "id_variable",
+};

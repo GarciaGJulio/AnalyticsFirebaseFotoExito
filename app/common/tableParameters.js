@@ -211,5 +211,18 @@ export const dataParameters = {
         },
       ],
     },
+    variable: {
+      data: [
+        "id_variable",
+        "id_grupo_cliente",
+        "nombre_variable",
+        "estado_variable",
+        "porcentaje_variable",
+        "usuario_creacion",
+        "fecha_creacion",
+        "fecha_modificacion",
+      ],
+      foreingFields: [],
+    },
   },
 };

@@ -61,8 +61,19 @@ export const Racks = ({ navigation }) => {
   const [showButton2, setShowButton2] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
+  const [hasVariable, setHasVariable] = useState(true);
+
   const isFocused = useIsFocused();
-  const { hadSaveRack, setHadSaveRack } = useContext(GlobalContext);
+  const { hadSaveRack, setHadSaveRack, handleDoesClientHaveVariable } =
+    useContext(GlobalContext);
+
+  useEffect(() => {
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Perchas");
+      setHasVariable(response);
+    };
+    checkForVariable();
+  }, []);
   useEffect(() => {
     const initDataLocal = async () => {
       await getCurrentScreenInformation();
@@ -548,36 +559,51 @@ export const Racks = ({ navigation }) => {
         visible={isModalVisible}
         warning={"subiendo datos"}
       />
+
       <View style={styles.contentContainer}>
         <ProgressBar currentStep={2} />
         <View style={{ flex: 4 }}>
-          <ScreenInformation
-            title={"Perchas"}
-            text={
-              "Selecciona las perchas de los productos disponibles en el punto de venta actual"
-            }
-          />
+          {hasVariable ? (
+            <ScreenInformation
+              title={"Perchas"}
+              text={
+                "Selecciona las perchas de los productos disponibles en el punto de venta actual"
+              }
+            />
+          ) : (
+            <ScreenInformation
+              title={"Perchas"}
+              text={`Perchas no está asignado a este cliente`}
+              clean
+            />
+          )}
         </View>
         <View style={styles.cardContainer}>
-          {category.length === 0 ? (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontFamily: "Metropolis" }}>
-                No hay perchas asignadas para este grupo de cliente
-              </Text>
+          {hasVariable && (
+            <View>
+              {category.length === 0 ? (
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Text style={{ fontFamily: "Metropolis" }}>
+                    No hay perchas asignadas para este grupo de cliente
+                  </Text>
+                </View>
+              ) : (
+                <TarjPercha
+                  isUserScreen={infoScreen ? true : false}
+                  data={category}
+                  rack={rack}
+                  setValueGeneralValidate={setValueGeneralValidate}
+                  errorPerchaG={errorPerchaG}
+                  setErrorPerchaG={setErrorPerchaG}
+                  errorPerchaM={errorPerchaM}
+                  setErrorPerchaM={setErrorPerchaM}
+                  setData={setCategory}
+                  view={"audit"}
+                />
+              )}
             </View>
-          ) : (
-            <TarjPercha
-              isUserScreen={infoScreen ? true : false}
-              data={category}
-              rack={rack}
-              setValueGeneralValidate={setValueGeneralValidate}
-              errorPerchaG={errorPerchaG}
-              setErrorPerchaG={setErrorPerchaG}
-              errorPerchaM={errorPerchaM}
-              setErrorPerchaM={setErrorPerchaM}
-              setData={setCategory}
-              view={"audit"}
-            />
           )}
         </View>
       </View>
@@ -588,12 +614,16 @@ export const Racks = ({ navigation }) => {
         iconLeft={"cancel"}
         typeLeft={"material-icon"}
         onPressLeft={() => setIsModalVisibleClose(true)}
-        titleRigth={"Guardar"}
+        titleRigth={hasVariable ? "Guardar" : "Siguiente"}
         sizeRigth={theme.buttonSize.df}
         iconRigth={"content-save-all-outline"}
         typeRigth={"material-community"}
-        colorRigth={theme.colors.modernaRed}
-        onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
+        colorRigth={
+          hasVariable ? theme.colors.modernaRed : theme.colors.modernaAqua
+        }
+        onPressRigth={
+          hadSaveRack || !hasVariable ? onlyNavigation : handleOpenModal
+        }
         showButton1={true}
         //showButton2={showButton2}
         //titleRigthSecond={"Siguiente"}
