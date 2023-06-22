@@ -462,7 +462,7 @@ export const Client_Information = ({ navigation }) => {
                   flex: 0.1,
                 }}
               >
-                <Dropdown
+                {/*<Dropdown
                   valueInfoScreen={
                     infoScreen ? infoScreen.nombre_cliente : null
                   }
@@ -480,7 +480,7 @@ export const Client_Information = ({ navigation }) => {
                   sucursalInformation={sucursalInformation}
                   setError={setErrorClientName}
                   arrayClients={arrayClients}
-                />
+                />*/}
               </View>
 
               <View
