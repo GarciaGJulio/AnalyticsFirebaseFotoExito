@@ -80,7 +80,7 @@ export const Dropdown = ({
     Alert.alert("comprobando 1", valueInfoScreen);
     Alert.alert("comprobando 2", placeholder);
     Alert.alert("comprobando 3", hadSave);
-    Alert.alert("comprobando 4", newArrayClients);
+    //*Alert.alert("comprobando 4", newArrayClients);
     Alert.alert("comprobando 5", error);
   }, []);
   const [fontLoaded] = useFonts({
@@ -112,7 +112,7 @@ export const Dropdown = ({
         search={!hadSave}
         //dropdownShown={false}
         searchPlaceholder="Buscar"
-        data={newArrayClients}
+        data={[]}
         inputStyles={{
           fontFamily: "Metropolis",
           fontSize: 13,
