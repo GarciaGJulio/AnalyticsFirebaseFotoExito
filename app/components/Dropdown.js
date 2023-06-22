@@ -61,9 +61,6 @@ export const Dropdown = ({
   useEffect(() => {
     validateType();
   }, [selected]);
-  useEffect(() => {
-    let tmpData = newArrayClients.map((item) => JSON.stringify(item));
-  }, [newArrayClients]);
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
@@ -94,7 +91,7 @@ export const Dropdown = ({
         search={!hadSave}
         //dropdownShown={false}
         searchPlaceholder="Buscar"
-        data={newArrayClients}
+        data={[]}
         inputStyles={{
           fontFamily: "Metropolis",
           fontSize: 13,

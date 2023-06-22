@@ -147,10 +147,9 @@ export const Client_Information = ({ navigation }) => {
   const dataFormat = (array) => {
     setArrayClients(array);
     const arrayFormat = array.map((obj) => {
-      //let value = obj.id_cliente.concat("-", obj.nombre_cliente).toString();
       return {
         key: obj.id_cliente,
-        value: obj.nombre_cliente,
+        value: obj.id_cliente.concat("-", obj.nombre_cliente),
       };
     });
     console.log(arrayFormat);
