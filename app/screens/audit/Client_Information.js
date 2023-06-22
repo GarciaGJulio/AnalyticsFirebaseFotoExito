@@ -145,16 +145,17 @@ export const Client_Information = ({ navigation }) => {
 
   const dataFormat = (array) => {
     setArrayClients(array);
+    // console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
+      // console.log("OBJETO: ", obj.id_cliente);
       return {
         key: obj.id_cliente,
-        value: obj.id_cliente.concat("-", obj.nombre_cliente),
+        value: obj.id_cliente.concat("-" + obj.nombre_cliente),
       };
     });
     console.log(arrayFormat);
     return arrayFormat;
   };
-
   useEffect(() => {
     consultarYCopiarContenidoClientes();
   }, []);
@@ -411,14 +412,20 @@ export const Client_Information = ({ navigation }) => {
       tableName: "sucursal",
       objectId: "id_sucursal",
       valueId: `${
-        infoScreen ? infoScreen.id_sucursal : sucursalInformation.id
+        infoScreen && infoScreen.id_sucursal
+          ? infoScreen.id_sucursal
+          : sucursalInformation.id
       }`,
     });
     setHadSave(false);
     cleanCurrentScreenUser();
   };
   if (!fontLoaded) return null;
-
+  // return (<View>
+  //   <Text>
+  //     Hola mundo
+  //   </Text>
+  // </View>)
   return (
     <View style={styles.container}>
       <ConfirmationModal
@@ -463,7 +470,9 @@ export const Client_Information = ({ navigation }) => {
               >
                 <Dropdown
                   valueInfoScreen={
-                    infoScreen ? infoScreen.nombre_cliente : null
+                    infoScreen && infoScreen.nombre_cliente
+                      ? infoScreen.nombre_cliente
+                      : null
                   }
                   placeholder={"Seleccione un cliente"}
                   setSelected={setSelected}
@@ -520,7 +529,9 @@ export const Client_Information = ({ navigation }) => {
                     }}
                   >
                     <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                      {infoScreen ? infoScreen.grupo_cliente : groupClient}
+                      {infoScreen && infoScreen.grupo_cliente
+                        ? infoScreen.grupo_cliente
+                        : groupClient}
                     </Text>
                   </View>
                 </View>
@@ -551,7 +562,9 @@ export const Client_Information = ({ navigation }) => {
                     }}
                   >
                     <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                      {infoScreen ? infoScreen.tipo_cliente : type}
+                      {infoScreen && infoScreen.tipo_cliente
+                        ? infoScreen.tipo_cliente
+                        : type}
                     </Text>
                   </View>
                 </View>
@@ -583,7 +596,11 @@ export const Client_Information = ({ navigation }) => {
                   }
                   keyboard="default"
                   editable={hadSave ? false : infoScreen ? false : true}
-                  value={infoScreen ? infoScreen.nombre_sucursal : sucursal}
+                  value={
+                    infoScreen && infoScreen.nombre_sucursal
+                      ? infoScreen.nombre_sucursal
+                      : sucursal
+                  }
                   width={"90%"}
                   // information={
                   //   "* Solo se puede ingresar la misma sucursal una vez por día"

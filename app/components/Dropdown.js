@@ -25,46 +25,64 @@ export const Dropdown = ({
   const { handleIdClientGroup } = useContext(ModernaContext);
 
   const validateType = () => {
-    setError("");
-    const nombre_cliente = selected.split("-")[1];
-    arrayClients.forEach(async (type) => {
-      if (type.nombre_cliente == nombre_cliente) {
-        setType(type.nombre_tipo_cliente);
-        setGroupClient(type.nombre_grupo_cliente);
-        console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
-        console.log(
-          " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-        );
-        console.log("DATOS A GUARDAR:", type);
-        console.log(
-          " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-        );
-        setClientGroupId(type.id_grupo_cliente);
-        await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
-        await AsyncStorage.setItem("id_cliente", type.id_cliente);
-        await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
-        setSucursalInformation({
-          ...sucursalInformation,
-          client: selected,
-          clientType: type.nombre_tipo_cliente,
-        });
-      }
-    });
+    try {
+      setError("");
+      const nombre_cliente = selected.split("-")[1];
+      arrayClients.forEach(async (type) => {
+        if (type.nombre_cliente == nombre_cliente) {
+          setType(type.nombre_tipo_cliente);
+          setGroupClient(type.nombre_grupo_cliente);
+          console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
+          console.log(
+            " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+          );
+          console.log("DATOS A GUARDAR:", type);
+          console.log(
+            " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+          );
+          setClientGroupId(type.id_grupo_cliente);
+          await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
+          await AsyncStorage.setItem("id_cliente", type.id_cliente);
+          await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
+          setSucursalInformation({
+            ...sucursalInformation,
+            client: selected,
+            clientType: type.nombre_tipo_cliente,
+          });
+        }
+      });
+    } catch (e) {
+      Alert.alert("error en validación david 1", e);
+    }
   };
   useEffect(() => {
-    console.log("ARRAY DE CLIENTES", newArrayClients);
-    newArrayClients.sort(function (a, b) {
-      return b.key - a.key;
-    });
+    try {
+      console.log("ARRAY DE CLIENTES", newArrayClients);
+      newArrayClients.sort(function (a, b) {
+        return b.key - a.key;
+      });
+    } catch (e) {
+      Alert.alert("error en validación david 2", e);
+    }
   }, []);
 
   useEffect(() => {
     validateType();
   }, [selected]);
   useEffect(() => {
-    let tmpData = newArrayClients.map((item) => JSON.stringify(item));
+    try {
+      let tmpData = newArrayClients.map((item) => JSON.stringify(item));
+    } catch (e) {
+      Alert.alert("error en validación david 3", e);
+    }
   }, [newArrayClients]);
-
+  useEffect(() => {
+    Alert.alert("comprobando 1", valueInfoScreen);
+    Alert.alert("comprobando 2", placeholder);
+    Alert.alert("comprobando 3", hadSave);
+    Alert.alert("comprobando 4", newArrayClients);
+    Alert.alert("comprobando 5", error);
+  }, []);
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
@@ -106,7 +124,7 @@ export const Dropdown = ({
             ? "No se han encontrado coincidencias"
             : "Cliente ya seleccionado"
         }
-        dropdownTextStyles={{ flexShrink: 1, right: 10 }}
+        dropdownTextStyles={{ flexShrink: 1, right: 10, flex: 1 }}
         save="value"
         boxStyles={{
           borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,
