@@ -21,6 +21,17 @@ export const Dropdown = ({
   arrayClients,
   setClientGroupId,
 }) => {
+  useEffect(() => {
+    try {
+      console.log("ARRAY DE CLIENTES", newArrayClients);
+      newArrayClients.sort(function (a, b) {
+        return b.key.localeCompare(a.key);
+      });
+    } catch (e) {
+      Alert.alert("error en validación david 2", e);
+    }
+  }, []);
+
   const validateType = () => {
     try {
       setError("");
