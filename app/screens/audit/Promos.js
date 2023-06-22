@@ -67,6 +67,7 @@ export const Promos = ({ navigation }) => {
     setHadSaveRack,
     isConnectionActivate,
     handleDoesClientHaveVariable,
+    handleClearWorkFlow,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -505,7 +506,10 @@ export const Promos = ({ navigation }) => {
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
-        onPress={() => navigation.goBack()}
+        onPress={() => {
+          handleClearWorkFlow();
+          navigation.navigate("menu");
+        }}
         warning={"¿Está seguro de cancelar el progreso actual?"}
       />
       <ConfirmationModalBranch

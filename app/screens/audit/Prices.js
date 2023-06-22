@@ -80,6 +80,7 @@ export const Prices = ({ navigation, route }) => {
     hadSavePreciador,
     setHadSavePreciador,
     handleDoesClientHaveVariable,
+    handleClearWorkFlow,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -529,8 +530,9 @@ export const Prices = ({ navigation, route }) => {
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => {
-          handleDeleteRegisterLocal();
-          navigation.navigate("briefcase");
+          // handleDeleteRegisterLocal();
+          handleClearWorkFlow();
+          navigation.navigate("menu");
         }}
         warning={"¿Está seguro de cancelar el progreso actual?"}
       />

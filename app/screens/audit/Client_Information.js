@@ -66,7 +66,8 @@ export const Client_Information = ({ navigation }) => {
   const [arrayClients, setArrayClients] = useState([]);
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
-  const { setHadSaveBriefCase } = useContext(GlobalContext);
+  const { setHadSaveBriefCase, handleClearWorkFlow } =
+    useContext(GlobalContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     const initDataLocal = async () => {
@@ -430,7 +431,8 @@ export const Client_Information = ({ navigation }) => {
         onClose={handleCloseModal}
         onPress={() => {
           setIsModalVisibleClose(false);
-          handleDeleteRegisterLocal();
+          // handleDeleteRegisterLocal();
+          handleClearWorkFlow();
           navigation.navigate("menu");
         }}
         warning={"¿Está seguro de cancelar el progreso actual?"}

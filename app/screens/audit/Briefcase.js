@@ -64,6 +64,7 @@ export const Briefcase = ({ navigation }) => {
     hadSaveBriefCase,
     setHadSaveBriefCase,
     handleDoesClientHaveVariable,
+    handleClearWorkFlow,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -702,10 +703,11 @@ export const Briefcase = ({ navigation }) => {
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => {
-          handleDeleteRegisterLocal();
-          setHadSaveBriefCase(false);
+          // handleDeleteRegisterLocal();
+          // setHadSaveBriefCase(false);
           setHadSave(false);
-          navigation.navigate("audit");
+          handleClearWorkFlow();
+          navigation.navigate("menu");
         }}
         warning={"¿Está seguro de cancelar el progreso actual?"}
       />
