@@ -1,12 +1,13 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   Image,
   StyleSheet,
   Text,
+  ScrollView,
   View,
   Alert,
   BackHandler,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
 import * as Animatable from "react-native-animatable";
 import theme from "../../theme/theme";
@@ -35,7 +36,6 @@ import {
   saveCurrentScreenUser,
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
-import { ScrollView } from "react-native";
 import { GlobalContext } from "../../context/GlobalContext";
 
 export const Client_Information = ({ navigation }) => {
