@@ -52,7 +52,8 @@ export const Dropdown = ({
       Alert.alert("error en validación david 1", e);
     }
   };
-  useEffect(() => {
+
+  /*useEffect(() => {
     try {
       console.log("ARRAY DE CLIENTES", newArrayClients);
       newArrayClients.sort(function (a, b) {
@@ -61,18 +62,12 @@ export const Dropdown = ({
     } catch (e) {
       Alert.alert("error en validación david 2", e);
     }
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     validateType();
   }, [selected]);
-  useEffect(() => {
-    try {
-      let tmpData = newArrayClients.map((item) => JSON.stringify(item));
-    } catch (e) {
-      Alert.alert("error en validación david 3", e);
-    }
-  }, [newArrayClients]);
+
   useEffect(() => {
     Alert.alert("comprobando 1", valueInfoScreen);
     Alert.alert("comprobando 2", placeholder);
@@ -109,7 +104,7 @@ export const Dropdown = ({
         search={!hadSave}
         //dropdownShown={false}
         searchPlaceholder="Buscar"
-        data={[]}
+        data={newArrayClients}
         inputStyles={{
           fontFamily: "Metropolis",
           fontSize: 13,

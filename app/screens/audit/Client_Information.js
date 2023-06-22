@@ -150,7 +150,7 @@ export const Client_Information = ({ navigation }) => {
       // console.log("OBJETO: ", obj.id_cliente);
       return {
         key: obj.id_cliente,
-        value: obj.id_cliente.concat("-", obj.nombre_cliente),
+        value: obj.nombre_cliente,
       };
     });
     console.log(arrayFormat);
@@ -463,7 +463,7 @@ export const Client_Information = ({ navigation }) => {
                 <ScreenInformation title={"Información del Cliente"} />
               </View>
 
-              {/*<View
+              <View
                 style={{
                   flex: 0.1,
                 }}
@@ -489,7 +489,7 @@ export const Client_Information = ({ navigation }) => {
                   setError={setErrorClientName}
                   arrayClients={arrayClients}
                 />
-                </View>*/}
+              </View>
 
               <View
                 style={{
