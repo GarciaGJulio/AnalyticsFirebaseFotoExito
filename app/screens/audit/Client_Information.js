@@ -150,7 +150,7 @@ export const Client_Information = ({ navigation }) => {
       // console.log("OBJETO: ", obj.id_cliente);
       return {
         key: obj.id_cliente,
-        value: obj.id_cliente.concat("-" + obj.nombre_cliente),
+        value: obj.id_cliente.concat("-", obj.nombre_cliente),
       };
     });
     console.log(arrayFormat);
