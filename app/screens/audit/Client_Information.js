@@ -37,6 +37,7 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import { ScrollView } from "react-native";
 import { GlobalContext } from "../../context/GlobalContext";
+import { getActualDate } from "../../common/utils";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -146,9 +147,10 @@ export const Client_Information = ({ navigation }) => {
   const dataFormat = (array) => {
     setArrayClients(array);
     const arrayFormat = array.map((obj) => {
+      //let value = obj.id_cliente.concat("-", obj.nombre_cliente).toString();
       return {
         key: obj.id_cliente,
-        value: obj.id_cliente.concat("-", obj.nombre_cliente),
+        value: obj.nombre_cliente,
       };
     });
     console.log(arrayFormat);
@@ -310,8 +312,8 @@ export const Client_Information = ({ navigation }) => {
             `'${latitude}'`,
             `'${longitude}'`,
             `'${userInfo.mail}'`,
-            `'${dataTime()}'`,
-            `'${dataTime()}'`,
+            `'${getActualDate()}'`,
+            `'${getActualDate()}'`,
             `'${tmp_client_id}'`,
           ],
           dataInsertRemote: [
@@ -320,8 +322,8 @@ export const Client_Information = ({ navigation }) => {
             `${latitude}`,
             `${longitude}`,
             `${userInfo.mail}`,
-            `${dataTime()}`,
-            `${dataTime()}`,
+            `${getActualDate()}`,
+            `${null}`,
           ],
         };
         saveCurrentScreenUser(
