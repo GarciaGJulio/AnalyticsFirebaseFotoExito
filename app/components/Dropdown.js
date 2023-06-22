@@ -33,9 +33,17 @@ export const Dropdown = ({
   }, []);
 
   const validateType = () => {
+    console.log(
+      "----------------------*--------------SELECCIONADO: ",
+      selected
+    );
     try {
       setError("");
-      const nombre_cliente = selected.split("-")[1];
+      const nombre_cliente = selected.split(" - ")[1];
+      console.log(
+        "----------------------*--------------SELECCIONADO SOLO: ",
+        nombre_cliente
+      );
       arrayClients.forEach(async (type) => {
         if (type.nombre_cliente == nombre_cliente) {
           setType(type.nombre_tipo_cliente);
@@ -79,13 +87,13 @@ export const Dropdown = ({
     validateType();
   }, [selected]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     Alert.alert("comprobando 1", valueInfoScreen);
     Alert.alert("comprobando 2", placeholder);
     Alert.alert("comprobando 3", hadSave);
     //*Alert.alert("comprobando 4", newArrayClients);
     Alert.alert("comprobando 5", error);
-  }, []);
+  }, []);*/
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
