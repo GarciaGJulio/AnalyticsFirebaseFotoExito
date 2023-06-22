@@ -154,7 +154,7 @@ export const Client_Information = ({ navigation }) => {
     console.log(arrayFormat);
     return arrayFormat;
   };
-  
+
   useEffect(() => {
     consultarYCopiarContenidoClientes();
   }, []);

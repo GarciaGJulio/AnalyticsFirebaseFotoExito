@@ -11,6 +11,7 @@ export const StyledButton = ({
   iconName,
   iconType,
   size,
+  disabled,
   ...restOfProps
 }) => {
   const [fontLoaded] = useFonts({
@@ -22,7 +23,14 @@ export const StyledButton = ({
 
   return (
     <TouchableOpacity
-      style={[styles.container, { width: size, backgroundColor: buttonColor }]}
+      style={[
+        styles.container,
+        {
+          width: size,
+          backgroundColor: buttonColor,
+          opacity: disabled ? 0.5 : 100,
+        },
+      ]}
       onPress={() => {
         if (onPress) {
           onPress();

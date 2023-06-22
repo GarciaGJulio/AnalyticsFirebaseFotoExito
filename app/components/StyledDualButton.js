@@ -2,7 +2,7 @@ import { Button, Icon } from "@rneui/base";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import theme from "../theme/theme";
-import { useFonts } from 'expo-font'
+import { useFonts } from "expo-font";
 
 export const StyledDualButton = ({
   //title,
@@ -13,16 +13,16 @@ export const StyledDualButton = ({
   initialIconType,
   updatelIconType,
   size,
-  initialText, 
-  initialFunction, 
-  updatedText, 
+  initialText,
+  initialFunction,
+  updatedText,
   updatedFunction,
   validatePass,
+  disableAction,
   ...restOfProps
-})  => {
-
+}) => {
   const [fontLoaded] = useFonts({
-    Metropolis: require('../../assets/font/Metropolis-Regular.otf'),
+    Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
@@ -31,11 +31,12 @@ export const StyledDualButton = ({
   const [iconType, setIconType] = useState(initialIconType);
   const [isExecuting, setIsExecuting] = useState(false);
 
-  const [isInitialFunctionExecuted, setIsInitialFunctionExecuted] = useState(false);
+  const [isInitialFunctionExecuted, setIsInitialFunctionExecuted] =
+    useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handlePress = () => {
-    if (isInitialFunctionExecuted&&validatePass) {
+    if (isInitialFunctionExecuted && validatePass) {
       setIsInitialFunctionExecuted(true);
       setIsButtonDisabled(true);
       initialFunction().then(() => {
@@ -46,13 +47,11 @@ export const StyledDualButton = ({
     }
   };
 
-
-  if(!fontLoaded) return null
-
+  if (!fontLoaded) return null;
 
   return (
     <TouchableOpacity
-      style={[styles.container, { width: (size), backgroundColor: (buttonColor) }]}
+      style={[styles.container, { width: size, backgroundColor: buttonColor }]}
       onPress={() => {
         if (handlePress) {
           handlePress();
@@ -61,37 +60,40 @@ export const StyledDualButton = ({
       {...restOfProps}
       disabled={isButtonDisabled}
     >
-      <View 
-        style={{ flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent:'space-around', 
-        width: (size), 
-        flex: 1, 
-        paddingHorizontal: 10 ,
-        //backgroundColor:'blue'
-        }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-around",
+          width: size,
+          flex: 1,
+          paddingHorizontal: 10,
+          //backgroundColor:'blue'
+        }}
+      >
         <Text style={styles.buttonText}>{buttonText}</Text>
-        {
-          iconName&&iconType ? <Icon name={iconName} type={iconType} color={'white'} /> : <></>
-        }
-        
+        {iconName && iconType ? (
+          <Icon name={iconName} type={iconType} color={"white"} />
+        ) : (
+          <></>
+        )}
       </View>
     </TouchableOpacity>
   );
-}
+};
 
-export default StyledDualButton; 
+export default StyledDualButton;
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     //height: 50,
     borderRadius: 10,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
     marginHorizontal: 5,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -103,10 +105,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     //flex: 1,
-    color: 'white',
+    color: "white",
     //backgroundColor:'blue',
     fontSize: 20,
     fontFamily: "Metropolis",
-    fontWeight: '600'
-  }
+    fontWeight: "600",
+  },
 });
