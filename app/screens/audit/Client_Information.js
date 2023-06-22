@@ -225,24 +225,29 @@ export const Client_Information = ({ navigation }) => {
     tempFecha = tempFecha.split("T");
     tempFecha = tempFecha[0];
     //console.log("usereeeeee:", selected);
-    let result = branchNames.some((item) => {
-      console.log(
-        "ITEM DEL ARRAY: ",
-        item.nombre_sucursal + " " + item.fecha_creacion
-      );
-      console.log("ITEM DE COMPARACION: ", currentName);
-      console.log("FCEHA ACTUAL: ", tempFecha);
-      if (
-        item.nombre_sucursal === currentName &&
-        item.fecha_creacion === tempFecha
-      ) {
-        error("*Solo se puede realizar una auditoría al día por sucursal");
-      } else {
-        error("");
-      }
-    });
-
-    return result;
+    if (branchNames.length == 0) {
+      console.log("NO TIENES DATOS DE SUCURSALES- - - - - -");
+      error("");
+      return false;
+    } else {
+      let result = branchNames.some((item) => {
+        console.log(
+          "ITEM DEL ARRAY: ",
+          item.nombre_sucursal + " " + item.fecha_creacion
+        );
+        console.log("ITEM DE COMPARACION: ", currentName);
+        console.log("FCEHA ACTUAL: ", tempFecha);
+        if (
+          item.nombre_sucursal === currentName &&
+          item.fecha_creacion === tempFecha
+        ) {
+          error("*Solo se puede realizar una auditoría al día por sucursal");
+        } else {
+          error("");
+        }
+      });
+      return result;
+    }
   };
 
   const onlyNavigate = () => {

@@ -142,7 +142,7 @@ export const Menu = ({ navigation }) => {
     console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
     if (auditoriasSinSincronizar.length === 0) {
       Alert.alert(
-        "Datos ya sincronizados",
+        "Datos sincronizados",
         "No se detectan auditorías pendientes de enviar"
       );
     } else if (auditoriasSinSincronizar.length > 0 && isConnectionActivate) {

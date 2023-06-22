@@ -125,7 +125,7 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
           flexDirection: "row",
         }}
       >
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 0.9 }}>
           <Text
             style={{
               fontFamily: "Metropolis",
@@ -135,10 +135,13 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
               //backgroundColor: "red",
             }}
           >
-            {branch.nombre_cliente}-{branch.id_cliente}-{branch.nombre_sucursal}
+            {branch.id_cliente}-{branch.nombre_cliente}-{branch.nombre_sucursal}
           </Text>
           <Text style={{ margin: 5, fontSize: 12 }}>
-            {branch.fecha_creacion}
+            {branch.fecha_creacion
+              .replace(/-/g, "/")
+              .replace("T", " ")
+              .replace(".000Z", "")}
           </Text>
         </View>
         {branch.sincronizada == 0 ? (

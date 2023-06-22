@@ -33,7 +33,7 @@ const Promos_Review = ({ navigation }) => {
     });*/
 
     const promosConsulta = await realizarConsulta(
-      `SELECT pro.*, et.nombre_tipo_exhibidor, et.url_imagen_exhibidor
+      `SELECT pro.*, et.nombre_tipo_exhibidor, et.url_imagen_exhibidor,et.id_exhibidor_tipo
       FROM promocion AS pro
       INNER JOIN exhibidor AS ex ON ex.id_exhibidor = pro.id_exhibidor
       INNER JOIN exhibidor_tipo AS et ON et.id_exhibidor_tipo = ex.id_exhibidor_tipo

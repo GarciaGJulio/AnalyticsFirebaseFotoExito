@@ -33,20 +33,20 @@ const Briefcase_branch_review = ({ navigation }) => {
         `SELECT pa.*,p.tipo FROM portafolio_auditoria as pa inner join portafolio as p on p.id_producto=pa.id_producto WHERE pa.id_portafolio_auditoria = '${datosCompartidos.id_portafolio_auditoria}'`
       );*/
 
-      const productosIdeal2 = await realizarConsulta(
-        `SELECT DISTINCT p.* FROM producto as p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}' AND po.estado=true`
-      );
+      // const productosIdeal2 = await realizarConsulta(
+      //   `SELECT DISTINCT p.* FROM producto as p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}' AND po.estado=true`
+      // );
 
-      const productosIdealSinElegir = productosIdeal2.map((objeto) => {
-        return {
-          id_producto: objeto.id_producto,
-          nombre_producto: objeto.nombre_producto,
-          url_imagen_prodcuto: objeto.url_imagen_producto,
-          id_categoria: objeto.id_categoria,
-          precio: null,
-          estado: null,
-        };
-      });
+      // const productosIdealSinElegir = productosIdeal2.map((objeto) => {
+      //   return {
+      //     id_producto: objeto.id_producto,
+      //     nombre_producto: objeto.nombre_producto,
+      //     url_imagen_prodcuto: objeto.url_imagen_producto,
+      //     id_categoria: objeto.id_categoria,
+      //     precio: null,
+      //     estado: null,
+      //   };
+      // });
 
       const arrayIdsPortafolio = [];
 
@@ -202,11 +202,22 @@ const Briefcase_branch_review = ({ navigation }) => {
         ...arrayTipoI,
       ];
 
+      const arrayUnificado = arrayTipoIIntegrado.reduce((acc, obj) => {
+        const foundIndex = acc.findIndex(
+          (item) => item.nombre_categoria === obj.nombre_categoria
+        );
+        if (foundIndex === -1) {
+          acc.push(obj);
+        } else {
+          acc[foundIndex].productos.push(...obj.productos);
+        }
+        return acc;
+      }, []);
       console.log("Array - - - - - - - - - Tipo C:", arrayTipoC);
       setComplementaryPortafolio(arrayTipoC);
       console.log("Array  * * * * * * * *  Tipo I:", arrayTipoI);
 
-      setIdealPortafolio(arrayTipoIIntegrado);
+      setIdealPortafolio(arrayUnificado);
       console.log(
         "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
         idsPortafolioAuditoria
@@ -216,8 +227,8 @@ const Briefcase_branch_review = ({ navigation }) => {
         consultaPortafolio
       );
       console.log(
-        " - - --  ELEMENTOS EXTRAS - - - - - ",
-        productosIdealesExtras
+        " - - --  ARRAY IDEAL TODO INTEGRADO * - * -* - * -* - * -*  - - - - - ",
+        arrayTipoIIntegrado
       );
       console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
     } catch (error) {

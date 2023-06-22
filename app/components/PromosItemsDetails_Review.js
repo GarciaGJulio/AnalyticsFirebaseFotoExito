@@ -75,7 +75,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const updateImage = async (item) => {
     const imagenVerificada = await verifyUrlImage(
       item.url_imagen_exhibidor,
-      `${item.id_tipo_exhibidor}`
+      `${item.id_exhibidor_tipo}`
     );
     setNewImage(imagenVerificada);
   };
