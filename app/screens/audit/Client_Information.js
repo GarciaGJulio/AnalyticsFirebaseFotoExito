@@ -463,7 +463,7 @@ export const Client_Information = ({ navigation }) => {
                 <ScreenInformation title={"Información del Cliente"} />
               </View>
 
-              <View
+              {/*<View
                 style={{
                   flex: 0.1,
                 }}
@@ -489,7 +489,7 @@ export const Client_Information = ({ navigation }) => {
                   setError={setErrorClientName}
                   arrayClients={arrayClients}
                 />
-              </View>
+                </View>*/}
 
               <View
                 style={{
