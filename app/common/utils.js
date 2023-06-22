@@ -38,41 +38,52 @@ export function getActualDateStock() {
     "-" +
     String(date.getMonth() + 1).padStart(2, "0") +
     "-" +
-    String(date.getDate()).padStart(2, "0")
-    + "T00:00:00.000Z"
-
+    String(date.getDate()).padStart(2, "0") +
+    "T00:00:00.000Z"
   );
 }
 
 export function transfromrActualDateFormat(date, type) {
   try {
     if (type == "F") {
-      let tempAllDate = date.split("-");
-      let tmpDate = tempAllDate[0]
-      let tmpHour = tempAllDate[1]
-      let tempSplitDate = tmpDate.split("/")
-      let dateReady = tempSplitDate[2] + "-" + tempSplitDate[1] + "-" + tempSplitDate[0] + "T"
+      let tempAllDate = date.split(" ");
+      let tmpDate = tempAllDate[0];
+      let tmpHour = tempAllDate[1];
+      let tempSplitDate = tmpDate.split("/");
+      let dateReady =
+        tempSplitDate[2] +
+        "-" +
+        tempSplitDate[1] +
+        "-" +
+        tempSplitDate[0] +
+        "T";
       let newDateReady = dateReady + tmpHour + ".000Z";
+      console.log(
+        "************---------------------************* FECHA FORMATEADA:    ",
+        newDateReady
+      );
       return newDateReady;
     } else if (type == "R") {
       let tempAllDate = date.split("T");
 
-      let tmpDate = tempAllDate[0]
-      let tmpHour = tempAllDate[1]
-      let tempSplitDate = tmpDate.split("-")
-      let dateReady = tempSplitDate[2] + "/" + tempSplitDate[1] + "/" + tempSplitDate[0] + "-"
+      let tmpDate = tempAllDate[0];
+      let tmpHour = tempAllDate[1];
+      let tempSplitDate = tmpDate.split("-");
+      let dateReady =
+        tempSplitDate[2] +
+        "/" +
+        tempSplitDate[1] +
+        "/" +
+        tempSplitDate[0] +
+        "-";
       let newDateReady = dateReady + tmpHour.replace(".000Z", "");
       return newDateReady;
     }
-
   } catch (e) {
-    console.log("error al parsear fecha",e)
+    console.log("error al parsear fecha", e);
     return new Date().toISOString();
   }
-
-
 }
-
 
 export const validateCedulaNumber = (cedula) => {
   //  var cedula = '0931811087';
@@ -82,13 +93,13 @@ export const validateCedulaNumber = (cedula) => {
   };
   //Preguntamos si la cedula consta de 10 digitos
   if (cedula.length == 10) {
-   result.result = ValidacionCedulaRucService.esCedulaValida(cedula);
-   if(ValidacionCedulaRucService.esCedulaValida(cedula)){
-    result.message="";
-   }else{
-    result.message="Cédula no válida"
-   }
-   return result;
+    result.result = ValidacionCedulaRucService.esCedulaValida(cedula);
+    if (ValidacionCedulaRucService.esCedulaValida(cedula)) {
+      result.message = "";
+    } else {
+      result.message = "Cédula no válida";
+    }
+    return result;
   } else {
     result.message = errors.CI_LESS_THAN_TEN;
     result.result = false;
@@ -105,7 +116,8 @@ export const genrateItemIdWorld = (cedula) => {
   let idGenerated = "";
   tempIdSplit.forEach((element) => {
     if (x == 0) {
-      idGenerated += element+getRandomNumber()+getRandomNumber()+getRandomNumber();
+      idGenerated +=
+        element + getRandomNumber() + getRandomNumber() + getRandomNumber();
     } else {
       idGenerated += "-" + element;
     }
@@ -306,7 +318,6 @@ export const validateIdentificationNumber = (identificacion) => {
       result.result = true;
       return result;
     } else {
-      
       result.message = validateCedulaNumber(identificacion).message;
       result.result = validateCedulaNumber(identificacion).result;
       return result;
@@ -322,7 +333,6 @@ export const validateStrangeRuc = (ruc) => {
     message: "",
   };
   try {
-
     if (ruc.length != 13) {
       result.message = errors.RUC_INVALID;
       result.result = false;
@@ -334,13 +344,13 @@ export const validateStrangeRuc = (ruc) => {
       return result;
     }
     let numProvice = parseInt(ruc.substring(0, 2));
-    console.log("codigo de proicivnia--",numProvice)
+    console.log("codigo de proicivnia--", numProvice);
     if (numProvice <= 0 || numProvice > 24) {
       result.message = errors.RUC_INVALID;
       result.result = false;
       return result;
     }
-    if (ruc.charAt(2)!=6&&ruc.charAt(2)!=9) {
+    if (ruc.charAt(2) != 6 && ruc.charAt(2) != 9) {
       result.message = errors.RUC_INVALID;
       result.result = false;
       return result;
@@ -354,9 +364,7 @@ export const validateStrangeRuc = (ruc) => {
     result.result = false;
     return result;
   }
-
-}
-
+};
 
 export const validateDirection = (direccion) => {
   try {

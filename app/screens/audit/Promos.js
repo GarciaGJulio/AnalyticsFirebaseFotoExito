@@ -41,7 +41,7 @@ import {
 } from "../../utils/Utils";
 import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
 import { GlobalContext } from "../../context/GlobalContext";
-import { getActualDate } from "../../common/utils";
+import { getActualDate, transfromrActualDateFormat } from "../../common/utils";
 
 export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -303,7 +303,7 @@ export const Promos = ({ navigation }) => {
         `'${idCliente}'`,
         `'${idPortafolioAuditoria}'`,
         `'${userInfo.mail}'`,
-        `'${getActualDate()}'`,
+        `'${transfromrActualDateFormat(dataTime(), "F")}'`,
         `'${nombreCliente}'`,
         `'${nombreSucursal}'`,
         `${parseInt(0)}`,

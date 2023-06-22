@@ -40,6 +40,7 @@ import { useIsFocused } from "@react-navigation/native";
 import LoaderModal from "../../components/LoaderModal";
 import { GlobalContext } from "../../context/GlobalContext";
 import { KeyboardAvoidingView } from "react-native";
+import { transfromrActualDateFormat } from "../../common/utils";
 
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
@@ -353,21 +354,8 @@ export const Prices = ({ navigation, route }) => {
                 `'${image2}'`,
                 `'${image3}'`,
                 `'${userInfo.mail}'`,
-                `'${dataTime()}'`,
-                `'${dataTime()}'`,
-              ],
-              dataInsertRemote: [
-                `${idPreciador}`,
-                `${id_portafolio}`,
-                `${id}`,
-                `${price}`,
-                `${state ? 1 : 0}`,
-                `${image1}`,
-                `${image2}`,
-                `${image3}`,
-                `${userInfo.mail}`,
-                `${dataTime()}`,
-                `${dataTime()}`,
+                `'${transfromrActualDateFormat(dataTime(), "F")}'`,
+                `'${transfromrActualDateFormat(dataTime(), "F")}'`,
               ],
             };
 

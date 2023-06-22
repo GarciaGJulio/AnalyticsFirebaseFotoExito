@@ -45,6 +45,7 @@ import { RecuperarToken } from "../../services/onedrive";
 import { useIsFocused } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { GlobalContext } from "../../context/GlobalContext";
+import { transfromrActualDateFormat } from "../../common/utils";
 
 export const Racks = ({ navigation }) => {
   const [valueGeneralValidate, setValueGeneralValidate] = useState();
@@ -425,8 +426,8 @@ export const Racks = ({ navigation }) => {
                   `'${image2}'`,
                   `'${image3}'`,
                   `'${userInfo.mail}'`,
-                  `'${dataTime()}'`,
-                  `'${dataTime()}'`,
+                  `'${transfromrActualDateFormat(dataTime(), "F")}'`,
+                  `'${transfromrActualDateFormat(dataTime(), "F")}'`,
                 ],
               };
               const sentence =

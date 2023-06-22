@@ -37,6 +37,7 @@ import {
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
+import { transfromrActualDateFormat } from "../../common/utils";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -311,18 +312,9 @@ export const Client_Information = ({ navigation }) => {
             `'${latitude}'`,
             `'${longitude}'`,
             `'${userInfo.mail}'`,
-            `'${dataTime()}'`,
-            `'${dataTime()}'`,
+            `'${transfromrActualDateFormat(dataTime(), "F")}'`,
+            `'${transfromrActualDateFormat(dataTime(), "F")}'`,
             `'${tmp_client_id}'`,
-          ],
-          dataInsertRemote: [
-            `${sucursalInformation.id}`,
-            `${sucursalInformation.name}`,
-            `${latitude}`,
-            `${longitude}`,
-            `${userInfo.mail}`,
-            `${dataTime()}`,
-            `${dataTime()}`,
           ],
         };
         saveCurrentScreenUser(
