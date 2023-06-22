@@ -145,17 +145,16 @@ export const Client_Information = ({ navigation }) => {
 
   const dataFormat = (array) => {
     setArrayClients(array);
-    // console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
-      // console.log("OBJETO: ", obj.id_cliente);
       return {
         key: obj.id_cliente,
-        value: obj.id_cliente + "-" + obj.nombre_cliente,
+        value: obj.id_cliente.concat("-", obj.nombre_cliente),
       };
     });
     console.log(arrayFormat);
     return arrayFormat;
   };
+  
   useEffect(() => {
     consultarYCopiarContenidoClientes();
   }, []);
