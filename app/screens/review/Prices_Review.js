@@ -16,7 +16,7 @@ const Prices_Review = ({ navigation }) => {
   const [productosComplementario, setproductosComplementario] = useState([]);
   const consultarYCopiarContenido = async () => {
     //console.log("DATOS COMPARTIDOS: ")
-    const idGroupClient = await AsyncStorage.getItem("idGroupClient");
+    const idGroupClient = datosCompartidos.id_grupo_cliente;
     try {
       const idsPortafolioAuditoria = await realizarConsulta(
         `SELECT DISTINCT p.id_portafolio, p.id_producto, p.tipo
@@ -45,7 +45,7 @@ const Prices_Review = ({ navigation }) => {
       });
 
       const productosIdeal2 = await realizarConsulta(
-        `SELECT DISTINCT p.* FROM producto as p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}' AND po.estado=true`
+        `SELECT DISTINCT p.* FROM producto as p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}' AND po.estado=1`
       );
       console.log("ID IDEAL-- - - - - -- ", idsI);
       console.log("ID COMPLEMENTARIO-- - - - - -- ", idsC);
@@ -213,7 +213,7 @@ const Prices_Review = ({ navigation }) => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 9,
+          marginTop: theme.dimensions.maxHeight / 7,
         }}
       >
         <View

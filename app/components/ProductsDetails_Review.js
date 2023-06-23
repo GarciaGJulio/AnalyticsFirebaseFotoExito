@@ -104,7 +104,7 @@ export const ProductsDetails_Review = ({ item }) => {
           >
             <View style={{ flex: 1 }}>
               <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                Precio de la auditoria
+                Precio de la auditoría
               </Text>
             </View>
             {item.estado === 1 ? (
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    backgroundColor: "rgba(255, 255, 255, 100)",
     //alignItems: "center",
     justifyContent: "center",
     alignItems: "center",

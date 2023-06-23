@@ -143,7 +143,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                     <View style={styles.modalView}>
                       <View
                         style={{
-                          //backgroundColor: "red",
+                          //backgroundColor: "white",
                           //flex: 1,
                           //marginVertical: 200,
                           justifyContent: "center",
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    backgroundColor: "rgba(255, 255, 255, 100)",
     //alignItems: "center",
     justifyContent: "center",
     alignItems: "center",

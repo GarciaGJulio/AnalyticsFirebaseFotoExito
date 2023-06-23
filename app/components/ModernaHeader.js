@@ -58,7 +58,14 @@ const ModernaHeader = () => {
         warning={"¿Está seguro de cerrar sesión?"}
       />
       <View style={styles.userInfo}>
-        <Icon name="user-tag" type="font-awesome-5" size={18} color={"white"} />
+        <View style={{ flex: 0.5 }}>
+          <Icon
+            name="user-tag"
+            type="font-awesome-5"
+            size={18}
+            color={"white"}
+          />
+        </View>
         <View style={{ paddingLeft: 10 }}>
           <Text
             style={{ color: "white", fontSize: 12, fontFamily: "Metropolis" }}
@@ -102,24 +109,24 @@ const styles = StyleSheet.create({
     //top: Constants.statusBarHeight,
   },
   modernaLogo: {
-    width: 125,
+    width: 110,
     resizeMode: "center",
     height: 40,
   },
   userInfo: {
-    paddingHorizontal: 15,
+    //paddingRight: 10,
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
+    flex: 1.5,
+    //justifyContent: "space-evenly",
     //backgroundColor: "green",
   },
   imageContainer: {
     //backgroundColor: "blue",
     //justifyContent: "center",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 0.8,
   },
   logOutButton: {
     // backgroundColor: "brown",

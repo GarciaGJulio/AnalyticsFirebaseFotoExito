@@ -230,23 +230,30 @@ export const Client_Information = ({ navigation }) => {
       error("");
       return false;
     } else {
-      let result = branchNames.some((item) => {
+      let found = branchNames.some((item) => {
         console.log(
-          "ITEM DEL ARRAY: ",
-          item.nombre_sucursal + " " + item.fecha_creacion
+          "ITEM A COMPARAR - -- - BASE: ",
+          item.nombre_sucursal +
+            " " +
+            item.fecha_creacion +
+            "ACTUAL:  " +
+            currentName +
+            " " +
+            tempFecha
         );
-        console.log("ITEM DE COMPARACION: ", currentName);
-        console.log("FCEHA ACTUAL: ", tempFecha);
-        if (
+        return (
           item.nombre_sucursal === currentName &&
           item.fecha_creacion === tempFecha
-        ) {
-          error("*Solo se puede realizar una auditoría al día por sucursal");
-        } else {
-          error("");
-        }
+        );
       });
-      return result;
+
+      if (found) {
+        error("*Solo se puede realizar una auditoría al día por sucursal");
+      } else {
+        error("");
+      }
+
+      return found;
     }
   };
 

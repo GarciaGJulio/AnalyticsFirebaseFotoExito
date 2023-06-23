@@ -231,6 +231,7 @@ export const Prices = ({ navigation, route }) => {
       if (item.state === 1) {
         if (
           item.price === null ||
+          item.price === 0.0 ||
           errorPrice !== "" ||
           !item.images ||
           item.images.image1 === null

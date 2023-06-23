@@ -44,7 +44,6 @@ import { ModernaContext } from "../../context/ModernaProvider";
 import { showDebug } from "../../common/logs";
 
 export const Menu = ({ navigation }) => {
-  const { handleScreenInfo } = useContext(ModernaContext);
   // const navigation1 = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -135,7 +134,6 @@ export const Menu = ({ navigation }) => {
 
   const handleOpenModal = async () => {
     setAnimation(SYNC_ANIMATION);
-    //setIsModalVisible(!isModalVisible);
     const auditoriasSinSincronizar = await realizarConsulta(
       "SELECT * FROM auditoria where sincronizada = 0"
     );
@@ -249,6 +247,10 @@ export const Menu = ({ navigation }) => {
           }
         } catch (e) {
           console.log("Error al volver a insertar los datos * - * -* - * ");
+          showDebug(
+            "Error al descargar todos los datos de la funcion remota",
+            e
+          );
         }
       } catch (e) {
         console.log("Error al eliminar la base de datos");
@@ -352,6 +354,40 @@ export const Menu = ({ navigation }) => {
             </View>
           </View>
         </View>
+
+        {/*<View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+          <View
+            style={{
+              // flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              //marginLeft: 10,
+            }}
+          >
+            <StyledButton
+              title={"Consultar"}
+              buttonColor={theme.colors.modernaRed}
+              onPress={async () => {
+                console.log(
+                  "***************************** ------ ********************************"
+                );
+                let sqlSentence = `INSERT INTO portafolio (id_portafolio,id_producto,id_grupo_cliente,estado,tipo ) values ('12','100048','12',1,'I' )`;
+                const insert = await realizarConsulta(sqlSentence);
+                console.log(insert);
+                console.log(await realizarConsulta("SELECT * FROM portafolio"));
+                console.log(
+                  "***************************** ------ ********************************"
+                );
+              }}
+              size={theme.buttonSize.sm}
+              iconName={"clipboard"}
+              iconType={"entypo"}
+            />
+          </View>
+          <View style={styles.secondContainerText}>
+            <Text style={styles.text}>Consulta portafolio.</Text>
+          </View>
+        </View>*/}
 
         <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
           <View
