@@ -23,11 +23,11 @@ const ModernaHeader = () => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    console.log("DATOS DEL USUARIO EN EL HEADER: - -- - - - ", userInfo);
+    /*console.log("DATOS DEL USUARIO EN EL HEADER: - -- - - - ", userInfo);
     console.log(
       "NOMBRE DEL USUARIO ACTUAL EN EL HEADER: - -- - - - ",
       displayName
-    );
+    );*/
   });
   const handleOpenModal = () => {
     setIsModalVisible(true);

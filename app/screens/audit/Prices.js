@@ -28,8 +28,6 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import SAVE_ANIMATION from "../../../assets/save.json";
-import NetInfo from "@react-native-community/netinfo";
-import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import {
   deleteRegisterAudit,
   getCurrentScreenInformation,

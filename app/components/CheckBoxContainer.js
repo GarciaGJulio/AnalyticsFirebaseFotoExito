@@ -150,7 +150,7 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
                 validatePriceProduct(txt, setErrorPrice);
                 actualizarPrecio(item, parseFloat(txt));
               }}
-              label="Precio del producto"
+              label="Precio"
               placeholder="Ingresa el precio del producto"
               maxLength={5}
               keyboard="numeric"

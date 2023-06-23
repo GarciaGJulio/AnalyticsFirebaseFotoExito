@@ -515,7 +515,7 @@ export const Client_Information = ({ navigation }) => {
                       //backgroundColor: "blue",
                     }}
                   >
-                    Grupo de cliente
+                    Grupo de clientes
                   </Text>
                   <View
                     style={{

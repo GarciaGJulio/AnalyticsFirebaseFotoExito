@@ -67,6 +67,8 @@ export const Promos = ({ navigation }) => {
     setHadSaveRack,
     isConnectionActivate,
     handleDoesClientHaveVariable,
+    refreshSync,
+    setRefreshSync,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -210,7 +212,7 @@ export const Promos = ({ navigation }) => {
 
   const handleOpenModalFinishWithoutBranch = async () => {
     setAnimation(SAVE_ANIMATION);
-    setIsModalVisibleCloseSucursal(true);
+    setIsModalVisibleCloseSucursal(false);
     setIsModalVisible(true);
     saveAudit();
     cleanCurrentScreenUser();
@@ -330,18 +332,19 @@ export const Promos = ({ navigation }) => {
           await subidaBaseRemoteTodaAuditoria(
             idAuditoria,
             setIsModalVisible,
-            setIsModalVisibleCloseSucursal,
-            setIsModalVisible,
-            isModalVisible
+            setRefreshSync,
+            refreshSync
           );
           navigation.navigate("begin");
         } catch (e) {
-          console.log("ERROR: ", e);
+          console.log("ERROR DESDE PROMOS: ", e);
           setIsModalVisible(false);
-          Alert.alert(
+          setIsModalVisibleClose(false);
+          setIsModalVisibleCloseSucursal(false);
+          /*Alert.alert(
             "Error al subir los datos",
             "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
-          );
+          );*/
           navigation.navigate("begin");
         }
       } else {

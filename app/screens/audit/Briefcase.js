@@ -336,7 +336,10 @@ export const Briefcase = ({ navigation }) => {
           console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
           return {
             id: categoria.id_categoria,
-            name: categoria.nombre_categoria,
+            name: categoria.id_categoria.concat(
+              "-",
+              categoria.nombre_categoria
+            ),
             children: [
               ...productosCategoria.map((producto) => {
                 return {

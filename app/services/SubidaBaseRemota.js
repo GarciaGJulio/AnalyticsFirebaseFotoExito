@@ -2,6 +2,8 @@ import axios from "axios";
 import { realizarConsulta } from "../common/sqlite_config";
 import { SubirAlonedrive } from "./onedrive";
 import { Alert } from "react-native";
+import { useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 
 export const subidaBaseRemote = (tablaName, array1, array2) => {
   const url =
@@ -452,16 +454,21 @@ export const subidaBaseRemoteTodaAuditoria = async (
       },
     });
     //console.log(resp.data);
-    console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     fn(false);
+    console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     if (resp.data.result) {
       console.log("CAMBIANDO ESTADO - - - -- - ");
-      const stateAudit = await realizarConsulta(
-        `UPDATE auditoria SET sincronizada=true
+      await realizarConsulta(
+        `UPDATE auditoria SET sincronizada=1
          WHERE id_auditoria='${id_auditoria}'`
       );
-      console.log("respuesta de cambiar estado: ", stateAudit);
+      /*const stateAudit = await realizarConsulta(
+        `UPDATE auditoria SET sincronizada=true
+         WHERE id_auditoria='${id_auditoria}'`
+      );*/
+      //console.log("respuesta de cambiar estado: ", stateAudit);
       setRefresh(!refresh);
+      //setRefresh(!refresh);
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
       Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
     } else {
@@ -474,7 +481,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
     }
   } catch (e) {
     console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data.result);
-    console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data);
+    console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     fn(false);
     /*Alert.alert(
       "Error al registrar la auditoria a traves de la función",

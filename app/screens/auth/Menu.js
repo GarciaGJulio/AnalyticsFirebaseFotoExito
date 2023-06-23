@@ -22,10 +22,7 @@ import { Cli } from "../../azureConfig/graph/GraphManager";
 import { useFonts } from "expo-font";
 import ModernaHeaderM from "../../components/ModernaHeaderM";
 import * as SQLite from "expo-sqlite";
-import {
-  subidaBaseRemoteTodaAuditoria,
-  subidaBaseRemoteTodaAuditoria2,
-} from "../../services/SubidaBaseRemota";
+import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
 import { getCurrentScreenInformation } from "../../utils/Utils";
 import { PrivateValueStore, useNavigation } from "@react-navigation/native";
 import {
@@ -57,6 +54,8 @@ export const Menu = ({ navigation }) => {
     setGlobalVariable,
     isConnectionActivate,
     fetchVariables,
+    refreshSync,
+    setRefreshSync,
   } = useContext(GlobalContext);
   global.widthContainer = Dimensions.get("window").width / 1.8;
 
@@ -84,8 +83,8 @@ export const Menu = ({ navigation }) => {
           await subidaBaseRemoteTodaAuditoria(
             auditoria.id_auditoria,
             setIsModalVisible,
-            setGlobalVariable,
-            globalVariable
+            setRefreshSync,
+            refreshSync
           );
         } catch (e) {
           console.log("ERROR: ", e);
@@ -163,7 +162,7 @@ export const Menu = ({ navigation }) => {
             //isModalVisible
           );
         } catch (e) {
-          console.log("ERROR: ", e);
+          console.log("ERROR DESDE EL MENU: ", e);
           setIsModalVisible(false);
           Alert.alert(
             "Error al subir los datos",
