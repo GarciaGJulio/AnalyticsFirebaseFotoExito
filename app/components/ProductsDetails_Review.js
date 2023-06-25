@@ -70,6 +70,16 @@ export const ProductsDetails_Review = ({ item }) => {
     console.log("ESTO ES EL ITEM: - - - - - - - - - - -", item);
   }, [item]);
 
+  const validarDecimales = (numero) => {
+    if (numero % 1 > 0) {
+      // El número tiene decimales
+      return numero.toFixed(2); // Aumenta un 0 al final y devuelve el número con dos decimales
+    } else {
+      // El número no tiene decimales
+      return numero.toString(); // Devuelve el número sin cambios
+    }
+  }
+
   return (
     <View style={[styles.container]}>
       <View style={[styles.primaryContainer, { marginLeft: 5 }]}>
@@ -153,7 +163,7 @@ export const ProductsDetails_Review = ({ item }) => {
                     bottom: 5,
                   }}
                 >
-                  ${item.precio}
+                  ${validarDecimales(item.precio)}
                 </Text>
               </View>
             ) : (
