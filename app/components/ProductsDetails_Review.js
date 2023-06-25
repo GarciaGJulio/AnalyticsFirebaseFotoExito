@@ -27,8 +27,8 @@ export const ProductsDetails_Review = ({ item }) => {
     item.estado === null
       ? "#999999"
       : item.estado === 1
-      ? theme.colors.modernaGreen
-      : theme.colors.modernaRed;
+        ? theme.colors.modernaGreen
+        : theme.colors.modernaRed;
 
   const validateExtraImages = async (objeto) => {
     setExtraImages([]);
@@ -75,7 +75,7 @@ export const ProductsDetails_Review = ({ item }) => {
       <View style={[styles.primaryContainer, { marginLeft: 5 }]}>
         <Image
           source={{ uri: item.url_imagen_producto }}
-          style={{ width: 100, height: 100, margin: 5 }}
+          style={{ width: 100, height: 100, margin: 5, resizeMode: 'contain' }}
         />
         <View style={styles.descriptionContainer}>
           <View
@@ -104,7 +104,7 @@ export const ProductsDetails_Review = ({ item }) => {
           >
             <View style={{ flex: 1 }}>
               <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                Precio de la auditoría
+                Precio registrado.
               </Text>
             </View>
             {item.estado === 1 ? (
@@ -165,7 +165,7 @@ export const ProductsDetails_Review = ({ item }) => {
                   fontFamily: "Metropolis",
                 }}
               >
-                Precio no disponible
+                {item.estado == 0 ? 'Sin preciador.' : 'No disponible en PDV.'}
               </Text>
             )}
 
@@ -335,8 +335,8 @@ const styles = StyleSheet.create({
   },
 
   imgContainer: {
-    width: 200,
-    height: 120,
+    width: 220,
+    height: 130,
     borderRadius: 10,
     borderWidth: 1,
     //marginTop: 20,
@@ -344,6 +344,6 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
-    resizeMode: "stretch",
+    resizeMode: "cover",
   },
 });
