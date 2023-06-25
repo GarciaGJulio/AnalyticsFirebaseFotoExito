@@ -65,8 +65,12 @@ export const Racks = ({ navigation }) => {
   const [hasVariable, setHasVariable] = useState(true);
 
   const isFocused = useIsFocused();
-  const { hadSaveRack, setHadSaveRack, handleDoesClientHaveVariable } =
-    useContext(GlobalContext);
+  const {
+    hadSaveRack,
+    setHadSaveRack,
+    handleDoesClientHaveVariable,
+    handleClearWorkFlow,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     const checkForVariable = async () => {
@@ -592,8 +596,9 @@ export const Racks = ({ navigation }) => {
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
         onPress={() => {
-          navigation.navigate("prices");
-          handleDeleteRegisterLocal();
+          handleClearWorkFlow();
+          navigation.navigate("menu");
+          // handleDeleteRegisterLocal();
         }}
         warning={"¿Está seguro de cancelar el progreso actual?"}
       />
