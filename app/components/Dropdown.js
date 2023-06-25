@@ -84,9 +84,16 @@ export const Dropdown = ({
   }, []);*/
 
   useEffect(() => {
+    console.log("ARRAY DE CLIENTES",newArrayClients);
     validateType();
   }, [selected]);
 
+  /*
+  //Vino con el merge de dropdownReview 25/06
+  useEffect(() => {
+    let tmpData = newArrayClients.map((item) => JSON.stringify(item));
+  }, [newArrayClients]);
+*/
   /*useEffect(() => {
     Alert.alert("comprobando 1", valueInfoScreen);
     Alert.alert("comprobando 2", placeholder);
@@ -118,6 +125,7 @@ export const Dropdown = ({
         defaultOption={
           valueInfoScreen && { key: "randomItem", value: valueInfoScreen }
         }
+        // onSelect={() => alert(selected)}
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
         search={!hadSave}
@@ -125,17 +133,19 @@ export const Dropdown = ({
         searchPlaceholder="Buscar"
         data={newArrayClients}
         inputStyles={{
+          //color: "blue",
           fontFamily: "Metropolis",
           fontSize: 13,
           padding: 0.5,
           flexShrink: 1,
+          // backgroundColor:'orange'
         }}
         notFoundText={
           !hadSave
             ? "No se han encontrado coincidencias"
             : "Cliente ya seleccionado"
         }
-        dropdownTextStyles={{ flexShrink: 1, right: 10, flex: 1 }}
+        dropdownTextStyles={{ flexShrink: 1, right: 10 }}
         save="value"
         boxStyles={{
           borderColor: error ? theme.colors.modernaRed : theme.colors.lightgray,

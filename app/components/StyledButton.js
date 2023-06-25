@@ -12,6 +12,7 @@ export const StyledButton = ({
   iconType,
   size,
   disabled,
+  newstyle,
   ...restOfProps
 }) => {
   const [fontLoaded] = useFonts({
@@ -42,8 +43,9 @@ export const StyledButton = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-around",
-          width: size,
+          // justifyContent: "space-around",
+          width: '100%',
+          // paddingHorizontal:20
           // height: size * 3 / 10,
           flex: 1,
           paddingHorizontal: 10,
@@ -72,12 +74,9 @@ export const StyledButton = ({
           )}
         </View>
         <View
-          style={{
-            //backgroundColor: "orange",
-            flex: 1,
-          }}
+          style={newstyle?styles.butonCentrado:styles.butonormal}
         >
-          <Text style={styles.buttonText}>{title}</Text>
+          <Text numberOfLines={1} style={styles.buttonText}>{title}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -109,9 +108,22 @@ const styles = StyleSheet.create({
     //flex: 1,
     color: "white",
     //backgroundColor: "blue",
-    fontSize: 17,
+    fontSize: 16,
+    // textAlign:'center',
     //left: 5,
     fontFamily: "Metropolis",
     fontWeight: "600",
+    // paddingRight: 1
   },
+
+  butonCentrado:{
+    // backgroundColor:'green',
+    alignItems:'center',
+    flex:1
+  },
+  butonormal:{
+    flex:1.5,
+    // backgroundColor:'green',
+    // flex:2
+  }
 });

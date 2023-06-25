@@ -81,15 +81,17 @@ const ModernaHeaderM = () => {
               : "Santiago Mosquera"}
           </Text>
           <Text
+          numberOfLines={1}
             style={{ color: "white", fontSize: 10, fontFamily: "Metropolis" }}
           >
             {userInfo.mail ? userInfo.mail : userInfo.userPrincipalName}
           </Text>
         </View>
       </View>
-      <View style={styles.imageContainer}></View>
+      {/* <View style={styles.imageContainer}></View> */}
       <WifiIndicator />
       <TouchableOpacity style={styles.logOutButton} onPress={handleOpenModal}>
+       
         <Icon name="log-out-outline" type="ionicon" size={25} color={"white"} />
       </TouchableOpacity>
     </View>

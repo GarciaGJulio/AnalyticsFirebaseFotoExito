@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.modernaGreen,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 5,
+    marginHorizontal:5
   },
 });
