@@ -194,21 +194,21 @@ export const Racks = ({ navigation }) => {
     }
   };
 
-//Por revisar
-  const HandleNavigationOfVariables = () => {
-    let checkvariables=true
-    const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Promoción");
-      checkvariables=response
-      console.log("VARIABLE DE PERCHAS EXISTE:",response)
-      if (checkvariables === true) {
-        navigation.navigate("promos");
-      } else {
-        navigation.navigate("promos");
-      }
-    };
-    checkForVariable();
-  };
+// //Por revisar
+//   const  = () => {
+//     let checkvariables=true
+//     const checkForVariable = async () => {
+//       const response = await handleDoesClientHaveVariable("Promoción");
+//       checkvariables=response
+//       console.log("VARIABLE DE PERCHAS EXISTE:",response)
+//       if (checkvariables === true) {
+//         navigation.navigate("promos");
+//       } else {
+//         navigation.navigate("promos");
+//       }
+//     };
+//     checkForVariable();
+//   };
 
 
 

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { lookForVariable } from "../services/SeleccionesService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { realizarConsulta } from "../common/sqlite_config";
@@ -31,9 +31,9 @@ export const GlobalProvider = ({ children }) => {
     const index = variables.findIndex((variable) => {
       return (
         variable.id_grupo_cliente.toUpperCase() ===
-          id_grupo_cliente?.toString().toUpperCase() &&
+        id_grupo_cliente?.toString().toUpperCase() &&
         variable?.nombre_variable?.toUpperCase() ===
-          nombre_variable?.toUpperCase()
+        nombre_variable?.toUpperCase()
       );
     });
     return index !== -1;
@@ -45,8 +45,8 @@ export const GlobalProvider = ({ children }) => {
     const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
     let Variables2 = [];
     const NumeroVariables = variables.forEach((variable) => {
-      console.log("entra?",variable.id_grupo_cliente.toUpperCase() ===
-      id_grupo_cliente?.toString().toUpperCase())
+      console.log("entra?", variable.id_grupo_cliente.toUpperCase() ===
+        id_grupo_cliente?.toString().toUpperCase())
       if (
         variable.id_grupo_cliente.toUpperCase() ===
         id_grupo_cliente?.toString().toUpperCase()
@@ -59,8 +59,8 @@ export const GlobalProvider = ({ children }) => {
 
 
     });
-    console.log("arregloVARIABLES",Variables2.length)
-    const total=Variables2.length
+    console.log("arregloVARIABLES", Variables2.length)
+    const total = Variables2.length
     // const NumeroVariables= variables.filter(variable => variable.id_grupo_cliente.toUpperCase() ===
     // id_grupo_cliente?.toString().toUpperCase())
 
@@ -122,6 +122,11 @@ export const GlobalProvider = ({ children }) => {
   const handleClearWorkFlow = () => {
     clearWorkFlow();
   };
+
+  const handleCheckCanSaveAllDataLocal = useCallback(async (values) => {
+    const totalVariables = await CountClientVariable()
+    console.log("datos del total de variables", totalVariables)
+  }, [])
   return (
     <GlobalContext.Provider
       value={{
@@ -143,6 +148,7 @@ export const GlobalProvider = ({ children }) => {
         fetchVariables,
         handleClearWorkFlow,
         CountClientVariable,
+        handleCheckCanSaveAllDataLocal
       }}
     >
       {children}

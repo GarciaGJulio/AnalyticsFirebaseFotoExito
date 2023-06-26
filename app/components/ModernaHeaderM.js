@@ -48,7 +48,7 @@ const ModernaHeaderM = () => {
   /*const subStringName = userInfo
     ? userInfo.displayName.split(" ")
     : "Datos Perdidos";*/
-  const subStringName = displayName.split(" ");
+  const subStringName = displayName && displayName.split(" ");
   if (!fontLoaded) return null;
 
   return (
@@ -76,12 +76,12 @@ const ModernaHeaderM = () => {
               fontFamily: "Metropolis",
             }}
           >
-            {userInfo
+            {userInfo &&subStringName&&subStringName.length > 2
               ? subStringName[0] + " " + subStringName[2]
               : "Santiago Mosquera"}
           </Text>
           <Text
-          numberOfLines={1}
+            numberOfLines={1}
             style={{ color: "white", fontSize: 10, fontFamily: "Metropolis" }}
           >
             {userInfo.mail ? userInfo.mail : userInfo.userPrincipalName}
@@ -91,7 +91,7 @@ const ModernaHeaderM = () => {
       {/* <View style={styles.imageContainer}></View> */}
       <WifiIndicator />
       <TouchableOpacity style={styles.logOutButton} onPress={handleOpenModal}>
-       
+
         <Icon name="log-out-outline" type="ionicon" size={25} color={"white"} />
       </TouchableOpacity>
     </View>
