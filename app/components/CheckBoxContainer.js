@@ -86,7 +86,7 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
         onClose={handleCloseModal}
         onPress={acceptModal}
         warning={
-          "Al presionar el boton Aceptar se va a eliminar el registro ingresado."
+          "nar el boton Aceptar se va a eliminar el registro ingresado."
         }
       />
       <View style={styles.primaryContainer}>
@@ -150,7 +150,7 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
                 validatePriceProduct(txt, setErrorPrice);
                 actualizarPrecio(item, parseFloat(txt));
               }}
-              label="Precio del producto"
+              label="Precio"
               placeholder="Ingresa el precio del producto"
               maxLength={5}
               keyboard="numeric"

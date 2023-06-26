@@ -67,6 +67,8 @@ export const Promos = ({ navigation }) => {
     setHadSaveRack,
     isConnectionActivate,
     handleDoesClientHaveVariable,
+    refreshSync,
+    setRefreshSync,
     handleClearWorkFlow,
     globalVariable,
     setGlobalVariable,
@@ -213,7 +215,7 @@ export const Promos = ({ navigation }) => {
 
   const handleOpenModalFinishWithoutBranch = async () => {
     setAnimation(SAVE_ANIMATION);
-    setIsModalVisibleCloseSucursal(true);
+    setIsModalVisibleCloseSucursal(false);
     setIsModalVisible(true);
     saveAudit();
     cleanCurrentScreenUser();
@@ -261,6 +263,7 @@ export const Promos = ({ navigation }) => {
     let idCliente = await AsyncStorage.getItem("id_cliente");
     let nombreCliente = await AsyncStorage.getItem("nombre_cliente");
     let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+    let idGroupClient = await AsyncStorage.getItem("idGroupClient");
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     );
@@ -290,6 +293,7 @@ export const Promos = ({ navigation }) => {
         "id_promocion",
         "id_sucursal",
         "id_cliente",
+        "id_grupo_cliente",
         "id_portafolio_auditoria",
         "usuario_creacion",
         "fecha_creacion",
@@ -304,6 +308,7 @@ export const Promos = ({ navigation }) => {
         `'${exhibidorSucursal.length == 0 ? null : idPromocion}'`,
         `'${idSucursal}'`,
         `'${idCliente}'`,
+        `'${idGroupClient}'`,
         `'${idPortafolioAuditoria}'`,
         `'${userInfo.mail}'`,
         `'${transfromrActualDateFormat(dataTime(), "F")}'`,
@@ -335,12 +340,14 @@ export const Promos = ({ navigation }) => {
           );
           navigation.navigate("begin");
         } catch (e) {
-          console.log("ERROR: ", e);
+          console.log("ERROR DESDE PROMOS: ", e);
           setIsModalVisible(false);
-          Alert.alert(
+          setIsModalVisibleClose(false);
+          setIsModalVisibleCloseSucursal(false);
+          /*Alert.alert(
             "Error al subir los datos",
             "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
-          );
+          );*/
           navigation.navigate("begin");
         }
       } else {
@@ -521,11 +528,11 @@ export const Promos = ({ navigation }) => {
           "Al presionar 'Aceptar', el flujo de auditoría terminará ¿Desea confirmar este proceso?"
         }
       />
-      <View style={{ flex: 1, width: "100%" }}>
-        <ModernaHeader />
-      </View>
       {hasVariable ? (
         <View>
+          <View style={{ flex: 1, width: "100%" }}>
+            <ModernaHeader />
+          </View>
           <View style={styles.contentContainer}>
             <ProgressBar currentStep={3} />
             <View style={{ flex: 1 }}>
@@ -535,7 +542,7 @@ export const Promos = ({ navigation }) => {
               />
             </View>
 
-            <View style={{ flex: 1, marginTop: 10 }}>
+            <View style={{ flex: 1.5, marginTop: 10 }}>
               <DropdownPromos
                 nameTitle={"Sucursal"}
                 placeholder={"Seleccione una sucursal"}

@@ -117,7 +117,8 @@ export const TabsNavigation = ({ route }) => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 60,
+          height: 50,
+          paddingHorizontal: 10,
           position: "absolute",
           // borderRadius: 16,
           backgroundColor: theme.colors.modernaRed,

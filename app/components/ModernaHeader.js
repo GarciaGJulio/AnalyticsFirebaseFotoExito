@@ -23,11 +23,11 @@ const ModernaHeader = () => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    console.log("DATOS DEL USUARIO EN EL HEADER: - -- - - - ", userInfo);
+    /*console.log("DATOS DEL USUARIO EN EL HEADER: - -- - - - ", userInfo);
     console.log(
       "NOMBRE DEL USUARIO ACTUAL EN EL HEADER: - -- - - - ",
       displayName
-    );
+    );*/
   });
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -58,7 +58,14 @@ const ModernaHeader = () => {
         warning={"¿Está seguro de cerrar sesión?"}
       />
       <View style={styles.userInfo}>
-        <Icon name="user-tag" type="font-awesome-5" size={18} color={"white"} />
+        <View style={{ flex: 0.5 }}>
+          <Icon
+            name="user-tag"
+            type="font-awesome-5"
+            size={18}
+            color={"white"}
+          />
+        </View>
         <View style={{ paddingLeft: 10 }}>
           <Text
             style={{ color: "white", fontSize: 12, fontFamily: "Metropolis" }}
@@ -99,7 +106,7 @@ const styles = StyleSheet.create({
     //top: Constants.statusBarHeight,
   },
   userInfo: {
-    paddingHorizontal: 15,
+    //paddingRight: 10,
     flexDirection: "row",
     alignItems: "center",
     flex: 1,

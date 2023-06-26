@@ -104,13 +104,20 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
           </Text>
 
           <View style={{ flexDirection: "row" }}>
-            <View>
-              <Text style={{ color: "red", textAlign: "left" }}>*</Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 13.5, fontFamily: "Metropolis" }}>
-                Exhibidor disponible
-              </Text>
+            <View style={{ flex: 1.2 }}>
+              <View style={{ justifyContent: "center" }}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: theme.fontWeight.softbold,
+                    fontFamily: "Metropolis",
+                    fontSize: 16,
+                    marginTop: 10,
+                  }}
+                >
+                  Planograma Ideal
+                </Text>
+              </View>
             </View>
           </View>
           <Image
@@ -182,27 +189,12 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
       </View>
       {check1 || check2 ? (
         <View style={styles.secondaryContainer}>
-          <View style={{ padding: 10, flex: 2 }}>
-            <View style={{ flex: 1.2 }}>
-              <View style={{ justifyContent: "center" }}>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontWeight: theme.fontWeight.softbold,
-                    fontFamily: "Metropolis",
-                    fontSize: 16,
-                    marginVertical: 10,
-                  }}
-                >
-                  Planograma Ideal
-                </Text>
-              </View>
-            </View>
+          <View style={{ padding: 0, flex: 1 }}>
             <Text
               style={{
                 fontWeight: theme.fontWeight.softbold,
                 fontFamily: "Metropolis",
-                marginVertical: 10,
+                //marginVertical: 10,
               }}
             >
               Planograma Real

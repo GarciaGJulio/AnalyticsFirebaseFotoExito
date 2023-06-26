@@ -65,7 +65,7 @@ const ScreenInformation = ({ title, text }) => {
             //backgroundColor: "blue",
             //marginHorizontal: 0.9,
             width: theme.dimensions.maxWidth / 1.1,
-            flex: 1,
+            flex: 1.2,
             //marginVertical: 5,
             justifyContent: "center",
             alignItems: "center",

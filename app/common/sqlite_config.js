@@ -92,7 +92,7 @@ const createCategoryTable = () => {
 };
 
 const createPortafolioTable = () => {
-  const sentence = `create table if not exists ${PORTAFOLIO.NAME} (${PORTAFOLIO.KEY_1} text not null, ${PORTAFOLIO.ID_PRODUCTO} TEXT NOT NULL,${PORTAFOLIO.ID_GRUPO_CLIENTE} TEXT NOT NULL,${PORTAFOLIO.TIPO} TEXT NOT NULL,${PORTAFOLIO.ESTADO} BOOLEAN NULL,PRIMARY KEY (${PORTAFOLIO.KEY_1},${PORTAFOLIO.ID_PRODUCTO})) `;
+  const sentence = `create table if not exists ${PORTAFOLIO.NAME} (${PORTAFOLIO.KEY_1} text not null, ${PORTAFOLIO.ID_PRODUCTO} TEXT NULL,${PORTAFOLIO.ID_GRUPO_CLIENTE} TEXT NULL,${PORTAFOLIO.ESTADO} BOOLEAN ,${PORTAFOLIO.TIPO} TEXT NULL,PRIMARY KEY (${PORTAFOLIO.KEY_1},${PORTAFOLIO.ID_PRODUCTO})) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, PORTAFOLIO.NAME);
 };
@@ -110,7 +110,7 @@ const createProductTable = () => {
 };
 
 const createAuditTable = () => {
-  const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCION} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.ID_CLIENTE} TEXT NULL,${AUDITORIA.ID_PORTAFOLIO_AUDITORIA} text NULL,${AUDITORIA.NOMBRE_CLIENTE} text NULL,${AUDITORIA.NOMBRE_SUCURSAL} text NULL,${AUDITORIA.USUARIO_CREACION} VARCHAR(43) NULL,${AUDITORIA.FECHA_CREACION} VARCHAR(43) NULL,${AUDITORIA.SINCRONIZADA} SMALLINT NULL) `;
+  const sentence = `create table if not exists ${AUDITORIA.NAME} (${AUDITORIA.KEY_1} text primary key not null,${AUDITORIA.ID_PRECIADOR} text null,${AUDITORIA.ID_PERCHA} text null,${AUDITORIA.ID_PROMOCION} text null,${AUDITORIA.ID_SUCURSAL} text null,${AUDITORIA.ID_CLIENTE} TEXT NULL,${AUDITORIA.ID_PORTAFOLIO_AUDITORIA} text NULL,${AUDITORIA.NOMBRE_CLIENTE} text NULL,${AUDITORIA.NOMBRE_SUCURSAL} text NULL,${AUDITORIA.USUARIO_CREACION} VARCHAR(43) NULL,${AUDITORIA.FECHA_CREACION} VARCHAR(43) NULL,${AUDITORIA.SINCRONIZADA} SMALLINT NULL,${AUDITORIA.ID_GRUPO_CLIENTE} TEXT NULL) `;
   // const sentenceIndex = `CREATE INDEX ${CLIENTE_TABLE.INDEX_1} ON ${CLIENTE_TABLE.TABLE_NAME} (${CLIENTE_TABLE.ITEM_6});`
   createTable(sentence, AUDITORIA.NAME);
 };
@@ -240,7 +240,6 @@ export const dataAxiosQuery = async () => {
     //Alert.alert("Error de inicio de sesion", e.response.data.message);
     return false;
   }
-  return false;
 };
 
 export const load_db_config = async () => {

@@ -28,8 +28,6 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import SAVE_ANIMATION from "../../../assets/save.json";
-import NetInfo from "@react-native-community/netinfo";
-import { subidaBaseRemote } from "../../services/SubidaBaseRemota";
 import {
   deleteRegisterAudit,
   getCurrentScreenInformation,
@@ -232,6 +230,7 @@ export const Prices = ({ navigation, route }) => {
       if (item.state === 1) {
         if (
           item.price === null ||
+          item.price === 0.0 ||
           errorPrice !== "" ||
           !item.images ||
           item.images.image1 === null
@@ -308,7 +307,7 @@ export const Prices = ({ navigation, route }) => {
       if (!isValid) {
         Alert.alert(
           "Error al completar los datos",
-          "Necesita marcar el valor de preciador de cada producto correctamente y tomar la fotografía respectiva"
+          "Necesita ingresar el precio y tomar la foto por cada producto seleccionado."
         );
         //navigation.navigate('rack');
         console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));

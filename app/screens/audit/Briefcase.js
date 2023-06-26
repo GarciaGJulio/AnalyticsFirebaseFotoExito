@@ -253,7 +253,7 @@ export const Briefcase = ({ navigation }) => {
       );
 
       const productosIdeal = await realizarConsulta(
-        `SELECT DISTINCT producto.*,portafolio.id_portafolio,portafolio.tipo FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND portafolio.id_portafolio='${idGroupClient}' AND portafolio.estado=true`
+        `SELECT DISTINCT producto.*,portafolio.id_portafolio,portafolio.tipo FROM producto INNER JOIN portafolio ON producto.id_producto = portafolio.id_producto  WHERE portafolio.tipo = 'I' AND portafolio.id_portafolio='${idGroupClient}' AND portafolio.estado=1`
       );
 
       const productosIdealFiltro = productosIdeal.map((objeto) => {
@@ -447,7 +447,7 @@ export const Briefcase = ({ navigation }) => {
                 `'${id_portafolio}'`,
                 `'${id}'`,
                 `'${idGrupoCliente}'`,
-                true,
+                1,
                 `'${tipo_portafolio}'`,
               ],
             };

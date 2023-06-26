@@ -2,6 +2,8 @@ import axios from "axios";
 import { realizarConsulta } from "../common/sqlite_config";
 import { SubirAlonedrive } from "./onedrive";
 import { Alert } from "react-native";
+import { useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 
 export const subidaBaseRemote = (tablaName, array1, array2) => {
   const url =
@@ -46,7 +48,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
   setRefresh,
   refresh
 ) => {
-  const consultaAudit = await realizarConsulta(`SELECT * FROM auditoria`);
+  const consultaAudit = await realizarConsulta(
+    `SELECT id_auditoria,id_preciador,id_percha,id_promocion,id_sucursal,id_cliente,id_portafolio_auditoria,usuario_creacion,fecha_creacion FROM auditoria`
+  );
   const consultaPromocion = await realizarConsulta(
     `SELECT s.*  FROM sucursal AS s INNER JOIN auditoria AS a ON a.id_sucursal = s.id_sucursal where a.id_auditoria='${id_auditoria}'`
   );
@@ -98,7 +102,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
-        "" + promocionData[i].id_promocion + promocionData[i].id_exhibidor
+        "" +
+          promocionData[i].id_promocion +
+          "-" +
+          promocionData[i].id_exhibidor +
+          "-1"
       );
     }
     console.log(
@@ -123,7 +131,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
-        "" + promocionData[i].id_promocion + promocionData[i].id_exhibidor
+        "" +
+          promocionData[i].id_promocion +
+          "-" +
+          promocionData[i].id_exhibidor +
+          "-2"
       );
     }
     console.log(
@@ -148,7 +160,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
-        "" + promocionData[i].id_promocion + promocionData[i].id_exhibidor
+        "" +
+          promocionData[i].id_promocion +
+          "-" +
+          promocionData[i].id_exhibidor +
+          "-3"
       );
     }
   }
@@ -262,7 +278,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
   );
 
   const portafolioData = await realizarConsulta(
-    `SELECT DISTINCT p.*, CASE WHEN p.estado = 1 THEN true ELSE false END AS estado_modificado
+    `SELECT DISTINCT p.* 
     FROM portafolio AS p
     INNER JOIN portafolio_auditoria AS pa ON pa.id_portafolio = p.id_portafolio
     INNER JOIN auditoria AS a ON a.id_portafolio_auditoria = pa.id_portafolio_auditoria
@@ -271,7 +287,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
 
   const portafolioDataModificado = portafolioData.map((item) => ({
     ...item,
-    estado: item.estado === 1 ? true : false,
+    estado: true,
   }));
 
   const portafolio_auditoriaData = await realizarConsulta(
@@ -438,12 +454,12 @@ export const subidaBaseRemoteTodaAuditoria = async (
       },
     });
     //console.log(resp.data);
-    console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     fn(false);
+    console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     if (resp.data.result) {
       console.log("CAMBIANDO ESTADO - - - -- - ");
-      const stateAudit = await realizarConsulta(
-        `UPDATE auditoria SET sincronizada=true
+      await realizarConsulta(
+        `UPDATE auditoria SET sincronizada=1
          WHERE id_auditoria='${id_auditoria}'`
       );
       setRefresh(!refresh);
@@ -460,7 +476,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
     }
   } catch (e) {
     console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data.result);
-    console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data);
+    console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     fn(false);
     /*Alert.alert(
       "Error al registrar la auditoria a traves de la función",

@@ -589,6 +589,9 @@ export const Racks = ({ navigation }) => {
   if (!fontLoaded) return null;
   return (
     <View style={styles.container}>
+      <View style={{ flex: 1, width: "100%" }}>
+        <ModernaHeader />
+      </View>
       <ConfirmationModal
         visible={isModalVisibleClose}
         onClose={handleCloseModal}
@@ -599,13 +602,10 @@ export const Racks = ({ navigation }) => {
         }}
         warning={"¿Está seguro de cancelar el progreso actual?"}
       />
-      <View style={{ flex: 1, width: "100%" }}>
-        <ModernaHeader />
-      </View>
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalVisible}
-        warning={"subiendo datos"}
+        warning={"Guardando datos, por favor espere"}
       />
 
       <View style={styles.contentContainer}>
@@ -634,7 +634,7 @@ export const Racks = ({ navigation }) => {
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
                   <Text style={{ fontFamily: "Metropolis" }}>
-                    No hay perchas asignadas para este grupo de cliente
+                    No hay perchas asignadas para este grupo de clientes
                   </Text>
                 </View>
               ) : (
