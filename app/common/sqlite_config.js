@@ -222,7 +222,7 @@ export const dataAxiosQuery = async () => {
     //setClient(response.data)
     //console.log(response.data.data);
     const resp = response.data.data;
-    console.log("resp: - - - - - - - - - - ", resp);
+    // console.log("resp: - - - - - - - - - - ", resp);
     for (const res of resp) {
       //console.log("DATO DEL FOR EACH", res);
       for (const objetoSentencia of res.data) {

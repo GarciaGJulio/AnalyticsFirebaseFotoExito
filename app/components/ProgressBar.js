@@ -1,20 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import theme from '../theme/theme';
 import { lookForVariable } from '../services/SeleccionesService';
+import { GlobalContext } from "../context/GlobalContext";
 
 export const ProgressBar = ({currentStep}) => {
- 
+   const {
+    setHadSaveBriefCase,
+    handleClearWorkFlow,
+    handleDoesClientHaveVariable,
+    CountClientVariable
+  } = useContext(GlobalContext);
+  const [arrayPasos, setVariables] = useState([]);
   
-  const labels = ['Paso 1', 'Paso 2', 'Paso 3','Paso 4'];
+  useEffect(() => {
+    const checkNumVarible=async( )=>{
+      const totalVariables= await CountClientVariable()
+      console.log("VariablesCountProgress:",totalVariables)  
+      for (let i = 1; i <= totalVariables; i++) {
+        arrayPasos.push(`Paso ${i}`);
+      }
+      console.log("APOS")
+      console.log("PASOS:",arrayPasos)
+    }
+    checkNumVarible();
+  }, []);
+
+
+  
+
+const labels=['']
 
   return (
     <View style={{ width:'100%', height:'10%',  justifyContent:'center' }}>
       <StepIndicator
-        stepCount={labels.length}
+        stepCount={arrayPasos.length}
         currentPosition={currentStep}
-        labels={labels}
+        labels={arrayPasos}
         customStyles={{
           stepIndicatorSize: 30,
           currentStepIndicatorSize: 40,

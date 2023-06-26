@@ -65,7 +65,7 @@ export const Menu = ({ navigation }) => {
     const auditoriasSinSincronizar = await realizarConsulta(
       "SELECT * FROM auditoria where sincronizada = 0"
     );
-    console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
+    // console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
     if (auditoriasSinSincronizar.length === 0) {
       console.log("NADA QUE SINCRONIZAR POR EL MOMENTO");
     } else if (auditoriasSinSincronizar.length > 0) {
@@ -80,7 +80,7 @@ export const Menu = ({ navigation }) => {
       let showAlert = true; // Variable para controlar si se debe mostrar el alert
 
       for (const auditoria of auditoriasSinSincronizar) {
-        console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
+        // console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
         try {
           await subidaBaseRemoteTodaAuditoria(
             auditoria.id_auditoria,
@@ -139,7 +139,7 @@ export const Menu = ({ navigation }) => {
     const auditoriasSinSincronizar = await realizarConsulta(
       "SELECT * FROM auditoria where sincronizada = 0"
     );
-    console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
+    // console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
     if (auditoriasSinSincronizar.length === 0) {
       Alert.alert(
         "Datos sincronizados",
@@ -154,7 +154,7 @@ export const Menu = ({ navigation }) => {
       );
 
       auditoriasSinSincronizar.forEach(async (auditoria) => {
-        console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
+        // console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
         try {
           await subidaBaseRemoteTodaAuditoria(
             auditoria.id_auditoria,

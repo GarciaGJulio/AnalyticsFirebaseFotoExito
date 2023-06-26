@@ -42,7 +42,7 @@ export const Briefcase = ({ navigation }) => {
     useState([]);
   const [auxiliarArray, setAuxiliarArray] = useState([]);
   const [idealProducts, setIdealProducts] = useState([]);
-  const [currentStep] = useState(0);
+  const [currentStep,setcurrentStep] = useState();
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   ///const { idClientGroup } = useContext(ModernaContext);
   //const [idPortafolio] = useState(generateUIDD());
@@ -69,10 +69,13 @@ export const Briefcase = ({ navigation }) => {
 
   useEffect(() => {
     const checkForVariable = async () => {
+      await AsyncStorage.setItem("ValorPaso", 0);
+      setcurrentStep(await AsyncStorage.getItem("ValorPaso"))
       const response = await handleDoesClientHaveVariable("Portafolio");
       setHasVariable(response);
     };
     checkForVariable();
+    
   }, []);
 
   useEffect(() => {

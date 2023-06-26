@@ -37,7 +37,34 @@ export const GlobalProvider = ({ children }) => {
     });
     return index !== -1;
   };
-  
+
+  const CountClientVariable = async () => {
+
+    console.log("--------------------------------eMPIEZA A ACONTAR VARIABLES")
+    const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
+    let Variables2 = [];
+    const NumeroVariables = variables.forEach((variable) => {
+      console.log("entra?",variable.id_grupo_cliente.toUpperCase() ===
+      id_grupo_cliente?.toString().toUpperCase())
+      if (
+        variable.id_grupo_cliente.toUpperCase() ===
+        id_grupo_cliente?.toString().toUpperCase()
+      ) {
+        Variables2.push(variable);
+        console.log("variable vALOR:", variable)
+      }
+
+
+
+
+    });
+    console.log("arregloVARIABLES",Variables2.length)
+    const total=Variables2.length
+    // const NumeroVariables= variables.filter(variable => variable.id_grupo_cliente.toUpperCase() ===
+    // id_grupo_cliente?.toString().toUpperCase())
+
+    return total;
+  };
 
   const clearWorkFlow = async () => {
     console.clear();
@@ -112,6 +139,7 @@ export const GlobalProvider = ({ children }) => {
         handleDoesClientHaveVariable,
         fetchVariables,
         handleClearWorkFlow,
+        CountClientVariable,
       }}
     >
       {children}

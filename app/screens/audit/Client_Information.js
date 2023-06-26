@@ -71,16 +71,17 @@ export const Client_Information = ({ navigation }) => {
     setHadSaveBriefCase,
     handleClearWorkFlow,
     handleDoesClientHaveVariable,
+    CountClientVariable
   } = useContext(GlobalContext);
   const isFocused = useIsFocused();
 
   // Control de Variables
 
-  const [variables, setVariables] = useState([]);
+  // const [variables, setVariables] = useState([]);
 
-  const fetchVariables = async () => {
-    await lookForVariable(setVariables);
-  };
+  // const fetchVariables = async () => {
+  //   await lookForVariable(setVariables);
+  // };
 
   useEffect(() => {
     const initDataLocal = async () => {
@@ -168,13 +169,13 @@ export const Client_Information = ({ navigation }) => {
         value: `${obj.id_cliente} - ${obj.nombre_cliente}`,
       };
     });
-    console.log(arrayFormat);
+    // console.log(arrayFormat);
     return arrayFormat;
   };
   useEffect(() => {
     consultarYCopiarContenidoClientes();
-    fetchVariables();
-    console.log("ArrayVariablesdesdeProgressBar:", variables);
+    // fetchVariables();
+    // console.log("ArrayVariablesdesdeProgressBar:", variables);
   }, []);
 
   const validarFormulario = () => {
@@ -199,15 +200,20 @@ export const Client_Information = ({ navigation }) => {
       );
 
       setBranchNames(branchs);
-      console.log("DATOS DE SUCURSALES :", branchs);
+      // console.log("DATOS DE SUCURSALES :", branchs);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
   };
-
+//UseEffect see variables
   useEffect(() => {
     consultarYCopiarContenido();
-    //consultarYCopiarContenidoClientes();
+    // const checkNumVarible=async( )=>{
+    //   const totalVariables= await CountClientVariable()
+    //   console.log("VariablesCount:",totalVariables)  
+    // }
+    // checkNumVarible();
+    //consultarYCopiarContenidoClientes();\
   }, []);
 
   const validate = (objeto) => {
@@ -227,6 +233,7 @@ export const Client_Information = ({ navigation }) => {
     return () => {
       BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
     };
+
   }, []);
 
   const HandleNavigationOfVariables = () => {
@@ -262,10 +269,10 @@ export const Client_Information = ({ navigation }) => {
       return false;
     } else {
       let result = branchNames.some((item) => {
-        console.log(
-          "ITEM DEL ARRAY: ",
-          item.nombre_sucursal + " " + item.fecha_creacion
-        );
+        // console.log(
+        //   "ITEM DEL ARRAY: ",
+        //   item.nombre_sucursal + " " + item.fecha_creacion
+        // );
         console.log("ITEM DE COMPARACION: ", currentName);
         console.log("FCEHA ACTUAL: ", tempFecha);
         if (
