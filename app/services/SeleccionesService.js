@@ -97,7 +97,7 @@ export const lookForVariable = (fnsetVariable) => {
         });
       });
       fnsetVariable(pedidos);
-      console.log("datos de la tabla variable : ", pedidos);
+      console.log("datos de la tabla variable : ", pedidos.length);
       //console.log("productos : ", productos);
     });
   });

@@ -193,6 +193,29 @@ export const Racks = ({ navigation }) => {
       // setIsModalVisible(false)
     }
   };
+
+//Por revisar
+  const HandleNavigationOfVariables = () => {
+    let checkvariables=true
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Promociones");
+      checkvariables=response
+      console.log("VARIABLE DE PERCHAS EXISTE:",response)
+      if (checkvariables === true) {
+        navigation.navigate("promos");
+      } else {
+        navigation.navigate("promos");
+      }
+    };
+    checkForVariable();
+  };
+
+
+
+
+
+
+
   const consultarYCopiarContenido = async () => {
     const idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {

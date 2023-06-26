@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import theme from '../theme/theme';
+import { lookForVariable } from '../services/SeleccionesService';
 
 export const ProgressBar = ({currentStep}) => {
+ 
   
-
   const labels = ['Paso 1', 'Paso 2', 'Paso 3','Paso 4'];
 
   return (
-    <View style={{ width:'100%', height:'10%', justifyContent:'center' }}>
+    <View style={{ width:'100%', height:'10%',  justifyContent:'center' }}>
       <StepIndicator
         stepCount={labels.length}
         currentPosition={currentStep}

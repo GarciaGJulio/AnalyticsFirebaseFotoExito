@@ -37,6 +37,7 @@ export const GlobalProvider = ({ children }) => {
     });
     return index !== -1;
   };
+  
 
   const clearWorkFlow = async () => {
     console.clear();

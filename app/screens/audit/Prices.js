@@ -197,6 +197,21 @@ export const Prices = ({ navigation, route }) => {
     };
   }, []);
 
+  const HandleNavigationOfVariables = () => {
+    let checkvariables=true
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Perchas");
+      checkvariables=response
+      console.log("VARIABLE DE PERCHAS EXISTE:",response)
+      if (checkvariables === true) {
+        navigation.navigate("rack");
+      } else {
+        navigation.navigate("promos");
+      }
+    };
+    checkForVariable();
+  };
+
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
   };
@@ -280,7 +295,7 @@ export const Prices = ({ navigation, route }) => {
     console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
       console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
-      navigation.navigate("rack");
+      HandleNavigationOfVariables()
     } else {
       if (errorPrice != "") {
         setErrorPrice("* El campo precio es debe ser llenado correctamente");
@@ -377,7 +392,7 @@ export const Prices = ({ navigation, route }) => {
               //setShowButton1(false);
               //setShowButton2(true);
               setIsModalVisible(false);
-              navigation.navigate("rack");
+              HandleNavigationOfVariables()
               setHadSavePreciador(true);
               setShowButton1(false);
               setShowButton2(true);
@@ -485,7 +500,7 @@ export const Prices = ({ navigation, route }) => {
   };
 
   const onlyNavigation = () => {
-    navigation.navigate("rack");
+    HandleNavigationOfVariables()
   };
   const handleDeleteRegisterLocal = async () => {
     setHadSavePreciador(false);

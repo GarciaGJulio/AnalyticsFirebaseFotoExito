@@ -38,6 +38,7 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
 import { transfromrActualDateFormat } from "../../common/utils";
+import { lookForVariable } from "../../services/SeleccionesService";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -66,9 +67,21 @@ export const Client_Information = ({ navigation }) => {
   const [arrayClients, setArrayClients] = useState([]);
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
-  const { setHadSaveBriefCase, handleClearWorkFlow } =
-    useContext(GlobalContext);
+  const {
+    setHadSaveBriefCase,
+    handleClearWorkFlow,
+    handleDoesClientHaveVariable,
+  } = useContext(GlobalContext);
   const isFocused = useIsFocused();
+
+  // Control de Variables
+
+  const [variables, setVariables] = useState([]);
+
+  const fetchVariables = async () => {
+    await lookForVariable(setVariables);
+  };
+
   useEffect(() => {
     const initDataLocal = async () => {
       console.log(
@@ -92,10 +105,10 @@ export const Client_Information = ({ navigation }) => {
       const tmpInfoExtra = JSON.parse(
         global.userInfoScreen.userInfo.extra_info
       );
-      console.log(
-        "tmpInfoExtra dewsde clietn infomart===================",
-        tmpInfoExtra
-      );
+      // console.log(
+      //   "tmpInfoExtra dewsde clietn infomart===================",
+      //   tmpInfoExtra
+      // );
       const tmpPantalla = tmpInfoExtra.pantallas.cliente_informacion;
       const infoExtra = tmpPantalla.extra_info;
       const newObj = {
@@ -160,6 +173,8 @@ export const Client_Information = ({ navigation }) => {
   };
   useEffect(() => {
     consultarYCopiarContenidoClientes();
+    fetchVariables();
+    console.log("ArrayVariablesdesdeProgressBar:", variables);
   }, []);
 
   const validarFormulario = () => {
@@ -214,6 +229,21 @@ export const Client_Information = ({ navigation }) => {
     };
   }, []);
 
+  const HandleNavigationOfVariables = () => {
+    let checkvariables = true;
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Portafolio");
+      checkvariables = response;
+      console.log("VARIABLE DE Portafolio EXISTE:", response);
+      if (checkvariables === true) {
+        navigation.navigate("briefcase");
+      } else {
+        navigation.navigate("rack");
+      }
+    };
+    checkForVariable();
+  };
+
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
   };
@@ -252,7 +282,7 @@ export const Client_Information = ({ navigation }) => {
   };
 
   const onlyNavigate = () => {
-    navigation.navigate("briefcase"), setHadSaveBriefCase(false);
+    HandleNavigationOfVariables(), setHadSaveBriefCase(false);
   };
 
   const handleOpenModal = async () => {
@@ -376,7 +406,7 @@ export const Client_Information = ({ navigation }) => {
           setNewArrayClients([]);
           setValidatePass(true);
           setIsModalVisible(false);
-          navigation.navigate("briefcase");
+          HandleNavigationOfVariables();
           setHadSaveBriefCase(false);
           setShowButton1(false);
           setShowButton2(true);
@@ -629,8 +659,7 @@ export const Client_Information = ({ navigation }) => {
                   typeRigthSecond={"feather"}
                   colorRigthSecond={theme.colors.modernaRed}
                   onPressRigthSecond={() => {
-                    navigation.navigate("briefcase"),
-                      setHadSaveBriefCase(false);
+                    HandleNavigationOfVariables(), setHadSaveBriefCase(false);
                   }}
                   showButton1Second={showButton1}
                   showButton2Second={showButton2}
