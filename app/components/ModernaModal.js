@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "justify",
     fontSize: 18,
-    fontWeight: "600",
+    fontWeight: "bold",
     fontFamily: "Metropolis",
   },
   warningText: {

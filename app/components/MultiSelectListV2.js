@@ -145,23 +145,43 @@ export const MultiSelectListV2 = ({
             chipContainer: {
               backgroundColor: theme.colors.modernaYellow,
               borderRadius: 10,
-              width:'100%',
+              width: "100%",
 
-              justifyContent: 'flex-start',
+              justifyContent: "flex-start",
               //padding:5,
               //flexGrow:1,
-              alignItems: 'center'
+              alignItems: "center",
             },
 
-            chipText: { color: "black", fontFamily: "Metropolis", flex: 1, },
-            selectedItemText: { fontFamily: "Metropolis" },
-            selectedSubItemText: { fontFamily: "Metropolis" },
-            selectToggleText: { fontFamily: "Metropolis" },
+            chipText: {
+              color: "black",
+              fontFamily: "Metropolis",
+              flex: 1,
+              fontWeight: "100",
+            },
+            selectedItemText: { fontFamily: "Metropolis", fontWeight: "100" },
+            selectedSubItemText: {
+              fontFamily: "Metropolis",
+              fontWeight: "100",
+            },
+            selectToggleText: { fontFamily: "Metropolis", fontWeight: "100" },
             //subItemText: { fontFamily: "Metropolis", left: 10 },
-            itemText: { fontFamily: "Metropolis" },
-            searchTextInput: { fontFamily: "Metropolis" },
-            confirmText: { fontFamily: "Metropolis" },
-            parentChipText: { fontFamily: "Metropolis" },
+            itemText: {
+              fontFamily: "Metropolis",
+              fontWeight: "100",
+              //backgroundColor: "blue",
+              //flex: 1,
+              //width: "50%",
+              textAlign: "justify",
+              fontSize: 16,
+            },
+            searchTextInput: { fontFamily: "Metropolis", fontWeight: "100" },
+            confirmText: { fontFamily: "Metropolis", fontWeight: "100" },
+            parentChipText: {
+              fontFamily: "Metropolis",
+              fontWeight: "100",
+              flex: 1,
+            },
 
             //chipsWrapper: { backgroundColor: "red" },
           }}

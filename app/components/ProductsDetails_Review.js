@@ -27,8 +27,8 @@ export const ProductsDetails_Review = ({ item }) => {
     item.estado === null
       ? "#999999"
       : item.estado === 1
-        ? theme.colors.modernaGreen
-        : theme.colors.modernaRed;
+      ? theme.colors.modernaGreen
+      : theme.colors.modernaRed;
 
   const validateExtraImages = async (objeto) => {
     setExtraImages([]);
@@ -78,14 +78,14 @@ export const ProductsDetails_Review = ({ item }) => {
       // El número no tiene decimales
       return numero.toString(); // Devuelve el número sin cambios
     }
-  }
+  };
 
   return (
     <View style={[styles.container]}>
       <View style={[styles.primaryContainer, { marginLeft: 5 }]}>
         <Image
           source={{ uri: item.url_imagen_producto }}
-          style={{ width: 100, height: 100, margin: 5, resizeMode: 'contain' }}
+          style={{ width: 100, height: 100, margin: 5, resizeMode: "contain" }}
         />
         <View style={styles.descriptionContainer}>
           <View
@@ -175,7 +175,7 @@ export const ProductsDetails_Review = ({ item }) => {
                   fontFamily: "Metropolis",
                 }}
               >
-                {item.estado == 0 ? 'Sin preciador.' : 'No disponible en PDV.'}
+                {item.estado == 0 ? "Sin preciador." : "No disponible en PDV."}
               </Text>
             )}
 

@@ -54,7 +54,7 @@ const Prices_Review = ({ navigation }) => {
         return {
           id_producto: objeto.id_producto,
           nombre_producto: objeto.nombre_producto,
-          url_imagen_prodcuto: objeto.url_imagen_producto,
+          url_imagen_producto: objeto.url_imagen_producto,
           id_categoria: objeto.id_categoria,
           precio: null,
           estado: null,
