@@ -72,6 +72,10 @@ export const Promos = ({ navigation }) => {
     handleClearWorkFlow,
     globalVariable,
     setGlobalVariable,
+    showModal,
+    setShowModal,
+    setModalText,
+    setModalTitle,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -372,10 +376,15 @@ export const Promos = ({ navigation }) => {
 
     if (selected === null && hasVariable) {
       console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
-      Alert.alert(
-        "Tiene que escoger una sucursal del campo desplegable",
-        "Para finalizar la auditoria, debe seleccionar una de las opciones listadas en el campo sucursal"
+      setShowModal(!showModal);
+      setModalTitle("Tiene que escoger una sucursal del campo desplegable");
+      setModalText(
+        "Para finalizar la auditoria, debe seleccionar una de las opciones listadas en el campo sucursal."
       );
+      /*Alert.alert(
+        "",
+        "Para finalizar la auditoria, debe seleccionar una de las opciones listadas en el campo sucursal"
+      );*/
     } else {
       const isValid = promos.every((item) => {
         if (item.state === null || selected === null) {

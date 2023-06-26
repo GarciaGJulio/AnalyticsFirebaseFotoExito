@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DeviceInfo from "react-native-device-info";
 import axios from "axios";
 import { useCallback } from "react";
+import { ModernaModal } from "../components/ModernaModal";
 
 export const ModernaContext = createContext();
 
@@ -17,6 +18,9 @@ export const ModernaProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({}); // Inicializar con un objeto vacío
   const [displayName, setDisplayName] = useState("Usuario Genérico"); // Inicializar con un objeto vacío
+  const [showModal, setShowModal] = useState(false);
+  const [modalText, setModalText] = useState("Texto del modal");
+  const [modalTitle, setModalTitle] = useState("Título del modal");
 
   const isLoggedIn = async () => {
     console.log("CARGANDO LOS DATOS DE INICIO");
@@ -93,10 +97,15 @@ export const ModernaProvider = ({ children }) => {
         if (userDataBase.length == 0) {
           console.log("ESTE USUARIO NO HA SIDO REGISTRADO EN LA BASE- - - - -");
           AuthManager.signOutAsync();
-          Alert.alert(
+          setShowModal(!showModal);
+          setModalTitle("Usuario no encontrado");
+          setModalText(
+            "Este usuario no está registrado en la base de datos, y no puede acceder a este sistema."
+          );
+          /*Alert.alert(
             "Usuario no encontrado",
             "Este usuario no está registrado en la base de datos, y no puede acceder a este sistema "
-          );
+          );*/
           fn(false);
         } else {
           console.log("RESPUESTA DE CONSULTA USUARIO: ", userDataBase);
@@ -110,10 +119,15 @@ export const ModernaProvider = ({ children }) => {
               "ESTE USUARIO NO TIENE ASIGNADO NINGUN ROL: -------",
               userRol
             );
-            Alert.alert(
+            setShowModal(!showModal);
+            setModalTitle("Este usuario no tiene asignado ningún rol");
+            setModalText(
+              "No puedes acceder a los servicios de esta aplicación."
+            );
+            /*Alert.alert(
               "Este usuario no tiene asignado ningún rol",
               "No puedes acceder a los servicios de esta aplicación"
-            );
+            );*/
             //console.log("ROL DEL USUARIO: -------", haveRol);
             fn(false);
           } else {
@@ -152,10 +166,15 @@ export const ModernaProvider = ({ children }) => {
                   fn(false);
                 } else {
                   AuthManager.signOutAsync();
-                  Alert.alert(
+                  setShowModal(!showModal);
+                  setModalTitle("Error al acceder");
+                  setModalText(
+                    "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual."
+                  );
+                  /*Alert.alert(
                     "Error",
                     "Este usuario ya ha iniciado sesión en otro dispositivo y no puedes iniciar sesión en el dispositivo actual"
-                  );
+                  );*/
                   fn(false);
                 }
               }
@@ -164,10 +183,15 @@ export const ModernaProvider = ({ children }) => {
                 "ESTE USUARIO NO TIENE ASIGNADO EL ROL DE AUDITOR: -------",
                 userRol
               );
-              Alert.alert(
+              setShowModal(!showModal);
+              setModalTitle("Este usuario no tiene asignado el rol auditor");
+              setModalText(
+                "No puedes acceder a los servicios de esta aplicación."
+              );
+              /*Alert.alert(
                 "Este usuario no tiene asignado el rol auditor",
                 "No puedes acceder a los servicios de esta aplicación"
-              );
+              );*/
               //console.log("ROL DEL USUARIO: -------", haveRol);
               fn(false);
             }
@@ -302,7 +326,7 @@ export const ModernaProvider = ({ children }) => {
       value={{
         isLogging,
         isConnected,
-        isAuthenticated:true,
+        isAuthenticated,
         setIsAuthenticated,
         userInfo,
         setDisplayName,
@@ -316,6 +340,12 @@ export const ModernaProvider = ({ children }) => {
         handleLogoutAzure,
       }}
     >
+      <ModernaModal
+        text={modalText}
+        visible={showModal}
+        title={modalTitle}
+        onClose={() => setShowModal(!showModal)}
+      />
       {children}
     </ModernaContext.Provider>
   );

@@ -3,6 +3,7 @@ import { lookForVariable } from "../services/SeleccionesService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { realizarConsulta } from "../common/sqlite_config";
 import { PERSISTENCIA } from "../common/table_columns";
+import { ModernaModal } from "../components/ModernaModal";
 
 export const GlobalContext = createContext();
 
@@ -15,6 +16,9 @@ export const GlobalProvider = ({ children }) => {
   const [productsPreciador, setProductsPreciador] = useState([]);
   const [refreshSync, setRefreshSync] = useState(false);
   const [variables, setVariables] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalText, setModalText] = useState("Texto del modal");
+  const [modalTitle, setModalTitle] = useState("Título del modal");
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
     useState([]);*/
@@ -40,27 +44,25 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const CountClientVariable = async () => {
-
-    console.log("--------------------------------eMPIEZA A ACONTAR VARIABLES")
+    console.log("--------------------------------eMPIEZA A ACONTAR VARIABLES");
     const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
     let Variables2 = [];
     const NumeroVariables = variables.forEach((variable) => {
-      console.log("entra?",variable.id_grupo_cliente.toUpperCase() ===
-      id_grupo_cliente?.toString().toUpperCase())
+      console.log(
+        "entra?",
+        variable.id_grupo_cliente.toUpperCase() ===
+          id_grupo_cliente?.toString().toUpperCase()
+      );
       if (
         variable.id_grupo_cliente.toUpperCase() ===
         id_grupo_cliente?.toString().toUpperCase()
       ) {
         Variables2.push(variable);
-        console.log("variable vALOR:", variable)
+        console.log("variable vALOR:", variable);
       }
-
-
-
-
     });
-    console.log("arregloVARIABLES",Variables2.length)
-    const total=Variables2.length
+    console.log("arregloVARIABLES", Variables2.length);
+    const total = Variables2.length;
     // const NumeroVariables= variables.filter(variable => variable.id_grupo_cliente.toUpperCase() ===
     // id_grupo_cliente?.toString().toUpperCase())
 
@@ -138,6 +140,12 @@ export const GlobalProvider = ({ children }) => {
         productsPreciador,
         refreshSync,
         setRefreshSync,
+        showModal,
+        setShowModal,
+        modalText,
+        setModalText,
+        modalTitle,
+        setModalTitle,
         setProductsPreciador,
         handleDoesClientHaveVariable,
         fetchVariables,
@@ -145,6 +153,12 @@ export const GlobalProvider = ({ children }) => {
         CountClientVariable,
       }}
     >
+      <ModernaModal
+        text={modalText}
+        visible={showModal}
+        title={modalTitle}
+        onClose={() => setShowModal(!showModal)}
+      />
       {children}
     </GlobalContext.Provider>
   );

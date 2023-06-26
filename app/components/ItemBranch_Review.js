@@ -31,7 +31,14 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { isConnected } = useContext(ModernaContext);
   const [stateBranch, setStateBranch] = useState(branch.state);
-  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+  const {
+    globalVariable,
+    setGlobalVariable,
+    showModal,
+    setShowModal,
+    setModalTitle,
+    setModalText,
+  } = useContext(GlobalContext);
 
   const navigation = useNavigation();
 
@@ -50,10 +57,15 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
       );
     } catch (e) {
       console.log("ERROR: ", e);
-      Alert.alert(
+      setShowModal(!showModal);
+      setModalTitle("Pérdida de conexión");
+      setModalText(
+        "La sincronización de los datos ha fallado debido a una desconexión a internet. Por favor, vuelve a intentarlo cuando tengas una conexión estable."
+      );
+      /*Alert.alert(
         "Pérdida de conexión",
         "La sincronización de los datos ha fallado debido a una desconexión a internet. Por favor, vuelve a intentarlo cuando tengas una conexión estable"
-      );
+      );*/
       setIsModalVisible(false);
     }
   };

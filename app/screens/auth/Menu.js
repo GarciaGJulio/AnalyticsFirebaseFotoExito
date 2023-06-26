@@ -56,6 +56,10 @@ export const Menu = ({ navigation }) => {
     fetchVariables,
     refreshSync,
     setRefreshSync,
+    setShowModal,
+    showModal,
+    setModalText,
+    setModalTitle,
   } = useContext(GlobalContext);
   global.widthContainer = Dimensions.get("window").width / 1.8;
 
@@ -138,10 +142,13 @@ export const Menu = ({ navigation }) => {
     );
     // console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
     if (auditoriasSinSincronizar.length === 0) {
-      Alert.alert(
+      setShowModal(!showModal);
+      setModalTitle("Datos sincronizados");
+      setModalText("No se detectan auditorías pendientes de enviar");
+      /*Alert.alert(
         "Datos sincronizados",
         "No se detectan auditorías pendientes de enviar"
-      );
+      );*/
     } else if (auditoriasSinSincronizar.length > 0 && isConnectionActivate) {
       setIsModalVisible(!isModalVisible);
       setModalMessage("Sincronizando datos, por favor espere...");
@@ -164,18 +171,28 @@ export const Menu = ({ navigation }) => {
         } catch (e) {
           console.log("ERROR DESDE EL MENU: ", e);
           setIsModalVisible(false);
-          Alert.alert(
+          setShowModal(!showModal);
+          setModalTitle("Error al subir los datos");
+          setModalText(
+            "Ha ocurrido un error inesperado, por favor vuelva a intentarlo."
+          );
+          /*Alert.alert(
             "Error al subir los datos",
             "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
-          );
+          );*/
         }
       });
       //setIsModalVisible(false);
     } else {
-      Alert.alert(
+      setShowModal(!showModal);
+      setModalTitle("No se ha detectado conexión a internet");
+      setModalText(
+        "Necesitas conectarte a internet para sincronizar las auditorias."
+      );
+      /*Alert.alert(
         "No se ha detectado conexión a internet",
         "Necesitas conectarte a internet para sincronizar las auditorias"
-      );
+      );*/
     }
   };
 
@@ -200,10 +217,15 @@ export const Menu = ({ navigation }) => {
       } else if (!isConnectionActivate) {
         setIsModalVisibleClose(true);
       } else {
-        Alert.alert(
+        setShowModal(!showModal);
+        setModalTitle("Registros sin sincronizar encontrados");
+        setModalText(
+          "Todavía quedan registros que no han sido sincronizados a la base remota."
+        );
+        /*Alert.alert(
           "Registros sin sincronizar encontrados",
           "Todavía quedan registros que no han sido sincronizados a la base remota"
-        );
+        );*/
         //setIsModalVisible(false);
       }
     } catch (e) {
@@ -253,10 +275,13 @@ export const Menu = ({ navigation }) => {
         }
       } catch (e) {
         console.log("Error al eliminar la base de datos");
-        Alert.alert(
+        setShowModal(!showModal);
+        setModalTitle("Error al eliminar los registros");
+        setModalText("Se procede a trabajar con datos anteriores.");
+        /*Alert.alert(
           "Error al eliminar los registros",
           "Se procede a trabajar con datos anteriores"
-        );
+        );*/
       }
     } else {
       setIsModalVisibleClose(true);
@@ -304,7 +329,7 @@ export const Menu = ({ navigation }) => {
           navigation.navigate("audit");
         }}
         warning={
-          "No se ha encontrado conexión a internet, ¿quieres continuar con datos desactualizados?"
+          "No se ha encontrado conexión a internet, ¿quieres continuar con variables desactualizadas?"
         }
       />
       <LoaderModal
