@@ -12,7 +12,7 @@ import { Image } from "react-native";
 import HARINA from ".././../assets/resources/harina.png";
 import ImageViewer from "react-native-image-zoom-viewer";
 import { useFonts } from "expo-font";
-import { Divider, Icon } from "@rneui/base";
+import { CheckBox, Divider, Icon } from "@rneui/base";
 import { verifyUrlImage } from "../services/onedrive";
 
 export const PromosItemsDetails_Review = ({ exhibitor }) => {
@@ -82,7 +82,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
 
   useEffect(() => {
     updateImage(exhibitor);
-    console.log("ESTO LLEGA -------", exhibitor);
+    console.log("ESTO LLEGA ------- - - - - -", exhibitor);
   }, []);
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
               {exhibitor.nombre_tipo_exhibidor}
             </Text>
             {exhibitor.estado_promocion == 1 ||
-            exhibitor.estado_promocion == 0 ? (
+              exhibitor.estado_promocion == 0 ? (
               <TouchableOpacity
                 style={{ position: "absolute", right: 4 }}
                 onPress={() => {
@@ -143,7 +143,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                     <View style={styles.modalView}>
                       <View
                         style={{
-                          //backgroundColor: "red",
+                          //backgroundColor: "white",
                           //flex: 1,
                           //marginVertical: 200,
                           justifyContent: "center",
@@ -155,8 +155,8 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                         <View
                           style={{
                             //backgroundColor: "orange",
-                            margin: 10,
-                            marginVertical: 50,
+                            //margin: 10,
+                            marginTop: 40,
                             flex: 1,
                           }}
                         >
@@ -175,7 +175,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                           </View>
                           <View
                             style={{
-                              flex: 1.5,
+                              flex: 1.1,
                               justifyContent: "center",
                               alignItems: "center",
                             }}
@@ -197,7 +197,39 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                               />
                             </ScrollView>
                           </View>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              right: 10,
+                              justifyContent: "center",
+                              flex: 0.5,
+                              //backgroundColor:'red'
+                            }}
+                          >
+                            <CheckBox
+                              checked={exhibitor.estado_promocion == 1 ? true : null}
 
+                              // Use ThemeProvider to make change for all checkbox
+                              iconType="material-community"
+                              checkedIcon="checkbox-marked"
+                              uncheckedIcon="checkbox-blank-outline"
+                              checkedColor={theme.colors.modernaRed}
+                              containerStyle={{ backgroundColor: "transparent" }}
+                              disabled={true}
+                            />
+                            <Text style={{ fontFamily: "Metropolis" }}>Cumple</Text>
+                            <CheckBox
+                              checked={exhibitor.estado_promocion == 0 ? true : null}
+                              iconType="material-community"
+                              checkedIcon="checkbox-marked"
+                              uncheckedIcon="checkbox-blank-outline"
+                              checkedColor={theme.colors.modernaRed}
+                              containerStyle={{ backgroundColor: "transparent" }}
+                              disabled={true}
+                            />
+                            <Text style={{ fontFamily: "Metropolis" }}>No cumple</Text>
+                          </View>
                           <View
                             style={{
                               justifyContent: "center",
@@ -306,12 +338,12 @@ const styles = StyleSheet.create({
   },
   modalView: {
     borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    backgroundColor: "rgba(255, 255, 255, 100)",
     //alignItems: "center",
     justifyContent: "center",
     alignItems: "center",
     width: 280,
-    height: 528,
+    height: 650,
     borderWidth: 1,
   },
   button: {

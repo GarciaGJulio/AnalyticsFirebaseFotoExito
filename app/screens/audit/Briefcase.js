@@ -337,12 +337,12 @@ export const Briefcase = ({ navigation }) => {
           console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
           return {
             id: categoria.id_categoria,
-            name: categoria.nombre_categoria,
+            name: categoria.id_categoria.concat("-", categoria.nombre_categoria),
             children: [
               ...productosCategoria.map((producto) => {
                 return {
                   id: producto.id_producto,
-                  name: producto.nombre_producto,
+                  name: producto.id_producto.concat("-", producto.nombre_producto),
                   url: producto.url_imagen_producto,
                   tipo_portafolio: "C",
                 };
@@ -357,7 +357,12 @@ export const Briefcase = ({ navigation }) => {
         nuevaListaCategorias
       );
 
-      setAllProducts([...nuevaListaCategorias]);
+      const nuevaListaFiltrada = nuevaListaCategorias.filter(
+        (categoria) => categoria.children.length > 0
+      );
+
+
+      setAllProducts([...nuevaListaFiltrada]);
       console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
@@ -380,7 +385,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -422,11 +427,11 @@ export const Briefcase = ({ navigation }) => {
             console.log(
               "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
               "ID DEL PORTAFOLIO: " +
-                id_portafolio +
-                " ID DEL PRODUCTO: " +
-                id +
-                " TIPO DE PORTAFOLIO:" +
-                tipo_portafolio
+              id_portafolio +
+              " ID DEL PRODUCTO: " +
+              id +
+              " TIPO DE PORTAFOLIO:" +
+              tipo_portafolio
             );
 
             let dataSave = {
@@ -688,11 +693,10 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${
-          infoScreen
-            ? infoScreen.id_portafolio_auditoria
-            : idPortafolioAuditoria
-        }`,
+        valueId: `${infoScreen
+          ? infoScreen.id_portafolio_auditoria
+          : idPortafolioAuditoria
+          }`,
       });
     });
   };
@@ -738,7 +742,7 @@ export const Briefcase = ({ navigation }) => {
               alignItems: "center",
               marginTop: -8,
             }}
-            //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
+          //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
           >
             <View style={{ flex: 0.1, width: "90%" }}>
               <Text style={styles.text}>Portafolio Ideal</Text>
@@ -799,23 +803,23 @@ export const Briefcase = ({ navigation }) => {
               typeRigth={"material-community"}
               onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
               showButton1={true}
-              //   showButton1={showButton1}
-              // showButton2={showButton2}
-              // titleRigthSecond={"Siguiente"}
-              // sizeRigthSecond={theme.buttonSize.df}
-              // colorRigthSecond={theme.colors.modernaRed}
-              // showButton1Second={showButton1}
-              // showButton2Second={showButton2}
-              // onPressRigthSecond={() => {
-              //   navigation.navigate("prices", {
-              //     currentStep,
-              //     complementaryPortfolioProducts,
-              //     idealPortfolioProducts,
-              //     setComplementaryPortfolioProducts,
-              //   });
-              // }}
-              // iconRigthSecond={"arrow-right-circle"}
-              // typeRigthSecond={"feather"}
+            //   showButton1={showButton1}
+            // showButton2={showButton2}
+            // titleRigthSecond={"Siguiente"}
+            // sizeRigthSecond={theme.buttonSize.df}
+            // colorRigthSecond={theme.colors.modernaRed}
+            // showButton1Second={showButton1}
+            // showButton2Second={showButton2}
+            // onPressRigthSecond={() => {
+            //   navigation.navigate("prices", {
+            //     currentStep,
+            //     complementaryPortfolioProducts,
+            //     idealPortfolioProducts,
+            //     setComplementaryPortfolioProducts,
+            //   });
+            // }}
+            // iconRigthSecond={"arrow-right-circle"}
+            // typeRigthSecond={"feather"}
             />
           </View>
           {/* //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd--------------------------------- */}

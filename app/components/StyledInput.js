@@ -97,6 +97,7 @@ const StyledInput = ({
             fontSize: theme.fontSize.error,
             fontFamily: "Metropolis",
             fontWeight: "600",
+            textAlign:'justify'
           }}
         >
           {error}
@@ -108,6 +109,7 @@ const StyledInput = ({
           fontSize: theme.fontSize.details,
           fontFamily: "Metropolis",
           fontWeight: "600",
+          textAlign:'justify'
         }}
       >
         {information}

@@ -63,173 +63,6 @@ export const MultiSelectListV2 = ({
     );
   }, [select]);
 
-  const deleteProductId = (id) => {
-    const index = complementaryPortfolioProducts.findIndex(
-      (product) => product.id === id
-    );
-    if (index !== -1) {
-      complementaryPortfolioProducts.splice(index, 1);
-    }
-  };
-
-  const searchProductId = (id) => {
-    return complementaryPortfolioProducts.some((product) => product.id === id);
-  };
-
-  const updateProductsByIds = (ids, originalProducts) => {
-    const updatedProducts = ids.map((id) => {
-      const existingProduct = originalProducts.find(
-        (product) => product.id === id
-      );
-      if (existingProduct) {
-        return {
-          id: existingProduct.id,
-          id_portafolio: idPortafolio,
-          tipo_portafolio: existingProduct.tipo_portafolio,
-          name: existingProduct.name,
-          price: 0.0,
-          state: 0,
-          images: {
-            image1: null,
-            image2: null,
-            image3: null,
-          },
-        };
-      } else {
-        return null; // Opcional: si el ID no se encuentra, puedes retornar null o un valor por defecto
-      }
-    });
-
-    // Filtrar los productos nulos (IDs no encontrados)
-    const filteredProducts = updatedProducts.filter(
-      (product) => product !== null
-    );
-
-    return filteredProducts;
-  };
-
-  const addProduct = (value) => {
-    console.log("ESTO VA A INGRESARSE A PORTAFOLIO COMPLEMENTARIO: ", value);
-    /*const modifiedProducts = value.map((objeto) => {
-      /*const modifiedChildren = objeto.children.map((child) => ({
-        id: child.id,
-        name: child.name,
-      }));
-      console.log(" " + objeto.id + " " + objeto.name);
-      return {
-        id: objeto.id,
-        name: objeto.name,
-      };
-    });*/
-
-    const modifiedProducts = value.map((objeto) => {
-      console.log(" " + objeto.id + " " + objeto.name);
-      return {
-        id: objeto.id,
-        name: objeto.name,
-        url: objeto.url,
-      };
-    });
-
-    const extractedObject = modifiedProducts[0];
-    console.log(
-      "ID y nombre del objeto extraído:",
-      extractedObject.id,
-      extractedObject.name,
-      extractedObject.url
-    );
-
-    //console.log(modifiedProducts);
-
-    console.log(
-      "NOMBRE DEL PRODUCTO QUE ENTRA A VALIDARSE - - - - -  - -: ",
-      extractedObject.id + " " + extractedObject.name
-    );
-
-    /*const idPortafolio = await AsyncStorage.getItem("id_portafolio_complementario");
-    const tipo = await AsyncStorage.getItem("tipo_complementario");
-    console.log("ID DEL PORTAFOLIO A INGRESAR . . . . ", idPortafolio);
-    console.log("TIPO DE PORTAFOLIO: ", tipo);*/
-
-    //Buscar el objeto correspondiente al producto seleccionado
-    /*let productData = listProducts.find((obj) => {
-      console.log(
-        "OBJETO DE COMPARACION DE LA FUNCION ADD PRODUCT: ",
-        obj.nombre_producto + "-" + obj.id_producto
-      );
-      return obj.nombre_producto + "-" + obj.id_producto === value;
-    });*/
-
-    /*if (productData) {*/
-    // Si se encuentra el objeto, obtener los valores de id_producto y mombre_producto
-    /*const validate = searchProductId(extractedObject.id);
-    if (validate) {
-      console.log("PRODUCTO ENCONTRADO, NO INGRESANDOLO . . . . . . . . ");
-      deleteProductId(extractedObject.id);
-    } else {*/
-    let newObject = {
-      id: extractedObject.id,
-      name: extractedObject.name,
-      price: 0.0,
-      url: extractedObject.url,
-      state: 0,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    };
-    console.log("PRODUCTO COMPLEMENTARIO FORMATEADO: ", newObject);
-    setComplementaryPortfolioProducts(newObject);
-    //}
-
-    /*} else {
-      console.log(
-        "No se encontró el producto seleccionado en complementaryPortfolioProducts"
-      );
-    }*/
-  };
-
-  const addProductDelete = (value) => {
-    //console.log(modifiedProducts);
-
-    console.log(
-      "NOMBRE DEL PRODUCTO QUE ENTRA A ELIMINARSE - - - - -  - -: ",
-      value.name + " " + value.id
-    );
-
-    //Buscar el objeto correspondiente al producto seleccionado
-    /*let productData = listProducts.find((obj) => {
-      console.log(
-        "OBJETO DE COMPARACION DE LA FUNCION ADD PRODUCT: ",
-        obj.nombre_producto + "-" + obj.id_producto
-      );
-      return obj.nombre_producto + "-" + obj.id_producto === value;
-    });*/
-
-    /*if (productData) {*/
-    // Si se encuentra el objeto, obtener los valores de id_producto y mombre_producto
-    let newObject = {
-      id: value.id,
-      name: value.name,
-      price: 0.0,
-      state: 0,
-      images: {
-        image1: null,
-        image2: null,
-        image3: null,
-      },
-    };
-
-    console.log("PRODUCTO COMPLEMENTARIO FORMATEADO: ", newObject);
-    setComplementaryPortfolioProducts(...newObject);
-    /*} else {
-      console.log(
-        "No se encontró el producto seleccionado en complementaryPortfolioProducts"
-      );
-    }*/
-  };
-
   const onSelectedItemsChange = (selectedItems) => {
     console.log("PRODUCTOS SELECCIONADOS: ", selectedItems);
     const productosIngresados = [...selectedItems];
@@ -237,38 +70,6 @@ export const MultiSelectListV2 = ({
       "ESTO ES LA REFACTORIZACION DE SELECTITEMS PARA QUE SEAN ARRAY: ",
       productosIngresados
     );
-    let productsFound = [];
-    /*
-    productosIngresados.map((obj) => {
-      let productFind = products.flatMap((objeto) => {
-        return objeto.children.filter((child) => {
-          console.log(
-            "ENCONTRANDO PRODUCTO SELECCIONADO: ",
-            child.name + "-" + child.id + " - " + obj
-          );
-          return child.id === obj;
-        });
-      });
-      if (productFind) {
-        console.log("PRODUCTO ENCONTRADO / / * * * * * * * * ---", productFind);
-        console.log("ESTE OBJETO SE VA A COMPARAR");
-        addProduct(productFind);
-        /*const { id, name } = productFind.map((producto) => {
-          
-        });*/
-    //console.log("ID DEL PRODUCTO Y NOMBRE EN CUESTION: ", id + " " + name);
-    /*if (productFind.children.length > 1) {
-          productFind.children.map((objeto) => {
-            console.log("ESTE OBJETO SE VA A COMPARAR");
-            addProductDelete(objeto);
-          });
-        } else {
-          addProduct(productFind);
-        }
-
-        productsFound.push(productFind);
-      }
-    });*/
 
     const updatedProducts = productosIngresados
       .map((id) => {
@@ -287,7 +88,7 @@ export const MultiSelectListV2 = ({
             id: productId,
             id_portafolio: idPortafolio,
             tipo_portafolio: tipo,
-            name: productName,
+            name: productName.split("-")[1],
             url: productImage,
             price: 0.0,
             state: 0,
@@ -344,8 +145,15 @@ export const MultiSelectListV2 = ({
             chipContainer: {
               backgroundColor: theme.colors.modernaYellow,
               borderRadius: 10,
+              width:'100%',
+
+              justifyContent: 'flex-start',
+              //padding:5,
+              //flexGrow:1,
+              alignItems: 'center'
             },
-            chipText: { color: "black", fontFamily: "Metropolis" },
+
+            chipText: { color: "black", fontFamily: "Metropolis", flex: 1, },
             selectedItemText: { fontFamily: "Metropolis" },
             selectedSubItemText: { fontFamily: "Metropolis" },
             selectToggleText: { fontFamily: "Metropolis" },
@@ -362,7 +170,7 @@ export const MultiSelectListV2 = ({
           selectedText={"Productos"}
           uniqueKey="id"
           subKey="children"
-          selectText="Escoje un producto por su categoría"
+          selectText="Otros"
           readOnlyHeadings={true}
           showDropDowns={true}
           searchPlaceholderText="Busca el producto"

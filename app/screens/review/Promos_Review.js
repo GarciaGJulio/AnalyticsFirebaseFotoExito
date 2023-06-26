@@ -81,7 +81,7 @@ const Promos_Review = ({ navigation }) => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 9,
+          marginTop: theme.dimensions.maxHeight / 8,
         }}
       >
         <View

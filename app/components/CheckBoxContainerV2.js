@@ -189,9 +189,9 @@ export const CheckBoxContainerV2 = React.memo(
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View
                 style={{
-                  width: "50%",
-                  flex: 1,
-                  padding: 10,
+                  //width: "50%",
+                  flex: 0.6,
+                  paddingHorizontal: 10,
                 }}
               >
                 <StyledInput
@@ -200,7 +200,7 @@ export const CheckBoxContainerV2 = React.memo(
                     validatePriceProduct(txt, setErrorPrice);
                     actualizarPrecio(item.id, parseFloat(txt));
                   }}
-                  label="Preciador del producto"
+                  label="Precio"
                   placeholder="Precio"
                   maxLength={6}
                   keyboard="numeric"
@@ -239,7 +239,7 @@ export const CheckBoxContainerV2 = React.memo(
                         fontFamily: "Metropolis",
                       }}
                     >
-                      Foto del preciador del producto
+                      Foto del preciador
                     </Text>
                   </View>
                 </View>

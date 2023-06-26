@@ -74,9 +74,6 @@ const ModernaHeader = () => {
           </Text>
         </View>
       </View>
-      <View style={styles.imageContainer}>
-        <Image source={Logotipo} style={styles.modernaLogo} />
-      </View>
       <WifiIndicator />
       <TouchableOpacity style={styles.logOutButton} onPress={handleOpenModal}>
         <Icon name="log-out-outline" type="ionicon" size={28} color={"white"} />
@@ -90,7 +87,7 @@ export default ModernaHeader;
 const styles = StyleSheet.create({
   statusbar: {
     width: theme.dimensions.maxWidth,
-    //height: 55,
+    height: 40,
     flexDirection: "row",
     flex: 1,
     //paddingHorizontal:10,
@@ -101,25 +98,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     //top: Constants.statusBarHeight,
   },
-  modernaLogo: {
-    width: 125,
-    resizeMode: "center",
-    height: 40,
-  },
   userInfo: {
     paddingHorizontal: 15,
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
-    justifyContent: "center",
-    //backgroundColor: "green",
-  },
-  imageContainer: {
-    //backgroundColor: "blue",
-    //justifyContent: "center",
     justifyContent: "flex-start",
-    alignItems: "flex-start",
-    flex: 1,
+    //backgroundColor: "green",
   },
   logOutButton: {
     // backgroundColor: "brown",
