@@ -44,19 +44,21 @@ export const StyledButton = ({
           flexDirection: "row",
           alignItems: "center",
           // justifyContent: "space-around",
-          width: '100%',
           // paddingHorizontal:20
           // height: size * 3 / 10,
           flex: 1,
-          paddingHorizontal: 10,
+          paddingLeft: "5%",
+           paddingRight:title === "Sincronizar Datos"?"0%":"3%"
           //backgroundColor:'blue'
         }}
       >
         <View
-          style={{
-            //backgroundColor: "blue",
-           // flex: 0.3,
-          }}
+          style={
+            {
+              // backgroundColor: "blue",
+              // flex: 0.3,
+            }
+          }
         >
           {iconName && iconType ? (
             <Icon
@@ -65,7 +67,7 @@ export const StyledButton = ({
               color={"white"}
               style={{
                 //flex: 0.3,
-                marginHorizontal: 2,
+                marginHorizontal: 1,
                 //backgroundColor: "green"
               }}
             />
@@ -73,10 +75,22 @@ export const StyledButton = ({
             <></>
           )}
         </View>
-        <View
-          style={newstyle?styles.butonCentrado:styles.butonormal}
-        >
-          <Text /*</View>numberOfLines={1} */style={styles.buttonText}>{title}</Text>
+        <View style={newstyle ? styles.butonCentrado : styles.butonormal}>
+          <Text
+            style={{
+              //flex: 1,
+              color: "white",
+              //backgroundColor: "blue",
+              fontSize: title === "Sincronizar Datos" ? 15 : 16,
+              // textAlign:'center',
+              //left: 5,
+              fontFamily: "Metropolis",
+              fontWeight: "600",
+              // paddingRight: 1
+            }}
+          >
+            {title}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -104,26 +118,26 @@ const styles = StyleSheet.create({
     elevation: 6,
     //padding: 5,
   },
-  buttonText: {
-    //flex: 1,
-    color: "white",
-    //backgroundColor: "blue",
-    fontSize: 16,
-    // textAlign:'center',
-    //left: 5,
-    fontFamily: "Metropolis",
-    fontWeight: "600",
-    // paddingRight: 1
-  },
+  // buttonText: {
+  //   //flex: 1,
+  //   color: "white",
+  //   //backgroundColor: "blue",
+  //   fontSize: title === "Sincronizar Datos" ? 15 : 16,
+  //   // textAlign:'center',
+  //   //left: 5,
+  //   fontFamily: "Metropolis",
+  //   fontWeight: "600",
+  //   // paddingRight: 1
+  // },
 
-  butonCentrado:{
+  butonCentrado: {
     // backgroundColor:'green',
-    alignItems:'center',
-    flex:1
+    alignItems: "center",
+    flex: 1,
   },
-  butonormal:{
-    flex:1.5,
+  butonormal: {
+    flex: 1.5,
     // backgroundColor:'green',
     // flex:2
-  }
+  },
 });
