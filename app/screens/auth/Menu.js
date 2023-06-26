@@ -60,6 +60,9 @@ export const Menu = ({ navigation }) => {
     showModal,
     setModalText,
     setModalTitle,
+    setHadSaveBriefCase,
+    setHadSavePreciador,
+    setHadSaveRack,
   } = useContext(GlobalContext);
   global.widthContainer = Dimensions.get("window").width / 1.8;
 
@@ -242,6 +245,9 @@ export const Menu = ({ navigation }) => {
       setIsModalVisible(true);
       console.log("SE PROCEDE A ELIMINAR LAS TABLAS . . . . . ");
       try {
+        setHadSaveBriefCase(false);
+        setHadSavePreciador(false);
+        setHadSaveRack(false);
         console.log("ELIMINANDO TABLAS DE LA BASE DE DATOS . . . . . ");
         await borrarTablasDeBaseDeDatos();
         try {
