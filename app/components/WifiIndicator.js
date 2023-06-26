@@ -5,7 +5,6 @@ import theme from "../theme/theme";
 import { Icon } from "@rneui/base";
 import ModernaContext from "../context/ModernaContext";
 import { realizarConsulta } from "../common/sqlite_config";
-import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 import { GlobalContext } from "../context/GlobalContext";
 
 const WifiIndicator = () => {
@@ -71,6 +70,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.modernaGreen,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 5,
+    marginHorizontal:5
   },
 });

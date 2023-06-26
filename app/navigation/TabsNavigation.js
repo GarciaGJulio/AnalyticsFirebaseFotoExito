@@ -107,7 +107,7 @@ const TabButton = (props) => {
   );
 };
 
-export const   TabsNavigation=({ route }) =>{
+export const TabsNavigation = ({ route }) => {
   //const { branch } = route.params;
   // console.log(branch, "TabsNavigation");
   return (
@@ -115,7 +115,8 @@ export const   TabsNavigation=({ route }) =>{
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 60,
+          height: 50,
+          paddingHorizontal: 10,
           position: "absolute",
           // borderRadius: 16,
           backgroundColor: theme.colors.modernaRed,
@@ -143,7 +144,7 @@ export const   TabsNavigation=({ route }) =>{
       })}
     </Tab.Navigator>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

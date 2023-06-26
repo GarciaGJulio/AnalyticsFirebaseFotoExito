@@ -302,7 +302,7 @@ export const ModernaProvider = ({ children }) => {
       value={{
         isLogging,
         isConnected,
-        isAuthenticated,
+        isAuthenticated:true,
         setIsAuthenticated,
         userInfo,
         setDisplayName,

@@ -79,7 +79,8 @@ const Briefcase_branch_review = ({ navigation }) => {
         `SELECT DISTINCT  p.id_portafolio, p.tipo FROM portafolio p INNER JOIN portafolio_auditoria pa ON p.id_portafolio = pa.id_portafolio WHERE pa.id_portafolio = '${datosCompartidos.id_portafolio_auditoria}'`
       );
 
-      const idGroupClient = await AsyncStorage.getItem("idGroupClient");
+      //const idGroupClient = await AsyncStorage.getItem("idGroupClient");
+      const idGroupClient = datosCompartidos.id_grupo_cliente;
       const productosIdealPortafolioExtra = await realizarConsulta(
         `SELECT DISTINCT p.*, po.id_portafolio ,ca.nombre_categoria
         FROM producto AS p 
@@ -87,7 +88,7 @@ const Briefcase_branch_review = ({ navigation }) => {
         LEFT JOIN categoria ca ON p.id_categoria = ca.id_categoria
           WHERE po.tipo = 'I'
           AND po.id_grupo_cliente = '${idGroupClient}' 
-          AND po.estado = true`
+          AND po.estado = 1`
       );
 
       const arrayTipoC = [];
@@ -231,6 +232,7 @@ const Briefcase_branch_review = ({ navigation }) => {
         arrayTipoIIntegrado
       );
       console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
+      console.log("ID DE GRUPO CLIENTE: ", datosCompartidos.id_grupo_cliente);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -250,7 +252,7 @@ const Briefcase_branch_review = ({ navigation }) => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 8,
+          marginTop: theme.dimensions.maxHeight / 7,
         }}
       >
         <View

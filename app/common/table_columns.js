@@ -153,6 +153,7 @@ export const AUDITORIA = {
   ID_PROMOCION: "id_promocion",
   ID_SUCURSAL: "id_sucursal",
   ID_CLIENTE: "id_cliente",
+  ID_GRUPO_CLIENTE: "id_grupo_cliente",
   ID_PORTAFOLIO_AUDITORIA: "id_portafolio_auditoria",
   NOMBRE_CLIENTE: "nombre_cliente",
   NOMBRE_SUCURSAL: "nombre_sucursal",

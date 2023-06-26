@@ -7,9 +7,6 @@ import {
   getActualDateStock,
 } from "../common/utils";
 import { generateSenteceSql } from "../utils/Utils";
-import { subidaBaseRemoteTodaAuditoria } from "./SubidaBaseRemota";
-import { useContext, useState } from "react";
-import { GlobalContext } from "../context/GlobalContext";
 // import { updateLocalProduct } from "./ProductoService";
 
 export const db_insertPercha = async (
