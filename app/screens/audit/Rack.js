@@ -198,7 +198,7 @@ export const Racks = ({ navigation }) => {
   const HandleNavigationOfVariables = () => {
     let checkvariables=true
     const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Promociones");
+      const response = await handleDoesClientHaveVariable("Promoción");
       checkvariables=response
       console.log("VARIABLE DE PERCHAS EXISTE:",response)
       if (checkvariables === true) {
