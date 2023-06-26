@@ -15,6 +15,7 @@ export const GlobalProvider = ({ children }) => {
   const [productsPreciador, setProductsPreciador] = useState([]);
   const [refreshSync, setRefreshSync] = useState(false);
   const [variables, setVariables] = useState([]);
+  const [currentScreenPos, setCurrentScreenPos] = useState(0)
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
     useState([]);*/
@@ -24,7 +25,17 @@ export const GlobalProvider = ({ children }) => {
 
   useEffect(() => {
     fetchVariables();
+    initVariablesLocalStorage()
   }, []);
+  const initVariablesLocalStorage = async () => {
+    const currentPos = await AsyncStorage.getItem('currentScreenPos');
+    if (!currentPos) {
+      await AsyncStorage.setItem('currentScreenPos', "1");
+    } else {
+      setCurrentScreenPos(parseInt(currentPos))
+    }
+
+  }
 
   const handleDoesClientHaveVariable = async (nombre_variable) => {
     const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
@@ -41,7 +52,6 @@ export const GlobalProvider = ({ children }) => {
 
   const CountClientVariable = async () => {
 
-    console.log("--------------------------------eMPIEZA A ACONTAR VARIABLES")
     const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
     let Variables2 = [];
     const NumeroVariables = variables.forEach((variable) => {
@@ -59,7 +69,6 @@ export const GlobalProvider = ({ children }) => {
 
 
     });
-    console.log("arregloVARIABLES", Variables2.length)
     const total = Variables2.length
     // const NumeroVariables= variables.filter(variable => variable.id_grupo_cliente.toUpperCase() ===
     // id_grupo_cliente?.toString().toUpperCase())
@@ -74,26 +83,11 @@ export const GlobalProvider = ({ children }) => {
     let response = await realizarConsulta(
       `SELECT * FROM ${PERSISTENCIA.NAME} WHERE ${PERSISTENCIA.SCREEN_NAME} = '${global.userInfoScreen?.userInfo?.nombre_pantalla}'`
     );
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("response", response);
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
+
     if (Array.isArray(response) && response.length > 0) {
       response = response[0];
     }
-    console.log(response);
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log(response);
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
+
 
     const nombre_pantalla = response?.nombre_pantalla;
 
@@ -106,9 +100,6 @@ export const GlobalProvider = ({ children }) => {
         const request = await realizarConsulta(
           `DELETE FROM ${response.nombre_tabla} WHERE ${response.campo_id} = '${response.id_registro}'`
         );
-        console.log("--------------------------------");
-        console.log("DELETED", request);
-        console.log("--------------------------------");
         break;
       }
     }
@@ -125,7 +116,25 @@ export const GlobalProvider = ({ children }) => {
 
   const handleCheckCanSaveAllDataLocal = useCallback(async (values) => {
     const totalVariables = await CountClientVariable()
-    console.log("datos del total de variables", totalVariables)
+    const posScreen = await AsyncStorage.getItem('currentScreenPos')
+    if (posScreen >= totalVariables) {
+      console.log("*********************ya est+a al final de la pantalla*/*****************")
+    } else {
+      console.log("*********************aun no está al final de la pantalla*/*****************")
+    }
+    console.log("totalVariables", totalVariables)
+    console.log("posScreen", posScreen)
+
+  }, [])
+  const handleCurrentScreenPos = useCallback(async (pos) => {
+    const posScreen = await AsyncStorage.getItem('currentScreenPos')
+    if (!posScreen) {
+      await AsyncStorage.setItem('currentScreenPos', "1")
+    } else {
+      await AsyncStorage.setItem('currentScreenPos', `${parseInt(posScreen) + pos ? pos : 1}`)
+    }
+    initVariablesLocalStorage()
+
   }, [])
   return (
     <GlobalContext.Provider
@@ -148,7 +157,9 @@ export const GlobalProvider = ({ children }) => {
         fetchVariables,
         handleClearWorkFlow,
         CountClientVariable,
-        handleCheckCanSaveAllDataLocal
+        handleCheckCanSaveAllDataLocal,
+        currentScreenPos,
+        handleCurrentScreenPos
       }}
     >
       {children}

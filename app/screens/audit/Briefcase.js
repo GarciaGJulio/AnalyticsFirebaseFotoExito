@@ -65,6 +65,9 @@ export const Briefcase = ({ navigation }) => {
     setHadSaveBriefCase,
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
+    currentScreenPos,
+    handleCurrentScreenPos,
+    handleCheckCanSaveAllDataLocal
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -261,6 +264,8 @@ export const Briefcase = ({ navigation }) => {
       }
     };
     checkForVariable();
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
   };
 
   const HandleASpecialNavigationOfVariables = () => {
@@ -271,12 +276,14 @@ export const Briefcase = ({ navigation }) => {
       console.log("VARIABLE DE PERCHAS EXISTE:", response);
       if (checkvariables === true) {
         navigation.navigate("rack");
-
       } else {
         navigation.navigate("promos");
+        handleCurrentScreenPos(3)
       }
     };
     checkForVariable();
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
   };
 
 
@@ -431,7 +438,7 @@ export const Briefcase = ({ navigation }) => {
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -474,11 +481,11 @@ export const Briefcase = ({ navigation }) => {
             console.log(
               "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
               "ID DEL PORTAFOLIO: " +
-                id_portafolio +
-                " ID DEL PRODUCTO: " +
-                id +
-                " TIPO DE PORTAFOLIO:" +
-                tipo_portafolio
+              id_portafolio +
+              " ID DEL PRODUCTO: " +
+              id +
+              " TIPO DE PORTAFOLIO:" +
+              tipo_portafolio
             );
 
             let dataSave = {
@@ -666,33 +673,33 @@ export const Briefcase = ({ navigation }) => {
             //   }
             // },
             pantallas: {
-              ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-              ...{
-                briefcase: {
-                  principal: {
-                    screenName: `briefcase`,
-                    tableName: `portafolio`,
-                    itemId: `id_portafolio`,
-                    columnId: `id_portafolio`,
-                  },
-                  extra_info: {
-                    complementaryPortfolioProducts: tempDataScreen.toString(),
-                    idealPortfolioProducts: tempDataScreenIdeal.toString(),
-                    auditorias_id: {
-                      ...(objUserInfo.auditorias_id
-                        ? objUserInfo.auditorias_id
-                        : {}),
-                      ...{
-                        id_portafolio_auditoria: idPortafolioAuditoria,
-                      },
-                    },
-                    pantallas: {
-                      ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                      briefcase: null,
+              // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+              // ...{
+              briefcase: {
+                principal: {
+                  screenName: `briefcase`,
+                  tableName: `portafolio`,
+                  itemId: `id_portafolio`,
+                  columnId: `id_portafolio`,
+                },
+                extra_info: {
+                  complementaryPortfolioProducts: tempDataScreen.toString(),
+                  idealPortfolioProducts: tempDataScreenIdeal.toString(),
+                  auditorias_id: {
+                    ...(objUserInfo.auditorias_id
+                      ? objUserInfo.auditorias_id
+                      : {}),
+                    ...{
+                      id_portafolio_auditoria: idPortafolioAuditoria,
                     },
                   },
+                  // pantallas: {
+                  //   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                  //   briefcase: null,
+                  // },
                 },
               },
+              // },
             },
           }
         );
@@ -742,11 +749,10 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${
-          infoScreen
+        valueId: `${infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-        }`,
+          }`,
       });
     });
   };
@@ -792,7 +798,7 @@ export const Briefcase = ({ navigation }) => {
               alignItems: "center",
               marginTop: -8,
             }}
-            //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
+          //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
           >
             <View style={{ flex: 0.1, width: "90%" }}>
               <Text style={styles.text}>Portafolio Ideal</Text>
@@ -853,30 +859,30 @@ export const Briefcase = ({ navigation }) => {
               typeRigth={"material-community"}
               onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
               showButton1={true}
-              //   showButton1={showButton1}
-              // showButton2={showButton2}
-              // titleRigthSecond={"Siguiente"}
-              // sizeRigthSecond={theme.buttonSize.df}
-              // colorRigthSecond={theme.colors.modernaRed}
-              // showButton1Second={showButton1}
-              // showButton2Second={showButton2}
-              // onPressRigthSecond={() => {
-              //   navigation.navigate("prices", {
-              //     currentStep,
-              //     complementaryPortfolioProducts,
-              //     idealPortfolioProducts,
-              //     setComplementaryPortfolioProducts,
-              //   });
-              // }}
-              // iconRigthSecond={"arrow-right-circle"}
-              // typeRigthSecond={"feather"}
+            //   showButton1={showButton1}
+            // showButton2={showButton2}
+            // titleRigthSecond={"Siguiente"}
+            // sizeRigthSecond={theme.buttonSize.df}
+            // colorRigthSecond={theme.colors.modernaRed}
+            // showButton1Second={showButton1}
+            // showButton2Second={showButton2}
+            // onPressRigthSecond={() => {
+            //   navigation.navigate("prices", {
+            //     currentStep,
+            //     complementaryPortfolioProducts,
+            //     idealPortfolioProducts,
+            //     setComplementaryPortfolioProducts,
+            //   });
+            // }}
+            // iconRigthSecond={"arrow-right-circle"}
+            // typeRigthSecond={"feather"}
             />
           </View>
           {/* //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd--------------------------------- */}
         </View>
       ) : (
         <View style={styles.contentContainer}>
-          <ProgressBar currentStep={currentStep} />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}

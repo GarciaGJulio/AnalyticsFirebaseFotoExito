@@ -52,7 +52,7 @@ const ModernaHeaderM = () => {
   if (!fontLoaded) return null;
 
   return (
-    <View style={[styles.statusbar, { top: insets.top }]}>
+    <View style={[styles.statusbar]}>
       <ConfirmationModal
         visible={isModalVisible}
         onClose={handleCloseModal}

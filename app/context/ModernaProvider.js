@@ -46,6 +46,7 @@ export const ModernaProvider = ({ children }) => {
     isLoggedIn();
   }, []);
 
+
   const initialState = {
     location: null,
     idClientGroup: null,
@@ -245,9 +246,8 @@ export const ModernaProvider = ({ children }) => {
       const requestBody = {
         operation: "C",
         data: {
-          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
-            mail === null ? userPrincipalName : mail
-          }'`,
+          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${mail === null ? userPrincipalName : mail
+            }'`,
         },
       };
 
@@ -296,13 +296,12 @@ export const ModernaProvider = ({ children }) => {
     }
     setIsAuthenticated(false);
   };
-
   return (
     <ModernaContext.Provider
       value={{
         isLogging,
         isConnected,
-        isAuthenticated:true,
+        isAuthenticated,
         setIsAuthenticated,
         userInfo,
         setDisplayName,

@@ -70,6 +70,9 @@ export const Racks = ({ navigation }) => {
     setHadSaveRack,
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
+    currentScreenPos,
+    handleCurrentScreenPos,
+    handleCheckCanSaveAllDataLocal
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -315,6 +318,8 @@ export const Racks = ({ navigation }) => {
 
   const onlyNavigation = () => {
     navigation.navigate("promos");
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
   };
 
   const validateData = () => {
@@ -472,6 +477,8 @@ export const Racks = ({ navigation }) => {
               try {
                 db_insertGlobalDataAudit(dataSave);
                 setIsModalVisible(false);
+                handleCurrentScreenPos()
+                handleCheckCanSaveAllDataLocal()
                 navigation.navigate("promos");
                 setHadSaveRack(true);
                 setShowButton1(false);
@@ -531,8 +538,8 @@ export const Racks = ({ navigation }) => {
               },
               {
                 pantallas: {
-                  ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                  ...{
+                  // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                  // ...{
                     rack: {
                       principal: {
                         screenName: `rack`,
@@ -550,15 +557,15 @@ export const Racks = ({ navigation }) => {
                             id_percha: idPercha,
                           },
                         },
-                        pantallas: {
-                          ...(objUserInfo.pantallas
-                            ? objUserInfo.pantallas
-                            : {}),
-                          rack: null,
-                        },
+                        // pantallas: {
+                        //   ...(objUserInfo.pantallas
+                        //     ? objUserInfo.pantallas
+                        //     : {}),
+                        //   rack: null,
+                        // },
                       },
                     },
-                  },
+                  // },
                 },
               }
             );
@@ -632,7 +639,7 @@ export const Racks = ({ navigation }) => {
       />
 
       <View style={styles.contentContainer}>
-        <ProgressBar currentStep={2} />
+        <ProgressBar currentStep={currentScreenPos} />
         <View style={{ flex: 4 }}>
           {hasVariable ? (
             <ScreenInformation
