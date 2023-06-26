@@ -92,8 +92,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     );
     if (promocionData[i].url_imagen1 === "undefined") {
       promocionData[i].url_imagen1 = "null";
-    } else if (promocionData[i].url_imagen1 === "null") {
-      promocionData[i].url_imagen1 = "null";
+    } else if (
+      promocionData[i].url_imagen1 === null ||
+      promocionData[i].url_imagen1 === "null"
+    ) {
+      promocionData[i].url_imagen1 = null;
     } else {
       console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
       console.log(
@@ -121,8 +124,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     );
     if (promocionData[i].url_imagen2 === "undefined") {
       promocionData[i].url_imagen2 = "null";
-    } else if (promocionData[i].url_imagen2 === "null") {
-      promocionData[i].url_imagen2 = "null";
+    } else if (
+      promocionData[i].url_imagen2 === null ||
+      promocionData[i].url_imagen2 === "null"
+    ) {
+      promocionData[i].url_imagen2 = null;
     } else {
       console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
       console.log(
@@ -150,8 +156,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     );
     if (promocionData[i].url_imagen3 === "undefined") {
       promocionData[i].url_imagen3 = "null";
-    } else if (promocionData[i].url_imagen3 === "null") {
-      promocionData[i].url_imagen2 = "null";
+    } else if (
+      promocionData[i].url_imagen3 === null ||
+      promocionData[i].url_imagen3 === "null"
+    ) {
+      promocionData[i].url_imagen3 = null;
     } else {
       console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
       console.log(
@@ -200,10 +209,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
     if (perchaData[i].url_imagen1 === "undefined") {
       perchaData[i].url_imagen1 = "null";
     } else if (
-      perchaData[i].url_imagen1 === "null" ||
-      perchaData[i].url_imagen1 === null
+      perchaData[i].url_imagen1 === null ||
+      perchaData[i].url_imagen1 === "null"
     ) {
-      perchaData[i].url_imagen1 = "null";
+      perchaData[i].url_imagen1 = null;
     } else {
       console.log(
         "ID PERCHA 1: ",
@@ -226,10 +235,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
     if (perchaData[i].url_imagen2 === "undefined") {
       perchaData[i].url_imagen2 = "null";
     } else if (
-      perchaData[i].url_imagen2 === "null" ||
-      perchaData[i].url_imagen2 === null
+      perchaData[i].url_imagen2 === null ||
+      perchaData[i].url_imagen2 === "null"
     ) {
-      perchaData[i].url_imagen2 = "null";
+      perchaData[i].url_imagen2 = null;
     } else {
       console.log(
         "ID PERCHA 2: ",
@@ -252,10 +261,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
     if (perchaData[i].url_imagen3 === "undefined") {
       perchaData[i].url_imagen3 = "null";
     } else if (
-      perchaData[i].url_imagen3 === "null" ||
-      perchaData[i].url_imagen3 === null
+      perchaData[i].url_imagen3 === null ||
+      perchaData[i].url_imagen3 === "null"
     ) {
-      perchaData[i].url_imagen3 = "null";
+      perchaData[i].url_imagen3 = null;
     } else {
       console.log(
         "ID PERCHA 3: ",
@@ -317,8 +326,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     );
     if (preciadorData[i].url_imagen1 === "undefined") {
       preciadorData[i].url_imagen1 = "null";
-    } else if (preciadorData[i].url_imagen1 === "null") {
-      preciadorData[i].url_imagen1 = "null";
+    } else if (
+      preciadorData[i].url_imagen1 === null ||
+      preciadorData[i].url_imagen1 === "null"
+    ) {
+      preciadorData[i].url_imagen1 = null;
     } else {
       console.log(
         "ID DE PRECIADOR 1:",
@@ -350,8 +362,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     );
     if (preciadorData[i].url_imagen2 === "undefined") {
       preciadorData[i].url_imagen2 = "null";
-    } else if (preciadorData[i].url_imagen2 === "null") {
-      preciadorData[i].url_imagen2 = "null";
+    } else if (
+      preciadorData[i].url_imagen2 === null ||
+      preciadorData[i].url_imagen2 === "null"
+    ) {
+      preciadorData[i].url_imagen2 = null;
     } else {
       console.log(
         "ID DE PRECIADOR 2:",
@@ -383,8 +398,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     );
     if (preciadorData[i].url_imagen3 === "undefined") {
       preciadorData[i].url_imagen3 = "null";
-    } else if (preciadorData[i].url_imagen3 === "null") {
-      preciadorData[i].url_imagen3 = "null";
+    } else if (
+      preciadorData[i].url_imagen3 === null ||
+      preciadorData[i].url_imagen3 === "null"
+    ) {
+      preciadorData[i].url_imagen3 = null;
     } else {
       console.log(
         "ID DE PRECIADOR 3:",
