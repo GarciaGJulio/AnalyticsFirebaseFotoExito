@@ -42,7 +42,7 @@ export const Briefcase = ({ navigation }) => {
     useState([]);
   const [auxiliarArray, setAuxiliarArray] = useState([]);
   const [idealProducts, setIdealProducts] = useState([]);
-  const [currentStep,setcurrentStep] = useState();
+  const [currentStep, setcurrentStep] = useState();
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   ///const { idClientGroup } = useContext(ModernaContext);
   //const [idPortafolio] = useState(generateUIDD());
@@ -70,12 +70,11 @@ export const Briefcase = ({ navigation }) => {
   useEffect(() => {
     const checkForVariable = async () => {
       await AsyncStorage.setItem("ValorPaso", 0);
-      setcurrentStep(await AsyncStorage.getItem("ValorPaso"))
+      setcurrentStep(await AsyncStorage.getItem("ValorPaso"));
       const response = await handleDoesClientHaveVariable("Portafolio");
       setHasVariable(response);
     };
     checkForVariable();
-    
   }, []);
 
   useEffect(() => {
@@ -243,6 +242,44 @@ export const Briefcase = ({ navigation }) => {
     }, 2000);*/
   };
 
+  //checkVar
+  const HandleNavigationOfVariables = () => {
+    let checkvariables = true;
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Precio");
+      checkvariables = response;
+      console.log("VARIABLE DE PERCHAS EXISTE:", response);
+      if (checkvariables === true) {
+        navigation.navigate("prices", {
+          currentStep,
+          complementaryPortfolioProducts,
+          idealPortfolioProducts,
+          setComplementaryPortfolioProducts,
+        });
+      } else {
+        navigation.navigate("rack");
+      }
+    };
+    checkForVariable();
+  };
+
+  const HandleASpecialNavigationOfVariables = () => {
+    let checkvariables = true;
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Percha");
+      checkvariables = response;
+      console.log("VARIABLE DE PERCHAS EXISTE:", response);
+      if (checkvariables === true) {
+        navigation.navigate("rack");
+
+      } else {
+        navigation.navigate("promos");
+      }
+    };
+    checkForVariable();
+  };
+
+
   const consultarYCopiarContenido = async () => {
     let idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
@@ -340,12 +377,18 @@ export const Briefcase = ({ navigation }) => {
           console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
           return {
             id: categoria.id_categoria,
-            name: categoria.id_categoria.concat("-", categoria.nombre_categoria),
+            name: categoria.id_categoria.concat(
+              "-",
+              categoria.nombre_categoria
+            ),
             children: [
               ...productosCategoria.map((producto) => {
                 return {
                   id: producto.id_producto,
-                  name: producto.id_producto.concat("-", producto.nombre_producto),
+                  name: producto.id_producto.concat(
+                    "-",
+                    producto.nombre_producto
+                  ),
                   url: producto.url_imagen_producto,
                   tipo_portafolio: "C",
                 };
@@ -364,7 +407,6 @@ export const Briefcase = ({ navigation }) => {
         (categoria) => categoria.children.length > 0
       );
 
-
       setAllProducts([...nuevaListaFiltrada]);
       console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
     } catch (error) {
@@ -377,18 +419,19 @@ export const Briefcase = ({ navigation }) => {
   }, []);
 
   const onlyNavigation = () => {
-    navigation.navigate("prices", {
-      currentStep,
-      complementaryPortfolioProducts,
-      idealPortfolioProducts,
-      setComplementaryPortfolioProducts,
-    });
+    // navigation.navigate("prices", {
+    //   currentStep,
+    //   complementaryPortfolioProducts,
+    //   idealPortfolioProducts,
+    //   setComplementaryPortfolioProducts,
+    // });
+    HandleNavigationOfVariables()
   };
 
   const validateProduct = async () => {
     console.log(
       "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+        (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
     );
 
     if (
@@ -398,7 +441,8 @@ export const Briefcase = ({ navigation }) => {
       setIsModalVisible(false);
       await AsyncStorage.setItem("id_portafolio_auditoria", "null");
       setHadSaveBriefCase(true);
-      navigation.navigate("rack");
+      // navigation.navigate("rack");
+      HandleASpecialNavigationOfVariables()
       console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
       await AsyncStorage.setItem(
@@ -430,11 +474,11 @@ export const Briefcase = ({ navigation }) => {
             console.log(
               "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
               "ID DEL PORTAFOLIO: " +
-              id_portafolio +
-              " ID DEL PRODUCTO: " +
-              id +
-              " TIPO DE PORTAFOLIO:" +
-              tipo_portafolio
+                id_portafolio +
+                " ID DEL PRODUCTO: " +
+                id +
+                " TIPO DE PORTAFOLIO:" +
+                tipo_portafolio
             );
 
             let dataSave = {
@@ -549,12 +593,14 @@ export const Briefcase = ({ navigation }) => {
             try {
               db_insertGlobalDataAudit(portafolioSave);
               console.log("TODO BIEN");
-              navigation.navigate("prices", {
-                currentStep,
-                complementaryPortfolioProducts,
-                idealPortfolioProducts,
-                setComplementaryPortfolioProducts,
-              });
+              // navigation.navigate("prices", {
+              //   currentStep,
+              //   complementaryPortfolioProducts,
+              //   idealPortfolioProducts,
+              //   setComplementaryPortfolioProducts,
+              // });
+              HandleNavigationOfVariables();
+
               setIsModalVisible(false);
               setShowButton1(false);
               setShowButton2(true);
@@ -696,10 +742,11 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${infoScreen
-          ? infoScreen.id_portafolio_auditoria
-          : idPortafolioAuditoria
-          }`,
+        valueId: `${
+          infoScreen
+            ? infoScreen.id_portafolio_auditoria
+            : idPortafolioAuditoria
+        }`,
       });
     });
   };
@@ -745,7 +792,7 @@ export const Briefcase = ({ navigation }) => {
               alignItems: "center",
               marginTop: -8,
             }}
-          //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
+            //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
           >
             <View style={{ flex: 0.1, width: "90%" }}>
               <Text style={styles.text}>Portafolio Ideal</Text>
@@ -806,23 +853,23 @@ export const Briefcase = ({ navigation }) => {
               typeRigth={"material-community"}
               onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
               showButton1={true}
-            //   showButton1={showButton1}
-            // showButton2={showButton2}
-            // titleRigthSecond={"Siguiente"}
-            // sizeRigthSecond={theme.buttonSize.df}
-            // colorRigthSecond={theme.colors.modernaRed}
-            // showButton1Second={showButton1}
-            // showButton2Second={showButton2}
-            // onPressRigthSecond={() => {
-            //   navigation.navigate("prices", {
-            //     currentStep,
-            //     complementaryPortfolioProducts,
-            //     idealPortfolioProducts,
-            //     setComplementaryPortfolioProducts,
-            //   });
-            // }}
-            // iconRigthSecond={"arrow-right-circle"}
-            // typeRigthSecond={"feather"}
+              //   showButton1={showButton1}
+              // showButton2={showButton2}
+              // titleRigthSecond={"Siguiente"}
+              // sizeRigthSecond={theme.buttonSize.df}
+              // colorRigthSecond={theme.colors.modernaRed}
+              // showButton1Second={showButton1}
+              // showButton2Second={showButton2}
+              // onPressRigthSecond={() => {
+              //   navigation.navigate("prices", {
+              //     currentStep,
+              //     complementaryPortfolioProducts,
+              //     idealPortfolioProducts,
+              //     setComplementaryPortfolioProducts,
+              //   });
+              // }}
+              // iconRigthSecond={"arrow-right-circle"}
+              // typeRigthSecond={"feather"}
             />
           </View>
           {/* //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd--------------------------------- */}
