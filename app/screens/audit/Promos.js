@@ -76,7 +76,7 @@ export const Promos = ({ navigation }) => {
 
   useEffect(() => {
     const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Promociones");
+      const response = await handleDoesClientHaveVariable("Promoción");
       setHasVariable(response);
     };
     checkForVariable();
