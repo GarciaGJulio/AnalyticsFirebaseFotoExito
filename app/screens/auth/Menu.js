@@ -355,8 +355,10 @@ export const Menu = ({ navigation }) => {
           style={{
             flexDirection: "row",
             flex: 1,
+            marginHorizontal: "4%",
             margin: 5,
-            //backgroundColor: "brown",
+
+            // backgroundColor: "brown",
           }}
         >
           <View
@@ -364,7 +366,8 @@ export const Menu = ({ navigation }) => {
               // flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              //marginLeft: 10,
+              // backgroundColor:"gray"
+                            //marginLeft: 10,
             }}
           >
             <StyledButton
@@ -378,11 +381,11 @@ export const Menu = ({ navigation }) => {
             />
           </View>
           <View style={styles.secondContainerText}>
-            <View style={{ left: 0 }}>
+            {/* <View style={{ left: 0 }}> */}
               <Text style={[styles.text]}>
                 Sincroniza las auditorías pendientes por enviar.
               </Text>
-            </View>
+            {/* </View> */}
           </View>
         </View>
 
@@ -420,12 +423,21 @@ export const Menu = ({ navigation }) => {
           </View>
         </View>*/}
 
-        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            flex: 1,
+            margin: 5,
+            marginHorizontal: "6%",
+            // backgroundColor:"red"
+          }}
+        >
           <View
             style={{
               // flex: 1,
               justifyContent: "center",
               alignItems: "center",
+              // backgroundColor:"black"
               //marginLeft: 10,
             }}
           >
@@ -433,7 +445,7 @@ export const Menu = ({ navigation }) => {
               title={"Realizar Auditoría"}
               buttonColor={theme.colors.modernaRed}
               onPress={handleOpenModalAudit}
-              size={theme.buttonSize.sm}
+              size={"100%"}
               iconName={"clipboard"}
               iconType={"entypo"}
             />
@@ -443,7 +455,14 @@ export const Menu = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            flex: 1,
+            margin: 5,
+            marginHorizontal: "7%",
+          }}
+        >
           <View
             style={{
               // flex: 1,
@@ -511,9 +530,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
-    //padding:5,
+    padding:5,
     paddingHorizontal: 50,
     paddingVertical: 20,
+    width:"100%"
+    // borderRadius:100
   },
   text: {
     fontWeight: theme.fontWeight.softbold,

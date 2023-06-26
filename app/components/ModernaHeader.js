@@ -40,7 +40,7 @@ const ModernaHeader = () => {
   /*const subStringName = userInfo
     ? userInfo.displayName.split(" ")
     : "Datos Perdidos";*/
-  const subStringName = displayName.split(" ");
+  const subStringName = displayName && displayName.split(" ");
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
@@ -70,7 +70,7 @@ const ModernaHeader = () => {
           <Text
             style={{ color: "white", fontSize: 12, fontFamily: "Metropolis" }}
           >
-            {userInfo
+            {userInfo && subStringName&&subStringName.length > 2
               ? subStringName[0] + " " + subStringName[2]
               : "Santiago Mosquera"}
           </Text>

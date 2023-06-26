@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { lookForVariable } from "../services/SeleccionesService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { realizarConsulta } from "../common/sqlite_config";
@@ -19,6 +19,7 @@ export const GlobalProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalText, setModalText] = useState("Texto del modal");
   const [modalTitle, setModalTitle] = useState("Título del modal");
+  const [currentScreenPos, setCurrentScreenPos] = useState(0)
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
     useState([]);*/
@@ -28,16 +29,26 @@ export const GlobalProvider = ({ children }) => {
 
   useEffect(() => {
     fetchVariables();
+    initVariablesLocalStorage()
   }, []);
+  const initVariablesLocalStorage = async () => {
+    const currentPos = await AsyncStorage.getItem('currentScreenPos');
+    if (!currentPos) {
+      await AsyncStorage.setItem('currentScreenPos', "1");
+    } else {
+      setCurrentScreenPos(parseInt(currentPos))
+    }
+
+  }
 
   const handleDoesClientHaveVariable = async (nombre_variable) => {
     const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
     const index = variables.findIndex((variable) => {
       return (
         variable.id_grupo_cliente.toUpperCase() ===
-          id_grupo_cliente?.toString().toUpperCase() &&
+        id_grupo_cliente?.toString().toUpperCase() &&
         variable?.nombre_variable?.toUpperCase() ===
-          nombre_variable?.toUpperCase()
+        nombre_variable?.toUpperCase()
       );
     });
     return index !== -1;
@@ -61,8 +72,7 @@ export const GlobalProvider = ({ children }) => {
         console.log("variable vALOR:", variable);
       }
     });
-    console.log("arregloVARIABLES", Variables2.length);
-    const total = Variables2.length;
+    const total = Variables2.length
     // const NumeroVariables= variables.filter(variable => variable.id_grupo_cliente.toUpperCase() ===
     // id_grupo_cliente?.toString().toUpperCase())
 
@@ -76,26 +86,11 @@ export const GlobalProvider = ({ children }) => {
     let response = await realizarConsulta(
       `SELECT * FROM ${PERSISTENCIA.NAME} WHERE ${PERSISTENCIA.SCREEN_NAME} = '${global.userInfoScreen?.userInfo?.nombre_pantalla}'`
     );
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("response", response);
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
+
     if (Array.isArray(response) && response.length > 0) {
       response = response[0];
     }
-    console.log(response);
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log(response);
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
-    console.log("--------------------------------");
+
 
     const nombre_pantalla = response?.nombre_pantalla;
 
@@ -108,9 +103,6 @@ export const GlobalProvider = ({ children }) => {
         const request = await realizarConsulta(
           `DELETE FROM ${response.nombre_tabla} WHERE ${response.campo_id} = '${response.id_registro}'`
         );
-        console.log("--------------------------------");
-        console.log("DELETED", request);
-        console.log("--------------------------------");
         break;
       }
     }
@@ -124,6 +116,29 @@ export const GlobalProvider = ({ children }) => {
   const handleClearWorkFlow = () => {
     clearWorkFlow();
   };
+
+  const handleCheckCanSaveAllDataLocal = useCallback(async (values) => {
+    const totalVariables = await CountClientVariable()
+    const posScreen = await AsyncStorage.getItem('currentScreenPos')
+    if (posScreen >= totalVariables) {
+      console.log("*********************ya est+a al final de la pantalla*/*****************")
+    } else {
+      console.log("*********************aun no está al final de la pantalla*/*****************")
+    }
+    console.log("totalVariables", totalVariables)
+    console.log("posScreen", posScreen)
+
+  }, [])
+  const handleCurrentScreenPos = useCallback(async (pos) => {
+    const posScreen = await AsyncStorage.getItem('currentScreenPos')
+    if (!posScreen) {
+      await AsyncStorage.setItem('currentScreenPos', "1")
+    } else {
+      await AsyncStorage.setItem('currentScreenPos', `${parseInt(posScreen) + pos ? pos : 1}`)
+    }
+    initVariablesLocalStorage()
+
+  }, [])
   return (
     <GlobalContext.Provider
       value={{
@@ -151,6 +166,9 @@ export const GlobalProvider = ({ children }) => {
         fetchVariables,
         handleClearWorkFlow,
         CountClientVariable,
+        handleCheckCanSaveAllDataLocal,
+        currentScreenPos,
+        handleCurrentScreenPos
       }}
     >
       <ModernaModal

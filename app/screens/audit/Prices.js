@@ -79,6 +79,9 @@ export const Prices = ({ navigation, route }) => {
     setHadSavePreciador,
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
+    currentScreenPos,
+    handleCurrentScreenPos,
+    handleCheckCanSaveAllDataLocal
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -208,6 +211,8 @@ export const Prices = ({ navigation, route }) => {
       }
     };
     checkForVariable();
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
   };
 
   const handleCloseModal = () => {
@@ -456,8 +461,8 @@ export const Prices = ({ navigation, route }) => {
               //   }
               // },
               pantallas: {
-                ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                ...{
+                // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                // ...{
                   prices: {
                     principal: {
                       screenName: `prices`,
@@ -476,13 +481,13 @@ export const Prices = ({ navigation, route }) => {
                           id_preciador: idPreciador,
                         },
                       },
-                      pantallas: {
-                        ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                        prices: null,
-                      },
+                      // pantallas: {
+                      //   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                      //   prices: null,
+                      // },
                     },
                   },
-                },
+                // },
               },
             }
           );
@@ -555,7 +560,7 @@ export const Prices = ({ navigation, route }) => {
       </View>
       {hasVariable ? (
         <View style={styles.contentContainer}>
-          <ProgressBar currentStep={1} />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 1.3 }}>
             <ScreenInformation
               title={"Preciador"}
@@ -670,7 +675,7 @@ export const Prices = ({ navigation, route }) => {
         </View>
       ) : (
         <View style={styles.contentContainer}>
-          <ProgressBar currentStep={1} />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 1.3 }}>
             <ScreenInformation
               title={"Preciador"}

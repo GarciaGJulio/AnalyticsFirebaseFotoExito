@@ -76,6 +76,7 @@ export const Promos = ({ navigation }) => {
     setShowModal,
     setModalText,
     setModalTitle,
+    currentScreenPos
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -505,12 +506,12 @@ export const Promos = ({ navigation }) => {
 
     // newComplementaryPortfolio.map((productos) => {
 
+
     deleteRegisterAudit({
       tableName: "percha",
       objectId: "id_percha",
       valueId: id_percha,
     });
-
     //})
   };
   return (
@@ -543,7 +544,7 @@ export const Promos = ({ navigation }) => {
             <ModernaHeader />
           </View>
           <View style={styles.contentContainer}>
-            <ProgressBar currentStep={3} />
+            <ProgressBar currentStep={currentScreenPos} />
             <View style={{ flex: 1 }}>
               <ScreenInformation
                 title={"Promociones"}
@@ -606,7 +607,7 @@ export const Promos = ({ navigation }) => {
       ) : (
         <View>
           <View style={styles.contentContainer}>
-            <ProgressBar currentStep={3} />
+            <ProgressBar currentStep={currentScreenPos} />
             <View style={{ flex: 1 }}>
               <ScreenInformation
                 title={"Promociones"}

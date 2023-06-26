@@ -42,7 +42,7 @@ export const Briefcase = ({ navigation }) => {
     useState([]);
   const [auxiliarArray, setAuxiliarArray] = useState([]);
   const [idealProducts, setIdealProducts] = useState([]);
-  const [currentStep,setcurrentStep] = useState();
+  const [currentStep, setcurrentStep] = useState();
   const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
   ///const { idClientGroup } = useContext(ModernaContext);
   //const [idPortafolio] = useState(generateUIDD());
@@ -65,17 +65,19 @@ export const Briefcase = ({ navigation }) => {
     setHadSaveBriefCase,
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
+    currentScreenPos,
+    handleCurrentScreenPos,
+    handleCheckCanSaveAllDataLocal
   } = useContext(GlobalContext);
 
   useEffect(() => {
     const checkForVariable = async () => {
       await AsyncStorage.setItem("ValorPaso", 0);
-      setcurrentStep(await AsyncStorage.getItem("ValorPaso"))
+      setcurrentStep(await AsyncStorage.getItem("ValorPaso"));
       const response = await handleDoesClientHaveVariable("Portafolio");
       setHasVariable(response);
     };
     checkForVariable();
-    
   }, []);
 
   useEffect(() => {
@@ -243,6 +245,48 @@ export const Briefcase = ({ navigation }) => {
     }, 2000);*/
   };
 
+  //checkVar
+  const HandleNavigationOfVariables = () => {
+    let checkvariables = true;
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Precio");
+      checkvariables = response;
+      console.log("VARIABLE DE PERCHAS EXISTE:", response);
+      if (checkvariables === true) {
+        navigation.navigate("prices", {
+          currentStep,
+          complementaryPortfolioProducts,
+          idealPortfolioProducts,
+          setComplementaryPortfolioProducts,
+        });
+      } else {
+        navigation.navigate("rack");
+      }
+    };
+    checkForVariable();
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
+  };
+
+  const HandleASpecialNavigationOfVariables = () => {
+    let checkvariables = true;
+    const checkForVariable = async () => {
+      const response = await handleDoesClientHaveVariable("Percha");
+      checkvariables = response;
+      console.log("VARIABLE DE PERCHAS EXISTE:", response);
+      if (checkvariables === true) {
+        navigation.navigate("rack");
+      } else {
+        navigation.navigate("promos");
+        handleCurrentScreenPos(3)
+      }
+    };
+    checkForVariable();
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
+  };
+
+
   const consultarYCopiarContenido = async () => {
     let idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
@@ -340,12 +384,18 @@ export const Briefcase = ({ navigation }) => {
           console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
           return {
             id: categoria.id_categoria,
-            name: categoria.id_categoria.concat("-", categoria.nombre_categoria),
+            name: categoria.id_categoria.concat(
+              "-",
+              categoria.nombre_categoria
+            ),
             children: [
               ...productosCategoria.map((producto) => {
                 return {
                   id: producto.id_producto,
-                  name: producto.id_producto.concat("-", producto.nombre_producto),
+                  name: producto.id_producto.concat(
+                    "-",
+                    producto.nombre_producto
+                  ),
                   url: producto.url_imagen_producto,
                   tipo_portafolio: "C",
                 };
@@ -364,7 +414,6 @@ export const Briefcase = ({ navigation }) => {
         (categoria) => categoria.children.length > 0
       );
 
-
       setAllProducts([...nuevaListaFiltrada]);
       console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
     } catch (error) {
@@ -377,12 +426,13 @@ export const Briefcase = ({ navigation }) => {
   }, []);
 
   const onlyNavigation = () => {
-    navigation.navigate("prices", {
-      currentStep,
-      complementaryPortfolioProducts,
-      idealPortfolioProducts,
-      setComplementaryPortfolioProducts,
-    });
+    // navigation.navigate("prices", {
+    //   currentStep,
+    //   complementaryPortfolioProducts,
+    //   idealPortfolioProducts,
+    //   setComplementaryPortfolioProducts,
+    // });
+    HandleNavigationOfVariables()
   };
 
   const validateProduct = async () => {
@@ -398,7 +448,8 @@ export const Briefcase = ({ navigation }) => {
       setIsModalVisible(false);
       await AsyncStorage.setItem("id_portafolio_auditoria", "null");
       setHadSaveBriefCase(true);
-      navigation.navigate("rack");
+      // navigation.navigate("rack");
+      HandleASpecialNavigationOfVariables()
       console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
       await AsyncStorage.setItem(
@@ -549,12 +600,14 @@ export const Briefcase = ({ navigation }) => {
             try {
               db_insertGlobalDataAudit(portafolioSave);
               console.log("TODO BIEN");
-              navigation.navigate("prices", {
-                currentStep,
-                complementaryPortfolioProducts,
-                idealPortfolioProducts,
-                setComplementaryPortfolioProducts,
-              });
+              // navigation.navigate("prices", {
+              //   currentStep,
+              //   complementaryPortfolioProducts,
+              //   idealPortfolioProducts,
+              //   setComplementaryPortfolioProducts,
+              // });
+              HandleNavigationOfVariables();
+
               setIsModalVisible(false);
               setShowButton1(false);
               setShowButton2(true);
@@ -620,33 +673,33 @@ export const Briefcase = ({ navigation }) => {
             //   }
             // },
             pantallas: {
-              ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-              ...{
-                briefcase: {
-                  principal: {
-                    screenName: `briefcase`,
-                    tableName: `portafolio`,
-                    itemId: `id_portafolio`,
-                    columnId: `id_portafolio`,
-                  },
-                  extra_info: {
-                    complementaryPortfolioProducts: tempDataScreen.toString(),
-                    idealPortfolioProducts: tempDataScreenIdeal.toString(),
-                    auditorias_id: {
-                      ...(objUserInfo.auditorias_id
-                        ? objUserInfo.auditorias_id
-                        : {}),
-                      ...{
-                        id_portafolio_auditoria: idPortafolioAuditoria,
-                      },
-                    },
-                    pantallas: {
-                      ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                      briefcase: null,
+              // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+              // ...{
+              briefcase: {
+                principal: {
+                  screenName: `briefcase`,
+                  tableName: `portafolio`,
+                  itemId: `id_portafolio`,
+                  columnId: `id_portafolio`,
+                },
+                extra_info: {
+                  complementaryPortfolioProducts: tempDataScreen.toString(),
+                  idealPortfolioProducts: tempDataScreenIdeal.toString(),
+                  auditorias_id: {
+                    ...(objUserInfo.auditorias_id
+                      ? objUserInfo.auditorias_id
+                      : {}),
+                    ...{
+                      id_portafolio_auditoria: idPortafolioAuditoria,
                     },
                   },
+                  // pantallas: {
+                  //   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                  //   briefcase: null,
+                  // },
                 },
               },
+              // },
             },
           }
         );
@@ -697,8 +750,8 @@ export const Briefcase = ({ navigation }) => {
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
         valueId: `${infoScreen
-          ? infoScreen.id_portafolio_auditoria
-          : idPortafolioAuditoria
+            ? infoScreen.id_portafolio_auditoria
+            : idPortafolioAuditoria
           }`,
       });
     });
@@ -829,7 +882,7 @@ export const Briefcase = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.contentContainer}>
-          <ProgressBar currentStep={currentStep} />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}
