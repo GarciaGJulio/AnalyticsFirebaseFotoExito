@@ -68,6 +68,8 @@ export const Promos = ({ navigation }) => {
     isConnectionActivate,
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
+    globalVariable,
+    setGlobalVariable,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -328,9 +330,8 @@ export const Promos = ({ navigation }) => {
           await subidaBaseRemoteTodaAuditoria(
             idAuditoria,
             setIsModalVisible,
-            setIsModalVisibleCloseSucursal,
-            setIsModalVisible,
-            isModalVisible
+            setGlobalVariable,
+            globalVariable
           );
           navigation.navigate("begin");
         } catch (e) {

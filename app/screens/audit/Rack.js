@@ -96,7 +96,7 @@ export const Racks = ({ navigation }) => {
       "\nDESDE PORTAFOLIO *********************************************************\n"
     );
     let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
-    let idPercha = await AsyncStorage.getItem("id_percha"); //si
+    //let idPercha = await AsyncStorage.getItem("id_percha"); //si
     let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
     let idCliente = await AsyncStorage.getItem("id_cliente"); //si
     let nombreCliente = await AsyncStorage.getItem("nombre_cliente"); //si
@@ -331,7 +331,7 @@ export const Racks = ({ navigation }) => {
       //setValidatePass(false)
     }
     if (category.length === 0) {
-      await AsyncStorage.setItem("id_percha", "null");
+      //await AsyncStorage.setItem("id_percha", null);
       setIsModalVisible(false);
       navigation.navigate("promos");
     } else {

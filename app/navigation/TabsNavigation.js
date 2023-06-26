@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { Icon } from "@rneui/base";
@@ -8,6 +8,7 @@ import Rack_Review from "../screens/review/Rack_Review";
 import theme from "../theme/theme";
 import Briefcase_branch_review from "../screens/review/Briefcase_branch_review";
 import Promos_Review from "../screens/review/Promos_Review";
+import { DataContext } from "../context/DataProvider";
 
 const TabArr = [
   {
@@ -107,9 +108,10 @@ const TabButton = (props) => {
   );
 };
 
-export const   TabsNavigation=({ route }) =>{
+export const TabsNavigation = ({ route }) => {
+  const { datosCompartidos } = useContext(DataContext);
   //const { branch } = route.params;
-  // console.log(branch, "TabsNavigation");
+  console.log("DATOS DE NAVEGACION A EVALUAR: -- - - ", datosCompartidos);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -123,27 +125,109 @@ export const   TabsNavigation=({ route }) =>{
       }}
     >
       {TabArr.map((item, index) => {
-        return (
-          <Tab.Screen
-            key={index}
-            name={item.route}
-            component={item.component}
-            options={{
-              tabBarShowLabel: false,
-              tabBarButton: (props) => (
-                <TabButton
-                  {...props}
-                  item={item}
-                  //param={branch}
+        switch (item.route) {
+          case "Portafolio":
+            if (
+              datosCompartidos.id_portafolio_auditoria !== null &&
+              datosCompartidos.id_portafolio_auditoria !== "null"
+            ) {
+              return (
+                <Tab.Screen
+                  key={index}
+                  name={item.route}
+                  component={Briefcase_branch_review}
+                  options={{
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => (
+                      <TabButton
+                        {...props}
+                        item={item}
+                        //param={branch}
+                      />
+                    ),
+                  }}
                 />
-              ),
-            }}
-          />
-        );
+              );
+            }
+          case "Precio":
+            if (
+              datosCompartidos.id_preciador !== null &&
+              datosCompartidos.id_preciador !== "null"
+            ) {
+              return (
+                <Tab.Screen
+                  key={index}
+                  name={item.route}
+                  component={Prices_Review}
+                  options={{
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => (
+                      <TabButton
+                        {...props}
+                        item={item}
+                        //param={branch}
+                      />
+                    ),
+                  }}
+                />
+              );
+            }
+            break;
+          case "Percha":
+            if (
+              datosCompartidos.id_percha !== null &&
+              datosCompartidos.id_percha !== "null"
+            ) {
+              return (
+                <Tab.Screen
+                  key={index}
+                  name={item.route}
+                  component={Rack_Review}
+                  options={{
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => (
+                      <TabButton
+                        {...props}
+                        item={item}
+                        //param={branch}
+                      />
+                    ),
+                  }}
+                />
+              );
+            }
+            break;
+          case "Promociones":
+            if (
+              datosCompartidos.id_promocion !== null &&
+              datosCompartidos.id_promocion !== "null"
+            ) {
+              return (
+                <Tab.Screen
+                  key={index}
+                  name={item.route}
+                  component={Promos_Review}
+                  options={{
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => (
+                      <TabButton
+                        {...props}
+                        item={item}
+                        //param={branch}
+                      />
+                    ),
+                  }}
+                />
+              );
+            }
+            break;
+          default:
+            return null;
+        }
       })}
     </Tab.Navigator>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
