@@ -343,6 +343,7 @@ export const Menu = ({ navigation }) => {
               size={theme.buttonSize.sm}
               iconName={"cloud-sync"}
               iconType={"material-community"}
+              newstyle
             />
           </View>
           <View style={styles.secondContainerText}>

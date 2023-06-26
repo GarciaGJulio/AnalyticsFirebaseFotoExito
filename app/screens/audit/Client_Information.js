@@ -631,7 +631,7 @@ export const Client_Information = ({ navigation }) => {
                   onPressLeft={() => setIsModalVisibleClose(true)}
                   titleRigth={"Iniciar Visita"}
                   sizeRigth={theme.buttonSize.df}
-                  iconRigth={"content-save-all-outline"}
+                  //iconRigth={"content-save-all-outline"}
                   typeRigth={"material-community"}
                   colorRigth={theme.colors.modernaRed}
                   onPressRigth={hadSave ? onlyNavigate : handleOpenModal}

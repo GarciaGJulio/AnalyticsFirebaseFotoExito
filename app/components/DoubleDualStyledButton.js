@@ -35,6 +35,7 @@ const DoubleDualStyledButton = ({
         iconType={typeLeft}
         size={sizeLeft}
         onPress={onPressLeft}
+        newstyle
         
       />
       {showButton1 && (
@@ -47,6 +48,7 @@ const DoubleDualStyledButton = ({
           onPress={onPressRigth}
          //merge linea de abajo
           disabled={disableAction}
+          newstyle
         />
       )}
       {showButton2 && (
@@ -57,6 +59,8 @@ const DoubleDualStyledButton = ({
           iconType={typeRigthSecond}
           size={sizeRigthSecond}
           onPress={onPressRigthSecond}
+          
+          
         
         />
       )}

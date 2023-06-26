@@ -82,7 +82,7 @@ const ModernaHeader = () => {
         </View>
       </View>
       <View style={styles.imageContainer}>
-        <Image source={Logotipo} style={styles.modernaLogo} />
+        <Image source={null} style={styles.modernaLogo} />
       </View>
       <WifiIndicator />
       <TouchableOpacity style={styles.logOutButton} onPress={handleOpenModal}>

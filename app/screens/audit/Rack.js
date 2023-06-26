@@ -634,7 +634,7 @@ export const Racks = ({ navigation }) => {
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
                   <Text style={{ fontFamily: "Metropolis" }}>
-                    No hay perchas asignadas para este grupo de cliente
+                    No hay perchas asignadas para este grupo de clientes
                   </Text>
                 </View>
               ) : (

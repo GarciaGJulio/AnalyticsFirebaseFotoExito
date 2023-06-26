@@ -55,7 +55,7 @@ export const StyledButton = ({
         <View
           style={{
             //backgroundColor: "blue",
-            flex: 0.3,
+           // flex: 0.3,
           }}
         >
           {iconName && iconType ? (
@@ -76,7 +76,7 @@ export const StyledButton = ({
         <View
           style={newstyle?styles.butonCentrado:styles.butonormal}
         >
-          <Text numberOfLines={1} style={styles.buttonText}>{title}</Text>
+          <Text /*</View>numberOfLines={1} */style={styles.buttonText}>{title}</Text>
         </View>
       </View>
     </TouchableOpacity>

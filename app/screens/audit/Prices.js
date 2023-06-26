@@ -307,7 +307,7 @@ export const Prices = ({ navigation, route }) => {
       if (!isValid) {
         Alert.alert(
           "Error al completar los datos",
-          "Necesita marcar el valor de preciador de cada producto correctamente y tomar la fotografía respectiva"
+          "Necesita ingresar el precio y tomar la foto por cada producto seleccionado."
         );
         //navigation.navigate('rack');
         console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
