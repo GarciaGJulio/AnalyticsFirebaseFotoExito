@@ -45,14 +45,16 @@ const ConfirmationModal = ({
           </View>
           <View style={styles.buttonContainer}>
             <DoubleStyledButton
-              titleLeft={"Aceptar"}
+              titleLeft={"Cancelar"}
               sizeLeft={theme.buttonSize.sm}
-              colorLeft={theme.colors.modernaRed}
-              onPressLeft={onPress}
-              titleRigth={"Cancelar"}
+              colorLeft={theme.colors.modernaYellow}
+              onPressLeft={onClose  }
+
+
+              titleRigth={"Aceptar"}
               sizeRigth={theme.buttonSize.sm}
-              colorRigth={theme.colors.modernaYellow}
-              onPressRigth={onClose}
+              colorRigth={theme.colors.modernaRed}
+              onPressRigth={onPress}
             />
           </View>
         </View>

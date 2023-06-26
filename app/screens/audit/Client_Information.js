@@ -222,7 +222,15 @@ export const Client_Information = ({ navigation }) => {
       (valor) => valor !== null && valor !== undefined && valor !== ""
     );
   };
-
+  const data = [
+    {key:'1', value:'Mobiles', disabled:true},
+    {key:'2', value:'Appliances'},
+    {key:'3', value:'Cameras'},
+    {key:'4', value:'Computers', disabled:true},
+    {key:'5', value:'Vegetables'},
+    {key:'6', value:'Diary Products'},
+    {key:'7', value:'Drinks'},
+]
   useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
@@ -268,23 +276,30 @@ export const Client_Information = ({ navigation }) => {
       error("");
       return false;
     } else {
-      let result = branchNames.some((item) => {
-        // console.log(
-        //   "ITEM DEL ARRAY: ",
-        //   item.nombre_sucursal + " " + item.fecha_creacion
-        // );
-        console.log("ITEM DE COMPARACION: ", currentName);
-        console.log("FCEHA ACTUAL: ", tempFecha);
-        if (
+      let found = branchNames.some((item) => {
+        console.log(
+          "ITEM A COMPARAR - -- - BASE: ",
+          item.nombre_sucursal +
+            " " +
+            item.fecha_creacion +
+            "ACTUAL:  " +
+            currentName +
+            " " +
+            tempFecha
+        );
+        return (
           item.nombre_sucursal === currentName &&
           item.fecha_creacion === tempFecha
-        ) {
-          error("*Solo se puede realizar una auditoría al día por sucursal");
-        } else {
-          error("");
-        }
+        );
       });
-      return result;
+
+      if (found) {
+        error("*Solo se puede realizar una auditoría al día por sucursal");
+      } else {
+        error("");
+      }
+
+      return found;
     }
   };
 
@@ -547,7 +562,7 @@ export const Client_Information = ({ navigation }) => {
                       //backgroundColor: "blue",
                     }}
                   >
-                    Grupo de cliente
+                    Grupo de clientes
                   </Text>
                   <View
                     style={{
@@ -654,7 +669,7 @@ export const Client_Information = ({ navigation }) => {
                   titleRigth={"Iniciar Visita"}
                   sizeRigth={theme.buttonSize.df}
                   //iconRigth={"content-save-all-outline"}
-                  //typeRigth={"material-community"}
+                  typeRigth={"material-community"}
                   colorRigth={theme.colors.modernaRed}
                   onPressRigth={hadSave ? onlyNavigate : handleOpenModal}
                   showButton1={showButton1}

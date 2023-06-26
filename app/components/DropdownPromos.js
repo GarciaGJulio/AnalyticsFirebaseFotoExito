@@ -113,7 +113,7 @@ export const DropdownPromos = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: theme.dimensions.maxWidth / 1.2,
+    //flex: 1,
+    width: theme.dimensions.maxWidth / 1.1,
   },
 });

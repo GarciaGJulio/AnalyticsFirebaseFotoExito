@@ -73,8 +73,8 @@ export const dataParameters = {
         "id_portafolio",
         "id_producto",
         "id_grupo_cliente",
-        "tipo",
         "estado",
+        "tipo",
       ],
       foreingFields: [],
     },
@@ -94,6 +94,11 @@ export const dataParameters = {
         {
           tableName: "cliente",
           data: ["nombre_cliente"],
+          foreingKey: "id_cliente",
+        },
+        {
+          tableName: "cliente",
+          data: ["id_grupo_cliente"],
           foreingKey: "id_cliente",
         },
         {

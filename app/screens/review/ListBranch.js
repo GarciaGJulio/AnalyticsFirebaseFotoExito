@@ -30,7 +30,8 @@ import { FAB } from "@rneui/base";
 export const ListBranch = ({ navigation }) => {
   const [audit, setAudit] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+  const { globalVariable, setGlobalVariable, refreshSync } =
+    useContext(GlobalContext);
   const { userInfo } = useContext(ModernaContext);
 
   const consultarYCopiarContenido = async () => {
@@ -59,13 +60,13 @@ export const ListBranch = ({ navigation }) => {
 
   useEffect(() => {
     consultarYCopiarContenido();
-  }, [refresh, globalVariable]);
+  }, [refresh, globalVariable, refreshSync]);
 
   useEffect(() => {
     //filteredData;
     console.log("DATOS DE AUDITORIA:", filteredData);
     //consultarYCopiarContenido
-  }, [refresh]);
+  }, [refresh, refreshSync]);
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../../assets/font/Metropolis-Regular.otf"),
@@ -102,16 +103,6 @@ export const ListBranch = ({ navigation }) => {
     setFilteredData(newData);
   };
 
-  const dataFormat = (array) => {
-    // setArrayClients(array);
-    console.log("ARRAY DE CONSULTA: ", array);
-    const arrayFormat = array.map((obj) => {
-      console.log("OBJETO: ", obj.id_cliente);
-      return { key: obj.id_cliente, value: obj.nombre_cliente };
-    });
-    console.log(arrayFormat);
-    return arrayFormat;
-  };
   if (!fontLoaded) return null;
 
   {

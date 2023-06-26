@@ -164,7 +164,7 @@ export const FlashListPortfolio = React.memo(
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
-              Esta auditoría no registró productos
+              No se encontraron productos
             </Text>
           </View>
         ) : (

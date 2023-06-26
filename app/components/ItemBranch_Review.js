@@ -39,28 +39,6 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
     console.log("ESTO LLEGA DE LAS AUDITORIAS: ", branch);
     console.log("ESTADO GLOBAL DE LA VARIABLE: ", globalVariable);
   }, []);
-  const handleOpenModal = () => {
-    setAnimation(SYNC_ANIMATION);
-    setIsModalVisible(true);
-
-    setStateBranch(true);
-
-    console.log(stateBranch);
-    setTimeout(() => {
-      setAnimation(SUCCESS_ANIMATION);
-      if (isConnected) {
-        setTimeout(() => {
-          setIsModalVisible(false);
-        }, 2000);
-      } else {
-        setAnimation(FAILED_ANIMATION);
-        setTimeout(() => {
-          setIsModalVisible(false);
-        }, 4000);
-      }
-    }, 5000);
-  };
-
   const syncData = async (setRefresh, refresh) => {
     setIsModalVisible(true);
     try {

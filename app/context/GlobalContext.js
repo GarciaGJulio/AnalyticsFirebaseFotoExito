@@ -13,6 +13,7 @@ export const GlobalProvider = ({ children }) => {
   const [hadSavePreciador, setHadSavePreciador] = useState(false);
   const [hadSaveRack, setHadSaveRack] = useState(false);
   const [productsPreciador, setProductsPreciador] = useState([]);
+  const [refreshSync, setRefreshSync] = useState(false);
   const [variables, setVariables] = useState([]);
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
@@ -135,6 +136,8 @@ export const GlobalProvider = ({ children }) => {
         hadSaveRack,
         setHadSaveRack,
         productsPreciador,
+        refreshSync,
+        setRefreshSync,
         setProductsPreciador,
         handleDoesClientHaveVariable,
         fetchVariables,
