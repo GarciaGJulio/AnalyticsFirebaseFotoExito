@@ -31,12 +31,18 @@ export const GlobalProvider = ({ children }) => {
     // fetchVariables();
     initVariablesLocalStorage()
   }, []);
-  const initVariablesLocalStorage = async () => {
+  const initVariablesLocalStorage = async (isPersistencia) => {
+    console.log("isPersistencia",isPersistencia)
     const currentPos = await AsyncStorage.getItem('currentScreenPos');
     if (!currentPos) {
       await AsyncStorage.setItem('currentScreenPos', "1");
     } else {
-      setCurrentScreenPos(parseInt(currentPos))
+      if (isPersistencia) {
+        setCurrentScreenPos(parseInt((currentPos - 1) >= 0 ? currentPos - 1 : 0))
+      } else {
+        setCurrentScreenPos(parseInt(currentPos))
+
+      }
     }
 
   }
@@ -57,11 +63,8 @@ export const GlobalProvider = ({ children }) => {
 
   const CountClientVariable = async () => {
     try {
-      console.log("--------------------------------------------------------------")
       const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME}`)
-      console.log("--------------------------------eMPIEZA A ACONTAR VARIABLES", variables);
       const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
-      console.log("--------------------------------eMPIEZA A ACONTAR id_grupo_cliente", id_grupo_cliente);
       let Variables2 = [];
       variables.forEach((variable) => {
         if (
