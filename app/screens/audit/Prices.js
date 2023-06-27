@@ -326,7 +326,7 @@ export const Prices = ({ navigation, route }) => {
 
       if (!isValid) {
         Alert.alert(
-          "Error al completar los datos",
+          "Error al registrar los datos",
           "Necesita ingresar el precio y tomar la foto por cada producto seleccionado."
         );
         //navigation.navigate('rack');

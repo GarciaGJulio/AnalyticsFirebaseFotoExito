@@ -60,14 +60,14 @@ export const validatePriceProduct = (price, fn) => {
     fn("El número debe ser mayor a 0");
   } else if (number > 999.99) {
     console.log("----------------El número es menor a 999.99");
-    fn("El número debe ser menor o igual a 999.99");
+    fn("El precio debe ser menor o igual a 999.99");
   } else if (isNaN(number)) {
     console.log("Precio invalido");
     fn("El precio del producto no es un número válido");
   } else if (!priceRegex.test(price)) {
     console.log("Formato de precio inválido");
     fn(
-      "mato de precio no es válido. Utilice un formato como 9.29 o 1.00"
+      "Complete los decimales"
     );
   } else {
     console.log("Precio válido");
