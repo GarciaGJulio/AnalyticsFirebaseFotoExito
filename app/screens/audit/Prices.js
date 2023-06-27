@@ -67,7 +67,7 @@ export const Prices = ({ navigation, route }) => {
   // } catch (error) {
   //   complementaryPortfolioProducts = [];
   //   idealPortfolioProducts = [];
-  //   console.log(error)
+  //   //console.log(error)
   // }
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
@@ -103,14 +103,14 @@ export const Prices = ({ navigation, route }) => {
     }, 2000);
   }, [isFocused]);
   useEffect(() => {
-    /*console.log(
+    /*//console.log(
       "////////////////////newIdealPortfolio**************",
       newIdealPortfolio
     );*/
   }, [newIdealPortfolio]);
   const getInfoDatBaseScreen = () => {
     try {
-      console.log("global.userInfoScreen en pricess", global.userInfoScreen);
+      //console.log("global.userInfoScreen en pricess", global.userInfoScreen);
       if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
         return;
       }
@@ -120,7 +120,7 @@ export const Prices = ({ navigation, route }) => {
       const tmpInfoExtra = JSON.parse(
         global.userInfoScreen.userInfo.extra_info
       );
-      // console.log("tmpInfoExtra prices-----------------------------", tmpInfoExtra)
+      // //console.log("tmpInfoExtra prices-----------------------------", tmpInfoExtra)
       const tmpPantalla = tmpInfoExtra.pantallas.prices;
       const infoExtra = tmpPantalla.extra_info;
       const newObj = {
@@ -129,25 +129,25 @@ export const Prices = ({ navigation, route }) => {
       };
 
       let tempItems = infoExtra.fullDataProducts.split("**");
-      // console.log("tempItems SPOPLIT-------------", tempItems)
+      // //console.log("tempItems SPOPLIT-------------", tempItems)
       tempItems = tempItems.filter((item) => item.length > 0 && item != ",");
-      // console.log("tempItems FILTER-------------", tempItems)
+      // //console.log("tempItems FILTER-------------", tempItems)
       tempItems = tempItems.map((item) => {
         return JSON.parse(item);
       });
 
       let tempItemsIdeal = infoExtra.newIdealPortfolio.split("**");
-      // console.log("tempItems SPOPLIT-------------", tempItems)
+      // //console.log("tempItems SPOPLIT-------------", tempItems)
       tempItemsIdeal = tempItemsIdeal.filter(
         (item) => item.length > 0 && item != ","
       );
-      // console.log("tempItems FILTER-------------", tempItems)
+      // //console.log("tempItems FILTER-------------", tempItems)
       tempItemsIdeal = tempItemsIdeal.map((item) => {
         return JSON.parse(item);
       });
 
-      // console.log("tempItems-------------", tempItems)
-      console.log("tempItems en prices", tempItems);
+      // //console.log("tempItems-------------", tempItems)
+      //console.log("tempItems en prices", tempItems);
       setNewIdealPortfolio(tempItemsIdeal);
       setNewComplementaryPortfolio(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
@@ -168,16 +168,16 @@ export const Prices = ({ navigation, route }) => {
         "id_portafolio_auditoria",
         infoExtra.auditorias_id.id_portafolio_auditoria
       );
-      console.log(
-        "infoExtra.auditorias_id.id_preciador--------",
-        infoExtra.auditorias_id.id_preciador
-      );
+      // //console.log(
+      //   "infoExtra.auditorias_id.id_preciador--------",
+      //   infoExtra.auditorias_id.id_preciador
+      // );
       AsyncStorage.setItem(
         "id_preciador",
         infoExtra.auditorias_id.id_preciador
       );
     } catch (error) {
-      console.log("errrrorrrrrr en prices", error);
+      //console.log("errrrorrrrrr en prices", error);
       setNewIdealPortfolio([]);
       setNewComplementaryPortfolio([]);
       setInfoScreen(null);
@@ -203,7 +203,7 @@ export const Prices = ({ navigation, route }) => {
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Perchas");
       checkvariables=response
-      console.log("VARIABLE DE PERCHAS EXISTE:",response)
+      //console.log("VARIABLE DE PERCHAS EXISTE:",response)
       if (checkvariables === true) {
         navigation.navigate("rack");
       } else {
@@ -224,13 +224,13 @@ export const Prices = ({ navigation, route }) => {
       if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
         setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
         setNewIdealPortfolio([...idealPortfolioProducts]);
-        //console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
-        console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
-        console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
-        console.log(
-          "PORTAFOLIO COMPLEMENTARIO: ",
-          JSON.stringify(newComplementaryPortfolio)
-        );
+        ////console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
+        //console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
+        //console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
+        // //console.log(
+        //   "PORTAFOLIO COMPLEMENTARIO: ",
+        //   JSON.stringify(newComplementaryPortfolio)
+        // );
       }
     };
     if (complementaryPortfolioProducts) {
@@ -240,11 +240,11 @@ export const Prices = ({ navigation, route }) => {
 
   const validateData = () => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
-    console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
+    //console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
 
     const isDataValid = fullArrays.every((item) => {
       if (item.state === null) {
-        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        //console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
       if (item.state === 1) {
@@ -255,7 +255,7 @@ export const Prices = ({ navigation, route }) => {
           !item.images ||
           item.images.image1 === null
         ) {
-          console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+          //console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
           return false;
         }
       }
@@ -266,9 +266,9 @@ export const Prices = ({ navigation, route }) => {
   };
 
   const dataId = async () => {
-    console.log(
-      "\nDESDE PRECIADOR *********************************************************\n"
-    );
+    // //console.log(
+    //   "\nDESDE PRECIADOR *********************************************************\n"
+    // );
     let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
     let idPercha = await AsyncStorage.getItem("id_percha"); //si
     let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
@@ -278,16 +278,16 @@ export const Prices = ({ navigation, route }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     ); //si
-    console.log(
-      "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n"
-    );
-    console.log("ID DE PRECIADOR: ", idPreciador);
-    console.log("ID DE PERCHA: ", idPercha);
-    console.log("ID DE SUCURSAL: ", idSucursal);
-    console.log("ID DE CLIENTE: ", idCliente);
-    console.log("NOMBRE CLIENTE: ", nombreCliente);
-    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
-    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+    // //console.log(
+    //   "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n"
+    // );
+    //console.log("ID DE PRECIADOR: ", idPreciador);
+    //console.log("ID DE PERCHA: ", idPercha);
+    //console.log("ID DE SUCURSAL: ", idSucursal);
+    //console.log("ID DE CLIENTE: ", idCliente);
+    //console.log("NOMBRE CLIENTE: ", nombreCliente);
+    //console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    //console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
   };
 
   useEffect(() => {
@@ -296,9 +296,9 @@ export const Prices = ({ navigation, route }) => {
 
   const validateArrays = async () => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
-    console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
+    //console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
-      console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
+      //console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
       HandleNavigationOfVariables()
     } else {
       if (errorPrice != "") {
@@ -307,7 +307,7 @@ export const Prices = ({ navigation, route }) => {
       }
       const isValid = fullArrays.every((item) => {
         if (item.state === null) {
-          console.log("ESTE ITEM DA PROBLEMAS: ", item);
+          //console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
         if (item.state === 1) {
@@ -317,7 +317,7 @@ export const Prices = ({ navigation, route }) => {
             !item.images ||
             item.images.image1 === null
           ) {
-            console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+            //console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
             return false;
           }
         }
@@ -330,11 +330,11 @@ export const Prices = ({ navigation, route }) => {
           "Necesita ingresar el precio y tomar la foto por cada producto seleccionado."
         );
         //navigation.navigate('rack');
-        console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
-        console.log(
-          "PORTAFOLIO COMPLEMENTARIO: ",
-          JSON.stringify(newComplementaryPortfolio)
-        );
+        //console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
+        // //console.log(
+        //   "PORTAFOLIO COMPLEMENTARIO: ",
+        //   JSON.stringify(newComplementaryPortfolio)
+        // );
       } else {
         setIsModalVisible(true);
         const fullDataProducts = newIdealPortfolio.concat(
@@ -342,10 +342,10 @@ export const Prices = ({ navigation, route }) => {
         );
         try {
           await AsyncStorage.setItem("id_preciador", idPreciador);
-          console.log(
-            "PRODUCTOS QUE VAN A SER GUARDADOS: ",
-            JSON.stringify(fullDataProducts)
-          );
+          // //console.log(
+          //   "PRODUCTOS QUE VAN A SER GUARDADOS: ",
+          //   JSON.stringify(fullDataProducts)
+          // );
           fullDataProducts.map((productos) => {
             const { id_portafolio, id, state, price, images } = productos;
             const { image1, image2, image3 } = images;
@@ -387,12 +387,12 @@ export const Prices = ({ navigation, route }) => {
               ") VALUES(" +
               dataSave.dataInsert.join() +
               ")";
-            console.log("SENTENCIA A EJECUTAR: ", sentence);
+            //console.log("SENTENCIA A EJECUTAR: ", sentence);
             try {
               // subidaBaseRemote(dataSave.tableName, dataSave.dataInsertType, dataSave.dataInsertRemote)
 
               db_insertGlobalDataAudit(dataSave);
-              console.log("TODO BIEN PARA GUARDAR");
+              //console.log("TODO BIEN PARA GUARDAR");
               //setShowButton1(false);
               //setShowButton2(true);
               setIsModalVisible(false);
@@ -443,7 +443,7 @@ export const Prices = ({ navigation, route }) => {
               };
             } catch (error) {
               objUserInfo = {};
-              console.log(e);
+              //console.log(e);
             }
           }
           saveCurrentScreenUser(
@@ -509,7 +509,7 @@ export const Prices = ({ navigation, route }) => {
   const handleDeleteRegisterLocal = async () => {
     setHadSavePreciador(false);
     const idPreciador = await AsyncStorage.getItem("id_preciador");
-    // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
+    // //console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
       saveCurrentScreenUser(
         infoScreen.pantallas.briefcase.principal,

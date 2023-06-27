@@ -36,9 +36,9 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
   };
 
   const actualizarEstado = (item, state) => {
-    console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ");
-    console.log("PRODUCTO: ", item);
-    console.log("ESTADO: ", state);
+    //console.log("ENTRANDO A ACRUALIZAR ESTADO - - - - - - - ");
+    //console.log("PRODUCTO: ", item);
+    //console.log("ESTADO: ", state);
     setProducts((products) => {
       // Obtén una copia del array actual
       const productosActualizados = [...products];
@@ -49,7 +49,7 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
       // Actualiza la propiedad del objeto
       if (producto) {
         producto.state = state;
-        console.log(producto);
+        //console.log(producto);
       }
 
       // Devuelve el array actualizado como el nuevo estado
@@ -58,9 +58,9 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
   };
 
   const actualizarPrecio = (item, price) => {
-    console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
-    console.log("PRODUCTO: ", item);
-    console.log("PRECIO: ", price);
+    //console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
+    //console.log("PRODUCTO: ", item);
+    //console.log("PRECIO: ", price);
     setProducts((products) => {
       // Obtén una copia del array actual
       const productosActualizados = [...products];
@@ -71,7 +71,7 @@ const CheckBoxContainer = ({ productName, products, setProducts, item }) => {
       // Actualiza la propiedad del objeto
       if (producto) {
         producto.price = price;
-        console.log(producto);
+        //console.log(producto);
       }
 
       // Devuelve el array actualizado como el nuevo estado

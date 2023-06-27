@@ -90,10 +90,10 @@ export const Promos = ({ navigation }) => {
   const consultarYCopiarContenido = async () => {
     const nombre_cliente = await AsyncStorage.getItem("nombre_cliente");
     const clientName = nombre_cliente.split("-")[1].trim();
-    console.log(
-      "NOMBRE DE LA CONSULTA PARA EXHIBIDOR - - - - - - -",
-      clientName
-    );
+    // //console.log(
+    //   "NOMBRE DE LA CONSULTA PARA EXHIBIDOR - - - - - - -",
+    //   clientName
+    // );
     try {
       const resultadoConsultaExhibidor = await realizarConsulta(
         `SELECT * FROM exhibidor WHERE nombre_cliente='${clientName}'`
@@ -101,12 +101,12 @@ export const Promos = ({ navigation }) => {
 
       const tablaAuditorias = await realizarConsulta("SELECT * FROM auditoria");
 
-      //console.log("NOMBRE DEL CLIENTE: - - - - ", clientName);
+      ////console.log("NOMBRE DEL CLIENTE: - - - - ", clientName);
 
-      console.log(
-        "DATOS DE TABLA AUDITORIA * * * * * * *: - - - - ",
-        tablaAuditorias
-      );
+      // //console.log(
+      //   "DATOS DE TABLA AUDITORIA * * * * * * *: - - - - ",
+      //   tablaAuditorias
+      // );
 
       const newArrayExhibidor = resultadoConsultaExhibidor.map((objeto) => {
         return {
@@ -151,20 +151,20 @@ export const Promos = ({ navigation }) => {
 
       setBranch([...branchSucursal]);
 
-      console.log(
-        "Copia de contenido completada con éxito: ",
-        newArrayExhibidor
-      );
-      console.log("BRANCH FORMATEADO: ", branchSucursal);
-      console.log("EXHIBIDORES FORMATEADOS: ", exhibidorFilter);
-      console.log(
-        "DATOS DE EXHIBIDORES * * * * * * * / / / / / /: - - - - ",
-        resultadoConsultaExhibidor
-      );
-      console.log(
-        "ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES  * * * * * * * * * * * * * * **: ",
-        exhibidorFilter
-      );
+      // //console.log(
+      //   "Copia de contenido completada con éxito: ",
+      //   newArrayExhibidor
+      // );
+      //console.log("BRANCH FORMATEADO: ", branchSucursal);
+      //console.log("EXHIBIDORES FORMATEADOS: ", exhibidorFilter);
+      // //console.log(
+      //   "DATOS DE EXHIBIDORES * * * * * * * / / / / / /: - - - - ",
+      //   resultadoConsultaExhibidor
+      // );
+      // //console.log(
+      //   "ARRAY PARA ALMACENAR DATOS DE EXHIBIDORES  * * * * * * * * * * * * * * **: ",
+      //   exhibidorFilter
+      // );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -174,34 +174,34 @@ export const Promos = ({ navigation }) => {
     if (selected === "Esta sucursal no registra plan") {
       setIsModalVisibleCloseSucursal(true);
     } else {
-      console.log("EXHIBIDORES ENCONTRADOS TOTALES: ", exhibidorType);
+      //console.log("EXHIBIDORES ENCONTRADOS TOTALES: ", exhibidorType);
       const filteredData = exhibidorType.filter((objeto) => {
-        console.log(
-          "NOMBRE DE LA SUCURSAL: " +
-            objeto.sucursal +
-            " SUC A COMPARAR: " +
-            selected
-        );
+        // //console.log(
+        //   "NOMBRE DE LA SUCURSAL: " +
+        //     objeto.sucursal +
+        //     " SUC A COMPARAR: " +
+        //     selected
+        // );
         return objeto.sucursal === selected; // Retorna true si el nombre de sucursal coincide
       });
 
       setExhibidorSucursal(filteredData);
       setPromos(filteredData);
-      console.log(
-        "////////////////////////////////////////////////////////////////////////////"
-      );
-      console.log(
-        "EXHIBIDORES POR NOMBRE DE LA SUCURSAL - - - - - - - - - - - : ",
-        filteredData
-      );
-      console.log(
-        "////////////////////////////////////////////////////////////////////////////"
-      );
+      // //console.log(
+      //   "////////////////////////////////////////////////////////////////////////////"
+      // );
+      // //console.log(
+      //   "EXHIBIDORES POR NOMBRE DE LA SUCURSAL - - - - - - - - - - - : ",
+      //   filteredData
+      // );
+      // //console.log(
+      //   "////////////////////////////////////////////////////////////////////////////"
+      // );
     }
   };
 
   useEffect(() => {
-    console.log("SUCURSAL SELECCIONADA: - - - - ", selected);
+    //console.log("SUCURSAL SELECCIONADA: - - - - ", selected);
     validateSucursal();
   }, [selected]);
 
@@ -233,9 +233,9 @@ export const Promos = ({ navigation }) => {
   };
 
   const dataId = async () => {
-    console.log(
-      "\nDESDE PROMOCION *********************************************************\n"
-    );
+    // //console.log(
+    //   "\nDESDE PROMOCION *********************************************************\n"
+    // );
     let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
     let idPercha = await AsyncStorage.getItem("id_percha"); //si
     let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
@@ -245,16 +245,16 @@ export const Promos = ({ navigation }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     ); //si
-    console.log(
-      "\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n\n"
-    );
-    console.log("ID DE PRECIADOR: ", idPreciador);
-    console.log("ID DE PERCHA: ", idPercha);
-    console.log("ID DE SUCURSAL: ", idSucursal);
-    console.log("ID DE CLIENTE: ", idCliente);
-    console.log("NOMBRE CLIENTE: ", nombreCliente);
-    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
-    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+    // //console.log(
+    //   "\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n\n"
+    // );
+    //console.log("ID DE PRECIADOR: ", idPreciador);
+    //console.log("ID DE PERCHA: ", idPercha);
+    //console.log("ID DE SUCURSAL: ", idSucursal);
+    //console.log("ID DE CLIENTE: ", idCliente);
+    //console.log("NOMBRE CLIENTE: ", nombreCliente);
+    //console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    //console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
   };
 
   useEffect(() => {
@@ -275,19 +275,19 @@ export const Promos = ({ navigation }) => {
     setHadSavePreciador(false),
       setHadSaveBriefCase(false),
       setHadSaveRack(false);
-    console.log(
-      "***********************************************************************************"
-    );
-    console.log("ID DE PRECIADOR: ", idPreciador);
-    console.log("ID DE PERCHA: ", idPercha);
-    console.log("ID DE SUCURSAL: ", idSucursal);
-    console.log("ID DE CLIENTE: ", idCliente);
-    console.log("NOMBRE CLIENTE: ", nombreCliente);
-    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
-    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
-    console.log(
-      "***********************************************************************************"
-    );
+    // //console.log(
+    //   "***********************************************************************************"
+    // );
+    //console.log("ID DE PRECIADOR: ", idPreciador);
+    //console.log("ID DE PERCHA: ", idPercha);
+    //console.log("ID DE SUCURSAL: ", idSucursal);
+    //console.log("ID DE CLIENTE: ", idCliente);
+    //console.log("NOMBRE CLIENTE: ", nombreCliente);
+    //console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    //console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+    // //console.log(
+    //   "***********************************************************************************"
+    // );
 
     let dataSave = {
       tableName: "auditoria",
@@ -330,7 +330,7 @@ export const Promos = ({ navigation }) => {
       ") VALUES(" +
       dataSave.dataInsert.join() +
       ")";
-    console.log("SENTENCIA A EJECUTAR: ", sentence);
+    //console.log("SENTENCIA A EJECUTAR: ", sentence);
     try {
       db_insertGlobalDataAudit(dataSave);
       //setShowButton1(false);
@@ -345,7 +345,7 @@ export const Promos = ({ navigation }) => {
           );
           navigation.navigate("begin");
         } catch (e) {
-          console.log("ERROR DESDE PROMOS: ", e);
+          //console.log("ERROR DESDE PROMOS: ", e);
           setIsModalVisible(false);
           setIsModalVisibleClose(false);
           setIsModalVisibleCloseSucursal(false);
@@ -369,14 +369,14 @@ export const Promos = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log();
+    //console.log();
   });
 
   const validate = async () => {
-    console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
+    //console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
 
     if (selected === null && hasVariable) {
-      console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
+      //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
       setShowModal(!showModal);
       setModalTitle("Tiene que escoger una sucursal del campo desplegable");
       setModalText(
@@ -389,12 +389,12 @@ export const Promos = ({ navigation }) => {
     } else {
       const isValid = promos.every((item) => {
         if (item.state === null || selected === null) {
-          console.log("ESTE ITEM DA PROBLEMAS: ", item);
+          //console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
         if (item.state === 1) {
           if (!item.images || item.images.image1 === null) {
-            console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+            //console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
             return false;
           }
         }
@@ -407,15 +407,15 @@ export const Promos = ({ navigation }) => {
           "Necesita marcar el valor de las promociones de cada exhibidor"
         );
         //navigation.navigate('rack');
-        console.log("CONTENIDO DE PROMOCIONES: ", JSON.stringify(promos));
+        //console.log("CONTENIDO DE PROMOCIONES: ", JSON.stringify(promos));
       } else {
         setIsModalVisible(true);
         try {
           //await AsyncStorage.setItem("id_promocion", idPercha);
-          console.log(
-            "PROMOCIONES QUE VAN A SER GUARDADOS: ",
-            JSON.stringify(exhibidorSucursal)
-          );
+          // //console.log(
+          //   "PROMOCIONES QUE VAN A SER GUARDADOS: ",
+          //   JSON.stringify(exhibidorSucursal)
+          // );
           if (exhibidorSucursal.length > 0) {
             exhibidorSucursal.map((productos) => {
               const { id_promocion, id, state, images } = productos;
@@ -447,9 +447,9 @@ export const Promos = ({ navigation }) => {
                 ") VALUES(" +
                 dataSave.dataInsert.join() +
                 ")";
-              console.log("SENTENCIA A EJECUTAR: ", sentence);
+              //console.log("SENTENCIA A EJECUTAR: ", sentence);
               db_insertGlobalDataAudit(dataSave);
-              console.log("TODO BIEN");
+              //console.log("TODO BIEN");
               saveAudit();
               cleanCurrentScreenUser();
               navigation.navigate("begin");
@@ -458,16 +458,16 @@ export const Promos = ({ navigation }) => {
             }, 1200);*/
             });
           } else {
-            console.log("TODO BIEN");
+            //console.log("TODO BIEN");
             saveAudit();
             cleanCurrentScreenUser();
             navigation.navigate("begin");
           }
         } catch (e) {
-          console.log("errordel drop?::", e);
+          //console.log("errordel drop?::", e);
           Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
         }
-        console.log("TODO BIEN  - - - - - - - -- ");
+        //console.log("TODO BIEN  - - - - - - - -- ");
       }
     }
   };
@@ -475,12 +475,12 @@ export const Promos = ({ navigation }) => {
   const validateData = () => {
     const isDataValid = promos.every((item) => {
       if (item.state === null) {
-        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        //console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
       if (item.state === 1 || item.state === 0) {
         if (!item.images || item.images.image1 === null) {
-          console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
+          //console.log("ESTE ITEM DA PROBLEMAS DE PRECIO O IMAGEN: ", item);
           return false;
         }
       }
@@ -492,7 +492,7 @@ export const Promos = ({ navigation }) => {
 
   const handleDeleteRegisterLocal = async () => {
     const id_percha = await AsyncStorage.getItem("id_percha");
-    // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
+    // //console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
       saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen);
     } else {

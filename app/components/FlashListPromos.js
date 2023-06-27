@@ -7,7 +7,7 @@ import { CheckBoxContainerP } from "./CheckBoxContainerP";
 
 export const FlashListPromos = ({ data, setData }) => {
   useEffect(() => {
-    console.log("ESTO LLEGA DE PROMOS DE LISTA: ", data);
+    //console.log("ESTO LLEGA DE PROMOS DE LISTA: ", data);
   }, []);
   return (
     <View style={{ flex: 1, width: "90%" }}>

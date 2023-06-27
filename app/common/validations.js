@@ -8,10 +8,10 @@ export function validateEmail(email) {
 export function validateCedula(cedula) {
   if (cedula.length === 13) {
     const last_digits = cedula.slice(10, 13);
-    //console.log(last_digits);
+    ////console.log(last_digits);
     if (last_digits === "001") {
       cedula = cedula.slice(0, 10);
-      //console.log(cedula);
+      ////console.log(cedula);
     }
   }
   if (cedula.length == 10) {

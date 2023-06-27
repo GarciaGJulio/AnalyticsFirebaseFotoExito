@@ -25,7 +25,7 @@ const Promos_Review = ({ navigation }) => {
       const nombre = await realizarConsulta(
         `SELECT nombre_categoria FROM categoria where id_categoria ='${item.id_categoria}'`
       );
-      console.log("NOMBRE DE LA CATEGORIA: ", nombre[0].nombre_categoria);
+      //console.log("NOMBRE DE LA CATEGORIA: ", nombre[0].nombre_categoria);
       return {
         ...item,
         nombre_categoria: nombre[0].nombre_categoria,
@@ -44,9 +44,9 @@ const Promos_Review = ({ navigation }) => {
     const promosCompletas = datosPromocion.map((objeto) => {
       const exhibidor = exhibidores.find((cat) => {
         cat.id_exhibidor === objeto.id_exhibidor;
-        console.log(cat.id_exhibidor + " " + objeto.id_exhibidor);
+        //console.log(cat.id_exhibidor + " " + objeto.id_exhibidor);
       });
-      console.log("ESTE ES EL EXHIBIDOR DE LA AUDITORIA: ", exhibidor);
+      //console.log("ESTE ES EL EXHIBIDOR DE LA AUDITORIA: ", exhibidor);
       if (exhibidor) {
         return {
           ...objeto,
@@ -61,15 +61,15 @@ const Promos_Review = ({ navigation }) => {
     /*const categoria_name = await realizarConsulta(
       `SELECT * FROM categoria where id_categoria =${datos.id_categoria}`
     );*/
-    console.log("NOMBRE DE ECHIBIDOR : ", exhibidores);
-    //console.log("DATOS OBTENIDOS DE CATEGORIAS : ", perchasCompletas);
-    console.log("DATOS OBTENIDOS DE PROMOCIONES : ", promosCompletas);
-    //console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
+    //console.log("NOMBRE DE ECHIBIDOR : ", exhibidores);
+    ////console.log("DATOS OBTENIDOS DE CATEGORIAS : ", perchasCompletas);
+    //console.log("DATOS OBTENIDOS DE PROMOCIONES : ", promosCompletas);
+    ////console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
 
-    console.log(
-      "DATOS OBTENIDOS DE PROMOCIONES CON JOINS - - - - - - -: ",
-      promosConsulta
-    );
+    // //console.log(
+    //   "DATOS OBTENIDOS DE PROMOCIONES CON JOINS - - - - - - -: ",
+    //   promosConsulta
+    // );
   };
   useEffect(() => {
     getPromosData();

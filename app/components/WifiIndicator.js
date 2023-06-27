@@ -23,15 +23,15 @@ const WifiIndicator = () => {
     const unsubscribe = NetInfo.addEventListener(async (state) => {
       setIsConnected(state.isConnected);
       if (state.isConnected) {
-        console.log("CAMBIANDO A ESTADO A TRUE PRIMERA VEZ :");
+        //console.log("CAMBIANDO A ESTADO A TRUE PRIMERA VEZ :");
         setIsConnectionActivate(true);
       } else {
-        console.log("APAGANDO CONEXION :");
+        //console.log("APAGANDO CONEXION :");
         setIsConnectionActivate(false);
       }
       /*if (state.isConnected) {
       }*/
-      console.log("VERIFICANDO CONEXIÓN: ", state.isConnected);
+      //console.log("VERIFICANDO CONEXIÓN: ", state.isConnected);
     });
 
     return () => {

@@ -7,7 +7,7 @@ import { useFonts } from "expo-font";
 
 export const ProductsPrices_Review = ({ text, products }) => {
   useEffect(() => {
-    console.log("PRODUCTOS QUE ME LLEGAN DE REVIEW: - - - - -", products);
+    //console.log("PRODUCTOS QUE ME LLEGAN DE REVIEW: - - - - -", products);
   }, []);
 
   const [fontLoaded] = useFonts({

@@ -25,10 +25,10 @@ export const FlashListPrices = React.memo(
     const [selectedItemId, setSelectedItemId] = useState(null);
 
     useEffect(() => {
-      console.log(
-        "PRODUCTOS QUE LLEGAN AL PRECIADOR - - - - - - - - - - -: ",
-        products
-      );
+      // //console.log(
+      //   "PRODUCTOS QUE LLEGAN AL PRECIADOR - - - - - - - - - - -: ",
+      //   products
+      // );
     }, []);
 
     const handleToggleSelection = (itemId) => {

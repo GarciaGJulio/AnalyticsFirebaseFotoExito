@@ -26,7 +26,7 @@ export class AuthManager {
   static signInAsync = async () => {
     const result = await authorize(config);
 
-    //console.log(result.accessToken);
+    ////console.log(result.accessToken);
 
     // Store the access token, refresh token, and expiration time in storage
     await AsyncStorage.setItem('userToken', result.accessToken);
@@ -54,9 +54,9 @@ export class AuthManager {
 
         if (now.isSameOrAfter(expire)) {
           // Expired, refresh
-          //console.log('Refreshing token');
+          ////console.log('Refreshing token');
           const refreshToken = await AsyncStorage.getItem('refreshToken');
-          //console.log(`Refresh token: ${refreshToken}`);
+          ////console.log(`Refresh token: ${refreshToken}`);
           const result = await refresh(config, {
             refreshToken: refreshToken || '',
           });
@@ -125,7 +125,7 @@ export const autenticacionSecundaria = () => {
         });
 
         const graphApiData = await graphApiResponse.json();
-        console.log('Respuesta de Microsoft Graph API:', graphApiData);
+        //console.log('Respuesta de Microsoft Graph API:', graphApiData);
       } else {
         console.error('Error al obtener el token de acceso:', response.statusText);
       }

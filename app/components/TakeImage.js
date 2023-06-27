@@ -28,10 +28,10 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    console.log("item dsde Taker:", item);
+    //console.log("item dsde Taker:", item);
     setidItem(item.id);
     if (isUserScreen) {
-      console.log("dentroooo", item.images.image1);
+      //console.log("dentroooo", item.images.image1);
       setImageV1(true);
       if (item.images.image1) {
         setImage1(item.images.image1);
@@ -50,8 +50,8 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
       await pickImages((img) => {
         setImg(img);
         actImg(item, img, NomImg);
-        console.log(NomImg + item.id.toString());
-        console.log("Uri ACT:", image1);
+        //console.log(NomImg + item.id.toString());
+        //console.log("Uri ACT:", image1);
       }, NomImg + "-" + item.id.toString() + "-" + generateUIDDGeneric());
     } catch (error) {
     } finally {
@@ -60,9 +60,9 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
   };
   const actualizarImagen = (item, image, imagesNumber) => {
     //pickImages(item, setImage);
-    console.log("\nENTRANDO A ACtUALIZAR IMAGEN - - - - - - - ");
-    console.log("PRODUCTO: ", item);
-    console.log("IMAGEN: ", image);
+    //console.log("\nENTRANDO A ACtUALIZAR IMAGEN - - - - - - - ");
+    //console.log("PRODUCTO: ", item);
+    //console.log("IMAGEN: ", image);
     setProducts((products) => {
       // Obtén una copia del array actual
       const productosActualizados = [...products];
@@ -73,7 +73,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
       // Actualiza la propiedad del objeto
       if (producto) {
         producto.images["" + imagesNumber + ""] = image;
-        console.log(producto);
+        //console.log(producto);
       }
 
       // Devuelve el array actualizado como el nuevo estado
@@ -83,9 +83,9 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
 
   const borrarImagen = (item, imagesNumber, idBorrar) => {
     deleteImageFromOneDrive(idBorrar);
-    console.log("\nENTRANDO A ELIMINAR IMAGEN - - - - - - - ");
-    console.log("PRODUCTO: ", item);
-    console.log("ELIMINANDO IMAGEN: . . . . . ");
+    //console.log("\nENTRANDO A ELIMINAR IMAGEN - - - - - - - ");
+    //console.log("PRODUCTO: ", item);
+    //console.log("ELIMINANDO IMAGEN: . . . . . ");
     setProducts((products) => {
       // Obtén una copia del array actual
       const productosActualizados = [...products];
@@ -99,7 +99,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
         if (imagesNumber === "image2") {
           producto.images.image3 = null;
         }
-        console.log(producto);
+        //console.log(producto);
       }
       // Devuelve el array actualizado como el nuevo estado
       return productosActualizados;
@@ -117,7 +117,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
             actualizarImagen,
             "image1"
           );
-          console.log("Productos items:", item);
+          //console.log("Productos items:", item);
         }}
         //actualizarImagen(item, setImage1, "image1",image1);
         style={styles.imageContainer}
@@ -138,7 +138,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
               actualizarImagen,
               "image2"
             );
-            console.log("Productos items:", item);
+            //console.log("Productos items:", item);
           }}
           style={styles.imageContainer}
         >
@@ -155,7 +155,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
               borrarImagen(item, "image2", REimage2);
               setImage2("");
               setImage3("");
-              console.log("Productos items:", item);
+              //console.log("Productos items:", item);
             }}
           >
             <Icon name="remove-circle" type="ionicon" size={25} color={"red"} />

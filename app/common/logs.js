@@ -16,9 +16,9 @@ export const showDebug = (msg, obj) => {
 
   global.arrayMsg.push("[" + getFormattedTime() + "] " + msg + objStr);
   if (obj != null) {
-    console.log(msg, obj);
+    //console.log(msg, obj);
   } else {
-    console.log(msg);
+    //console.log(msg);
   }
 
   global.debug = "";
