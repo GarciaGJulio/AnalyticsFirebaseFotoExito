@@ -129,17 +129,19 @@ export const GlobalProvider = ({ children }) => {
     clearWorkFlow();
   };
 
-  const handleCheckCanSaveAllDataLocal = useCallback(async (values) => {
+  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish,onContinue) => {
     try {
       const totalVariables = await CountClientVariable()
       const posScreen = await AsyncStorage.getItem('currentScreenPos')
       if (posScreen > totalVariables) {
-        console.log("*********************ya est+a al final de la pantalla*/*****************")
+        onFinish()
+        //console.log("*********************ya est+a al final de la pantalla*/*****************")
       } else {
-        console.log("*********************aun no está al final de la pantalla*/*****************")
+        onContinue()
+        //console.log("*********************aun no está al final de la pantalla*/*****************")
       }
-      console.log("totalVariables", totalVariables)
-      console.log("posScreen", posScreen)
+     // console.log("totalVariables", totalVariables)
+     // console.log("posScreen", posScreen)
     } catch (e) {
       console.error(e)
     }
