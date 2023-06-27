@@ -563,7 +563,7 @@ export const Prices = ({ navigation, route }) => {
         <View style={styles.contentContainer}>
           <ClientInformation/>
           <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ flex: 1.3 }}>
+          <View style={{ flex: 1.8 }}>
             <ScreenInformation
               title={"Preciador"}
               text={
