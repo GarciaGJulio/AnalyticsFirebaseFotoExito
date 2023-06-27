@@ -84,16 +84,8 @@ export const ProductsDetails_Review = ({ item }) => {
     }
   };
 
-  const [fullscreenImage, setFullscreenImage] = useState(null);
-
-  const handleImagePress = (image) => {
-    setFullscreenImage(image);
-    setModalVisible(true);
-  };
-
   const handleModalClose = () => {
-    setModalVisible(false);
-    setFullscreenImage(null);
+    setOpenCamera(!openCamera);
   };
 
   return (
@@ -130,11 +122,9 @@ export const ProductsDetails_Review = ({ item }) => {
           >
             <View style={{ flex: 1 }}>
               <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                Precio
+                Precio registrado
               </Text>
             </View>
-
-            
             {item.estado === 1 ? (
               <View
                 style={{
@@ -150,28 +140,38 @@ export const ProductsDetails_Review = ({ item }) => {
                     paddingVertical: 5,
                   }}
                   onPress={() => {
+                    //setModalVisible(!modalVisible);
                     setOpenCamera(!openCamera);
-                    setModalVisible(true);
                   }}
                 >
                   <Icon name="camera" type="evilicon" size={40} />
                 </TouchableOpacity>
               </View>
             ) : (
-              <></>
+              <>
+                <Text style={{ paddingVertical: 5 }}></Text>
+              </>
             )}
-
-            
           </View>
-          
-          {item.estado == 1 ? (
-              <View >
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              //backgroundColor: "red",
+              bottom: 5,
+              marginRight: 5,
+            }}
+          >
+            {item.estado == 1 ? (
+              <View>
                 <Text
                   style={{
                     fontSize: 12,
                     //marginTop: 10,
+                    //bottom: 5,
                     fontFamily: "Metropolis",
-                   // bottom: 5,
                   }}
                 >
                   ${validarDecimales(item.precio)}
@@ -190,16 +190,6 @@ export const ProductsDetails_Review = ({ item }) => {
               </Text>
             )}
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              //backgroundColor: "red",
-              marginRight: 5,
-            }}
-          >
-            
             <View>
               <View
                 style={[
@@ -222,7 +212,7 @@ export const ProductsDetails_Review = ({ item }) => {
             <Modal
               animationType="slide"
               transparent={true}
-              visible={modalVisible}
+              visible={openCamera}
               onRequestClose={() => {
                 Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
