@@ -46,7 +46,7 @@ export const RackCheckbox = ({
   const { hadSaveRack, setHadSaveRack } = useContext(GlobalContext);
 
   useEffect(() => {
-    // console.log("------isUserScreen----------",isUserScreen)
+    // //console.log("------isUserScreen----------",isUserScreen)
     if (isUserScreen) {
       setCateGeneral(item.carasGeneral + "");
       setCateModerna(item.carasModerna + "");
@@ -57,7 +57,7 @@ export const RackCheckbox = ({
         setCheck2(true);
       }
 
-      // console.log("----------------",item)
+      // //console.log("----------------",item)
     }
   }, [isUserScreen]);
 
@@ -79,7 +79,7 @@ export const RackCheckbox = ({
   };*/
 
   const validateExtraImages = async (objeto) => {
-    console.log("****** esto llega de objeto********", objeto);
+    //console.log("****** esto llega de objeto********", objeto);
     setExtraImages([]);
 
     if (
@@ -122,41 +122,41 @@ export const RackCheckbox = ({
     }
 
     let img = extraImages.join(",");
-    console.log("IMAGENES EXTRAS: - - - - ", img);
+    //console.log("IMAGENES EXTRAS: - - - - ", img);
   };
 
   useEffect(() => {
     validateExtraImages(item);
-    //console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
+    ////console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
   }, [item]);
 
   const validateNumbers = (num1, num2) => {
     if (num1 === "" || num2 === "") {
-      console.log("Por favor, ingrese ambos números");
+      //console.log("Por favor, ingrese ambos números");
       // Puedes mostrar un mensaje de error indicando que se deben ingresar ambos números
       return;
     }
 
     if (num1 < 0 || num2 < 0) {
-      console.log("Por favor, ingrese ambos números");
+      //console.log("Por favor, ingrese ambos números");
       setverificacionCategoria(" Ingrese numero mayores a 0");
       // Puedes mostrar un mensaje de error indicando que se deben ingresar ambos números
       return;
     }
 
     if (parseInt(num1) < parseInt(num2)) {
-      console.log(
-        "El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General"
-      );
-      setverificacionCategoria(
-        "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
-      );
-      setValueGeneralValidate(
-        "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
-      );
+      // //console.log(
+      //   "El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General"
+      // );
+      // setverificacionCategoria(
+      //   "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
+      // );
+      // setValueGeneralValidate(
+      //   "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
+      // );
       // Puedes mostrar un mensaje de error o realizar otra acción en caso de validación incorrecta
     } else if (parseInt(num1) >= parseInt(num2)) {
-      console.log("Validación exitosa");
+      //console.log("Validación exitosa");
       setverificacionCategoria("");
       setValueGeneralValidate("");
       // Puedes realizar alguna acción cuando la validación sea exitosa
@@ -164,16 +164,16 @@ export const RackCheckbox = ({
   };
 
   const actualizarEstado = (item, state) => {
-    console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
-    console.log("PERCHA: ", item);
-    console.log("ESTADO: ", state);
+    //console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
+    //console.log("PERCHA: ", item);
+    //console.log("ESTADO: ", state);
     setData((perchas) => {
       // Obtén una copia del array actual
       const perchaActualizados = [...perchas];
 
       // Encuentra el objeto con el ID correspondiente
       const percha = perchaActualizados.find((p) => p.id === item.id);
-      //console.log("ID PERCHA A ACRUALIZAR:", p.id_categoria);
+      ////console.log("ID PERCHA A ACRUALIZAR:", p.id_categoria);
       // Actualiza la propiedad del objeto
       if (percha) {
         if (state) {
@@ -185,7 +185,7 @@ export const RackCheckbox = ({
             (percha.images.image3 = null);*/
         }
 
-        console.log("PARAMETRO ACTUALIZADO: ", percha);
+        //console.log("PARAMETRO ACTUALIZADO: ", percha);
       }
 
       // Devuelve el array actualizado como el nuevo estado
@@ -194,9 +194,9 @@ export const RackCheckbox = ({
   };
 
   const actualizarCantidad = (item, variant, txt) => {
-    console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
-    console.log("PERCHA: ", item);
-    console.log("PRECIO: ", txt);
+    //console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
+    //console.log("PERCHA: ", item);
+    //console.log("PRECIO: ", txt);
     setData((perchas) => {
       // Obtén una copia del array actual
       const perchaActualizados = [...perchas];
@@ -207,7 +207,7 @@ export const RackCheckbox = ({
       // Actualiza la propiedad del objeto
       if (percha) {
         percha["" + variant + ""] = parseInt(txt);
-        console.log("PERCHA ACTUALIZADA", percha);
+        //console.log("PERCHA ACTUALIZADA", percha);
       }
 
       // Devuelve el array actualizado como el nuevo estado

@@ -63,7 +63,7 @@ export const Rack_View = ({ rack }) => {
     }
 
     let img = extraImages.join(",");
-    //console.log("IMAGENES EXTRAS: - - - - ", img);
+    ////console.log("IMAGENES EXTRAS: - - - - ", img);
   };
 
   const validateImagesPlanograma = async (objeto) => {
@@ -80,7 +80,7 @@ export const Rack_View = ({ rack }) => {
           objeto.url_planograma1,
           `${objeto.id_planograma}1`
         );
-        //console.log("IMAGEN ACTUALIZADA 1: ", imagenVerificada);
+        ////console.log("IMAGEN ACTUALIZADA 1: ", imagenVerificada);
         setImagesPlanograma((prevImagenes) => [
           ...prevImagenes,
           imagenVerificada,
@@ -121,14 +121,14 @@ export const Rack_View = ({ rack }) => {
     }
 
     let img = imagesPlanograma.join(",");
-    //console.log("IMAGENES EXTRAS DE PLANOGRAMA: - - - - ", img);
-    console.log("IMAGENES DE PLANOGRAMA:   -- - - - -", img);
+    ////console.log("IMAGENES EXTRAS DE PLANOGRAMA: - - - - ", img);
+    //console.log("IMAGENES DE PLANOGRAMA:   -- - - - -", img);
   };
 
   useEffect(() => {
     validateExtraImages(rack);
     validateImagesPlanograma(rack);
-    //console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
+    ////console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
   }, [rack]);
 
   const [openCamera, setOpenCamera] = useState(false);

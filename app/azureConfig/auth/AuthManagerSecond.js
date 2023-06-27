@@ -55,33 +55,33 @@ export const authenticate = async () => {
 
 
     const result = await authorize(authConfig, configWithExtraParams);
-    console.log('Token de acceso:', result.accessToken);
+    //console.log('Token de acceso:', result.accessToken);
     await  AsyncStorage.setItem('userToken2', result.accessToken);
-    console.log('Código de verificación:', codeVerifier);
+    //console.log('Código de verificación:', codeVerifier);
     
-    console.log('usertoken',await AsyncStorage.getItem('userToken'))
-    console.log('usertoken2',await AsyncStorage.getItem('userToken2'))
+    //console.log('usertoken',await AsyncStorage.getItem('userToken'))
+    //console.log('usertoken2',await AsyncStorage.getItem('userToken2'))
 
   } catch (error) {
-    console.log('Error de autenticación:', error);
+    //console.log('Error de autenticación:', error);
   }
 };
 
 export const refreshToken = async (refreshToken) => {
   try {
     const result = await refresh(authConfig, { refreshToken });
-    console.log('Nuevo token de acceso:', result.accessToken);
+    //console.log('Nuevo token de acceso:', result.accessToken);
   } catch (error) {
-    console.log('Error al refrescar el token:', error);
+    //console.log('Error al refrescar el token:', error);
   }
 };
 
 export const revokeToken = async (accessToken) => {
   try {
     await revoke(authConfig, { tokenToRevoke: accessToken });
-    console.log('Token revocado exitosamente');
+    //console.log('Token revocado exitosamente');
   } catch (error) {
-    console.log('Error al revocar el token:', error);
+    //console.log('Error al revocar el token:', error);
   }
 };
 

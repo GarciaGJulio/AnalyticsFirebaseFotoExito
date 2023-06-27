@@ -34,7 +34,7 @@ export const axiosGetToken = async () => {
     response = await axios.post(ConstantsModerna.enpoints.getAccesToken, data);
     return response;
   } catch (e) {
-    console.log(e);
+    //console.log(e);
     response = e;
     throw new Error(e);
   }

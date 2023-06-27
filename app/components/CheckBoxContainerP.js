@@ -28,12 +28,12 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
     setIsModalVisible(false);
   };
 
-  useEffect(() => {
-    console.log(
-      "ESTO LLEGA A PROMOCIONES: ----------------------------------- ",
-      item
-    );
-  });
+  // useEffect(() => {
+  //   //console.log(
+  //     "ESTO LLEGA A PROMOCIONES: ----------------------------------- ",
+  //     item
+  //   );
+  // });
 
   const updateImage = async (item) => {
     const imagenVerificada = await verifyUrlImage(
@@ -55,7 +55,7 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
     setDisabled2(!disabled2);
   };*/
   useEffect(() => {
-    console.log("NOMBRE DE LOS IMAGENES: ", item.url);
+    //console.log("NOMBRE DE LOS IMAGENES: ", item.url);
   }, []);
 
   const [fontLoaded] = useFonts({
@@ -66,9 +66,9 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
   if (!fontLoaded) return null;
 
   const actualizarEstado = (item, state) => {
-    console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
-    console.log("PERCHA: ", item);
-    console.log("ESTADO: ", state);
+    //console.log("\nENTRANDO A ACtUALIZAR ESTADO - - - - - - - ");
+    //console.log("PERCHA: ", item);
+    //console.log("ESTADO: ", state);
     setData((exhibidores) => {
       // Obtén una copia del array actual
       const exhibidorActualizados = [...exhibidores];
@@ -87,7 +87,7 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
             (exhibidor.images.image3 = null);*/
         }
 
-        console.log("PARAMETRO ACTUALIZADO: ", exhibidor);
+        //console.log("PARAMETRO ACTUALIZADO: ", exhibidor);
       }
 
       // Devuelve el array actualizado como el nuevo estado

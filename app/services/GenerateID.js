@@ -11,10 +11,10 @@ export const generateUIDD = () => {
 };
 
 export const dataTime = () => {
-  console.log(
-    "\n*** ***************** -**************************-* FECHA ACTUAL DEL REGISTRO\n",
-    moment().format("DD/MM/YYYY HH:mm:ss")
-  );
+  // //console.log(
+  //   "\n*** ***************** -**************************-* FECHA ACTUAL DEL REGISTRO\n",
+  //   moment().format("DD/MM/YYYY HH:mm:ss")
+  // );
   return moment().format("DD/MM/YYYY HH:mm:ss");
 };
 

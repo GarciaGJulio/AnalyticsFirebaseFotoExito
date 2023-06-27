@@ -6,7 +6,7 @@ export const getLocation = async () => {
   let data = await Location.requestForegroundPermissionsAsync();
   // let data = await Location.requestBackgroundPermissionsAsync();
   const { status } = data;
-  console.log("data", data);
+  //console.log("data", data);
   if (status === "granted") {
     return new Promise((resolve, reject) => {
       capturarCoordenadas()
@@ -18,7 +18,7 @@ export const getLocation = async () => {
         });
     });
   } else {
-    console.log(status);
+    //console.log(status);
     Linking.openSettings();
     // permission denied
   }
@@ -32,9 +32,9 @@ export const capturarCoordenadas = async () => {
         timeout: 60000,
       })
         .then((location) => {
-          console.log(location);
-          console.log("LONGITUD :", location.longitude);
-          console.log("LATITUD :", location.latitude);
+          //console.log(location);
+          //console.log("LONGITUD :", location.longitude);
+          //console.log("LATITUD :", location.latitude);
           resolve(location);
         })
         .catch((error) => {
@@ -44,7 +44,7 @@ export const capturarCoordenadas = async () => {
         });
     });
   } catch (e) {
-    console.log("ERROR AL RECOPILAR LAS COORDENADAS: ", e);
+    //console.log("ERROR AL RECOPILAR LAS COORDENADAS: ", e);
     throw e;
   }
 };
@@ -53,7 +53,7 @@ export const requestLocationPermission = async () => {
   try {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      console.log("Permiso de ubicación denegado");
+      //console.log("Permiso de ubicación denegado");
       return null;
     }
 
@@ -61,7 +61,7 @@ export const requestLocationPermission = async () => {
     const coords = await capturarCoordenadasAlternativas();
     return coords;
   } catch (error) {
-    console.log("Error al solicitar permisos de ubicación:", error);
+    //console.log("Error al solicitar permisos de ubicación:", error);
     return null;
   }
 };
@@ -70,10 +70,10 @@ export const capturarCoordenadasAlternativas = async () => {
   try {
     const { coords } = await Location.getCurrentPositionAsync({});
     const { latitude, longitude } = coords;
-    console.log("Coordenadas de la posición actual:", latitude, longitude);
+    //console.log("Coordenadas de la posición actual:", latitude, longitude);
     return { latitude, longitude };
   } catch (error) {
-    console.log("Error al obtener la ubicación:", error);
+    //console.log("Error al obtener la ubicación:", error);
     return null;
   }
 };

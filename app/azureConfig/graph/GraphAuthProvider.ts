@@ -10,7 +10,7 @@ import { AuthManager } from "../auth/AuthManager";
 export class GraphAuthProvider {
   getAccessToken = async () => {
     const token = await AuthManager.getAccessTokenAsync();
-    //console.log("token de inciios de session 123",token)
+    ////console.log("token de inciios de session 123",token)
     return token || '';
   };
 }

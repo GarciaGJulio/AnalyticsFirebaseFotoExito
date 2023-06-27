@@ -29,12 +29,12 @@ export const Navigation = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(ModernaContext);
 
   useEffect(() => {
-    console.log("VARIABLE DE VERIFICACION DE LOGIN: ", isAuthenticated);
+    //console.log("VARIABLE DE VERIFICACION DE LOGIN: ", isAuthenticated);
   }, []);
 
   const recoverValue = async () => {
     let userToken = await AsyncStorage.getItem("userToken");
-    // console.log("TOKEN DE USUARIO", userToken);
+    // //console.log("TOKEN DE USUARIO", userToken);
     if (userToken && !isAuthenticated) {
       // Verifica si el usuario no está autenticado antes de establecerlo
       setIsAuthenticated(true);

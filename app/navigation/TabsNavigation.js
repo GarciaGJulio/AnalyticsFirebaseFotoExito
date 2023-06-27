@@ -57,7 +57,7 @@ const TabButton = (props) => {
   useEffect(() => {
     // if (storedParam.current === null) {
     //   storedParam.current = param;
-    //   console.log('Stored Param:', storedParam.current);
+    //   //console.log('Stored Param:', storedParam.current);
     // }
 
     if (focused) {
@@ -111,7 +111,7 @@ const TabButton = (props) => {
 export const TabsNavigation = ({ route }) => {
   const { datosCompartidos } = useContext(DataContext);
   //const { branch } = route.params;
-  console.log("DATOS DE NAVEGACION A EVALUAR: -- - - ", datosCompartidos);
+  //console.log("DATOS DE NAVEGACION A EVALUAR: -- - - ", datosCompartidos);
   return (
     <Tab.Navigator
       screenOptions={{

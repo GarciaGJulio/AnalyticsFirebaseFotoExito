@@ -5,10 +5,10 @@ import { db_deleteGlobalLocalDataBase, db_insertGlobalLocalDataBase } from "../s
 export const getCurrentScreenInformation = async (navigation) => {
     try {
         let userFound = await getCurrentScreenUser()
-        // console.log("iniciadno traer datoss",userFound)
+        // //console.log("iniciadno traer datoss",userFound)
         if (userFound && userFound.length > 0) {
             const infoScreen = await realizarConsulta(`select * from ${userFound[0].nombre_tabla} where ${userFound[0].campo_id}='${userFound[0].id_registro}'`)
-            // console.log("iniciadno traer datoss 222",infoScreen)
+            // //console.log("iniciadno traer datoss 222",infoScreen)
 
             if (infoScreen && infoScreen.length > 0) {
                 //onGetInfo(infoScreen[0])
@@ -37,7 +37,7 @@ export const getCurrentScreenInformation = async (navigation) => {
         return 0;
     } catch (error) {
         return 0;
-        console.log(error)
+        //console.log(error)
     }
 
 }
@@ -71,7 +71,7 @@ export const getCurrentScreenInformationLocal = async () => {
         }
     } catch (error) {
         return null
-        console.log(error)
+        //console.log(error)
     }
 
 }
@@ -93,7 +93,7 @@ export const cleanCurrentScreenUser = async () => {
 
         })
     } catch (error) {
-        console.log("errrr al borrar la fata-----------------*-----------", error)
+        //console.log("errrr al borrar la fata-----------------*-----------", error)
     }
 
 }
@@ -109,7 +109,7 @@ export const deleteRegisterAudit = async (objInfo) => {
             ]
         })
     } catch (error) {
-        console.log("errrr al borrar la fata-----------------*-----------", error)
+        //console.log("errrr al borrar la fata-----------------*-----------", error)
     }
 
 }
@@ -130,7 +130,7 @@ export const saveCurrentScreenUser = async (objInfo, extraObj) => {
             ]
         })
     } catch (error) {
-        console.log(error)
+        //console.log(error)
 
     }
 

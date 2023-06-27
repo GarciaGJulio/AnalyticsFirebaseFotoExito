@@ -66,12 +66,12 @@ export const ProductsDetails_Review = ({ item }) => {
     }
 
     let img = extraImages.join(",");
-    console.log("IMAGENES EXTRAS: - - - - - - - - -  ", img);
+    //console.log("IMAGENES EXTRAS: - - - - - - - - -  ", img);
   };
 
   useEffect(() => {
     validateExtraImages(item);
-    console.log("ESTO ES EL ITEM: - - - - - - - - - - -", item);
+    //console.log("ESTO ES EL ITEM: - - - - - - - - - - -", item);
   }, [item]);
 
   const validarDecimales = (numero) => {
