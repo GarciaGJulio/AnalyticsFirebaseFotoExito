@@ -14,6 +14,7 @@ import { useFonts } from "expo-font";
 import { Divider } from "react-native-paper";
 import StyledInput from "./StyledInput";
 import { verifyUrlImage } from "../services/onedrive";
+import ImageModal from "react-native-image-modal";
 
 export const Rack_View = ({ rack }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -365,11 +366,11 @@ export const Rack_View = ({ rack }) => {
                             )
                             .map((image) => {
                               return (
-                                <Image
+                                <ImageModal
                                   key={image} // Utiliza la variable "image" como clave
                                   source={{ uri: image }}
                                   style={styles.imgContainer2} // Utiliza el estilo "imgContainer"
-                                  resizeMode="cover"
+                                  resizeMode="stretch"
                                 />
                               );
                             })}

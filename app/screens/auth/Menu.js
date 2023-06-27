@@ -62,6 +62,7 @@ export const Menu = ({ navigation }) => {
     setModalTitle,
     setHadSaveBriefCase,
     setHadSavePreciador,
+    initVariablesLocalStorage,
     setHadSaveRack,
   } = useContext(GlobalContext);
   global.widthContainer = Dimensions.get("window").width / 1.8;
@@ -127,7 +128,8 @@ export const Menu = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getCurrentScreenInformation(navigation);
+    console.log("initVariablesLocalStorage-----------",initVariablesLocalStorage)
+    getCurrentScreenInformation(navigation,initVariablesLocalStorage);
   }, []);
 
   useEffect(() => {

@@ -214,6 +214,21 @@ const Briefcase_branch_review = ({ navigation }) => {
         }
         return acc;
       }, []);
+
+      // Ordenar el array por nombre de categoría
+      arrayUnificado.sort((a, b) => {
+        const nombreA = a.nombre_categoria.toUpperCase();
+        const nombreB = b.nombre_categoria.toUpperCase();
+
+        if (nombreA < nombreB) {
+          return -1;
+        }
+        if (nombreA > nombreB) {
+          return 1;
+        }
+        return 0;
+      });
+
       //console.log("Array - - - - - - - - - Tipo C:", arrayTipoC);
       setComplementaryPortafolio(arrayTipoC);
       //console.log("Array  * * * * * * * *  Tipo I:", arrayTipoI);
@@ -231,7 +246,7 @@ const Briefcase_branch_review = ({ navigation }) => {
       //   " - - --  ARRAY IDEAL TODO INTEGRADO * - * -* - * -* - * -*  - - - - - ",
       //   arrayTipoIIntegrado
       // );
-      //console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
+      //console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayUnificado);
       //console.log("ID DE GRUPO CLIENTE: ", datosCompartidos.id_grupo_cliente);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
@@ -239,7 +254,7 @@ const Briefcase_branch_review = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // consultarYCopiarContenido();
+    consultarYCopiarContenido();
     // //console.log(
     //   "ID DE PORTAFOLIO AUDITORIA: ",
     //   datosCompartidos.id_portafolio_auditoria
@@ -252,7 +267,7 @@ const Briefcase_branch_review = ({ navigation }) => {
       <View
         style={{
           width: theme.dimensions.maxWidth,
-          marginTop: theme.dimensions.maxHeight / 7,
+          marginTop: theme.dimensions.maxHeight / 8,
         }}
       >
         <View

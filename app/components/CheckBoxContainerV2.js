@@ -125,7 +125,7 @@ export const CheckBoxContainerV2 = React.memo(
           onClose={handleCloseModal}
           onPress={acceptModal}
           warning={
-            "Al presionar el boton Aceptar se borraran los datos ingresados de este producto."
+            "Al presionar Aceptar se borrarán los datos ingresados de este producto."
           }
         />
         <View style={styles.primaryContainer}>
@@ -201,7 +201,7 @@ export const CheckBoxContainerV2 = React.memo(
                     actualizarPrecio(item.id, parseFloat(txt));
                   }}
                   label="Precio"
-                  placeholder="Precio"
+                  placeholder="$"
                   maxLength={6}
                   keyboard="numeric"
                   editable={!hadSavePreciador}
