@@ -262,7 +262,23 @@ export const Briefcase = ({ navigation }) => {
           setComplementaryPortfolioProducts,
         });
       } else {
-        navigation.navigate("rack");
+
+        const response = await handleDoesClientHaveVariable("Percha");
+        checkvariables2 = response;
+        
+        if(checkvariables2){
+          navigation.navigate("rack");
+        }else{
+
+          const response = await handleDoesClientHaveVariable("Promoción");
+          checkvariables3 = response;
+          if(checkvariables3){
+          navigation.navigate("promo");
+          }else{
+            Alert.alert("Por subir desde aqui")
+          }
+        }
+        
       }
     };
     checkForVariable();
