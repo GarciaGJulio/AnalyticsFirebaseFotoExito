@@ -239,7 +239,7 @@ const Briefcase_branch_review = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // consultarYCopiarContenido();
+     consultarYCopiarContenido();
     // //console.log(
     //   "ID DE PORTAFOLIO AUDITORIA: ",
     //   datosCompartidos.id_portafolio_auditoria
