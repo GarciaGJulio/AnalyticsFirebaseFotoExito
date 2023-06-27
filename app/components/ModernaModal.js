@@ -56,10 +56,11 @@ export const ModernaModal = ({
           </View>
           <View style={styles.warningContainer}>
             <Text style={styles.warningTitle}>{title}</Text>
+            <View style={{ width: "100%" }}>
+              <Text style={styles.warningText}>{text}</Text>
+            </View>
           </View>
-          <View style={styles.warningContainer}>
-            <Text style={styles.warningText}>{text}</Text>
-          </View>
+
           <View style={styles.buttonContainer}></View>
         </View>
       </View>
@@ -92,34 +93,36 @@ const styles = StyleSheet.create({
   },
   logo: {
     resizeMode: "contain",
-    //width:200,
-    //height:200,
-    flex: 1,
+    width: 200,
+    height: 150,
+    //flex: 1,
   },
   warningContainer: {
-    // backgroundColor: 'red',
+    //backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
+    flex: 3,
+    top: 5,
     width: "95%",
+    //height: 100,
     // marginBottom: 5,
   },
   warningTitle: {
     //marginTop: 0,
-    //margin: 20,
+    //marginVertical: 20,
     //backgroundColor: "red",
     width: "100%",
     textAlign: "justify",
     fontSize: 18,
-    fontWeight: "bold",
     fontFamily: "Metropolis",
   },
   warningText: {
-    marginTop: 0,
-    margin: 20,
-    width: "100%",
+    //marginTop: 0,
+    //marginHorizontal: 20,
+    //width: "80%",
+    //left: 0,
     textAlign: "justify",
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "Metropolis",
   },
   buttonContainer: {
