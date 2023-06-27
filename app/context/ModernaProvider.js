@@ -50,7 +50,6 @@ export const ModernaProvider = ({ children }) => {
     isLoggedIn();
   }, []);
 
-
   const initialState = {
     location: null,
     idClientGroup: null,
@@ -142,26 +141,31 @@ export const ModernaProvider = ({ children }) => {
               // );
               let deviceMacAdress = await DeviceInfo.getUniqueId();
               if (
-                userDataBase[0].usuario_dispositivo !== "null" ||
+                userDataBase[0].usuario_dispositivo === "null" ||
                 userDataBase[0].usuario_dispositivo === null
               ) {
                 // //console.log(
                 //   "El usuario no tiene un dispositivo conectado - - - - - - - -"
                 // );
                 //console.log("MAC A INSERTAR EN LA BASE: ", deviceMacAdress);
-                const responseInsertMac = await insertMacCurrentUser(
+                /*const responseInsertMac = await insertMacCurrentUser(
+                  user.mail,
+                  user.userPrincipalName,
+                  deviceMacAdress
+                );*/
+                //console.log("INSERTO LA MAC?: ", responseInsertMac);
+                await insertMacCurrentUser(
                   user.mail,
                   user.userPrincipalName,
                   deviceMacAdress
                 );
-                //console.log("INSERTO LA MAC?: ", responseInsertMac);
                 setIsAuthenticated(true);
                 fn(false);
               } else {
                 // //console.log(
                 //   "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
                 // );
-                if (userDataBase[0].usuario_dispositivo != deviceMacAdress) {
+                if (userDataBase[0].usuario_dispositivo == deviceMacAdress) {
                   //console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
                   setIsAuthenticated(true);
                   fn(false);
@@ -270,8 +274,9 @@ export const ModernaProvider = ({ children }) => {
       const requestBody = {
         operation: "C",
         data: {
-          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${mail === null ? userPrincipalName : mail
-            }'`,
+          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
+            mail === null ? userPrincipalName : mail
+          }'`,
         },
       };
 
