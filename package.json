@@ -55,6 +55,7 @@
     "react-native-iconify": "^0.2.4",
     "react-native-image-modal": "^2.0.4",
     "react-native-image-zoom-viewer": "^3.0.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-keyboard-aware-view": "^0.0.14",
     "react-native-multiple-select": "^0.5.12",

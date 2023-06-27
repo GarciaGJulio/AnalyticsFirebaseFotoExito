@@ -262,6 +262,9 @@ export const Briefcase = ({ navigation }) => {
           setComplementaryPortfolioProducts,
         });
       } else {
+        
+
+
         navigation.navigate("rack");
       }
     };
@@ -283,8 +286,18 @@ export const Briefcase = ({ navigation }) => {
       if (checkvariables === true) {
         navigation.navigate("rack");
       } else {
-        navigation.navigate("promos");
-        handleCurrentScreenPos(3)
+
+        const response = await handleDoesClientHaveVariable("Promoción");
+        checkvariables2 = response;
+        if(checkvariables2){
+
+          navigation.navigate("promos");
+          handleCurrentScreenPos(3)
+        }else{
+          Alert.alert("falta una funcion de guardar desde aca ")
+        }
+
+
       }
     };
     checkForVariable();
