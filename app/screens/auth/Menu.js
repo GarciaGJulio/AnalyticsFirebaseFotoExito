@@ -128,8 +128,11 @@ export const Menu = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log("initVariablesLocalStorage-----------",initVariablesLocalStorage)
-    getCurrentScreenInformation(navigation,initVariablesLocalStorage);
+    console.log(
+      "initVariablesLocalStorage-----------",
+      initVariablesLocalStorage
+    );
+    getCurrentScreenInformation(navigation, initVariablesLocalStorage);
   }, []);
 
   useEffect(() => {
@@ -392,7 +395,8 @@ export const Menu = ({ navigation }) => {
               size={"100%"}
               iconName={"cloud-sync"}
               iconType={"material-community"}
-              newstyle
+              icon
+              // newstyle
             />
           </View>
           {/* styles.secondContainerText */}
@@ -432,6 +436,7 @@ export const Menu = ({ navigation }) => {
               size={"100%"}
               iconName={"clipboard"}
               iconType={"entypo"}
+              icon
             />
           </View>
           <View style={styles.secondContainerText}>
@@ -463,6 +468,7 @@ export const Menu = ({ navigation }) => {
               size={"100%"}
               iconName={"select-search"}
               iconType={"material-community"}
+              icon
             />
           </View>
           <View style={styles.secondContainerText}>
@@ -493,7 +499,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   secondContainerText: {
-    flex: 1.5,
+    flex: 1.2,
     justifyContent: "center",
     //alignItems: "center",
     // padding: 0,
