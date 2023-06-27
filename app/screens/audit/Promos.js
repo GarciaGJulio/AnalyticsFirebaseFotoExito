@@ -638,7 +638,7 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
     alignItems: "center",
-    padding: 20,
+    padding: 0,
   },
   scrollView: {
     flex: 2,
