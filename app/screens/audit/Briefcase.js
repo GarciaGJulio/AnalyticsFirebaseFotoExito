@@ -262,7 +262,23 @@ export const Briefcase = ({ navigation }) => {
           setComplementaryPortfolioProducts,
         });
       } else {
-        navigation.navigate("rack");
+
+        const response = await handleDoesClientHaveVariable("Percha");
+        checkvariables2 = response;
+        
+        if(checkvariables2){
+          navigation.navigate("rack");
+        }else{
+
+          const response = await handleDoesClientHaveVariable("Promoción");
+          checkvariables3 = response;
+          if(checkvariables3){
+          navigation.navigate("promo");
+          }else{
+            Alert.alert("Por subir desde aqui")
+          }
+        }
+        
       }
     };
     checkForVariable();
@@ -282,8 +298,18 @@ export const Briefcase = ({ navigation }) => {
       if (checkvariables === true) {
         navigation.navigate("rack");
       } else {
-        navigation.navigate("promos");
-        handleCurrentScreenPos(3);
+
+        const response = await handleDoesClientHaveVariable("Promoción");
+        checkvariables2 = response;
+        if(checkvariables2){
+
+          navigation.navigate("promos");
+          handleCurrentScreenPos(3)
+        }else{
+          Alert.alert("falta una funcion de guardar desde aca ")
+        }
+
+
       }
     };
     checkForVariable();

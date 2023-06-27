@@ -17,6 +17,13 @@ export const ClientInformation = () => {
     const getClientInformation = async () => {
         setIdCliente(await AsyncStorage.getItem("id_cliente"));
         setNombreCliente(await AsyncStorage.getItem("nombre_cliente"));
+        let nombreClienteItem = await AsyncStorage.getItem("nombre_cliente");
+        let isConcat=nombreClienteItem.includes('-')   
+        if (isConcat) {
+          nombreClienteItem = nombreClienteItem.substring(nombreClienteItem.indexOf('-') + 1);
+        }
+        
+        setNombreCliente(nombreClienteItem);
         setNombreSucursal(await AsyncStorage.getItem("nombre_sucursal"));
     }
     return (

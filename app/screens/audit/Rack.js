@@ -77,8 +77,8 @@ export const Racks = ({ navigation }) => {
 
   useEffect(() => {
     const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Perchas");
-      setHasVariable(response);
+      const response = await handleDoesClientHaveVariable("Percha");
+      setHasVariable(true);
     };
     checkForVariable();
     //handleCurrentScreenPos(null,3)
