@@ -6,6 +6,7 @@ import { lookForVariable } from '../services/SeleccionesService';
 import { GlobalContext } from "../context/GlobalContext";
 
 export const ProgressBar = ({currentStep}) => {
+  console.log("---------CURRENT STEP------------",currentStep);
    const {
     setHadSaveBriefCase,
     handleClearWorkFlow,
@@ -36,7 +37,7 @@ const labels=['']
     <View style={{ width:'100%', height:'10%',  justifyContent:'center' }}>
       <StepIndicator
         stepCount={arrayPasos.length}
-        //currentPosition={currentStep}
+        currentPosition={currentStep}
         labels={arrayPasos}
         customStyles={{
           stepIndicatorSize: 30,
