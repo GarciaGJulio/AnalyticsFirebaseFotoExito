@@ -35,6 +35,7 @@ import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import NetInfo from "@react-native-community/netinfo";
+import { ClientInformation } from "../../components/ClientInformation";
 import {
   cleanCurrentScreenUser,
   saveCurrentScreenUser,
@@ -554,7 +555,8 @@ export const Promos = ({ navigation }) => {
           <ModernaHeader />
         </View>
         <View style={styles.contentContainer}>
-          <ProgressBar currentStep={currentScreenPos ? currentScreenPos : "3"} />
+          <ClientInformation/>
+          <ProgressBar currentStep={currentScreenPos?currentScreenPos:"3"} />
           <View style={{ flex: 1 }}>
             <ScreenInformation
               title={"Promociones"}
@@ -632,7 +634,7 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
     alignItems: "center",
-    padding: 20,
+    padding: 0,
   },
   scrollView: {
     flex: 2,

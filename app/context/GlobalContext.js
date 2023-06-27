@@ -67,7 +67,9 @@ export const GlobalProvider = ({ children }) => {
         variable.id_grupo_cliente.toUpperCase() ===
         id_grupo_cliente?.toString().toUpperCase() &&
         variable?.nombre_variable?.toUpperCase() ===
-        nombre_variable?.toUpperCase()
+        nombre_variable?.toUpperCase() &&
+        variable?.estado_variable ===1
+
       );
     });
     return index !== -1;
@@ -75,8 +77,7 @@ export const GlobalProvider = ({ children }) => {
 
   const CountClientVariable = async () => {
     try {
-      const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME} where estado_variable=1`)
-
+      const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME}  where estado_variable=1`)
       const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
       let Variables2 = [];
       variables.forEach((variable) => {

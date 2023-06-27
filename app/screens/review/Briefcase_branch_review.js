@@ -229,6 +229,18 @@ const Briefcase_branch_review = ({ navigation }) => {
         return 0;
       });
 
+      arrayTipoC.sort((a, b) => {
+        const nombreA = a.nombre_categoria.toUpperCase();
+        const nombreB = b.nombre_categoria.toUpperCase();
+
+        if (nombreA < nombreB) {
+          return -1;
+        }
+        if (nombreA > nombreB) {
+          return 1;
+        }
+        return 0;
+      });
       //console.log("Array - - - - - - - - - Tipo C:", arrayTipoC);
       setComplementaryPortafolio(arrayTipoC);
       //console.log("Array  * * * * * * * *  Tipo I:", arrayTipoI);

@@ -35,8 +35,9 @@ const DoubleDualStyledButton = ({
         iconType={typeLeft}
         size={sizeLeft}
         onPress={onPressLeft}
-        newstyle
-        
+        // newstyle
+        icon
+        iconLetter
       />
       {showButton1 && (
         <StyledButton
@@ -46,9 +47,11 @@ const DoubleDualStyledButton = ({
           iconType={typeRigth}
           size={sizeRigth}
           onPress={onPressRigth}
-         //merge linea de abajo
+          //merge linea de abajo
           disabled={disableAction}
-          newstyle
+          // newstyle
+          icon
+          iconLetter
         />
       )}
       {showButton2 && (
@@ -59,9 +62,7 @@ const DoubleDualStyledButton = ({
           iconType={typeRigthSecond}
           size={sizeRigthSecond}
           onPress={onPressRigthSecond}
-          
-          
-        
+          newstyle
         />
       )}
     </View>

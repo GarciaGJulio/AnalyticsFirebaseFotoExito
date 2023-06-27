@@ -78,6 +78,7 @@ export const Login = ({ navigation }) => {
             buttonColor={theme.colors.modernaRed}
             onPress={log}
             size={theme.buttonSize.df}
+            newstyle
           />
         </View>
       </Animatable.View>

@@ -46,7 +46,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { GlobalContext } from "../../context/GlobalContext";
 import { transfromrActualDateFormat } from "../../common/utils";
-
+import { ClientInformation } from "../../components/ClientInformation";
 export const Racks = ({ navigation }) => {
   const [valueGeneralValidate, setValueGeneralValidate] = useState();
   const [valueModerna, setValueModerna] = useState();
@@ -78,8 +78,8 @@ export const Racks = ({ navigation }) => {
 
   useEffect(() => {
     const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Perchas");
-      setHasVariable(response);
+      const response = await handleDoesClientHaveVariable("Percha");
+      setHasVariable(true);
     };
     checkForVariable();
     //handleCurrentScreenPos(null,3)
@@ -190,7 +190,6 @@ export const Racks = ({ navigation }) => {
 
   const handleOpenModal = async () => {
     try {
-      handleCurrentScreenPos()
       validate();
       //setIsModalVisible(false);
       //setShowButton2(true)
@@ -366,7 +365,9 @@ export const Racks = ({ navigation }) => {
       //setValidatePass(false)
     }
     if (category.length === 0) {
+      console.log("category************************************", category)
       //await AsyncStorage.setItem("id_percha", null);
+      handleCurrentScreenPos()
       handleCheckCanSaveAllDataLocal(() => {
         setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
       }, () => {
@@ -483,29 +484,30 @@ export const Racks = ({ navigation }) => {
                 dataSave.dataInsert.join() +
                 ")";
               //console.log("SENTENCIA A EJECUTAR: ", sentence);
-
+              db_insertGlobalDataAudit(dataSave);
               //console.log("TODO BIEN");
               // navigation.navigate("promos");rrrrrrrrrr
-              try {
-                db_insertGlobalDataAudit(dataSave);
-                setIsModalVisible(false);
-                setHadSaveRack(true);
-                handleCheckCanSaveAllDataLocal(() => {
-                  setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
-                }, () => {
-                  setShowButton1(false);
-                  setShowButton2(true);
-                  navigation.navigate("promos");
-                })
-              } catch (error) {
-                Alert.alert(
-                  "Error al insertar los datos",
-                  "Vuelva a intentarlo"
-                );
-                setHadSaveRack(false);
-                setIsModalVisible(false);
-              }
+
             });
+            try {
+              setIsModalVisible(false);
+              setHadSaveRack(true);
+              handleCurrentScreenPos()
+              handleCheckCanSaveAllDataLocal(() => {
+                setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
+              }, () => {
+                setShowButton1(false);
+                setShowButton2(true);
+                navigation.navigate("promos");
+              })
+            } catch (error) {
+              Alert.alert(
+                "Error al insertar los datos",
+                "Vuelva a intentarlo"
+              );
+              setHadSaveRack(false);
+              setIsModalVisible(false);
+            }
             let tempDataScreen = category.map((item) => {
               return `**${JSON.stringify(item)}**`;
             });
@@ -653,6 +655,7 @@ export const Racks = ({ navigation }) => {
       />
 
       <View style={styles.contentContainer}>
+        <ClientInformation />
         <ProgressBar currentStep={currentScreenPos} />
         <View style={{ flex: 4 }}>
           {hasVariable ? (

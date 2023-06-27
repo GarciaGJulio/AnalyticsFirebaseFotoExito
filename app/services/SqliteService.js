@@ -192,13 +192,7 @@ export const db_insertGlobalDataAudit = async (objSentence) => {
   // //console.log(
   //   `insertando datos en la tabla: ${objSentence.tableName} -----------------------------`
   // );
-  console.log("INSERT INTO " +
-    objSentence.tableName +
-    " (" +
-    objSentence.dataInsertType.join() +
-    ") VALUES(" +
-    objSentence.dataInsert.join() +
-    ")");
+ 
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
       "INSERT INTO " +

@@ -14,6 +14,7 @@ const theme = {
     modernaPurple: "#530644",
     modernaRose: "#E5005A",
     lightgray: "rgba(217,217,217,0.70)",
+    gray: "rgba(173, 173, 173, 0.70)",
     active: "#5BC2A7",
     inactive: "#9D9D9D",
     inputcolor: "#CCCCCC",

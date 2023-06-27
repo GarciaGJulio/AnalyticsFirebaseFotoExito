@@ -136,7 +136,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                   transparent={true}
                   visible={styles.modalVisible}
                   onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
+                    // Alert.alert("Modal has been closed.");
                     setModalVisible(!modalVisible);
                   }}
                 >
@@ -263,7 +263,11 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                               //backgroundColor: "brown",
                             }}
                           >
-                            <ScrollView horizontal={true} style={{ top: 15 }}>
+                            <ScrollView
+                              horizontal={true}
+                              showsHorizontalScrollIndicator={false}
+                              style={{ top: 15 }}
+                            >
                               {extraImages
                                 .filter(
                                   (image) =>

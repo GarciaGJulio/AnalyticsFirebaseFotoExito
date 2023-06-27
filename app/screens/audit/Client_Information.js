@@ -39,6 +39,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
 import { transfromrActualDateFormat } from "../../common/utils";
 import { lookForVariable } from "../../services/SeleccionesService";
+import StyledButton from "../../components/StyledButton";
 
 export const Client_Information = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
@@ -71,7 +72,7 @@ export const Client_Information = ({ navigation }) => {
     setHadSaveBriefCase,
     handleClearWorkFlow,
     handleDoesClientHaveVariable,
-    CountClientVariable
+    CountClientVariable,
   } = useContext(GlobalContext);
   const isFocused = useIsFocused();
 
@@ -205,12 +206,12 @@ export const Client_Information = ({ navigation }) => {
       console.error("Error al consultar o copiar el contenido:", error);
     }
   };
-//UseEffect see variables
+  //UseEffect see variables
   useEffect(() => {
     consultarYCopiarContenido();
     // const checkNumVarible=async( )=>{
     //   const totalVariables= await CountClientVariable()
-    //   //console.log("VariablesCount:",totalVariables)  
+    //   //console.log("VariablesCount:",totalVariables)
     // }
     // checkNumVarible();
     //consultarYCopiarContenidoClientes();\
@@ -223,14 +224,14 @@ export const Client_Information = ({ navigation }) => {
     );
   };
   const data = [
-    {key:'1', value:'Mobiles', disabled:true},
-    {key:'2', value:'Appliances'},
-    {key:'3', value:'Cameras'},
-    {key:'4', value:'Computers', disabled:true},
-    {key:'5', value:'Vegetables'},
-    {key:'6', value:'Diary Products'},
-    {key:'7', value:'Drinks'},
-]
+    { key: "1", value: "Mobiles", disabled: true },
+    { key: "2", value: "Appliances" },
+    { key: "3", value: "Cameras" },
+    { key: "4", value: "Computers", disabled: true },
+    { key: "5", value: "Vegetables" },
+    { key: "6", value: "Diary Products" },
+    { key: "7", value: "Drinks" },
+  ];
   useEffect(() => {
     const disableBackButton = () => {
       return true; // Bloquea la función de retroceso nativa
@@ -241,7 +242,6 @@ export const Client_Information = ({ navigation }) => {
     return () => {
       BackHandler.removeEventListener("hardwareBackPress", disableBackButton);
     };
-
   }, []);
 
   const HandleNavigationOfVariables = () => {
@@ -658,8 +658,60 @@ export const Client_Information = ({ navigation }) => {
                   // }
                 />
               </View>
-              <View style={{ height: 50, alignItems: "center", margin: 5 }}>
-                <DoubleDualStyledButton
+              <View
+                style={{
+                  // height: 50,
+                  // backgroundColor: "black",
+                  // flex: 1,
+                  height: 50,
+                  // justifyContent: "space-evenly",
+                  // alignItems: "center",
+                  // margin: 5,
+                  flexDirection: "row",
+                  marginBottom: 10,
+                  padding: 3,
+                }}
+              >
+                <StyledButton
+                  title={"Cancelar"}
+                  buttonColor={theme.colors.modernaYellow}
+                  iconName={"cancel"}
+                  iconType={"material-icon"}
+                  size={theme.buttonSize.df}
+                  onPress={() => setIsModalVisibleClose(true)}
+                  // newstyle
+                  icon
+                  iconLetter
+                />
+                {showButton1 && (
+                  <StyledButton
+                    title={"Iniciar Visita"}
+                    buttonColor={theme.colors.modernaRed}
+                    // iconName={iconRigth}
+                    // iconType={typeRigth}
+                    size={theme.buttonSize.df}
+                    onPress={hadSave ? onlyNavigate : handleOpenModal}
+                    //merge linea de abajo
+                    disabled={!validarFormulario()}
+                    newstyle
+                    // icon
+                    // iconLetkter
+                  />
+                )}
+                {showButton2 && (
+                  <StyledButton
+                    title={"Siguiente"}
+                    buttonColor={theme.colors.modernaRed}
+                    iconName={"arrow-right-circle"}
+                    iconType={"feather"}
+                    size={theme.buttonSize.df}
+                    onPress={() => {
+                      HandleNavigationOfVariables(), setHadSaveBriefCase(false);
+                    }}
+                    newstyle
+                  />
+                )}
+                {/* <DoubleDualStyledButton
                   titleLeft={"Cancelar"}
                   sizeLeft={theme.buttonSize.df}
                   colorLeft={theme.colors.modernaYellow}
@@ -685,7 +737,7 @@ export const Client_Information = ({ navigation }) => {
                   }}
                   showButton1Second={showButton1}
                   showButton2Second={showButton2}
-                />
+                /> */}
               </View>
             </View>
           </ScrollView>

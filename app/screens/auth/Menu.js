@@ -128,8 +128,11 @@ export const Menu = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log("initVariablesLocalStorage-----------",initVariablesLocalStorage)
-    getCurrentScreenInformation(navigation,initVariablesLocalStorage);
+    console.log(
+      "initVariablesLocalStorage-----------",
+      initVariablesLocalStorage
+    );
+    getCurrentScreenInformation(navigation, initVariablesLocalStorage);
   }, []);
 
   useEffect(() => {
@@ -353,140 +356,128 @@ export const Menu = ({ navigation }) => {
       </View>
 
       <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
+        {/* <View
+          style={{
+            // paddingHorizontal: 20,
+            width: 500,
+            height: 250,
+            backgroundColor: "orange",
+            // marginHorizontal: 14,
+            // display: "flex",
+          }}
+        > */}
+        {/* ------------------------------------------------------------- */}
+        {/* boton 1 */}
         <View
           style={{
             flexDirection: "row",
             flex: 1,
-            marginHorizontal: "4%",
-            margin: 5,
+            // marginHorizontal: "4%",
+            // margin: 5,
 
             // backgroundColor: "brown",
           }}
         >
           <View
             style={{
-              // flex: 1,
+              flex: 1,
+              // width: 250,
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor:"gray"
-                            //marginLeft: 10,
+              // backgroundColor: "black",
+              marginRight: 10,
             }}
           >
             <StyledButton
               title={"Sincronizar Datos"}
               buttonColor={theme.colors.modernaYellow}
               onPress={handleOpenModal}
-              size={theme.buttonSize.sm}
+              size={"100%"}
               iconName={"cloud-sync"}
               iconType={"material-community"}
-              newstyle
+              icon
+              // newstyle
             />
           </View>
+          {/* styles.secondContainerText */}
           <View style={styles.secondContainerText}>
             {/* <View style={{ left: 0 }}> */}
-              <Text style={[styles.text]}>
-                Sincroniza las auditorías pendientes por enviar.
-              </Text>
+            <Text style={[styles.text]}>
+              Sincroniza las auditorías pendientes por enviar.
+            </Text>
             {/* </View> */}
           </View>
         </View>
-
-        {/*<View style={{ flexDirection: "row", flex: 1, margin: 5 }}>
-          <View
-            style={{
-              // flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              //marginLeft: 10,
-            }}
-          >
-            <StyledButton
-              title={"Consultar"}
-              buttonColor={theme.colors.modernaRed}
-              onPress={async () => {
-                //console.log(
-                  "***************************** ------ ********************************"
-                );
-                let sqlSentence = `INSERT INTO portafolio (id_portafolio,id_producto,id_grupo_cliente,estado,tipo ) values ('12','100048','12',1,'I' )`;
-                const insert = await realizarConsulta(sqlSentence);
-                //console.log(insert);
-                //console.log(await realizarConsulta("SELECT * FROM portafolio"));
-                //console.log(
-                  "***************************** ------ ********************************"
-                );
-              }}
-              size={theme.buttonSize.sm}
-              iconName={"clipboard"}
-              iconType={"entypo"}
-            />
-          </View>
-          <View style={styles.secondContainerText}>
-            <Text style={styles.text}>Consulta portafolio.</Text>
-          </View>
-        </View>*/}
-
+        {/* boton 2 */}
         <View
           style={{
             flexDirection: "row",
             flex: 1,
-            margin: 5,
-            marginHorizontal: "6%",
+            marginTop: 5,
+            // margin: 5,
+            // marginHorizontal: "6%",
             // backgroundColor:"red"
           }}
         >
           <View
             style={{
-              // flex: 1,
+              flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor:"black"
               //marginLeft: 10,
+              marginRight: 10,
             }}
           >
             <StyledButton
               title={"Realizar Auditoría"}
               buttonColor={theme.colors.modernaRed}
               onPress={handleOpenModalAudit}
-              size={"100%"}
+              size={theme.buttonSize.sm}
               iconName={"clipboard"}
               iconType={"entypo"}
+              icon
             />
           </View>
           <View style={styles.secondContainerText}>
             <Text style={styles.text}>Crea una nueva auditoría.</Text>
           </View>
         </View>
-
+        {/* boton 3 */}
         <View
           style={{
             flexDirection: "row",
             flex: 1,
-            margin: 5,
-            marginHorizontal: "7%",
+            marginTop: 5,
+            // margin: 5,
+            // marginHorizontal: "7%",
           }}
         >
           <View
             style={{
-              // flex: 1,
+              flex: 1,
               justifyContent: "center",
               alignItems: "center",
+              marginRight: 10,
             }}
           >
             <StyledButton
               title={"Consultar Auditorías"}
               buttonColor={theme.colors.modernaGreen}
               onPress={() => navigation.navigate("listBranch")}
-              size={theme.buttonSize.sm}
+              size={"100%"}
               iconName={"select-search"}
               iconType={"material-community"}
+              icon
             />
           </View>
           <View style={styles.secondContainerText}>
             <Text style={styles.text}>
-              Visualiza los datos de las auditorías registradas.
+              Visualiza los datos de las auditorías
             </Text>
           </View>
         </View>
+        {/* ------------------------------------------------------------- */}
+        {/* </View> */}
       </Animatable.View>
     </View>
   );
@@ -507,13 +498,15 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   secondContainerText: {
+    flex: 1.2,
     justifyContent: "center",
     //alignItems: "center",
-    padding: 0,
+    // padding: 0,
     borderWidth: 0.5, //Detalles de los botones
     borderRadius: 10,
-    marginLeft: 5,
+    // marginLeft: 5,
     paddingHorizontal: 15,
+    // width: 150,
     // width: global.widthContainer,
   },
   headerContainer: {
@@ -532,10 +525,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
-    padding:5,
-    paddingHorizontal: 50,
+    padding: 5,
+    paddingHorizontal: 10,
     paddingVertical: 20,
-    width:"100%"
+    width: "100%",
     // borderRadius:100
   },
   text: {
