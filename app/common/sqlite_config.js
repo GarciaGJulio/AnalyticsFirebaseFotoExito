@@ -167,10 +167,10 @@ const createTable = async (sentence, table_name, createIndex) => {
           createIndex();
         }
 
-        console.log("Se ejecuta sentencia create table " + table_name + " OK");
+        //console.log("Se ejecuta sentencia create table " + table_name + " OK");
       },
       (e) => {
-        console.log("error al crear tabla: " + table_name);
+        //console.log("error al crear tabla: " + table_name);
       }
     );
   });
@@ -195,38 +195,38 @@ export const selectData = (sentence) => {
       }
     );
   });
-  console.log(results);
+  //console.log(results);
 };*/
 
 export const selectData = (sentence, setArray) => {
-  console.log("EJECUTANDO SENTENCIA: " + sentence + " . . . . ");
+  //console.log("EJECUTANDO SENTENCIA: " + sentence + " . . . . ");
   global.dbModerna.transaction((tx) => {
     tx.executeSql(sentence, [], (_, { rows }) => {
       // Manipula los resultados de la consulta aquí
       const { _array } = rows;
       setArray(_array);
-      console.log(_array);
+      //console.log(_array);
     });
   });
 };
 
 export const dataAxiosQuery = async () => {
   try {
-    console.log("Realizando peticion de datos a la base");
+    //console.log("Realizando peticion de datos a la base");
     const response = await axios.post(
       "https://fotoexito1.azurewebsites.net/api/downloadAllDatafromCloudMobile?code=E6AKyZb3LyT2lNVo6IA-vHNNDXjn8gpnTrKNXPKNl2lQAzFurr0_lA==",
       { data: dataParameters.data },
       { headers: { accept: "application/json" } }
     );
-    //console.log("DATOS EXTRAIDOS");
+    ////console.log("DATOS EXTRAIDOS");
     //setClient(response.data)
-    //console.log(response.data.data);
+    ////console.log(response.data.data);
     const resp = response.data.data;
-    // console.log("resp: - - - - - - - - - - ", resp);
+    // //console.log("resp: - - - - - - - - - - ", resp);
     for (const res of resp) {
-      //console.log("DATO DEL FOR EACH", res);
+      ////console.log("DATO DEL FOR EACH", res);
       for (const objetoSentencia of res.data) {
-        //console.log("DATO DEL 2 FOR EACH", objetoSentencia)
+        ////console.log("DATO DEL 2 FOR EACH", objetoSentencia)
         //Alert.alert("SENTENCIAS A INSERTAR:", objetoSentencia);
         db_insertGlobal({
           tableName: res.tableName,
@@ -236,7 +236,7 @@ export const dataAxiosQuery = async () => {
     }
     return true;
   } catch (e) {
-    console.log(e.response);
+    //console.log(e.response);
     //Alert.alert("Error de inicio de sesion", e.response.data.message);
     return false;
   }
@@ -306,11 +306,11 @@ export const realizarConsulta = (sentence, onSuccess, onError) => {
       sentence,
       [],
       (_, { rows: { _array } }) => {
-        console.log("Datos de la consulta interna: ", _array);
+        //console.log("Datos de la consulta interna: ", _array);
         onSuccess(_array);
       },
       (_, error) => {
-        console.log("Error al consultar la tabla: ", error);
+        //console.log("Error al consultar la tabla: ", error);
         onError(error);
       }
     );
@@ -323,11 +323,11 @@ export const realizarConsulta = (sentence, onSuccess, onError) => {
       sentence,
       [],
       (_, { rows: { _array } }) => {
-        console.log("Datos de la consulta interna: ", _array);
+        //console.log("Datos de la consulta interna: ", _array);
         return (_array);
       },
       () => {
-        console.log("Error al consultar la tabla");
+        //console.log("Error al consultar la tabla");
       }
     );
   });

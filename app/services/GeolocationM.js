@@ -12,7 +12,7 @@ export const capturarCoordenadas = async (sucursalData) => {
           resolve(location);
         },
         (error) => {
-          console.log('Error al obtener las coordenadas:', error);
+          //console.log('Error al obtener las coordenadas:', error);
           reject(error);
           Alert.alert("Error al obtener las coordenadas","Por favor, intentelo nuevamente...");
         },

@@ -85,9 +85,9 @@ export const Client_Information = ({ navigation }) => {
 
   useEffect(() => {
     const initDataLocal = async () => {
-      console.log(
-        "empexando a await de get current data ===================================="
-      );
+      // //console.log(
+      //   "empexando a await de get current data ===================================="
+      // );
       await getCurrentScreenInformation();
       getInfoDatBaseScreen();
     };
@@ -99,14 +99,14 @@ export const Client_Information = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
-      console.log("global.userInfoScreen", global.userInfoScreen);
+      //console.log("global.userInfoScreen", global.userInfoScreen);
       if (global.userInfoScreen.userInfo.nombre_pantalla != "audit") {
         return;
       }
       const tmpInfoExtra = JSON.parse(
         global.userInfoScreen.userInfo.extra_info
       );
-      // console.log(
+      // //console.log(
       //   "tmpInfoExtra dewsde clietn infomart===================",
       //   tmpInfoExtra
       // );
@@ -135,7 +135,7 @@ export const Client_Information = ({ navigation }) => {
       setInfoScreen(null);
       setShowButton2(false);
       setShowButton1(true);
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -150,7 +150,7 @@ export const Client_Information = ({ navigation }) => {
           setNewArrayClients(dataFormat(resultadoConsulta));
         },
         (e) => {
-          console.log("error al consulatar cliente", e);
+          //console.log("error al consulatar cliente", e);
           Alert.alert("error al consulatar cliente", e);
         }
       );
@@ -161,21 +161,21 @@ export const Client_Information = ({ navigation }) => {
 
   const dataFormat = (array) => {
     setArrayClients(array);
-    // console.log("ARRAY DE CONSULTA: ", array);
+    // //console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
-      // console.log("OBJETO: ", obj.id_cliente);
+      // //console.log("OBJETO: ", obj.id_cliente);
       return {
         key: obj.id_cliente,
         value: `${obj.id_cliente} - ${obj.nombre_cliente}`,
       };
     });
-    // console.log(arrayFormat);
+    // //console.log(arrayFormat);
     return arrayFormat;
   };
   useEffect(() => {
     consultarYCopiarContenidoClientes();
     // fetchVariables();
-    // console.log("ArrayVariablesdesdeProgressBar:", variables);
+    // //console.log("ArrayVariablesdesdeProgressBar:", variables);
   }, []);
 
   const validarFormulario = () => {
@@ -200,7 +200,7 @@ export const Client_Information = ({ navigation }) => {
       );
 
       setBranchNames(branchs);
-      // console.log("DATOS DE SUCURSALES :", branchs);
+      // //console.log("DATOS DE SUCURSALES :", branchs);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -210,7 +210,7 @@ export const Client_Information = ({ navigation }) => {
     consultarYCopiarContenido();
     // const checkNumVarible=async( )=>{
     //   const totalVariables= await CountClientVariable()
-    //   console.log("VariablesCount:",totalVariables)  
+    //   //console.log("VariablesCount:",totalVariables)  
     // }
     // checkNumVarible();
     //consultarYCopiarContenidoClientes();\
@@ -249,7 +249,7 @@ export const Client_Information = ({ navigation }) => {
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Portafolio");
       checkvariables = response;
-      console.log("VARIABLE DE Portafolio EXISTE:", response);
+      //console.log("VARIABLE DE Portafolio EXISTE:", response);
       if (checkvariables === true) {
         navigation.navigate("briefcase");
       } else {
@@ -264,29 +264,29 @@ export const Client_Information = ({ navigation }) => {
   };
 
   const validateBranchNameRepeat = (currentName, error) => {
-    console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
+    //console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
 
     let tempFecha;
     tempFecha = new Date().toISOString();
     tempFecha = tempFecha.split("T");
     tempFecha = tempFecha[0];
-    //console.log("usereeeeee:", selected);
+    ////console.log("usereeeeee:", selected);
     if (branchNames.length == 0) {
-      console.log("NO TIENES DATOS DE SUCURSALES- - - - - -");
+      //console.log("NO TIENES DATOS DE SUCURSALES- - - - - -");
       error("");
       return false;
     } else {
       let found = branchNames.some((item) => {
-        console.log(
-          "ITEM A COMPARAR - -- - BASE: ",
-          item.nombre_sucursal +
-            " " +
-            item.fecha_creacion +
-            "ACTUAL:  " +
-            currentName +
-            " " +
-            tempFecha
-        );
+        // //console.log(
+        //   "ITEM A COMPARAR - -- - BASE: ",
+        //   item.nombre_sucursal +
+        //     " " +
+        //     item.fecha_creacion +
+        //     "ACTUAL:  " +
+        //     currentName +
+        //     " " +
+        //     tempFecha
+        // );
         return (
           item.nombre_sucursal === currentName &&
           item.fecha_creacion === tempFecha
@@ -309,7 +309,7 @@ export const Client_Information = ({ navigation }) => {
 
   const handleOpenModal = async () => {
     const validador = validate(sucursalInformation);
-    console.log("ERROR DE NOMBRE DE SUCURURAL", errorBranchName);
+    //console.log("ERROR DE NOMBRE DE SUCURURAL", errorBranchName);
     if (errorBranchName != "") {
       setErrorBranchName("* El campo sucursal es obligatorio");
       //setValidatePass(false)
@@ -333,7 +333,7 @@ export const Client_Information = ({ navigation }) => {
     if (validador && errorBranchName == "") {
       //navigation.navigate("briefcase");
       setIsModalVisible(true);
-      //console.log("DATOS DE COORDENADAS: ", locationCoords);
+      ////console.log("DATOS DE COORDENADAS: ", locationCoords);
       try {
         const locationCoords = await getLocation();
         await AsyncStorage.setItem("id_sucursal", sucursalInformation.id);
@@ -341,16 +341,16 @@ export const Client_Information = ({ navigation }) => {
         //await AsyncStorage.setItem("nombre_cliente", selected.split("-")[1]);
         setIsModalVisible(false);
         const { latitude, longitude } = locationCoords;
-        console.log("DATOS A GUARDAR: ", {
-          id: sucursalInformation.id,
-          nombre: sucursalInformation.name,
-          latitude: latitude,
-          longitude: longitude,
-          usuario: userInfo.givenName,
-          creacion: dataTime(),
-          modificacion: dataTime(),
-        });
-        console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
+        // //console.log("DATOS A GUARDAR: ", {
+        //   id: sucursalInformation.id,
+        //   nombre: sucursalInformation.name,
+        //   latitude: latitude,
+        //   longitude: longitude,
+        //   usuario: userInfo.givenName,
+        //   creacion: dataTime(),
+        //   modificacion: dataTime(),
+        // });
+        //console.log("JSON FINAL: ", JSON.stringify(sucursalInformation));
         const tmp_client_id = await AsyncStorage.getItem("id_cliente");
         let dataSave = {
           tableName: "sucursal",
@@ -418,7 +418,7 @@ export const Client_Information = ({ navigation }) => {
           ") VALUES(" +
           dataSave.dataInsert.join() +
           ")";
-        console.log("SENTENCIA A EJECUTAR: ", sentence);
+        //console.log("SENTENCIA A EJECUTAR: ", sentence);
         try {
           db_insertGlobalDataAudit(dataSave);
           //navigation.navigate("briefcase");
@@ -433,7 +433,7 @@ export const Client_Information = ({ navigation }) => {
           setShowButton1(false);
           setShowButton2(true);
         } catch (e) {
-          console.log(e);
+          //console.log(e);
           Alert.alert(
             "Error al insertar datos",
             "Se ah producido un error al registrar los datos, vuelva a intentarlo por favor"
@@ -446,7 +446,7 @@ export const Client_Information = ({ navigation }) => {
           "Se ha producido un error al recopilar datos",
           "Vuelva a intentarlo nuevamente"
         );
-        console.log(e);
+        //console.log(e);
         setIsModalVisible(false);
       }
     }

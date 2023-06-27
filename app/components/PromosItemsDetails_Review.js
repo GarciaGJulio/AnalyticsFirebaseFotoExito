@@ -69,7 +69,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     }
 
     let img = extraImages.join(",");
-    console.log("IMAGENES EXTRAS: - - - - ", img);
+    //console.log("IMAGENES EXTRAS: - - - - ", img);
   };
 
   const updateImage = async (item) => {
@@ -82,12 +82,12 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
 
   useEffect(() => {
     updateImage(exhibitor);
-    console.log("ESTO LLEGA ------- - - - - -", exhibitor);
+    //console.log("ESTO LLEGA ------- - - - - -", exhibitor);
   }, []);
 
   useEffect(() => {
     validateExtraImages(exhibitor);
-    //console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
+    ////console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
   }, []);
 
   const [fontLoaded] = useFonts({

@@ -20,26 +20,26 @@ export const onedrive = async () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Id userrrrt", data.id); // userId del usuario
+      //console.log("Id userrrrt", data.id); // userId del usuario
     });
 };
 
 export const SubirAlonedrive = async (imageUri, IdFoto) => {
-  console.log(
-    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-  );
-  console.log("ID QUE VA A SER GUARDADO:", IdFoto);
+  // //console.log(
+  //   "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  // );
+  //console.log("ID QUE VA A SER GUARDADO:", IdFoto);
   RecuperarToken();
   // const folderPath = '/me/drive/root:/FolderA'; // Ruta de la carpeta en OneDrive
 
   const bearerToken = await AsyncStorage.getItem("userToken2");
-  console.log("USERRRRRRRRRRRRR:", bearerToken);
-  console.log("ID DESDE LA FUNCION SUBIR", IdFoto);
+  //console.log("USERRRRRRRRRRRRR:", bearerToken);
+  //console.log("ID DESDE LA FUNCION SUBIR", IdFoto);
   const filename = "" + IdFoto + ".png";
   const driveId =
     "b!8xz3gdf43Eq0KCkvbna31vxpGAuGOrpPnBVuUAfQKqbgq9iLUK9GT5ZWD37MzEAh";
   const folderId = "01FWEOYBHXLNTSSVABRZCJUPKJCIFKRXI3";
-  // console.log("Tokens", bearerToken);
+  // //console.log("Tokens", bearerToken);
   try {
     const response = await fetch(imageUri);
     const blob = await response.blob();
@@ -59,15 +59,15 @@ export const SubirAlonedrive = async (imageUri, IdFoto) => {
     if (uploadResponse.ok) {
       const json = await uploadResponse.json();
 
-      console.log("Todo bien", json);
-      console.log(
-        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-      );
+      //console.log("Todo bien", json);
+      // //console.log(
+      //   "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      // );
       return json["@microsoft.graph.downloadUrl"];
     } else {
-      console.log(
-        "------------------------------------------------------------------------"
-      );
+      // //console.log(
+      //   "------------------------------------------------------------------------"
+      // );
       console.error(
         "ERROR EN LA SUBIDA DE IMAGENES:",
         uploadResponse.status,
@@ -98,10 +98,10 @@ export const RecuperarToken = () => {
     .then((response) => response.json())
     .then(async (data) => {
       // Manejar la respuesta de la solicitud
-      // console.log("CLAVES SECUNDARIOS-------------------------", data.token);
+      // //console.log("CLAVES SECUNDARIOS-------------------------", data.token);
 
       await AsyncStorage.setItem("userToken2", data.token);
-      // console.log("CLAVES SECUNDARIOS2-------------------------", await AsyncStorage.getItem('userToken2'));
+      // //console.log("CLAVES SECUNDARIOS2-------------------------", await AsyncStorage.getItem('userToken2'));
     })
     .catch((error) => {
       // Manejar errores de la solicitud
@@ -114,36 +114,36 @@ export const verifyUrlImage = async (url_imagen, name_image) => {
     const response = await fetch(url_imagen, {
       method: "GET",
     });
-    console.log(
-      "******************** INVOCANDO A LA FUNCION:  URL CORRECTA ***************************" +
-        " " +
-        response.status
-    );
+    // //console.log(
+    //   "******************** INVOCANDO A LA FUNCION:  URL CORRECTA ***************************" +
+    //     " " +
+    //     response.status
+    // );
     if (response.status != 401) {
       return url_imagen;
     } else {
       throw new Error("Error al genenrar");
     }
   } catch (e) {
-    console.log("errrrrror".e);
+    //console.log("errrrrror".e);
     try {
-      console.log(
-        "INICIANDO TRAER IMAGEN POR EL NOMBRE * * * * * " +
-          " nombre:" +
-          name_image
-      );
+      // //console.log(
+      //   "INICIANDO TRAER IMAGEN POR EL NOMBRE * * * * * " +
+      //     " nombre:" +
+      //     name_image
+      // );
       const data = await getItemIdImgOneDrive(name_image);
-      console.log("respuesta de imagen", data);
-      console.log(
-        "###########################################################"
-      );
-      console.log("CREANDO NUEVA URL DE LA IMAGEN: ");
-      console.log(
-        "###########################################################"
-      );
+      //console.log("respuesta de imagen", data);
+      // //console.log(
+      //   "###########################################################"
+      // );
+      // //console.log("CREANDO NUEVA URL DE LA IMAGEN: ");
+      // //console.log(
+      //   "###########################################################"
+      // );
       return data["@microsoft.graph.downloadUrl"];
     } catch (e) {
-      console.log("ERROR AL CREAR UNA NUEVA IMAGEN - - - - ", e);
+      //console.log("ERROR AL CREAR UNA NUEVA IMAGEN - - - - ", e);
       return url_imagen;
     }
   }
@@ -164,16 +164,16 @@ export const getItemIdImgOneDrive = async (imgId) => {
       }
     );
     let itemResponse = await itemResponse1.json();
-    console.log("ITEM: ", itemResponse);
-    console.log("ITEM STATUS: ", itemResponse1.status);
+    //console.log("ITEM: ", itemResponse);
+    //console.log("ITEM STATUS: ", itemResponse1.status);
     if (itemResponse1.status === 200) {
-      console.log("APUNTO DE RETORNAR NUEVA IMAGEN");
+      //console.log("APUNTO DE RETORNAR NUEVA IMAGEN");
       return itemResponse;
     } else {
       throw new Error("error");
     }
   } catch (error) {
-    console.log("ERROR; ", error);
+    //console.log("ERROR; ", error);
     throw new Error(error);
   }
 };
@@ -190,7 +190,7 @@ export const axiosGetToken = async () => {
     );
     return response;
   } catch (e) {
-    //console.log(e);
+    ////console.log(e);
     response = e;
     throw new Error(e);
   }
@@ -208,13 +208,13 @@ export const deleteImageFromOneDrive = async (itemId) => {
   });
 
   if (response.ok) {
-    console.log("Imagen eliminada exitosamente");
+    //console.log("Imagen eliminada exitosamente");
     // Realizar otras acciones o actualizaciones necesarias después de eliminar la imagen
   } else {
-    console.log(
-      "Error al eliminar la imagen:",
-      response.status,
-      response.statusText
-    );
+    // //console.log(
+    //   "Error al eliminar la imagen:",
+    //   response.status,
+    //   response.statusText
+    // );
   }
 };

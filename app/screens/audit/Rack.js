@@ -95,9 +95,9 @@ export const Racks = ({ navigation }) => {
   }, [isFocused]);
 
   const dataId = async () => {
-    console.log(
-      "\nDESDE PORTAFOLIO *********************************************************\n"
-    );
+    // //console.log(
+    //   "\nDESDE PORTAFOLIO *********************************************************\n"
+    // );
     let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
     //let idPercha = await AsyncStorage.getItem("id_percha"); //si
     let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
@@ -107,16 +107,16 @@ export const Racks = ({ navigation }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     ); //si
-    console.log(
-      "\n////////////////////////////////////////////////////////////////////////\n\n"
-    );
-    console.log("ID DE PRECIADOR: ", idPreciador);
-    console.log("ID DE PERCHA: ", idPercha);
-    console.log("ID DE SUCURSAL: ", idSucursal);
-    console.log("ID DE CLIENTE: ", idCliente);
-    console.log("NOMBRE CLIENTE: ", nombreCliente);
-    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
-    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+    // //console.log(
+    //   "\n////////////////////////////////////////////////////////////////////////\n\n"
+    // );
+    //console.log("ID DE PRECIADOR: ", idPreciador);
+    //console.log("ID DE PERCHA: ", idPercha);
+    //console.log("ID DE SUCURSAL: ", idSucursal);
+    //console.log("ID DE CLIENTE: ", idCliente);
+    //console.log("NOMBRE CLIENTE: ", nombreCliente);
+    //console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    //console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
   };
 
   useEffect(() => {
@@ -140,13 +140,13 @@ export const Racks = ({ navigation }) => {
       };
 
       let tempItems = infoExtra.category.split("**");
-      // console.log("tempItems SPOPLIT-------------", tempItems)
+      // //console.log("tempItems SPOPLIT-------------", tempItems)
       tempItems = tempItems.filter((item) => item.length > 0 && item != ",");
-      // console.log("tempItems FILTER-------------", tempItems)
+      // //console.log("tempItems FILTER-------------", tempItems)
       tempItems = tempItems.map((item) => {
         return JSON.parse(item);
       });
-      // console.log("tempItems-------------", tempItems)
+      // //console.log("tempItems-------------", tempItems)
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
       setHadSaveRack(true);
@@ -177,13 +177,13 @@ export const Racks = ({ navigation }) => {
       setShowButton2(false);
       setShowButton1(true);
       setHadSaveRack(false);
-      console.log(error);
+      //console.log(error);
     }
   };
 
   useEffect(() => {
     //RecuperarToken();
-    console.log("IDPERCHA", idPercha);
+    //console.log("IDPERCHA", idPercha);
   }, []);
 
   const handleOpenModal = async () => {
@@ -203,7 +203,7 @@ export const Racks = ({ navigation }) => {
 //     const checkForVariable = async () => {
 //       const response = await handleDoesClientHaveVariable("Promoción");
 //       checkvariables=response
-//       console.log("VARIABLE DE PERCHAS EXISTE:",response)
+//       //console.log("VARIABLE DE PERCHAS EXISTE:",response)
 //       if (checkvariables === true) {
 //         navigation.navigate("promos");
 //       } else {
@@ -224,7 +224,7 @@ export const Racks = ({ navigation }) => {
     try {
       // Realiza la consulta a la base de datos
       /*const resultadoConsulta = await realizarConsulta("SELECT * FROM percha");
-      console.log("percha llanda:", resultadoConsulta);*/
+      //console.log("percha llanda:", resultadoConsulta);*/
 
       const resultadoConsultaPlanograma = await realizarConsulta(
         "SELECT * FROM planograma"
@@ -245,7 +245,7 @@ export const Racks = ({ navigation }) => {
         });
 
       const newArrayEstado = planogramaFiltro.map((objeto) => {
-        console.log("idQva:", objeto.id_percha);
+        //console.log("idQva:", objeto.id_percha);
         return {
           id: objeto.id,
           id_percha: idPercha,
@@ -277,17 +277,17 @@ export const Racks = ({ navigation }) => {
         setRack(planogramaFiltro);
       }
 
-      // console.log(
+      // //console.log(
       //   "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
       //   resultadoConsulta
       // );
 
-      // console.log(
+      // //console.log(
       //   "ESTO ME TRAE DE LOS PLANOGRAMAS:-  -- - - :  -      ---------------------------",
       //   resultadoConsultaPlanograma
       // );
-      // console.log("Copia de contenido completada con éxito: ", newArrayEstado);
-      // console.log("ARRAY DE PLANOGRAMA: ", planogramaFiltro);
+      // //console.log("Copia de contenido completada con éxito: ", newArrayEstado);
+      // //console.log("ARRAY DE PLANOGRAMA: ", planogramaFiltro);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -298,7 +298,7 @@ export const Racks = ({ navigation }) => {
   }, []);
 
   /*useEffect(() => {
-    console.log("CATEGORIAS DISPONIBLES: ", category);
+    //console.log("CATEGORIAS DISPONIBLES: ", category);
   }, []);*/
   useEffect(() => {
     const disableBackButton = () => {
@@ -324,7 +324,7 @@ export const Racks = ({ navigation }) => {
 
   const validateData = () => {
     const isDataValid = category.every((item) => {
-      console.log("ItemModerna:", item);
+      //console.log("ItemModerna:", item);
       if (
         item.state === null ||
         item.carasGeneral === null ||
@@ -333,12 +333,12 @@ export const Racks = ({ navigation }) => {
         isNaN(item.carasModerna) ||
         valueGeneralValidate
       ) {
-        console.log("ESTE ITEM DA PROBLEMAS: ", item);
+        //console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
       }
       if (item.state === 1 || item.state === 0) {
         if (!item.images || item.images.image1 === null) {
-          console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+          //console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
           return false;
         }
       }
@@ -349,7 +349,7 @@ export const Racks = ({ navigation }) => {
   };
 
   const validate = async () => {
-    console.log("VALIDACION DE DATOS DE PERCHAS: ", category);
+    //console.log("VALIDACION DE DATOS DE PERCHAS: ", category);
     if (errorPerchaG != "") {
       setErrorPerchaG("* El campos Categoría General no puede estar vacio");
       //setValidatePass(false)
@@ -364,18 +364,18 @@ export const Racks = ({ navigation }) => {
       navigation.navigate("promos");
     } else {
       const isValid = category.every((item) => {
-        console.log("ItemModerna:", item);
+        //console.log("ItemModerna:", item);
         if (
           item.state === null ||
           item.carasGeneral === null ||
           item.carasModerna === null
         ) {
-          console.log("ESTE ITEM DA PROBLEMAS: ", item);
+          //console.log("ESTE ITEM DA PROBLEMAS: ", item);
           return false;
         }
         if (item.state === 1 || item.state === 0) {
           if (!item.images || item.images.image1 === null) {
-            console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
+            //console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
             return false;
           }
         }
@@ -390,7 +390,7 @@ export const Racks = ({ navigation }) => {
           "Necesita marcar el valor respectivo de cada una de las perchas indicadas y tomar la fotografía."
         );
         //navigation.navigate('rack');
-        console.log("\nCONTENIDO DE PERCHAS: ", JSON.stringify(category));
+        //console.log("\nCONTENIDO DE PERCHAS: ", JSON.stringify(category));
       } else {
         if (valueGeneralValidate != "") {
           Alert.alert(
@@ -405,16 +405,16 @@ export const Racks = ({ navigation }) => {
         ) {
           setIsModalVisible(true);
           try {
-            console.log("IDPERCHA21", idPercha);
+            //console.log("IDPERCHA21", idPercha);
 
             await AsyncStorage.setItem("id_percha", idPercha);
             let x = await AsyncStorage.getItem("id_percha");
-            console.log("IDPERCHA2", x);
-            console.log(
-              "PERCHAS QUE VAN A SER GUARDADOS: ",
-              JSON.stringify(category)
-            );
-            console.log("RACKS:", category);
+            //console.log("IDPERCHA2", x);
+            // //console.log(
+            //   "PERCHAS QUE VAN A SER GUARDADOS: ",
+            //   JSON.stringify(category)
+            // );
+            //console.log("RACKS:", category);
             category.map((productos) => {
               const {
                 id_percha,
@@ -424,15 +424,15 @@ export const Racks = ({ navigation }) => {
                 carasModerna,
                 images,
               } = productos;
-              console.log("carasGenerales:", carasGeneral);
-              console.log("carasmODERNA:", carasModerna);
+              //console.log("carasGenerales:", carasGeneral);
+              //console.log("carasmODERNA:", carasModerna);
 
               const { image1, image2, image3 } = images;
-              console.log(
-                "---------------------- imagenes",
-                JSON.stringify(images)
-              );
-              console.log("PRODUC:", productos);
+              // //console.log(
+              //   "---------------------- imagenes",
+              //   JSON.stringify(images)
+              // );
+              //console.log("PRODUC:", productos);
               let dataSave = {
                 tableName: "percha",
                 dataInsertType: [
@@ -470,9 +470,9 @@ export const Racks = ({ navigation }) => {
                 ") VALUES(" +
                 dataSave.dataInsert.join() +
                 ")";
-              console.log("SENTENCIA A EJECUTAR: ", sentence);
+              //console.log("SENTENCIA A EJECUTAR: ", sentence);
 
-              console.log("TODO BIEN");
+              //console.log("TODO BIEN");
               // navigation.navigate("promos");rrrrrrrrrr
               try {
                 db_insertGlobalDataAudit(dataSave);
@@ -526,7 +526,7 @@ export const Racks = ({ navigation }) => {
                 };
               } catch (error) {
                 objUserInfo = {};
-                console.log(e);
+                //console.log(e);
               }
             }
             saveCurrentScreenUser(
@@ -578,7 +578,7 @@ export const Racks = ({ navigation }) => {
             //setShowButton1(true);
             //setShowButton2(false);
           }
-          console.log("TODO BIEN");
+          //console.log("TODO BIEN");
           //navigation.navigate('rack');
           //navigation.navigate("promos");
         }
@@ -588,7 +588,7 @@ export const Racks = ({ navigation }) => {
   const handleDeleteRegisterLocal = async () => {
     const id_percha = await AsyncStorage.getItem("id_percha");
     setHadSaveRack(false);
-    // console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
+    // //console.log("=========================================================================================================idPreciador.auditorias_id.id_preciador----idPreciador----",idPreciador)
     if (infoScreen) {
       saveCurrentScreenUser(infoScreen.pantallas.prices.principal, infoScreen);
     } else {

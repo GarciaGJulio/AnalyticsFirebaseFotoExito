@@ -40,19 +40,19 @@ export const ListBranch = ({ navigation }) => {
       const resultadoConsulta = await realizarConsulta(
         `SELECT * FROM auditoria where usuario_creacion='${userInfo.mail}'`
       );
-      console.log(
-        "PETICION ACTUAL - - -- - ",
-        `SELECT * FROM auditoria where usuario_creacion='${userInfo.mail}'`
-      );
+      // //console.log(
+      //   "PETICION ACTUAL - - -- - ",
+      //   `SELECT * FROM auditoria where usuario_creacion='${userInfo.mail}'`
+      // );
 
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta);
       setAudit(resultadoConsulta);
       setFilteredData(resultadoConsulta);
-      console.log(
-        "Copia de contenido completada con éxito: ",
-        resultadoConsulta
-      );
+      // //console.log(
+      //   "Copia de contenido completada con éxito: ",
+      //   resultadoConsulta
+      // );
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -64,7 +64,7 @@ export const ListBranch = ({ navigation }) => {
 
   useEffect(() => {
     //filteredData;
-    console.log("DATOS DE AUDITORIA:", filteredData);
+    //console.log("DATOS DE AUDITORIA:", filteredData);
     //consultarYCopiarContenido
   }, [refresh, refreshSync]);
 
