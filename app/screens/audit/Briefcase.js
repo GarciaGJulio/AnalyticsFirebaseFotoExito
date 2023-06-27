@@ -791,8 +791,8 @@ export const Briefcase = ({ navigation }) => {
       />
       {hasVariable ? (
         <View style={styles.contentContainer}>
-          <ClientInformation/>
-          <ProgressBar currentStep={currentStep} />
+           <ClientInformation/>
+          <ProgressBar currentStep={currentScreenPos} />
           
           <View style={{ flex: 2 }}>
             <ScreenInformation
@@ -893,7 +893,7 @@ export const Briefcase = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.contentContainer}>
-          <ProgressBar currentStep={currentScreenPos} />
+          {/* <ProgressBar currentStep={currentScreenPos} /> */}
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}

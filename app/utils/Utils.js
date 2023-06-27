@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { realizarConsulta } from "../common/sqlite_config"
 import { PERSISTENCIA } from "../common/table_columns"
 import { db_deleteGlobalLocalDataBase, db_insertGlobalLocalDataBase } from "../services/SqliteService"
-export const getCurrentScreenInformation = async (navigation) => {
+export const getCurrentScreenInformation = async (navigation, initVariablesLocalStorage) => {
     try {
         let userFound = await getCurrentScreenUser()
         // //console.log("iniciadno traer datoss",userFound)
@@ -24,10 +24,14 @@ export const getCurrentScreenInformation = async (navigation) => {
 
                 //onGetInfo(null)
             }
-            if(navigation){
-                navigation.navigate(userFound[0].nombre_pantalla)
-
+            console.log("por llamar a isPersistencia",initVariablesLocalStorage)
+            if (initVariablesLocalStorage) {
+                initVariablesLocalStorage(true)
             }
+            if (navigation) {
+                navigation.navigate(userFound[0].nombre_pantalla)
+            }
+          
 
 
 
@@ -36,6 +40,7 @@ export const getCurrentScreenInformation = async (navigation) => {
         }
         return 0;
     } catch (error) {
+        console.log(error)
         return 0;
         //console.log(error)
     }
