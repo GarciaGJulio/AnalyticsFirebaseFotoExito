@@ -67,7 +67,7 @@ export const Briefcase = ({ navigation }) => {
     handleClearWorkFlow,
     currentScreenPos,
     handleCurrentScreenPos,
-    handleCheckCanSaveAllDataLocal
+    handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -264,8 +264,8 @@ export const Briefcase = ({ navigation }) => {
       }
     };
     checkForVariable();
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
+    handleCurrentScreenPos();
+    handleCheckCanSaveAllDataLocal();
   };
 
   const HandleASpecialNavigationOfVariables = () => {
@@ -278,14 +278,13 @@ export const Briefcase = ({ navigation }) => {
         navigation.navigate("rack");
       } else {
         navigation.navigate("promos");
-        handleCurrentScreenPos(3)
+        handleCurrentScreenPos(3);
       }
     };
     checkForVariable();
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
+    handleCurrentScreenPos();
+    handleCheckCanSaveAllDataLocal();
   };
-
 
   const consultarYCopiarContenido = async () => {
     let idGroupClient = await AsyncStorage.getItem("idGroupClient");
@@ -351,6 +350,19 @@ export const Briefcase = ({ navigation }) => {
 
         return acumulador;
       }, []);
+
+      resultado.sort((a, b) => {
+        const nombreA = a.categoria.toUpperCase();
+        const nombreB = b.categoria.toUpperCase();
+
+        if (nombreA < nombreB) {
+          return -1;
+        }
+        if (nombreA > nombreB) {
+          return 1;
+        }
+        return 0;
+      });
 
       setIdealProducts([...resultado]);
 
@@ -432,7 +444,7 @@ export const Briefcase = ({ navigation }) => {
     //   idealPortfolioProducts,
     //   setComplementaryPortfolioProducts,
     // });
-    HandleNavigationOfVariables()
+    HandleNavigationOfVariables();
   };
 
   const validateProduct = async () => {
@@ -449,7 +461,7 @@ export const Briefcase = ({ navigation }) => {
       await AsyncStorage.setItem("id_portafolio_auditoria", "null");
       setHadSaveBriefCase(true);
       // navigation.navigate("rack");
-      HandleASpecialNavigationOfVariables()
+      HandleASpecialNavigationOfVariables();
       //console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
       await AsyncStorage.setItem(
@@ -749,10 +761,11 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${infoScreen
+        valueId: `${
+          infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-          }`,
+        }`,
       });
     });
   };
@@ -782,7 +795,7 @@ export const Briefcase = ({ navigation }) => {
       />
       {hasVariable ? (
         <View style={styles.contentContainer}>
-           <ProgressBar currentStep={currentScreenPos} />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}
@@ -798,7 +811,7 @@ export const Briefcase = ({ navigation }) => {
               alignItems: "center",
               marginTop: -8,
             }}
-          //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
+            //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
           >
             <View style={{ flex: 0.1, width: "90%" }}>
               <Text style={styles.text}>Portafolio Ideal</Text>
@@ -850,7 +863,7 @@ export const Briefcase = ({ navigation }) => {
               iconLeft={"cancel"}
               typeLeft={"material-icon"}
               onPressLeft={() => {
-                setIsModalVisibleClose(true) //console.log("REGRESANDO  . . . ");
+                setIsModalVisibleClose(true); //console.log("REGRESANDO  . . . ");
               }}
               titleRigth={"Guardar"}
               sizeRigth={theme.buttonSize.df}
@@ -859,23 +872,23 @@ export const Briefcase = ({ navigation }) => {
               typeRigth={"material-community"}
               onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
               showButton1={true}
-            //   showButton1={showButton1}
-            // showButton2={showButton2}
-            // titleRigthSecond={"Siguiente"}
-            // sizeRigthSecond={theme.buttonSize.df}
-            // colorRigthSecond={theme.colors.modernaRed}
-            // showButton1Second={showButton1}
-            // showButton2Second={showButton2}
-            // onPressRigthSecond={() => {
-            //   navigation.navigate("prices", {
-            //     currentStep,
-            //     complementaryPortfolioProducts,
-            //     idealPortfolioProducts,
-            //     setComplementaryPortfolioProducts,
-            //   });
-            // }}
-            // iconRigthSecond={"arrow-right-circle"}
-            // typeRigthSecond={"feather"}
+              //   showButton1={showButton1}
+              // showButton2={showButton2}
+              // titleRigthSecond={"Siguiente"}
+              // sizeRigthSecond={theme.buttonSize.df}
+              // colorRigthSecond={theme.colors.modernaRed}
+              // showButton1Second={showButton1}
+              // showButton2Second={showButton2}
+              // onPressRigthSecond={() => {
+              //   navigation.navigate("prices", {
+              //     currentStep,
+              //     complementaryPortfolioProducts,
+              //     idealPortfolioProducts,
+              //     setComplementaryPortfolioProducts,
+              //   });
+              // }}
+              // iconRigthSecond={"arrow-right-circle"}
+              // typeRigthSecond={"feather"}
             />
           </View>
           {/* //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd--------------------------------- */}
@@ -900,7 +913,7 @@ export const Briefcase = ({ navigation }) => {
               iconLeft={"cancel"}
               typeLeft={"material-icon"}
               onPressLeft={() => {
-                setIsModalVisibleClose(true) //console.log("REGRESANDO  . . . ");
+                setIsModalVisibleClose(true); //console.log("REGRESANDO  . . . ");
               }}
               titleRigth={"Siguiente"}
               sizeRigth={theme.buttonSize.df}
