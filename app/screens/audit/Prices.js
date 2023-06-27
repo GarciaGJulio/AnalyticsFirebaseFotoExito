@@ -28,6 +28,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import SAVE_ANIMATION from "../../../assets/save.json";
+
 import {
   deleteRegisterAudit,
   getCurrentScreenInformation,
@@ -560,6 +561,7 @@ export const Prices = ({ navigation, route }) => {
       </View>
       {hasVariable ? (
         <View style={styles.contentContainer}>
+          <ClientInformation/>
           <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 1.3 }}>
             <ScreenInformation

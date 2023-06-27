@@ -42,6 +42,7 @@ import {
 import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
 import { GlobalContext } from "../../context/GlobalContext";
 import { getActualDate, transfromrActualDateFormat } from "../../common/utils";
+import { ClientInformation } from "../../components/ClientInformation";
 
 export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -544,6 +545,7 @@ export const Promos = ({ navigation }) => {
             <ModernaHeader />
           </View>
           <View style={styles.contentContainer}>
+            <ClientInformation/>
             <ProgressBar currentStep={currentScreenPos} />
             <View style={{ flex: 1 }}>
               <ScreenInformation
@@ -607,6 +609,7 @@ export const Promos = ({ navigation }) => {
       ) : (
         <View>
           <View style={styles.contentContainer}>
+            <ClientInformation/>
             <ProgressBar currentStep={currentScreenPos} />
             <View style={{ flex: 1 }}>
               <ScreenInformation
