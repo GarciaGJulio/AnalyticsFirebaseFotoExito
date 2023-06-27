@@ -91,6 +91,7 @@ export const Prices = ({ navigation, route }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //handleCurrentScreenPos(null,2)
   }, []);
 
   useEffect(() => {
@@ -213,8 +214,11 @@ export const Prices = ({ navigation, route }) => {
     };
     checkForVariable();
     handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
-  };
+    handleCheckCanSaveAllDataLocal(()=>{
+      
+    },()=>{
+
+    })  };
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -327,7 +331,7 @@ export const Prices = ({ navigation, route }) => {
 
       if (!isValid) {
         Alert.alert(
-          "Error al completar los datos",
+          "Error al registrar los datos",
           "Necesita ingresar el precio y tomar la foto por cada producto seleccionado."
         );
         //navigation.navigate('rack');

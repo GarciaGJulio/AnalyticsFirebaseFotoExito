@@ -24,7 +24,7 @@ export const ProductsPrices_Review = ({ text, products }) => {
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <Text style={{ fontFamily: "Metropolis", fontSize: 14 }}>
-            En esta auditoría no se seleccionó ningún producto del portafolio.
+            En esta auditoría no se seleccionó ningún producto del portafolio complementario.
           </Text>
         </View>
       ) : (

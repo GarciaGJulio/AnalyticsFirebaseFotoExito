@@ -130,9 +130,11 @@ export const ProductsDetails_Review = ({ item }) => {
           >
             <View style={{ flex: 1 }}>
               <Text style={{ fontSize: 12, fontFamily: "Metropolis" }}>
-                Precio registrado
+                Precio
               </Text>
             </View>
+
+            
             {item.estado === 1 ? (
               <View
                 style={{
@@ -158,25 +160,18 @@ export const ProductsDetails_Review = ({ item }) => {
             ) : (
               <></>
             )}
-          </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              //backgroundColor: "red",
-              marginRight: 5,
-            }}
-          >
-            {item.estado == 1 ? (
-              <View>
+            
+          </View>
+          
+          {item.estado == 1 ? (
+              <View >
                 <Text
                   style={{
-                    fontSize: 13,
-                    marginTop: 10,
+                    fontSize: 12,
+                    //marginTop: 10,
                     fontFamily: "Metropolis",
-                    bottom: 5,
+                   // bottom: 5,
                   }}
                 >
                   ${validarDecimales(item.precio)}
@@ -195,6 +190,16 @@ export const ProductsDetails_Review = ({ item }) => {
               </Text>
             )}
 
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              //backgroundColor: "red",
+              marginRight: 5,
+            }}
+          >
+            
             <View>
               <View
                 style={[
