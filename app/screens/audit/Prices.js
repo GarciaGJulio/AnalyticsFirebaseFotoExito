@@ -39,7 +39,7 @@ import LoaderModal from "../../components/LoaderModal";
 import { GlobalContext } from "../../context/GlobalContext";
 import { KeyboardAvoidingView } from "react-native";
 import { transfromrActualDateFormat } from "../../common/utils";
-
+import { ClientInformation } from "../../components/ClientInformation";
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
     []

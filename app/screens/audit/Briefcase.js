@@ -23,6 +23,7 @@ import { MultiSelectListV2 } from "../../components/MultiSelectListV2";
 import { Divider } from "@rneui/base";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import { ClientInformation } from "../../components/ClientInformation";
 import {
   deleteRegisterAudit,
   getCurrentScreenInformation,
@@ -58,7 +59,6 @@ export const Briefcase = ({ navigation }) => {
   const [hadSave, setHadSave] = useState(false);
   const [hasVariable, setHasVariable] = useState(true);
   //Datos del cliente
-  const [idCliente, setIdCliente] = useState(null);
   const [nombreCliente, setNombreCliente] = useState(null);
   const [nombreSucursal, setNombreSucursal] = useState(null);
   const isFocused = useIsFocused();
@@ -83,7 +83,6 @@ export const Briefcase = ({ navigation }) => {
     checkForVariable();
     //Obtener datos del cliente
     const getClientInformation=async()=>{
-      setIdCliente(await AsyncStorage.getItem("id_sucursal"));
       setNombreCliente(await AsyncStorage.getItem("nombre_cliente"));
       setNombreSucursal(await AsyncStorage.getItem("nombre_sucursal")); 
     }
@@ -102,16 +101,16 @@ export const Briefcase = ({ navigation }) => {
   }, [isFocused]);
 
   /*useEffect(() => {
-    //console.log(
+    console.log(
       "*****************************idealPortfolioProducts================",
       idealPortfolioProducts
     );
   }, [idealPortfolioProducts]);*/
 
   const dataId = async () => {
-    // //console.log(
-    //   "\nDESDE PORTAFOLIO *********************************************************\n"
-    // );
+    console.log(
+      "\nDESDE PORTAFOLIO *********************************************************\n"
+    );
     let idPreciador = await AsyncStorage.getItem("id_preciador"); //si
     let idPercha = await AsyncStorage.getItem("id_percha"); //si
     let idSucursal = await AsyncStorage.getItem("id_sucursal"); //si
@@ -121,16 +120,16 @@ export const Briefcase = ({ navigation }) => {
     let idPortafolioAuditoria = await AsyncStorage.getItem(
       "id_portafolio_auditoria"
     ); //si
-    // //console.log(
-    //   "\n////////////////////////////////////////////////////////////////////////\n\n"
-    // );
-    //console.log("ID DE PRECIADOR: ", idPreciador);
-    //console.log("ID DE PERCHA: ", idPercha);
-    //console.log("ID DE SUCURSAL: ", idSucursal);
-    //console.log("ID DE CLIENTE: ", idCliente);
-    //console.log("NOMBRE CLIENTE: ", nombreCliente);
-    //console.log("NOMBRE SUCURSAL: ", nombreSucursal);
-    //console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
+    console.log(
+      "\n////////////////////////////////////////////////////////////////////////\n\n"
+    );
+    console.log("ID DE PRECIADOR: ", idPreciador);
+    console.log("ID DE PERCHA: ", idPercha);
+    console.log("ID DE SUCURSAL: ", idSucursal);
+    console.log("ID DE CLIENTE: ", idCliente);
+    console.log("NOMBRE CLIENTE: ", nombreCliente);
+    console.log("NOMBRE SUCURSAL: ", nombreSucursal);
+    console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
   };
 
   useEffect(() => {
@@ -200,7 +199,7 @@ export const Briefcase = ({ navigation }) => {
       setInfoScreen(null);
       setShowButton2(false);
       setShowButton1(true);
-      //console.log(error);
+      console.log(error);
     }
   };
   //const [fullDataProducts, setFullDataProducts] = useState([]);
@@ -212,18 +211,18 @@ export const Briefcase = ({ navigation }) => {
   const consultarDatosDeIDs = async () => {
     let idGroupClient = await AsyncStorage.getItem("idGroupClient");
     setidGrupoCliente(idGroupClient);
-    // //console.log(
-    //   " - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - "
-    // );
-    //console.log("*******************************************************");
-    //console.log("ID DEL GRUPO DE CLIENTE: ", idGroupClient);
-    ////console.log("ID DEL PORTAFOLIO: ", idPortafolio);
-    //console.log("ID DEL PORTAFOLIO IDEAL: ", idPortafolioIdeal);
-    // //console.log(
-    //   "ID DEL PORTAFOLIO COMPLEMENTARIO: ",
-    //   idPortafolioComplementario
-    // );
-    //console.log("*******************************************************");
+    console.log(
+      " - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - "
+    );
+    console.log("*******************************************************");
+    console.log("ID DEL GRUPO DE CLIENTE: ", idGroupClient);
+    //console.log("ID DEL PORTAFOLIO: ", idPortafolio);
+    console.log("ID DEL PORTAFOLIO IDEAL: ", idPortafolioIdeal);
+    console.log(
+      "ID DEL PORTAFOLIO COMPLEMENTARIO: ",
+      idPortafolioComplementario
+    );
+    console.log("*******************************************************");
   };
   useEffect(() => {
     consultarDatosDeIDs();
@@ -246,8 +245,8 @@ export const Briefcase = ({ navigation }) => {
   };
   const handleOpenModal = () => {
     setIsModalVisible(true);
-    ////console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
-    ////console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
+    //console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
+    //console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
     validateProduct();
     /*setTimeout(() => {
       //setIsModalVisible(false);
@@ -261,7 +260,7 @@ export const Briefcase = ({ navigation }) => {
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Precio");
       checkvariables = response;
-      //console.log("VARIABLE DE PERCHAS EXISTE:", response);
+      console.log("VARIABLE DE PERCHAS EXISTE:", response);
       if (checkvariables === true) {
         navigation.navigate("prices", {
           currentStep,
@@ -283,7 +282,7 @@ export const Briefcase = ({ navigation }) => {
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Percha");
       checkvariables = response;
-      //console.log("VARIABLE DE PERCHAS EXISTE:", response);
+      console.log("VARIABLE DE PERCHAS EXISTE:", response);
       if (checkvariables === true) {
         navigation.navigate("rack");
       } else {
@@ -315,7 +314,7 @@ export const Briefcase = ({ navigation }) => {
 
       const productosIdealFiltro = productosIdeal.map((objeto) => {
         setPortafolioIdeal(objeto.id_portafolio);
-        ////console.log("IDEAL SIN FORMATEAR: ----", objeto);
+        //console.log("IDEAL SIN FORMATEAR: ----", objeto);
         return {
           id: objeto.id_producto,
           name: objeto.nombre_producto,
@@ -335,7 +334,7 @@ export const Briefcase = ({ navigation }) => {
 
       setAuxiliarArray([...productosIdealFiltro]);
 
-      //console.log("- - - - - - ", idGroupClient);
+      console.log("- - - - - - ", idGroupClient);
 
       /*const productosIdealFiltro = newAuxiliarArray.filter((objeto) => {
         return objeto.id_grupo_cliente === idGroupClient;
@@ -364,25 +363,25 @@ export const Briefcase = ({ navigation }) => {
 
       setIdealProducts([...resultado]);
 
-      // //console.log(
-      //   "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO NULO. . . . . .",
-      //   resultado
-      // );
+      console.log(
+        "PRODUCTOS PARA PORTAFOLIO IDEAL CON FILTRO NULO. . . . . .",
+        resultado
+      );
 
       const filtroProductosNoIdeales = resultadoConsulta.filter(
         (obj1) =>
           !productosIdealFiltro.some((obj2) => obj1.id_producto === obj2.id)
       );
 
-      // //console.log(
-      //   "FILTRO DE PRODUCTOS SIN CONSIDERARA ALOS IDEALES - - - - - : ",
-      //   filtroProductosNoIdeales
-      // );
+      console.log(
+        "FILTRO DE PRODUCTOS SIN CONSIDERARA ALOS IDEALES - - - - - : ",
+        filtroProductosNoIdeales
+      );
       const nuevaListaCategorias = resultadoConsultaCategorias.map(
         (categoria) => {
           const productosCategoria = filtroProductosNoIdeales.filter(
             (producto) => {
-              /*//console.log(
+              /*console.log(
                 "CATEGORIA: " +
                   categoria.id_categoria +
                   " PRODUCTO: " +
@@ -391,7 +390,7 @@ export const Briefcase = ({ navigation }) => {
               return producto.id_categoria === categoria.id_categoria;
             }
           );
-          //console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
+          console.log("PRODUCTO ENCONTRADO: ", productosCategoria);
           return {
             id: categoria.id_categoria,
             name: categoria.id_categoria.concat(
@@ -415,17 +414,17 @@ export const Briefcase = ({ navigation }) => {
         }
       );
 
-      // //console.log(
-      //   "NUEVO ARRAY DE CATEGORIAS Y PRODUCTOS- - - - - - - : ",
-      //   nuevaListaCategorias
-      // );
+      console.log(
+        "NUEVO ARRAY DE CATEGORIAS Y PRODUCTOS- - - - - - - : ",
+        nuevaListaCategorias
+      );
 
       const nuevaListaFiltrada = nuevaListaCategorias.filter(
         (categoria) => categoria.children.length > 0
       );
 
       setAllProducts([...nuevaListaFiltrada]);
-      //console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
+      console.log("PRODUCTOS IDEALES DE BASE: ", productosIdeal);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -446,10 +445,10 @@ export const Briefcase = ({ navigation }) => {
   };
 
   const validateProduct = async () => {
-    // //console.log(
-    //   "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-    //   (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
-    // );
+    console.log(
+      "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
+      (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
+    );
 
     if (
       idealPortfolioProducts.length + complementaryPortfolioProducts.length ==
@@ -460,24 +459,24 @@ export const Briefcase = ({ navigation }) => {
       setHadSaveBriefCase(true);
       // navigation.navigate("rack");
       HandleASpecialNavigationOfVariables()
-      //console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
+      console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
     } else {
       await AsyncStorage.setItem(
         "id_portafolio_auditoria",
         idPortafolioAuditoria
       );
-      // //console.log(
-      //   "\n***************** DESACTIVANDO CHECKS *****************************\n"
-      // );
+      console.log(
+        "\n***************** DESACTIVANDO CHECKS *****************************\n"
+      );
       setHadSaveBriefCase(true);
-      // //console.log(
-      //   "PRODUCTOS DEL PORTAFOLIO IDEAL: ",
-      //   JSON.stringify(idealPortfolioProducts)
-      // );
-      // //console.log(
-      //   "PRODUCTOS DEL PORTAFOLIO COMPLEMENTARIO: ",
-      //   JSON.stringify(complementaryPortfolioProducts)
-      // );
+      console.log(
+        "PRODUCTOS DEL PORTAFOLIO IDEAL: ",
+        JSON.stringify(idealPortfolioProducts)
+      );
+      console.log(
+        "PRODUCTOS DEL PORTAFOLIO COMPLEMENTARIO: ",
+        JSON.stringify(complementaryPortfolioProducts)
+      );
 
       try {
         const fullDataProducts = idealPortfolioProducts.concat(
@@ -488,15 +487,15 @@ export const Briefcase = ({ navigation }) => {
           const { id_portafolio, id, tipo_portafolio } = producto;
 
           if (tipo_portafolio === "C") {
-            // //console.log(
-            //   "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
-            //   "ID DEL PORTAFOLIO: " +
-            //   id_portafolio +
-            //   " ID DEL PRODUCTO: " +
-            //   id +
-            //   " TIPO DE PORTAFOLIO:" +
-            //   tipo_portafolio
-            // );
+            console.log(
+              "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
+              "ID DEL PORTAFOLIO: " +
+              id_portafolio +
+              " ID DEL PRODUCTO: " +
+              id +
+              " TIPO DE PORTAFOLIO:" +
+              tipo_portafolio
+            );
 
             let dataSave = {
               tableName: "portafolio",
@@ -524,17 +523,17 @@ export const Briefcase = ({ navigation }) => {
               ") VALUES(" +
               dataSave.dataInsert.join() +
               ")";
-            //console.log("SENTENCIA A EJECUTAR: ", sentence);
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
 
             try {
               db_insertGlobalDataAudit(dataSave);
-              // //console.log(
-              //   "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
-              // );
-              // //console.log(
-              //   "ID DEL PORTAFOLIO QUE SE VA A GUARDRA: ",
-              //   id_portafolio
-              // );
+              console.log(
+                "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
+              );
+              console.log(
+                "ID DEL PORTAFOLIO QUE SE VA A GUARDRA: ",
+                id_portafolio
+              );
 
               let dataSave2 = {
                 tableName: "portafolio_auditoria",
@@ -557,11 +556,11 @@ export const Briefcase = ({ navigation }) => {
                 ") VALUES(" +
                 dataSave2.dataInsert.join() +
                 ")";
-              //console.log("SENTENCIA A EJECUTAR: ", sentence2);
+              console.log("SENTENCIA A EJECUTAR: ", sentence2);
 
               try {
                 db_insertGlobalDataAudit(dataSave2);
-                //console.log("TODO BIEN");
+                console.log("TODO BIEN");
                 //setShowButton1(false);
                 //setShowButton2(true);
                 setIsModalVisible(false);
@@ -572,16 +571,16 @@ export const Briefcase = ({ navigation }) => {
                 );
               }
             } catch (e) {
-              //console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", e);
+              console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", e);
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
               setIsModalVisible(false);
             }
           } else {
-            //console.log("PRODUCTO IDEAL - - - - - - - - - : ", producto);
-            // //console.log(
-            //   "----------------- SALTANDO INSERCION  - - - - - - - - - : ",
-            //   producto
-            // );
+            console.log("PRODUCTO IDEAL - - - - - - - - - : ", producto);
+            console.log(
+              "----------------- SALTANDO INSERCION  - - - - - - - - - : ",
+              producto
+            );
 
             let portafolioSave = {
               tableName: "portafolio_auditoria",
@@ -605,11 +604,11 @@ export const Briefcase = ({ navigation }) => {
               ") VALUES(" +
               portafolioSave.dataInsert.join() +
               ")";
-            //console.log("SENTENCIA A EJECUTAR: ", sentence);
+            console.log("SENTENCIA A EJECUTAR: ", sentence);
 
             try {
               db_insertGlobalDataAudit(portafolioSave);
-              //console.log("TODO BIEN");
+              console.log("TODO BIEN");
               // navigation.navigate("prices", {
               //   currentStep,
               //   complementaryPortfolioProducts,
@@ -665,7 +664,7 @@ export const Briefcase = ({ navigation }) => {
             };
           } catch (error) {
             objUserInfo = {};
-            //console.log(e);
+            console.log(e);
           }
         }
         saveCurrentScreenUser(
@@ -740,16 +739,16 @@ export const Briefcase = ({ navigation }) => {
     );
     tmpDataDelete.map((productos) => {
       const { id_portafolio, id, tipo_portafolio } = productos;
-      //console.log("*******************************************************");
-      // //console.log(
-      //   "******************ENTRANDO AL CICLO DE ELIMINADO DEL PORTAFOLIO***********************"
-      // );
-      //console.log("*******************************************************");
-      //console.log("PRODUCTO A ANALIZAR: - - - - - ", productos);
+      console.log("*******************************************************");
+      console.log(
+        "******************ENTRANDO AL CICLO DE ELIMINADO DEL PORTAFOLIO***********************"
+      );
+      console.log("*******************************************************");
+      console.log("PRODUCTO A ANALIZAR: - - - - - ", productos);
       if (id_portafolio !== "12" && id_portafolio !== "56") {
-        // //console.log(
-        //   " - - - - - - - - - - - ENTRANDO A ELIMINAR LOS DATOS DEL PORTAFOLIO - - - - - - - - - -- "
-        // );
+        console.log(
+          " - - - - - - - - - - - ENTRANDO A ELIMINAR LOS DATOS DEL PORTAFOLIO - - - - - - - - - -- "
+        );
         deleteRegisterAudit({
           tableName: "portafolio",
           objectId: "id_portafolio",
@@ -792,12 +791,9 @@ export const Briefcase = ({ navigation }) => {
       />
       {hasVariable ? (
         <View style={styles.contentContainer}>
+          <ClientInformation/>
           <ProgressBar currentStep={currentStep} />
-          <View style={{ flex: 2 }}>
-            <ScreenInformation
-              text={nombreCliente+"\n"+nombreSucursal}
-            />
-          </View>
+          
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}
@@ -865,7 +861,7 @@ export const Briefcase = ({ navigation }) => {
               iconLeft={"cancel"}
               typeLeft={"material-icon"}
               onPressLeft={() => {
-                setIsModalVisibleClose(true) //console.log("REGRESANDO  . . . ");
+                setIsModalVisibleClose(true), console.log("REGRESANDO  . . . ");
               }}
               titleRigth={"Guardar"}
               sizeRigth={theme.buttonSize.df}
@@ -915,7 +911,7 @@ export const Briefcase = ({ navigation }) => {
               iconLeft={"cancel"}
               typeLeft={"material-icon"}
               onPressLeft={() => {
-                setIsModalVisibleClose(true) //console.log("REGRESANDO  . . . ");
+                setIsModalVisibleClose(true), console.log("REGRESANDO  . . . ");
               }}
               titleRigth={"Siguiente"}
               sizeRigth={theme.buttonSize.df}
@@ -965,4 +961,12 @@ const styles = StyleSheet.create({
     //height:'30%',
     marginBottom: 5,
   },
+  clientInformationText:{
+    textAlign: 'center', 
+    alignSelf: 'center',
+    fontSize: 9, 
+    color: 'gray', 
+    marginHorizontal: 4,
+    marginBottom:3
+  }
 });

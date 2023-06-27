@@ -46,7 +46,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { GlobalContext } from "../../context/GlobalContext";
 import { transfromrActualDateFormat } from "../../common/utils";
-
+import { ClientInformation } from "../../components/ClientInformation";
 export const Racks = ({ navigation }) => {
   const [valueGeneralValidate, setValueGeneralValidate] = useState();
   const [valueModerna, setValueModerna] = useState();
