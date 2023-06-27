@@ -194,12 +194,12 @@ export const CheckBoxContainerP = ({ productName, item, setData }) => {
               style={{
                 fontWeight: theme.fontWeight.softbold,
                 fontFamily: "Metropolis",
-                //marginVertical: 10,
+                bottom: 10,
               }}
             >
               Planograma Real
             </Text>
-            <View style={{ flex: 1.2 }}>
+            <View style={{ flex: 1 }}>
               <TakeImage setProducts={setData} item={item} />
             </View>
           </View>
@@ -237,8 +237,8 @@ const styles = StyleSheet.create({
   },
   secondaryContainer: {
     //backgroundColor: "brown",
-    flex: 1,
-    //height: 290,
+    //flex: 1,
+    height: 110,
     width: "90%",
   },
 });

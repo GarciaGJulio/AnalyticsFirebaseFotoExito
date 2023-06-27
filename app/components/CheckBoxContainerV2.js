@@ -87,27 +87,32 @@ export const CheckBoxContainerV2 = React.memo(
     };
 
     const actualizarPrecio = (id, price) => {
-      // //console.log(
-      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      // );
-      // //console.log(
-      //   `\n * * * * * * * * * ACTUALIZANDO PRECIO DEL PRODUCTO :${id}  * * * * * * * * * \n`
-      // );
-      // //console.log(
-      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      // );
+      console.log(
+        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      );
+      console.log(
+        `\n * * * * * * * * * ACTUALIZANDO PRECIO DEL PRODUCTO :${id}  * * * * * * * * * \n`
+      );
+      console.log(
+        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      );
+      console.log("PRECIO INTRODUCIDO: - - -", price);
       setProducts((products) => {
         let productosActualizados = [...products];
         let producto = productosActualizados.find((p) => p.id === id);
 
         if (producto) {
           if (isNaN(price)) {
-            producto.price = 0.0;
+            // Si price no es un número válido, deja producto.price como una cadena vacía
+            producto.price = "";
           } else {
+            console.log("PRECIO A GUARDAR: - - - - -", price);
+            // Si price es un número válido, establece producto.price como el valor de price
             producto.price = price;
           }
         }
 
+        console.log(producto);
         return productosActualizados;
       });
     };
@@ -190,7 +195,7 @@ export const CheckBoxContainerV2 = React.memo(
               <View
                 style={{
                   //width: "50%",
-                  flex: 0.6,
+                  flex: 0.5,
                   paddingHorizontal: 10,
                 }}
               >
@@ -198,20 +203,22 @@ export const CheckBoxContainerV2 = React.memo(
                   onChangeText={(txt) => {
                     setPrice(txt);
                     validatePriceProduct(txt, setErrorPrice);
-                    actualizarPrecio(item.id, parseFloat(txt));
+                    actualizarPrecio(item.id, parseFloat(txt.replace("$", "")));
                   }}
                   label="Precio"
                   placeholder="$"
-                  maxLength={6}
+                  maxLength={7}
                   keyboard="numeric"
                   editable={!hadSavePreciador}
                   error={errorPrice}
                   value={
                     price !== ""
-                      ? price
+                      ? isNaN(price)
+                        ? price
+                        : `$${price}`
                       : item.price
-                      ? item.price.toString()
-                      : ""
+                      ? `$${item.price.toString()}`
+                      : "$"
                   }
                   width={"100%"}
                   // information={"* Este campo es obligatorio"}
@@ -291,7 +298,7 @@ const styles = StyleSheet.create({
   secondaryContainer: {
     //backgroundColor: "brown",
     flex: 1,
-    height: 130,
+    height: 105,
     width: "100%",
   },
 });
