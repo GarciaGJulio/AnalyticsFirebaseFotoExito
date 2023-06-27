@@ -206,7 +206,7 @@ export const Prices = ({ navigation, route }) => {
   const HandleNavigationOfVariables = () => {
     let checkvariables = true;
     const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Perchas");
+      const response = await handleDoesClientHaveVariable("Percha");
       checkvariables=response
       //console.log("VARIABLE DE PERCHAS EXISTE:",response)
       if (checkvariables === true) {
