@@ -43,8 +43,8 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    console.log("ESTO LLEGA DE LAS AUDITORIAS: ", branch);
-    console.log("ESTADO GLOBAL DE LA VARIABLE: ", globalVariable);
+    //console.log("ESTO LLEGA DE LAS AUDITORIAS: ", branch);
+    //console.log("ESTADO GLOBAL DE LA VARIABLE: ", globalVariable);
   }, []);
   const syncData = async (setRefresh, refresh) => {
     setIsModalVisible(true);
@@ -56,7 +56,7 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
         refresh
       );
     } catch (e) {
-      console.log("ERROR: ", e);
+      //console.log("ERROR: ", e);
       setShowModal(!showModal);
       setModalTitle("Pérdida de conexión");
       setModalText(
@@ -70,8 +70,8 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
     }
   };
   const goToReview = (value) => {
-    // console.log("Ir a visitas");
-    console.log("DATOS VIAJANDO: - - -  - - - ", value);
+    // //console.log("Ir a visitas");
+    //console.log("DATOS VIAJANDO: - - -  - - - ", value);
     setDatosCompartidos(value);
     navigation.navigate("review", { branch: datosCompartidos });
   };
@@ -115,7 +115,7 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
           flexDirection: "row",
         }}
       >
-        <View style={{ flex: 0.9 }}>
+        <View style={{ flex: 1 }}>
           <Text
             style={{
               fontFamily: "Metropolis",

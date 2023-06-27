@@ -33,12 +33,12 @@ export const MultiSelectListV2 = ({
   }, []);
 
   useEffect(() => {
-    console.log("HA GUARDADO EN MULTISELECTED? -- --- ", hadSaveBriefCase);
+    //console.log("HA GUARDADO EN MULTISELECTED? -- --- ", hadSaveBriefCase);
   }, [hadSaveBriefCase]);
 
   /* const updateObject = (select) => {
     const newArray = auxiliarArray.filter((obj) => {
-      console.log("ARRAY A COMPARAR: ", obj);
+      //console.log("ARRAY A COMPARAR: ", obj);
       const concatenatedValue = `${obj.name}-${obj.id}`;
       return select.includes(concatenatedValue);
     });
@@ -51,25 +51,25 @@ export const MultiSelectListV2 = ({
     });
 
     setComplementaryPortfolioProducts([...newArrayWithInitial]);
-    console.log("ARRAY DE VALORES ENCONTRADOS: ", newArrayWithInitial);
+    //console.log("ARRAY DE VALORES ENCONTRADOS: ", newArrayWithInitial);
   };*/
 
   useEffect(() => {
-    console.log("ESTO GUARDA SELECT: ", JSON.stringify(select));
+    //console.log("ESTO GUARDA SELECT: ", JSON.stringify(select));
     //updateObject(select);
-    console.log(
-      "ESTO ESTA RECOPILADO DE PRODUCTOS COMPLEMENTARIOS: ",
-      complementaryPortfolioProducts
-    );
+    // //console.log(
+    //   "ESTO ESTA RECOPILADO DE PRODUCTOS COMPLEMENTARIOS: ",
+    //   complementaryPortfolioProducts
+    // );
   }, [select]);
 
   const onSelectedItemsChange = (selectedItems) => {
-    console.log("PRODUCTOS SELECCIONADOS: ", selectedItems);
+    //console.log("PRODUCTOS SELECCIONADOS: ", selectedItems);
     const productosIngresados = [...selectedItems];
-    console.log(
-      "ESTO ES LA REFACTORIZACION DE SELECTITEMS PARA QUE SEAN ARRAY: ",
-      productosIngresados
-    );
+    // //console.log(
+    //   "ESTO ES LA REFACTORIZACION DE SELECTITEMS PARA QUE SEAN ARRAY: ",
+    //   productosIngresados
+    // );
 
     const updatedProducts = productosIngresados
       .map((id) => {
@@ -106,7 +106,7 @@ export const MultiSelectListV2 = ({
 
     setComplementaryPortfolioProducts(updatedProducts); // Actualizar el estado con los productos actualizados
 
-    console.log("PRODUCTO DE FILTRO ENCONTRADO: - - - - - ", updatedProducts);
+    //console.log("PRODUCTO DE FILTRO ENCONTRADO: - - - - - ", updatedProducts);
     /*setComplementaryPortfolioProducts((prevProducts) => [
       ...prevProducts,
       updatedProducts,

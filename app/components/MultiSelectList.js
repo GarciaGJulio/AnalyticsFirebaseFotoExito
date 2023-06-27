@@ -15,7 +15,7 @@ export const MultiSelectList = ({
 
   const updateObject = (select) => {
     const newArray = auxiliarArray.filter((obj) => {
-      console.log("ARRAY A COMPARAR: ", obj);
+      //console.log("ARRAY A COMPARAR: ", obj);
       const concatenatedValue = `${obj.name}-${obj.id}`;
       return select.includes(concatenatedValue);
     });
@@ -28,16 +28,16 @@ export const MultiSelectList = ({
     });
 
     setComplementaryPortfolioProducts([...newArrayWithInitial]);
-    console.log("ARRAY DE VALORES ENCONTRADOS: ", newArrayWithInitial);
+    //console.log("ARRAY DE VALORES ENCONTRADOS: ", newArrayWithInitial);
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(select));
+    //console.log(JSON.stringify(select));
     updateObject(select);
   }, [select]);
 
   const addProduct = (value) => {
-    console.log("NOMBRE DEL PRODUCTO QUE ENTRA: ", value);
+    //console.log("NOMBRE DEL PRODUCTO QUE ENTRA: ", value);
   };
 
   const [fontLoaded] = useFonts({

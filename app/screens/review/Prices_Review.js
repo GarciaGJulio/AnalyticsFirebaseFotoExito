@@ -15,7 +15,7 @@ const Prices_Review = ({ navigation }) => {
   const [productosIdeal, setproductsIdeal] = useState([]);
   const [productosComplementario, setproductosComplementario] = useState([]);
   const consultarYCopiarContenido = async () => {
-    //console.log("DATOS COMPARTIDOS: ")
+    ////console.log("DATOS COMPARTIDOS: ")
     const idGroupClient = datosCompartidos.id_grupo_cliente;
     try {
       const idsPortafolioAuditoria = await realizarConsulta(
@@ -47,8 +47,8 @@ const Prices_Review = ({ navigation }) => {
       const productosIdeal2 = await realizarConsulta(
         `SELECT DISTINCT p.* FROM producto as p INNER JOIN portafolio po ON p.id_producto = po.id_producto WHERE po.tipo = 'I' AND po.id_grupo_cliente='${idGroupClient}' AND po.estado=1`
       );
-      console.log("ID IDEAL-- - - - - -- ", idsI);
-      console.log("ID COMPLEMENTARIO-- - - - - -- ", idsC);
+      //console.log("ID IDEAL-- - - - - -- ", idsI);
+      //console.log("ID COMPLEMENTARIO-- - - - - -- ", idsC);
 
       const productosIdealSinPreciador = productosIdeal2.map((objeto) => {
         return {
@@ -63,75 +63,75 @@ const Prices_Review = ({ navigation }) => {
 
       const productosIdeal = [];
       const productosComplementario = [];
-      console.log(
-        "NUMERO DE ELEMENTOS ENCONTRADOS EN EL PRECIADOR: ",
-        datosPreciador.length
-      );
+      // //console.log(
+      //   "NUMERO DE ELEMENTOS ENCONTRADOS EN EL PRECIADOR: ",
+      //   datosPreciador.length
+      // );
       datosPreciador.forEach((producto) => {
         if (idsC === null && idsI === null) {
-          console.log(
-            "NO SE HAN SELECCIONADO PRODUCTOS COMPLEMENTARIOS O IDEALES, SE PROCEDERÁ A VALIDAR TODO EL ARREGLO"
-          );
+          // //console.log(
+          //   "NO SE HAN SELECCIONADO PRODUCTOS COMPLEMENTARIOS O IDEALES, SE PROCEDERÁ A VALIDAR TODO EL ARREGLO"
+          // );
           productosIdeal.push(producto);
         } else if (idsC === null) {
-          console.log(
-            "NO SE HAN SELECCIONADO PRODUCTOS COMPLEMENTARIOS, SE PROCEDERÁ A VALIDAR LOS PRODUCTOS IDEALES"
-          );
-          console.log(
-            "PRODUCTO: " +
-              producto.nombre_producto +
-              " ID:" +
-              producto.id_portafolio +
-              "ID I: " +
-              idsI
-          );
+          // //console.log(
+          //   "NO SE HAN SELECCIONADO PRODUCTOS COMPLEMENTARIOS, SE PROCEDERÁ A VALIDAR LOS PRODUCTOS IDEALES"
+          // );
+          // //console.log(
+          //   "PRODUCTO: " +
+          //     producto.nombre_producto +
+          //     " ID:" +
+          //     producto.id_portafolio +
+          //     "ID I: " +
+          //     idsI
+          // );
           if (producto.id_portafolio === idsI) {
-            console.log(
-              " \nGUARDANDO PRODUCTO :" + producto.nombre_producto + " EN IDEAL"
-            );
+            // //console.log(
+            //   " \nGUARDANDO PRODUCTO :" + producto.nombre_producto + " EN IDEAL"
+            // );
             productosIdeal.push(producto);
           }
         } else if (idsI === null) {
-          console.log(
-            "NO SE HAN SELECCIONADO PRODUCTOS IDEALES, SE PROCEDERÁ A VALIDAR LOS PRODUCTOS COMPLEMENTARIOS"
-          );
-          console.log(
-            "********************PRODUCTO A EVALUAR*********************"
-          );
-          console.log(producto);
-          console.log(
-            "***********************************************************"
-          );
+          // //console.log(
+          //   "NO SE HAN SELECCIONADO PRODUCTOS IDEALES, SE PROCEDERÁ A VALIDAR LOS PRODUCTOS COMPLEMENTARIOS"
+          // );
+          // //console.log(
+          //   "********************PRODUCTO A EVALUAR*********************"
+          // );
+          // //console.log(producto);
+          // //console.log(
+          //   "***********************************************************"
+          // );
           if (producto.id_portafolio === idsC) {
             productosComplementario.push(producto);
           }
         } else {
-          console.log("SE HAN SELECCIONADO AMBOS TIPOS DE PRODUCTOS");
-          console.log(
-            "evaluando producto: " +
-              producto.id_portafolio +
-              " " +
-              producto.id_producto
-          );
+          //console.log("SE HAN SELECCIONADO AMBOS TIPOS DE PRODUCTOS");
+          // //console.log(
+          //   "evaluando producto: " +
+          //     producto.id_portafolio +
+          //     " " +
+          //     producto.id_producto
+          // );
           if (producto.id_portafolio === idsI) {
-            console.log(
-              "ID DEL PRODUCTO A EVALUAR: " +
-                producto.id_portafolio +
-                " " +
-                producto.id_producto +
-                " ---- " +
-                idsI
-            );
+            // //console.log(
+            //   "ID DEL PRODUCTO A EVALUAR: " +
+            //     producto.id_portafolio +
+            //     " " +
+            //     producto.id_producto +
+            //     " ---- " +
+            //     idsI
+            // );
             productosIdeal.push(producto);
           } else if (producto.id_portafolio === idsC) {
-            console.log(
-              "ID DEL PRODUCTO A EVALUAR C: " +
-                producto.id_portafolio +
-                " " +
-                producto.id_producto +
-                " ---- " +
-                idsC
-            );
+            // //console.log(
+            //   "ID DEL PRODUCTO A EVALUAR C: " +
+            //     producto.id_portafolio +
+            //     " " +
+            //     producto.id_producto +
+            //     " ---- " +
+            //     idsC
+            // );
             productosComplementario.push(producto);
           }
         }
@@ -161,45 +161,45 @@ const Prices_Review = ({ navigation }) => {
         }
       });
 
-      console.log(productosAllIdeal);
+      //console.log(productosAllIdeal);
 
       setproductsIdeal([...productosAllIdeal]);
       setproductosComplementario([...productosComplementario]);
 
-      console.log("PRODUCTO IDEAL-- - - - - -- ", productosIdeal);
+      //console.log("PRODUCTO IDEAL-- - - - - -- ", productosIdeal);
 
-      console.log("PRODUCTOS IDEALES TOTALES - - - - - - -", productosAllIdeal);
-      console.log(
-        "PRODUCTOS SIN PRECIADOR EN IDEAL-- - - - - -- ",
-        productosIdealSinPreciador
-      );
-      console.log(
-        "PRODUCTO COMPLEMENTARIOS - - - - -- - - - - -- ",
-        productosComplementario
-      );
-      console.log(
-        "DATOS DE LA CONSULTA PRECIADOR UNO QUE ES MI REFERENCIA PRINCIPAL* * * * * * * * *  : ",
-        datosPreciador
-      );
+      //console.log("PRODUCTOS IDEALES TOTALES - - - - - - -", productosAllIdeal);
+      // //console.log(
+      //   "PRODUCTOS SIN PRECIADOR EN IDEAL-- - - - - -- ",
+      //   productosIdealSinPreciador
+      // );
+      // //console.log(
+      //   "PRODUCTO COMPLEMENTARIOS - - - - -- - - - - -- ",
+      //   productosComplementario
+      // );
+      // //console.log(
+      //   "DATOS DE LA CONSULTA PRECIADOR UNO QUE ES MI REFERENCIA PRINCIPAL* * * * * * * * *  : ",
+      //   datosPreciador
+      // );
 
-      console.log(
-        "ESTO TRAE PRODUCTOS IDEAL 2 -/-/-/-/-/-/-/-/-/: ",
-        productosIdeal2
-      );
-      console.log(
-        "ID LA AUDITORIA PRESENTE- - -/ / / / /  - : ",
-        datosCompartidos.id_portafolio_auditoria
-      );
-      console.log(
-        "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN EN LA PANTALLA DE PRECIADOR- - -/ / / / /  - : ",
-        idsPortafolioAuditoria
-      );
-      console.log(
-        "ESTOS SON TODOS LOS PRODUCTOS IDEALES CON O SIN PRECIADOR:",
-        productosAllIdeal
-      );
+      // //console.log(
+      //   "ESTO TRAE PRODUCTOS IDEAL 2 -/-/-/-/-/-/-/-/-/: ",
+      //   productosIdeal2
+      // );
+      // //console.log(
+      //   "ID LA AUDITORIA PRESENTE- - -/ / / / /  - : ",
+      //   datosCompartidos.id_portafolio_auditoria
+      // );
+      // //console.log(
+      //   "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN EN LA PANTALLA DE PRECIADOR- - -/ / / / /  - : ",
+      //   idsPortafolioAuditoria
+      // );
+      // //console.log(
+      //   "ESTOS SON TODOS LOS PRODUCTOS IDEALES CON O SIN PRECIADOR:",
+      //   productosAllIdeal
+      // );
     } catch (e) {
-      console.log("Error al ejecutar la funcion de consulta: ", e);
+      //console.log("Error al ejecutar la funcion de consulta: ", e);
     }
   };
 

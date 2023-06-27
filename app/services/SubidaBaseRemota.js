@@ -8,8 +8,8 @@ import { GlobalContext } from "../context/GlobalContext";
 export const subidaBaseRemote = (tablaName, array1, array2) => {
   const url =
     "https://fotoexito1.azurewebsites.net/api/functionGeneral?code=PfkH6TT2D6DBtUdFhK5lHf2-7Z62TpVnNL6_Z4Oz8KY_AzFucJZ_Vg==";
-  console.log("array1:", array1);
-  console.log("array2:", array2);
+  //console.log("array1:", array1);
+  //console.log("array2:", array2);
 
   const requestBody = {
     typeQuery: "INSERT",
@@ -29,7 +29,7 @@ export const subidaBaseRemote = (tablaName, array1, array2) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Respuesta:", data);
+      //console.log("Respuesta:", data);
       // Aquí puedes procesar la respuesta recibida
     })
     .catch((error) => {
@@ -54,13 +54,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
   const consultaPromocion = await realizarConsulta(
     `SELECT s.*  FROM sucursal AS s INNER JOIN auditoria AS a ON a.id_sucursal = s.id_sucursal where a.id_auditoria='${id_auditoria}'`
   );
-  console.log("RESULTADOS DE CONSULTA AUDITORIA: ", consultaAudit);
+  //console.log("RESULTADOS DE CONSULTA AUDITORIA: ", consultaAudit);
   const consulta = await realizarConsulta(
     `SELECT * FROM sucursal where id_sucursal='${id_auditoria}'`
   );
-  console.log("RESULTADOS DE CONSULTA: ", consulta);
-  console.log("ID_AUDITORIA: ", id_auditoria);
-  console.log("RESULTADOS DE CONSULTA PROMOCION: ", consultaPromocion);
+  //console.log("RESULTADOS DE CONSULTA: ", consulta);
+  //console.log("ID_AUDITORIA: ", id_auditoria);
+  //console.log("RESULTADOS DE CONSULTA PROMOCION: ", consultaPromocion);
 
   const sucursalData = await realizarConsulta(
     `SELECT s.* 
@@ -72,24 +72,24 @@ export const subidaBaseRemoteTodaAuditoria = async (
     `SELECT p.*  FROM promocion AS p INNER JOIN auditoria AS a ON a.id_promocion = p.id_promocion WHERE a.id_auditoria = '${id_auditoria}'`
   );
 
-  console.log(
-    "****************************ANALIZANDO PROMOCIONES*****************************************"
-  );
-  console.log(promocionData);
-  console.log(
-    "*****************************************************************************************"
-  );
+  // //console.log(
+  //   "****************************ANALIZANDO PROMOCIONES*****************************************"
+  // );
+  // //console.log(promocionData);
+  // //console.log(
+  //   "*****************************************************************************************"
+  // );
   for (let i = 0; i < promocionData.length; i++) {
-    console.log(
-      "###########################################################################"
-    );
-    console.log(
-      "\nANALIZANDO REGISTRO - IMAGEN 1: ",
-      promocionData[i].url_imagen1
-    );
-    console.log(
-      "###########################################################################"
-    );
+    // //console.log(
+    //   "###########################################################################"
+    // );
+    // //console.log(
+    //   "\nANALIZANDO REGISTRO - IMAGEN 1: ",
+    //   promocionData[i].url_imagen1
+    // );
+    // //console.log(
+    //   "###########################################################################"
+    // );
     if (promocionData[i].url_imagen1 === "undefined") {
       promocionData[i].url_imagen1 = "null";
     } else if (
@@ -98,11 +98,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       promocionData[i].url_imagen1 = null;
     } else {
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log(
-        "URL ACTUAL * * * * * * ** * : ",
-        promocionData[i].url_imagen1
-      );
+      //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      // //console.log(
+      //   "URL ACTUAL * * * * * * ** * : ",
+      //   promocionData[i].url_imagen1
+      // );
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
         "" +
@@ -112,16 +112,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
           "-1"
       );
     }
-    console.log(
-      "///////////////////////////////////////////////////////////////////////////"
-    );
-    console.log(
-      "\nANALIZANDO REGISTRO - IMAGEN 2: ",
-      promocionData[i].url_imagen2
-    );
-    console.log(
-      "///////////////////////////////////////////////////////////////////////////"
-    );
+    // //console.log(
+    //   "///////////////////////////////////////////////////////////////////////////"
+    // );
+    // //console.log(
+    //   "\nANALIZANDO REGISTRO - IMAGEN 2: ",
+    //   promocionData[i].url_imagen2
+    // );
+    // //console.log(
+    //   "///////////////////////////////////////////////////////////////////////////"
+    // );
     if (promocionData[i].url_imagen2 === "undefined") {
       promocionData[i].url_imagen2 = "null";
     } else if (
@@ -130,11 +130,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       promocionData[i].url_imagen2 = null;
     } else {
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log(
-        "URL ACTUAL * * * * * * ** * : ",
-        promocionData[i].url_imagen2
-      );
+      //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      // //console.log(
+      //   "URL ACTUAL * * * * * * ** * : ",
+      //   promocionData[i].url_imagen2
+      // );
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
         "" +
@@ -144,16 +144,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
           "-2"
       );
     }
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
-    console.log(
-      "\nANALIZANDO REGISTRO - IMAGEN 3: ",
-      promocionData[i].url_imagen3
-    );
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
+    // //console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    // );
+    // //console.log(
+    //   "\nANALIZANDO REGISTRO - IMAGEN 3: ",
+    //   promocionData[i].url_imagen3
+    // );
+    // //console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    // );
     if (promocionData[i].url_imagen3 === "undefined") {
       promocionData[i].url_imagen3 = "null";
     } else if (
@@ -162,11 +162,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       promocionData[i].url_imagen3 = null;
     } else {
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log(
-        "URL ACTUAL * * * * * * ** * : ",
-        promocionData[i].url_imagen3
-      );
+      //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      // //console.log(
+      //   "URL ACTUAL * * * * * * ** * : ",
+      //   promocionData[i].url_imagen3
+      // );
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
         "" +
@@ -177,35 +177,35 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
     }
   }
-  console.log(
-    "**************************** PROMOCIONES COMPLETO *****************************************"
-  );
-  console.log(promocionData);
-  console.log(
-    "*****************************************************************************************"
-  );
+  // //console.log(
+  //   "**************************** PROMOCIONES COMPLETO *****************************************"
+  // );
+  // //console.log(promocionData);
+  // //console.log(
+  //   "*****************************************************************************************"
+  // );
   const perchaData = await realizarConsulta(
     `SELECT p.* from percha as p inner join auditoria as a on a.id_percha=p.id_percha where a.id_auditoria ='${id_auditoria}'`
   );
 
-  console.log(
-    "**************************** ANALIZANDO PERCHAS *****************************************"
-  );
-  console.log(perchaData);
-  console.log(
-    "*****************************************************************************************"
-  );
+  // //console.log(
+  //   "**************************** ANALIZANDO PERCHAS *****************************************"
+  // );
+  // //console.log(perchaData);
+  // //console.log(
+  //   "*****************************************************************************************"
+  // );
   for (let i = 0; i < perchaData.length; i++) {
-    console.log(
-      "###########################################################################"
-    );
-    console.log(
-      "\nANALIZANDO REGISTRO - IMAGEN 1: ",
-      perchaData[i].url_imagen1
-    );
-    console.log(
-      "###########################################################################"
-    );
+    // //console.log(
+    //   "###########################################################################"
+    // );
+    // //console.log(
+    //   "\nANALIZANDO REGISTRO - IMAGEN 1: ",
+    //   perchaData[i].url_imagen1
+    // );
+    // //console.log(
+    //   "###########################################################################"
+    // );
     if (perchaData[i].url_imagen1 === "undefined") {
       perchaData[i].url_imagen1 = "null";
     } else if (
@@ -214,24 +214,24 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       perchaData[i].url_imagen1 = null;
     } else {
-      console.log(
-        "ID PERCHA 1: ",
-        "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria
-      );
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen1);
+      // //console.log(
+      //   "ID PERCHA 1: ",
+      //   "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria
+      // );
+      //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      //console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen1);
       perchaData[i].url_imagen1 = await SubirAlonedrive(
         perchaData[i].url_imagen1,
         "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-1"
       );
     }
-    console.log(
-      "///////////////////////////////////////////////////////////////////////////"
-    );
-    console.log("\nANALIZANDO REGISTRO - IMAGEN 2:", perchaData[i].url_imagen2);
-    console.log(
-      "///////////////////////////////////////////////////////////////////////////"
-    );
+    // //console.log(
+    //   "///////////////////////////////////////////////////////////////////////////"
+    // );
+    // //console.log("\nANALIZANDO REGISTRO - IMAGEN 2:", perchaData[i].url_imagen2);
+    // //console.log(
+    //   "///////////////////////////////////////////////////////////////////////////"
+    // );
     if (perchaData[i].url_imagen2 === "undefined") {
       perchaData[i].url_imagen2 = "null";
     } else if (
@@ -240,24 +240,24 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       perchaData[i].url_imagen2 = null;
     } else {
-      console.log(
-        "ID PERCHA 2: ",
-        "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
-      );
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen2);
+      // //console.log(
+      //   "ID PERCHA 2: ",
+      //   "" + perchaData[i].id_categoria + "-" + perchaData[i].id_percha
+      // );
+      //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      //console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen2);
       perchaData[i].url_imagen2 = await SubirAlonedrive(
         perchaData[i].url_imagen2,
         "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-2"
       );
     }
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
-    console.log("\nANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
+    // //console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    // );
+    // //console.log("\nANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
+    // //console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    // );
     if (perchaData[i].url_imagen3 === "undefined") {
       perchaData[i].url_imagen3 = "null";
     } else if (
@@ -266,25 +266,25 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       perchaData[i].url_imagen3 = null;
     } else {
-      console.log(
-        "ID PERCHA 3: ",
-        "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria
-      );
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen3);
+      // //console.log(
+      //   "ID PERCHA 3: ",
+      //   "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria
+      // );
+      //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      //console.log("URL ACTUAL * * * * * * ** * : ", perchaData[i].url_imagen3);
       perchaData[i].url_imagen3 = await SubirAlonedrive(
         perchaData[i].url_imagen3,
         "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-3"
       );
     }
   }
-  console.log(
-    "**************************** PERCHAS COMPLETO *****************************************"
-  );
-  console.log(perchaData);
-  console.log(
-    "*****************************************************************************************"
-  );
+  // //console.log(
+  //   "**************************** PERCHAS COMPLETO *****************************************"
+  // );
+  // //console.log(perchaData);
+  // //console.log(
+  //   "*****************************************************************************************"
+  // );
 
   const portafolioData = await realizarConsulta(
     `SELECT DISTINCT p.* 
@@ -306,24 +306,24 @@ export const subidaBaseRemoteTodaAuditoria = async (
     `SELECT p.* from preciador as p inner join auditoria as a on a.id_preciador=p.id_preciador where a.id_auditoria ='${id_auditoria}'`
   );
 
-  console.log(
-    "**************************** ANALIZANDO PRECIADOR *****************************************"
-  );
-  console.log(preciadorData);
-  console.log(
-    "*****************************************************************************************"
-  );
+  // //console.log(
+  //   "**************************** ANALIZANDO PRECIADOR *****************************************"
+  // );
+  // //console.log(preciadorData);
+  // //console.log(
+  //   "*****************************************************************************************"
+  // );
   for (let i = 0; i < preciadorData.length; i++) {
-    console.log(
-      "###########################################################################"
-    );
-    console.log(
-      "\nANALIZANDO REGISTRO - IMAGEN 1: ",
-      preciadorData[i].url_imagen1
-    );
-    console.log(
-      "###########################################################################"
-    );
+    // //console.log(
+    //   "###########################################################################"
+    // );
+    // //console.log(
+    //   "\nANALIZANDO REGISTRO - IMAGEN 1: ",
+    //   preciadorData[i].url_imagen1
+    // );
+    // //console.log(
+    //   "###########################################################################"
+    // );
     if (preciadorData[i].url_imagen1 === "undefined") {
       preciadorData[i].url_imagen1 = "null";
     } else if (
@@ -332,15 +332,15 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       preciadorData[i].url_imagen1 = null;
     } else {
-      console.log(
-        "ID DE PRECIADOR 1:",
-        "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
-      );
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log(
-        "URL ACTUAL * * * * * * ** * : ",
-        preciadorData[i].url_imagen1
-      );
+      // //console.log(
+      //   "ID DE PRECIADOR 1:",
+      //   "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
+      // );
+      // //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      // //console.log(
+      //   "URL ACTUAL * * * * * * ** * : ",
+      //   preciadorData[i].url_imagen1
+      // );
       preciadorData[i].url_imagen1 = await SubirAlonedrive(
         preciadorData[i].url_imagen1,
         "" +
@@ -350,16 +350,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
           "-1"
       );
     }
-    console.log(
-      "///////////////////////////////////////////////////////////////////////////"
-    );
-    console.log(
-      "\nANALIZANDO REGISTRO - IMAGEN 2: ",
-      preciadorData[i].url_imagen2
-    );
-    console.log(
-      "///////////////////////////////////////////////////////////////////////////"
-    );
+    // //console.log(
+    //   "///////////////////////////////////////////////////////////////////////////"
+    // );
+    // //console.log(
+    //   "\nANALIZANDO REGISTRO - IMAGEN 2: ",
+    //   preciadorData[i].url_imagen2
+    // );
+    // //console.log(
+    //   "///////////////////////////////////////////////////////////////////////////"
+    // );
     if (preciadorData[i].url_imagen2 === "undefined") {
       preciadorData[i].url_imagen2 = "null";
     } else if (
@@ -368,15 +368,15 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       preciadorData[i].url_imagen2 = null;
     } else {
-      console.log(
-        "ID DE PRECIADOR 2:",
-        "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
-      );
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log(
-        "URL ACTUAL * * * * * * ** * : ",
-        preciadorData[i].url_imagen2
-      );
+      // //console.log(
+      //   "ID DE PRECIADOR 2:",
+      //   "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
+      // );
+      // //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      // //console.log(
+      //   "URL ACTUAL * * * * * * ** * : ",
+      //   preciadorData[i].url_imagen2
+      // );
       preciadorData[i].url_imagen2 = await SubirAlonedrive(
         preciadorData[i].url_imagen2,
         "" +
@@ -386,16 +386,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
           "-2"
       );
     }
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
-    console.log(
-      "\nANALIZANDO REGISTRO - IMAGEN 3: ",
-      preciadorData[i].url_imagen3
-    );
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
+    // //console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    // );
+    // //console.log(
+    //   "\nANALIZANDO REGISTRO - IMAGEN 3: ",
+    //   preciadorData[i].url_imagen3
+    // );
+    // //console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    // );
     if (preciadorData[i].url_imagen3 === "undefined") {
       preciadorData[i].url_imagen3 = "null";
     } else if (
@@ -404,15 +404,15 @@ export const subidaBaseRemoteTodaAuditoria = async (
     ) {
       preciadorData[i].url_imagen3 = null;
     } else {
-      console.log(
-        "ID DE PRECIADOR 3:",
-        "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
-      );
-      console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
-      console.log(
-        "URL ACTUAL * * * * * * ** * : ",
-        preciadorData[i].url_imagen3
-      );
+      // //console.log(
+      //   "ID DE PRECIADOR 3:",
+      //   "" + preciadorData[i].id_preciador + "-" + preciadorData[i].id_producto
+      // );
+      // //console.log("IMAGEN ENCONTRADA!!!!! - - - -- CREANDO URL-----------");
+      // //console.log(
+      //   "URL ACTUAL * * * * * * ** * : ",
+      //   preciadorData[i].url_imagen3
+      // );
       preciadorData[i].url_imagen3 = await SubirAlonedrive(
         preciadorData[i].url_imagen3,
         "" +
@@ -424,13 +424,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
     }
   }
 
-  console.log(
-    "**************************** PRECIADOR COMPLETO *****************************************"
-  );
-  console.log(preciadorData);
-  console.log(
-    "*****************************************************************************************"
-  );
+  // //console.log(
+  //   "**************************** PRECIADOR COMPLETO *****************************************"
+  // );
+  // //console.log(preciadorData);
+  // //console.log(
+  //   "*****************************************************************************************"
+  // );
 
   const auditoriaData = await realizarConsulta(
     `SELECT *
@@ -438,13 +438,13 @@ export const subidaBaseRemoteTodaAuditoria = async (
      WHERE id_auditoria='${id_auditoria}'`
   );
 
-  console.log("sucursalData:", sucursalData);
-  console.log("promocionData:", promocionData);
-  console.log("perchaData:", perchaData);
-  console.log("portafolioData:", portafolioDataModificado);
-  console.log("portafolio_auditoriaData:", portafolio_auditoriaData);
-  console.log("preciadorData:", preciadorData);
-  console.log("auditoriaData:", auditoriaData);
+  //console.log("sucursalData:", sucursalData);
+  //console.log("promocionData:", promocionData);
+  //console.log("perchaData:", perchaData);
+  //console.log("portafolioData:", portafolioDataModificado);
+  //console.log("portafolio_auditoriaData:", portafolio_auditoriaData);
+  //console.log("preciadorData:", preciadorData);
+  //console.log("auditoriaData:", auditoriaData);
 
   const url =
     "https://fotoexito1.azurewebsites.net/api/functionSync?code=lssWxD8c3jE3ioCuvj-xR-9uNa54TCNgxHu7MgqCb4YOAzFuPimo3g==";
@@ -462,31 +462,31 @@ export const subidaBaseRemoteTodaAuditoria = async (
     },
   };
 
-  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
-  console.log("REQUEST BODY;: - - - ", requestBody);
-  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  //console.log("REQUEST BODY;: - - - ", requestBody);
+  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
   try {
     const resp = await axios.post(url, requestBody, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    //console.log(resp.data);
+    ////console.log(resp.data);
     fn(false);
-    console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
+    //console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     if (resp.data.result) {
-      console.log("CAMBIANDO ESTADO - - - -- - ");
+      //console.log("CAMBIANDO ESTADO - - - -- - ");
       await realizarConsulta(
         `UPDATE auditoria SET sincronizada=1
          WHERE id_auditoria='${id_auditoria}'`
       );
       setRefresh(!refresh);
       Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
-      console.log("respuesta de cambiar estado: ", stateAudit);
+      //console.log("respuesta de cambiar estado: ", stateAudit);
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
       //Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
     } else {
-      console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
+      //console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
       fn(false);
       Alert.alert(
         "Error al registrar la auditoria",
@@ -494,8 +494,8 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
     }
   } catch (e) {
-    console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data.result);
-    console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
+    //console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data.result);
+    //console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     fn(false);
     /*Alert.alert(
       "Error al registrar la auditoria a traves de la función",

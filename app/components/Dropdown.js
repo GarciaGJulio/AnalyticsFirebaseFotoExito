@@ -23,7 +23,7 @@ export const Dropdown = ({
 }) => {
   useEffect(() => {
     try {
-      console.log("ARRAY DE CLIENTES", newArrayClients);
+      //console.log("ARRAY DE CLIENTES", newArrayClients);
       newArrayClients.sort(function (a, b) {
         return b.key.localeCompare(a.key);
       });
@@ -33,29 +33,29 @@ export const Dropdown = ({
   }, []);
 
   const validateType = () => {
-    console.log(
-      "----------------------*--------------SELECCIONADO: ",
-      selected
-    );
+    // //console.log(
+    //   "----------------------*--------------SELECCIONADO: ",
+    //   selected
+    // );
     try {
       setError("");
       const nombre_cliente = selected.split(" - ")[1];
-      console.log(
-        "----------------------*--------------SELECCIONADO SOLO: ",
-        nombre_cliente
-      );
+      // //console.log(
+      //   "----------------------*--------------SELECCIONADO SOLO: ",
+      //   nombre_cliente
+      // );
       arrayClients.forEach(async (type) => {
         if (type.nombre_cliente == nombre_cliente) {
           setType(type.nombre_tipo_cliente);
           setGroupClient(type.nombre_grupo_cliente);
-          console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
-          console.log(
-            " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-          );
-          console.log("DATOS A GUARDAR:", type);
-          console.log(
-            " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-          );
+          //console.log("GRUPO DE CLIENTE ACTUAL: ", type.id_grupo_cliente);
+          // //console.log(
+          //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+          // );
+          //console.log("DATOS A GUARDAR:", type);
+          // //console.log(
+          //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+          // );
           setClientGroupId(type.id_grupo_cliente);
           await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
           await AsyncStorage.setItem("id_cliente", type.id_cliente);
@@ -74,7 +74,7 @@ export const Dropdown = ({
 
   /*useEffect(() => {
     try {
-      console.log("ARRAY DE CLIENTES", newArrayClients);
+      //console.log("ARRAY DE CLIENTES", newArrayClients);
       newArrayClients.sort(function (a, b) {
         return b.key - a.key;
       });
@@ -84,7 +84,7 @@ export const Dropdown = ({
   }, []);*/
 
   useEffect(() => {
-    console.log("ARRAY DE CLIENTES",newArrayClients);
+    //console.log("ARRAY DE CLIENTES",newArrayClients);
     validateType();
   }, [selected]);
 

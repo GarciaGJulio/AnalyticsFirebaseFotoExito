@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 
 export const PromosItems_Review = ({ data }) => {
   useEffect(() => {
-    console.log("ESTO LLEGA DE PROMOCIONES: - - - - ", data);
+    //console.log("ESTO LLEGA DE PROMOCIONES: - - - - ", data);
   }, []);
 
   const [fontLoaded] = useFonts({

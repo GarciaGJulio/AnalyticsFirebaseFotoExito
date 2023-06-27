@@ -30,8 +30,8 @@ export const CheckBoxContainerV2 = React.memo(
     const { hadSavePreciador, setHadSavePreciador } = useContext(GlobalContext);
 
     useEffect(() => {
-      //console.log("isUserScreen: ", isUserScreen);
-      //console.log("item: ", item);
+      ////console.log("isUserScreen: ", isUserScreen);
+      ////console.log("item: ", item);
 
       if (isUserScreen) {
         setState(item.state == 1 ? true : false);
@@ -53,15 +53,15 @@ export const CheckBoxContainerV2 = React.memo(
     };
 
     const actualizarEstado = (id, state) => {
-      console.log(
-        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      );
-      console.log(
-        `\n * * * * * * * * * ACTUALIZANDO EL ESTADO DEL PRODUCTO :${id}  * * * * * * * * * \n`
-      );
-      console.log(
-        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      );
+      // //console.log(
+      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      // );
+      // //console.log(
+      //   `\n * * * * * * * * * ACTUALIZANDO EL ESTADO DEL PRODUCTO :${id}  * * * * * * * * * \n`
+      // );
+      // //console.log(
+      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      // );
       setState(state);
       setProducts((products) => {
         let productosActualizados = [...products];
@@ -87,15 +87,15 @@ export const CheckBoxContainerV2 = React.memo(
     };
 
     const actualizarPrecio = (id, price) => {
-      console.log(
-        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      );
-      console.log(
-        `\n * * * * * * * * * ACTUALIZANDO PRECIO DEL PRODUCTO :${id}  * * * * * * * * * \n`
-      );
-      console.log(
-        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      );
+      // //console.log(
+      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      // );
+      // //console.log(
+      //   `\n * * * * * * * * * ACTUALIZANDO PRECIO DEL PRODUCTO :${id}  * * * * * * * * * \n`
+      // );
+      // //console.log(
+      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      // );
       setProducts((products) => {
         let productosActualizados = [...products];
         let producto = productosActualizados.find((p) => p.id === id);
@@ -125,7 +125,7 @@ export const CheckBoxContainerV2 = React.memo(
           onClose={handleCloseModal}
           onPress={acceptModal}
           warning={
-            "Al presionar el boton Aceptar se borraran los datos ingresados de este producto."
+            "Al presionar Aceptar se borrarán los datos ingresados de este producto."
           }
         />
         <View style={styles.primaryContainer}>
@@ -172,7 +172,7 @@ export const CheckBoxContainerV2 = React.memo(
                 // label="Example label"
                 // labelStyle={{ color: "black", fontWeight: "900" }}
                 onToggle={() => {
-                  console.log("CAMBIA A: ", !state);
+                  //console.log("CAMBIA A: ", !state);
                   if (item.state === 1 && state) {
                     handleOpenModal();
                   } else {
@@ -201,7 +201,7 @@ export const CheckBoxContainerV2 = React.memo(
                     actualizarPrecio(item.id, parseFloat(txt));
                   }}
                   label="Precio"
-                  placeholder="Precio"
+                  placeholder="$"
                   maxLength={6}
                   keyboard="numeric"
                   editable={!hadSavePreciador}

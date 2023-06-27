@@ -14,6 +14,7 @@ import { useFonts } from "expo-font";
 import { Divider } from "react-native-paper";
 import StyledInput from "./StyledInput";
 import { verifyUrlImage } from "../services/onedrive";
+import ImageModal from "react-native-image-modal";
 
 export const Rack_View = ({ rack }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -63,7 +64,7 @@ export const Rack_View = ({ rack }) => {
     }
 
     let img = extraImages.join(",");
-    //console.log("IMAGENES EXTRAS: - - - - ", img);
+    ////console.log("IMAGENES EXTRAS: - - - - ", img);
   };
 
   const validateImagesPlanograma = async (objeto) => {
@@ -80,7 +81,7 @@ export const Rack_View = ({ rack }) => {
           objeto.url_planograma1,
           `${objeto.id_planograma}1`
         );
-        //console.log("IMAGEN ACTUALIZADA 1: ", imagenVerificada);
+        ////console.log("IMAGEN ACTUALIZADA 1: ", imagenVerificada);
         setImagesPlanograma((prevImagenes) => [
           ...prevImagenes,
           imagenVerificada,
@@ -121,14 +122,14 @@ export const Rack_View = ({ rack }) => {
     }
 
     let img = imagesPlanograma.join(",");
-    //console.log("IMAGENES EXTRAS DE PLANOGRAMA: - - - - ", img);
-    console.log("IMAGENES DE PLANOGRAMA:   -- - - - -", img);
+    ////console.log("IMAGENES EXTRAS DE PLANOGRAMA: - - - - ", img);
+    //console.log("IMAGENES DE PLANOGRAMA:   -- - - - -", img);
   };
 
   useEffect(() => {
     validateExtraImages(rack);
     validateImagesPlanograma(rack);
-    //console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
+    ////console.log("ITEM QUE LLEGA DE PERCHAS: -----", rack);
   }, [rack]);
 
   const [openCamera, setOpenCamera] = useState(false);
@@ -365,11 +366,11 @@ export const Rack_View = ({ rack }) => {
                             )
                             .map((image) => {
                               return (
-                                <Image
+                                <ImageModal
                                   key={image} // Utiliza la variable "image" como clave
                                   source={{ uri: image }}
                                   style={styles.imgContainer2} // Utiliza el estilo "imgContainer"
-                                  resizeMode="cover"
+                                  resizeMode="stretch"
                                 />
                               );
                             })}

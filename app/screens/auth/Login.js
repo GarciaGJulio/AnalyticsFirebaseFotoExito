@@ -26,7 +26,7 @@ export const Login = ({ navigation }) => {
   const { handleLoginAzure, handleLoading } = useContext(ModernaContext);
   const [isLoading, setIsLoading] = useState(false);
   const log = async () => {
-    // console.log("DISPARANDO LOGIN DE AD");
+    // //console.log("DISPARANDO LOGIN DE AD");
     // saveCurrentScreenUser({
     //   screenName: `home`,
     //   tableName: `cliente`,
@@ -35,7 +35,7 @@ export const Login = ({ navigation }) => {
     // })
     // return
     // const result = await getCurrentScreenInformation("2")
-    // console.log("result", result)
+    // //console.log("result", result)
     login();
     RecuperarToken();
     //navigation.navigate('menu')
@@ -53,7 +53,7 @@ export const Login = ({ navigation }) => {
       //handleLoading(true);
       handleLoginAzure(funcionQA, setIsLoading);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       setIsLoading(false);
       handleLoading(false);
     }

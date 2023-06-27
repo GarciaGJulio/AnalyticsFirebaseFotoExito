@@ -1846,6 +1846,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@likashefqet/react-native-image-zoom@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@likashefqet/react-native-image-zoom/-/react-native-image-zoom-1.3.0.tgz"
+  integrity sha512-PLRd1hNMHe9LUn8b4rmLt86282geuaqP4Qd2rFWIloxMS2ePNTIaNlEUu3T3LaO8Pg9vhVV97TxfFeU8F+tcYQ==
+
 "@microsoft/microsoft-graph-client@^3.0.5":
   version "3.0.5"
   resolved "https://registry.npmjs.org/@microsoft/microsoft-graph-client/-/microsoft-graph-client-3.0.5.tgz"
@@ -7241,12 +7246,17 @@ react-native-dropdown-select-list@^2.0.4:
   resolved "https://registry.npmjs.org/react-native-dropdown-select-list/-/react-native-dropdown-select-list-2.0.4.tgz"
   integrity sha512-H7aRhhSHYvl5v+Ufy5CtXhaRHgrRQakWn+IexSFCP/+nUFu5yvwfmtbVEfIszMjr6szPuiabG15trrbswHlmCw==
 
+react-native-fast-image@*, react-native-fast-image@^8.6.3:
+  version "8.6.3"
+  resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz"
+  integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
+
 react-native-geolocation-service@^5.3.1:
   version "5.3.1"
   resolved "https://registry.npmjs.org/react-native-geolocation-service/-/react-native-geolocation-service-5.3.1.tgz"
   integrity sha512-LTXPtPNmrdhx+yeWG47sAaCgQc3nG1z+HLLHlhK/5YfOgfLcAb9HAkhREPjQKPZOUx8pKZMIpdGFUGfJYtimXQ==
 
-"react-native-gesture-handler@>= 1.0.0", react-native-gesture-handler@~2.8.0:
+"react-native-gesture-handler@>= 1.0.0", react-native-gesture-handler@>=2.x.x, react-native-gesture-handler@~2.8.0:
   version "2.8.0"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.8.0.tgz"
   integrity sha512-poOSfz/w0IyD6Qwq7aaIRRfEaVTl1ecQFoyiIbpOpfNTjm2B1niY2FLrdVQIOtIOe+K9nH55Qal04nr4jGkHdQ==
@@ -7275,6 +7285,11 @@ react-native-iconify@^0.2.4:
     "@iconify/json" "^2.2.69"
     "@iconify/utils" "^2.1.5"
     react-native-svg "^13.9.0"
+
+react-native-image-modal@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npmjs.org/react-native-image-modal/-/react-native-image-modal-2.0.4.tgz"
+  integrity sha512-BTHOUAznjAHStrxg2D3k6R/3YPXMos2w6jZv5LdOR6xY2vHVHgMnSbjeszq882brbge51ZjS06FCi8sM6WNwxg==
 
 react-native-image-pan-zoom@^2.1.12:
   version "2.1.12"
@@ -7362,7 +7377,7 @@ react-native-ratings@^8.1.0:
   dependencies:
     lodash "^4.17.15"
 
-react-native-reanimated@~2.12.0:
+react-native-reanimated@>=2.x.x, react-native-reanimated@~2.12.0:
   version "2.12.0"
   resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.12.0.tgz"
   integrity sha512-nrlPyw+Hx9u4iJhZk9PoTvDo/QmVAd+bo7OK9Tv3hveNEF9++5oig/g3Uv9V93shy9avTYGsUprUvAEt/xdzeQ==
@@ -7460,7 +7475,7 @@ react-native-vector-icons@^4.3.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@>= 0.30.0", "react-native@>= 0.62", react-native@>=0.25.1, react-native@>=0.29, react-native@>=0.42.0, react-native@>=0.46, react-native@>=0.47.1, react-native@>=0.48.4, react-native@>=0.57, react-native@>=0.59, react-native@>=0.60, react-native@>=0.63.0, react-native@>=0.63.3, react-native@>0.57.0, react-native@0.70.8:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@>= 0.30.0", "react-native@>= 0.62", react-native@>=0.29, react-native@>=0.42.0, react-native@>=0.46, react-native@>=0.47.1, react-native@>=0.48.4, react-native@>=0.57, react-native@>=0.59, react-native@>=0.60, react-native@>=0.60.0, react-native@>=0.62.x, react-native@>=0.63.0, react-native@>=0.63.3, react-native@>0.57.0, react-native@0.70.8:
   version "0.70.8"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.70.8.tgz"
   integrity sha512-O3ONJed9W/VEEVWsbZcwyMDhnEvw7v9l9enqWqgbSGLzHfh6HeIGMCNmjz+kRsHnC7AiF47fupWfgYX7hNnhoQ==
@@ -7511,7 +7526,7 @@ react-shallow-renderer@^16.15.0:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>= 15.2.1", react@>=0.14.5, react@>=16, react@>=16.0, react@>=16.0.0, react@>=16.13.1, react@>=16.3.0, react@>=16.8, react@>=17.0.0, react@>16.6.0, react@18.1.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17 || ^18", "react@>= 15.2.1", react@>=16, react@>=16.0, react@>=16.0.0, react@>=16.13.1, react@>=16.3.0, react@>=16.8, react@>=16.x.x, react@>=17.0.0, react@>16.6.0, react@18.1.0:
   version "18.1.0"
   resolved "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   integrity sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==

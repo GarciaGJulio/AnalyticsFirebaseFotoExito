@@ -62,6 +62,7 @@ export const Menu = ({ navigation }) => {
     setModalTitle,
     setHadSaveBriefCase,
     setHadSavePreciador,
+    initVariablesLocalStorage,
     setHadSaveRack,
   } = useContext(GlobalContext);
   global.widthContainer = Dimensions.get("window").width / 1.8;
@@ -70,22 +71,22 @@ export const Menu = ({ navigation }) => {
     const auditoriasSinSincronizar = await realizarConsulta(
       "SELECT * FROM auditoria where sincronizada = 0"
     );
-    // console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
+    // //console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
     if (auditoriasSinSincronizar.length === 0) {
-      console.log("NADA QUE SINCRONIZAR POR EL MOMENTO");
+      //console.log("NADA QUE SINCRONIZAR POR EL MOMENTO");
     } else if (auditoriasSinSincronizar.length > 0) {
       setIsModalVisible2(!isModalVisible2);
-      console.log("CAMBIANDO EL ESTADO GLOBAL DE LA VARIABLE A TRUE");
+      //console.log("CAMBIANDO EL ESTADO GLOBAL DE LA VARIABLE A TRUE");
       setGlobalVariable(!globalVariable);
-      console.log(
-        "ENTRANDO A SINCRONIZAR DATOS DE AUDITORIAS AUTOMATICAMENTE: ",
-        auditoriasSinSincronizar.length
-      );
+      // //console.log(
+      //   "ENTRANDO A SINCRONIZAR DATOS DE AUDITORIAS AUTOMATICAMENTE: ",
+      //   auditoriasSinSincronizar.length
+      // );
 
       let showAlert = true; // Variable para controlar si se debe mostrar el alert
 
       for (const auditoria of auditoriasSinSincronizar) {
-        // console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
+        // //console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
         try {
           await subidaBaseRemoteTodaAuditoria(
             auditoria.id_auditoria,
@@ -94,9 +95,9 @@ export const Menu = ({ navigation }) => {
             refreshSync
           );
         } catch (e) {
-          console.log("ERROR: ", e);
+          //console.log("ERROR: ", e);
           setIsModalVisible2(false);
-          console.log("CAMBIANDO EL ESTADO GLOBAL DE LA VARIABLE A FALSE");
+          //console.log("CAMBIANDO EL ESTADO GLOBAL DE LA VARIABLE A FALSE");
           setGlobalVariable(false);
           if (showAlert) {
             showAlert = false; // Actualizar la variable para evitar mostrar más de un alert
@@ -106,28 +107,29 @@ export const Menu = ({ navigation }) => {
 
       // Si aún no se ha mostrado el alert, mostrarlo fuera del bucle
       if (showAlert) {
-        console.log(
-          "**************************** ABORTANDO LA SINCRONIZACION AUTOMATICA ************************"
-        );
+        // //console.log(
+        //   "**************************** ABORTANDO LA SINCRONIZACION AUTOMATICA ************************"
+        // );
       }
     } else {
-      console.log(
-        "**************************** ABORTANDO LA SINCRONIZACION AUTOMATICA ************************"
-      );
+      // //console.log(
+      //   "**************************** ABORTANDO LA SINCRONIZACION AUTOMATICA ************************"
+      // );
     }
   };
 
   const verificarSincronizacion = () => {
-    console.log("ESTADO DE LA CONEXION ACTUAL: ", isConnectionActivate);
+    //console.log("ESTADO DE LA CONEXION ACTUAL: ", isConnectionActivate);
     if (isConnectionActivate) {
       automaticSync();
     } else {
-      console.log("NO HAY CONEXION PARA SINCRONIZAR LOS DATOS");
+      //console.log("NO HAY CONEXION PARA SINCRONIZAR LOS DATOS");
     }
   };
 
   useEffect(() => {
-    getCurrentScreenInformation(navigation);
+    console.log("initVariablesLocalStorage-----------",initVariablesLocalStorage)
+    getCurrentScreenInformation(navigation,initVariablesLocalStorage);
   }, []);
 
   useEffect(() => {
@@ -143,7 +145,7 @@ export const Menu = ({ navigation }) => {
     const auditoriasSinSincronizar = await realizarConsulta(
       "SELECT * FROM auditoria where sincronizada = 0"
     );
-    // console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
+    // //console.log("AUDITORIAS SIN SINCORNIZAR: ", auditoriasSinSincronizar);
     if (auditoriasSinSincronizar.length === 0) {
       setShowModal(!showModal);
       setModalTitle("Datos sincronizados");
@@ -155,13 +157,13 @@ export const Menu = ({ navigation }) => {
     } else if (auditoriasSinSincronizar.length > 0 && isConnectionActivate) {
       setIsModalVisible(!isModalVisible);
       setModalMessage("Sincronizando datos, por favor espere...");
-      console.log(
-        "----------------ENTRANDO A SINCRONIZAR DATOS DE AUTIROIAS: ",
-        auditoriasSinSincronizar.length
-      );
+      // //console.log(
+      //   "----------------ENTRANDO A SINCRONIZAR DATOS DE AUTIROIAS: ",
+      //   auditoriasSinSincronizar.length
+      // );
 
       auditoriasSinSincronizar.forEach(async (auditoria) => {
-        // console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
+        // //console.log("ID DE AUDITORIA A SINCRONIZARSE: ", auditoria);
         try {
           await subidaBaseRemoteTodaAuditoria(
             auditoria.id_auditoria,
@@ -172,7 +174,7 @@ export const Menu = ({ navigation }) => {
             //isModalVisible
           );
         } catch (e) {
-          console.log("ERROR DESDE EL MENU: ", e);
+          //console.log("ERROR DESDE EL MENU: ", e);
           setIsModalVisible(false);
           setShowModal(!showModal);
           setModalTitle("Error al subir los datos");
@@ -214,7 +216,7 @@ export const Menu = ({ navigation }) => {
           await deleteInsertData(); // <--- Corregir aquí
           //navigation.navigate("audit");
         } catch {
-          console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
+          //console.log("ERROR AL MOMENTO DE BORRAR LOS DATOS DE LA BASE");
           //setIsModalVisible(false);
         }
       } else if (!isConnectionActivate) {
@@ -232,7 +234,7 @@ export const Menu = ({ navigation }) => {
         //setIsModalVisible(false);
       }
     } catch (e) {
-      console.log("ERROR EN EL MENU DE BAJA DE DATOS: - - - - -", e);
+      //console.log("ERROR EN EL MENU DE BAJA DE DATOS: - - - - -", e);
       showDebug("Error al presentar los datos del menu", e);
       setIsModalVisibleClose(false);
     }
@@ -243,28 +245,28 @@ export const Menu = ({ navigation }) => {
   const deleteInsertData = async () => {
     if (isConnectionActivate) {
       setIsModalVisible(true);
-      console.log("SE PROCEDE A ELIMINAR LAS TABLAS . . . . . ");
+      //console.log("SE PROCEDE A ELIMINAR LAS TABLAS . . . . . ");
       try {
         setHadSaveBriefCase(false);
         setHadSavePreciador(false);
         setHadSaveRack(false);
-        console.log("ELIMINANDO TABLAS DE LA BASE DE DATOS . . . . . ");
+        //console.log("ELIMINANDO TABLAS DE LA BASE DE DATOS . . . . . ");
         await borrarTablasDeBaseDeDatos();
         try {
           const dataInsert = await dataAxiosQuery();
-          console.log("INSERCION DE DATOS NUEVOS - - - - - - - - -");
-          console.log(dataInsert);
+          //console.log("INSERCION DE DATOS NUEVOS - - - - - - - - -");
+          //console.log(dataInsert);
           if (dataInsert) {
-            console.log(
-              "datos insertados satisfactoriaemente- - - - - -- - - - - -- - - - - - - - - - -"
-            );
+            // //console.log(
+            //   "datos insertados satisfactoriaemente- - - - - -- - - - - -- - - - - - - - - - -"
+            // );
 
             navigation.navigate("audit");
             setIsModalVisible(false);
           } else {
-            console.log(
-              "no tiene conexion a internet- - - - - -- - - - - -- - - - - - - - - - -"
-            );
+            // //console.log(
+            //   "no tiene conexion a internet- - - - - -- - - - - -- - - - - - - - - - -"
+            // );
             setIsModalVisible(false);
 
             /*Alert.alert(
@@ -273,14 +275,14 @@ export const Menu = ({ navigation }) => {
           );*/
           }
         } catch (e) {
-          console.log("Error al volver a insertar los datos * - * -* - * ");
+          //console.log("Error al volver a insertar los datos * - * -* - * ");
           showDebug(
             "Error al descargar todos los datos de la funcion remota",
             e
           );
         }
       } catch (e) {
-        console.log("Error al eliminar la base de datos");
+        //console.log("Error al eliminar la base de datos");
         setShowModal(!showModal);
         setModalTitle("Error al eliminar los registros");
         setModalText("Se procede a trabajar con datos anteriores.");
@@ -306,7 +308,7 @@ export const Menu = ({ navigation }) => {
         for (let i = 0; i < result.rows.length; i++) {
           tables.push(result.rows.item(i).name);
         }
-        // console.log("Lista de tablas:", tables);
+        // //console.log("Lista de tablas:", tables);
         const tablas = tables.join(",\n ");
         //Alert.alert("Lista de las tablas de las bases de datos: ", tablas);
       },
@@ -399,14 +401,14 @@ export const Menu = ({ navigation }) => {
               title={"Consultar"}
               buttonColor={theme.colors.modernaRed}
               onPress={async () => {
-                console.log(
+                //console.log(
                   "***************************** ------ ********************************"
                 );
                 let sqlSentence = `INSERT INTO portafolio (id_portafolio,id_producto,id_grupo_cliente,estado,tipo ) values ('12','100048','12',1,'I' )`;
                 const insert = await realizarConsulta(sqlSentence);
-                console.log(insert);
-                console.log(await realizarConsulta("SELECT * FROM portafolio"));
-                console.log(
+                //console.log(insert);
+                //console.log(await realizarConsulta("SELECT * FROM portafolio"));
+                //console.log(
                   "***************************** ------ ********************************"
                 );
               }}

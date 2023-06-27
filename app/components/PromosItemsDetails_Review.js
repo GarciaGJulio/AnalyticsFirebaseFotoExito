@@ -14,6 +14,7 @@ import ImageViewer from "react-native-image-zoom-viewer";
 import { useFonts } from "expo-font";
 import { CheckBox, Divider, Icon } from "@rneui/base";
 import { verifyUrlImage } from "../services/onedrive";
+import ImageModal from "react-native-image-modal";
 
 export const PromosItemsDetails_Review = ({ exhibitor }) => {
   const [extraImages, setExtraImages] = useState([]);
@@ -69,7 +70,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
     }
 
     let img = extraImages.join(",");
-    console.log("IMAGENES EXTRAS: - - - - ", img);
+    //console.log("IMAGENES EXTRAS: - - - - ", img);
   };
 
   const updateImage = async (item) => {
@@ -82,12 +83,12 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
 
   useEffect(() => {
     updateImage(exhibitor);
-    console.log("ESTO LLEGA ------- - - - - -", exhibitor);
+    //console.log("ESTO LLEGA ------- - - - - -", exhibitor);
   }, []);
 
   useEffect(() => {
     validateExtraImages(exhibitor);
-    //console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
+    ////console.log("EXHIBIDOR TIPO / */ * / * / */: - - - - ", exhibitor);
   }, []);
 
   const [fontLoaded] = useFonts({
@@ -112,7 +113,7 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
               {exhibitor.nombre_tipo_exhibidor}
             </Text>
             {exhibitor.estado_promocion == 1 ||
-              exhibitor.estado_promocion == 0 ? (
+            exhibitor.estado_promocion == 0 ? (
               <TouchableOpacity
                 style={{ position: "absolute", right: 4 }}
                 onPress={() => {
@@ -189,11 +190,11 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                                 }
                               }
                             >
-                              <Image
+                              <ImageModal
                                 //key={images} // Se utiliza "images" como clave
                                 source={{ uri: newImage }}
                                 style={styles.imgContainer} // Utilizar el estilo "imgContainer"
-                                resizeMode="cover"
+                                resizeMode="stretch"
                               />
                             </ScrollView>
                           </View>
@@ -208,27 +209,38 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                             }}
                           >
                             <CheckBox
-                              checked={exhibitor.estado_promocion == 1 ? true : null}
-
+                              checked={
+                                exhibitor.estado_promocion == 1 ? true : null
+                              }
                               // Use ThemeProvider to make change for all checkbox
                               iconType="material-community"
                               checkedIcon="checkbox-marked"
                               uncheckedIcon="checkbox-blank-outline"
                               checkedColor={theme.colors.modernaRed}
-                              containerStyle={{ backgroundColor: "transparent" }}
+                              containerStyle={{
+                                backgroundColor: "transparent",
+                              }}
                               disabled={true}
                             />
-                            <Text style={{ fontFamily: "Metropolis" }}>Cumple</Text>
+                            <Text style={{ fontFamily: "Metropolis" }}>
+                              Cumple
+                            </Text>
                             <CheckBox
-                              checked={exhibitor.estado_promocion == 0 ? true : null}
+                              checked={
+                                exhibitor.estado_promocion == 0 ? true : null
+                              }
                               iconType="material-community"
                               checkedIcon="checkbox-marked"
                               uncheckedIcon="checkbox-blank-outline"
                               checkedColor={theme.colors.modernaRed}
-                              containerStyle={{ backgroundColor: "transparent" }}
+                              containerStyle={{
+                                backgroundColor: "transparent",
+                              }}
                               disabled={true}
                             />
-                            <Text style={{ fontFamily: "Metropolis" }}>No cumple</Text>
+                            <Text style={{ fontFamily: "Metropolis" }}>
+                              No cumple
+                            </Text>
                           </View>
                           <View
                             style={{
@@ -259,11 +271,11 @@ export const PromosItemsDetails_Review = ({ exhibitor }) => {
                                 )
                                 .map((image) => {
                                   return (
-                                    <Image
+                                    <ImageModal
+                                      resizeMode="stretch"
                                       key={image} // Utiliza la variable "image" como clave
                                       source={{ uri: image }}
                                       style={styles.imgContainer} // Utiliza el estilo "imgContainer"
-                                      resizeMode="cover"
                                     />
                                   );
                                 })}
@@ -300,7 +312,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 20,
     marginVertical: 10,
-    borderWidth: 1,
+    //borderWidth: 1,
     backgroundColor: theme.colors.lightgray,
     alignItems: "center",
     justifyContent: "center",

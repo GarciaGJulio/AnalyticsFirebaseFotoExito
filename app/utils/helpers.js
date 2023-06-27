@@ -1,6 +1,6 @@
 export const validateNameBranch2 = (name, fn) => {
   if (name == "" || name == null) {
-    console.log("INFO name INVALIDA");
+    //console.log("INFO name INVALIDA");
     fn("El campo sucursal  no puede estar vacio");
   } else {
     if (name.length < 5) {
@@ -8,13 +8,13 @@ export const validateNameBranch2 = (name, fn) => {
     } else {
       let regex = new RegExp(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/);
       if (!regex.test(name)) {
-        console.log("Nombre de sucursal no valido");
+        //console.log("Nombre de sucursal no valido");
         fn(
           "El campo sucursal de sucursal no puede contener caracteres especiales o espacios al final"
         );
         return false;
       } else {
-        console.log(" - - - - Nombre de sucursal valido");
+        //console.log(" - - - - Nombre de sucursal valido");
         fn("");
       }
     }
@@ -41,9 +41,9 @@ const handleInputChange = (text) => {
   setInputValue(text);
   const number = parseFloat(text);
   if (number < 999.99) {
-    console.log("El número es menor a 999.99");
+    //console.log("El número es menor a 999.99");
   } else {
-    console.log("El número es igual o mayor a 999.99");
+    //console.log("El número es igual o mayor a 999.99");
   }
 };
 
@@ -53,24 +53,24 @@ export const validatePriceProduct = (price, fn) => {
   const priceRegex = /^\d+(\.\d{1,2})?$/;
 
   if (price === "" || price === null) {
-    console.log("INFO precio INVALIDO");
+    //console.log("INFO precio INVALIDO");
     fn("El campo precio del producto no puede estar vacío");
   } else if (number <= 0) {
-    console.log("----------------El número es menor o igual a 0");
+    //console.log("----------------El número es menor o igual a 0");
     fn("El número debe ser mayor a 0");
   } else if (number > 999.99) {
-    console.log("----------------El número es menor a 999.99");
+    //console.log("----------------El número es menor a 999.99");
     fn("El número debe ser menor o igual a 999.99");
   } else if (isNaN(number)) {
-    console.log("Precio invalido");
+    //console.log("Precio invalido");
     fn("El precio del producto no es un número válido");
   } else if (!priceRegex.test(price)) {
-    console.log("Formato de precio inválido");
+    //console.log("Formato de precio inválido");
     fn(
-      "mato de precio no es válido. Utilice un formato como 9.29 o 1.00"
+      "Complete los decimales"
     );
   } else {
-    console.log("Precio válido");
+    //console.log("Precio válido");
     fn("");
   }
 };
