@@ -28,6 +28,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { FlashListPrices } from "../../components/FlashListPrices";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import SAVE_ANIMATION from "../../../assets/save.json";
+
 import {
   deleteRegisterAudit,
   getCurrentScreenInformation,
@@ -39,7 +40,7 @@ import LoaderModal from "../../components/LoaderModal";
 import { GlobalContext } from "../../context/GlobalContext";
 import { KeyboardAvoidingView } from "react-native";
 import { transfromrActualDateFormat } from "../../common/utils";
-
+import { ClientInformation } from "../../components/ClientInformation";
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
     []
@@ -93,6 +94,7 @@ export const Prices = ({ navigation, route }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //handleCurrentScreenPos(null,2)
   }, []);
 
   useEffect(() => {
@@ -214,9 +216,12 @@ export const Prices = ({ navigation, route }) => {
       }
     };
     checkForVariable();
-    handleCurrentScreenPos();
-    handleCheckCanSaveAllDataLocal();
-  };
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal(()=>{
+      
+    },()=>{
+
+    })  };
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);

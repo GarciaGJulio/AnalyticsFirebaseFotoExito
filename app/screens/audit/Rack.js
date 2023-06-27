@@ -46,7 +46,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { GlobalContext } from "../../context/GlobalContext";
 import { transfromrActualDateFormat } from "../../common/utils";
-
+import { ClientInformation } from "../../components/ClientInformation";
 export const Racks = ({ navigation }) => {
   const [valueGeneralValidate, setValueGeneralValidate] = useState();
   const [valueModerna, setValueModerna] = useState();
@@ -81,6 +81,7 @@ export const Racks = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //handleCurrentScreenPos(null,3)
   }, []);
   useEffect(() => {
     const initDataLocal = async () => {
@@ -197,21 +198,21 @@ export const Racks = ({ navigation }) => {
     }
   };
 
-// //Por revisar
-//   const  = () => {
-//     let checkvariables=true
-//     const checkForVariable = async () => {
-//       const response = await handleDoesClientHaveVariable("Promoción");
-//       checkvariables=response
-//       //console.log("VARIABLE DE PERCHAS EXISTE:",response)
-//       if (checkvariables === true) {
-//         navigation.navigate("promos");
-//       } else {
-//         navigation.navigate("promos");
-//       }
-//     };
-//     checkForVariable();
-//   };
+  // //Por revisar
+  //   const  = () => {
+  //     let checkvariables=true
+  //     const checkForVariable = async () => {
+  //       const response = await handleDoesClientHaveVariable("Promoción");
+  //       checkvariables=response
+  //       //console.log("VARIABLE DE PERCHAS EXISTE:",response)
+  //       if (checkvariables === true) {
+  //         navigation.navigate("promos");
+  //       } else {
+  //         navigation.navigate("promos");
+  //       }
+  //     };
+  //     checkForVariable();
+  //   };
 
 
 
@@ -319,7 +320,11 @@ export const Racks = ({ navigation }) => {
   const onlyNavigation = () => {
     navigation.navigate("promos");
     handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
+    handleCheckCanSaveAllDataLocal(() => {
+
+    }, () => {
+
+    })
   };
 
   const validateData = () => {
@@ -478,7 +483,11 @@ export const Racks = ({ navigation }) => {
                 db_insertGlobalDataAudit(dataSave);
                 setIsModalVisible(false);
                 handleCurrentScreenPos()
-                handleCheckCanSaveAllDataLocal()
+                handleCheckCanSaveAllDataLocal(() => {
+
+                }, () => {
+
+                })
                 navigation.navigate("promos");
                 setHadSaveRack(true);
                 setShowButton1(false);
@@ -540,31 +549,31 @@ export const Racks = ({ navigation }) => {
                 pantallas: {
                   // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
                   // ...{
-                    rack: {
-                      principal: {
-                        screenName: `rack`,
-                        tableName: `percha`,
-                        itemId: `id_percha`,
-                        columnId: `id_percha`,
-                      },
-                      extra_info: {
-                        category: tempDataScreen.toString(),
-                        auditorias_id: {
-                          ...(objUserInfo.auditorias_id
-                            ? objUserInfo.auditorias_id
-                            : {}),
-                          ...{
-                            id_percha: idPercha,
-                          },
-                        },
-                        // pantallas: {
-                        //   ...(objUserInfo.pantallas
-                        //     ? objUserInfo.pantallas
-                        //     : {}),
-                        //   rack: null,
-                        // },
-                      },
+                  rack: {
+                    principal: {
+                      screenName: `rack`,
+                      tableName: `percha`,
+                      itemId: `id_percha`,
+                      columnId: `id_percha`,
                     },
+                    extra_info: {
+                      category: tempDataScreen.toString(),
+                      auditorias_id: {
+                        ...(objUserInfo.auditorias_id
+                          ? objUserInfo.auditorias_id
+                          : {}),
+                        ...{
+                          id_percha: idPercha,
+                        },
+                      },
+                      // pantallas: {
+                      //   ...(objUserInfo.pantallas
+                      //     ? objUserInfo.pantallas
+                      //     : {}),
+                      //   rack: null,
+                      // },
+                    },
+                  },
                   // },
                 },
               }
@@ -639,6 +648,7 @@ export const Racks = ({ navigation }) => {
       />
 
       <View style={styles.contentContainer}>
+        <ClientInformation/>
         <ProgressBar currentStep={currentScreenPos} />
         <View style={{ flex: 4 }}>
           {hasVariable ? (
@@ -707,16 +717,16 @@ export const Racks = ({ navigation }) => {
         // colorRigth={theme.colors.modernaRed}
         // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
         disableAction={hasVariable ? !validateData() : validateData()}
-        // showButton1={showButton1}
-        // showButton2={showButton2}
-        // titleRigthSecond={"Siguiente"}
-        // sizeRigthSecond={theme.buttonSize.df}
-        // colorRigthSecond={theme.colors.modernaRed}
-        // onPressRigthSecond={() => navigation.navigate("promos")}
-        // iconRigthSecond={"arrow-right-circle"}
-        // typeRigthSecond={"feather"}
-        // showButton1Second={showButton1}
-        // showButton2Second={showButton2}
+      // showButton1={showButton1}
+      // showButton2={showButton2}
+      // titleRigthSecond={"Siguiente"}
+      // sizeRigthSecond={theme.buttonSize.df}
+      // colorRigthSecond={theme.colors.modernaRed}
+      // onPressRigthSecond={() => navigation.navigate("promos")}
+      // iconRigthSecond={"arrow-right-circle"}
+      // typeRigthSecond={"feather"}
+      // showButton1Second={showButton1}
+      // showButton2Second={showButton2}
       />
     </View>
   );
