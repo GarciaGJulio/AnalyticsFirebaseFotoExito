@@ -90,6 +90,7 @@ export const Prices = ({ navigation, route }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //handleCurrentScreenPos(null,2)
   }, []);
 
   useEffect(() => {

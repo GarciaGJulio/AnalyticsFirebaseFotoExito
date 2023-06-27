@@ -81,6 +81,7 @@ export const Racks = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //handleCurrentScreenPos(null,3)
   }, []);
   useEffect(() => {
     const initDataLocal = async () => {

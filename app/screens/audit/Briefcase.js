@@ -78,6 +78,7 @@ export const Briefcase = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    handleCurrentScreenPos(null,1)
   }, []);
 
   useEffect(() => {
@@ -750,8 +751,8 @@ export const Briefcase = ({ navigation }) => {
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
         valueId: `${infoScreen
-            ? infoScreen.id_portafolio_auditoria
-            : idPortafolioAuditoria
+          ? infoScreen.id_portafolio_auditoria
+          : idPortafolioAuditoria
           }`,
       });
     });
@@ -782,7 +783,7 @@ export const Briefcase = ({ navigation }) => {
       />
       {hasVariable ? (
         <View style={styles.contentContainer}>
-           <ProgressBar currentStep={currentScreenPos} />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}

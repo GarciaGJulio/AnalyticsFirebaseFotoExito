@@ -76,7 +76,9 @@ export const Promos = ({ navigation }) => {
     setShowModal,
     setModalText,
     setModalTitle,
-    currentScreenPos
+    currentScreenPos,
+    handleCheckCanSaveAllDataLocal,
+    handleCurrentScreenPos
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -85,6 +87,8 @@ export const Promos = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //handleCurrentScreenPos()
+
   }, []);
 
   const consultarYCopiarContenido = async () => {
@@ -219,6 +223,9 @@ export const Promos = ({ navigation }) => {
   };
 
   const handleOpenModalFinishWithoutBranch = async () => {
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
+    
     setAnimation(SAVE_ANIMATION);
     setIsModalVisibleCloseSucursal(false);
     setIsModalVisible(true);
@@ -374,7 +381,8 @@ export const Promos = ({ navigation }) => {
 
   const validate = async () => {
     //console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
-
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal()
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
       setShowModal(!showModal);
