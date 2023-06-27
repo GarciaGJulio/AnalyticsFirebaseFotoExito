@@ -20,7 +20,7 @@ import StyledInput from "./StyledInput";
 import { validatePercha } from "../utils/helpers";
 import { verifyUrlImage } from "../services/onedrive";
 import { GlobalContext } from "../context/GlobalContext";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const RackCheckbox = ({
   isUserScreen,

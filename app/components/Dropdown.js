@@ -57,7 +57,7 @@ export const Dropdown = ({
           //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
           // );
           setClientGroupId(type.id_grupo_cliente);
-          await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
+          await AsyncStorage.setItem("nombre_cliente", nombre_cliente);
           await AsyncStorage.setItem("id_cliente", type.id_cliente);
           await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
           setSucursalInformation({

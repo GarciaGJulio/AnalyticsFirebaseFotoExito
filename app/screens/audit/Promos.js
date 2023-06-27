@@ -35,6 +35,7 @@ import { FlashListPromos } from "../../components/FlashListPromos";
 import { DropdownPromos } from "../../components/DropdownPromos";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
 import NetInfo from "@react-native-community/netinfo";
+import { ClientInformation } from "../../components/ClientInformation";
 import {
   cleanCurrentScreenUser,
   saveCurrentScreenUser,
@@ -77,6 +78,8 @@ export const Promos = ({ navigation }) => {
     setModalText,
     setModalTitle,
     currentScreenPos,
+    handleCheckCanSaveAllDataLocal,
+    handleCurrentScreenPos
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -85,6 +88,8 @@ export const Promos = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //handleCurrentScreenPos()
+
   }, []);
 
   const consultarYCopiarContenido = async () => {
@@ -219,6 +224,12 @@ export const Promos = ({ navigation }) => {
   };
 
   const handleOpenModalFinishWithoutBranch = async () => {
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal(()=>{
+      
+    },()=>{
+
+    })
     setAnimation(SAVE_ANIMATION);
     setIsModalVisibleCloseSucursal(false);
     setIsModalVisible(true);
@@ -374,7 +385,12 @@ export const Promos = ({ navigation }) => {
 
   const validate = async () => {
     //console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal(()=>{
+      
+    },()=>{
 
+    })
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
       setShowModal(!showModal);
@@ -543,6 +559,7 @@ export const Promos = ({ navigation }) => {
           <ModernaHeader />
         </View>
         <View style={styles.contentContainer}>
+          <ClientInformation/>
           <ProgressBar currentStep={currentScreenPos?currentScreenPos:"3"} />
           <View style={{ flex: 1 }}>
             <ScreenInformation
@@ -621,7 +638,7 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
     alignItems: "center",
-    padding: 20,
+    padding: 0,
   },
   scrollView: {
     flex: 2,

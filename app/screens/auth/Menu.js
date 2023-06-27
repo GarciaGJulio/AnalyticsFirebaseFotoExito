@@ -424,7 +424,6 @@ export const Menu = ({ navigation }) => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor:"black"
               //marginLeft: 10,
               marginRight: 10,
             }}
@@ -433,7 +432,7 @@ export const Menu = ({ navigation }) => {
               title={"Realizar Auditoría"}
               buttonColor={theme.colors.modernaRed}
               onPress={handleOpenModalAudit}
-              size={"100%"}
+              size={theme.buttonSize.sm}
               iconName={"clipboard"}
               iconType={"entypo"}
               icon
