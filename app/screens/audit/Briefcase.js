@@ -57,7 +57,10 @@ export const Briefcase = ({ navigation }) => {
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
   const [hasVariable, setHasVariable] = useState(true);
-
+  //Datos del cliente
+  const [idCliente, setIdCliente] = useState(null);
+  const [nombreCliente, setNombreCliente] = useState(null);
+  const [nombreSucursal, setNombreSucursal] = useState(null);
   const isFocused = useIsFocused();
 
   const {
@@ -78,6 +81,13 @@ export const Briefcase = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    //Obtener datos del cliente
+    const getClientInformation=async()=>{
+      setIdCliente(await AsyncStorage.getItem("id_sucursal"));
+      setNombreCliente(await AsyncStorage.getItem("nombre_cliente"));
+      setNombreSucursal(await AsyncStorage.getItem("nombre_sucursal")); 
+    }
+    getClientInformation()
   }, []);
 
   useEffect(() => {
@@ -783,6 +793,11 @@ export const Briefcase = ({ navigation }) => {
       {hasVariable ? (
         <View style={styles.contentContainer}>
           <ProgressBar currentStep={currentStep} />
+          <View style={{ flex: 2 }}>
+            <ScreenInformation
+              text={nombreCliente+"\n"+nombreSucursal}
+            />
+          </View>
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}
