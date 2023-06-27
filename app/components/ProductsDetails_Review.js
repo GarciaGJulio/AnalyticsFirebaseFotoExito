@@ -5,6 +5,9 @@ import {
   TouchableOpacity,
   Animated,
   Modal,
+  ScrollView,
+  Dimensions,
+  ImageBackground,
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import theme from "../theme/theme";
@@ -14,6 +17,7 @@ import TakeImage from "./TakeImage";
 import PromosItemsDetails_Review from "./PromosItemsDetails_Review";
 import { Divider, Icon } from "@rneui/base";
 import { verifyUrlImage } from "../services/onedrive";
+import ImageModal from "react-native-image-modal";
 
 export const ProductsDetails_Review = ({ item }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -78,6 +82,18 @@ export const ProductsDetails_Review = ({ item }) => {
       // El número no tiene decimales
       return numero.toString(); // Devuelve el número sin cambios
     }
+  };
+
+  const [fullscreenImage, setFullscreenImage] = useState(null);
+
+  const handleImagePress = (image) => {
+    setFullscreenImage(image);
+    setModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    setFullscreenImage(null);
   };
 
   return (
@@ -164,7 +180,7 @@ export const ProductsDetails_Review = ({ item }) => {
             ) : (
               <Text
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   marginTop: 10,
                   bottom: 5,
                   fontFamily: "Metropolis",
@@ -206,7 +222,7 @@ export const ProductsDetails_Review = ({ item }) => {
             <Modal
               animationType="slide"
               transparent={true}
-              visible={styles.modalVisible}
+              visible={modalVisible}
               onRequestClose={() => {
                 Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
@@ -214,34 +230,29 @@ export const ProductsDetails_Review = ({ item }) => {
             >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <View
-                    style={{
-                      //backgroundColor: "red",
-                      //flex: 1,
-                      //marginVertical: 200,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      //flexDirection: "row",
-                      //padding: 5,
-                    }}
+                  <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    style={{ top: 45 }}
                   >
-                    {extraImages.map((images) => {
-                      return (
-                        <Image
-                          key={images} // Se utiliza "images" como clave
-                          source={{ uri: images }}
-                          style={styles.imgContainer} // Utilizar el estilo "imgContainer"
-                          resizeMode="cover"
-                        />
-                      );
-                    })}
-                  </View>
+                    {extraImages
+                      .filter((image) => image !== null && image !== undefined)
+                      .map((image) => {
+                        return (
+                          <ImageModal
+                            resizeMode="stretch"
+                            //mouimageBackgroundColor="#000000"
+                            style={styles.imgContainer}
+                            source={{
+                              uri: image,
+                            }}
+                          />
+                        );
+                      })}
+                  </ScrollView>
                   <TouchableOpacity
                     style={styles.closeButton}
-                    onPress={() => {
-                      setModalVisible(!modalVisible);
-                      setOpenCamera(!openCamera);
-                    }}
+                    onPress={handleModalClose}
                   >
                     <Icon name="close" size={24} color="black" />
                   </TouchableOpacity>
@@ -332,7 +343,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 280,
-    height: 528,
+    height: 300,
     borderWidth: 1,
   },
   button: {
@@ -342,7 +353,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: "absolute",
-    top: 10,
+    top: 5,
     right: 10,
     backgroundColor: "transparent",
     borderRadius: 20,
@@ -350,8 +361,8 @@ const styles = StyleSheet.create({
   },
 
   imgContainer: {
-    width: 220,
-    height: 130,
+    width: 260,
+    height: 200,
     borderRadius: 10,
     borderWidth: 1,
     //marginTop: 20,
@@ -359,6 +370,6 @@ const styles = StyleSheet.create({
     //marginHorizontal: 10,
     borderColor: theme.colors.black,
     padding: 1,
-    resizeMode: "cover",
+    resizeMode: "stretch",
   },
 });
