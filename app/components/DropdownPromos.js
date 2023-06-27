@@ -21,20 +21,20 @@ export const DropdownPromos = ({
 
   const dataFormat = (array) => {
     setArrayClients(array);
-    console.log("ARRAY DE CONSULTA: ", array);
+    //console.log("ARRAY DE CONSULTA: ", array);
     const arrayFormat = array.map((obj) => {
-      console.log("OBJETO: ", obj.id_cliente);
+      //console.log("OBJETO: ", obj.id_cliente);
       return { key: obj.id_cliente, value: obj.nombre_cliente };
     });
-    console.log(arrayFormat);
+    //console.log(arrayFormat);
     return arrayFormat;
   };
 
   const validateType = () => {
     arrayClients.forEach((type) => {
-      // console.log("CLIENTE A ANALIZAR: ", type);
+      // //console.log("CLIENTE A ANALIZAR: ", type);
       if (type.nombre_cliente == selected) {
-        // console.log(
+        // //console.log(
         //   "CLIENTE ENCONTRADO - - - -ASIGNANDO TIPO DE CLIENTE: ",
         //   type.nombre_tipo_cliente
         // );
@@ -60,7 +60,7 @@ export const DropdownPromos = ({
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta);
       setNewArrayClients(dataFormat(resultadoConsulta));
-      console.log("Copia de contenido completada con éxito: ");
+      //console.log("Copia de contenido completada con éxito: ");
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }

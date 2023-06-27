@@ -152,7 +152,7 @@ export const FlashListPortfolio = React.memo(
     });
 
     useEffect(() => {
-      console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ", idealProducts);
+      //console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ", idealProducts);
     }, []);
 
     if (!fontLoaded) return null;

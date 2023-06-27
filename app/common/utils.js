@@ -58,10 +58,10 @@ export function transfromrActualDateFormat(date, type) {
         tempSplitDate[0] +
         "T";
       let newDateReady = dateReady + tmpHour + ".000Z";
-      console.log(
-        "************---------------------************* FECHA FORMATEADA:    ",
-        newDateReady
-      );
+      // //console.log(
+      //   "************---------------------************* FECHA FORMATEADA:    ",
+      //   newDateReady
+      // );
       return newDateReady;
     } else if (type == "R") {
       let tempAllDate = date.split("T");
@@ -80,7 +80,7 @@ export function transfromrActualDateFormat(date, type) {
       return newDateReady;
     }
   } catch (e) {
-    console.log("error al parsear fecha", e);
+    //console.log("error al parsear fecha", e);
     return new Date().toISOString();
   }
 }
@@ -185,7 +185,7 @@ export const validateNames = (nombre) => {
       }
     }
   } catch (e) {
-    console.log("error al validar", e);
+    //console.log("error al validar", e);
   }
 };
 
@@ -202,7 +202,7 @@ export const validateIdentificationNumber = (identificacion) => {
         return result;
       }
       var digito_region = parseInt(identificacion.substring(0, 2));
-      //console.log(digito_region);
+      ////console.log(digito_region);
       if (digito_region < 1 || digito_region > PROVINCE_COUNT) {
         result.message = errors.RUC_FIRST_2_DIGITS_GR_24;
         result.result = false;
@@ -298,21 +298,21 @@ export const validateIdentificationNumber = (identificacion) => {
           result.result = false;
           return result;
         }
-        //console.log("RUC público válido ", identificacion);
+        ////console.log("RUC público válido ", identificacion);
       } else if (pri == true) {
         if (digitoVerificador != d10) {
           result.message = errors.RUC_INVALID;
           result.result = false;
           return result;
         }
-        //console.log("RUC privado válido ", identificacion);
+        ////console.log("RUC privado válido ", identificacion);
       } else if (nat == true) {
         if (digitoVerificador != d10) {
           result.message = errors.RUC_INVALID;
           result.result = false;
           return result;
         }
-        //console.log("RUC persona natural válido ", identificacion);
+        ////console.log("RUC persona natural válido ", identificacion);
       }
       result.message = "";
       result.result = true;
@@ -323,7 +323,7 @@ export const validateIdentificationNumber = (identificacion) => {
       return result;
     }
   } catch (e) {
-    console.log("error al validar la identificacion", e);
+    //console.log("error al validar la identificacion", e);
   }
 };
 
@@ -344,7 +344,7 @@ export const validateStrangeRuc = (ruc) => {
       return result;
     }
     let numProvice = parseInt(ruc.substring(0, 2));
-    console.log("codigo de proicivnia--", numProvice);
+    //console.log("codigo de proicivnia--", numProvice);
     if (numProvice <= 0 || numProvice > 24) {
       result.message = errors.RUC_INVALID;
       result.result = false;
@@ -359,7 +359,7 @@ export const validateStrangeRuc = (ruc) => {
     result.result = true;
     return result;
   } catch (e) {
-    console.log("error al validar la identificacion", e);
+    //console.log("error al validar la identificacion", e);
     result.message = errors.RUC_INVALID;
     result.result = false;
     return result;
@@ -389,7 +389,7 @@ export const validateDirection = (direccion) => {
       }
     }
   } catch (e) {
-    console.log("error al validar la identificacion", e);
+    //console.log("error al validar la identificacion", e);
   }
 };
 
@@ -399,7 +399,7 @@ export const validatePhoneNumber = (telefono) => {
       result: false,
       message: "",
     };
-    //console.log(telefono.length);
+    ////console.log(telefono.length);
     if (!telefono) {
       result.message = errors.EMPTY_PHONE;
       result.result = false;
@@ -438,6 +438,6 @@ export const validatePhoneNumber = (telefono) => {
     result.result = true;
     return result;
   } catch (e) {
-    console.log("error al validar la identificacion", e);
+    //console.log("error al validar la identificacion", e);
   }
 };

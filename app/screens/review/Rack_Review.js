@@ -28,10 +28,10 @@ const Rack_Review = ({ navigation }) => {
       WHERE p.id_percha = '${datosCompartidos.id_percha}' AND a.id_auditoria = '${datosCompartidos.id_auditoria}'`
     );
 
-    console.log(
-      "CATEGORIAS CON PERCHAS - - - - - - - - - - - - - - * */ / /: ",
-      category
-    );
+    // //console.log(
+    //   "CATEGORIAS CON PERCHAS - - - - - - - - - - - - - - * */ / /: ",
+    //   category
+    // );
 
     const datosConImagenesPlanograma = category.map((objeto) => {
       const imagenesPlanograma = [];
@@ -47,14 +47,14 @@ const Rack_Review = ({ navigation }) => {
       return { ...objeto, imagenesPlanograma };
     });
 
-    console.log(
-      "PERCHAS CON CATEGORIAS FORMATEADO CON IMAGENES",
-      datosConImagenesPlanograma
-    );
+    // //console.log(
+    //   "PERCHAS CON CATEGORIAS FORMATEADO CON IMAGENES",
+    //   datosConImagenesPlanograma
+    // );
 
     const perchasCompletas = datos.map((objeto) => {
       const categoria = categorias.find((cat) => {
-        console.log(cat.id_categoria + " " + objeto.id_categoria);
+        //console.log(cat.id_categoria + " " + objeto.id_categoria);
         cat.id_categoria === objeto.id_categoria;
       });
       if (categoria) {
@@ -66,8 +66,8 @@ const Rack_Review = ({ navigation }) => {
       return objeto;
     });
     setRack(category);
-    console.log("DATOS OBTENIDOS DE PERCHAS : ", perchasCompletas);
-    console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
+    //console.log("DATOS OBTENIDOS DE PERCHAS : ", perchasCompletas);
+    //console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
   };
   useEffect(() => {
     getRackData();

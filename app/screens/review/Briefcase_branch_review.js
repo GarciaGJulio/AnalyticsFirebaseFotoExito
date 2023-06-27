@@ -17,7 +17,7 @@ const Briefcase_branch_review = ({ navigation }) => {
   const [idealPortafolio, setIdealPortafolio] = useState([]);
   const [complementaryPortafolio, setComplementaryPortafolio] = useState([]);
   // const { branch } = route.params;
-  // console.log(branch, "Briefcase");
+  // //console.log(branch, "Briefcase");
 
   const consultarYCopiarContenido = async () => {
     try {
@@ -57,7 +57,7 @@ const Briefcase_branch_review = ({ navigation }) => {
         }
       });
 
-      console.log("IDS DE PORTAFOLIOS: - - - - - - - - -", arrayIdsPortafolio);
+      //console.log("IDS DE PORTAFOLIOS: - - - - - - - - -", arrayIdsPortafolio);
 
       const consultaPortafolio = [];
       for (const producto of consultaPortafolioAudit) {
@@ -125,7 +125,7 @@ const Briefcase_branch_review = ({ navigation }) => {
             nombre_categoria,
             ...resto,
           };
-          console.log("OBJETO A ANALIZAR: ", tipo);
+          //console.log("OBJETO A ANALIZAR: ", tipo);
           if (tipo === "C") {
             const categoriaExistente = arrayTipoC.find(
               (item) => item.nombre_categoria === nombre_categoria
@@ -196,7 +196,7 @@ const Briefcase_branch_review = ({ navigation }) => {
       const categoriasnNoSeleccionadas = Object.values(categorias);
 
       // Imprimir el resultado
-      console.log(categoriasnNoSeleccionadas);
+      //console.log(categoriasnNoSeleccionadas);
 
       const arrayTipoIIntegrado = [
         ...categoriasnNoSeleccionadas,
@@ -214,36 +214,36 @@ const Briefcase_branch_review = ({ navigation }) => {
         }
         return acc;
       }, []);
-      console.log("Array - - - - - - - - - Tipo C:", arrayTipoC);
+      //console.log("Array - - - - - - - - - Tipo C:", arrayTipoC);
       setComplementaryPortafolio(arrayTipoC);
-      console.log("Array  * * * * * * * *  Tipo I:", arrayTipoI);
+      //console.log("Array  * * * * * * * *  Tipo I:", arrayTipoI);
 
       setIdealPortafolio(arrayUnificado);
-      console.log(
-        "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
-        idsPortafolioAuditoria
-      );
-      console.log(
-        "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
-        consultaPortafolio
-      );
-      console.log(
-        " - - --  ARRAY IDEAL TODO INTEGRADO * - * -* - * -* - * -*  - - - - - ",
-        arrayTipoIIntegrado
-      );
-      console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
-      console.log("ID DE GRUPO CLIENTE: ", datosCompartidos.id_grupo_cliente);
+      // //console.log(
+      //   "IDS DE CONSULTA DE PORTAFOLIO INNER JOIN- - -/ / / / /  - : ",
+      //   idsPortafolioAuditoria
+      // );
+      // //console.log(
+      //   "DATOS ALMACENADOS DE PORTAFOLIO AUDITORIA: ",
+      //   consultaPortafolio
+      // );
+      // //console.log(
+      //   " - - --  ARRAY IDEAL TODO INTEGRADO * - * -* - * -* - * -*  - - - - - ",
+      //   arrayTipoIIntegrado
+      // );
+      //console.log(" - - --  ARRAY DE IDEALES - - - - - ", arrayTipoI);
+      //console.log("ID DE GRUPO CLIENTE: ", datosCompartidos.id_grupo_cliente);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
   };
 
   useEffect(() => {
-    consultarYCopiarContenido();
-    console.log(
-      "ID DE PORTAFOLIO AUDITORIA: ",
-      datosCompartidos.id_portafolio_auditoria
-    );
+    // consultarYCopiarContenido();
+    // //console.log(
+    //   "ID DE PORTAFOLIO AUDITORIA: ",
+    //   datosCompartidos.id_portafolio_auditoria
+    // );
   }, []);
 
   return (

@@ -96,7 +96,7 @@ export const FlashListPortfolioReview = ({
   // tipo,
 }) => {
   useEffect(() => {
-    console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ", products);
+    //console.log("ESTO LLEGA DE PORTAFOLIO:  - - - - - - - ", products);
   }, []);
 
   const [fontLoaded] = useFonts({

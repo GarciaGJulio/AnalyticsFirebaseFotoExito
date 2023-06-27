@@ -55,21 +55,21 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const CountClientVariable = async () => {
-    console.log("--------------------------------eMPIEZA A ACONTAR VARIABLES");
+    //console.log("--------------------------------eMPIEZA A ACONTAR VARIABLES");
     const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
     let Variables2 = [];
     const NumeroVariables = variables.forEach((variable) => {
-      console.log(
-        "entra?",
-        variable.id_grupo_cliente.toUpperCase() ===
-          id_grupo_cliente?.toString().toUpperCase()
-      );
+      // //console.log(
+      //   "entra?",
+      //   variable.id_grupo_cliente.toUpperCase() ===
+      //     id_grupo_cliente?.toString().toUpperCase()
+      // );
       if (
         variable.id_grupo_cliente.toUpperCase() ===
         id_grupo_cliente?.toString().toUpperCase()
       ) {
         Variables2.push(variable);
-        console.log("variable vALOR:", variable);
+        //console.log("variable vALOR:", variable);
       }
     });
     const total = Variables2.length
@@ -82,7 +82,7 @@ export const GlobalProvider = ({ children }) => {
   const clearWorkFlow = async () => {
     console.clear();
     console.warn("DELETED START");
-    console.log(global?.userInfoScreen?.userInfo?.nombre_pantalla);
+    //console.log(global?.userInfoScreen?.userInfo?.nombre_pantalla);
     let response = await realizarConsulta(
       `SELECT * FROM ${PERSISTENCIA.NAME} WHERE ${PERSISTENCIA.SCREEN_NAME} = '${global.userInfoScreen?.userInfo?.nombre_pantalla}'`
     );
@@ -121,12 +121,12 @@ export const GlobalProvider = ({ children }) => {
     const totalVariables = await CountClientVariable()
     const posScreen = await AsyncStorage.getItem('currentScreenPos')
     if (posScreen >= totalVariables) {
-      console.log("*********************ya est+a al final de la pantalla*/*****************")
+      //console.log("*********************ya est+a al final de la pantalla*/*****************")
     } else {
-      console.log("*********************aun no está al final de la pantalla*/*****************")
+      //console.log("*********************aun no está al final de la pantalla*/*****************")
     }
-    console.log("totalVariables", totalVariables)
-    console.log("posScreen", posScreen)
+    //console.log("totalVariables", totalVariables)
+    //console.log("posScreen", posScreen)
 
   }, [])
   const handleCurrentScreenPos = useCallback(async (pos) => {

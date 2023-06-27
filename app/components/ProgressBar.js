@@ -17,12 +17,12 @@ export const ProgressBar = ({currentStep}) => {
   useEffect(() => {
     const checkNumVarible=async( )=>{
       const totalVariables= await CountClientVariable()
-      console.log("VariablesCountProgress:",totalVariables)  
+      //console.log("VariablesCountProgress:",totalVariables)  
       for (let i = 1; i <= totalVariables; i++) {
         arrayPasos.push(`Paso ${i}`);
       }
-      console.log("APOS")
-      console.log("PASOS:",arrayPasos)
+      //console.log("APOS")
+      //console.log("PASOS:",arrayPasos)
     }
     checkNumVarible();
   }, []);
