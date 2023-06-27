@@ -140,7 +140,7 @@ export const ListBranch = ({ navigation }) => {
         <Image source={Logotipo} style={styles.image} />
       </View>
 
-      <Animatable.View animation={"fadeInUp"} style={styles.contentContainer}>
+      <Animatable.View style={styles.contentContainer}>
         <View style={styles.content}>
           <Text style={styles.title}>
             Seleccione la auditoría que desea visualizar.
