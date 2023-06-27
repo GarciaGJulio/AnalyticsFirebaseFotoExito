@@ -76,7 +76,7 @@ export const Promos = ({ navigation }) => {
     setShowModal,
     setModalText,
     setModalTitle,
-    currentScreenPos
+    currentScreenPos,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -505,7 +505,6 @@ export const Promos = ({ navigation }) => {
     }
 
     // newComplementaryPortfolio.map((productos) => {
-
 
     deleteRegisterAudit({
       tableName: "percha",

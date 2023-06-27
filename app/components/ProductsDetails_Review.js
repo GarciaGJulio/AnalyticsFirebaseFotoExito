@@ -236,7 +236,7 @@ export const ProductsDetails_Review = ({ item }) => {
                         return (
                           <ImageModal
                             resizeMode="stretch"
-                            //imageBackgroundColor="#000000"
+                            //mouimageBackgroundColor="#000000"
                             style={styles.imgContainer}
                             source={{
                               uri: image,
