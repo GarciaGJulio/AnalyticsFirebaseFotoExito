@@ -192,25 +192,31 @@ export const db_insertGlobalDataAudit = async (objSentence) => {
   // //console.log(
   //   `insertando datos en la tabla: ${objSentence.tableName} -----------------------------`
   // );
-  ////console.log();
+  console.log("INSERT INTO " +
+    objSentence.tableName +
+    " (" +
+    objSentence.dataInsertType.join() +
+    ") VALUES(" +
+    objSentence.dataInsert.join() +
+    ")");
   global.dbModerna.transaction((tx) => {
     tx.executeSql(
       "INSERT INTO " +
-        objSentence.tableName +
-        " (" +
-        objSentence.dataInsertType.join() +
-        ") VALUES(" +
-        objSentence.dataInsert.join() +
-        ")",
+      objSentence.tableName +
+      " (" +
+      objSentence.dataInsertType.join() +
+      ") VALUES(" +
+      objSentence.dataInsert.join() +
+      ")",
       [],
       () => {
-        // //console.log(
-        //   "se ejecuta sentencia insert " + objSentence.tableName + " OK  "
-        // );
+        console.log(
+          "se ejecuta sentencia insert " + objSentence.tableName + " OK  "
+        );
         //console.log("Validando insercion de datos");
       },
       () => {
-        //console.log("error al insertar tabla " + objSentence.tableName);
+        console.log("error al insertar tabla " + objSentence.tableName);
         // if (errorFunction) {
         //   errorFunction()
         // }

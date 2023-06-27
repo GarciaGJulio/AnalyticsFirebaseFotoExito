@@ -4,6 +4,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { realizarConsulta } from "../common/sqlite_config";
 import { PERSISTENCIA, VARIABLE } from "../common/table_columns";
 import { ModernaModal } from "../components/ModernaModal";
+import { generateUIDD, transfromrActualDateFormat } from "../common/utils";
+import { dataTime } from "../services/GenerateID";
+import { db_insertGlobalDataAudit } from "../services/SqliteService";
+import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
+import { cleanCurrentScreenUser } from "../utils/Utils";
 
 export const GlobalContext = createContext();
 
@@ -70,7 +75,8 @@ export const GlobalProvider = ({ children }) => {
 
   const CountClientVariable = async () => {
     try {
-      const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME}`)
+      const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME} where estado_variable=1`)
+
       const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
       let Variables2 = [];
       variables.forEach((variable) => {
@@ -129,19 +135,22 @@ export const GlobalProvider = ({ children }) => {
     clearWorkFlow();
   };
 
-  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish,onContinue) => {
+  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish, onContinue) => {
     try {
       const totalVariables = await CountClientVariable()
       const posScreen = await AsyncStorage.getItem('currentScreenPos')
       if (posScreen > totalVariables) {
         onFinish()
-        //console.log("*********************ya est+a al final de la pantalla*/*****************")
+        cleanCurrentScreenUser();
+        await AsyncStorage.setItem('currentScreenPos', "1");
+        await AsyncStorage.setItem('currentScreenPosPer', "1");
+        console.log("*********************ya est+a al final de la pantalla*/*****************")
       } else {
         onContinue()
-        //console.log("*********************aun no está al final de la pantalla*/*****************")
+        console.log("*********************aun no está al final de la pantalla*/*****************")
       }
-     // console.log("totalVariables", totalVariables)
-     // console.log("posScreen", posScreen)
+      console.log("totalVariables", totalVariables)
+      console.log("posScreen", posScreen)
     } catch (e) {
       console.error(e)
     }
@@ -163,6 +172,83 @@ export const GlobalProvider = ({ children }) => {
     initVariablesLocalStorage()
     return
   }, [])
+
+  const handleSaveAudit = async (userInfo, navigation) => {
+    try {
+      const idAuditoria = generateUIDD()
+      const idPromocion = await AsyncStorage.getItem("idPromocion");
+      let idPreciador = await AsyncStorage.getItem("id_preciador");
+      let idPercha = await AsyncStorage.getItem("id_percha");
+      let idSucursal = await AsyncStorage.getItem("id_sucursal");
+      let idCliente = await AsyncStorage.getItem("id_cliente");
+      let nombreCliente = await AsyncStorage.getItem("nombre_cliente");
+      let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
+      let idGroupClient = await AsyncStorage.getItem("idGroupClient");
+      let idPortafolioAuditoria = await AsyncStorage.getItem(
+        "id_portafolio_auditoria"
+      );
+      let dataSave = {
+        tableName: "auditoria",
+        dataInsertType: [
+          "id_auditoria",
+          "id_preciador",
+          "id_percha",
+          "id_promocion",
+          "id_sucursal",
+          "id_cliente",
+          "id_grupo_cliente",
+          "id_portafolio_auditoria",
+          "usuario_creacion",
+          "fecha_creacion",
+          "nombre_cliente",
+          "nombre_sucursal",
+          "sincronizada",
+        ],
+        dataInsert: [
+          `'${idAuditoria}'`,
+          idPreciador ? `'${idPreciador}'` : "null",
+          idPercha ? `'${idPercha}'` : "null",
+          idPromocion ? `'${idPromocion}'` : "null",
+          idSucursal ? `'${idSucursal}'` : "null",
+          idCliente ? `'${idCliente}'` : "null",
+          idGroupClient ? `'${idGroupClient}'` : "null",
+          idPortafolioAuditoria ? `'${idPortafolioAuditoria}'` : "null",
+          `'${userInfo.mail}'`,
+          `'${transfromrActualDateFormat(dataTime(), "F")}'`,
+          `'${nombreCliente}'`,
+          `'${nombreSucursal}'`,
+          `${parseInt(0)}`,
+        ],
+      };
+      try {
+        console.log("insertand")
+        console.log("**********************************************************")
+        console.log(dataSave)
+        console.log("***********************************************************")
+        db_insertGlobalDataAudit(dataSave);
+        if (isConnectionActivate) {
+          try {
+            await subidaBaseRemoteTodaAuditoria(
+              idAuditoria,
+              () => { },
+              setGlobalVariable,
+              globalVariable
+            );
+            navigation.navigate("begin");
+          } catch (e) {
+            navigation.navigate("begin");
+          }
+        } else {
+          navigation.navigate("begin");
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    } catch (e) {
+      console.log("error al guardar la auditoría", e)
+    }
+
+  };
   return (
     <GlobalContext.Provider
       value={{
@@ -187,7 +273,7 @@ export const GlobalProvider = ({ children }) => {
         setModalTitle,
         setProductsPreciador,
         handleDoesClientHaveVariable,
-
+        handleSaveAudit,
         handleClearWorkFlow,
         CountClientVariable,
         handleCheckCanSaveAllDataLocal,

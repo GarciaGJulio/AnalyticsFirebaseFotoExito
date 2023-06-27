@@ -88,7 +88,7 @@ export const Promos = ({ navigation }) => {
     };
     checkForVariable();
     //handleCurrentScreenPos()
-
+    AsyncStorage.setItem("idPromocion",idPromocion);
   }, []);
 
   const consultarYCopiarContenido = async () => {
@@ -223,23 +223,16 @@ export const Promos = ({ navigation }) => {
   };
 
   const handleOpenModalFinishWithoutBranch = async () => {
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(()=>{
-      
-    },()=>{
-
-    })
-    setAnimation(SAVE_ANIMATION);
-    setIsModalVisibleCloseSucursal(false);
-    setIsModalVisible(true);
-    saveAudit();
-    cleanCurrentScreenUser();
-    /*setTimeout(() => {
-      setAnimation(SUCCESS_ANIMATION);
-      setIsModalVisible(false);
+    const continueAudit = () => {
+      setAnimation(SAVE_ANIMATION);
       setIsModalVisibleCloseSucursal(false);
-      navigation.navigate("begin");
-    }, 3000);*/
+      setIsModalVisible(true);
+      saveAudit();
+      cleanCurrentScreenUser();
+      handleCurrentScreenPos()
+    }
+      continueAudit()
+
   };
 
   const dataId = async () => {
@@ -382,14 +375,15 @@ export const Promos = ({ navigation }) => {
     //console.log();
   });
 
-  const validate = async () => {
-    //console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(()=>{
-      
-    },()=>{
+  const initValidate = () => {
 
-    })
+      validate()
+ 
+  }
+  const validate = async () => {
+
+    handleCurrentScreenPos()
+
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
       setShowModal(!showModal);
@@ -465,19 +459,21 @@ export const Promos = ({ navigation }) => {
               //console.log("SENTENCIA A EJECUTAR: ", sentence);
               db_insertGlobalDataAudit(dataSave);
               //console.log("TODO BIEN");
-              saveAudit();
+             // saveAudit();
               cleanCurrentScreenUser();
               navigation.navigate("begin");
               /*setTimeout(() => {
               navigation.navigate("begin");
             }, 1200);*/
             });
+            saveAudit();
           } else {
             //console.log("TODO BIEN");
             saveAudit();
             cleanCurrentScreenUser();
             navigation.navigate("begin");
           }
+
         } catch (e) {
           //console.log("errordel drop?::", e);
           Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -558,7 +554,7 @@ export const Promos = ({ navigation }) => {
           <ModernaHeader />
         </View>
         <View style={styles.contentContainer}>
-          <ProgressBar currentStep={currentScreenPos?currentScreenPos:"3"} />
+          <ProgressBar currentStep={currentScreenPos ? currentScreenPos : "3"} />
           <View style={{ flex: 1 }}>
             <ScreenInformation
               title={"Promociones"}
@@ -605,7 +601,7 @@ export const Promos = ({ navigation }) => {
           typeRigth={"material-community"}
           colorRigth={theme.colors.modernaRed}
           disableAction={!validateData()}
-          onPressRigth={validate}
+          onPressRigth={initValidate}
           showButton1={true}
         //showButton2={showButton2}
         //titleRigthSecond={"Siguiente"}

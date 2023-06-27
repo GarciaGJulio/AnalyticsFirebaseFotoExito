@@ -33,8 +33,12 @@ import { useIsFocused } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
 import StyledButton from "../../components/StyledButton";
 import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
+import { ModernaContext } from "../../context/ModernaProvider";
+
 
 export const Briefcase = ({ navigation }) => {
+  const { userInfo } = useContext(ModernaContext);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [idealPortfolioProducts, setIdealPortfolioProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
@@ -57,7 +61,6 @@ export const Briefcase = ({ navigation }) => {
   const [infoScreen, setInfoScreen] = useState(null);
   const [hadSave, setHadSave] = useState(false);
   const [hasVariable, setHasVariable] = useState(true);
-
   const isFocused = useIsFocused();
 
   const {
@@ -66,6 +69,7 @@ export const Briefcase = ({ navigation }) => {
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
     currentScreenPos,
+    handleSaveAudit,
     handleCurrentScreenPos,
     handleCheckCanSaveAllDataLocal
   } = useContext(GlobalContext);
@@ -78,7 +82,7 @@ export const Briefcase = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
-    handleCurrentScreenPos(null,1)
+    handleCurrentScreenPos(null, 1)
   }, []);
 
   useEffect(() => {
@@ -236,63 +240,55 @@ export const Briefcase = ({ navigation }) => {
     onlyNavigation();
   };
   const handleOpenModal = () => {
+    handleCurrentScreenPos()
     setIsModalVisible(true);
-    ////console.log("SUMA DE PRODUCTOS MENORES A 5 - - - - - -")
-    ////console.log("PORTAFOLIO IDEAL: ",JSON.stringify(idealPortfolioProducts));
     validateProduct();
-    /*setTimeout(() => {
-      //setIsModalVisible(false);
-      //navigation.navigate('prices', { currentStep });
-    }, 2000);*/
+
   };
 
   //checkVar
   const HandleNavigationOfVariables = () => {
-    let checkvariables = true;
-    const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Precio");
-      checkvariables = response;
-      //console.log("VARIABLE DE PERCHAS EXISTE:", response);
-      if (checkvariables === true) {
-        navigation.navigate("prices", {
-          currentStep,
-          complementaryPortfolioProducts,
-          idealPortfolioProducts,
-          setComplementaryPortfolioProducts,
-        });
-      } else {
-        navigation.navigate("rack");
-      }
-    };
-    checkForVariable();
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(()=>{
+    const continueAudit = () => {
+      let checkvariables = true;
+      const checkForVariable = async () => {
+        const response = await handleDoesClientHaveVariable("Precio");
+        checkvariables = response;
+        //console.log("VARIABLE DE PERCHAS EXISTE:", response);
+        if (checkvariables === true) {
+          navigation.navigate("prices", {
+            currentStep,
+            complementaryPortfolioProducts,
+            idealPortfolioProducts,
+            setComplementaryPortfolioProducts,
+          });
+        } else {
+          navigation.navigate("rack");
+        }
+      };
+      checkForVariable();
+    }
+    continueAudit()
 
-    },()=>{
-
-    })
   };
 
   const HandleASpecialNavigationOfVariables = () => {
-    let checkvariables = true;
-    const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Percha");
-      checkvariables = response;
-      //console.log("VARIABLE DE PERCHAS EXISTE:", response);
-      if (checkvariables === true) {
-        navigation.navigate("rack");
-      } else {
-        navigation.navigate("promos");
-        handleCurrentScreenPos(3)
-      }
-    };
-    checkForVariable();
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(()=>{
-      
-    },()=>{
+    const continueAudit = () => {
+      let checkvariables = true;
+      const checkForVariable = async () => {
+        const response = await handleDoesClientHaveVariable("Percha");
+        checkvariables = response;
+        //console.log("VARIABLE DE PERCHAS EXISTE:", response);
+        if (checkvariables === true) {
+          navigation.navigate("rack");
+        } else {
+          navigation.navigate("promos");
+          handleCurrentScreenPos(3)
+        }
+      };
+      checkForVariable();
+    }
 
-    })
+    continueAudit()
   };
 
 
@@ -435,48 +431,39 @@ export const Briefcase = ({ navigation }) => {
   }, []);
 
   const onlyNavigation = () => {
-    // navigation.navigate("prices", {
-    //   currentStep,
-    //   complementaryPortfolioProducts,
-    //   idealPortfolioProducts,
-    //   setComplementaryPortfolioProducts,
-    // });
-    HandleNavigationOfVariables()
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal(() => {
+      handleSaveAudit(userInfo, navigation)
+    }, () => {
+      HandleNavigationOfVariables();
+    })
   };
 
   const validateProduct = async () => {
-    // //console.log(
-    //   "SUMA DE TAMAÑOS DE ARRAYS PORTAFOLIO: " +
-    //   (idealPortfolioProducts.length + complementaryPortfolioProducts.length)
-    // );
-
     if (
       idealPortfolioProducts.length + complementaryPortfolioProducts.length ==
       0
     ) {
-      setIsModalVisible(false);
-      await AsyncStorage.setItem("id_portafolio_auditoria", "null");
-      setHadSaveBriefCase(true);
-      // navigation.navigate("rack");
-      HandleASpecialNavigationOfVariables()
-      //console.log("NINGUN PORTAFOLIO TIENE PRODUCTOS");
+
+      handleCurrentScreenPos()
+      handleCheckCanSaveAllDataLocal(() => {
+        handleSaveAudit(userInfo, navigation)
+      }, () => {
+        setIsModalVisible(false);
+         AsyncStorage.setItem("id_portafolio_auditoria", "null");
+        setHadSaveBriefCase(true);
+        HandleASpecialNavigationOfVariables()
+
+      })
+
+
     } else {
       await AsyncStorage.setItem(
         "id_portafolio_auditoria",
         idPortafolioAuditoria
       );
-      // //console.log(
-      //   "\n***************** DESACTIVANDO CHECKS *****************************\n"
-      // );
+
       setHadSaveBriefCase(true);
-      // //console.log(
-      //   "PRODUCTOS DEL PORTAFOLIO IDEAL: ",
-      //   JSON.stringify(idealPortfolioProducts)
-      // );
-      // //console.log(
-      //   "PRODUCTOS DEL PORTAFOLIO COMPLEMENTARIO: ",
-      //   JSON.stringify(complementaryPortfolioProducts)
-      // );
 
       try {
         const fullDataProducts = idealPortfolioProducts.concat(
@@ -487,15 +474,6 @@ export const Briefcase = ({ navigation }) => {
           const { id_portafolio, id, tipo_portafolio } = producto;
 
           if (tipo_portafolio === "C") {
-            // //console.log(
-            //   "PRODUCTO ACTUAL PARA GUARDAR EN LA TABLA PORTAFOLIO - -- - - - - - - : ",
-            //   "ID DEL PORTAFOLIO: " +
-            //   id_portafolio +
-            //   " ID DEL PRODUCTO: " +
-            //   id +
-            //   " TIPO DE PORTAFOLIO:" +
-            //   tipo_portafolio
-            // );
 
             let dataSave = {
               tableName: "portafolio",
@@ -523,17 +501,10 @@ export const Briefcase = ({ navigation }) => {
               ") VALUES(" +
               dataSave.dataInsert.join() +
               ")";
-            //console.log("SENTENCIA A EJECUTAR: ", sentence);
 
             try {
               db_insertGlobalDataAudit(dataSave);
-              // //console.log(
-              //   "TODO BIEN EN EL PRIMER INSERT  * * * * * * * * * * * * "
-              // );
-              // //console.log(
-              //   "ID DEL PORTAFOLIO QUE SE VA A GUARDRA: ",
-              //   id_portafolio
-              // );
+
 
               let dataSave2 = {
                 tableName: "portafolio_auditoria",
@@ -548,21 +519,8 @@ export const Briefcase = ({ navigation }) => {
                   `'${id}'`,
                 ],
               };
-              const sentence2 =
-                "INSERT INTO " +
-                dataSave2.tableName +
-                " (" +
-                dataSave2.dataInsertType.join() +
-                ") VALUES(" +
-                dataSave2.dataInsert.join() +
-                ")";
-              //console.log("SENTENCIA A EJECUTAR: ", sentence2);
-
               try {
                 db_insertGlobalDataAudit(dataSave2);
-                //console.log("TODO BIEN");
-                //setShowButton1(false);
-                //setShowButton2(true);
                 setIsModalVisible(false);
               } catch (e) {
                 Alert.alert(
@@ -571,17 +529,10 @@ export const Briefcase = ({ navigation }) => {
                 );
               }
             } catch (e) {
-              //console.log("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", e);
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
               setIsModalVisible(false);
             }
           } else {
-            //console.log("PRODUCTO IDEAL - - - - - - - - - : ", producto);
-            // //console.log(
-            //   "----------------- SALTANDO INSERCION  - - - - - - - - - : ",
-            //   producto
-            // );
-
             let portafolioSave = {
               tableName: "portafolio_auditoria",
               dataInsertType: [
@@ -595,31 +546,19 @@ export const Briefcase = ({ navigation }) => {
                 `'${id}'`,
               ],
             };
-
-            const sentence =
-              "INSERT INTO " +
-              portafolioSave.tableName +
-              " (" +
-              portafolioSave.dataInsertType.join() +
-              ") VALUES(" +
-              portafolioSave.dataInsert.join() +
-              ")";
-            //console.log("SENTENCIA A EJECUTAR: ", sentence);
-
             try {
               db_insertGlobalDataAudit(portafolioSave);
-              //console.log("TODO BIEN");
-              // navigation.navigate("prices", {
-              //   currentStep,
-              //   complementaryPortfolioProducts,
-              //   idealPortfolioProducts,
-              //   setComplementaryPortfolioProducts,
-              // });
-              HandleNavigationOfVariables();
 
               setIsModalVisible(false);
-              setShowButton1(false);
-              setShowButton2(true);
+              // setShowButton1(false);
+              // setShowButton2(true);
+              handleCheckCanSaveAllDataLocal(() => {
+                setTimeout(() => handleSaveAudit(userInfo, navigation), 2000)
+              }, () => {
+                setShowButton1(false);
+                setShowButton2(true);
+                HandleNavigationOfVariables();
+              })
             } catch (e) {
               Alert.alert(
                 "Error al insertar los datos en la tabla portafolio_auditoria",

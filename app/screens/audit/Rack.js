@@ -72,6 +72,7 @@ export const Racks = ({ navigation }) => {
     handleClearWorkFlow,
     currentScreenPos,
     handleCurrentScreenPos,
+    handleSaveAudit,
     handleCheckCanSaveAllDataLocal
   } = useContext(GlobalContext);
 
@@ -189,7 +190,8 @@ export const Racks = ({ navigation }) => {
 
   const handleOpenModal = async () => {
     try {
-      await validate();
+      handleCurrentScreenPos()
+      validate();
       //setIsModalVisible(false);
       //setShowButton2(true)
       //setShowButton1(false)
@@ -318,11 +320,11 @@ export const Racks = ({ navigation }) => {
   };
 
   const onlyNavigation = () => {
-    navigation.navigate("promos");
     handleCurrentScreenPos()
     handleCheckCanSaveAllDataLocal(() => {
-
+      setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
     }, () => {
+      navigation.navigate("promos");
 
     })
   };
@@ -365,8 +367,13 @@ export const Racks = ({ navigation }) => {
     }
     if (category.length === 0) {
       //await AsyncStorage.setItem("id_percha", null);
-      setIsModalVisible(false);
-      navigation.navigate("promos");
+      handleCheckCanSaveAllDataLocal(() => {
+        setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
+      }, () => {
+        setIsModalVisible(false);
+        navigation.navigate("promos");
+      })
+
     } else {
       const isValid = category.every((item) => {
         //console.log("ItemModerna:", item);
@@ -482,16 +489,14 @@ export const Racks = ({ navigation }) => {
               try {
                 db_insertGlobalDataAudit(dataSave);
                 setIsModalVisible(false);
-                handleCurrentScreenPos()
-                handleCheckCanSaveAllDataLocal(() => {
-
-                }, () => {
-
-                })
-                navigation.navigate("promos");
                 setHadSaveRack(true);
-                setShowButton1(false);
-                setShowButton2(true);
+                handleCheckCanSaveAllDataLocal(() => {
+                  setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
+                }, () => {
+                  setShowButton1(false);
+                  setShowButton2(true);
+                  navigation.navigate("promos");
+                })
               } catch (error) {
                 Alert.alert(
                   "Error al insertar los datos",

@@ -79,6 +79,7 @@ export const Prices = ({ navigation, route }) => {
     setHadSavePreciador,
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
+    handleSaveAudit,
     currentScreenPos,
     handleCurrentScreenPos,
     handleCheckCanSaveAllDataLocal
@@ -90,7 +91,6 @@ export const Prices = ({ navigation, route }) => {
       setHasVariable(response);
     };
     checkForVariable();
-    //handleCurrentScreenPos(null,2)
   }, []);
 
   useEffect(() => {
@@ -200,24 +200,22 @@ export const Prices = ({ navigation, route }) => {
   }, []);
 
   const HandleNavigationOfVariables = () => {
-    let checkvariables=true
-    const checkForVariable = async () => {
-      const response = await handleDoesClientHaveVariable("Perchas");
-      checkvariables=response
-      //console.log("VARIABLE DE PERCHAS EXISTE:",response)
-      if (checkvariables === true) {
-        navigation.navigate("rack");
-      } else {
-        navigation.navigate("promos");
-      }
-    };
-    checkForVariable();
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(()=>{
-      
-    },()=>{
-
-    })  };
+    const continueAudit = () => {
+      let checkvariables = true
+      const checkForVariable = async () => {
+        const response = await handleDoesClientHaveVariable("Perchas");
+        checkvariables = response
+        //console.log("VARIABLE DE PERCHAS EXISTE:",response)
+        if (checkvariables === true) {
+          navigation.navigate("rack");
+        } else {
+          navigation.navigate("promos");
+        }
+      };
+      checkForVariable();
+    }
+    continueAudit()
+  };
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -298,12 +296,24 @@ export const Prices = ({ navigation, route }) => {
     dataId();
   }, []);
 
+  const initValidateArrays = () => {
+    handleCurrentScreenPos()
+    validateArrays()
+
+  }
+
+
   const validateArrays = async () => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     //console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
       //console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
-      HandleNavigationOfVariables()
+
+      handleCheckCanSaveAllDataLocal(() => {
+        setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
+      }, () => {
+        HandleNavigationOfVariables()
+      })
     } else {
       if (errorPrice != "") {
         setErrorPrice("* El campo precio es debe ser llenado correctamente");
@@ -400,10 +410,16 @@ export const Prices = ({ navigation, route }) => {
               //setShowButton1(false);
               //setShowButton2(true);
               setIsModalVisible(false);
-              HandleNavigationOfVariables()
+
               setHadSavePreciador(true);
-              setShowButton1(false);
-              setShowButton2(true);
+
+              handleCheckCanSaveAllDataLocal(() => {
+                setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
+              }, () => {
+                setShowButton1(false);
+                setShowButton2(true);
+                HandleNavigationOfVariables()
+              })
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -467,30 +483,30 @@ export const Prices = ({ navigation, route }) => {
               pantallas: {
                 // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
                 // ...{
-                  prices: {
-                    principal: {
-                      screenName: `prices`,
-                      tableName: `preciador`,
-                      itemId: `id_preciador`,
-                      columnId: `id_preciador`,
-                    },
-                    extra_info: {
-                      fullDataProducts: tempDataScreen.toString(),
-                      newIdealPortfolio: tempDataScreenIdeal.toString(),
-                      auditorias_id: {
-                        ...(objUserInfo.auditorias_id
-                          ? objUserInfo.auditorias_id
-                          : {}),
-                        ...{
-                          id_preciador: idPreciador,
-                        },
-                      },
-                      // pantallas: {
-                      //   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                      //   prices: null,
-                      // },
-                    },
+                prices: {
+                  principal: {
+                    screenName: `prices`,
+                    tableName: `preciador`,
+                    itemId: `id_preciador`,
+                    columnId: `id_preciador`,
                   },
+                  extra_info: {
+                    fullDataProducts: tempDataScreen.toString(),
+                    newIdealPortfolio: tempDataScreenIdeal.toString(),
+                    auditorias_id: {
+                      ...(objUserInfo.auditorias_id
+                        ? objUserInfo.auditorias_id
+                        : {}),
+                      ...{
+                        id_preciador: idPreciador,
+                      },
+                    },
+                    // pantallas: {
+                    //   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                    //   prices: null,
+                    // },
+                  },
+                },
                 // },
               },
             }
@@ -508,7 +524,12 @@ export const Prices = ({ navigation, route }) => {
   };
 
   const onlyNavigation = () => {
-    HandleNavigationOfVariables()
+    handleCurrentScreenPos()
+    handleCheckCanSaveAllDataLocal(() => {
+      handleSaveAudit(userInfo, navigation)
+    }, () => {
+      HandleNavigationOfVariables()
+    })
   };
   const handleDeleteRegisterLocal = async () => {
     setHadSavePreciador(false);
@@ -583,8 +604,8 @@ export const Prices = ({ navigation, route }) => {
                 isUserScreen={true}
                 errorPrice={errorPrice}
                 setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
               />
             )}
             {!infoScreen && (
@@ -595,8 +616,8 @@ export const Prices = ({ navigation, route }) => {
                 isUserScreen={false}
                 errorPrice={errorPrice}
                 setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
               />
             )}
           </View>
@@ -621,8 +642,8 @@ export const Prices = ({ navigation, route }) => {
                 isUserScreen={true}
                 errorPrice={errorPrice}
                 setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
               />
             )}
             {!infoScreen && (
@@ -633,8 +654,8 @@ export const Prices = ({ navigation, route }) => {
                 isUserScreen={false}
                 errorPrice={errorPrice}
                 setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
               />
             )}
           </View>
@@ -651,7 +672,7 @@ export const Prices = ({ navigation, route }) => {
               iconRigth={"content-save-all-outline"}
               typeRigth={"material-community"}
               colorRigth={theme.colors.modernaRed}
-              onPressRigth={hadSavePreciador ? onlyNavigation : validateArrays}
+              onPressRigth={hadSavePreciador ? onlyNavigation : initValidateArrays}
               // showButton1={false}
               // showButton2={showButton2}
               //titleRigthSecond={"Siguiente"}
@@ -665,15 +686,15 @@ export const Prices = ({ navigation, route }) => {
               //cambios del merge
               disableAction={!validateData()}
               showButton1={true}
-              // showButton2={showButton2}
-              // titleRigthSecond={"Siguiente"}
-              // sizeRigthSecond={theme.buttonSize.df}
-              // colorRigthSecond={theme.colors.modernaRed}
-              // onPressRigthSecond={() => navigation.navigate("rack")}
-              // showButton1Second={showButton1}
-              // showButton2Second={showButton2}
-              // iconRigthSecond={"arrow-right-circle"}
-              // typeRigthSecond={"feather"}
+            // showButton2={showButton2}
+            // titleRigthSecond={"Siguiente"}
+            // sizeRigthSecond={theme.buttonSize.df}
+            // colorRigthSecond={theme.colors.modernaRed}
+            // onPressRigthSecond={() => navigation.navigate("rack")}
+            // showButton1Second={showButton1}
+            // showButton2Second={showButton2}
+            // iconRigthSecond={"arrow-right-circle"}
+            // typeRigthSecond={"feather"}
             />
           </View>
         </View>

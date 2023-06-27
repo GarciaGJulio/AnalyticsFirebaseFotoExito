@@ -9,6 +9,7 @@ import theme from "../theme/theme";
 import Briefcase_branch_review from "../screens/review/Briefcase_branch_review";
 import Promos_Review from "../screens/review/Promos_Review";
 import { DataContext } from "../context/DataProvider";
+import { WithOutData } from "../screens/review/WithoutData";
 
 const TabArr = [
   {
@@ -41,6 +42,14 @@ const TabArr = [
     type: "material-icons",
     icon: "local-offer",
     component: Promos_Review,
+    color: theme.colors.modernaGreen,
+  },
+  {
+    route: "Promociones",
+    label: "Promociones",
+    type: "material-icons",
+    icon: "local-offer",
+    component: WithOutData,
     color: theme.colors.modernaGreen,
   },
 ];
@@ -223,7 +232,24 @@ export const TabsNavigation = ({ route }) => {
             }
             break;
           default:
-            return null;
+            return (
+              <Tab.Screen
+                key={index}
+                name={item.route}
+                component={WithOutData}
+                options={{
+                  tabBarShowLabel: false,
+                  tabBarButton: (props) => (
+                    <TabButton
+                      {...props}
+                      item={item}
+                      //param={branch}
+                    />
+                  ),
+                }}
+              />
+            );
+
         }
       })}
     </Tab.Navigator>
