@@ -13,6 +13,8 @@ export const StyledButton = ({
   size,
   disabled,
   newstyle,
+  icon,
+  iconLetter,
   ...restOfProps
 }) => {
   const [fontLoaded] = useFonts({
@@ -47,42 +49,56 @@ export const StyledButton = ({
           // paddingHorizontal:20
           // height: size * 3 / 10,
           flex: 1,
-          paddingLeft: "5%",
-           paddingRight:title === "Sincronizar Datos"?"0%":"3%"
+          // paddingLeft: "5%",
+          // paddingRight: title === "Sincronizar Datos" ? "0%" : "3%",
           //backgroundColor:'blue'
         }}
       >
+        {icon ? (
+          <View
+            style={
+              iconLetter
+                ? styles.centerIL
+                : // backgroundColor: "blue",
+                  // flex: 0.3,
+                  styles.normalB
+            }
+          >
+            {iconName && iconType ? (
+              <Icon
+                name={iconName}
+                type={iconType}
+                color={"white"}
+                style={{
+                  //flex: 0.3,
+                  marginHorizontal: 1,
+                  //backgroundColor: "green"
+                }}
+              />
+            ) : (
+              <></>
+            )}
+          </View>
+        ) : (
+          <></>
+        )}
+
         <View
           style={
-            {
-              // backgroundColor: "blue",
-              // flex: 0.3,
-            }
+            newstyle
+              ? styles.butonCentrado
+              : iconLetter
+              ? styles.centerLetterIl
+              : styles.butonormal
           }
         >
-          {iconName && iconType ? (
-            <Icon
-              name={iconName}
-              type={iconType}
-              color={"white"}
-              style={{
-                //flex: 0.3,
-                marginHorizontal: 1,
-                //backgroundColor: "green"
-              }}
-            />
-          ) : (
-            <></>
-          )}
-        </View>
-        <View style={newstyle ? styles.butonCentrado : styles.butonormal}>
           <Text
             style={{
               //flex: 1,
               color: "white",
               //backgroundColor: "blue",
               fontSize: title === "Sincronizar Datos" ? 15 : 16,
-              // textAlign:'center',
+              textAlign: "left",
               //left: 5,
               fontFamily: "Metropolis",
               fontWeight: "600",
@@ -118,26 +134,33 @@ const styles = StyleSheet.create({
     elevation: 6,
     //padding: 5,
   },
-  // buttonText: {
-  //   //flex: 1,
-  //   color: "white",
-  //   //backgroundColor: "blue",
-  //   fontSize: title === "Sincronizar Datos" ? 15 : 16,
-  //   // textAlign:'center',
-  //   //left: 5,
-  //   fontFamily: "Metropolis",
-  //   fontWeight: "600",
-  //   // paddingRight: 1
-  // },
 
+  normalB: {
+    flex: 0.5,
+  },
+
+  centerIL: {
+    // backgroundColor: "black",
+    flex: 1,
+    // justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+
+  centerLetterIl: {
+    alignItems: "flex-start",
+    flex: 1.5,
+    // backgroundColor: "gray",
+  },
   butonCentrado: {
-    // backgroundColor:'green',
+    // backgroundColor: "green",
     alignItems: "center",
     flex: 1,
+    // width: "100%",
   },
   butonormal: {
-    flex: 1.5,
-    // backgroundColor:'green',
+    flex: 1,
+    // backgroundColor: "green",
+    // textAlign: "center",
     // flex:2
   },
 });

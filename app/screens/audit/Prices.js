@@ -207,7 +207,7 @@ export const Prices = ({ navigation, route }) => {
     let checkvariables = true;
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Perchas");
-      checkvariables=response
+      checkvariables = response
       //console.log("VARIABLE DE PERCHAS EXISTE:",response)
       if (checkvariables === true) {
         navigation.navigate("rack");
@@ -217,11 +217,12 @@ export const Prices = ({ navigation, route }) => {
     };
     checkForVariable();
     handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(()=>{
-      
-    },()=>{
+    handleCheckCanSaveAllDataLocal(() => {
 
-    })  };
+    }, () => {
+
+    })
+  };
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
@@ -566,23 +567,39 @@ export const Prices = ({ navigation, route }) => {
         style={{
           height: 180,
           width: "100%",
-          marginTop: 50,
+          marginTop: '8%',
           alignContent: "space-around",
         }}
       >
-        <ProgressBar currentStep={currentScreenPos} />
+        <ClientInformation />
+        <View style={{
+          marginVertical: '5%',
+          alignContent: "space-around",
+        }}>
+          <ProgressBar currentStep={currentScreenPos} />
+        </View>
+        <View>
 
-        <ScreenInformation
-          title={"Preciador"}
-          text={
-            "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
-          }
-        />
+        </View>
+        <View  style={{
+          marginVertical:'0%',
+          height: '55%',
+          marginHorizontal:'5%'
+        }}>
+          <ScreenInformation
+            title={"Preciador"}
+            text={
+              "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
+            }
+          />
+
+        </View>
+
       </View>
       <View style={styles.contentContainer}>
         <View
           style={{
-            height:activo2=== true && activo ==true ? "50%" : activo2=== true && activo ==false ? "10%":  activo2=== false && activo ==true? "90%":"10%",
+            height: activo2 === true && activo == true ? "50%" : activo2 === true && activo == false ? "10%" : activo2 === false && activo == true ? "90%" : "10%",
             width: "100%",
             // backgroundColor:"blue",
 
@@ -612,8 +629,8 @@ export const Prices = ({ navigation, route }) => {
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo}
 
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
@@ -634,7 +651,7 @@ export const Prices = ({ navigation, route }) => {
             width: "100%",
             alignItems: "center",
             // backgroundColor:"red",
-            height:activo2=== true && activo ==true ? "50%" : activo2=== true && activo ==false ? "100%":  activo2===false  && activo ==true? "10%":"10%"
+            height: activo2 === true && activo == true ? "50%" : activo2 === true && activo == false ? "100%" : activo2 === false && activo == true ? "10%" : "10%"
           }}
         >
           {infoScreen && (
@@ -646,8 +663,8 @@ export const Prices = ({ navigation, route }) => {
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo2}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
           {!infoScreen && (
@@ -659,8 +676,8 @@ export const Prices = ({ navigation, route }) => {
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo2}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
@@ -693,15 +710,15 @@ export const Prices = ({ navigation, route }) => {
           //cambios del merge
           disableAction={!validateData()}
           showButton1={true}
-          // showButton2={showButton2}
-          // titleRigthSecond={"Siguiente"}
-          // sizeRigthSecond={theme.buttonSize.df}
-          // colorRigthSecond={theme.colors.modernaRed}
-          // onPressRigthSecond={() => navigation.navigate("rack")}
-          // showButton1Second={showButton1}
-          // showButton2Second={showButton2}
-          // iconRigthSecond={"arrow-right-circle"}
-          // typeRigthSecond={"feather"}
+        // showButton2={showButton2}
+        // titleRigthSecond={"Siguiente"}
+        // sizeRigthSecond={theme.buttonSize.df}
+        // colorRigthSecond={theme.colors.modernaRed}
+        // onPressRigthSecond={() => navigation.navigate("rack")}
+        // showButton1Second={showButton1}
+        // showButton2Second={showButton2}
+        // iconRigthSecond={"arrow-right-circle"}
+        // typeRigthSecond={"feather"}
         />
       </View>
     </View>
@@ -731,11 +748,11 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 30,
     width: theme.dimensions.maxWidth,
-//  backgroundColor:"red"
+    //  backgroundColor:"red"
   },
   botonesContainer: {
-   flex:3,
-   width:"100%",
-  margin:5
+    flex: 3,
+    width: "100%",
+    margin: 5
   },
 });
