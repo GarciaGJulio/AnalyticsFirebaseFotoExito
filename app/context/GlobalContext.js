@@ -19,7 +19,7 @@ export const GlobalProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalText, setModalText] = useState("Texto del modal");
   const [modalTitle, setModalTitle] = useState("Título del modal");
-  const [currentScreenPos, setCurrentScreenPos] = useState(0)
+  const [currentScreenPos, setCurrentScreenPos] = useState(1)
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
     useState([]);*/
@@ -32,13 +32,20 @@ export const GlobalProvider = ({ children }) => {
     initVariablesLocalStorage()
   }, []);
   const initVariablesLocalStorage = async (isPersistencia) => {
-    console.log("isPersistencia",isPersistencia)
+    console.log("isPersistencia", isPersistencia)
     const currentPos = await AsyncStorage.getItem('currentScreenPos');
+    const currentPosPer = await AsyncStorage.getItem('currentScreenPosPer');
+
     if (!currentPos) {
       await AsyncStorage.setItem('currentScreenPos', "1");
+      await AsyncStorage.setItem('currentScreenPosPer', "1");
     } else {
       if (isPersistencia) {
-        setCurrentScreenPos(parseInt((currentPos - 1) >= 0 ? currentPos - 1 : 0))
+        setCurrentScreenPos(parseInt(currentPosPer))
+        console.log("(currentPos - 1)*********", currentPos)
+        console.log("(currentPosPer - 1)*********", currentPosPer)
+
+        AsyncStorage.setItem('currentScreenPos', `${currentPosPer}`);
       } else {
         setCurrentScreenPos(parseInt(currentPos))
 
@@ -122,33 +129,39 @@ export const GlobalProvider = ({ children }) => {
     clearWorkFlow();
   };
 
-  const handleCheckCanSaveAllDataLocal = useCallback(async (values) => {
+  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish,onContinue) => {
     try {
       const totalVariables = await CountClientVariable()
       const posScreen = await AsyncStorage.getItem('currentScreenPos')
-      if (posScreen >= totalVariables) {
-        console.log("*********************ya est+a al final de la pantalla*/*****************")
+      if (posScreen > totalVariables) {
+        onFinish()
+        //console.log("*********************ya est+a al final de la pantalla*/*****************")
       } else {
-        console.log("*********************aun no está al final de la pantalla*/*****************")
+        onContinue()
+        //console.log("*********************aun no está al final de la pantalla*/*****************")
       }
-      console.log("totalVariables", totalVariables)
-      console.log("posScreen", posScreen)
+     // console.log("totalVariables", totalVariables)
+     // console.log("posScreen", posScreen)
     } catch (e) {
-
       console.error(e)
     }
-
-
   }, [])
-  const handleCurrentScreenPos = useCallback(async (pos) => {
+  const handleCurrentScreenPos = useCallback(async (pos, screenPos) => {
     const posScreen = await AsyncStorage.getItem('currentScreenPos')
     if (!posScreen) {
       await AsyncStorage.setItem('currentScreenPos', "1")
+      await AsyncStorage.setItem('currentScreenPosPer', "1")
+
+    } else if (screenPos) {
+      await AsyncStorage.setItem('currentScreenPos', `${screenPos}`)
+      await AsyncStorage.setItem('currentScreenPosPer', `${(screenPos - 1) > 0 ? (screenPos - 1) : 1}`)
     } else {
-      await AsyncStorage.setItem('currentScreenPos', `${parseInt(posScreen) + pos ? pos : 1}`)
+      await AsyncStorage.setItem('currentScreenPos', `${parseInt(posScreen) + (pos ? pos : 1)}`)
+      await AsyncStorage.setItem('currentScreenPosPer', `${posScreen}`)
+
     }
     initVariablesLocalStorage()
-
+    return
   }, [])
   return (
     <GlobalContext.Provider
@@ -179,7 +192,8 @@ export const GlobalProvider = ({ children }) => {
         CountClientVariable,
         handleCheckCanSaveAllDataLocal,
         currentScreenPos,
-        handleCurrentScreenPos
+        handleCurrentScreenPos,
+        initVariablesLocalStorage
       }}
     >
       <ModernaModal

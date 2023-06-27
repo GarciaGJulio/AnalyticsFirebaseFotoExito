@@ -23,6 +23,7 @@ import { MultiSelectListV2 } from "../../components/MultiSelectListV2";
 import { Divider } from "@rneui/base";
 import SAVE_ANIMATION from "../../../assets/save.json";
 import DoubleDualStyledButton from "../../components/DoubleDualStyledButton";
+import { ClientInformation } from "../../components/ClientInformation";
 import {
   deleteRegisterAudit,
   getCurrentScreenInformation,
@@ -78,6 +79,7 @@ export const Briefcase = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
+    handleCurrentScreenPos(null, 1);
   }, []);
 
   useEffect(() => {
@@ -265,7 +267,10 @@ export const Briefcase = ({ navigation }) => {
     };
     checkForVariable();
     handleCurrentScreenPos();
-    handleCheckCanSaveAllDataLocal();
+    handleCheckCanSaveAllDataLocal(
+      () => {},
+      () => {}
+    );
   };
 
   const HandleASpecialNavigationOfVariables = () => {
@@ -283,7 +288,10 @@ export const Briefcase = ({ navigation }) => {
     };
     checkForVariable();
     handleCurrentScreenPos();
-    handleCheckCanSaveAllDataLocal();
+    handleCheckCanSaveAllDataLocal(
+      () => {},
+      () => {}
+    );
   };
 
   const consultarYCopiarContenido = async () => {
@@ -795,6 +803,7 @@ export const Briefcase = ({ navigation }) => {
       />
       {hasVariable ? (
         <View style={styles.contentContainer}>
+          <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 2 }}>
             <ScreenInformation
@@ -895,7 +904,8 @@ export const Briefcase = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.contentContainer}>
-          {/* <ProgressBar currentStep={currentScreenPos} /> */}
+          <ClientInformation />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 2 }}>
             <ScreenInformation
               title={"Portafolio"}
