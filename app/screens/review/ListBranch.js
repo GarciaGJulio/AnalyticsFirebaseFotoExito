@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     height: 50,
-    width: 320,
+    width: 330,
     fontFamily: "Metropolis",
     borderColor: "gray",
     borderWidth: 1,
