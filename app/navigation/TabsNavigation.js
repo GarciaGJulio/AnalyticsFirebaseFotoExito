@@ -45,8 +45,8 @@ const TabArr = [
     color: theme.colors.modernaGreen,
   },
   {
-    route: "Promociones",
-    label: "Promociones",
+    route: "Sin Variables",
+    label: "Sin Variables",
     type: "material-icons",
     icon: "local-offer",
     component: WithOutData,
@@ -249,7 +249,6 @@ export const TabsNavigation = ({ route }) => {
                 }}
               />
             );
-
         }
       })}
     </Tab.Navigator>
