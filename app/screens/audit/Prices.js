@@ -74,6 +74,9 @@ export const Prices = ({ navigation, route }) => {
   const [showButton2, setShowButton2] = useState(false);
   const [infoScreen, setInfoScreen] = useState(null);
   const [hasVariable, setHasVariable] = useState(false);
+  const [activo, setActivo] = useState(true);
+  const [activo2, setActivo2] = useState(true);
+
   const isFocused = useIsFocused();
   const {
     hadSavePreciador,
@@ -82,7 +85,7 @@ export const Prices = ({ navigation, route }) => {
     handleClearWorkFlow,
     currentScreenPos,
     handleCurrentScreenPos,
-    handleCheckCanSaveAllDataLocal
+    handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -201,7 +204,7 @@ export const Prices = ({ navigation, route }) => {
   }, []);
 
   const HandleNavigationOfVariables = () => {
-    let checkvariables=true
+    let checkvariables = true;
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Perchas");
       checkvariables=response
@@ -401,7 +404,7 @@ export const Prices = ({ navigation, route }) => {
               //setShowButton1(false);
               //setShowButton2(true);
               setIsModalVisible(false);
-              HandleNavigationOfVariables()
+              HandleNavigationOfVariables();
               setHadSavePreciador(true);
               setShowButton1(false);
               setShowButton2(true);
@@ -468,30 +471,30 @@ export const Prices = ({ navigation, route }) => {
               pantallas: {
                 // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
                 // ...{
-                  prices: {
-                    principal: {
-                      screenName: `prices`,
-                      tableName: `preciador`,
-                      itemId: `id_preciador`,
-                      columnId: `id_preciador`,
-                    },
-                    extra_info: {
-                      fullDataProducts: tempDataScreen.toString(),
-                      newIdealPortfolio: tempDataScreenIdeal.toString(),
-                      auditorias_id: {
-                        ...(objUserInfo.auditorias_id
-                          ? objUserInfo.auditorias_id
-                          : {}),
-                        ...{
-                          id_preciador: idPreciador,
-                        },
-                      },
-                      // pantallas: {
-                      //   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                      //   prices: null,
-                      // },
-                    },
+                prices: {
+                  principal: {
+                    screenName: `prices`,
+                    tableName: `preciador`,
+                    itemId: `id_preciador`,
+                    columnId: `id_preciador`,
                   },
+                  extra_info: {
+                    fullDataProducts: tempDataScreen.toString(),
+                    newIdealPortfolio: tempDataScreenIdeal.toString(),
+                    auditorias_id: {
+                      ...(objUserInfo.auditorias_id
+                        ? objUserInfo.auditorias_id
+                        : {}),
+                      ...{
+                        id_preciador: idPreciador,
+                      },
+                    },
+                    // pantallas: {
+                    //   ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+                    //   prices: null,
+                    // },
+                  },
+                },
                 // },
               },
             }
@@ -509,7 +512,7 @@ export const Prices = ({ navigation, route }) => {
   };
 
   const onlyNavigation = () => {
-    HandleNavigationOfVariables()
+    HandleNavigationOfVariables();
   };
   const handleDeleteRegisterLocal = async () => {
     setHadSavePreciador(false);
@@ -540,11 +543,7 @@ export const Prices = ({ navigation, route }) => {
     //})
   };
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={""}
-      keyboardVerticalOffset={headerHeight}
-    >
+    <View style={styles.container}>
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalVisible}
@@ -563,154 +562,149 @@ export const Prices = ({ navigation, route }) => {
       <View style={styles.headerContainer}>
         <ModernaHeader />
       </View>
-      {hasVariable ? (
-        <View style={styles.contentContainer}>
-          <ClientInformation/>
-          <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ flex: 1.8 }}>
-            <ScreenInformation
-              title={"Preciador"}
-              text={
-                "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
-              }
-            />
-          </View>
+      <View
+        style={{
+          height: 180,
+          width: "100%",
+          marginTop: 50,
+          alignContent: "space-around",
+        }}
+      >
+        <ProgressBar currentStep={currentScreenPos} />
 
-          <View style={{ height: 254, width: "100%", alignItems: "center" }}>
-            {infoScreen && (
-              <FlashListPrices
-                title={"Portafolio Ideal"}
-                products={newIdealPortfolio}
-                setProducts={setNewIdealPortfolio}
-                isUserScreen={true}
-                errorPrice={errorPrice}
-                setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
-              />
-            )}
-            {!infoScreen && (
-              <FlashListPrices
-                title={"Portafolio Ideal"}
-                products={newIdealPortfolio}
-                setProducts={setNewIdealPortfolio}
-                isUserScreen={false}
-                errorPrice={errorPrice}
-                setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
-              />
-            )}
-          </View>
-          <View
-            style={{
-              width: theme.dimensions.maxWidth / 1.1,
-              marginVertical: 5,
-            }}
-          >
-            <Divider
-              width={2}
-              color={"#D9D9D9"}
-              style={{ backgroundColor: "blue" }}
-            />
-          </View>
-          <View style={{ flex: 2, width: "100%", alignItems: "center" }}>
-            {infoScreen && (
-              <FlashListPrices
-                title={"Portafolio Complementario"}
-                products={newComplementaryPortfolio}
-                setProducts={setNewComplementaryPortfolio}
-                isUserScreen={true}
-                errorPrice={errorPrice}
-                setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
-              />
-            )}
-            {!infoScreen && (
-              <FlashListPrices
-                title={"Portafolio Complementario"}
-                products={newComplementaryPortfolio}
-                setProducts={setNewComplementaryPortfolio}
-                isUserScreen={false}
-                errorPrice={errorPrice}
-                setErrorPrice={setErrorPrice}
-                //idPreciador={idPreciadorPortafolioComplementario}
-                //idPortafolio={idPortafolioComplementario}
-              />
-            )}
-          </View>
-          <View style={{ flex: 0.45, width: "100%" }}>
-            <DoubleDualStyledButton
-              titleLeft={"Cancelar"}
-              sizeLeft={theme.buttonSize.df}
-              colorLeft={theme.colors.modernaYellow}
-              iconLeft={"cancel"}
-              typeLeft={"material-icon"}
-              onPressLeft={() => setIsModalVisibleClose(true)}
-              titleRigth={"Guardar"}
-              sizeRigth={theme.buttonSize.df}
-              iconRigth={"content-save-all-outline"}
-              typeRigth={"material-community"}
-              colorRigth={theme.colors.modernaRed}
-              onPressRigth={hadSavePreciador ? onlyNavigation : validateArrays}
-              // showButton1={false}
-              // showButton2={showButton2}
-              //titleRigthSecond={"Siguiente"}
-              //sizeRigthSecond={theme.buttonSize.df}
-              //colorRigthSecond={theme.colors.modernaRed}
-              // onPressRigthSecond={() => navigation.navigate("rack")}
-              // showButton1Second={showButton1}
-              // showButton2Second={showButton2}
-              // iconRigthSecond={"arrow-right-circle"}
-              // typeRigthSecond={"feather"}
-              //cambios del merge
-              disableAction={!validateData()}
-              showButton1={true}
-              // showButton2={showButton2}
-              // titleRigthSecond={"Siguiente"}
-              // sizeRigthSecond={theme.buttonSize.df}
-              // colorRigthSecond={theme.colors.modernaRed}
-              // onPressRigthSecond={() => navigation.navigate("rack")}
-              // showButton1Second={showButton1}
-              // showButton2Second={showButton2}
-              // iconRigthSecond={"arrow-right-circle"}
-              // typeRigthSecond={"feather"}
-            />
-          </View>
-        </View>
-      ) : (
-        <View style={styles.contentContainer}>
-          <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ flex: 1.3 }}>
-            <ScreenInformation
-              title={"Preciador"}
-              text={`Preciador no está asignado a este cliente`}
-              clean
-            />
-          </View>
+        <ScreenInformation
+          title={"Preciador"}
+          text={
+            "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
+          }
+        />
+      </View>
+      <View style={styles.contentContainer}>
+        <View
+          style={{
+            height:activo2=== true && activo ==true ? "50%" : activo2=== true && activo ==false ? "10%":  activo2=== false && activo ==true? "90%":"10%",
+            width: "100%",
+            // backgroundColor:"blue",
 
-          <View style={{ flex: 6 }}></View>
-          <View style={{ flex: 0.7, width: "100%" }}>
-            <DoubleDualStyledButton
-              titleLeft={"Cancelar"}
-              sizeLeft={theme.buttonSize.df}
-              colorLeft={theme.colors.modernaYellow}
-              iconLeft={"cancel"}
-              typeLeft={"material-icon"}
-              onPressLeft={() => setIsModalVisibleClose(true)}
-              titleRigth={"Siguiente"}
-              sizeRigth={theme.buttonSize.df}
-              iconRigth={"content-save-all-outline"}
-              typeRigth={"material-community"}
-              colorRigth={theme.colors.modernaAqua}
-              onPressRigth={onlyNavigation}
-              showButton1={true}
+            alignItems: "center",
+          }}
+        >
+          {infoScreen && (
+            <FlashListPrices
+              title={"Portafolio Ideal"}
+              products={newIdealPortfolio}
+              setProducts={setNewIdealPortfolio}
+              isUserScreen={true}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
+              setActivoItem={setActivo}
             />
-          </View>
+          )}
+          {!infoScreen && (
+            <FlashListPrices
+              title={"Portafolio Ideal"}
+              products={newIdealPortfolio}
+              setProducts={setNewIdealPortfolio}
+              isUserScreen={false}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
+              setActivoItem={setActivo}
+
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
+            />
+          )}
         </View>
-      )}
-    </KeyboardAvoidingView>
+        <View
+          style={{
+            width: theme.dimensions.maxWidth / 1.1,
+            marginVertical: 5,
+          }}
+        >
+          <Divider
+            width={2}
+            color={"#D9D9D9"}
+            style={{ backgroundColor: "blue" }}
+          />
+        </View>
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            // backgroundColor:"red",
+            height:activo2=== true && activo ==true ? "50%" : activo2=== true && activo ==false ? "100%":  activo2===false  && activo ==true? "10%":"10%"
+          }}
+        >
+          {infoScreen && (
+            <FlashListPrices
+              title={"Portafolio Complementario"}
+              products={newComplementaryPortfolio}
+              setProducts={setNewComplementaryPortfolio}
+              isUserScreen={true}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
+              setActivoItem={setActivo2}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
+            />
+          )}
+          {!infoScreen && (
+            <FlashListPrices
+              title={"Portafolio Complementario"}
+              products={newComplementaryPortfolio}
+              setProducts={setNewComplementaryPortfolio}
+              isUserScreen={false}
+              errorPrice={errorPrice}
+              setErrorPrice={setErrorPrice}
+              setActivoItem={setActivo2}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
+            />
+          )}
+        </View>
+      </View>
+
+      <View style={styles.botonesContainer}>
+        <DoubleDualStyledButton
+          titleLeft={"Cancelar"}
+          sizeLeft={theme.buttonSize.df}
+          colorLeft={theme.colors.modernaYellow}
+          iconLeft={"cancel"}
+          typeLeft={"material-icon"}
+          onPressLeft={() => setIsModalVisibleClose(true)}
+          titleRigth={"Guardar"}
+          sizeRigth={theme.buttonSize.df}
+          iconRigth={"content-save-all-outline"}
+          typeRigth={"material-community"}
+          colorRigth={theme.colors.modernaRed}
+          onPressRigth={hadSavePreciador ? onlyNavigation : validateArrays}
+          // showButton1={false}
+          // showButton2={showButton2}
+          //titleRigthSecond={"Siguiente"}
+          //sizeRigthSecond={theme.buttonSize.df}
+          //colorRigthSecond={theme.colors.modernaRed}
+          // onPressRigthSecond={() => navigation.navigate("rack")}
+          // showButton1Second={showButton1}
+          // showButton2Second={showButton2}
+          // iconRigthSecond={"arrow-right-circle"}
+          // typeRigthSecond={"feather"}
+          //cambios del merge
+          disableAction={!validateData()}
+          showButton1={true}
+          // showButton2={showButton2}
+          // titleRigthSecond={"Siguiente"}
+          // sizeRigthSecond={theme.buttonSize.df}
+          // colorRigthSecond={theme.colors.modernaRed}
+          // onPressRigthSecond={() => navigation.navigate("rack")}
+          // showButton1Second={showButton1}
+          // showButton2Second={showButton2}
+          // iconRigthSecond={"arrow-right-circle"}
+          // typeRigthSecond={"feather"}
+        />
+      </View>
+    </View>
   );
 };
 
@@ -732,13 +726,16 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     width: "100%",
-    //backgroundColor: "blue",
+    backgroundColor: "blue",
   },
   contentContainer: {
-    flex: 14,
+    flex: 30,
     width: theme.dimensions.maxWidth,
-    backgroundColor: "white",
-    alignItems: "center",
-    paddingVertical: 5,
+//  backgroundColor:"red"
+  },
+  botonesContainer: {
+   flex:3,
+   width:"100%",
+  margin:5
   },
 });
