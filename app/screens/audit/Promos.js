@@ -224,8 +224,11 @@ export const Promos = ({ navigation }) => {
 
   const handleOpenModalFinishWithoutBranch = async () => {
     handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
-    
+    handleCheckCanSaveAllDataLocal(()=>{
+      
+    },()=>{
+
+    })
     setAnimation(SAVE_ANIMATION);
     setIsModalVisibleCloseSucursal(false);
     setIsModalVisible(true);
@@ -382,7 +385,11 @@ export const Promos = ({ navigation }) => {
   const validate = async () => {
     //console.log("VALIDACION DE DATOS DE PROMOCIONES 2: ", promos);
     handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
+    handleCheckCanSaveAllDataLocal(()=>{
+      
+    },()=>{
+
+    })
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
       setShowModal(!showModal);
@@ -514,7 +521,6 @@ export const Promos = ({ navigation }) => {
 
     // newComplementaryPortfolio.map((productos) => {
 
-
     deleteRegisterAudit({
       tableName: "percha",
       objectId: "id_percha",
@@ -546,102 +552,74 @@ export const Promos = ({ navigation }) => {
           "Al presionar 'Aceptar', el flujo de auditoría terminará ¿Desea confirmar este proceso?"
         }
       />
-      {hasVariable ? (
-        <View>
-          <View style={{ flex: 1, width: "100%" }}>
-            <ModernaHeader />
-          </View>
-          <View style={styles.contentContainer}>
-            <ProgressBar currentStep={currentScreenPos} />
-            <View style={{ flex: 1 }}>
-              <ScreenInformation
-                title={"Promociones"}
-                text={"Selecciona la sucursal que aplica promociones"}
-              />
-            </View>
 
-            <View style={{ flex: 1.5, marginTop: 10 }}>
-              <DropdownPromos
-                nameTitle={"Sucursal"}
-                placeholder={"Seleccione una sucursal"}
-                setSelected={setSelected}
-                data={branch}
-              />
-            </View>
-
-            <View style={styles.promosContent}>
-              {exhibidorSucursal.length > 0 ? (
-                <FlashListPromos data={exhibidorSucursal} setData={setPromos} />
-              ) : (
-                <Text
-                  style={{
-                    padding: 20,
-                    textAlign: "justify",
-                    fontFamily: "Metropolis",
-                  }}
-                >
-                  Escoge una sucursal para revisar los exhibidores que aplican
-                  promoción
-                </Text>
-              )}
-            </View>
-          </View>
-          <DoubleDualStyledButton
-            titleLeft={"Cancelar"}
-            sizeLeft={theme.buttonSize.df}
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => setIsModalVisibleClose(true)}
-            titleRigth={"Guardar"}
-            sizeRigth={theme.buttonSize.df}
-            iconRigth={"content-save-all-outline"}
-            typeRigth={"material-community"}
-            colorRigth={theme.colors.modernaRed}
-            disableAction={!validateData()}
-            onPressRigth={validate}
-            showButton1={true}
-            //showButton2={showButton2}
-            //titleRigthSecond={"Siguiente"}
-            //sizeRigthSecond={theme.buttonSize.df}
-            //colorRigthSecond={theme.colors.modernaRed}
-            //onPressRigthSecond={() => navigation.navigate("begin")}
-            //showButton1Second={showButton1}
-            //showButton2Second={showButton2}
-            //iconRigthSecond={"content-save-all-outline"}
-            //typeRigthSecond={"material-community"}
-          />
+      <View>
+        <View style={{ flex: 1, width: "100%" }}>
+          <ModernaHeader />
         </View>
-      ) : (
-        <View>
-          <View style={styles.contentContainer}>
-            <ProgressBar currentStep={currentScreenPos} />
-            <View style={{ flex: 1 }}>
-              <ScreenInformation
-                title={"Promociones"}
-                text={`Promociones no está asignado a este cliente`}
-              />
-            </View>
-
-            <View style={{ flex: 1, marginTop: 10 }}></View>
+        <View style={styles.contentContainer}>
+          <ProgressBar currentStep={currentScreenPos?currentScreenPos:"3"} />
+          <View style={{ flex: 1 }}>
+            <ScreenInformation
+              title={"Promociones"}
+              text={"Selecciona la sucursal que aplica promociones"}
+            />
           </View>
-          <DoubleDualStyledButton
-            titleLeft={"Cancelar"}
-            sizeLeft={theme.buttonSize.df}
-            colorLeft={theme.colors.modernaYellow}
-            iconLeft={"cancel"}
-            typeLeft={"material-icon"}
-            onPressLeft={() => setIsModalVisibleClose(true)}
-            titleRigth={"Continuar"}
-            sizeRigth={theme.buttonSize.df}
-            iconRigth={"content-save-all-outline"}
-            typeRigth={"material-community"}
-            colorRigth={theme.colors.modernaRed}
-            onPressRigth={validate}
-            showButton1={true}
-          />
+
+          <View style={{ flex: 1.5, marginTop: 10 }}>
+            <DropdownPromos
+              nameTitle={"Sucursal"}
+              placeholder={"Seleccione una sucursal"}
+              setSelected={setSelected}
+              data={branch}
+            />
+          </View>
+
+          <View style={styles.promosContent}>
+            {exhibidorSucursal.length > 0 ? (
+              <FlashListPromos data={exhibidorSucursal} setData={setPromos} />
+            ) : (
+              <Text
+                style={{
+                  padding: 20,
+                  textAlign: "justify",
+                  fontFamily: "Metropolis",
+                }}
+              >
+                Escoge una sucursal para revisar los exhibidores que aplican
+                promoción
+              </Text>
+            )}
+          </View>
         </View>
-      )}
+        <DoubleDualStyledButton
+          titleLeft={"Cancelar"}
+          sizeLeft={theme.buttonSize.df}
+          colorLeft={theme.colors.modernaYellow}
+          iconLeft={"cancel"}
+          typeLeft={"material-icon"}
+          onPressLeft={() => setIsModalVisibleClose(true)}
+          titleRigth={"Guardar"}
+          sizeRigth={theme.buttonSize.df}
+          iconRigth={"content-save-all-outline"}
+          typeRigth={"material-community"}
+          colorRigth={theme.colors.modernaRed}
+          disableAction={!validateData()}
+          onPressRigth={validate}
+          showButton1={true}
+        //showButton2={showButton2}
+        //titleRigthSecond={"Siguiente"}
+        //sizeRigthSecond={theme.buttonSize.df}
+        //colorRigthSecond={theme.colors.modernaRed}
+        //onPressRigthSecond={() => navigation.navigate("begin")}
+        //showButton1Second={showButton1}
+        //showButton2Second={showButton2}
+        //iconRigthSecond={"content-save-all-outline"}
+        //typeRigthSecond={"material-community"}
+        />
+      </View>
+
+
     </View>
   );
 };

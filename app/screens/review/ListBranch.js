@@ -40,6 +40,20 @@ export const ListBranch = ({ navigation }) => {
       const resultadoConsulta = await realizarConsulta(
         `SELECT * FROM auditoria where usuario_creacion='${userInfo.mail}'`
       );
+
+      resultadoConsulta.sort((a, b) => {
+        const fechaA = new Date(a.fecha_creacion);
+        const fechaB = new Date(b.fecha_creacion);
+
+        if (fechaA > fechaB) {
+          return -1;
+        }
+        if (fechaA < fechaB) {
+          return 1;
+        }
+        return 0;
+      });
+
       // //console.log(
       //   "PETICION ACTUAL - - -- - ",
       //   `SELECT * FROM auditoria where usuario_creacion='${userInfo.mail}'`
@@ -219,7 +233,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     height: 50,
-    width: 320,
+    width: 330,
     fontFamily: "Metropolis",
     borderColor: "gray",
     borderWidth: 1,

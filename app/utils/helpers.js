@@ -67,7 +67,7 @@ export const validatePriceProduct = (price, fn) => {
   } else if (!priceRegex.test(price)) {
     //console.log("Formato de precio inválido");
     fn(
-      "mato de precio no es válido. Utilice un formato como 9.29 o 1.00"
+      "Complete los decimales"
     );
   } else {
     //console.log("Precio válido");

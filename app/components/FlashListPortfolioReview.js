@@ -118,7 +118,7 @@ export const FlashListPortfolioReview = ({
           }}
         >
           <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
-            En esta auditoría no se seleccionó ningún producto del portafolio.
+            En esta auditoría no se seleccionó ningún producto del portafolio complementario.
           </Text>
         </View>
       ) : (

@@ -266,7 +266,11 @@ export const Briefcase = ({ navigation }) => {
     };
     checkForVariable();
     handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
+    handleCheckCanSaveAllDataLocal(()=>{
+
+    },()=>{
+
+    })
   };
 
   const HandleASpecialNavigationOfVariables = () => {
@@ -284,7 +288,11 @@ export const Briefcase = ({ navigation }) => {
     };
     checkForVariable();
     handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal()
+    handleCheckCanSaveAllDataLocal(()=>{
+      
+    },()=>{
+
+    })
   };
 
 
