@@ -115,7 +115,7 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
           flexDirection: "row",
         }}
       >
-        <View style={{ flex: 0.9 }}>
+        <View style={{ flex: 1 }}>
           <Text
             style={{
               fontFamily: "Metropolis",
