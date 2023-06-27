@@ -10,7 +10,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import { validatePriceProduct } from "../utils/helpers";
 import { GlobalContext } from "../context/GlobalContext";
 import { CheckBoxContainerV2 } from "./CheckBoxContainerV2";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "@rneui/base";
 
