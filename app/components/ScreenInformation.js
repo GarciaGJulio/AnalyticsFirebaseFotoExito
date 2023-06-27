@@ -21,6 +21,7 @@ const ScreenInformation = ({ title, text }) => {
         alignItems: "center",
         //marginVertical: 20,
         marginBottom: 5,
+        marginTop:10
         //backgroundColor: "red",
         // height: theme.dimensions.maxHeight
       }}

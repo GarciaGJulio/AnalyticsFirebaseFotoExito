@@ -24,7 +24,7 @@ import TakeImage from "./TakeImage";
 import ConfirmationModal from "./ConfirmationModal";
 import Rack_View from "./Rack_View";
 import { RackCheckbox } from "./RackCheckbox";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const TarjPercha = ({
   isUserScreen,
