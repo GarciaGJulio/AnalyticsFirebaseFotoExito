@@ -36,7 +36,7 @@ const labels=['']
     <View style={{ width:'100%', height:'10%',  justifyContent:'center' }}>
       <StepIndicator
         stepCount={arrayPasos.length}
-        currentPosition={currentStep}
+        //currentPosition={currentStep}
         labels={arrayPasos}
         customStyles={{
           stepIndicatorSize: 30,
