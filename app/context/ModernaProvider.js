@@ -161,7 +161,7 @@ export const ModernaProvider = ({ children }) => {
                 // //console.log(
                 //   "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
                 // );
-                if (userDataBase[0].usuario_dispositivo == deviceMacAdress) {
+                if (userDataBase[0].usuario_dispositivo != deviceMacAdress) {
                   //console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
                   setIsAuthenticated(true);
                   fn(false);
