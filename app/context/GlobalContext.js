@@ -243,6 +243,16 @@ export const GlobalProvider = ({ children }) => {
       let idPortafolioAuditoria = await AsyncStorage.getItem(
         "id_portafolio_auditoria"
       );
+      try {
+        if (nombreCliente.includes("-")) {
+          nombreCliente = nombreCliente.split("-")
+          nombreCliente = nombreCliente[nombreCliente.length - 1]
+          nombreCliente = nombreCliente.trim()
+        }
+      } catch (e) {
+        nombreCliente = await AsyncStorage.getItem("nombre_cliente");
+      }
+      console.log("------------------------------------nombreCliente------------------------", nombreCliente)
       let dataSave = {
         tableName: "auditoria",
         dataInsertType: [
@@ -289,15 +299,15 @@ export const GlobalProvider = ({ children }) => {
         cleanCurrentScreenUser();
         handleCleanPosScreen();
         handleCleanStorage()
-        
 
-       
+
+
         if (isConnectionActivate) {
           try {
             setIsModalSaveVisible(true)
             await subidaBaseRemoteTodaAuditoria(
               idAuditoria,
-              ()=>{
+              () => {
                 setIsModalSaveVisible(false)
                 navigation.navigate("begin");
                 Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
@@ -305,7 +315,7 @@ export const GlobalProvider = ({ children }) => {
               setGlobalVariable,
               globalVariable
             );
-          
+
           } catch (e) {
             navigation.navigate("begin");
           }
