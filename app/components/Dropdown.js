@@ -42,19 +42,19 @@ export const Dropdown = ({
     try {
       setError("");
       [].length
-      console.log("*****************************************************************")
-      console.log("selected antes", selected)
+      //console.log("*****************************************************************")
+      //console.log("selected antes", selected)
       let nombreClienteTemp = selected.split("-");
       let nombre_cliente = nombreClienteTemp[nombreClienteTemp.length - 1];
-      console.log("nombre_cliente antes", nombre_cliente)
+      //console.log("nombre_cliente antes", nombre_cliente)
 
       nombre_cliente = nombre_cliente.trim();
 
-      console.log("nombreClienteTemp", nombreClienteTemp)
-      console.log("nombre_cliente des", nombre_cliente)
-      console.log("arrayClients arrayClients", arrayClients)
+      //console.log("nombreClienteTemp", nombreClienteTemp)
+      //console.log("nombre_cliente des", nombre_cliente)
+      //console.log("arrayClients arrayClients", arrayClients)
 
-      console.log("*****************************************************************")
+      //console.log("*****************************************************************")
 
       // //console.log(
       //   "----------------------*--------------SELECCIONADO SOLO: ",

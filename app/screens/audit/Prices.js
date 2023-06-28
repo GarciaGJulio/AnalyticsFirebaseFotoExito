@@ -387,10 +387,10 @@ export const Prices = ({ navigation, route }) => {
         );
         try {
           await AsyncStorage.setItem("id_preciador", idPreciador);
-          console.log(
-            "PRODUCTOS QUE VAN A SER GUARDADOS: ",
-            JSON.stringify(fullDataProducts)
-          );
+          // //console.log(
+          //   "PRODUCTOS QUE VAN A SER GUARDADOS: ",
+          //   JSON.stringify(fullDataProducts)
+          // );
           fullDataProducts.map((productos) => {
             const { id_portafolio, id, state, price, images } = productos;
             const { image1, image2, image3 } = images;
