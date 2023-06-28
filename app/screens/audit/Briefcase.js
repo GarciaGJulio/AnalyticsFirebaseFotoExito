@@ -257,6 +257,7 @@ export const Briefcase = ({ navigation }) => {
         checkvariables = response;
         console.log("VARIABLE DE PRECIO EXISTE:", response);
         if (checkvariables === true) {
+          setIsModalSaveVisible(false)
           navigation.navigate("prices", {
             currentStep,
             complementaryPortfolioProducts,
@@ -265,6 +266,7 @@ export const Briefcase = ({ navigation }) => {
           });
         } else {
           navigation.navigate("rack");
+          setIsModalSaveVisible(false)
           handleCurrentScreenPos();
         }
       };
