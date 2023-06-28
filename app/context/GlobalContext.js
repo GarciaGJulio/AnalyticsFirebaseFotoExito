@@ -6,10 +6,13 @@ import { PERSISTENCIA, VARIABLE } from "../common/table_columns";
 import { ModernaModal } from "../components/ModernaModal";
 import { generateUIDD, transfromrActualDateFormat } from "../common/utils";
 import { dataTime } from "../services/GenerateID";
+import SAVE_ANIMATION from "../../assets/save.json";
+
 import { db_insertGlobalDataAudit } from "../services/SqliteService";
 import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 import { cleanCurrentScreenUser } from "../utils/Utils";
 import { Alert } from "react-native";
+import LoaderModal from "../components/LoaderModal";
 
 export const GlobalContext = createContext();
 
@@ -26,6 +29,8 @@ export const GlobalProvider = ({ children }) => {
   const [modalText, setModalText] = useState("Texto del modal");
   const [modalTitle, setModalTitle] = useState("Título del modal");
   const [currentScreenPos, setCurrentScreenPos] = useState(0);
+  const [isModalSaveVisible, setIsModalSaveVisible] = useState(false);
+
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
     useState([]);*/
@@ -64,9 +69,9 @@ export const GlobalProvider = ({ children }) => {
     const index = variables.findIndex((variable) => {
       return (
         variable.id_grupo_cliente.toUpperCase() ===
-          id_grupo_cliente?.toString().toUpperCase() &&
+        id_grupo_cliente?.toString().toUpperCase() &&
         variable?.nombre_variable?.toUpperCase() ===
-          nombre_variable?.toUpperCase() &&
+        nombre_variable?.toUpperCase() &&
         variable?.estado_variable === 1
       );
     });
@@ -167,6 +172,9 @@ export const GlobalProvider = ({ children }) => {
           onFinish();
           cleanCurrentScreenUser();
           handleCleanPosScreen();
+          handleCleanStorage()
+          setIsModalSaveVisible(false)
+
           console.log("********ya est+a al final de la pantalla/*******");
         } else {
           onContinue();
@@ -206,6 +214,20 @@ export const GlobalProvider = ({ children }) => {
     initVariablesLocalStorage();
     return;
   }, []);
+
+  const handleCleanStorage = () => {
+    AsyncStorage.removeItem("idPromocion");
+    AsyncStorage.removeItem("id_preciador");
+    AsyncStorage.removeItem("id_percha");
+    AsyncStorage.removeItem("id_sucursal");
+    AsyncStorage.removeItem("id_cliente");
+    AsyncStorage.removeItem("nombre_cliente");
+    AsyncStorage.removeItem("nombre_sucursal");
+    AsyncStorage.removeItem("idGroupClient");
+    AsyncStorage.removeItem(
+      "id_portafolio_auditoria"
+    );
+  }
 
   const handleSaveAudit = async (userInfo, navigation) => {
     try {
@@ -264,12 +286,17 @@ export const GlobalProvider = ({ children }) => {
           "***********************************************************"
         );
         db_insertGlobalDataAudit(dataSave);
+        cleanCurrentScreenUser();
+        handleCleanPosScreen();
+        handleCleanStorage()
+        setIsModalSaveVisible(false)
+
         Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
         if (isConnectionActivate) {
           try {
             await subidaBaseRemoteTodaAuditoria(
               idAuditoria,
-              () => {},
+              () => { },
               setGlobalVariable,
               globalVariable
             );
@@ -318,6 +345,7 @@ export const GlobalProvider = ({ children }) => {
         currentScreenPos,
         handleCurrentScreenPos,
         handleCleanPosScreen,
+        setIsModalSaveVisible,
         initVariablesLocalStorage,
       }}
     >
@@ -326,6 +354,11 @@ export const GlobalProvider = ({ children }) => {
         visible={showModal}
         title={modalTitle}
         onClose={() => setShowModal(!showModal)}
+      />
+      <LoaderModal
+        animation={SAVE_ANIMATION}
+        visible={isModalSaveVisible}
+        warning={"Almacenando datos, por favor espere..."}
       />
       {children}
     </GlobalContext.Provider>

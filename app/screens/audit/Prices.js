@@ -83,6 +83,7 @@ export const Prices = ({ navigation, route }) => {
     setHadSavePreciador,
     handleDoesClientHaveVariable,
     handleClearWorkFlow,
+    setIsModalSaveVisible,
     handleSaveAudit,
     currentScreenPos,
     handleCurrentScreenPos,
@@ -223,6 +224,7 @@ export const Prices = ({ navigation, route }) => {
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
+    
   };
 
   useEffect(() => {
@@ -354,7 +356,8 @@ export const Prices = ({ navigation, route }) => {
         //   JSON.stringify(newComplementaryPortfolio)
         // );
       } else {
-        setIsModalVisible(true);
+       // setIsModalVisible(true);
+       setIsModalSaveVisible(true)
         const fullDataProducts = newIdealPortfolio.concat(
           newComplementaryPortfolio
         );
@@ -413,7 +416,8 @@ export const Prices = ({ navigation, route }) => {
               //console.log("TODO BIEN PARA GUARDAR");
               //setShowButton1(false);
               //setShowButton2(true);
-              setIsModalVisible(false);
+             // setIsModalVisible(false);
+             setIsModalSaveVisible(false)
               setHadSavePreciador(true);
               handleCurrentScreenPos();
               handleCheckCanSaveAllDataLocal(
@@ -429,7 +433,9 @@ export const Prices = ({ navigation, route }) => {
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
-              setIsModalVisible(false);
+            //  setIsModalVisible(false);
+            setIsModalSaveVisible(false)
+
             }
           });
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
@@ -522,7 +528,9 @@ export const Prices = ({ navigation, route }) => {
             "Error antes de  insertar los datos",
             "Vuelva a intentarlo"
           );
-          setIsModalVisible(false);
+          //setIsModalVisible(false);
+          setIsModalSaveVisible(false)
+
           setHadSavePreciador(false);
         }
       }
@@ -572,7 +580,7 @@ export const Prices = ({ navigation, route }) => {
     <View style={styles.container}>
       <LoaderModal
         animation={SAVE_ANIMATION}
-        visible={isModalVisible}
+        visible={false}
         warning={"Guardando datos en la base, por favor espere . . "}
       />
       <ConfirmationModal

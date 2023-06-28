@@ -71,6 +71,7 @@ export const Briefcase = ({ navigation }) => {
     currentScreenPos,
     handleSaveAudit,
     handleCurrentScreenPos,
+    setIsModalSaveVisible,
     handleCleanPosScreen,
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
@@ -241,7 +242,8 @@ export const Briefcase = ({ navigation }) => {
     onlyNavigation();
   };
   const handleOpenModal = () => {
-    setIsModalVisible(true);
+    // setIsModalVisible(true);
+    setIsModalSaveVisible(true)
     validateProduct();
   };
 
@@ -263,6 +265,7 @@ export const Briefcase = ({ navigation }) => {
           });
         } else {
           navigation.navigate("rack");
+          handleCurrentScreenPos();
         }
       };
       checkForVariable();
@@ -279,6 +282,7 @@ export const Briefcase = ({ navigation }) => {
         //console.log("VARIABLE DE PERCHAS EXISTE:", response);
         if (checkvariables === true) {
           navigation.navigate("rack");
+          handleCurrentScreenPos();
         } else {
           navigation.navigate("promos");
           handleCurrentScreenPos();
@@ -464,7 +468,8 @@ export const Briefcase = ({ navigation }) => {
           handleSaveAudit(userInfo, navigation);
         },
         () => {
-          setIsModalVisible(false);
+          //setIsModalVisible(false);
+          setIsModalSaveVisible(false)
           AsyncStorage.setItem("id_portafolio_auditoria", "null");
           setHadSaveBriefCase(true);
           HandleASpecialNavigationOfVariables();
@@ -533,7 +538,9 @@ export const Briefcase = ({ navigation }) => {
               };
               try {
                 db_insertGlobalDataAudit(dataSave2);
-                setIsModalVisible(false);
+                // setIsModalVisible(false);
+                setIsModalSaveVisible(false)
+
                 handleCurrentScreenPos();
                 handleCheckCanSaveAllDataLocal(
                   () => {
@@ -553,7 +560,9 @@ export const Briefcase = ({ navigation }) => {
               }
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
-              setIsModalVisible(false);
+              //setIsModalVisible(false);
+              setIsModalSaveVisible(false)
+
             }
           } else {
             let portafolioSave = {
@@ -578,7 +587,9 @@ export const Briefcase = ({ navigation }) => {
               handleCheckCanSaveAllDataLocal(
                 () => {
                   setTimeout(() => {
-                    setIsModalVisible(false);
+//                    setIsModalVisible(false);
+                    setIsModalSaveVisible(false)
+
                     handleSaveAudit(userInfo, navigation);
                   }, 2000);
                 },
@@ -682,7 +693,9 @@ export const Briefcase = ({ navigation }) => {
         );
       } catch (e) {
         Alert.alert("Error antes de enviar los datos", "Vuelva a intentarlo");
-        setIsModalVisible(false);
+        //setIsModalVisible(false);
+        setIsModalSaveVisible(false)
+
       }
     }
   };
@@ -726,11 +739,10 @@ export const Briefcase = ({ navigation }) => {
       deleteRegisterAudit({
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
-        valueId: `${
-          infoScreen
+        valueId: `${infoScreen
             ? infoScreen.id_portafolio_auditoria
             : idPortafolioAuditoria
-        }`,
+          }`,
       });
     });
   };
@@ -755,7 +767,7 @@ export const Briefcase = ({ navigation }) => {
 
       <LoaderModal
         animation={SAVE_ANIMATION}
-        visible={isModalVisible}
+        visible={false}
         warning={"Almacenando datos, por favor espere..."}
       />
       {hasVariable ? (
@@ -777,7 +789,7 @@ export const Briefcase = ({ navigation }) => {
               alignItems: "center",
               marginTop: -8,
             }}
-            //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
+          //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd---------------------------------
           >
             <View style={{ flex: 0.1, width: "90%" }}>
               <Text style={styles.text}>Portafolio Ideal</Text>
@@ -838,23 +850,23 @@ export const Briefcase = ({ navigation }) => {
               typeRigth={"material-community"}
               onPressRigth={hadSave ? onlyNavigation : handleOpenModal}
               showButton1={true}
-              //   showButton1={showButton1}
-              // showButton2={showButton2}
-              // titleRigthSecond={"Siguiente"}
-              // sizeRigthSecond={theme.buttonSize.df}
-              // colorRigthSecond={theme.colors.modernaRed}
-              // showButton1Second={showButton1}
-              // showButton2Second={showButton2}
-              // onPressRigthSecond={() => {
-              //   navigation.navigate("prices", {
-              //     currentStep,
-              //     complementaryPortfolioProducts,
-              //     idealPortfolioProducts,
-              //     setComplementaryPortfolioProducts,
-              //   });
-              // }}
-              // iconRigthSecond={"arrow-right-circle"}
-              // typeRigthSecond={"feather"}
+            //   showButton1={showButton1}
+            // showButton2={showButton2}
+            // titleRigthSecond={"Siguiente"}
+            // sizeRigthSecond={theme.buttonSize.df}
+            // colorRigthSecond={theme.colors.modernaRed}
+            // showButton1Second={showButton1}
+            // showButton2Second={showButton2}
+            // onPressRigthSecond={() => {
+            //   navigation.navigate("prices", {
+            //     currentStep,
+            //     complementaryPortfolioProducts,
+            //     idealPortfolioProducts,
+            //     setComplementaryPortfolioProducts,
+            //   });
+            // }}
+            // iconRigthSecond={"arrow-right-circle"}
+            // typeRigthSecond={"feather"}
             />
           </View>
           {/* //////////////////////////////////////mergeddddddddddddddddddddddddddddddddddddddddddddddddddddddddd--------------------------------- */}

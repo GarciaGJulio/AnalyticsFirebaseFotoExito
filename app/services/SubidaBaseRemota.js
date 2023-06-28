@@ -296,7 +296,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
 
   const portafolioDataModificado = portafolioData.map((item) => ({
     ...item,
-    estado: true,
+    estado: 1,
   }));
 
   const portafolio_auditoriaData = await realizarConsulta(
