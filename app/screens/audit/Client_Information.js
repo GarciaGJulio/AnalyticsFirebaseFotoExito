@@ -541,14 +541,14 @@ export const Client_Information = ({ navigation }) => {
                 // backgroundColor:"brown"
               }}
             >
-              <View style={{ flex: 3 }}>
+              <View style={{ flex: 1 }}>
                 <ScreenInformation title={"Información del Cliente"} />
               </View>
 
               <View
                 style={{
                   flex: 0.1,
-                  // backgroundColor:"red"
+                  //backgroundColor: "red",
                 }}
               >
                 <Dropdown
@@ -580,9 +580,9 @@ export const Client_Information = ({ navigation }) => {
                   flexDirection: "row",
                   marginVertical: 20,
                   justifyContent: "space-evenly",
-                  flex: 1,
+                  flex: 0.5,
                   width: "100%",
-                  // backgroundColor: "orange",
+                  //backgroundColor: "orange",
                 }}
               >
                 <View style={{ width: 160 }}>

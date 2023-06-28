@@ -654,7 +654,7 @@ export const Racks = ({ navigation }) => {
       <View style={styles.contentContainer}>
         <ClientInformation />
         <ProgressBar currentStep={currentScreenPos} />
-        <View style={{ flex: 4 }}>
+        <View style={{ flex: 2 }}>
           {hasVariable ? (
             <ScreenInformation
               title={"Perchas"}
