@@ -195,7 +195,7 @@ export const CheckBoxContainerV2 = React.memo(
               <View
                 style={{
                   //width: "50%",
-                  flex: 0.4,
+                  flex: 0.5,
                   paddingHorizontal: 10,
                 }}
               >

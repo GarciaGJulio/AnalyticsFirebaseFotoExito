@@ -50,25 +50,24 @@ const handleInputChange = (text) => {
 export const validatePriceProduct = (price, fn) => {
   const number = parseFloat(price.replace("$", ""));
   console.log("NUMERO A VALIDAR: ", number);
-  const priceRegex = /^\d+(\.\d{1,2})?$/;
+  const priceRegex = /^\d+(\.\d{0,2})?$/;
 
-  // Verificar si el número tiene decimales
-  const decimalPart = price.toString().split(".")[1];
-  if (decimalPart && decimalPart.length > 2) {
-    fn("Solo se permiten 2 decimales");
+  // Resto de las validaciones
+  if (price === "" || price === null) {
+    fn("El campo precio del producto no puede estar vacío");
+  } else if (isNaN(number)) {
+    fn("El precio del producto no es un número válido");
+  } else if (number <= 0) {
+    fn("El número debe ser mayor o igual a 0");
+  } else if (number > 999.99) {
+    fn("El número debe ser menor o igual a 999.99");
+  } else if (
+    price.split(".").length - 1 > 1 ||
+    (price.indexOf(".") !== -1 && price.split(".")[1].length > 2)
+  ) {
+    fn("El formato del precio no es válido");
   } else {
-    // Resto de las validaciones
-    if (price === "" || price === null) {
-      fn("El campo precio del producto no puede estar vacío");
-    } else if (number <= 0) {
-      fn("El número debe ser mayor a 0");
-    } else if (number > 999.99) {
-      fn("El número debe ser menor o igual a 999.99");
-    } else if (isNaN(number)) {
-      fn("El precio del producto no es un número válido");
-    } else {
-      fn("");
-    }
+    fn("");
   }
 };
 

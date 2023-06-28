@@ -135,6 +135,7 @@ export const MultiSelectListV2 = ({
         <SectionedMultiSelect
           items={products}
           IconRenderer={Icon}
+          noResultsComponent={!hadSaveBriefCase}
           disabled={hadSaveBriefCase}
           hideChipRemove={hadSaveBriefCase}
           styles={{
@@ -145,7 +146,7 @@ export const MultiSelectListV2 = ({
             chipContainer: {
               backgroundColor: theme.colors.modernaYellow,
               borderRadius: 10,
-              width: "100%",
+              width: "98%",
 
               justifyContent: "flex-start",
               //padding:5,
