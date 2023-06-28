@@ -172,7 +172,7 @@ export const GlobalProvider = ({ children }) => {
           onContinue();
           console.log("********aun no está al final de la pantalla/*******");
         }
-        console.log("totalVariables", totalVariables);
+        //onsole.log("totalVariables", totalVariables);
         console.log("posScreen", posScreen);
       } catch (e) {
         console.error(e);

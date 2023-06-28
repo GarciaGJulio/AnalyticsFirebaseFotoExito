@@ -77,6 +77,7 @@ export const Promos = ({ navigation }) => {
     setShowModal,
     setModalText,
     setModalTitle,
+    handleSaveAudit,
     currentScreenPos,
     handleCheckCanSaveAllDataLocal,
     handleCurrentScreenPos,
@@ -228,7 +229,9 @@ export const Promos = ({ navigation }) => {
       setAnimation(SAVE_ANIMATION);
       setIsModalVisibleCloseSucursal(false);
       setIsModalVisible(true);
-      saveAudit();
+      // saveAudit();
+      handleSaveAudit(userInfo, navigation);
+
       cleanCurrentScreenUser();
       handleCurrentScreenPos();
     };
@@ -463,10 +466,13 @@ export const Promos = ({ navigation }) => {
               navigation.navigate("begin");
             }, 1200);*/
             });
-            saveAudit();
+            // saveAudit();
+            handleSaveAudit(userInfo, navigation);
           } else {
             //console.log("TODO BIEN");
-            saveAudit();
+            // saveAudit();
+            handleSaveAudit(userInfo, navigation);
+
             cleanCurrentScreenUser();
             navigation.navigate("begin");
           }
@@ -552,25 +558,19 @@ export const Promos = ({ navigation }) => {
         <View style={styles.contentContainer}>
           <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 0.6 }}>
             <ScreenInformation
               title={"Promociones"}
               text={"Selecciona la sucursal que aplica promociones"}
             />
           </View>
 
-          <View
-            style={{
-              flex: 0.4,
-              // backgroundColor:"red"
-            }}
-          >
+          <View style={{}}>
             <DropdownPromos
               nameTitle={"Sucursal"}
               placeholder={"Seleccione una sucursal"}
               setSelected={setSelected}
               data={branch}
-              checkdrop={setcheckList}
             />
           </View>
 
@@ -647,7 +647,7 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth,
     //height:'100%',
     //marginBottom: 5,
-    backgroundColor: "blue",
+    //backgroundColor: "blue",
     alignItems: "center",
     marginVertical: 20,
   },
