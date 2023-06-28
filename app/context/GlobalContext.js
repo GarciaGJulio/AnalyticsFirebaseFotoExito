@@ -174,7 +174,7 @@ export const GlobalProvider = ({ children }) => {
           onFinish();
           cleanCurrentScreenUser();
           handleCleanPosScreen();
-          handleCleanStorage()
+         // handleCleanStorage()
           //  if(canSaveSpecial){
           // setIsModalSaveVisible(false)
           //}
