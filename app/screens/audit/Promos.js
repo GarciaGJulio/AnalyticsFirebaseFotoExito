@@ -528,11 +528,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    flex: 20,
+    flex: 14,
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
     alignItems: "center",
-    padding: 0,
+    paddingVertical: 5,
   },
   scrollView: {
     flex: 2,
