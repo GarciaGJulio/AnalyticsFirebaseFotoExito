@@ -224,10 +224,10 @@ const styles = StyleSheet.create({
     //width: "100%",
   },
   descriptionContainer: {
-    marginLeft: 5,
+    //marginLeft: 5,
     //backgroundColor: "orange",
     flex: 1,
-    padding: 10,
+    paddingTop: 10,
   },
   primaryContainer: {
     flexDirection: "row",

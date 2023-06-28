@@ -135,6 +135,7 @@ export const MultiSelectListV2 = ({
         <SectionedMultiSelect
           items={products}
           IconRenderer={Icon}
+          noResultsComponent={!hadSaveBriefCase}
           disabled={hadSaveBriefCase}
           hideChipRemove={hadSaveBriefCase}
           styles={{
