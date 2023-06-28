@@ -20,8 +20,16 @@ const ConfirmationModalBranch = ({
   warning,
 }) => {
   return (
-    <Modal visible={visible} animationType="fade" transparent={true} style={{ flex: 1 }}>
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
+    <Modal
+      visible={visible}
+      animationType="fade"
+      transparent={true}
+      style={{ flex: 1 }}
+    >
+      <StatusBar
+        backgroundColor={theme.colors.modernaRed}
+        barStyle={"dark-content"}
+      />
       <View style={styles.container}>
         <View style={styles.modalContent}>
           <View style={styles.logoContainer}>
@@ -32,12 +40,11 @@ const ConfirmationModalBranch = ({
           </View>
           <View style={styles.buttonContainer}>
             <DoubleStyledButton
-              titleLeft={'Cancelar'}
+              titleLeft={"Cancelar"}
               sizeLeft={theme.buttonSize.sm}
               colorLeft={theme.colors.modernaYellow}
               onPressLeft={onClose}
-
-              titleRigth={'Aceptar'}
+              titleRigth={"Aceptar"}
               sizeRigth={theme.buttonSize.sm}
               colorRigth={theme.colors.modernaRed}
               onPressRigth={onPress}
@@ -54,51 +61,55 @@ export default ConfirmationModalBranch;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: '90%',
-    flex:0.3,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "90%",
+    flex: 0.3,
+    justifyContent: "center",
+    alignItems: "center",
   },
   logoContainer: {
     //backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 0.7,
-    width: '100%',
+    width: "100%",
   },
   logo: {
-    resizeMode: 'contain',
+    resizeMode: "contain",
     //width:200,
     //height:200,
     flex: 1,
   },
   warningContainer: {
-    //backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1.5,
-    width: '100%',
+    //backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    width: "100%",
+    // marginBottom: 5,
   },
   warningText: {
-    margin: 10,
+    //marginTop: 0,
+    //margin: 20,
     fontSize: 18,
-    textAlign:'justify'
+    //flex: 1,
+    width: "100%",
+    textAlign: "justify",
+    fontFamily: "Metropolis",
   },
   buttonContainer: {
+    marginTop: -1,
     //backgroundColor: 'orange',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 0.8,
-    width: '100%',
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 0.5,
+    width: "100%",
   },
-})
-
-
+});

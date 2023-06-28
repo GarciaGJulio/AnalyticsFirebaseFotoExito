@@ -205,10 +205,10 @@ export const Prices = ({ navigation, route }) => {
 
   const HandleNavigationOfVariables = () => {
     const continueAudit = () => {
-      let checkvariables = true
+      let checkvariables = true;
       const checkForVariable = async () => {
         const response = await handleDoesClientHaveVariable("Percha");
-        checkvariables = response
+        checkvariables = response;
         //console.log("VARIABLE DE PERCHAS EXISTE:",response)
         if (checkvariables === true) {
           navigation.navigate("rack");
@@ -217,8 +217,8 @@ export const Prices = ({ navigation, route }) => {
         }
       };
       checkForVariable();
-    }
-    continueAudit()
+    };
+    continueAudit();
   };
 
   const handleCloseModal = () => {
@@ -301,22 +301,23 @@ export const Prices = ({ navigation, route }) => {
   }, []);
 
   const initValidateArrays = () => {
-    validateArrays()
-
-  }
-
+    validateArrays();
+  };
 
   const validateArrays = async () => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     //console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
       //console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
-      handleCurrentScreenPos()
-      handleCheckCanSaveAllDataLocal(() => {
-        setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
-      }, () => {
-        HandleNavigationOfVariables()
-      })
+      handleCurrentScreenPos();
+      handleCheckCanSaveAllDataLocal(
+        () => {
+          setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+        },
+        () => {
+          HandleNavigationOfVariables();
+        }
+      );
     } else {
       if (errorPrice != "") {
         setErrorPrice("* El campo precio es debe ser llenado correctamente");
@@ -359,10 +360,10 @@ export const Prices = ({ navigation, route }) => {
         );
         try {
           await AsyncStorage.setItem("id_preciador", idPreciador);
-          // //console.log(
-          //   "PRODUCTOS QUE VAN A SER GUARDADOS: ",
-          //   JSON.stringify(fullDataProducts)
-          // );
+          console.log(
+            "PRODUCTOS QUE VAN A SER GUARDADOS: ",
+            JSON.stringify(fullDataProducts)
+          );
           fullDataProducts.map((productos) => {
             const { id_portafolio, id, state, price, images } = productos;
             const { image1, image2, image3 } = images;
@@ -414,14 +415,17 @@ export const Prices = ({ navigation, route }) => {
               //setShowButton2(true);
               setIsModalVisible(false);
               setHadSavePreciador(true);
-              handleCurrentScreenPos()
-              handleCheckCanSaveAllDataLocal(() => {
-                setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
-              }, () => {
-                setShowButton1(false);
-                setShowButton2(true);
-                HandleNavigationOfVariables()
-              })
+              handleCurrentScreenPos();
+              handleCheckCanSaveAllDataLocal(
+                () => {
+                  setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+                },
+                () => {
+                  setShowButton1(false);
+                  setShowButton2(true);
+                  HandleNavigationOfVariables();
+                }
+              );
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -526,12 +530,15 @@ export const Prices = ({ navigation, route }) => {
   };
 
   const onlyNavigation = () => {
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(() => {
-      handleSaveAudit(userInfo, navigation)
-    }, () => {
-      HandleNavigationOfVariables()
-    })
+    handleCurrentScreenPos();
+    handleCheckCanSaveAllDataLocal(
+      () => {
+        handleSaveAudit(userInfo, navigation);
+      },
+      () => {
+        HandleNavigationOfVariables();
+      }
+    );
   };
   const handleDeleteRegisterLocal = async () => {
     setHadSavePreciador(false);
@@ -585,42 +592,49 @@ export const Prices = ({ navigation, route }) => {
         style={{
           height: 180,
           width: "100%",
-          marginTop: '8%',
+          marginTop: "8%",
           alignContent: "space-around",
         }}
       >
         <ClientInformation />
-        <View style={{
-          marginVertical: '5%',
-          alignContent: "space-around",
-        }}>
+        <View
+          style={{
+            marginVertical: "5%",
+            alignContent: "space-around",
+          }}
+        >
           <ProgressBar currentStep={currentScreenPos} />
         </View>
-        <View>
-
-        </View>
-        <View  style={{
-          marginVertical:'0%',
-          height: '55%',
-          marginHorizontal:'5%'
-        }}>
+        <View></View>
+        <View
+          style={{
+            marginVertical: "0%",
+            height: "55%",
+            marginHorizontal: "5%",
+          }}
+        >
           <ScreenInformation
             title={"Preciador"}
             text={
               "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
             }
           />
-
         </View>
-
       </View>
       <View style={styles.contentContainer}>
         <View
           style={{
-            height: activo2 === true && activo == true ? "50%" : activo2 === true && activo == false ? "10%" : activo2 === false && activo == true ? "90%" : "10%",
+            height:
+              activo2 === true && activo == true
+                ? "50%"
+                : activo2 === true && activo == false
+                ? "10%"
+                : activo2 === false && activo == true
+                ? "90%"
+                : "10%",
             width: "100%",
-            // backgroundColor:"blue",
-
+            //backgroundColor: "blue",
+            marginVertical: 10,
             alignItems: "center",
           }}
         >
@@ -647,15 +661,15 @@ export const Prices = ({ navigation, route }) => {
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo}
 
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
         <View
           style={{
             width: theme.dimensions.maxWidth / 1.1,
-            marginVertical: 5,
+            //marginVertical: 5,
           }}
         >
           <Divider
@@ -669,7 +683,14 @@ export const Prices = ({ navigation, route }) => {
             width: "100%",
             alignItems: "center",
             // backgroundColor:"red",
-            height: activo2 === true && activo == true ? "50%" : activo2 === true && activo == false ? "100%" : activo2 === false && activo == true ? "10%" : "10%"
+            height:
+              activo2 === true && activo == true
+                ? "50%"
+                : activo2 === true && activo == false
+                ? "100%"
+                : activo2 === false && activo == true
+                ? "10%"
+                : "10%",
           }}
         >
           {infoScreen && (
@@ -681,8 +702,8 @@ export const Prices = ({ navigation, route }) => {
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo2}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
           )}
           {!infoScreen && (
@@ -694,8 +715,8 @@ export const Prices = ({ navigation, route }) => {
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo2}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
+              //idPreciador={idPreciadorPortafolioComplementario}
+              //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
@@ -728,15 +749,15 @@ export const Prices = ({ navigation, route }) => {
           //cambios del merge
           disableAction={!validateData()}
           showButton1={true}
-        // showButton2={showButton2}
-        // titleRigthSecond={"Siguiente"}
-        // sizeRigthSecond={theme.buttonSize.df}
-        // colorRigthSecond={theme.colors.modernaRed}
-        // onPressRigthSecond={() => navigation.navigate("rack")}
-        // showButton1Second={showButton1}
-        // showButton2Second={showButton2}
-        // iconRigthSecond={"arrow-right-circle"}
-        // typeRigthSecond={"feather"}
+          // showButton2={showButton2}
+          // titleRigthSecond={"Siguiente"}
+          // sizeRigthSecond={theme.buttonSize.df}
+          // colorRigthSecond={theme.colors.modernaRed}
+          // onPressRigthSecond={() => navigation.navigate("rack")}
+          // showButton1Second={showButton1}
+          // showButton2Second={showButton2}
+          // iconRigthSecond={"arrow-right-circle"}
+          // typeRigthSecond={"feather"}
         />
       </View>
     </View>
@@ -771,6 +792,6 @@ const styles = StyleSheet.create({
   botonesContainer: {
     flex: 3,
     width: "100%",
-    margin: 5
+    margin: 5,
   },
 });

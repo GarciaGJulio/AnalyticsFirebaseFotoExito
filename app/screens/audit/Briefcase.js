@@ -36,7 +36,6 @@ import StyledButton from "../../components/StyledButton";
 import ConfirmationModalBranch from "../../components/ConfirmationModalBranch";
 import { ModernaContext } from "../../context/ModernaProvider";
 
-
 export const Briefcase = ({ navigation }) => {
   const { userInfo } = useContext(ModernaContext);
 
@@ -243,17 +242,17 @@ export const Briefcase = ({ navigation }) => {
   const handleOpenModal = () => {
     setIsModalVisible(true);
     validateProduct();
-
   };
 
   //checkVar
   const HandleNavigationOfVariables = () => {
+    console.log("ENTRANDO A VALIDAR VARIABLES  - -- - ");
     const continueAudit = () => {
       let checkvariables = true;
       const checkForVariable = async () => {
         const response = await handleDoesClientHaveVariable("Precio");
         checkvariables = response;
-        //console.log("VARIABLE DE PERCHAS EXISTE:", response);
+        console.log("VARIABLE DE PRECIO EXISTE:", response);
         if (checkvariables === true) {
           navigation.navigate("prices", {
             currentStep,
@@ -266,9 +265,8 @@ export const Briefcase = ({ navigation }) => {
         }
       };
       checkForVariable();
-    }
-    continueAudit()
-
+    };
+    continueAudit();
   };
 
   const HandleASpecialNavigationOfVariables = () => {
@@ -282,13 +280,13 @@ export const Briefcase = ({ navigation }) => {
           navigation.navigate("rack");
         } else {
           navigation.navigate("promos");
-          handleCurrentScreenPos()
+          handleCurrentScreenPos();
         }
       };
       checkForVariable();
-    }
+    };
 
-    continueAudit()
+    continueAudit();
   };
 
   const consultarYCopiarContenido = async () => {
@@ -443,12 +441,15 @@ export const Briefcase = ({ navigation }) => {
   }, []);
 
   const onlyNavigation = () => {
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(() => {
-      handleSaveAudit(userInfo, navigation)
-    }, () => {
-      HandleNavigationOfVariables();
-    })
+    handleCurrentScreenPos();
+    handleCheckCanSaveAllDataLocal(
+      () => {
+        handleSaveAudit(userInfo, navigation);
+      },
+      () => {
+        HandleNavigationOfVariables();
+      }
+    );
   };
 
   const validateProduct = async () => {
@@ -456,19 +457,18 @@ export const Briefcase = ({ navigation }) => {
       idealPortfolioProducts.length + complementaryPortfolioProducts.length ==
       0
     ) {
-
-      handleCurrentScreenPos()
-      handleCheckCanSaveAllDataLocal(() => {
-        handleSaveAudit(userInfo, navigation)
-      }, () => {
-        setIsModalVisible(false);
-         AsyncStorage.setItem("id_portafolio_auditoria", "null");
-        setHadSaveBriefCase(true);
-        HandleASpecialNavigationOfVariables()
-
-      })
-
-
+      handleCurrentScreenPos();
+      handleCheckCanSaveAllDataLocal(
+        () => {
+          handleSaveAudit(userInfo, navigation);
+        },
+        () => {
+          setIsModalVisible(false);
+          AsyncStorage.setItem("id_portafolio_auditoria", "null");
+          setHadSaveBriefCase(true);
+          HandleASpecialNavigationOfVariables();
+        }
+      );
     } else {
       await AsyncStorage.setItem(
         "id_portafolio_auditoria",
@@ -486,7 +486,6 @@ export const Briefcase = ({ navigation }) => {
           const { id_portafolio, id, tipo_portafolio } = producto;
 
           if (tipo_portafolio === "C") {
-
             let dataSave = {
               tableName: "portafolio",
               dataInsertType: [
@@ -517,7 +516,6 @@ export const Briefcase = ({ navigation }) => {
             try {
               db_insertGlobalDataAudit(dataSave);
 
-
               let dataSave2 = {
                 tableName: "portafolio_auditoria",
                 dataInsertType: [
@@ -534,6 +532,21 @@ export const Briefcase = ({ navigation }) => {
               try {
                 db_insertGlobalDataAudit(dataSave2);
                 setIsModalVisible(false);
+                handleCurrentScreenPos();
+                //console.log("SE QUEDA AQUI - - - - - - - -");
+                handleCheckCanSaveAllDataLocal(
+                  () => {
+                    setTimeout(
+                      () => handleSaveAudit(userInfo, navigation),
+                      2000
+                    );
+                  },
+                  () => {
+                    setShowButton1(false);
+                    setShowButton2(true);
+                    HandleNavigationOfVariables();
+                  }
+                );
               } catch (e) {
                 Alert.alert(
                   "Error al insertar los datos en la tabla portafolio_auditoria",
@@ -560,18 +573,22 @@ export const Briefcase = ({ navigation }) => {
             };
             try {
               db_insertGlobalDataAudit(portafolioSave);
-
+              //console.log("SE QUEDA AQUI PREVIO - - - - - - - -");
               setIsModalVisible(false);
               // setShowButton1(false);
               // setShowButton2(true);
-              handleCurrentScreenPos()
-              handleCheckCanSaveAllDataLocal(() => {
-                setTimeout(() => handleSaveAudit(userInfo, navigation), 2000)
-              }, () => {
-                setShowButton1(false);
-                setShowButton2(true);
-                HandleNavigationOfVariables();
-              })
+              handleCurrentScreenPos();
+              //console.log("SE QUEDA AQUI - - - - - - - -");
+              handleCheckCanSaveAllDataLocal(
+                () => {
+                  setTimeout(() => handleSaveAudit(userInfo, navigation), 2000);
+                },
+                () => {
+                  setShowButton1(false);
+                  setShowButton2(true);
+                  HandleNavigationOfVariables();
+                }
+              );
             } catch (e) {
               Alert.alert(
                 "Error al insertar los datos en la tabla portafolio_auditoria",

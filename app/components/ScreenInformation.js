@@ -16,12 +16,12 @@ const ScreenInformation = ({ title, text }) => {
     <View
       style={{
         width: theme.dimensions.maxWidth / 1.1,
-        flex: 1,
+        height: 100,
         justifyContent: "center",
         alignItems: "center",
         //marginVertical: 20,
-        marginBottom: 5,
-        marginTop:10
+        //marginBottom: 5,
+        //marginTop:10
         //backgroundColor: "red",
         // height: theme.dimensions.maxHeight
       }}
@@ -29,7 +29,8 @@ const ScreenInformation = ({ title, text }) => {
       <View>
         <View
           style={{
-            flex: 0.8,
+            //flex: 0.3,
+            height: 30,
             width: theme.dimensions.maxWidth / 1.1,
             justifyContent: "center",
             alignItems: "center",
@@ -41,19 +42,21 @@ const ScreenInformation = ({ title, text }) => {
               fontSize: theme.fontSize.title,
               fontWeight: "600",
               fontFamily: "Metropolis",
-              textAlign:"justify"
+              textAlign: "justify",
             }}
           >
             {title}
           </Text>
         </View>
         <View
-          style={{
-            //width: theme.dimensions.maxWidth / 1.1,
-            //marginVertical: 5,
-            //backgroundColor: "orange",
-            flex: 0.1,
-          }}
+          style={
+            {
+              //width: theme.dimensions.maxWidth / 1.1,
+              //marginVertical: 5,
+              // backgroundColor: "orange",
+              //flex: 0.1,
+            }
+          }
         >
           <Divider
             width={2}
@@ -65,8 +68,9 @@ const ScreenInformation = ({ title, text }) => {
           style={{
             //backgroundColor: "blue",
             //marginHorizontal: 0.9,
+            height: 50,
             width: theme.dimensions.maxWidth / 1.1,
-            flex: 1.2,
+            //flex: 0.5,
             //marginVertical: 5,
             justifyContent: "center",
             alignItems: "center",
@@ -78,11 +82,12 @@ const ScreenInformation = ({ title, text }) => {
                 fontSize: theme.fontSize.body,
                 width: theme.dimensions.maxWidth / 1.1,
                 //width: "90%",
+                height: "100%",
                 //backgroundColor: "purple",
                 //justifyContent: "center",
                 //alignItems: "center",
                 //textAlign: "justify",
-                //flex: 1,
+                flex: 1,
                 fontFamily: "Metropolis",
               }}
             >
@@ -94,12 +99,13 @@ const ScreenInformation = ({ title, text }) => {
         </View>
         <View
           style={{
-            flex: 1,
+            //flex: 1,
+            height: "20%",
             flexDirection: "row",
-            //backgroundColor: "blue",
+            //backgroundColor: "brown",
             justifyContent: "center",
             alignItems: "center",
-            bottom: 5,
+            //bottom: 5,
           }}
         >
           <View style={{ flex: 0 }}>

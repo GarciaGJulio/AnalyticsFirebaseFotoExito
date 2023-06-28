@@ -26,6 +26,7 @@ export const StyledButton = ({
 
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[
         styles.container,
         {

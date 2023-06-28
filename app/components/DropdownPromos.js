@@ -19,17 +19,6 @@ export const DropdownPromos = ({
   const [arrayClients, setArrayClients] = useState([]);
   const [newArrayClients, setNewArrayClients] = useState([]);
 
-  const dataFormat = (array) => {
-    setArrayClients(array);
-    //console.log("ARRAY DE CONSULTA: ", array);
-    const arrayFormat = array.map((obj) => {
-      //console.log("OBJETO: ", obj.id_cliente);
-      return { key: obj.id_cliente, value: obj.nombre_cliente };
-    });
-    //console.log(arrayFormat);
-    return arrayFormat;
-  };
-
   const validateType = () => {
     arrayClients.forEach((type) => {
       // //console.log("CLIENTE A ANALIZAR: ", type);
@@ -52,24 +41,6 @@ export const DropdownPromos = ({
     validateType();
   }, [selected]);
 
-  /*const consultarYCopiarContenido = async () => {
-    try {
-      // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
-
-      // Copia el contenido después de la consulta
-      //await copiarContenido(resultadoConsulta);
-      setNewArrayClients(dataFormat(resultadoConsulta));
-      //console.log("Copia de contenido completada con éxito: ");
-    } catch (error) {
-      console.error("Error al consultar o copiar el contenido:", error);
-    }
-  };*/
-
-  /*useEffect(() => {
-    consultarYCopiarContenido();
-  }, []);*/
-
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
@@ -78,7 +49,7 @@ export const DropdownPromos = ({
   if (!fontLoaded) return null;
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={{ flexDirection: "row" }}>
         <View>
           <Text style={{ color: "red", textAlign: "left" }}>*</Text>
@@ -107,7 +78,7 @@ export const DropdownPromos = ({
         }}
         save="value"
       />
-    </ScrollView>
+    </View>
   );
 };
 

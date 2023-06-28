@@ -462,9 +462,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
     },
   };
 
-  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
-  //console.log("REQUEST BODY;: - - - ", requestBody);
-  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  console.log("REQUEST BODY;: - - - ", requestBody);
+  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
   try {
     const resp = await axios.post(url, requestBody, {
       headers: {

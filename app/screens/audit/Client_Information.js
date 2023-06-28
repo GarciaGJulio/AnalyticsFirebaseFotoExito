@@ -182,8 +182,9 @@ export const Client_Information = ({ navigation }) => {
   const validarFormulario = () => {
     return (
       errorClientName == "" &&
-      errorBranchName == "" &&
-      errorBranchNameRepeat == ""
+      sucursalInformation.client != "" &&
+      errorBranchNameRepeat == "" &&
+      errorBranchName == ""
     );
   };
 
@@ -194,14 +195,15 @@ export const Client_Information = ({ navigation }) => {
       );
 
       const branchs = resultadoConsultarBranch.map(
-        ({ nombre_sucursal, fecha_creacion }) => ({
+        ({ nombre_sucursal, fecha_creacion, id_cliente }) => ({
           nombre_sucursal,
           fecha_creacion: fecha_creacion.split("T")[0],
+          id_cliente,
         })
       );
 
       setBranchNames(branchs);
-      // //console.log("DATOS DE SUCURSALES :", branchs);
+      console.log("DATOS DE SUCURSALES :", resultadoConsultarBranch);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -263,9 +265,9 @@ export const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const validateBranchNameRepeat = (currentName, error) => {
+  const validateBranchNameRepeat = async (currentName, error) => {
     //console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
-
+    let clientID = await AsyncStorage.getItem("id_cliente");
     let tempFecha;
     tempFecha = new Date().toISOString();
     tempFecha = tempFecha.split("T");
@@ -277,19 +279,23 @@ export const Client_Information = ({ navigation }) => {
       return false;
     } else {
       let found = branchNames.some((item) => {
-        // //console.log(
-        //   "ITEM A COMPARAR - -- - BASE: ",
-        //   item.nombre_sucursal +
-        //     " " +
-        //     item.fecha_creacion +
-        //     "ACTUAL:  " +
-        //     currentName +
-        //     " " +
-        //     tempFecha
-        // );
+        console.log(
+          "ITEM A COMPARAR - -- - BASE: ",
+          item.nombre_sucursal +
+            " " +
+            item.fecha_creacion +
+            item.id_cliente +
+            " ACTUAL:  " +
+            currentName +
+            " " +
+            tempFecha +
+            " " +
+            clientID
+        );
         return (
           item.nombre_sucursal === currentName &&
-          item.fecha_creacion === tempFecha
+          item.fecha_creacion === tempFecha &&
+          item.id_cliente === clientID
         );
       });
 
