@@ -61,22 +61,22 @@ const ScreenInformation = ({ title, text }) => {
           <Divider
             width={2}
             color={"#D9D9D9"}
-            style={{ backgroundColor: "blue" }}
+            //style={{ backgroundColor: "blue" }}
           />
         </View>
-        <View
-          style={{
-            //backgroundColor: "blue",
-            //marginHorizontal: 0.9,
-            height: 50,
-            width: theme.dimensions.maxWidth / 1.1,
-            //flex: 0.5,
-            //marginVertical: 5,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {text ? (
+        {text ? (
+          <View
+            style={{
+              //backgroundColor: "blue",
+              //marginHorizontal: 0.9,
+              height: 50,
+              width: theme.dimensions.maxWidth / 1.1,
+              //flex: 0.5,
+              //marginVertical: 5,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Text
               style={{
                 fontSize: theme.fontSize.body,
@@ -93,14 +93,14 @@ const ScreenInformation = ({ title, text }) => {
             >
               {text.toString()}
             </Text>
-          ) : (
-            <></>
-          )}
-        </View>
+          </View>
+        ) : (
+          <Text style={{ marginVertical: 1 }}></Text>
+        )}
         <View
           style={{
             //flex: 1,
-            height: "20%",
+            height: 20,
             flexDirection: "row",
             //backgroundColor: "brown",
             justifyContent: "center",

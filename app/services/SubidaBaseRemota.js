@@ -106,10 +106,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
         "" +
-        promocionData[i].id_promocion +
-        "-" +
-        promocionData[i].id_exhibidor +
-        "-1"
+          promocionData[i].id_promocion +
+          "-" +
+          promocionData[i].id_exhibidor +
+          "-1"
       );
     }
     // //console.log(
@@ -138,10 +138,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
         "" +
-        promocionData[i].id_promocion +
-        "-" +
-        promocionData[i].id_exhibidor +
-        "-2"
+          promocionData[i].id_promocion +
+          "-" +
+          promocionData[i].id_exhibidor +
+          "-2"
       );
     }
     // //console.log(
@@ -170,10 +170,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
         "" +
-        promocionData[i].id_promocion +
-        "-" +
-        promocionData[i].id_exhibidor +
-        "-3"
+          promocionData[i].id_promocion +
+          "-" +
+          promocionData[i].id_exhibidor +
+          "-3"
       );
     }
   }
@@ -251,9 +251,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-2"
       );
     }
-    // //console.log(
-    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    // );
+    console.log(
+      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
     // //console.log("\nANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
     // //console.log(
     //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
@@ -296,7 +296,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
 
   const portafolioDataModificado = portafolioData.map((item) => ({
     ...item,
-    estado: true,
+    estado: 1,
   }));
 
   const portafolio_auditoriaData = await realizarConsulta(
@@ -344,10 +344,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       preciadorData[i].url_imagen1 = await SubirAlonedrive(
         preciadorData[i].url_imagen1,
         "" +
-        preciadorData[i].id_preciador +
-        "-" +
-        preciadorData[i].id_producto +
-        "-1"
+          preciadorData[i].id_preciador +
+          "-" +
+          preciadorData[i].id_producto +
+          "-1"
       );
     }
     // //console.log(
@@ -380,10 +380,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       preciadorData[i].url_imagen2 = await SubirAlonedrive(
         preciadorData[i].url_imagen2,
         "" +
-        preciadorData[i].id_preciador +
-        "-" +
-        preciadorData[i].id_producto +
-        "-2"
+          preciadorData[i].id_preciador +
+          "-" +
+          preciadorData[i].id_producto +
+          "-2"
       );
     }
     // //console.log(
@@ -416,10 +416,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       preciadorData[i].url_imagen3 = await SubirAlonedrive(
         preciadorData[i].url_imagen3,
         "" +
-        preciadorData[i].id_preciador +
-        "-" +
-        preciadorData[i].id_producto +
-        "-3"
+          preciadorData[i].id_preciador +
+          "-" +
+          preciadorData[i].id_producto +
+          "-3"
       );
     }
   }
@@ -471,7 +471,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "Content-Type": "application/json",
       },
     });
-    console.log("-----------",resp.data);
+    console.log("-----------", resp.data);
     fn(false);
     console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     if (resp.data.result) {
@@ -481,7 +481,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
          WHERE id_auditoria='${id_auditoria}'`
       );
       setRefresh(!refresh);
-     // Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
+      // Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
       //console.log("respuesta de cambiar estado: ", stateAudit);
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
       //Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");

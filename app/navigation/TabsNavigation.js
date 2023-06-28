@@ -232,23 +232,34 @@ export const TabsNavigation = ({ route }) => {
             }
             break;
           default:
-            return (
-              <Tab.Screen
-                key={index}
-                name={item.route}
-                component={WithOutData}
-                options={{
-                  tabBarShowLabel: false,
-                  tabBarButton: (props) => (
-                    <TabButton
-                      {...props}
-                      item={item}
-                      //param={branch}
-                    />
-                  ),
-                }}
-              />
-            );
+            if (
+              datosCompartidos.id_promocion !== null &&
+              datosCompartidos.id_promocion !== "null" &&
+              datosCompartidos.id_percha !== null &&
+              datosCompartidos.id_percha !== "null" &&
+              datosCompartidos.id_preciador !== null &&
+              datosCompartidos.id_preciador !== "null" &&
+              datosCompartidos.id_portafolio_auditoria !== null &&
+              datosCompartidos.id_portafolio_auditoria !== "null"
+            ) {
+              return (
+                <Tab.Screen
+                  key={index}
+                  name={item.route}
+                  component={WithOutData}
+                  options={{
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => (
+                      <TabButton
+                        {...props}
+                        item={item}
+                        //param={branch}
+                      />
+                    ),
+                  }}
+                />
+              );
+            }
         }
       })}
     </Tab.Navigator>

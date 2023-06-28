@@ -77,6 +77,8 @@ export const Promos = ({ navigation }) => {
     setShowModal,
     setModalText,
     setModalTitle,
+    handleSaveAudit,
+    setIsModalSaveVisible,
     currentScreenPos,
     handleCheckCanSaveAllDataLocal,
     handleCurrentScreenPos,
@@ -227,10 +229,13 @@ export const Promos = ({ navigation }) => {
     const continueAudit = () => {
       setAnimation(SAVE_ANIMATION);
       setIsModalVisibleCloseSucursal(false);
-      setIsModalVisible(true);
-      saveAudit();
+      // setIsModalVisible(true);
+      setIsModalSaveVisible(true)
+      // saveAudit();
+      handleSaveAudit(userInfo, navigation);
+
       cleanCurrentScreenUser();
-      handleCurrentScreenPos();
+      //   handleCurrentScreenPos();
     };
     continueAudit();
   };
@@ -342,14 +347,16 @@ export const Promos = ({ navigation }) => {
         try {
           await subidaBaseRemoteTodaAuditoria(
             idAuditoria,
-            setIsModalVisible,
+            () => { },
             setGlobalVariable,
             globalVariable
           );
           navigation.navigate("begin");
         } catch (e) {
           //console.log("ERROR DESDE PROMOS: ", e);
-          setIsModalVisible(false);
+          // setIsModalVisible(false);
+          setIsModalSaveVisible(false)
+
           setIsModalVisibleClose(false);
           setIsModalVisibleCloseSucursal(false);
           /*Alert.alert(
@@ -360,7 +367,9 @@ export const Promos = ({ navigation }) => {
         }
       } else {
         setIsModalVisibleCloseSucursal(false);
-        setIsModalVisible(false);
+        //setIsModalVisible(false);
+        setIsModalSaveVisible(false)
+
         navigation.navigate("begin");
       }
     } catch (e) {
@@ -379,7 +388,7 @@ export const Promos = ({ navigation }) => {
     validate();
   };
   const validate = async () => {
-    handleCurrentScreenPos();
+
 
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
@@ -415,8 +424,11 @@ export const Promos = ({ navigation }) => {
         //navigation.navigate('rack');
         //console.log("CONTENIDO DE PROMOCIONES: ", JSON.stringify(promos));
       } else {
-        setIsModalVisible(true);
+        // setIsModalVisible(true);
+        setIsModalSaveVisible(true)
+
         try {
+
           //await AsyncStorage.setItem("id_promocion", idPercha);
           // //console.log(
           //   "PROMOCIONES QUE VAN A SER GUARDADOS: ",
@@ -463,10 +475,13 @@ export const Promos = ({ navigation }) => {
               navigation.navigate("begin");
             }, 1200);*/
             });
-            saveAudit();
+            // saveAudit();
+            handleSaveAudit(userInfo, navigation);
           } else {
             //console.log("TODO BIEN");
-            saveAudit();
+            // saveAudit();
+            handleSaveAudit(userInfo, navigation);
+
             cleanCurrentScreenUser();
             navigation.navigate("begin");
           }
@@ -524,7 +539,7 @@ export const Promos = ({ navigation }) => {
     <View style={styles.container}>
       <LoaderModal
         animation={SAVE_ANIMATION}
-        visible={isModalVisible}
+        visible={false}
         warning={"Guardando datos en la base, por favor espere . . "}
       />
       <ConfirmationModal
@@ -552,25 +567,19 @@ export const Promos = ({ navigation }) => {
         <View style={styles.contentContainer}>
           <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 0.6 }}>
             <ScreenInformation
               title={"Promociones"}
               text={"Selecciona la sucursal que aplica promociones"}
             />
           </View>
 
-          <View
-            style={{
-              flex: 0.4,
-              // backgroundColor:"red"
-            }}
-          >
+          <View style={{}}>
             <DropdownPromos
               nameTitle={"Sucursal"}
               placeholder={"Seleccione una sucursal"}
               setSelected={setSelected}
               data={branch}
-              checkdrop={setcheckList}
             />
           </View>
 
@@ -606,15 +615,15 @@ export const Promos = ({ navigation }) => {
           disableAction={!validateData()}
           onPressRigth={initValidate}
           showButton1={true}
-          //showButton2={showButton2}
-          //titleRigthSecond={"Siguiente"}
-          //sizeRigthSecond={theme.buttonSize.df}
-          //colorRigthSecond={theme.colors.modernaRed}
-          //onPressRigthSecond={() => navigation.navigate("begin")}
-          //showButton1Second={showButton1}
-          //showButton2Second={showButton2}
-          //iconRigthSecond={"content-save-all-outline"}
-          //typeRigthSecond={"material-community"}
+        //showButton2={showButton2}
+        //titleRigthSecond={"Siguiente"}
+        //sizeRigthSecond={theme.buttonSize.df}
+        //colorRigthSecond={theme.colors.modernaRed}
+        //onPressRigthSecond={() => navigation.navigate("begin")}
+        //showButton1Second={showButton1}
+        //showButton2Second={showButton2}
+        //iconRigthSecond={"content-save-all-outline"}
+        //typeRigthSecond={"material-community"}
         />
       </View>
     </View>
@@ -647,7 +656,7 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth,
     //height:'100%',
     //marginBottom: 5,
-    backgroundColor: "blue",
+    //backgroundColor: "blue",
     alignItems: "center",
     marginVertical: 20,
   },
