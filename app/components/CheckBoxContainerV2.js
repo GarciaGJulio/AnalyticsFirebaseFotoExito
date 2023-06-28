@@ -87,16 +87,16 @@ export const CheckBoxContainerV2 = React.memo(
     };
 
     const actualizarPrecio = (id, price) => {
-      console.log(
-        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      );
-      console.log(
-        `\n * * * * * * * * * ACTUALIZANDO PRECIO DEL PRODUCTO :${id}  * * * * * * * * * \n`
-      );
-      console.log(
-        " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
-      );
-      console.log("PRECIO INTRODUCIDO: - - -", price);
+      // //console.log(
+      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      // );
+      // //console.log(
+      //   `\n * * * * * * * * * ACTUALIZANDO PRECIO DEL PRODUCTO :${id}  * * * * * * * * * \n`
+      // );
+      // //console.log(
+      //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
+      // );
+      //console.log("PRECIO INTRODUCIDO: - - -", price);
       setProducts((products) => {
         let productosActualizados = [...products];
         let producto = productosActualizados.find((p) => p.id === id);
@@ -106,13 +106,13 @@ export const CheckBoxContainerV2 = React.memo(
             // Si price no es un número válido, deja producto.price como una cadena vacía
             producto.price = "";
           } else {
-            console.log("PRECIO A GUARDAR: - - - - -", price);
+            //console.log("PRECIO A GUARDAR: - - - - -", price);
             // Si price es un número válido, establece producto.price como el valor de price
             producto.price = price;
           }
         }
 
-        console.log(producto);
+        //console.log(producto);
         return productosActualizados;
       });
     };

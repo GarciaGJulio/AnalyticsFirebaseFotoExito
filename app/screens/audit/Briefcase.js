@@ -250,13 +250,13 @@ export const Briefcase = ({ navigation }) => {
 
   //checkVar
   const HandleNavigationOfVariables = () => {
-    console.log("ENTRANDO A VALIDAR VARIABLES  - -- - ");
+    //console.log("ENTRANDO A VALIDAR VARIABLES  - -- - ");
     const continueAudit = () => {
       let checkvariables = true;
       const checkForVariable = async () => {
         const response = await handleDoesClientHaveVariable("Precio");
         checkvariables = response;
-        console.log("VARIABLE DE PRECIO EXISTE:", response);
+        //console.log("VARIABLE DE PRECIO EXISTE:", response);
         if (checkvariables === true) {
           setIsModalSaveVisible(false)
           navigation.navigate("prices", {

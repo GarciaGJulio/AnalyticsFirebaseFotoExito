@@ -251,9 +251,9 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "" + perchaData[i].id_percha + "-" + perchaData[i].id_categoria + "-2"
       );
     }
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
+    // //console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    // );
     // //console.log("\nANALIZANDO REGISTRO - IMAGEN 3", perchaData[i].url_imagen3);
     // //console.log(
     //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
@@ -462,16 +462,16 @@ export const subidaBaseRemoteTodaAuditoria = async (
     },
   };
 
-  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
-  console.log("REQUEST BODY;: - - - ", requestBody);
-  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  //console.log("REQUEST BODY;: - - - ", requestBody);
+  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
   try {
     const resp = await axios.post(url, requestBody, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log("-----------", resp.data);
+    //console.log("-----------", resp.data);
     fn(false);
     console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     if (resp.data.result) {
@@ -494,7 +494,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
     }
   } catch (e) {
-    console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
+    //console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     //console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     fn(false);
     /*Alert.alert(

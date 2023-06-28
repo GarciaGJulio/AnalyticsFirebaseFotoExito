@@ -64,7 +64,7 @@ export const RackCheckbox = ({
   // useEffect(() => {
   //   if (CateGeneral < CateModerna) {
   //     setverificacionCategoria("La cantidad de caras de Categoria Moderna alimentos no puede ser superior al total de caras de la Categoria General");
-  //     console.log("es mayor el de moderna", CateGeneral);
+  //     //console.log("es mayor el de moderna", CateGeneral);
   //   } else if (CateGeneral >= CateModerna) {
   //     setverificacionCategoria(false);
   //   }
@@ -73,7 +73,7 @@ export const RackCheckbox = ({
   // useEffect(() => {
   //   if (CateGeneral < CateModerna) {
   //     setverificacionCategoria("La cantidad de caras de Categoria Moderna alimentos no puede ser superior al total de caras de la Categoria General");
-  //     console.log("es mayor el de moderna", CateGeneral);
+  //     //console.log("es mayor el de moderna", CateGeneral);
   //   } else if (CateGeneral >= CateModerna) {
   //     setverificacionCategoria(false);
   //   }
@@ -82,7 +82,7 @@ export const RackCheckbox = ({
   // useEffect(() => {
   //   if (CateGeneral < CateModerna) {
   //     setverificacionCategoria("La cantidad de caras de Categoria Moderna alimentos no puede ser superior al total de caras de la Categoria General");
-  //     console.log("es mayor el de moderna", CateGeneral);
+  //     //console.log("es mayor el de moderna", CateGeneral);
   //   } else if (CateGeneral >= CateModerna) {
   //     setverificacionCategoria(false);
   //   }

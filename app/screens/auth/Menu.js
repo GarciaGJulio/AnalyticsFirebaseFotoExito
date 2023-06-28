@@ -128,10 +128,10 @@ export const Menu = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log(
-      "initVariablesLocalStorage-----------",
-      initVariablesLocalStorage
-    );
+    // //console.log(
+    //   "initVariablesLocalStorage-----------",
+    //   initVariablesLocalStorage
+    // );
     getCurrentScreenInformation(navigation, initVariablesLocalStorage);
   }, []);
 

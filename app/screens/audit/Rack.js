@@ -363,7 +363,7 @@ export const Racks = ({ navigation }) => {
       //setValidatePass(false)
     }
     if (category.length === 0) {
-      console.log("category************************************", category);
+      //console.log("category************************************", category);
       //await AsyncStorage.setItem("id_percha", null);
       handleCurrentScreenPos();
       handleCheckCanSaveAllDataLocal(

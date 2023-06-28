@@ -203,7 +203,7 @@ export const Client_Information = ({ navigation }) => {
       );
 
       setBranchNames(branchs);
-      console.log("DATOS DE SUCURSALES :", resultadoConsultarBranch);
+      //console.log("DATOS DE SUCURSALES :", resultadoConsultarBranch);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -289,20 +289,20 @@ export const Client_Information = ({ navigation }) => {
       return false;
     } else {
       let found = branchNames.some((item) => {
-        console.log(
-          "ITEM A COMPARAR - -- - BASE: ",
-          item.nombre_sucursal +
-            " " +
-            item.fecha_creacion +
-            " " +
-            item.id_cliente +
-            " ACTUAL:  " +
-            currentNameTemp +
-            " " +
-            tempFechaTemp +
-            " " +
-            clientIDTemp
-        );
+        // //console.log(
+        //   "ITEM A COMPARAR - -- - BASE: ",
+        //   item.nombre_sucursal +
+        //     " " +
+        //     item.fecha_creacion +
+        //     " " +
+        //     item.id_cliente +
+        //     " ACTUAL:  " +
+        //     currentNameTemp +
+        //     " " +
+        //     tempFechaTemp +
+        //     " " +
+        //     clientIDTemp
+        // );
         return (
           item.nombre_sucursal === currentNameTemp &&
           item.fecha_creacion === tempFechaTemp &&
@@ -495,8 +495,8 @@ export const Client_Information = ({ navigation }) => {
   //   </Text>
   // </View>)
   const handleValidate = (value, type) => {
-    console.log("value", value);
-    console.log("type", type);
+    //console.log("value", value);
+    //console.log("type", type);
     if (type === "OC") {
       validateBranchNameRepeat(value, setErrorBranchNameRepeat);
     } else if (type === "CC") {

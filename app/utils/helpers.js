@@ -49,7 +49,7 @@ const handleInputChange = (text) => {
 
 export const validatePriceProduct = (price, fn) => {
   const number = parseFloat(price.replace("$", ""));
-  console.log("NUMERO A VALIDAR: ", number);
+  //console.log("NUMERO A VALIDAR: ", number);
   const priceRegex = /^\d+(\.\d{0,2})?$/;
 
   // Resto de las validaciones

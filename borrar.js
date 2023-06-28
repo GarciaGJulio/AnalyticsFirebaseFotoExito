@@ -63,6 +63,6 @@ const handleSaveAudit = async (userInfo, navigation) => {
             navigation.navigate("begin");
         }
     } catch (e) {
-        console.log(e)
+        //console.log(e)
     }
 };
