@@ -511,15 +511,15 @@ export const Promos = ({ navigation }) => {
           disableAction={!validateData()}
           onPressRigth={initValidate}
           showButton1={true}
-          //showButton2={showButton2}
-          //titleRigthSecond={"Siguiente"}
-          //sizeRigthSecond={theme.buttonSize.df}
-          //colorRigthSecond={theme.colors.modernaRed}
-          //onPressRigthSecond={() => navigation.navigate("begin")}
-          //showButton1Second={showButton1}
-          //showButton2Second={showButton2}
-          //iconRigthSecond={"content-save-all-outline"}
-          //typeRigthSecond={"material-community"}
+        //showButton2={showButton2}
+        //titleRigthSecond={"Siguiente"}
+        //sizeRigthSecond={theme.buttonSize.df}
+        //colorRigthSecond={theme.colors.modernaRed}
+        //onPressRigthSecond={() => navigation.navigate("begin")}
+        //showButton1Second={showButton1}
+        //showButton2Second={showButton2}
+        //iconRigthSecond={"content-save-all-outline"}
+        //typeRigthSecond={"material-community"}
         />
       </View>
     </View>
