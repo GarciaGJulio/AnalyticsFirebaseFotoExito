@@ -44,14 +44,6 @@ const TabArr = [
     component: Promos_Review,
     color: theme.colors.modernaGreen,
   },
-  {
-    route: "Sin Variables",
-    label: "Sin Variables",
-    type: "material-icons",
-    icon: "local-offer",
-    component: WithOutData,
-    color: theme.colors.modernaGreen,
-  },
 ];
 
 const Tab = createBottomTabNavigator();
