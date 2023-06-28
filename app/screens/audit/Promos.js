@@ -233,7 +233,7 @@ export const Promos = ({ navigation }) => {
       handleSaveAudit(userInfo, navigation);
 
       cleanCurrentScreenUser();
-      handleCurrentScreenPos();
+   //   handleCurrentScreenPos();
     };
     continueAudit();
   };
@@ -382,7 +382,7 @@ export const Promos = ({ navigation }) => {
     validate();
   };
   const validate = async () => {
-    handleCurrentScreenPos();
+
 
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
@@ -420,6 +420,7 @@ export const Promos = ({ navigation }) => {
       } else {
         setIsModalVisible(true);
         try {
+         
           //await AsyncStorage.setItem("id_promocion", idPercha);
           // //console.log(
           //   "PROMOCIONES QUE VAN A SER GUARDADOS: ",
@@ -606,15 +607,15 @@ export const Promos = ({ navigation }) => {
           disableAction={!validateData()}
           onPressRigth={initValidate}
           showButton1={true}
-          //showButton2={showButton2}
-          //titleRigthSecond={"Siguiente"}
-          //sizeRigthSecond={theme.buttonSize.df}
-          //colorRigthSecond={theme.colors.modernaRed}
-          //onPressRigthSecond={() => navigation.navigate("begin")}
-          //showButton1Second={showButton1}
-          //showButton2Second={showButton2}
-          //iconRigthSecond={"content-save-all-outline"}
-          //typeRigthSecond={"material-community"}
+        //showButton2={showButton2}
+        //titleRigthSecond={"Siguiente"}
+        //sizeRigthSecond={theme.buttonSize.df}
+        //colorRigthSecond={theme.colors.modernaRed}
+        //onPressRigthSecond={() => navigation.navigate("begin")}
+        //showButton1Second={showButton1}
+        //showButton2Second={showButton2}
+        //iconRigthSecond={"content-save-all-outline"}
+        //typeRigthSecond={"material-community"}
         />
       </View>
     </View>
