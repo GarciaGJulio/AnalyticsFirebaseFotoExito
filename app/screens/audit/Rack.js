@@ -3,6 +3,7 @@ import {
   BackHandler,
   Image,
   ImageBackground,
+  Keyboard,
   ScrollView,
   ScrollViewBase,
   StatusBar,
@@ -76,6 +77,41 @@ export const Racks = ({ navigation }) => {
     setIsModalSaveVisible,
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
+
+
+
+
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true); // Keyboard is active
+        // Add your code here to react to the keyboard being activated
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false); // Keyboard is not active
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     const checkForVariable = async () => {
@@ -644,7 +680,7 @@ export const Racks = ({ navigation }) => {
   if (!fontLoaded) return null;
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, width: "100%" }}>
+      <View style={{ flex:isKeyboardVisible? 2:1, width: "100%" }}>
         <ModernaHeader />
       </View>
       <ConfirmationModal
@@ -705,6 +741,7 @@ export const Racks = ({ navigation }) => {
                   setErrorPerchaM={setErrorPerchaM}
                   setData={setCategory}
                   view={"audit"}
+                  
                 />
               )}
             </View>

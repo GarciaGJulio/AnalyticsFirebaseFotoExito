@@ -36,6 +36,7 @@ export const TarjPercha = ({
   setErrorPerchaM,
   errorPerchaM,
   setValueGeneralValidate,
+  tecladopresent,
 }) => {
   const [objPercha, setObjPercha] = useState({});
   const [datos, setDatos] = useState([]);
