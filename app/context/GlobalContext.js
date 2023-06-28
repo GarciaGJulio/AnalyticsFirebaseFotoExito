@@ -289,22 +289,28 @@ export const GlobalProvider = ({ children }) => {
         cleanCurrentScreenUser();
         handleCleanPosScreen();
         handleCleanStorage()
-        setIsModalSaveVisible(false)
+        
 
-        Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
+       
         if (isConnectionActivate) {
           try {
+            setIsModalSaveVisible(true)
             await subidaBaseRemoteTodaAuditoria(
               idAuditoria,
-              () => { },
+              ()=>{
+                setIsModalSaveVisible(false)
+                navigation.navigate("begin");
+                Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
+              },
               setGlobalVariable,
               globalVariable
             );
-            navigation.navigate("begin");
+          
           } catch (e) {
             navigation.navigate("begin");
           }
         } else {
+          setIsModalSaveVisible(false)
           navigation.navigate("begin");
         }
       } catch (e) {

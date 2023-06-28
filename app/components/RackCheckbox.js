@@ -351,6 +351,7 @@ export const RackCheckbox = ({
               padding: 5,
               textAlign: "justify",
               color: "red",
+              fontSize: theme.fontSize.error,
               fontFamily: "Metropolis",
             }}
           >
