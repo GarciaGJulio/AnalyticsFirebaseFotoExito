@@ -229,7 +229,8 @@ export const Prices = ({ navigation, route }) => {
     };
   }, []);
 
-  const HandleNavigationOfVariables = () => {
+  const HandleNavigationOfVariables = (item) => {
+    console.log("llamda desde --------------", item)
     const continueAudit = () => {
       let checkvariables = true;
       const checkForVariable = async () => {
@@ -334,15 +335,15 @@ export const Prices = ({ navigation, route }) => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     //console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
-      //console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
+      console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ", fullArrays);
       handleCurrentScreenPos();
       handleCheckCanSaveAllDataLocal(
         () => {
           setTimeout(() => handleSaveAudit(userInfo, navigation), 1000);
         },
         () => {
-          HandleNavigationOfVariables();
-        }
+          HandleNavigationOfVariables(1);
+        }, null, 2
       );
     } else {
       if (errorPrice != "") {
@@ -442,19 +443,7 @@ export const Prices = ({ navigation, route }) => {
               //setShowButton2(true);
               // setIsModalVisible(false);
               //setIsModalSaveVisible(false);
-              setHadSavePreciador(true);
-              handleCurrentScreenPos();
-              handleCheckCanSaveAllDataLocal(
-                () => {
-                  setTimeout(() => handleSaveAudit(userInfo, navigation), 1500);
-                },
-                () => {
-                  setIsModalSaveVisible(false)
-                  setShowButton1(false);
-                  setShowButton2(true);
-                  HandleNavigationOfVariables();
-                }
-              );
+
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -462,6 +451,19 @@ export const Prices = ({ navigation, route }) => {
               setIsModalSaveVisible(false);
             }
           });
+          setHadSavePreciador(true);
+          handleCurrentScreenPos();
+          handleCheckCanSaveAllDataLocal(
+            () => {
+              setTimeout(() => handleSaveAudit(userInfo, navigation), 1500);
+            },
+            () => {
+              setIsModalSaveVisible(false)
+              setShowButton1(false);
+              setShowButton2(true);
+              HandleNavigationOfVariables(2);
+            }, null, 3
+          );
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
             return `**${JSON.stringify(item)}**`;
           });
@@ -568,8 +570,8 @@ export const Prices = ({ navigation, route }) => {
         handleSaveAudit(userInfo, navigation);
       },
       () => {
-        HandleNavigationOfVariables();
-      }
+        HandleNavigationOfVariables(3);
+      }, null, 1
     );
   };
   const handleDeleteRegisterLocal = async () => {
@@ -660,10 +662,10 @@ export const Prices = ({ navigation, route }) => {
               activo2 === true && activo == true
                 ? "50%"
                 : activo2 === true && activo == false
-                ? "10%"
-                : activo2 === false && activo == true
-                ? "90%"
-                : "10%",
+                  ? "10%"
+                  : activo2 === false && activo == true
+                    ? "90%"
+                    : "10%",
             width: "100%",
             //backgroundColor: "blue",
             marginVertical: 10,
@@ -693,8 +695,8 @@ export const Prices = ({ navigation, route }) => {
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo}
 
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
@@ -719,10 +721,10 @@ export const Prices = ({ navigation, route }) => {
               activo2 === true && activo == true
                 ? "50%"
                 : activo2 === true && activo == false
-                ? "87%"
-                : activo2 === false && activo == true
-                ? "10%"
-                : "10%",
+                  ? "87%"
+                  : activo2 === false && activo == true
+                    ? "10%"
+                    : "10%",
           }}
         >
           {infoScreen && (
@@ -734,8 +736,8 @@ export const Prices = ({ navigation, route }) => {
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo2}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
           {!infoScreen && (
@@ -747,8 +749,8 @@ export const Prices = ({ navigation, route }) => {
               errorPrice={errorPrice}
               setErrorPrice={setErrorPrice}
               setActivoItem={setActivo2}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
+            //idPreciador={idPreciadorPortafolioComplementario}
+            //idPortafolio={idPortafolioComplementario}
             />
           )}
         </View>
@@ -788,15 +790,15 @@ export const Prices = ({ navigation, route }) => {
           //cambios del merge
           disableAction={!validateData()}
           showButton1={true}
-          // showButton2={showButton2}
-          // titleRigthSecond={"Siguiente"}
-          // sizeRigthSecond={theme.buttonSize.df}
-          // colorRigthSecond={theme.colors.modernaRed}
-          // onPressRigthSecond={() => navigation.navigate("rack")}
-          // showButton1Second={showButton1}
-          // showButton2Second={showButton2}
-          // iconRigthSecond={"arrow-right-circle"}
-          // typeRigthSecond={"feather"}
+        // showButton2={showButton2}
+        // titleRigthSecond={"Siguiente"}
+        // sizeRigthSecond={theme.buttonSize.df}
+        // colorRigthSecond={theme.colors.modernaRed}
+        // onPressRigthSecond={() => navigation.navigate("rack")}
+        // showButton1Second={showButton1}
+        // showButton2Second={showButton2}
+        // iconRigthSecond={"arrow-right-circle"}
+        // typeRigthSecond={"feather"}
         />
       </View>
     </View>

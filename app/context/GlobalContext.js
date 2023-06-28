@@ -149,13 +149,14 @@ export const GlobalProvider = ({ children }) => {
     initVariablesLocalStorage();
   };
   const handleCheckCanSaveAllDataLocal = useCallback(
-    async (onFinish, onContinue, canFinsih) => {
+    async (onFinish, onContinue, canFinsih,item) => {
+      console.log("llamda para finalizar desde --------------",item)
       try {
         const variablesStrange = ["Precio", "Portafolio"];
 
         const variables = await CountClientVariable(true);
         const posScreen = await AsyncStorage.getItem("currentScreenPos");
-        console.log("variables *******", variables);
+        //console.log("variables *******", variables);
         let canSaveSpecial = false;
         if (variables.length == 2) {
           if (
@@ -253,7 +254,7 @@ export const GlobalProvider = ({ children }) => {
       } catch (e) {
         nombreCliente = await AsyncStorage.getItem("nombre_cliente");
       }
-      console.log("------------------------------------nombreCliente------------------------", nombreCliente)
+      //console.log("------------------------------------nombreCliente------------------------", nombreCliente)
       let dataSave = {
         tableName: "auditoria",
         dataInsertType: [
