@@ -662,7 +662,7 @@ export const Racks = ({ navigation }) => {
             <ScreenInformation
               title={"Perchas"}
               text={
-                "Selecciona las perchas de los productos disponibles en el punto de venta actual"
+                "Seleccion todas las perchas de los productos disponibles en el punto de venta actual"
               }
             />
           ) : (

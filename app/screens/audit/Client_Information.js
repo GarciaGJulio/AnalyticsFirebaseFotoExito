@@ -304,7 +304,8 @@ export const Client_Information = ({ navigation }) => {
   };
 
   const onlyNavigate = () => {
-    HandleNavigationOfVariables(), setHadSaveBriefCase(false);
+    HandleNavigationOfVariables();
+    setHadSaveBriefCase(false);
   };
 
   const handleOpenModal = async () => {
@@ -461,11 +462,10 @@ export const Client_Information = ({ navigation }) => {
     deleteRegisterAudit({
       tableName: "sucursal",
       objectId: "id_sucursal",
-      valueId: `${
-        infoScreen && infoScreen.id_sucursal
+      valueId: `${infoScreen && infoScreen.id_sucursal
           ? infoScreen.id_sucursal
           : sucursalInformation.id
-      }`,
+        }`,
     });
     setHadSave(false);
     cleanCurrentScreenUser();
@@ -508,6 +508,7 @@ export const Client_Information = ({ navigation }) => {
                 justifyContent: "center",
                 alignItems: "center",
                 flex: 1,
+                // backgroundColor:"brown"
               }}
             >
               <View style={{ flex: 3 }}>
@@ -517,8 +518,10 @@ export const Client_Information = ({ navigation }) => {
               <View
                 style={{
                   flex: 0.1,
+                  // backgroundColor:"red"
                 }}
               >
+                
                 <Dropdown
                   valueInfoScreen={
                     infoScreen && infoScreen.nombre_cliente
@@ -549,7 +552,7 @@ export const Client_Information = ({ navigation }) => {
                   justifyContent: "space-evenly",
                   flex: 1,
                   width: "100%",
-                  //backgroundColor: "orange",
+                  // backgroundColor: "orange",
                 }}
               >
                 <View style={{ width: 160 }}>
@@ -653,9 +656,9 @@ export const Client_Information = ({ navigation }) => {
                       : sucursal
                   }
                   width={"90%"}
-                  // information={
-                  //   "* Solo se puede ingresar la misma sucursal una vez por día"
-                  // }
+                // information={
+                //   "* Solo se puede ingresar la misma sucursal una vez por día"
+                // }
                 />
               </View>
               <View
@@ -694,8 +697,8 @@ export const Client_Information = ({ navigation }) => {
                     //merge linea de abajo
                     disabled={!validarFormulario()}
                     newstyle
-                    // icon
-                    // iconLetkter
+                  // icon
+                  // iconLetkter
                   />
                 )}
                 {showButton2 && (
@@ -706,7 +709,8 @@ export const Client_Information = ({ navigation }) => {
                     iconType={"feather"}
                     size={theme.buttonSize.df}
                     onPress={() => {
-                      HandleNavigationOfVariables(), setHadSaveBriefCase(false);
+                      HandleNavigationOfVariables();
+                      setHadSaveBriefCase(false);
                     }}
                     newstyle
                   />

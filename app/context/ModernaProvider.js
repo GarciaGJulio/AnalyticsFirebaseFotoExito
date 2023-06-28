@@ -141,7 +141,7 @@ export const ModernaProvider = ({ children }) => {
               // );
               let deviceMacAdress = await DeviceInfo.getUniqueId();
               if (
-                userDataBase[0].usuario_dispositivo === "null" ||
+                userDataBase[0].usuario_dispositivo != "null" ||
                 userDataBase[0].usuario_dispositivo === null
               ) {
                 // //console.log(

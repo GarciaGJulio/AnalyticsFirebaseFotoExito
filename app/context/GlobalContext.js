@@ -9,6 +9,7 @@ import { dataTime } from "../services/GenerateID";
 import { db_insertGlobalDataAudit } from "../services/SqliteService";
 import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 import { cleanCurrentScreenUser } from "../utils/Utils";
+import { Alert } from "react-native";
 
 export const GlobalContext = createContext();
 
@@ -24,7 +25,7 @@ export const GlobalProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalText, setModalText] = useState("Texto del modal");
   const [modalTitle, setModalTitle] = useState("Título del modal");
-  const [currentScreenPos, setCurrentScreenPos] = useState(1)
+  const [currentScreenPos, setCurrentScreenPos] = useState(0)
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
     useState([]);*/
@@ -32,6 +33,10 @@ export const GlobalProvider = ({ children }) => {
   //   lookForVariable(setVariables);
   // };
 
+
+  useEffect(() => {
+    console.log("currentScreenPoscurrentScreenPos", currentScreenPos)
+  }, [currentScreenPos]);
   useEffect(() => {
     // fetchVariables();
     initVariablesLocalStorage()
@@ -42,14 +47,11 @@ export const GlobalProvider = ({ children }) => {
     const currentPosPer = await AsyncStorage.getItem('currentScreenPosPer');
 
     if (!currentPos) {
-      await AsyncStorage.setItem('currentScreenPos', "1");
-      await AsyncStorage.setItem('currentScreenPosPer', "1");
+      await AsyncStorage.setItem('currentScreenPos', "0");
+      await AsyncStorage.setItem('currentScreenPosPer', "0");
     } else {
       if (isPersistencia) {
         setCurrentScreenPos(parseInt(currentPosPer))
-        console.log("(currentPos - 1)*********", currentPos)
-        console.log("(currentPosPer - 1)*********", currentPosPer)
-
         AsyncStorage.setItem('currentScreenPos', `${currentPosPer}`);
       } else {
         setCurrentScreenPos(parseInt(currentPos))
@@ -68,14 +70,14 @@ export const GlobalProvider = ({ children }) => {
         id_grupo_cliente?.toString().toUpperCase() &&
         variable?.nombre_variable?.toUpperCase() ===
         nombre_variable?.toUpperCase() &&
-        variable?.estado_variable ===1
+        variable?.estado_variable === 1
 
       );
     });
     return index !== -1;
   };
 
-  const CountClientVariable = async () => {
+  const CountClientVariable = async (returnData) => {
     try {
       const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME}  where estado_variable=1`)
       const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
@@ -89,7 +91,7 @@ export const GlobalProvider = ({ children }) => {
         }
       });
       const total = Variables2.length
-      return total;
+      return returnData ? Variables2 : total;
     } catch (e) {
       console.error(e)
       return 0
@@ -134,17 +136,39 @@ export const GlobalProvider = ({ children }) => {
 
   const handleClearWorkFlow = () => {
     clearWorkFlow();
+    handleCleanPosScreen()
   };
-
-  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish, onContinue) => {
+  const handleCleanPosScreen = async () => {
+    console.log("limpiando las pos de las pantallas")
+    await AsyncStorage.setItem('currentScreenPos', "0");
+    await AsyncStorage.setItem('currentScreenPosPer', "0");
+    initVariablesLocalStorage()
+  }
+  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish, onContinue, canFinsih) => {
     try {
-      const totalVariables = await CountClientVariable()
+      const variablesStrange = ["Precio", "Portafolio"]
+
+      const variables = await CountClientVariable(true)
       const posScreen = await AsyncStorage.getItem('currentScreenPos')
-      if (posScreen > totalVariables) {
+      console.log("can finish*******************", canFinsih)
+      let canSaveSpecial = false
+      if (variables.length == 2 && canFinsih) {
+        if (variablesStrange.includes(variables[0].nombre_variable) && variablesStrange.includes(variables[1].nombre_variable)) {
+          if (posScreen >= variables.length) {
+            canSaveSpecial = true
+          } else {
+            canSaveSpecial = false
+
+          }
+        }
+
+      }
+
+
+      if ((posScreen >= variables.length) || canSaveSpecial) {
         onFinish()
         cleanCurrentScreenUser();
-        await AsyncStorage.setItem('currentScreenPos', "1");
-        await AsyncStorage.setItem('currentScreenPosPer', "1");
+        handleCleanPosScreen()
         console.log("*********************ya est+a al final de la pantalla*/*****************")
       } else {
         onContinue()
@@ -158,13 +182,18 @@ export const GlobalProvider = ({ children }) => {
   }, [])
   const handleCurrentScreenPos = useCallback(async (pos, screenPos) => {
     const posScreen = await AsyncStorage.getItem('currentScreenPos')
+    console.log("posScreen******************", posScreen)
+    console.log("posScreen type of******************", typeof posScreen)
+    console.log("screenPos ******************", screenPos)
+    console.log("pos ******************", pos)
+
     if (!posScreen) {
-      await AsyncStorage.setItem('currentScreenPos', "1")
-      await AsyncStorage.setItem('currentScreenPosPer', "1")
+      await AsyncStorage.setItem('currentScreenPos', "0")
+      await AsyncStorage.setItem('currentScreenPosPer', "0")
 
     } else if (screenPos) {
       await AsyncStorage.setItem('currentScreenPos', `${screenPos}`)
-      await AsyncStorage.setItem('currentScreenPosPer', `${(screenPos - 1) > 0 ? (screenPos - 1) : 1}`)
+      await AsyncStorage.setItem('currentScreenPosPer', `${(screenPos - 1) >= 0 ? (screenPos - 1) : 0}`)
     } else {
       await AsyncStorage.setItem('currentScreenPos', `${parseInt(posScreen) + (pos ? pos : 1)}`)
       await AsyncStorage.setItem('currentScreenPosPer', `${posScreen}`)
@@ -227,6 +256,7 @@ export const GlobalProvider = ({ children }) => {
         console.log(dataSave)
         console.log("***********************************************************")
         db_insertGlobalDataAudit(dataSave);
+        Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
         if (isConnectionActivate) {
           try {
             await subidaBaseRemoteTodaAuditoria(
@@ -280,6 +310,7 @@ export const GlobalProvider = ({ children }) => {
         handleCheckCanSaveAllDataLocal,
         currentScreenPos,
         handleCurrentScreenPos,
+        handleCleanPosScreen,
         initVariablesLocalStorage
       }}
     >
