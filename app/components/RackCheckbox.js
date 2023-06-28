@@ -45,22 +45,52 @@ export const RackCheckbox = ({
   const [extraImages, setExtraImages] = useState([]);
   const { hadSaveRack, setHadSaveRack } = useContext(GlobalContext);
 
-  useEffect(() => {
-    // //console.log("------isUserScreen----------",isUserScreen)
-    if (isUserScreen) {
-      setCateGeneral(item.carasGeneral + "");
-      setCateModerna(item.carasModerna + "");
-      if (item.state == 1) {
-        setCheck1(true);
-        setOpenCamera(true);
-      } else {
-        setCheck2(true);
-      }
+  // useEffect(() => {
+  //   // //console.log("------isUserScreen----------",isUserScreen)
+  //   if (isUserScreen) {
+  //     setCateGeneral(item.carasGeneral + "");
+  //     setCateModerna(item.carasModerna + "");
+  //     if (item.state == 1) {
+  //       setCheck1(true);
+  //       setOpenCamera(true);
+  //     } else {
+  //       setCheck2(true);
+  //     }
 
-      // //console.log("----------------",item)
-    }
-  }, [isUserScreen]);
+  //     // //console.log("----------------",item)
+  //   }
+  // }, [isUserScreen]);
 
+  // useEffect(() => {
+  //   if (CateGeneral < CateModerna) {
+  //     setverificacionCategoria("La cantidad de caras de Categoria Moderna alimentos no puede ser superior al total de caras de la Categoria General");
+  //     console.log("es mayor el de moderna", CateGeneral);
+  //   } else if (CateGeneral >= CateModerna) {
+  //     setverificacionCategoria(false);
+  //   }
+  // }, [CateModerna, CateGeneral]);
+  
+
+
+  // useEffect(() => {
+  //   if (CateGeneral < CateModerna) {
+  //     setverificacionCategoria("La cantidad de caras de Categoria Moderna alimentos no puede ser superior al total de caras de la Categoria General");
+  //     console.log("es mayor el de moderna", CateGeneral);
+  //   } else if (CateGeneral >= CateModerna) {
+  //     setverificacionCategoria(false);
+  //   }
+  // }, [CateModerna]);
+
+  // useEffect(() => {
+  //   if (CateGeneral < CateModerna) {
+  //     setverificacionCategoria("La cantidad de caras de Categoria Moderna alimentos no puede ser superior al total de caras de la Categoria General");
+  //     console.log("es mayor el de moderna", CateGeneral);
+  //   } else if (CateGeneral >= CateModerna) {
+  //     setverificacionCategoria(false);
+  //   }
+  // }, [ CateGeneral]);
+  
+  
   /*const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -148,9 +178,9 @@ export const RackCheckbox = ({
       // //console.log(
       //   "El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General"
       // );
-      // setverificacionCategoria(
-      //   "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
-      // );
+      setverificacionCategoria(
+        "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
+      );
       // setValueGeneralValidate(
       //   "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
       // );
@@ -500,5 +530,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
+    marginTop:10
   },
 });

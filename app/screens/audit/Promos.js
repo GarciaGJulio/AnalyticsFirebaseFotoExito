@@ -61,7 +61,7 @@ export const Promos = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [hasVariable, setHasVariable] = useState(true);
-
+  const [checkList, setcheckList] = useState(false);
   const {
     setHadSavePreciador,
     setHadSaveBriefCase,
@@ -79,7 +79,7 @@ export const Promos = ({ navigation }) => {
     setModalTitle,
     currentScreenPos,
     handleCheckCanSaveAllDataLocal,
-    handleCurrentScreenPos
+    handleCurrentScreenPos,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export const Promos = ({ navigation }) => {
     };
     checkForVariable();
     //handleCurrentScreenPos()
-    AsyncStorage.setItem("idPromocion",idPromocion);
+    AsyncStorage.setItem("idPromocion", idPromocion);
   }, []);
 
   const consultarYCopiarContenido = async () => {
@@ -230,10 +230,9 @@ export const Promos = ({ navigation }) => {
       setIsModalVisible(true);
       saveAudit();
       cleanCurrentScreenUser();
-      handleCurrentScreenPos()
-    }
-      continueAudit()
-
+      handleCurrentScreenPos();
+    };
+    continueAudit();
   };
 
   const dataId = async () => {
@@ -377,13 +376,10 @@ export const Promos = ({ navigation }) => {
   });
 
   const initValidate = () => {
-
-      validate()
- 
-  }
+    validate();
+  };
   const validate = async () => {
-
-    handleCurrentScreenPos()
+    handleCurrentScreenPos();
 
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
@@ -460,7 +456,7 @@ export const Promos = ({ navigation }) => {
               //console.log("SENTENCIA A EJECUTAR: ", sentence);
               db_insertGlobalDataAudit(dataSave);
               //console.log("TODO BIEN");
-             // saveAudit();
+              // saveAudit();
               cleanCurrentScreenUser();
               navigation.navigate("begin");
               /*setTimeout(() => {
@@ -474,7 +470,6 @@ export const Promos = ({ navigation }) => {
             cleanCurrentScreenUser();
             navigation.navigate("begin");
           }
-
         } catch (e) {
           //console.log("errordel drop?::", e);
           Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
@@ -564,12 +559,18 @@ export const Promos = ({ navigation }) => {
             />
           </View>
 
-          <View style={{ flex: 1.5, marginTop: 10 }}>
+          <View
+            style={{
+              flex: 0.4,
+              // backgroundColor:"red"
+            }}
+          >
             <DropdownPromos
               nameTitle={"Sucursal"}
               placeholder={"Seleccione una sucursal"}
               setSelected={setSelected}
               data={branch}
+              checkdrop={setcheckList}
             />
           </View>
 
@@ -605,19 +606,17 @@ export const Promos = ({ navigation }) => {
           disableAction={!validateData()}
           onPressRigth={initValidate}
           showButton1={true}
-        //showButton2={showButton2}
-        //titleRigthSecond={"Siguiente"}
-        //sizeRigthSecond={theme.buttonSize.df}
-        //colorRigthSecond={theme.colors.modernaRed}
-        //onPressRigthSecond={() => navigation.navigate("begin")}
-        //showButton1Second={showButton1}
-        //showButton2Second={showButton2}
-        //iconRigthSecond={"content-save-all-outline"}
-        //typeRigthSecond={"material-community"}
+          //showButton2={showButton2}
+          //titleRigthSecond={"Siguiente"}
+          //sizeRigthSecond={theme.buttonSize.df}
+          //colorRigthSecond={theme.colors.modernaRed}
+          //onPressRigthSecond={() => navigation.navigate("begin")}
+          //showButton1Second={showButton1}
+          //showButton2Second={showButton2}
+          //iconRigthSecond={"content-save-all-outline"}
+          //typeRigthSecond={"material-community"}
         />
       </View>
-
-
     </View>
   );
 };
@@ -630,7 +629,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    flex: 12,
+    flex: 20,
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
     alignItems: "center",
@@ -644,11 +643,12 @@ const styles = StyleSheet.create({
     //backgroundColor:'blue'
   },
   promosContent: {
-    flex: 2,
+    flex: 1.4,
     width: theme.dimensions.maxWidth,
     //height:'100%',
     //marginBottom: 5,
-    //backgroundColor:'blue',
+    backgroundColor:'blue',
     alignItems: "center",
+    marginVertical: 20,
   },
 });

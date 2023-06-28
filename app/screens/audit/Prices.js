@@ -669,7 +669,7 @@ export const Prices = ({ navigation, route }) => {
             width: "100%",
             alignItems: "center",
             // backgroundColor:"red",
-            height: activo2 === true && activo == true ? "50%" : activo2 === true && activo == false ? "100%" : activo2 === false && activo == true ? "10%" : "10%"
+            height: activo2 === true && activo == true ? "50%" : activo2 === true && activo == false ? "90%" : activo2 === false && activo == true ? "10%" : "10%"
           }}
         >
           {infoScreen && (

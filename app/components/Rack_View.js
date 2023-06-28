@@ -240,7 +240,7 @@ export const Rack_View = ({ rack }) => {
               transparent={true}
               visible={styles.modalVisible}
               onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
+                // Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}
             >
