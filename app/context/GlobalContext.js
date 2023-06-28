@@ -30,6 +30,8 @@ export const GlobalProvider = ({ children }) => {
   const [modalTitle, setModalTitle] = useState("Título del modal");
   const [currentScreenPos, setCurrentScreenPos] = useState(0);
   const [isModalSaveVisible, setIsModalSaveVisible] = useState(false);
+  const [messageModalSave, setMessageModalSave] = useState("Almacenando datos, por favor espere...");
+
 
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
@@ -305,6 +307,7 @@ export const GlobalProvider = ({ children }) => {
         if (isConnectionActivate) {
           try {
             setIsModalSaveVisible(true)
+            setMessageModalSave("Subiendo datos a la nube, por favor espere...")
             await subidaBaseRemoteTodaAuditoria(
               idAuditoria,
               () => {
@@ -319,6 +322,8 @@ export const GlobalProvider = ({ children }) => {
           } catch (e) {
             navigation.navigate("begin");
           }
+          setMessageModalSave("Almacenando datos, por favor espere...")
+
         } else {
           setIsModalSaveVisible(false)
           navigation.navigate("begin");
@@ -374,7 +379,7 @@ export const GlobalProvider = ({ children }) => {
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalSaveVisible}
-        warning={"Almacenando datos, por favor espere..."}
+        warning={messageModalSave}
       />
       {children}
     </GlobalContext.Provider>
