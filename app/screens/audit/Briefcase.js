@@ -544,7 +544,7 @@ export const Briefcase = ({ navigation }) => {
               try {
                 db_insertGlobalDataAudit(dataSave2);
                 // setIsModalVisible(false);
-                setIsModalSaveVisible(false)
+               // setIsModalSaveVisible(false)
 
                 handleCurrentScreenPos();
                 handleCheckCanSaveAllDataLocal(
@@ -554,6 +554,7 @@ export const Briefcase = ({ navigation }) => {
                     }, 2000);
                   },
                   () => {
+                    setIsModalSaveVisible(false)
                     HandleNavigationOfVariables();
                   }
                 );

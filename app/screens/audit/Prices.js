@@ -441,14 +441,15 @@ export const Prices = ({ navigation, route }) => {
               //setShowButton1(false);
               //setShowButton2(true);
               // setIsModalVisible(false);
-              setIsModalSaveVisible(false);
+              //setIsModalSaveVisible(false);
               setHadSavePreciador(true);
               handleCurrentScreenPos();
               handleCheckCanSaveAllDataLocal(
                 () => {
-                  setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+                  setTimeout(() => handleSaveAudit(userInfo, navigation), 1500);
                 },
                 () => {
+                  setIsModalSaveVisible(false)
                   setShowButton1(false);
                   setShowButton2(true);
                   HandleNavigationOfVariables();
