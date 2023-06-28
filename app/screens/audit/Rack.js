@@ -755,11 +755,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    flex: 13,
+    flex: 14,
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
     alignItems: "center",
-    padding: 20,
+    paddingVertical: 5,
   },
   scrollViewContent: {
     flexGrow: 1,
