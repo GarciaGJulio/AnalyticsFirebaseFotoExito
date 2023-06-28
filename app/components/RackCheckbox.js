@@ -527,7 +527,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     flex: 1,
     padding: 10,
-    paddingBottom:TecPresent? 1:3,
+    paddingBottom:1,
   },
   input: {
     fontWeight: theme.fontWeight.normal,
