@@ -4,6 +4,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import theme from "../theme/theme";
 import { useFonts } from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Icon } from "@rneui/base";
 
 export const Dropdown = ({
   placeholder,
@@ -129,6 +130,15 @@ export const Dropdown = ({
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
         search={!hadSave}
+        closeicon={
+          <Icon
+            name="chevron-small-up"
+            type="entypo"
+            size={28}
+            color={theme.colors.gray}
+            style={{ marginLeft: 20 }}
+          />
+        }
         //dropdownShown={false}
         searchPlaceholder="Buscar"
         data={newArrayClients}
