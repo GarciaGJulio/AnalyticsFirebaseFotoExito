@@ -73,6 +73,7 @@ export const Racks = ({ navigation }) => {
     currentScreenPos,
     handleCurrentScreenPos,
     handleSaveAudit,
+    setIsModalSaveVisible,
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
@@ -369,7 +370,9 @@ export const Racks = ({ navigation }) => {
           setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
         },
         () => {
-          setIsModalVisible(false);
+         // setIsModalVisible(false);
+         setIsModalSaveVisible(false)
+
           navigation.navigate("promos");
         }
       );
@@ -414,7 +417,9 @@ export const Racks = ({ navigation }) => {
           errorPerchaM === "" &&
           valueGeneralValidate === ""
         ) {
-          setIsModalVisible(true);
+          //setIsModalVisible(true);
+          setIsModalSaveVisible(true)
+
           try {
             //console.log("IDPERCHA21", idPercha);
 
@@ -487,7 +492,9 @@ export const Racks = ({ navigation }) => {
               // navigation.navigate("promos");rrrrrrrrrr
             });
             try {
-              setIsModalVisible(false);
+             // setIsModalVisible(false);
+             setIsModalSaveVisible(false)
+
               setHadSaveRack(true);
               handleCurrentScreenPos();
               handleCheckCanSaveAllDataLocal(
@@ -503,7 +510,9 @@ export const Racks = ({ navigation }) => {
             } catch (error) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
               setHadSaveRack(false);
-              setIsModalVisible(false);
+             // setIsModalVisible(false);
+             setIsModalSaveVisible(false)
+
             }
             let tempDataScreen = category.map((item) => {
               return `**${JSON.stringify(item)}**`;
@@ -587,7 +596,9 @@ export const Racks = ({ navigation }) => {
               "Error antes de  insertar los datos",
               "Vuelva a intentarlo"
             );
-            setIsModalVisible(false);
+           // setIsModalVisible(false);
+           setIsModalSaveVisible(false)
+
             //setShowButton1(true);
             //setShowButton2(false);
           }

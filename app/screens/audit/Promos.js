@@ -78,6 +78,7 @@ export const Promos = ({ navigation }) => {
     setModalText,
     setModalTitle,
     handleSaveAudit,
+    setIsModalSaveVisible,
     currentScreenPos,
     handleCheckCanSaveAllDataLocal,
     handleCurrentScreenPos,
@@ -228,12 +229,13 @@ export const Promos = ({ navigation }) => {
     const continueAudit = () => {
       setAnimation(SAVE_ANIMATION);
       setIsModalVisibleCloseSucursal(false);
-      setIsModalVisible(true);
+      // setIsModalVisible(true);
+      setIsModalSaveVisible(true)
       // saveAudit();
       handleSaveAudit(userInfo, navigation);
 
       cleanCurrentScreenUser();
-   //   handleCurrentScreenPos();
+      //   handleCurrentScreenPos();
     };
     continueAudit();
   };
@@ -345,14 +347,16 @@ export const Promos = ({ navigation }) => {
         try {
           await subidaBaseRemoteTodaAuditoria(
             idAuditoria,
-            setIsModalVisible,
+            () => { },
             setGlobalVariable,
             globalVariable
           );
           navigation.navigate("begin");
         } catch (e) {
           //console.log("ERROR DESDE PROMOS: ", e);
-          setIsModalVisible(false);
+          // setIsModalVisible(false);
+          setIsModalSaveVisible(false)
+
           setIsModalVisibleClose(false);
           setIsModalVisibleCloseSucursal(false);
           /*Alert.alert(
@@ -363,7 +367,9 @@ export const Promos = ({ navigation }) => {
         }
       } else {
         setIsModalVisibleCloseSucursal(false);
-        setIsModalVisible(false);
+        //setIsModalVisible(false);
+        setIsModalSaveVisible(false)
+
         navigation.navigate("begin");
       }
     } catch (e) {
@@ -418,9 +424,11 @@ export const Promos = ({ navigation }) => {
         //navigation.navigate('rack');
         //console.log("CONTENIDO DE PROMOCIONES: ", JSON.stringify(promos));
       } else {
-        setIsModalVisible(true);
+        // setIsModalVisible(true);
+        setIsModalSaveVisible(true)
+
         try {
-         
+
           //await AsyncStorage.setItem("id_promocion", idPercha);
           // //console.log(
           //   "PROMOCIONES QUE VAN A SER GUARDADOS: ",
