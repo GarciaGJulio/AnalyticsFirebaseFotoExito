@@ -230,7 +230,7 @@ export const Promos = ({ navigation }) => {
       setAnimation(SAVE_ANIMATION);
       setIsModalVisibleCloseSucursal(false);
       // setIsModalVisible(true);
-      setIsModalSaveVisible(true)
+      setIsModalSaveVisible(true);
       // saveAudit();
       handleSaveAudit(userInfo, navigation);
 
@@ -269,7 +269,6 @@ export const Promos = ({ navigation }) => {
     dataId();
   }, []);
 
-
   useEffect(() => {
     //console.log();
   });
@@ -278,8 +277,6 @@ export const Promos = ({ navigation }) => {
     validate();
   };
   const validate = async () => {
-
-
     if (selected === null && hasVariable) {
       //console.log("SUCURSAL NO ELEGIDA - - - - - - - - - - - - - -");
       setShowModal(!showModal);
@@ -315,10 +312,9 @@ export const Promos = ({ navigation }) => {
         //console.log("CONTENIDO DE PROMOCIONES: ", JSON.stringify(promos));
       } else {
         // setIsModalVisible(true);
-        setIsModalSaveVisible(true)
+        setIsModalSaveVisible(true);
 
         try {
-
           //await AsyncStorage.setItem("id_promocion", idPercha);
           // //console.log(
           //   "PROMOCIONES QUE VAN A SER GUARDADOS: ",
@@ -457,37 +453,46 @@ export const Promos = ({ navigation }) => {
         <View style={styles.contentContainer}>
           <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ flex: 0.6 }}>
+          <View style={{ flex: 0.5 }}>
             <ScreenInformation
               title={"Promociones"}
               text={"Selecciona la sucursal que aplica promociones"}
             />
           </View>
+          <View
+            style={{
+              //backgroundColor: "blue",
+              flex: 1.5,
+              width: "90%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View style={{}}>
+              <DropdownPromos
+                nameTitle={"Sucursal"}
+                placeholder={"Seleccione una sucursal"}
+                setSelected={setSelected}
+                data={branch}
+              />
+            </View>
 
-          <View style={{}}>
-            <DropdownPromos
-              nameTitle={"Sucursal"}
-              placeholder={"Seleccione una sucursal"}
-              setSelected={setSelected}
-              data={branch}
-            />
-          </View>
-
-          <View style={styles.promosContent}>
-            {exhibidorSucursal.length > 0 ? (
-              <FlashListPromos data={exhibidorSucursal} setData={setPromos} />
-            ) : (
-              <Text
-                style={{
-                  padding: 20,
-                  textAlign: "justify",
-                  fontFamily: "Metropolis",
-                }}
-              >
-                Escoge una sucursal para revisar los exhibidores que aplican
-                promoción
-              </Text>
-            )}
+            <View style={styles.promosContent}>
+              {exhibidorSucursal.length > 0 ? (
+                <FlashListPromos data={exhibidorSucursal} setData={setPromos} />
+              ) : (
+                <Text
+                  style={{
+                    padding: 20,
+                    textAlign: "justify",
+                    fontFamily: "Metropolis",
+                  }}
+                >
+                  Escoge una sucursal para revisar los exhibidores que aplican
+                  promoción
+                </Text>
+              )}
+            </View>
           </View>
         </View>
         <DoubleDualStyledButton
@@ -505,15 +510,15 @@ export const Promos = ({ navigation }) => {
           disableAction={!validateData()}
           onPressRigth={initValidate}
           showButton1={true}
-        //showButton2={showButton2}
-        //titleRigthSecond={"Siguiente"}
-        //sizeRigthSecond={theme.buttonSize.df}
-        //colorRigthSecond={theme.colors.modernaRed}
-        //onPressRigthSecond={() => navigation.navigate("begin")}
-        //showButton1Second={showButton1}
-        //showButton2Second={showButton2}
-        //iconRigthSecond={"content-save-all-outline"}
-        //typeRigthSecond={"material-community"}
+          //showButton2={showButton2}
+          //titleRigthSecond={"Siguiente"}
+          //sizeRigthSecond={theme.buttonSize.df}
+          //colorRigthSecond={theme.colors.modernaRed}
+          //onPressRigthSecond={() => navigation.navigate("begin")}
+          //showButton1Second={showButton1}
+          //showButton2Second={showButton2}
+          //iconRigthSecond={"content-save-all-outline"}
+          //typeRigthSecond={"material-community"}
         />
       </View>
     </View>
