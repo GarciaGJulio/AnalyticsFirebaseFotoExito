@@ -30,6 +30,8 @@ export const GlobalProvider = ({ children }) => {
   const [modalTitle, setModalTitle] = useState("Título del modal");
   const [currentScreenPos, setCurrentScreenPos] = useState(0);
   const [isModalSaveVisible, setIsModalSaveVisible] = useState(false);
+  const [messageModalSave, setMessageModalSave] = useState("Almacenando datos, por favor espere...");
+
 
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
@@ -39,14 +41,14 @@ export const GlobalProvider = ({ children }) => {
   // };
 
   useEffect(() => {
-    console.log("currentScreenPoscurrentScreenPos", currentScreenPos);
+    //console.log("currentScreenPoscurrentScreenPos", currentScreenPos);
   }, [currentScreenPos]);
   useEffect(() => {
     // fetchVariables();
     initVariablesLocalStorage();
   }, []);
   const initVariablesLocalStorage = async (isPersistencia) => {
-    console.log("isPersistencia", isPersistencia);
+    //console.log("isPersistencia", isPersistencia);
     const currentPos = await AsyncStorage.getItem("currentScreenPos");
     const currentPosPer = await AsyncStorage.getItem("currentScreenPosPer");
 
@@ -141,7 +143,7 @@ export const GlobalProvider = ({ children }) => {
     handleCleanPosScreen();
   };
   const handleCleanPosScreen = async () => {
-    console.log("limpiando las pos de las pantallas");
+    //console.log("limpiando las pos de las pantallas");
     await AsyncStorage.setItem("currentScreenPos", "0");
     await AsyncStorage.setItem("currentScreenPosPer", "0");
     initVariablesLocalStorage();
@@ -153,14 +155,14 @@ export const GlobalProvider = ({ children }) => {
 
         const variables = await CountClientVariable(true);
         const posScreen = await AsyncStorage.getItem("currentScreenPos");
-        console.log("can finish*******", canFinsih);
+        console.log("variables *******", variables);
         let canSaveSpecial = false;
-        if (variables.length == 2 && canFinsih) {
+        if (variables.length == 2) {
           if (
             variablesStrange.includes(variables[0].nombre_variable) &&
             variablesStrange.includes(variables[1].nombre_variable)
           ) {
-            if (posScreen >= variables.length) {
+            if (posScreen >= variables.length || canFinsih) {
               canSaveSpecial = true;
             } else {
               canSaveSpecial = false;
@@ -180,7 +182,9 @@ export const GlobalProvider = ({ children }) => {
           onContinue();
           console.log("********aun no está al final de la pantalla/*******");
         }
-        //onsole.log("totalVariables", totalVariables);
+
+
+        //console.log("totalVariables", totalVariables);
         console.log("posScreen", posScreen);
       } catch (e) {
         console.error(e);
@@ -190,11 +194,6 @@ export const GlobalProvider = ({ children }) => {
   );
   const handleCurrentScreenPos = useCallback(async (pos, screenPos) => {
     const posScreen = await AsyncStorage.getItem("currentScreenPos");
-    console.log("posScreen******************", posScreen);
-    console.log("posScreen type of******************", typeof posScreen);
-    console.log("screenPos ******************", screenPos);
-    console.log("pos ******************", pos);
-
     if (!posScreen) {
       await AsyncStorage.setItem("currentScreenPos", "0");
       await AsyncStorage.setItem("currentScreenPosPer", "0");
@@ -287,14 +286,14 @@ export const GlobalProvider = ({ children }) => {
         ],
       };
       try {
-        console.log("insertand");
-        console.log(
-          "**********************************************************"
-        );
-        console.log(dataSave);
-        console.log(
-          "***********************************************************"
-        );
+        // //console.log("insertand");
+        // //console.log(
+        //   "**********************************************************"
+        // );
+        // //console.log(dataSave);
+        // //console.log(
+        //   "***********************************************************"
+        // );
         db_insertGlobalDataAudit(dataSave);
         cleanCurrentScreenUser();
         handleCleanPosScreen();
@@ -305,6 +304,7 @@ export const GlobalProvider = ({ children }) => {
         if (isConnectionActivate) {
           try {
             setIsModalSaveVisible(true)
+            setMessageModalSave("Subiendo datos a la nube, por favor espere...")
             await subidaBaseRemoteTodaAuditoria(
               idAuditoria,
               () => {
@@ -319,15 +319,17 @@ export const GlobalProvider = ({ children }) => {
           } catch (e) {
             navigation.navigate("begin");
           }
+          setMessageModalSave("Almacenando datos, por favor espere...")
+
         } else {
           setIsModalSaveVisible(false)
           navigation.navigate("begin");
         }
       } catch (e) {
-        console.log(e);
+        //console.log(e);
       }
     } catch (e) {
-      console.log("error al guardar la auditoría", e);
+      //console.log("error al guardar la auditoría", e);
     }
   };
   return (
@@ -374,7 +376,7 @@ export const GlobalProvider = ({ children }) => {
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalSaveVisible}
-        warning={"Almacenando datos, por favor espere..."}
+        warning={messageModalSave}
       />
       {children}
     </GlobalContext.Provider>

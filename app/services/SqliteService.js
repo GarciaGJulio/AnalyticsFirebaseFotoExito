@@ -204,13 +204,13 @@ export const db_insertGlobalDataAudit = async (objSentence) => {
       ")",
       [],
       () => {
-        console.log(
-          "se ejecuta sentencia insert " + objSentence.tableName + " OK  "
-        );
+        // //console.log(
+        //   "se ejecuta sentencia insert " + objSentence.tableName + " OK  "
+        // );
         //console.log("Validando insercion de datos");
       },
       () => {
-        console.log("error al insertar tabla " + objSentence.tableName);
+        //console.log("error al insertar tabla " + objSentence.tableName);
         // if (errorFunction) {
         //   errorFunction()
         // }

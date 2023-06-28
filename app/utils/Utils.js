@@ -24,7 +24,7 @@ export const getCurrentScreenInformation = async (navigation, initVariablesLocal
 
                 //onGetInfo(null)
             }
-            console.log("por llamar a isPersistencia",initVariablesLocalStorage)
+            //console.log("por llamar a isPersistencia",initVariablesLocalStorage)
             if (initVariablesLocalStorage) {
                 initVariablesLocalStorage(true)
             }
@@ -40,7 +40,7 @@ export const getCurrentScreenInformation = async (navigation, initVariablesLocal
         }
         return 0;
     } catch (error) {
-        console.log(error)
+        //console.log(error)
         return 0;
         //console.log(error)
     }
