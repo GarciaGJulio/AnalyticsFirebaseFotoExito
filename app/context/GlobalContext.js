@@ -9,6 +9,7 @@ import { dataTime } from "../services/GenerateID";
 import { db_insertGlobalDataAudit } from "../services/SqliteService";
 import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 import { cleanCurrentScreenUser } from "../utils/Utils";
+import { Alert } from "react-native";
 
 export const GlobalContext = createContext();
 
@@ -143,17 +144,24 @@ export const GlobalProvider = ({ children }) => {
     await AsyncStorage.setItem('currentScreenPosPer', "0");
     initVariablesLocalStorage()
   }
-  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish, onContinue) => {
+  const handleCheckCanSaveAllDataLocal = useCallback(async (onFinish, onContinue, canFinsih) => {
     try {
       const variablesStrange = ["Precio", "Portafolio"]
 
       const variables = await CountClientVariable(true)
       const posScreen = await AsyncStorage.getItem('currentScreenPos')
+      console.log("can finish*******************", canFinsih)
       let canSaveSpecial = false
-      if (variables.length == 2) {
+      if (variables.length == 2 && canFinsih) {
         if (variablesStrange.includes(variables[0].nombre_variable) && variablesStrange.includes(variables[1].nombre_variable)) {
-          canSaveSpecial = true
+          if (posScreen >= variables.length) {
+            canSaveSpecial = true
+          } else {
+            canSaveSpecial = false
+
+          }
         }
+
       }
 
 
@@ -248,6 +256,7 @@ export const GlobalProvider = ({ children }) => {
         console.log(dataSave)
         console.log("***********************************************************")
         db_insertGlobalDataAudit(dataSave);
+        Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
         if (isConnectionActivate) {
           try {
             await subidaBaseRemoteTodaAuditoria(

@@ -481,7 +481,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
          WHERE id_auditoria='${id_auditoria}'`
       );
       setRefresh(!refresh);
-      Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
+     // Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
       //console.log("respuesta de cambiar estado: ", stateAudit);
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
       //Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");

@@ -467,7 +467,7 @@ export const Briefcase = ({ navigation }) => {
         setHadSaveBriefCase(true);
         HandleASpecialNavigationOfVariables()
 
-      })
+      }, true)
 
 
     } else {
@@ -535,6 +535,17 @@ export const Briefcase = ({ navigation }) => {
               try {
                 db_insertGlobalDataAudit(dataSave2);
                 setIsModalVisible(false);
+                handleCurrentScreenPos()
+                handleCheckCanSaveAllDataLocal(() => {
+                  setTimeout(() => {
+                    handleSaveAudit(userInfo, navigation)
+  
+                  }, 2000)
+                }, () => {
+                  
+                  HandleNavigationOfVariables();
+                })
+                
               } catch (e) {
                 Alert.alert(
                   "Error al insertar los datos en la tabla portafolio_auditoria",
@@ -567,9 +578,9 @@ export const Briefcase = ({ navigation }) => {
               // setShowButton2(true);
               handleCurrentScreenPos()
               handleCheckCanSaveAllDataLocal(() => {
-                setTimeout(() => { 
+                setTimeout(() => {
                   setIsModalVisible(false);
-                  handleSaveAudit(userInfo, navigation) 
+                  handleSaveAudit(userInfo, navigation)
 
                 }, 2000)
               }, () => {
