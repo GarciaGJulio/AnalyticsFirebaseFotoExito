@@ -41,7 +41,21 @@ export const Dropdown = ({
     // );
     try {
       setError("");
-      const nombre_cliente = selected.split(" - ")[1];
+      [].length
+      console.log("*****************************************************************")
+      console.log("selected antes", selected)
+      let nombreClienteTemp = selected.split("-");
+      let nombre_cliente = nombreClienteTemp[nombreClienteTemp.length - 1];
+      console.log("nombre_cliente antes", nombre_cliente)
+
+      nombre_cliente = nombre_cliente.trim();
+
+      console.log("nombreClienteTemp", nombreClienteTemp)
+      console.log("nombre_cliente des", nombre_cliente)
+      console.log("arrayClients arrayClients", arrayClients)
+
+      console.log("*****************************************************************")
+
       // //console.log(
       //   "----------------------*--------------SELECCIONADO SOLO: ",
       //   nombre_cliente
