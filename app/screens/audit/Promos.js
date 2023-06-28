@@ -269,116 +269,6 @@ export const Promos = ({ navigation }) => {
     dataId();
   }, []);
 
-  const saveAudit = async () => {
-    let idPreciador = await AsyncStorage.getItem("id_preciador");
-    let idPercha = await AsyncStorage.getItem("id_percha");
-    let idSucursal = await AsyncStorage.getItem("id_sucursal");
-    let idCliente = await AsyncStorage.getItem("id_cliente");
-    let nombreCliente = await AsyncStorage.getItem("nombre_cliente");
-    let nombreSucursal = await AsyncStorage.getItem("nombre_sucursal");
-    let idGroupClient = await AsyncStorage.getItem("idGroupClient");
-    let idPortafolioAuditoria = await AsyncStorage.getItem(
-      "id_portafolio_auditoria"
-    );
-    setHadSavePreciador(false),
-      setHadSaveBriefCase(false),
-      setHadSaveRack(false);
-    // //console.log(
-    //   "***********************************************************************************"
-    // );
-    //console.log("ID DE PRECIADOR: ", idPreciador);
-    //console.log("ID DE PERCHA: ", idPercha);
-    //console.log("ID DE SUCURSAL: ", idSucursal);
-    //console.log("ID DE CLIENTE: ", idCliente);
-    //console.log("NOMBRE CLIENTE: ", nombreCliente);
-    //console.log("NOMBRE SUCURSAL: ", nombreSucursal);
-    //console.log("ID DEL PORTAFOLIO AUDITORIA: ", idPortafolioAuditoria);
-    // //console.log(
-    //   "***********************************************************************************"
-    // );
-
-    let dataSave = {
-      tableName: "auditoria",
-      dataInsertType: [
-        "id_auditoria",
-        "id_preciador",
-        "id_percha",
-        "id_promocion",
-        "id_sucursal",
-        "id_cliente",
-        "id_grupo_cliente",
-        "id_portafolio_auditoria",
-        "usuario_creacion",
-        "fecha_creacion",
-        "nombre_cliente",
-        "nombre_sucursal",
-        "sincronizada",
-      ],
-      dataInsert: [
-        `'${idAuditoria}'`,
-        `'${idPreciador}'`,
-        `'${idPercha}'`,
-        `'${exhibidorSucursal.length == 0 ? null : idPromocion}'`,
-        `'${idSucursal}'`,
-        `'${idCliente}'`,
-        `'${idGroupClient}'`,
-        `'${idPortafolioAuditoria}'`,
-        `'${userInfo.mail}'`,
-        `'${transfromrActualDateFormat(dataTime(), "F")}'`,
-        `'${nombreCliente}'`,
-        `'${nombreSucursal}'`,
-        `${parseInt(0)}`,
-      ],
-    };
-    const sentence =
-      "INSERT INTO " +
-      dataSave.tableName +
-      " (" +
-      dataSave.dataInsertType.join() +
-      ") VALUES(" +
-      dataSave.dataInsert.join() +
-      ")";
-    //console.log("SENTENCIA A EJECUTAR: ", sentence);
-    try {
-      db_insertGlobalDataAudit(dataSave);
-      //setShowButton1(false);
-      //setShowButton2(true);
-      if (isConnectionActivate) {
-        try {
-          await subidaBaseRemoteTodaAuditoria(
-            idAuditoria,
-            () => { },
-            setGlobalVariable,
-            globalVariable
-          );
-          navigation.navigate("begin");
-        } catch (e) {
-          //console.log("ERROR DESDE PROMOS: ", e);
-          // setIsModalVisible(false);
-          setIsModalSaveVisible(false)
-
-          setIsModalVisibleClose(false);
-          setIsModalVisibleCloseSucursal(false);
-          /*Alert.alert(
-            "Error al subir los datos",
-            "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
-          );*/
-          navigation.navigate("begin");
-        }
-      } else {
-        setIsModalVisibleCloseSucursal(false);
-        //setIsModalVisible(false);
-        setIsModalSaveVisible(false)
-
-        navigation.navigate("begin");
-      }
-    } catch (e) {
-      // Alert.alert(
-      //   "Error al insertar los datos en la tabla auditoria",
-      //   "Vuelva a intentarlo"
-      // );
-    }
-  };
 
   useEffect(() => {
     //console.log();
@@ -470,7 +360,7 @@ export const Promos = ({ navigation }) => {
               //console.log("TODO BIEN");
               // saveAudit();
               cleanCurrentScreenUser();
-              navigation.navigate("begin");
+              //navigation.navigate("begin");
               /*setTimeout(() => {
               navigation.navigate("begin");
             }, 1200);*/
@@ -483,7 +373,7 @@ export const Promos = ({ navigation }) => {
             handleSaveAudit(userInfo, navigation);
 
             cleanCurrentScreenUser();
-            navigation.navigate("begin");
+            //navigation.navigate("begin");
           }
         } catch (e) {
           //console.log("errordel drop?::", e);
