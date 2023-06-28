@@ -115,6 +115,7 @@ export const Prices = ({ navigation, route }) => {
     };
   }, []);
   useEffect(() => {
+    setIsModalSaveVisible(false);
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Portafolio");
       setHasVariable(response);
