@@ -530,7 +530,7 @@ export const Racks = ({ navigation }) => {
             });
             try {
              // setIsModalVisible(false);
-             setIsModalSaveVisible(false)
+            // setIsModalSaveVisible(false)
 
               setHadSaveRack(true);
               handleCurrentScreenPos();
@@ -539,6 +539,7 @@ export const Racks = ({ navigation }) => {
                   setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
                 },
                 () => {
+                  setIsModalSaveVisible(false)
                   setShowButton1(false);
                   setShowButton2(true);
                   navigation.navigate("promos");
