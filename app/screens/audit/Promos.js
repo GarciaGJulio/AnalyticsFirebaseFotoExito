@@ -550,7 +550,7 @@ export const Promos = ({ navigation }) => {
           <ModernaHeader />
         </View>
         <View style={styles.contentContainer}>
-          <ClientInformation/>
+          <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 1 }}>
             <ScreenInformation
@@ -647,7 +647,7 @@ const styles = StyleSheet.create({
     width: theme.dimensions.maxWidth,
     //height:'100%',
     //marginBottom: 5,
-    backgroundColor:'blue',
+    backgroundColor: "blue",
     alignItems: "center",
     marginVertical: 20,
   },

@@ -30,7 +30,7 @@ const theme = {
     title: 20,
     subtitle: 17,
     small: 12.5,
-    error: 12,
+    error: 9,
     smaller: 11,
   },
   fonts: {

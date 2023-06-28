@@ -54,8 +54,8 @@ export const validatePriceProduct = (price, fn) => {
 
   // Verificar si el número tiene decimales
   const decimalPart = price.toString().split(".")[1];
-  if (decimalPart && decimalPart.length !== 2) {
-    fn("Complete los decimales");
+  if (decimalPart && decimalPart.length > 2) {
+    fn("Solo se permiten 2 decimales");
   } else {
     // Resto de las validaciones
     if (price === "" || price === null) {

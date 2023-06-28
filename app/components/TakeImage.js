@@ -11,11 +11,10 @@ import { deleteImageFromOneDrive } from "../services/onedrive";
 import { generateUIDDGeneric } from "../services/GenerateID";
 import LoaderModal from "./LoaderModal";
 import LOCATION_ANIMATION from "../../assets/camera.json";
+import CAMERA from "../../assets/resources/camera.png";
 
 const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
-  const [image, setImage] = useState(
-    "https://static.vecteezy.com/system/resources/thumbnails/001/198/770/small_2x/camera.png"
-  );
+  const [image, setImage] = useState(CAMERA);
   const [idItem, setidItem] = useState();
   const [imageV1, setImageV1] = useState(false);
   const [imageV2, setImageV2] = useState(false);
@@ -123,7 +122,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
         style={styles.imageContainer}
       >
         <Image
-          source={{ uri: item.images.image1 ? item.images.image1 : image }}
+          source={item.images.image1 ? { uri: item.images.image1 } : image}
           style={styles.image}
         />
       </TouchableOpacity>
@@ -143,7 +142,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
           style={styles.imageContainer}
         >
           <Image
-            source={{ uri: item.images.image2 ? item.images.image2 : image }}
+            source={item.images.image2 ? { uri: item.images.image2 } : image}
             style={styles.image}
           />
           <TouchableOpacity
@@ -178,7 +177,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
           style={styles.imageContainer}
         >
           <Image
-            source={{ uri: item.images.image3 ? item.images.image3 : image }}
+            source={item.images.image3 ? { uri: item.images.image3 } : image}
             style={styles.image}
           />
           <TouchableOpacity
