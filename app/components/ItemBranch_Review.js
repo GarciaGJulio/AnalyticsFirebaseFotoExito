@@ -74,7 +74,7 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
     //console.log("DATOS VIAJANDO: - - -  - - - ", value);
     setDatosCompartidos(value);
     console.log("datosCompartidos",value)
-    if(datosCompartidos){
+    if(value){
       navigation.navigate("review", { branch: value });
 
     }
