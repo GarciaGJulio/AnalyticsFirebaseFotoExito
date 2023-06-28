@@ -174,8 +174,10 @@ export const GlobalProvider = ({ children }) => {
           onFinish();
           cleanCurrentScreenUser();
           handleCleanPosScreen();
-          handleCleanStorage()
-          setIsModalSaveVisible(false)
+         // handleCleanStorage()
+          //  if(canSaveSpecial){
+          // setIsModalSaveVisible(false)
+          //}
 
           console.log("********ya est+a al final de la pantalla/*******");
         } else {
@@ -214,16 +216,16 @@ export const GlobalProvider = ({ children }) => {
     return;
   }, []);
 
-  const handleCleanStorage = () => {
-    AsyncStorage.removeItem("idPromocion");
-    AsyncStorage.removeItem("id_preciador");
-    AsyncStorage.removeItem("id_percha");
-    AsyncStorage.removeItem("id_sucursal");
-    AsyncStorage.removeItem("id_cliente");
-    AsyncStorage.removeItem("nombre_cliente");
-    AsyncStorage.removeItem("nombre_sucursal");
-    AsyncStorage.removeItem("idGroupClient");
-    AsyncStorage.removeItem(
+  const handleCleanStorage = async () => {
+    await AsyncStorage.removeItem("idPromocion");
+    await AsyncStorage.removeItem("id_preciador");
+    await AsyncStorage.removeItem("id_percha");
+    await AsyncStorage.removeItem("id_sucursal");
+    await AsyncStorage.removeItem("id_cliente");
+    await AsyncStorage.removeItem("nombre_cliente");
+    await AsyncStorage.removeItem("nombre_sucursal");
+    await AsyncStorage.removeItem("idGroupClient");
+    await AsyncStorage.removeItem(
       "id_portafolio_auditoria"
     );
   }

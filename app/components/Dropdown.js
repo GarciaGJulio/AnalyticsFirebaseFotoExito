@@ -42,19 +42,18 @@ export const Dropdown = ({
     try {
       setError("");
       [].length
-      //console.log("*****************************************************************")
-      //console.log("selected antes", selected)
+      console.log("*****************************************************************")
+      console.log("selected antes", selected)
       let nombreClienteTemp = selected.split("-");
       let nombre_cliente = nombreClienteTemp[nombreClienteTemp.length - 1];
-      //console.log("nombre_cliente antes", nombre_cliente)
+      console.log("nombre_cliente antes", nombre_cliente)
 
       nombre_cliente = nombre_cliente.trim();
 
-      //console.log("nombreClienteTemp", nombreClienteTemp)
-      //console.log("nombre_cliente des", nombre_cliente)
-      //console.log("arrayClients arrayClients", arrayClients)
+      console.log("nombreClienteTemp", nombreClienteTemp)
+      console.log("nombre_cliente des", nombre_cliente)
 
-      //console.log("*****************************************************************")
+      console.log("*****************************************************************")
 
       // //console.log(
       //   "----------------------*--------------SELECCIONADO SOLO: ",
@@ -72,8 +71,12 @@ export const Dropdown = ({
           // //console.log(
           //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
           // );
+          console.log("*******************************************type.nombre_cliente-------------",type.nombre_cliente)
           setClientGroupId(type.id_grupo_cliente);
-          await AsyncStorage.setItem("nombre_cliente", type.nombre_cliente);
+          await AsyncStorage.setItem("nombre_cliente", `${type.nombre_cliente||nombre_cliente}`);
+          const temp=await AsyncStorage.getItem("nombre_cliente");
+          console.log("*******************************************///////////////////////////////////////////////type.temp-------------",temp)
+
           await AsyncStorage.setItem("id_cliente", type.id_cliente);
           handleValidate({ clientID: type.id_cliente }, "CC");
           await AsyncStorage.setItem("idGroupClient", type.id_grupo_cliente);
@@ -103,6 +106,7 @@ export const Dropdown = ({
   useEffect(() => {
     //console.log("ARRAY DE CLIENTES",newArrayClients);
     validateType();
+    console.log("-----------------------selected------------",selected)
   }, [selected]);
 
   /*
