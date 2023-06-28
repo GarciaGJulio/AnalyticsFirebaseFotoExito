@@ -755,7 +755,7 @@ export const Briefcase = ({ navigation }) => {
 
       <LoaderModal
         animation={SAVE_ANIMATION}
-        visible={isModalVisible}
+        visible={false}
         warning={"Almacenando datos, por favor espere..."}
       />
       {hasVariable ? (

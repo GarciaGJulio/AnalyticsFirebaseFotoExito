@@ -73,7 +73,7 @@ export const Racks = ({ navigation }) => {
     currentScreenPos,
     handleCurrentScreenPos,
     handleSaveAudit,
-    handleCheckCanSaveAllDataLocal
+    handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -215,12 +215,6 @@ export const Racks = ({ navigation }) => {
   //     checkForVariable();
   //   };
 
-
-
-
-
-
-
   const consultarYCopiarContenido = async () => {
     const idGroupClient = await AsyncStorage.getItem("idGroupClient");
     try {
@@ -319,13 +313,15 @@ export const Racks = ({ navigation }) => {
   };
 
   const onlyNavigation = () => {
-    handleCurrentScreenPos()
-    handleCheckCanSaveAllDataLocal(() => {
-      setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
-    }, () => {
-      navigation.navigate("promos");
-
-    })
+    handleCurrentScreenPos();
+    handleCheckCanSaveAllDataLocal(
+      () => {
+        setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+      },
+      () => {
+        navigation.navigate("promos");
+      }
+    );
   };
 
   const validateData = () => {
@@ -365,16 +361,18 @@ export const Racks = ({ navigation }) => {
       //setValidatePass(false)
     }
     if (category.length === 0) {
-      console.log("category************************************", category)
+      console.log("category************************************", category);
       //await AsyncStorage.setItem("id_percha", null);
-      handleCurrentScreenPos()
-      handleCheckCanSaveAllDataLocal(() => {
-        setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
-      }, () => {
-        setIsModalVisible(false);
-        navigation.navigate("promos");
-      })
-
+      handleCurrentScreenPos();
+      handleCheckCanSaveAllDataLocal(
+        () => {
+          setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+        },
+        () => {
+          setIsModalVisible(false);
+          navigation.navigate("promos");
+        }
+      );
     } else {
       const isValid = category.every((item) => {
         //console.log("ItemModerna:", item);
@@ -487,24 +485,23 @@ export const Racks = ({ navigation }) => {
               db_insertGlobalDataAudit(dataSave);
               //console.log("TODO BIEN");
               // navigation.navigate("promos");rrrrrrrrrr
-
             });
             try {
               setIsModalVisible(false);
               setHadSaveRack(true);
-              handleCurrentScreenPos()
-              handleCheckCanSaveAllDataLocal(() => {
-                setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
-              }, () => {
-                setShowButton1(false);
-                setShowButton2(true);
-                navigation.navigate("promos");
-              })
-            } catch (error) {
-              Alert.alert(
-                "Error al insertar los datos",
-                "Vuelva a intentarlo"
+              handleCurrentScreenPos();
+              handleCheckCanSaveAllDataLocal(
+                () => {
+                  setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+                },
+                () => {
+                  setShowButton1(false);
+                  setShowButton2(true);
+                  navigation.navigate("promos");
+                }
               );
+            } catch (error) {
+              Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
               setHadSaveRack(false);
               setIsModalVisible(false);
             }
@@ -650,7 +647,7 @@ export const Racks = ({ navigation }) => {
       />
       <LoaderModal
         animation={SAVE_ANIMATION}
-        visible={isModalVisible}
+        visible={false}
         warning={"Guardando datos, por favor espere"}
       />
 
@@ -724,16 +721,16 @@ export const Racks = ({ navigation }) => {
         // colorRigth={theme.colors.modernaRed}
         // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
         disableAction={hasVariable ? !validateData() : validateData()}
-      // showButton1={showButton1}
-      // showButton2={showButton2}
-      // titleRigthSecond={"Siguiente"}
-      // sizeRigthSecond={theme.buttonSize.df}
-      // colorRigthSecond={theme.colors.modernaRed}
-      // onPressRigthSecond={() => navigation.navigate("promos")}
-      // iconRigthSecond={"arrow-right-circle"}
-      // typeRigthSecond={"feather"}
-      // showButton1Second={showButton1}
-      // showButton2Second={showButton2}
+        // showButton1={showButton1}
+        // showButton2={showButton2}
+        // titleRigthSecond={"Siguiente"}
+        // sizeRigthSecond={theme.buttonSize.df}
+        // colorRigthSecond={theme.colors.modernaRed}
+        // onPressRigthSecond={() => navigation.navigate("promos")}
+        // iconRigthSecond={"arrow-right-circle"}
+        // typeRigthSecond={"feather"}
+        // showButton1Second={showButton1}
+        // showButton2Second={showButton2}
       />
     </View>
   );

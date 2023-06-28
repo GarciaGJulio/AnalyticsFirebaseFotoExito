@@ -572,7 +572,7 @@ export const Prices = ({ navigation, route }) => {
     <View style={styles.container}>
       <LoaderModal
         animation={SAVE_ANIMATION}
-        visible={isModalVisible}
+        visible={false}
         warning={"Guardando datos en la base, por favor espere . . "}
       />
       <ConfirmationModal
