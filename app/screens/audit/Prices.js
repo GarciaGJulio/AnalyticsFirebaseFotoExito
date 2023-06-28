@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Keyboard,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -56,6 +57,7 @@ export const Prices = ({ navigation, route }) => {
   const statusBarHeight = 0;
   const navBarHeight = isAndroid ? 44 : 56;
   const headerHeight = statusBarHeight + navBarHeight;
+
   // let complementaryPortfolioProducts = [];
   // let idealPortfolioProducts = [];
 
@@ -90,6 +92,28 @@ export const Prices = ({ navigation, route }) => {
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true); // Keyboard is active
+        // Add your code here to react to the keyboard being activated
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false); // Keyboard is not active
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   useEffect(() => {
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Portafolio");
@@ -224,7 +248,6 @@ export const Prices = ({ navigation, route }) => {
 
   const handleCloseModal = () => {
     setIsModalVisibleClose(false);
-    
   };
 
   useEffect(() => {
@@ -356,8 +379,8 @@ export const Prices = ({ navigation, route }) => {
         //   JSON.stringify(newComplementaryPortfolio)
         // );
       } else {
-       // setIsModalVisible(true);
-       setIsModalSaveVisible(true)
+        // setIsModalVisible(true);
+        setIsModalSaveVisible(true);
         const fullDataProducts = newIdealPortfolio.concat(
           newComplementaryPortfolio
         );
@@ -416,8 +439,8 @@ export const Prices = ({ navigation, route }) => {
               //console.log("TODO BIEN PARA GUARDAR");
               //setShowButton1(false);
               //setShowButton2(true);
-             // setIsModalVisible(false);
-             setIsModalSaveVisible(false)
+              // setIsModalVisible(false);
+              setIsModalSaveVisible(false);
               setHadSavePreciador(true);
               handleCurrentScreenPos();
               handleCheckCanSaveAllDataLocal(
@@ -433,9 +456,8 @@ export const Prices = ({ navigation, route }) => {
               //savePreciador();
             } catch (e) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
-            //  setIsModalVisible(false);
-            setIsModalSaveVisible(false)
-
+              //  setIsModalVisible(false);
+              setIsModalSaveVisible(false);
             }
           });
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
@@ -529,7 +551,7 @@ export const Prices = ({ navigation, route }) => {
             "Vuelva a intentarlo"
           );
           //setIsModalVisible(false);
-          setIsModalSaveVisible(false)
+          setIsModalSaveVisible(false);
 
           setHadSavePreciador(false);
         }
@@ -695,7 +717,7 @@ export const Prices = ({ navigation, route }) => {
               activo2 === true && activo == true
                 ? "50%"
                 : activo2 === true && activo == false
-                ? "90%"
+                ? "87%"
                 : activo2 === false && activo == true
                 ? "10%"
                 : "10%",
@@ -730,7 +752,14 @@ export const Prices = ({ navigation, route }) => {
         </View>
       </View>
 
-      <View style={styles.botonesContainer}>
+      <View
+        style={{
+          flex: isKeyboardVisible ? 5 : 3,
+          width: "100%",
+          margin: 4,
+          // backgroundColor:"red"
+        }}
+      >
         <DoubleDualStyledButton
           titleLeft={"Cancelar"}
           sizeLeft={theme.buttonSize.df}
@@ -795,11 +824,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 30,
     width: theme.dimensions.maxWidth,
-    //  backgroundColor:"red"
+    //  backgroundColor:"blue"
   },
-  botonesContainer: {
-    flex: 3,
-    width: "100%",
-    margin: 5,
-  },
+  // botonesContainer: {
+
+  // },
 });
