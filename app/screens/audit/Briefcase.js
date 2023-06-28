@@ -72,6 +72,7 @@ export const Briefcase = ({ navigation }) => {
     currentScreenPos,
     handleSaveAudit,
     handleCurrentScreenPos,
+    handleCleanPosScreen,
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
@@ -83,7 +84,7 @@ export const Briefcase = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
-    handleCurrentScreenPos(null, 0);
+    //handleCurrentScreenPos(null, 0);
   }, []);
 
   useEffect(() => {

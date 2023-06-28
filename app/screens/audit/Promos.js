@@ -556,7 +556,7 @@ export const Promos = ({ navigation }) => {
         </View>
         <View style={styles.contentContainer}>
           <ClientInformation/>
-          <ProgressBar currentStep={currentScreenPos?currentScreenPos:"3"} />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 1 }}>
             <ScreenInformation
               title={"Promociones"}
