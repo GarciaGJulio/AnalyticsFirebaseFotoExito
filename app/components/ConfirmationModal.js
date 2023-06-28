@@ -34,7 +34,10 @@ const ConfirmationModal = ({
       transparent={true}
       style={{ flex: 1 }}
     >
-      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
+      <StatusBar
+        backgroundColor={theme.colors.modernaRed}
+        barStyle={"dark-content"}
+      />
       <View style={styles.container}>
         <View style={styles.modalContent}>
           <View style={styles.logoContainer}>
@@ -48,9 +51,7 @@ const ConfirmationModal = ({
               titleLeft={"Cancelar"}
               sizeLeft={theme.buttonSize.sm}
               colorLeft={theme.colors.modernaYellow}
-              onPressLeft={onClose  }
-
-
+              onPressLeft={onClose}
               titleRigth={"Aceptar"}
               sizeRigth={theme.buttonSize.sm}
               colorRigth={theme.colors.modernaRed}
@@ -93,17 +94,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   warningContainer: {
-    // backgroundColor: 'red',
+    //backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    width: "95%",
+    width: "100%",
     // marginBottom: 5,
   },
   warningText: {
-    marginTop: 0,
-    margin: 20,
+    //marginTop: 0,
+    //margin: 20,
     fontSize: 18,
+    //flex: 1,
+    width: "100%",
+    textAlign: "justify",
     fontFamily: "Metropolis",
   },
   buttonContainer: {

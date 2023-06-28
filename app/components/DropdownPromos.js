@@ -16,21 +16,10 @@ export const DropdownPromos = ({
   sucursalInformation,
   setType,
   data,
-  checkdrop
+  checkdrop,
 }) => {
   const [arrayClients, setArrayClients] = useState([]);
   const [newArrayClients, setNewArrayClients] = useState([]);
-  const [tochado, setTochado] = useState(false);
-  const dataFormat = (array) => {
-    setArrayClients(array);
-    //console.log("ARRAY DE CONSULTA: ", array);
-    const arrayFormat = array.map((obj) => {
-      //console.log("OBJETO: ", obj.id_cliente);
-      return { key: obj.id_cliente, value: obj.nombre_cliente };
-    });
-    //console.log(arrayFormat);
-    return arrayFormat;
-  };
 
   const validateType = () => {
     arrayClients.forEach((type) => {
@@ -53,24 +42,6 @@ export const DropdownPromos = ({
   useEffect(() => {
     validateType();
   }, [selected]);
-
-  /*const consultarYCopiarContenido = async () => {
-    try {
-      // Realiza la consulta a la base de datos
-      const resultadoConsulta = await realizarConsulta("SELECT * FROM cliente");
-
-      // Copia el contenido después de la consulta
-      //await copiarContenido(resultadoConsulta);
-      setNewArrayClients(dataFormat(resultadoConsulta));
-      //console.log("Copia de contenido completada con éxito: ");
-    } catch (error) {
-      console.error("Error al consultar o copiar el contenido:", error);
-    }
-  };*/
-
-  /*useEffect(() => {
-    consultarYCopiarContenido();
-  }, []);*/
 
   const [fontLoaded] = useFonts({
     Metropolis: require("../../assets/font/Metropolis-Regular.otf"),
@@ -128,7 +99,7 @@ export const DropdownPromos = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     //width: theme.dimensions.maxWidth / 1.2,
     width: theme.dimensions.maxWidth / 1.1,
   },

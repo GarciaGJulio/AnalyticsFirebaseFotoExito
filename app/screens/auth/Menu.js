@@ -194,9 +194,7 @@ export const Menu = ({ navigation }) => {
     } else {
       setShowModal(!showModal);
       setModalTitle("No se ha detectado conexión a internet");
-      setModalText(
-        "Necesitas conectarte a internet para sincronizar las auditorias."
-      );
+      setModalText("Necesitas red para sincronizar las auditorias pendientes.");
       /*Alert.alert(
         "No se ha detectado conexión a internet",
         "Necesitas conectarte a internet para sincronizar las auditorias"

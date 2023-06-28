@@ -182,8 +182,9 @@ export const Client_Information = ({ navigation }) => {
   const validarFormulario = () => {
     return (
       errorClientName == "" &&
-      errorBranchName == "" &&
-      errorBranchNameRepeat == ""
+      sucursalInformation.client != "" &&
+      errorBranchNameRepeat == "" &&
+      errorBranchName == ""
     );
   };
 
@@ -194,14 +195,15 @@ export const Client_Information = ({ navigation }) => {
       );
 
       const branchs = resultadoConsultarBranch.map(
-        ({ nombre_sucursal, fecha_creacion }) => ({
+        ({ nombre_sucursal, fecha_creacion, id_cliente }) => ({
           nombre_sucursal,
           fecha_creacion: fecha_creacion.split("T")[0],
+          id_cliente,
         })
       );
 
       setBranchNames(branchs);
-      // //console.log("DATOS DE SUCURSALES :", branchs);
+      console.log("DATOS DE SUCURSALES :", resultadoConsultarBranch);
     } catch (error) {
       console.error("Error al consultar o copiar el contenido:", error);
     }
@@ -263,13 +265,23 @@ export const Client_Information = ({ navigation }) => {
     setIsModalVisibleClose(false);
   };
 
-  const validateBranchNameRepeat = (currentName, error) => {
+  const validateBranchNameRepeat = async (currentName, error, newObj) => {
     //console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
 
     let tempFecha;
+    let clientID = await AsyncStorage.getItem("id_cliente");
     tempFecha = new Date().toISOString();
     tempFecha = tempFecha.split("T");
     tempFecha = tempFecha[0];
+
+    let currentNameTemp = currentName;
+    let tempFechaTemp = tempFecha;
+    let clientIDTemp = clientID;
+    if (newObj) {
+      currentNameTemp = newObj.currentName;
+      clientIDTemp = newObj.clientID;
+    }
+
     ////console.log("usereeeeee:", selected);
     if (branchNames.length == 0) {
       //console.log("NO TIENES DATOS DE SUCURSALES- - - - - -");
@@ -277,19 +289,24 @@ export const Client_Information = ({ navigation }) => {
       return false;
     } else {
       let found = branchNames.some((item) => {
-        // //console.log(
-        //   "ITEM A COMPARAR - -- - BASE: ",
-        //   item.nombre_sucursal +
-        //     " " +
-        //     item.fecha_creacion +
-        //     "ACTUAL:  " +
-        //     currentName +
-        //     " " +
-        //     tempFecha
-        // );
+        console.log(
+          "ITEM A COMPARAR - -- - BASE: ",
+          item.nombre_sucursal +
+            " " +
+            item.fecha_creacion +
+            " " +
+            item.id_cliente +
+            " ACTUAL:  " +
+            currentNameTemp +
+            " " +
+            tempFechaTemp +
+            " " +
+            clientIDTemp
+        );
         return (
-          item.nombre_sucursal === currentName &&
-          item.fecha_creacion === tempFecha
+          item.nombre_sucursal === currentNameTemp &&
+          item.fecha_creacion === tempFechaTemp &&
+          item.id_cliente === clientIDTemp
         );
       });
 
@@ -462,10 +479,11 @@ export const Client_Information = ({ navigation }) => {
     deleteRegisterAudit({
       tableName: "sucursal",
       objectId: "id_sucursal",
-      valueId: `${infoScreen && infoScreen.id_sucursal
+      valueId: `${
+        infoScreen && infoScreen.id_sucursal
           ? infoScreen.id_sucursal
           : sucursalInformation.id
-        }`,
+      }`,
     });
     setHadSave(false);
     cleanCurrentScreenUser();
@@ -476,6 +494,18 @@ export const Client_Information = ({ navigation }) => {
   //     Hola mundo
   //   </Text>
   // </View>)
+  const handleValidate = (value, type) => {
+    console.log("value", value);
+    console.log("type", type);
+    if (type === "OC") {
+      validateBranchNameRepeat(value, setErrorBranchNameRepeat);
+    } else if (type === "CC") {
+      validateBranchNameRepeat(null, setErrorBranchNameRepeat, {
+        currentName: sucursal,
+        clientID: value.clientID,
+      });
+    }
+  };
   return (
     <View style={styles.container}>
       <ConfirmationModal
@@ -521,7 +551,6 @@ export const Client_Information = ({ navigation }) => {
                   // backgroundColor:"red"
                 }}
               >
-                
                 <Dropdown
                   valueInfoScreen={
                     infoScreen && infoScreen.nombre_cliente
@@ -533,6 +562,7 @@ export const Client_Information = ({ navigation }) => {
                   selected={selected}
                   setType={setType}
                   hadSave={hadSave}
+                  handleValidate={handleValidate}
                   newArrayClients={newArrayClients}
                   setGroupClient={setGroupClient}
                   error={errorClientName}
@@ -634,7 +664,8 @@ export const Client_Information = ({ navigation }) => {
                   onChangeText={(txt) => {
                     setSucursal(txt);
                     validateNameBranch(txt, setErrorBranchName);
-                    validateBranchNameRepeat(txt, setErrorBranchNameRepeat);
+                    handleValidate(txt, "OC");
+                    //validateBranchNameRepeat(txt, setErrorBranchNameRepeat);
                     setSucursalInformation({
                       ...sucursalInformation,
                       name: txt.toUpperCase(),
@@ -656,9 +687,9 @@ export const Client_Information = ({ navigation }) => {
                       : sucursal
                   }
                   width={"90%"}
-                // information={
-                //   "* Solo se puede ingresar la misma sucursal una vez por día"
-                // }
+                  // information={
+                  //   "* Solo se puede ingresar la misma sucursal una vez por día"
+                  // }
                 />
               </View>
               <View
@@ -697,8 +728,8 @@ export const Client_Information = ({ navigation }) => {
                     //merge linea de abajo
                     disabled={!validarFormulario()}
                     newstyle
-                  // icon
-                  // iconLetkter
+                    // icon
+                    // iconLetkter
                   />
                 )}
                 {showButton2 && (
