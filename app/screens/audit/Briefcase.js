@@ -269,8 +269,8 @@ export const Briefcase = ({ navigation }) => {
           handleCurrentScreenPos();
           setIsModalSaveVisible(false)
           navigation.navigate("rack");
-        
-          
+
+
         }
       };
       checkForVariable();
@@ -544,20 +544,9 @@ export const Briefcase = ({ navigation }) => {
               try {
                 db_insertGlobalDataAudit(dataSave2);
                 // setIsModalVisible(false);
-               // setIsModalSaveVisible(false)
+                // setIsModalSaveVisible(false)
 
-                handleCurrentScreenPos();
-                handleCheckCanSaveAllDataLocal(
-                  () => {
-                    setTimeout(() => {
-                      handleSaveAudit(userInfo, navigation);
-                    }, 2000);
-                  },
-                  () => {
-                    setIsModalSaveVisible(false)
-                    HandleNavigationOfVariables();
-                  }
-                );
+
               } catch (e) {
                 Alert.alert(
                   "Error al insertar los datos en la tabla portafolio_auditoria",
@@ -589,22 +578,7 @@ export const Briefcase = ({ navigation }) => {
 
               // setShowButton1(false);
               // setShowButton2(true);
-              handleCurrentScreenPos();
-              handleCheckCanSaveAllDataLocal(
-                () => {
-                  setTimeout(() => {
-//                    setIsModalVisible(false);
-                    setIsModalSaveVisible(false)
-
-                    handleSaveAudit(userInfo, navigation);
-                  }, 2000);
-                },
-                () => {
-                  setShowButton1(false);
-                  setShowButton2(true);
-                  HandleNavigationOfVariables();
-                }
-              );
+  
             } catch (e) {
               Alert.alert(
                 "Error al insertar los datos en la tabla portafolio_auditoria",
@@ -613,6 +587,18 @@ export const Briefcase = ({ navigation }) => {
             }
           }
         }
+        handleCurrentScreenPos();
+        handleCheckCanSaveAllDataLocal(
+          () => {
+            setTimeout(() => {
+              handleSaveAudit(userInfo, navigation);
+            }, 2000);
+          },
+          () => {
+            setIsModalSaveVisible(false)
+            HandleNavigationOfVariables();
+          }
+        );
         let tempDataScreen = complementaryPortfolioProducts.map((item) => {
           return `**${JSON.stringify(item)}**`;
         });
@@ -746,8 +732,8 @@ export const Briefcase = ({ navigation }) => {
         tableName: "portafolio_auditoria",
         objectId: "id_portafolio_auditoria",
         valueId: `${infoScreen
-            ? infoScreen.id_portafolio_auditoria
-            : idPortafolioAuditoria
+          ? infoScreen.id_portafolio_auditoria
+          : idPortafolioAuditoria
           }`,
       });
     });
@@ -755,7 +741,7 @@ export const Briefcase = ({ navigation }) => {
 
 
 
-  
+
   return (
     <View style={styles.container}>
       <ConfirmationModal
