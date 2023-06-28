@@ -184,10 +184,10 @@ export const Menu = ({ navigation }) => {
           setModalText(
             "Ha ocurrido un error inesperado, por favor vuelva a intentarlo."
           );
-          /*Alert.alert(
+          Alert.alert(
             "Error al subir los datos",
             "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
-          );*/
+          );
         }
       });
       //setIsModalVisible(false);

@@ -19,6 +19,7 @@ export const MultiSelectListV2 = ({
   selectItemsId,
 }) => {
   const [select, setSelected] = useState([]);
+  const [noItems, setNoItems] = useState("Sin coincidencias.");
   const { hadSaveBriefCase } = useContext(GlobalContext);
   // const [selectItemsId, setSelectItemsId] = useState([]);
   const saveId = async () => {
@@ -137,6 +138,7 @@ export const MultiSelectListV2 = ({
           IconRenderer={Icon}
           disabled={hadSaveBriefCase}
           hideChipRemove={hadSaveBriefCase}
+          noResultsComponent={false}
           styles={{
             cancelButton: { backgroundColor: "red" },
             listContainer: { backgroundColor: "red" },
@@ -159,6 +161,7 @@ export const MultiSelectListV2 = ({
               flex: 1,
               fontWeight: "100",
             },
+            
             selectedItemText: { fontFamily: "Metropolis", fontWeight: "100" },
             selectedSubItemText: {
               fontFamily: "Metropolis",

@@ -463,7 +463,8 @@ export const subidaBaseRemoteTodaAuditoria = async (
   };
 
   //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
-  //console.log("REQUEST BODY;: - - - ", requestBody);
+  console.log("REQUEST BODY;: - - - ", requestBody.data.preciador[0]);
+    console.log("REQUEST BODY;: - - - ", requestBody.data.sucursal[0]);
   //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
   try {
     const resp = await axios.post(url, requestBody, {
@@ -471,11 +472,11 @@ export const subidaBaseRemoteTodaAuditoria = async (
         "Content-Type": "application/json",
       },
     });
-    ////console.log(resp.data);
+    console.log(resp.data);
     fn(false);
-    //console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
+    console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     if (resp.data.result) {
-      //console.log("CAMBIANDO ESTADO - - - -- - ");
+      console.log("CAMBIANDO ESTADO - - - -- - ");
       await realizarConsulta(
         `UPDATE auditoria SET sincronizada=1
          WHERE id_auditoria='${id_auditoria}'`
@@ -486,7 +487,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       //console("CAMBIO EL ESTADO?  ", auditoriaData);
       //Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
     } else {
-      //console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
+      console.log("ERROR AL INSERTAR LOS DATOS - - - -- - ");
       fn(false);
       Alert.alert(
         "Error al registrar la auditoria",
@@ -494,8 +495,8 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
     }
   } catch (e) {
-    //console.log("ERROR DENTRO DE LA FUNCION: ", e.response.data.result);
-    //console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
+    console.log("ERROR DENTRO DE LA FUNCION: ", e);
+    console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     fn(false);
     /*Alert.alert(
       "Error al registrar la auditoria a traves de la función",
