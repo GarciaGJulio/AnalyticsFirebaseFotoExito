@@ -69,8 +69,6 @@ export const RackCheckbox = ({
   //     setverificacionCategoria(false);
   //   }
   // }, [CateModerna, CateGeneral]);
-  
-
 
   // useEffect(() => {
   //   if (CateGeneral < CateModerna) {
@@ -89,8 +87,7 @@ export const RackCheckbox = ({
   //     setverificacionCategoria(false);
   //   }
   // }, [ CateGeneral]);
-  
-  
+
   /*const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -378,6 +375,7 @@ export const RackCheckbox = ({
               style={{
                 fontWeight: theme.fontWeight.softbold,
                 fontFamily: "Metropolis",
+                marginVertical: 15,
               }}
             >
               Planograma Ideal
@@ -458,11 +456,19 @@ export const RackCheckbox = ({
             <Text style={{ fontFamily: "Metropolis" }}>No cumple</Text>
           </View>
           {check1 || check2 ? (
-            <View style={{ paddingHorizontal: 25, flex: 1 }}>
+            <View
+              style={{
+                paddingHorizontal: 25,
+                flex: 1,
+                marginBottom: 10,
+                //backgroundColor: "blue",
+              }}
+            >
               <Text
                 style={{
                   fontWeight: theme.fontWeight.softbold,
                   fontFamily: "Metropolis",
+                  marginVertical: 10,
                 }}
               >
                 Planograma Real
@@ -530,6 +536,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
-    marginTop:10
+    marginTop: 10,
   },
 });
