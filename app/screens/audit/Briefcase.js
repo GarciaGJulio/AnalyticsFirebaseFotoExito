@@ -263,6 +263,7 @@ export const Briefcase = ({ navigation }) => {
           });
         } else {
           navigation.navigate("rack");
+          handleCurrentScreenPos();
         }
       };
       checkForVariable();
@@ -279,6 +280,7 @@ export const Briefcase = ({ navigation }) => {
         //console.log("VARIABLE DE PERCHAS EXISTE:", response);
         if (checkvariables === true) {
           navigation.navigate("rack");
+          handleCurrentScreenPos();
         } else {
           navigation.navigate("promos");
           handleCurrentScreenPos();

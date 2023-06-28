@@ -64,9 +64,9 @@ export const GlobalProvider = ({ children }) => {
     const index = variables.findIndex((variable) => {
       return (
         variable.id_grupo_cliente.toUpperCase() ===
-          id_grupo_cliente?.toString().toUpperCase() &&
+        id_grupo_cliente?.toString().toUpperCase() &&
         variable?.nombre_variable?.toUpperCase() ===
-          nombre_variable?.toUpperCase() &&
+        nombre_variable?.toUpperCase() &&
         variable?.estado_variable === 1
       );
     });
@@ -167,6 +167,7 @@ export const GlobalProvider = ({ children }) => {
           onFinish();
           cleanCurrentScreenUser();
           handleCleanPosScreen();
+          handleCleanStorage()
           console.log("********ya est+a al final de la pantalla/*******");
         } else {
           onContinue();
@@ -206,6 +207,20 @@ export const GlobalProvider = ({ children }) => {
     initVariablesLocalStorage();
     return;
   }, []);
+
+  const handleCleanStorage = () => {
+    AsyncStorage.removeItem("idPromocion");
+    AsyncStorage.removeItem("id_preciador");
+    AsyncStorage.removeItem("id_percha");
+    AsyncStorage.removeItem("id_sucursal");
+    AsyncStorage.removeItem("id_cliente");
+    AsyncStorage.removeItem("nombre_cliente");
+    AsyncStorage.removeItem("nombre_sucursal");
+    AsyncStorage.removeItem("idGroupClient");
+    AsyncStorage.removeItem(
+      "id_portafolio_auditoria"
+    );
+  }
 
   const handleSaveAudit = async (userInfo, navigation) => {
     try {
@@ -264,12 +279,15 @@ export const GlobalProvider = ({ children }) => {
           "***********************************************************"
         );
         db_insertGlobalDataAudit(dataSave);
+        cleanCurrentScreenUser();
+        handleCleanPosScreen();
+        handleCleanStorage()
         Alert.alert("Auditoria registrada", "Auditoría registrada con éxito");
         if (isConnectionActivate) {
           try {
             await subidaBaseRemoteTodaAuditoria(
               idAuditoria,
-              () => {},
+              () => { },
               setGlobalVariable,
               globalVariable
             );
