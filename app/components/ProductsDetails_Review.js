@@ -214,7 +214,7 @@ export const ProductsDetails_Review = ({ item }) => {
               transparent={true}
               visible={openCamera}
               onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
+                // Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}
             >

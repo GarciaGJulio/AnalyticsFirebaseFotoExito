@@ -747,6 +747,9 @@ export const Briefcase = ({ navigation }) => {
     });
   };
 
+
+
+  
   return (
     <View style={styles.container}>
       <ConfirmationModal
