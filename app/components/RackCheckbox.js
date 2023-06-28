@@ -32,6 +32,7 @@ export const RackCheckbox = ({
   setErrorPerchaM,
   errorPerchaM,
   setValueGeneralValidate,
+ 
 }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
@@ -269,6 +270,7 @@ export const RackCheckbox = ({
               borderColor: theme.colors.lightgray,
               fontFamily: "Metropolis",
               color: "white",
+              
             }}
           >
             {categoryName}
@@ -301,7 +303,7 @@ export const RackCheckbox = ({
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.categoryContainer}>
-            <View style={styles.category}>
+            <View style={  styles.category}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <StyledInput
                   onChangeText={(txt) => {
@@ -525,7 +527,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     flex: 1,
     padding: 10,
-    paddingBottom: 1,
+    paddingBottom:TecPresent? 1:3,
   },
   input: {
     fontWeight: theme.fontWeight.normal,
