@@ -71,11 +71,11 @@ export const Dropdown = ({
           // //console.log(
           //   " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "
           // );
-          console.log("*******************************************type.nombre_cliente-------------",type.nombre_cliente)
+        //  console.log("*******************************************type.nombre_cliente-------------",type.nombre_cliente)
           setClientGroupId(type.id_grupo_cliente);
           await AsyncStorage.setItem("nombre_cliente", `${type.nombre_cliente||nombre_cliente}`);
           const temp=await AsyncStorage.getItem("nombre_cliente");
-          console.log("*******************************************///////////////////////////////////////////////type.temp-------------",temp)
+         // console.log("*******************************************///////////////////////////////////////////////type.temp-------------",temp)
 
           await AsyncStorage.setItem("id_cliente", type.id_cliente);
           handleValidate({ clientID: type.id_cliente }, "CC");
@@ -106,7 +106,7 @@ export const Dropdown = ({
   useEffect(() => {
     //console.log("ARRAY DE CLIENTES",newArrayClients);
     validateType();
-    console.log("-----------------------selected------------",selected)
+   // console.log("-----------------------selected------------",selected)
   }, [selected]);
 
   /*
