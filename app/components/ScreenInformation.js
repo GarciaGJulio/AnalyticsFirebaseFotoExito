@@ -91,7 +91,7 @@ const ScreenInformation = ({ title, text }) => {
                 fontFamily: "Metropolis",
               }}
             >
-              {text.toString()}
+              {text.toString()}.
             </Text>
           </View>
         ) : (
