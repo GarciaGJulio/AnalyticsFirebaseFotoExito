@@ -61,7 +61,7 @@ const ScreenInformation = ({ title, text }) => {
           <Divider
             width={2}
             color={"#D9D9D9"}
-            style={{ backgroundColor: "blue" }}
+            //style={{ backgroundColor: "blue" }}
           />
         </View>
         <View
