@@ -24,7 +24,7 @@ export const GlobalProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalText, setModalText] = useState("Texto del modal");
   const [modalTitle, setModalTitle] = useState("Título del modal");
-  const [currentScreenPos, setCurrentScreenPos] = useState(1)
+  const [currentScreenPos, setCurrentScreenPos] = useState(0)
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
   const [productsComplementaryPreciador, setProductsComplementaryPreciador] =
     useState([]);*/
@@ -42,14 +42,11 @@ export const GlobalProvider = ({ children }) => {
     const currentPosPer = await AsyncStorage.getItem('currentScreenPosPer');
 
     if (!currentPos) {
-      await AsyncStorage.setItem('currentScreenPos', "1");
-      await AsyncStorage.setItem('currentScreenPosPer', "1");
+      await AsyncStorage.setItem('currentScreenPos', "0");
+      await AsyncStorage.setItem('currentScreenPosPer', "0");
     } else {
       if (isPersistencia) {
         setCurrentScreenPos(parseInt(currentPosPer))
-        console.log("(currentPos - 1)*********", currentPos)
-        console.log("(currentPosPer - 1)*********", currentPosPer)
-
         AsyncStorage.setItem('currentScreenPos', `${currentPosPer}`);
       } else {
         setCurrentScreenPos(parseInt(currentPos))
@@ -140,11 +137,11 @@ export const GlobalProvider = ({ children }) => {
     try {
       const totalVariables = await CountClientVariable()
       const posScreen = await AsyncStorage.getItem('currentScreenPos')
-      if (posScreen > totalVariables) {
+      if (posScreen >= totalVariables) {
         onFinish()
         cleanCurrentScreenUser();
-        await AsyncStorage.setItem('currentScreenPos', "1");
-        await AsyncStorage.setItem('currentScreenPosPer', "1");
+        await AsyncStorage.setItem('currentScreenPos', "0");
+        await AsyncStorage.setItem('currentScreenPosPer', "0");
         console.log("*********************ya est+a al final de la pantalla*/*****************")
       } else {
         onContinue()
@@ -159,12 +156,12 @@ export const GlobalProvider = ({ children }) => {
   const handleCurrentScreenPos = useCallback(async (pos, screenPos) => {
     const posScreen = await AsyncStorage.getItem('currentScreenPos')
     if (!posScreen) {
-      await AsyncStorage.setItem('currentScreenPos', "1")
-      await AsyncStorage.setItem('currentScreenPosPer', "1")
+      await AsyncStorage.setItem('currentScreenPos', "0")
+      await AsyncStorage.setItem('currentScreenPosPer', "0")
 
     } else if (screenPos) {
       await AsyncStorage.setItem('currentScreenPos', `${screenPos}`)
-      await AsyncStorage.setItem('currentScreenPosPer', `${(screenPos - 1) > 0 ? (screenPos - 1) : 1}`)
+      await AsyncStorage.setItem('currentScreenPosPer', `${(screenPos - 1) >= 0 ? (screenPos - 1) : 0}`)
     } else {
       await AsyncStorage.setItem('currentScreenPos', `${parseInt(posScreen) + (pos ? pos : 1)}`)
       await AsyncStorage.setItem('currentScreenPosPer', `${posScreen}`)

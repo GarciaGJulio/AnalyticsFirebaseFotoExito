@@ -313,7 +313,7 @@ export const Prices = ({ navigation, route }) => {
       //console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ");
       handleCurrentScreenPos()
       handleCheckCanSaveAllDataLocal(() => {
-        setTimeout(() => handleSaveAudit(userInfo, navigation), 3000)
+        setTimeout(() => handleSaveAudit(userInfo, navigation), 1000)
       }, () => {
         HandleNavigationOfVariables()
       })
