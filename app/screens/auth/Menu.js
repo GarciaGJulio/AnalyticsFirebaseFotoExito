@@ -239,7 +239,7 @@ export const Menu = ({ navigation }) => {
       showDebug("Error al presentar los datos del menu", e);
       setIsModalVisibleClose(false);
     }
-    fetchVariables();
+    //fetchVariables();
     //setIsModalVisible(false);
   };
 
