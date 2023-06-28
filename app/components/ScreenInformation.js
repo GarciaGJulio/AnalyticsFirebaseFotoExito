@@ -86,7 +86,7 @@ const ScreenInformation = ({ title, text }) => {
                 //backgroundColor: "purple",
                 //justifyContent: "center",
                 //alignItems: "center",
-                //textAlign: "justify",
+                textAlign: "justify",
                 flex: 1,
                 fontFamily: "Metropolis",
               }}
