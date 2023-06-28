@@ -44,14 +44,6 @@ const TabArr = [
     component: Promos_Review,
     color: theme.colors.modernaGreen,
   },
-  {
-    route: "Sin Variables",
-    label: "Sin Variables",
-    type: "material-icons",
-    icon: "local-offer",
-    component: WithOutData,
-    color: theme.colors.modernaGreen,
-  },
 ];
 
 const Tab = createBottomTabNavigator();
@@ -152,7 +144,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                        //param={branch}
+                      //param={branch}
                       />
                     ),
                   }}
@@ -175,7 +167,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                        //param={branch}
+                      //param={branch}
                       />
                     ),
                   }}
@@ -199,7 +191,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                        //param={branch}
+                      //param={branch}
                       />
                     ),
                   }}
@@ -223,7 +215,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                        //param={branch}
+                      //param={branch}
                       />
                     ),
                   }}
@@ -231,37 +223,41 @@ export const TabsNavigation = ({ route }) => {
               );
             }
             break;
-          default:
-            if (
-              datosCompartidos.id_promocion !== null &&
-              datosCompartidos.id_promocion !== "null" &&
-              datosCompartidos.id_percha !== null &&
-              datosCompartidos.id_percha !== "null" &&
-              datosCompartidos.id_preciador !== null &&
-              datosCompartidos.id_preciador !== "null" &&
-              datosCompartidos.id_portafolio_auditoria !== null &&
-              datosCompartidos.id_portafolio_auditoria !== "null"
-            ) {
-              return (
-                <Tab.Screen
-                  key={index}
-                  name={item.route}
-                  component={WithOutData}
-                  options={{
-                    tabBarShowLabel: false,
-                    tabBarButton: (props) => (
-                      <TabButton
-                        {...props}
-                        item={item}
-                        //param={branch}
-                      />
-                    ),
-                  }}
-                />
-              );
-            }
+
         }
       })}
+      {
+        ((datosCompartidos.id_promocion == null ||
+          datosCompartidos.id_promocion == "null") &&
+          (datosCompartidos.id_percha == null ||
+            datosCompartidos.id_percha == "null") &&
+          (datosCompartidos.id_preciador == null ||
+            datosCompartidos.id_preciador == "null") &&
+          (datosCompartidos.id_portafolio_auditoria == null ||
+            datosCompartidos.id_portafolio_auditoria == "null")) && <Tab.Screen
+          key={1}
+          name={"Sin Variables"}
+          component={WithOutData}
+          options={{
+            tabBarShowLabel: false,
+            tabBarButton: (props) => (
+              <TabButton
+                {...props}
+                item={{
+                  route: "Sin Variables",
+                  label: "Sin Variables",
+                  type: "material-icons",
+                  icon: "local-offer",
+                  component: WithOutData,
+                  color: theme.colors.modernaGreen,
+                }}
+              //param={branch}
+              />
+            ),
+          }}
+        />
+      }
+
     </Tab.Navigator>
   );
 };

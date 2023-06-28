@@ -73,7 +73,11 @@ export const ItemBranch_Review = ({ branch, setRefresh, refresh }) => {
     // //console.log("Ir a visitas");
     //console.log("DATOS VIAJANDO: - - -  - - - ", value);
     setDatosCompartidos(value);
-    navigation.navigate("review", { branch: datosCompartidos });
+    console.log("datosCompartidos",value)
+    if(datosCompartidos){
+      navigation.navigate("review", { branch: value });
+
+    }
   };
 
   const [fontLoaded] = useFonts({
