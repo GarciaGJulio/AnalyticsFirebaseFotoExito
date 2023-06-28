@@ -61,7 +61,7 @@ export const Promos = ({ navigation }) => {
   const [showButton1, setShowButton1] = useState(true);
   const [showButton2, setShowButton2] = useState(false);
   const [hasVariable, setHasVariable] = useState(true);
-
+  const [checkList, setcheckList] = useState(false);
   const {
     setHadSavePreciador,
     setHadSaveBriefCase,
@@ -551,9 +551,7 @@ export const Promos = ({ navigation }) => {
         </View>
         <View style={styles.contentContainer}>
           <ClientInformation />
-          <ProgressBar
-            currentStep={currentScreenPos ? currentScreenPos : "3"}
-          />
+          <ProgressBar currentStep={currentScreenPos} />
           <View style={{ flex: 1 }}>
             <ScreenInformation
               title={"Promociones"}
@@ -561,12 +559,18 @@ export const Promos = ({ navigation }) => {
             />
           </View>
 
-          <View style={{ backgroundColor: "red" }}>
+          <View
+            style={{
+              flex: 0.4,
+              // backgroundColor:"red"
+            }}
+          >
             <DropdownPromos
               nameTitle={"Sucursal"}
               placeholder={"Seleccione una sucursal"}
               setSelected={setSelected}
               data={branch}
+              checkdrop={setcheckList}
             />
           </View>
 
@@ -625,7 +629,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    flex: 12,
+    flex: 20,
     width: theme.dimensions.maxWidth,
     backgroundColor: "white",
     alignItems: "center",
@@ -639,11 +643,12 @@ const styles = StyleSheet.create({
     //backgroundColor:'blue'
   },
   promosContent: {
-    flex: 2,
+    flex: 1.4,
     width: theme.dimensions.maxWidth,
     //height:'100%',
     //marginBottom: 5,
-    //backgroundColor:'blue',
+    backgroundColor: "blue",
     alignItems: "center",
+    marginVertical: 20,
   },
 });

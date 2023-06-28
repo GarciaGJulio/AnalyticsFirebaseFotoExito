@@ -5,6 +5,7 @@ import theme from "../theme/theme";
 import axios from "axios";
 import { realizarConsulta, selectData } from "../common/sqlite_config";
 import { useFonts } from "expo-font";
+import { Icon } from "@rneui/base";
 
 export const DropdownPromos = ({
   placeholder,
@@ -15,6 +16,7 @@ export const DropdownPromos = ({
   sucursalInformation,
   setType,
   data,
+  checkdrop,
 }) => {
   const [arrayClients, setArrayClients] = useState([]);
   const [newArrayClients, setNewArrayClients] = useState([]);
@@ -64,8 +66,21 @@ export const DropdownPromos = ({
       <SelectList
         setSelected={(val) => setSelected(val)}
         placeholder={placeholder}
+        closeicon={
+          <Icon
+            name="chevron-small-up"
+            type="entypo"
+            size={28}
+            color={theme.colors.gray}
+            style={{ marginLeft: 20 }}
+          />
+        }
+        // // onSelect={()=> {setTochado(!tochado)
+        //   checkdrop(tochado)}}
+        // dropdownShown={false}
         inputStyles={{
           fontFamily: "Metropolis",
+
           borderColor: theme.colors.lightgray,
         }}
         searchPlaceholder="Buscar"
@@ -84,7 +99,8 @@ export const DropdownPromos = ({
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
+    flex: 1,
+    //width: theme.dimensions.maxWidth / 1.2,
     width: theme.dimensions.maxWidth / 1.1,
   },
 });

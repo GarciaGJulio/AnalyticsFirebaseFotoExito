@@ -71,6 +71,7 @@ export const Briefcase = ({ navigation }) => {
     currentScreenPos,
     handleSaveAudit,
     handleCurrentScreenPos,
+    handleCleanPosScreen,
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
@@ -82,7 +83,7 @@ export const Briefcase = ({ navigation }) => {
       setHasVariable(response);
     };
     checkForVariable();
-    handleCurrentScreenPos(null, 1);
+    //handleCurrentScreenPos(null, 0);
   }, []);
 
   useEffect(() => {
@@ -467,7 +468,8 @@ export const Briefcase = ({ navigation }) => {
           AsyncStorage.setItem("id_portafolio_auditoria", "null");
           setHadSaveBriefCase(true);
           HandleASpecialNavigationOfVariables();
-        }
+        },
+        true
       );
     } else {
       await AsyncStorage.setItem(
@@ -533,17 +535,13 @@ export const Briefcase = ({ navigation }) => {
                 db_insertGlobalDataAudit(dataSave2);
                 setIsModalVisible(false);
                 handleCurrentScreenPos();
-                //console.log("SE QUEDA AQUI - - - - - - - -");
                 handleCheckCanSaveAllDataLocal(
                   () => {
-                    setTimeout(
-                      () => handleSaveAudit(userInfo, navigation),
-                      2000
-                    );
+                    setTimeout(() => {
+                      handleSaveAudit(userInfo, navigation);
+                    }, 2000);
                   },
                   () => {
-                    setShowButton1(false);
-                    setShowButton2(true);
                     HandleNavigationOfVariables();
                   }
                 );
@@ -573,15 +571,16 @@ export const Briefcase = ({ navigation }) => {
             };
             try {
               db_insertGlobalDataAudit(portafolioSave);
-              //console.log("SE QUEDA AQUI PREVIO - - - - - - - -");
-              setIsModalVisible(false);
+
               // setShowButton1(false);
               // setShowButton2(true);
               handleCurrentScreenPos();
-              //console.log("SE QUEDA AQUI - - - - - - - -");
               handleCheckCanSaveAllDataLocal(
                 () => {
-                  setTimeout(() => handleSaveAudit(userInfo, navigation), 2000);
+                  setTimeout(() => {
+                    setIsModalVisible(false);
+                    handleSaveAudit(userInfo, navigation);
+                  }, 2000);
                 },
                 () => {
                   setShowButton1(false);

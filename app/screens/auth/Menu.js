@@ -338,7 +338,7 @@ export const Menu = ({ navigation }) => {
           navigation.navigate("audit");
         }}
         warning={
-          "No se ha encontrado conexión a internet, ¿quieres continuar con variables desactualizadas?"
+          "No se ha encontrado conexión a Internet, su progreso se guardará en la base local ¿Desea continuar?"
         }
       />
       <LoaderModal
