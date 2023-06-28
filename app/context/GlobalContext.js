@@ -155,14 +155,14 @@ export const GlobalProvider = ({ children }) => {
 
         const variables = await CountClientVariable(true);
         const posScreen = await AsyncStorage.getItem("currentScreenPos");
-        //console.log("can finish*******", canFinsih);
+        console.log("variables *******", variables);
         let canSaveSpecial = false;
-        if (variables.length == 2 && canFinsih) {
+        if (variables.length == 2) {
           if (
             variablesStrange.includes(variables[0].nombre_variable) &&
             variablesStrange.includes(variables[1].nombre_variable)
           ) {
-            if (posScreen >= variables.length&& canFinsih) {
+            if (posScreen >= variables.length || canFinsih) {
               canSaveSpecial = true;
             } else {
               canSaveSpecial = false;
@@ -177,13 +177,15 @@ export const GlobalProvider = ({ children }) => {
           handleCleanStorage()
           setIsModalSaveVisible(false)
 
-          //console.log("********ya est+a al final de la pantalla/*******");
+          console.log("********ya est+a al final de la pantalla/*******");
         } else {
           onContinue();
-          //console.log("********aun no está al final de la pantalla/*******");
+          console.log("********aun no está al final de la pantalla/*******");
         }
-        //onsole.log("totalVariables", totalVariables);
-        //console.log("posScreen", posScreen);
+
+
+        //console.log("totalVariables", totalVariables);
+        console.log("posScreen", posScreen);
       } catch (e) {
         console.error(e);
       }
@@ -249,7 +251,7 @@ export const GlobalProvider = ({ children }) => {
       } catch (e) {
         nombreCliente = await AsyncStorage.getItem("nombre_cliente");
       }
-      //console.log("------------------------------------nombreCliente------------------------", nombreCliente)
+      console.log("------------------------------------nombreCliente------------------------", nombreCliente)
       let dataSave = {
         tableName: "auditoria",
         dataInsertType: [
