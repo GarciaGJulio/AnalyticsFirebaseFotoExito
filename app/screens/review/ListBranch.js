@@ -107,11 +107,12 @@ export const ListBranch = ({ navigation }) => {
     const newData = audit.filter((item) => {
       const itemName = `${item.nombre_cliente}`.toLowerCase();
       const itemBranch = `${item.nombre_sucursal}`.toLowerCase();
+      const itemBranchId = `${item.id_cliente}`;
       const searchTextLower = text.toLowerCase();
 
       return (
         itemName.includes(searchTextLower) ||
-        itemBranch.includes(searchTextLower)
+        itemBranch.includes(searchTextLower) || itemBranchId.includes(searchTextLower)
       );
     });
     setFilteredData(newData);
