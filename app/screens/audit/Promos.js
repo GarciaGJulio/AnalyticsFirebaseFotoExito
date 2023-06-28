@@ -550,11 +550,9 @@ export const Promos = ({ navigation }) => {
           <ModernaHeader />
         </View>
         <View style={styles.contentContainer}>
-          <ClientInformation />
-          <ProgressBar
-            currentStep={currentScreenPos ? currentScreenPos : "3"}
-          />
-          <View style={{ flex: 0.4 }}>
+          <ClientInformation/>
+          <ProgressBar currentStep={currentScreenPos} />
+          <View style={{ flex: 1 }}>
             <ScreenInformation
               title={"Promociones"}
               text={"Selecciona la sucursal que aplica promociones"}
