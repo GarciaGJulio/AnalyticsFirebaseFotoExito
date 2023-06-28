@@ -562,7 +562,7 @@ export const Promos = ({ navigation }) => {
           <View
             style={{
               flex: 0.4,
-              backgroundColor:"red"
+              // backgroundColor:"red"
             }}
           >
             <DropdownPromos

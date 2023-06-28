@@ -508,7 +508,7 @@ export const Client_Information = ({ navigation }) => {
                 justifyContent: "center",
                 alignItems: "center",
                 flex: 1,
-                backgroundColor:"brown"
+                // backgroundColor:"brown"
               }}
             >
               <View style={{ flex: 3 }}>
@@ -518,7 +518,7 @@ export const Client_Information = ({ navigation }) => {
               <View
                 style={{
                   flex: 0.1,
-                  backgroundColor:"red"
+                  // backgroundColor:"red"
                 }}
               >
                 
@@ -552,7 +552,7 @@ export const Client_Information = ({ navigation }) => {
                   justifyContent: "space-evenly",
                   flex: 1,
                   width: "100%",
-                  backgroundColor: "orange",
+                  // backgroundColor: "orange",
                 }}
               >
                 <View style={{ width: 160 }}>
