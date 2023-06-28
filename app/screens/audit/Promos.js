@@ -89,6 +89,7 @@ export const Promos = ({ navigation }) => {
       const response = await handleDoesClientHaveVariable("Promoción");
       setHasVariable(response);
     };
+    setIsModalSaveVisible(false);
     checkForVariable();
     //handleCurrentScreenPos()
     AsyncStorage.setItem("idPromocion", idPromocion);

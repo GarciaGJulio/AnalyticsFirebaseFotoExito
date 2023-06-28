@@ -83,6 +83,7 @@ export const Racks = ({ navigation }) => {
       setHasVariable(true);
     };
     checkForVariable();
+    setIsModalSaveVisible(false);
     //handleCurrentScreenPos(null,3)
   }, []);
   useEffect(() => {

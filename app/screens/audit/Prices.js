@@ -91,6 +91,7 @@ export const Prices = ({ navigation, route }) => {
   } = useContext(GlobalContext);
 
   useEffect(() => {
+    setIsModalSaveVisible(false);
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Portafolio");
       setHasVariable(response);

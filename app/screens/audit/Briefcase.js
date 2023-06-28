@@ -83,6 +83,7 @@ export const Briefcase = ({ navigation }) => {
       const response = await handleDoesClientHaveVariable("Portafolio");
       setHasVariable(response);
     };
+    setIsModalSaveVisible(false);
     checkForVariable();
     //handleCurrentScreenPos(null, 0);
   }, []);
@@ -265,9 +266,11 @@ export const Briefcase = ({ navigation }) => {
             setComplementaryPortfolioProducts,
           });
         } else {
-          navigation.navigate("rack");
-          setIsModalSaveVisible(false)
           handleCurrentScreenPos();
+          setIsModalSaveVisible(false)
+          navigation.navigate("rack");
+        
+          
         }
       };
       checkForVariable();
