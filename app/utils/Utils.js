@@ -31,7 +31,7 @@ export const getCurrentScreenInformation = async (navigation, initVariablesLocal
             if (navigation) {
                 navigation.navigate(userFound[0].nombre_pantalla)
             }
-          
+
 
 
 
@@ -86,15 +86,11 @@ export const getCurrentScreenUser = async () => {
 }
 export const cleanCurrentScreenUser = async () => {
     try {
-        const userId = await getCurrentUserId()
         global.userInfoScreen = null
         db_deleteGlobalLocalDataBase({
             tableName: PERSISTENCIA.NAME,
             dataInsertType: getTableKeys(PERSISTENCIA),
-            dataInsert: [
-                `'${userId}'`
-
-            ]
+            dataInsert: []
 
         })
     } catch (error) {
@@ -168,8 +164,13 @@ export const generateSenteceSql = (tableInfo, type) => {
             return ` UPDATE ${tableInfo.tableName} SET ${sentenceSqlSet.slice(0, -1)} where ${tableInfo.dataInsertType[0]}=${tableInfo.dataInsert[0]}`
         }
         if (type == "DELETE") {
+            if (tableInfo.dataInsert.length > 0) {
+                return ` DELETE FROM ${tableInfo.tableName} where ${tableInfo.dataInsertType[0]}=${tableInfo.dataInsert[0]}`
 
-            return ` DELEte FROM ${tableInfo.tableName} where ${tableInfo.dataInsertType[0]}=${tableInfo.dataInsert[0]}`
+            } else {
+                return ` DELETE FROM ${tableInfo.tableName}`
+
+            }
         }
     } catch (error) {
         return "error"

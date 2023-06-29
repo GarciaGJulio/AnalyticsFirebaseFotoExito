@@ -234,10 +234,10 @@ export const Promos = ({ navigation }) => {
       setIsModalVisibleCloseSucursal(false);
       // setIsModalVisible(true);
       setIsModalSaveVisible(true);
-      // saveAudit();
+
       handleSaveAudit(userInfo, navigation);
 
-      cleanCurrentScreenUser();
+     
       //   handleCurrentScreenPos();
     };
     continueAudit();
@@ -354,25 +354,11 @@ export const Promos = ({ navigation }) => {
                 ") VALUES(" +
                 dataSave.dataInsert.join() +
                 ")";
-              //console.log("SENTENCIA A EJECUTAR: ", sentence);
               db_insertGlobalDataAudit(dataSave);
-              //console.log("TODO BIEN");
-              // saveAudit();
-              cleanCurrentScreenUser();
-              //navigation.navigate("begin");
-              /*setTimeout(() => {
-              navigation.navigate("begin");
-            }, 1200);*/
             });
-            // saveAudit();
             handleSaveAudit(userInfo, navigation);
           } else {
-            //console.log("TODO BIEN");
-            // saveAudit();
             handleSaveAudit(userInfo, navigation);
-
-            cleanCurrentScreenUser();
-            //navigation.navigate("begin");
           }
         } catch (e) {
           //console.log("errordel drop?::", e);
