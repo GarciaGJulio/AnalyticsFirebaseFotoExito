@@ -138,6 +138,9 @@ export const Briefcase = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
+      if (!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) {
+        return;
+      }
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {
         return;
       }
@@ -274,7 +277,9 @@ export const Briefcase = ({ navigation }) => {
           if (response && totalVariables == 2) {
             navigation.navigate("promos");
           } else {
+            //handleCurrentScreenPos();
             navigation.navigate("rack");
+
           }
           // handleCurrentScreenPos();
 
@@ -293,12 +298,13 @@ export const Briefcase = ({ navigation }) => {
       let checkvariables = true;
       const checkForVariable = async () => {
         const response = await handleDoesClientHaveVariable("Percha");
+        const responsePrecio = await handleDoesClientHaveVariable("Precio");
         const totalVariables = await CountClientVariable()
         checkvariables = response;
         //console.log("VARIABLE DE PERCHAS EXISTE:", response);
         if (checkvariables === true) {
           navigation.navigate("rack");
-          if (totalVariables == 3) {
+          if (totalVariables >= 3 && responsePrecio) {
             handleCurrentScreenPos();
           }
           //handleCurrentScreenPos();
