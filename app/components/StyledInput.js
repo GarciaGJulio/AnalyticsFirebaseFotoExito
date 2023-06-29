@@ -118,7 +118,7 @@ const StyledInput = ({
         style={{
           marginTop: 5,
           fontSize: theme.fontSize.details,
-          backgroundColor: "red",
+          //backgroundColor: "red",
           fontFamily: "Metropolis",
           fontWeight: "600",
           textAlign: "justify",
