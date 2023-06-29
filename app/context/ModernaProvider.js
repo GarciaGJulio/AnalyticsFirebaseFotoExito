@@ -165,7 +165,7 @@ export const ModernaProvider = ({ children }) => {
                 // //console.log(
                 //   "El usuario ya cuenta con un dispositivo conectado ! ! ! ! !! ! ! ! ! ! "
                 // );
-                if (userDataBase[0].usuario_dispositivo == deviceMacAdress) {
+                if (userDataBase[0].usuario_dispositivo === deviceMacAdress) {
                   //console.log("MAC SIMILAR ENCONTRADA ---- AUTORIZANDO SESION");
                   setIsAuthenticated(true);
                   fn(false);
@@ -274,8 +274,9 @@ export const ModernaProvider = ({ children }) => {
       const requestBody = {
         operation: "C",
         data: {
-          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${mail === null ? userPrincipalName : mail
-            }'`,
+          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
+            mail === null ? userPrincipalName : mail
+          }'`,
         },
       };
 
@@ -308,11 +309,12 @@ export const ModernaProvider = ({ children }) => {
       } else {
         userPrincipalName = userInfo.userPrincipalName.toLowerCase();
       }
-      const responseInsertMac = await insertMacCurrentUser(
+      /*const responseInsertMac = await insertMacCurrentUser(
         mail,
         userPrincipalName,
         null
-      );
+      );*/
+      await insertMacCurrentUser(mail, userPrincipalName, null);
       //console.log("ELIMINANDO MAC: ", responseInsertMac);
       await AsyncStorage.removeItem("user");
       await AsyncStorage.removeItem("userName");

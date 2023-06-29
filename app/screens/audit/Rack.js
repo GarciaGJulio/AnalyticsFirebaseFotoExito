@@ -51,7 +51,7 @@ import { ClientInformation } from "../../components/ClientInformation";
 import { SimpleBody } from "../../common/SimpleBody";
 import { FlexContainer } from "../../common/FlexContainer";
 export const Racks = ({ navigation }) => {
-  const [valueGeneralValidate, setValueGeneralValidate] = useState();
+  const [valueGeneralValidate, setValueGeneralValidate] = useState("");
   const [valueModerna, setValueModerna] = useState();
   const [category, setCategory] = useState([]);
   const [rack, setRack] = useState([]);
@@ -85,7 +85,7 @@ export const Racks = ({ navigation }) => {
   useEffect(() => {
     console.log("infoScreen***********", infoScreen);
   }, [infoScreen]);
-  
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -159,8 +159,7 @@ export const Racks = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
-
-      //console.log("user ifnooooooooooooooooooooo",global.userInfoScreen)
+      console.log("user ifnooooooooooooooooooooo", global.userInfoScreen);
       if (
         !global.userInfoScreen ||
         !global.userInfoScreen.userInfo ||
@@ -303,8 +302,8 @@ export const Racks = ({ navigation }) => {
           id_percha: idPercha,
           id_planograma: objeto.id_planograma,
           name: objeto.name,
-          carasGeneral: 0,
-          carasModerna: 0,
+          carasGeneral: null,
+          carasModerna: null,
           imagesPlanograma: objeto.images,
           state: null,
           images: {
@@ -399,14 +398,16 @@ export const Racks = ({ navigation }) => {
 
   const validateData = () => {
     const isDataValid = category.every((item) => {
-      //console.log("ItemModerna:", item);
+      console.log("ItemModerna ------------------------------:", item);
       if (
         item.state === null ||
         item.carasGeneral === null ||
         item.carasModerna === null ||
         isNaN(item.carasGeneral) ||
+        item.carasGeneral === null ||
         isNaN(item.carasModerna) ||
-        valueGeneralValidate
+        item.carasModerna === null ||
+        valueGeneralValidate !== ""
       ) {
         //console.log("ESTE ITEM DA PROBLEMAS: ", item);
         return false;
@@ -449,236 +450,187 @@ export const Racks = ({ navigation }) => {
         }
       );
     } else {
-      const isValid = category.every((item) => {
-        //console.log("ItemModerna:", item);
-        if (
-          item.state === null ||
-          item.carasGeneral === null ||
-          item.carasModerna === null
-        ) {
-          //console.log("ESTE ITEM DA PROBLEMAS: ", item);
-          return false;
+      //setIsModalVisible(true);
+      setIsModalSaveVisible(true);
+
+      try {
+        //console.log("IDPERCHA21", idPercha);
+
+        await AsyncStorage.setItem("id_percha", idPercha);
+        let x = await AsyncStorage.getItem("id_percha");
+        //console.log("IDPERCHA2", x);
+        // //console.log(
+        //   "PERCHAS QUE VAN A SER GUARDADOS: ",
+        //   JSON.stringify(category)
+        // );
+        //console.log("RACKS:", category);
+        category.map((productos) => {
+          const { id_percha, id, state, carasGeneral, carasModerna, images } =
+            productos;
+          //console.log("carasGenerales:", carasGeneral);
+          //console.log("carasmODERNA:", carasModerna);
+
+          const { image1, image2, image3 } = images;
+          // //console.log(
+          //   "---------------------- imagenes",
+          //   JSON.stringify(images)
+          // );
+          //console.log("PRODUC:", productos);
+          let dataSave = {
+            tableName: "percha",
+            dataInsertType: [
+              "id_percha",
+              "id_categoria",
+              "estado_percha",
+              "categoria_general",
+              "categoria_moderna",
+              "url_imagen1",
+              "url_imagen2",
+              "url_imagen3",
+              "usuario_creacion",
+              "fecha_creacion",
+              "fecha_modificacion",
+            ],
+            dataInsert: [
+              `'${idPercha}'`,
+              `'${id}'`,
+              `'${state}'`,
+              `'${parseInt(carasGeneral)}'`,
+              `'${parseInt(carasModerna)}'`,
+              `'${image1}'`,
+              `'${image2}'`,
+              `'${image3}'`,
+              `'${userInfo.mail}'`,
+              `'${transfromrActualDateFormat(dataTime(), "F")}'`,
+              `'${transfromrActualDateFormat(dataTime(), "F")}'`,
+            ],
+          };
+          const sentence =
+            "INSERT INTO " +
+            dataSave.tableName +
+            " (" +
+            dataSave.dataInsertType.join() +
+            ") VALUES(" +
+            dataSave.dataInsert.join() +
+            ")";
+          //console.log("SENTENCIA A EJECUTAR: ", sentence);
+          db_insertGlobalDataAudit(dataSave);
+          //console.log("TODO BIEN");
+          // navigation.navigate("promos");rrrrrrrrrr
+        });
+        try {
+          // setIsModalVisible(false);
+          // setIsModalSaveVisible(false)
+
+          setHadSaveRack(true);
+          handleCurrentScreenPos();
+          handleCheckCanSaveAllDataLocal(
+            () => {
+              setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+            },
+            () => {
+              setIsModalSaveVisible(false);
+              setShowButton1(false);
+              setShowButton2(true);
+              navigation.navigate("promos");
+            }
+          );
+        } catch (error) {
+          Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
+          setHadSaveRack(false);
+          // setIsModalVisible(false);
+          setIsModalSaveVisible(false);
         }
-        if (item.state === 1 || item.state === 0) {
-          if (!item.images || item.images.image1 === null) {
-            //console.log("ESTE ITEM DA PROBLEMAS DE VALORES O IMAGEN: ", item);
-            return false;
+        let tempDataScreen = category.map((item) => {
+          return `**${JSON.stringify(item)}**`;
+        });
+        let objUserInfo = {};
+
+        try {
+          const tmpInfoExtra = JSON.parse(
+            global.userInfoScreen.userInfo.extra_info
+          );
+          const tmpPantalla = tmpInfoExtra.pantallas.prices;
+          const infoExtra = tmpPantalla.extra_info;
+          objUserInfo = infoExtra;
+          objUserInfo = {
+            ...objUserInfo,
+            ...{
+              pantallas: tmpInfoExtra.pantallas,
+            },
+          };
+        } catch (e) {
+          try {
+            const userInfoScreenTmp = await getCurrentScreenInformationLocal();
+            const tempPantalla = JSON.parse(
+              userInfoScreenTmp.userInfo.extra_info
+            );
+            objUserInfo = tempPantalla.pantallas.prices.extra_info;
+            objUserInfo = {
+              ...objUserInfo,
+              ...{
+                pantallas: tempPantalla.pantallas,
+              },
+            };
+          } catch (error) {
+            objUserInfo = {};
+            //console.log(e);
           }
         }
-        return true;
-      });
-
-      if (!isValid || errorPerchaM != "" || errorPerchaG != "") {
-        //setErrorPercha("* Los campos número de caras no pueden estar vacios");
-        //setErrorPercha("* Los campos número de caras no pueden estar vacios");
-        Alert.alert(
-          "Error al completar los datos",
-          "Necesita marcar el valor respectivo de cada una de las perchas indicadas y tomar la fotografía."
-        );
-        //navigation.navigate('rack');
-        //console.log("\nCONTENIDO DE PERCHAS: ", JSON.stringify(category));
-      } else {
-        if (valueGeneralValidate != "") {
-          Alert.alert(
-            "Error al introducir los datos",
-            "La categoría Moderna no puede ser mayor a la categoría General"
-          );
-        }
-        if (
-          errorPerchaG === "" &&
-          errorPerchaM === "" &&
-          valueGeneralValidate === ""
-        ) {
-          //setIsModalVisible(true);
-          setIsModalSaveVisible(true);
-
-          try {
-            //console.log("IDPERCHA21", idPercha);
-
-            await AsyncStorage.setItem("id_percha", idPercha);
-            let x = await AsyncStorage.getItem("id_percha");
-            //console.log("IDPERCHA2", x);
-            // //console.log(
-            //   "PERCHAS QUE VAN A SER GUARDADOS: ",
-            //   JSON.stringify(category)
-            // );
-            //console.log("RACKS:", category);
-            category.map((productos) => {
-              const {
-                id_percha,
-                id,
-                state,
-                carasGeneral,
-                carasModerna,
-                images,
-              } = productos;
-              //console.log("carasGenerales:", carasGeneral);
-              //console.log("carasmODERNA:", carasModerna);
-
-              const { image1, image2, image3 } = images;
-              // //console.log(
-              //   "---------------------- imagenes",
-              //   JSON.stringify(images)
-              // );
-              //console.log("PRODUC:", productos);
-              let dataSave = {
-                tableName: "percha",
-                dataInsertType: [
-                  "id_percha",
-                  "id_categoria",
-                  "estado_percha",
-                  "categoria_general",
-                  "categoria_moderna",
-                  "url_imagen1",
-                  "url_imagen2",
-                  "url_imagen3",
-                  "usuario_creacion",
-                  "fecha_creacion",
-                  "fecha_modificacion",
-                ],
-                dataInsert: [
-                  `'${idPercha}'`,
-                  `'${id}'`,
-                  `'${state}'`,
-                  `'${parseInt(carasGeneral)}'`,
-                  `'${parseInt(carasModerna)}'`,
-                  `'${image1}'`,
-                  `'${image2}'`,
-                  `'${image3}'`,
-                  `'${userInfo.mail}'`,
-                  `'${transfromrActualDateFormat(dataTime(), "F")}'`,
-                  `'${transfromrActualDateFormat(dataTime(), "F")}'`,
-                ],
-              };
-              const sentence =
-                "INSERT INTO " +
-                dataSave.tableName +
-                " (" +
-                dataSave.dataInsertType.join() +
-                ") VALUES(" +
-                dataSave.dataInsert.join() +
-                ")";
-              //console.log("SENTENCIA A EJECUTAR: ", sentence);
-              db_insertGlobalDataAudit(dataSave);
-              //console.log("TODO BIEN");
-              // navigation.navigate("promos");rrrrrrrrrr
-            });
-            try {
-              // setIsModalVisible(false);
-              // setIsModalSaveVisible(false)
-
-              setHadSaveRack(true);
-              handleCurrentScreenPos();
-              handleCheckCanSaveAllDataLocal(
-                () => {
-                  setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
+        saveCurrentScreenUser(
+          {
+            screenName: `rack`,
+            tableName: `percha`,
+            itemId: `id_percha`,
+            columnId: `id_percha`,
+          },
+          {
+            pantallas: {
+              // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
+              // ...{
+              rack: {
+                principal: {
+                  screenName: `rack`,
+                  tableName: `percha`,
+                  itemId: `id_percha`,
+                  columnId: `id_percha`,
                 },
-                () => {
-                  setIsModalSaveVisible(false);
-                  setShowButton1(false);
-                  setShowButton2(true);
-                  navigation.navigate("promos");
-                }
-              );
-            } catch (error) {
-              Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
-              setHadSaveRack(false);
-              // setIsModalVisible(false);
-              setIsModalSaveVisible(false);
-            }
-            let tempDataScreen = category.map((item) => {
-              return `**${JSON.stringify(item)}**`;
-            });
-            let objUserInfo = {};
-
-            try {
-              const tmpInfoExtra = JSON.parse(
-                global.userInfoScreen.userInfo.extra_info
-              );
-              const tmpPantalla = tmpInfoExtra.pantallas.prices;
-              const infoExtra = tmpPantalla.extra_info;
-              objUserInfo = infoExtra;
-              objUserInfo = {
-                ...objUserInfo,
-                ...{
-                  pantallas: tmpInfoExtra.pantallas,
-                },
-              };
-            } catch (e) {
-              try {
-                const userInfoScreenTmp =
-                  await getCurrentScreenInformationLocal();
-                const tempPantalla = JSON.parse(
-                  userInfoScreenTmp.userInfo.extra_info
-                );
-                objUserInfo = tempPantalla.pantallas.prices.extra_info;
-                objUserInfo = {
-                  ...objUserInfo,
-                  ...{
-                    pantallas: tempPantalla.pantallas,
-                  },
-                };
-              } catch (error) {
-                objUserInfo = {};
-                //console.log(e);
-              }
-            }
-            saveCurrentScreenUser(
-              {
-                screenName: `rack`,
-                tableName: `percha`,
-                itemId: `id_percha`,
-                columnId: `id_percha`,
-              },
-              {
-                pantallas: {
-                  // ...(objUserInfo.pantallas ? objUserInfo.pantallas : {}),
-                  // ...{
-                  rack: {
-                    principal: {
-                      screenName: `rack`,
-                      tableName: `percha`,
-                      itemId: `id_percha`,
-                      columnId: `id_percha`,
-                    },
-                    extra_info: {
-                      category: tempDataScreen.toString(),
-                      auditorias_id: {
-                        ...(objUserInfo.auditorias_id
-                          ? objUserInfo.auditorias_id
-                          : {}),
-                        ...{
-                          id_percha: idPercha,
-                        },
-                      },
-                      // pantallas: {
-                      //   ...(objUserInfo.pantallas
-                      //     ? objUserInfo.pantallas
-                      //     : {}),
-                      //   rack: null,
-                      // },
+                extra_info: {
+                  category: tempDataScreen.toString(),
+                  auditorias_id: {
+                    ...(objUserInfo.auditorias_id
+                      ? objUserInfo.auditorias_id
+                      : {}),
+                    ...{
+                      id_percha: idPercha,
                     },
                   },
+                  // pantallas: {
+                  //   ...(objUserInfo.pantallas
+                  //     ? objUserInfo.pantallas
+                  //     : {}),
+                  //   rack: null,
                   // },
                 },
-              }
-            );
-          } catch (e) {
-            Alert.alert(
-              "Error antes de  insertar los datos",
-              "Vuelva a intentarlo"
-            );
-            // setIsModalVisible(false);
-            setIsModalSaveVisible(false);
-
-            //setShowButton1(true);
-            //setShowButton2(false);
+              },
+              // },
+            },
           }
-          //console.log("TODO BIEN");
-          //navigation.navigate('rack');
-          //navigation.navigate("promos");
-        }
+        );
+      } catch (e) {
+        Alert.alert(
+          "Error antes de  insertar los datos",
+          "Vuelva a intentarlo"
+        );
+        // setIsModalVisible(false);
+        setIsModalSaveVisible(false);
+
+        //setShowButton1(true);
+        //setShowButton2(false);
       }
+      //console.log("TODO BIEN");
+      //navigation.navigate('rack');
+      //navigation.navigate("promos");
     }
   };
   const handleDeleteRegisterLocal = async () => {

@@ -74,28 +74,29 @@ export const validatePriceProduct = (pr, fn) => {
   }
 };
 
-export const validatePercha = (value, fn) => {
+export const validatePercha = (value, fn, item) => {
   if (value === "" || value === null) {
-    const errorMessageStyle = { color: "red" };
-    fn("El campo número de caras no puede estar vacío", errorMessageStyle);
+    fn({
+      message: "El campo número de caras no puede estar vacío",
+      item,
+    });
   } else {
     const regex = /^(?!0[0-9])\d+$/;
     if (!regex.test(value)) {
-      const errorMessageStyle = { color: "red" };
-      fn(
-        "El campo número de caras debe ser un número entero sin ceros a la izquierda",
-        errorMessageStyle
-      );
+      fn({
+        message:
+          "El campo número de caras debe ser un número entero sin ceros a la izquierda",
+        item,
+      });
     } else {
       const number = parseInt(value, 10);
       if (number < 0 || number > 999) {
-        const errorMessageStyle = { color: "red" };
-        fn(
-          "El campo número de caras debe estar entre 0 y 999",
-          errorMessageStyle
-        );
+        fn({
+          message: "El campo número de caras debe estar entre 0 y 999",
+          item,
+        });
       } else {
-        fn("", null); // No hay error, se pasa un estilo nulo
+        fn(null); // No hay error, se pasa un estilo nulo
       }
     }
   }
