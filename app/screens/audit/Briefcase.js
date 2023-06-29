@@ -72,6 +72,7 @@ export const Briefcase = ({ navigation }) => {
     handleSaveAudit,
     handleCurrentScreenPos,
     setIsModalSaveVisible,
+    CountClientVariable,
     handleCleanPosScreen,
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
@@ -266,9 +267,18 @@ export const Briefcase = ({ navigation }) => {
             setComplementaryPortfolioProducts,
           });
         } else {
-         // handleCurrentScreenPos();
           setIsModalSaveVisible(false)
-          navigation.navigate("rack");
+          const totalVariables = await CountClientVariable()
+          console.log("***************************totalVariables---------------")
+          const response = await handleDoesClientHaveVariable("Promoción");
+          if (response && totalVariables == 2) {
+            navigation.navigate("promos");
+          } else {
+            navigation.navigate("rack");
+          }
+          // handleCurrentScreenPos();
+
+
 
 
         }
@@ -290,7 +300,7 @@ export const Briefcase = ({ navigation }) => {
           //handleCurrentScreenPos();
         } else {
           navigation.navigate("promos");
-          handleCurrentScreenPos();
+          //handleCurrentScreenPos();
         }
       };
       checkForVariable();
@@ -578,7 +588,7 @@ export const Briefcase = ({ navigation }) => {
 
               // setShowButton1(false);
               // setShowButton2(true);
-  
+
             } catch (e) {
               Alert.alert(
                 "Error al insertar los datos en la tabla portafolio_auditoria",
