@@ -266,7 +266,7 @@ export const Briefcase = ({ navigation }) => {
             setComplementaryPortfolioProducts,
           });
         } else {
-          handleCurrentScreenPos();
+         // handleCurrentScreenPos();
           setIsModalSaveVisible(false)
           navigation.navigate("rack");
 
@@ -287,7 +287,7 @@ export const Briefcase = ({ navigation }) => {
         //console.log("VARIABLE DE PERCHAS EXISTE:", response);
         if (checkvariables === true) {
           navigation.navigate("rack");
-          handleCurrentScreenPos();
+          //handleCurrentScreenPos();
         } else {
           navigation.navigate("promos");
           handleCurrentScreenPos();
