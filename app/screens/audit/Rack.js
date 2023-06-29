@@ -85,6 +85,10 @@ export const Racks = ({ navigation }) => {
     console.log("category***********", category);
   }, [category]);
   useEffect(() => {
+    console.log("infoScreen***********", infoScreen);
+  }, [infoScreen]);
+  
+  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
@@ -157,6 +161,8 @@ export const Racks = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
+
+      console.log("user ifnooooooooooooooooooooo",global.userInfoScreen)
       if (
         !global.userInfoScreen ||
         !global.userInfoScreen.userInfo ||
