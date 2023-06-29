@@ -28,7 +28,8 @@ export const Rack_View = ({ rack }) => {
       objeto.url_imagen1 !== null &&
       objeto.url_imagen1 !== undefined &&
       objeto.url_imagen1 !== "null" &&
-      objeto.url_imagen1 !== "undefined"
+      objeto.url_imagen1 !== "undefined" &&
+      objeto.url_imagen1.trim() !== ""
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen1,
@@ -41,7 +42,8 @@ export const Rack_View = ({ rack }) => {
       objeto.url_imagen2 !== null &&
       objeto.url_imagen2 !== undefined &&
       objeto.url_imagen2 !== "null" &&
-      objeto.url_imagen2F !== "undefined"
+      objeto.url_imagen2 !== "undefined" &&
+      objeto.url_imagen2.trim() !== ""
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen2,
@@ -54,7 +56,8 @@ export const Rack_View = ({ rack }) => {
       objeto.url_imagen3 !== null &&
       objeto.url_imagen3 !== undefined &&
       objeto.url_imagen3 !== "null" &&
-      objeto.url_imagen3 !== "undefined"
+      objeto.url_imagen3 !== "undefined" &&
+      objeto.url_imagen3.trim() !== ""
     ) {
       const imagenVerificada = await verifyUrlImage(
         objeto.url_imagen3,
@@ -75,7 +78,8 @@ export const Rack_View = ({ rack }) => {
         objeto.url_planograma1 !== null &&
         objeto.url_planograma1 !== undefined &&
         objeto.url_planograma1 !== "null" &&
-        objeto.url_planograma1 !== "undefined"
+        objeto.url_planograma1 !== "undefined" &&
+        objeto.url_planograma1.trim() !== ""
       ) {
         const imagenVerificada = await verifyUrlImage(
           objeto.url_planograma1,
@@ -92,7 +96,8 @@ export const Rack_View = ({ rack }) => {
         objeto.url_planograma2 !== null &&
         objeto.url_planograma2 !== undefined &&
         objeto.url_planograma2 !== "null" &&
-        objeto.url_planograma2 !== "undefined"
+        objeto.url_planograma2 !== "undefined" &&
+        objeto.url_planograma2.trim() !== ""
       ) {
         const imagenVerificada = await verifyUrlImage(
           objeto.url_planograma2,
@@ -108,7 +113,8 @@ export const Rack_View = ({ rack }) => {
         objeto.url_planograma3 !== null &&
         objeto.url_planograma3 !== undefined &&
         objeto.url_planograma3 !== "null" &&
-        objeto.url_planograma3 !== "undefined"
+        objeto.url_planograma3 !== "undefined" &&
+        objeto.url_planograma3.trim() !== ""
       ) {
         const imagenVerificada = await verifyUrlImage(
           objeto.url_planograma3,
@@ -280,7 +286,8 @@ export const Rack_View = ({ rack }) => {
                       </View>
                       <View
                         style={{
-                          flex: 2,
+                          flex: 1.5,
+                          //backgroundColor: "blue",
                           justifyContent: "center",
                           alignItems: "center",
                         }}
@@ -296,11 +303,11 @@ export const Rack_View = ({ rack }) => {
                         >
                           {imagesPlanograma.map((images) => {
                             return (
-                              <Image
+                              <ImageModal
                                 key={images} // Se utiliza " images" como clave
                                 source={{ uri: images }}
-                                style={styles.imgContainer} // Utilizar el estilo "imgContainer"
-                                resizeMode="cover"
+                                style={styles.imgContainer} // Utiliza el estilo "imgContainer"
+                                resizeMode="stretch"
                               />
                             );
                           })}
@@ -369,7 +376,7 @@ export const Rack_View = ({ rack }) => {
                                 <ImageModal
                                   key={image} // Utiliza la variable "image" como clave
                                   source={{ uri: image }}
-                                  style={styles.imgContainer2} // Utiliza el estilo "imgContainer"
+                                  style={styles.imgContainer} // Utiliza el estilo "imgContainer"
                                   resizeMode="stretch"
                                 />
                               );
@@ -444,7 +451,7 @@ const styles = StyleSheet.create({
   //MODAL
   imageContainer: {
     width: 224,
-    height: 186,
+    height: 180,
     resizeMode: "cover",
     marginTop: 100,
   },
@@ -462,7 +469,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 280,
-    height: 555,
+    height: 600,
     borderWidth: 1,
   },
   button: {
