@@ -478,7 +478,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
     // console.log("-----SUBIDA DE AUDITORIA QUE NO SE VA XD------", Object.keys(resp));
 
     fn(false);
-    console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
+    //console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
     if (resp.data.result || resp.status == 200) {
       console.log("CAMBIANDO ESTADO - - - -- - ");
       await realizarConsulta(
