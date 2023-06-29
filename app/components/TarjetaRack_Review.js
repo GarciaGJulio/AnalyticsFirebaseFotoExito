@@ -23,7 +23,7 @@ export const TarjetaRack_Review = ({ data }) => {
       >
         PERCHAS
       </Text>
-      <View style={{ flex: 1, width: "100%", marginVertical: 5 }}>
+      <View style={{ flex: 1, width: "100%" }}>
         {data.length === 0 ? (
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -47,9 +47,11 @@ export const TarjetaRack_Review = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "95%",
+    width: "90%",
+    // backgroundColor:"red",
     marginVertical: 10,
     alignItems: "center",
+
     //paddingHorizontal:100,
     //backgroundColor:'red',
     //marginHorizontal:10,

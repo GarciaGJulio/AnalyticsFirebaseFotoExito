@@ -24,6 +24,7 @@ const StyledInput = ({
   error,
   information,
   value,
+  height,
   ...props
 }) => {
   const [isFocused, setIsFocused] = React.useState(false);
@@ -36,7 +37,17 @@ const StyledInput = ({
   if (!fontLoaded) return null;
 
   return (
-    <View style={{ marginBottom: 1, width: width, flex: 1 }}>
+    <View
+      style={[
+        {
+          //marginBottom: 1,
+          width: width,
+          flex: 1,
+          //backgroundColor: "red",
+        },
+        { height: height },
+      ]}
+    >
       <View style={{ flexDirection: "row" }}>
         <View>
           <Text style={{ color: "red", textAlign: "left" }}>*</Text>
@@ -92,7 +103,7 @@ const StyledInput = ({
       {error && (
         <Text
           style={{
-            marginTop: 2,
+            marginTop: 5,
             color: theme.colors.modernaRed,
             fontSize: theme.fontSize.error,
             fontFamily: "Metropolis",
@@ -100,13 +111,14 @@ const StyledInput = ({
             textAlign: "justify",
           }}
         >
-          {error}
+          {error.message ? error.message : error}
         </Text>
       )}
       <Text
         style={{
-          marginTop: 7,
+          marginTop: 5,
           fontSize: theme.fontSize.details,
+          backgroundColor: "red",
           fontFamily: "Metropolis",
           fontWeight: "600",
           textAlign: "justify",
