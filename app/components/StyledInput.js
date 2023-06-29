@@ -103,7 +103,7 @@ const StyledInput = ({
       {error && (
         <Text
           style={{
-            marginTop: 2,
+            marginTop: 5,
             color: theme.colors.modernaRed,
             fontSize: theme.fontSize.error,
             fontFamily: "Metropolis",
@@ -116,8 +116,9 @@ const StyledInput = ({
       )}
       <Text
         style={{
-          marginTop: 2,
+          marginTop: 5,
           fontSize: theme.fontSize.details,
+          backgroundColor: "red",
           fontFamily: "Metropolis",
           fontWeight: "600",
           textAlign: "justify",
