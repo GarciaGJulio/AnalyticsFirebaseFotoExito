@@ -81,9 +81,7 @@ export const Racks = ({ navigation }) => {
   } = useContext(GlobalContext);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  useEffect(() => {
-    console.log("category***********", category);
-  }, [category]);
+
   useEffect(() => {
     console.log("infoScreen***********", infoScreen);
   }, [infoScreen]);
@@ -162,7 +160,7 @@ export const Racks = ({ navigation }) => {
   const getInfoDatBaseScreen = () => {
     try {
 
-      console.log("user ifnooooooooooooooooooooo",global.userInfoScreen)
+      //console.log("user ifnooooooooooooooooooooo",global.userInfoScreen)
       if (
         !global.userInfoScreen ||
         !global.userInfoScreen.userInfo ||

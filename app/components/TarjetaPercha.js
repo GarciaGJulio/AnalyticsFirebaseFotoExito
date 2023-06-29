@@ -38,6 +38,9 @@ export const TarjPercha = ({
   setValueGeneralValidate,
   tecladopresent,
 }) => {
+
+    console.log("category***********", data);
+
   return (
     <View style={styles.container}>
       <FlatList
