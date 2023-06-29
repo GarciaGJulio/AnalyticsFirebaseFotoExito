@@ -125,7 +125,7 @@ export const FlashListPrices = React.memo(
               )}
               keyExtractor={(item) => item.id.toString()}
               removeClippedSubviews={true}
-              showsVerticalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
               extraData={selectedItemId}
             />
           )

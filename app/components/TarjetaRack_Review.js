@@ -37,7 +37,7 @@ export const TarjetaRack_Review = ({ data }) => {
             data={data}
             renderItem={({ item }) => <Rack_View rack={item} />}
             estimatedItemSize={10}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
           />
         )}
       </View>

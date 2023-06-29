@@ -38,9 +38,6 @@ export const TarjPercha = ({
   setValueGeneralValidate,
   tecladopresent,
 }) => {
-  const [objPercha, setObjPercha] = useState({});
-  const [datos, setDatos] = useState([]);
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -59,7 +56,7 @@ export const TarjPercha = ({
             setData={setData}
           />
         )}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
       />
     </View>
   );

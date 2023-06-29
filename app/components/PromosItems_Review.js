@@ -37,7 +37,7 @@ export const PromosItems_Review = ({ data }) => {
             <PromosItemsDetails_Review exhibitor={item} />
           )}
           estimatedItemSize={4}
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
         />
       )}
       <View style={{ flex: 0.2 }}></View>

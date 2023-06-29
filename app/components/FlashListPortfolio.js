@@ -68,7 +68,7 @@ const RenderItem = React.memo(
             />
           )}
           keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
         />
       </View>
     );
@@ -182,7 +182,7 @@ export const FlashListPortfolio = React.memo(
               />
             )}
             keyExtractor={(item) => item.categoria}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
           />
         )}
       </View>

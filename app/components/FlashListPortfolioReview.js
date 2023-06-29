@@ -49,7 +49,7 @@ const RenderItem = ({ item }) => {
             //idealPortfolioProducts={idealPortfolioProducts}
           />
         )}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
       />
     </View>
   );
@@ -118,7 +118,8 @@ export const FlashListPortfolioReview = ({
           }}
         >
           <Text style={{ fontSize: 14, fontFamily: "Metropolis" }}>
-            En esta auditoría no se seleccionó ningún producto del portafolio complementario.
+            En esta auditoría no se seleccionó ningún producto del portafolio
+            complementario.
           </Text>
         </View>
       ) : (
@@ -135,7 +136,7 @@ export const FlashListPortfolioReview = ({
             />
           )}
           //estimatedItemSize={4}
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
         />
       )}
     </View>

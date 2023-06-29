@@ -22,7 +22,7 @@ export const FlashListPromos = ({ data, setData }) => {
           />
         )}
         //estimatedItemSize={4}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
       />
     </View>
   );

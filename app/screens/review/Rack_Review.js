@@ -20,18 +20,18 @@ const Rack_Review = ({ navigation }) => {
     );
 
     const category = await realizarConsulta(
-      `SELECT ca.nombre_categoria, p.*, pl.id_planograma,pl.url_imagen1 AS url_planograma1, pl.url_imagen2 AS url_planograma2, pl.url_imagen3 AS url_planograma3
+      `SELECT DISTINCT ca.nombre_categoria, p.*, pl.id_planograma,pl.url_imagen1 AS url_planograma1, pl.url_imagen2 AS url_planograma2, pl.url_imagen3 AS url_planograma3
       FROM percha AS p
       INNER JOIN categoria AS ca ON ca.id_categoria = p.id_categoria
-      INNER JOIN planograma AS pl ON pl.id_categoria = ca.id_categoria
+      INNER JOIN planograma AS pl ON pl.id_categoria = p.id_categoria
       INNER JOIN auditoria AS a ON a.id_auditoria = '${datosCompartidos.id_auditoria}'
-      WHERE p.id_percha = '${datosCompartidos.id_percha}' AND a.id_auditoria = '${datosCompartidos.id_auditoria}'`
+      WHERE p.id_percha = '${datosCompartidos.id_percha}' AND a.id_auditoria = '${datosCompartidos.id_auditoria}' AND pl.id_grupo_cliente = '${datosCompartidos.id_grupo_cliente}'`
     );
 
-    // //console.log(
-    //   "CATEGORIAS CON PERCHAS - - - - - - - - - - - - - - * */ / /: ",
-    //   category
-    // );
+    console.log(
+      "CATEGORIAS CON PERCHAS - - - - - - - - - - - - - - * */ / /: ",
+      category
+    );
 
     const datosConImagenesPlanograma = category.map((objeto) => {
       const imagenesPlanograma = [];
@@ -67,7 +67,7 @@ const Rack_Review = ({ navigation }) => {
     });
     setRack(category);
     //console.log("DATOS OBTENIDOS DE PERCHAS : ", perchasCompletas);
-    //console.log("DATOS DE LA SUCURSAL : ", datosCompartidos.id_percha);
+    //console.log("DATOS DE LA SUCURSAL : ", datosCompartidos);
   };
   useEffect(() => {
     getRackData();

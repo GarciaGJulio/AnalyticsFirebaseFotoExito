@@ -112,7 +112,8 @@ export const ListBranch = ({ navigation }) => {
 
       return (
         itemName.includes(searchTextLower) ||
-        itemBranch.includes(searchTextLower) || itemBranchId.includes(searchTextLower)
+        itemBranch.includes(searchTextLower) ||
+        itemBranchId.includes(searchTextLower)
       );
     });
     setFilteredData(newData);
@@ -162,7 +163,7 @@ export const ListBranch = ({ navigation }) => {
             ) : (
               <ScrollView style={styles.auditsListContainer}>
                 <FlatList
-                  showsVerticalScrollIndicator={false}
+                  showsVerticalScrollIndicator={true}
                   data={filteredData}
                   renderItem={({ item }) => (
                     <ItemBranch_Review

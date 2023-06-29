@@ -139,8 +139,9 @@ export const MultiSelectListV2 = ({
           noResultsComponent={!hadSaveBriefCase}
           disabled={hadSaveBriefCase}
           hideChipRemove={hadSaveBriefCase}
-          noResultsComponent={false}
           styles={{
+            //container: { backgroundColor: "red" },
+            listContainer: { backgroundColor: "red" },
             cancelButton: { backgroundColor: "red" },
             listContainer: { backgroundColor: "red" },
             subSeparator: { backgroundColor: theme.colors.lightgray },
@@ -149,26 +150,41 @@ export const MultiSelectListV2 = ({
               backgroundColor: theme.colors.modernaYellow,
               borderRadius: 10,
               width: "98%",
-
+              //opacity: 0.9,
               justifyContent: "flex-start",
               //padding:5,
               //flexGrow:1,
               alignItems: "center",
             },
-
             chipText: {
               color: "black",
               fontFamily: "Metropolis",
               flex: 1,
               fontWeight: "100",
             },
-            
-            selectedItemText: { fontFamily: "Metropolis", fontWeight: "100" },
-            selectedSubItemText: {
+
+            selectedItemText: {
               fontFamily: "Metropolis",
               fontWeight: "100",
+              //backgroundColor: "red",
             },
-            selectToggleText: { fontFamily: "Metropolis", fontWeight: "100" },
+            selectedSubItemText: {
+              fontFamily: "Metropolis",
+              //backgroundColor: "red",
+              fontWeight: "100",
+            },
+            selectToggleText: {
+              fontFamily: "Metropolis",
+              fontWeight: "100",
+              //backgroundColor: "red",
+            },
+            selectToggle: {
+              //backgroundColor: "red",
+              height: 50,
+              padding: 10,
+              justifyContent: "center",
+              alignItems: "center",
+            },
             //subItemText: { fontFamily: "Metropolis", left: 10 },
             itemText: {
               fontFamily: "Metropolis",
