@@ -112,7 +112,7 @@ const TabButton = (props) => {
 export const TabsNavigation = ({ route }) => {
   const { datosCompartidos } = useContext(DataContext);
   //const { branch } = route.params;
-  //console.log("DATOS DE NAVEGACION A EVALUAR: -- - - ", datosCompartidos);
+  console.log("DATOS DE NAVEGACION A EVALUAR: -- - - ", datosCompartidos);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -144,7 +144,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                      //param={branch}
+                        //param={branch}
                       />
                     ),
                   }}
@@ -167,7 +167,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                      //param={branch}
+                        //param={branch}
                       />
                     ),
                   }}
@@ -191,7 +191,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                      //param={branch}
+                        //param={branch}
                       />
                     ),
                   }}
@@ -215,7 +215,7 @@ export const TabsNavigation = ({ route }) => {
                       <TabButton
                         {...props}
                         item={item}
-                      //param={branch}
+                        //param={branch}
                       />
                     ),
                   }}
@@ -223,41 +223,39 @@ export const TabsNavigation = ({ route }) => {
               );
             }
             break;
-
         }
       })}
-      {
-        ((datosCompartidos.id_promocion == null ||
-          datosCompartidos.id_promocion == "null") &&
-          (datosCompartidos.id_percha == null ||
-            datosCompartidos.id_percha == "null") &&
-          (datosCompartidos.id_preciador == null ||
-            datosCompartidos.id_preciador == "null") &&
-          (datosCompartidos.id_portafolio_auditoria == null ||
-            datosCompartidos.id_portafolio_auditoria == "null")) && <Tab.Screen
-          key={1}
-          name={"Sin Variables"}
-          component={WithOutData}
-          options={{
-            tabBarShowLabel: false,
-            tabBarButton: (props) => (
-              <TabButton
-                {...props}
-                item={{
-                  route: "Sin Variables",
-                  label: "Sin Variables",
-                  type: "material-icons",
-                  icon: "local-offer",
-                  component: WithOutData,
-                  color: theme.colors.modernaGreen,
-                }}
-              //param={branch}
-              />
-            ),
-          }}
-        />
-      }
-
+      {(datosCompartidos.id_promocion == null ||
+        datosCompartidos.id_promocion == "null") &&
+        (datosCompartidos.id_percha == null ||
+          datosCompartidos.id_percha == "null") &&
+        (datosCompartidos.id_preciador == null ||
+          datosCompartidos.id_preciador == "null") &&
+        (datosCompartidos.id_portafolio_auditoria == null ||
+          datosCompartidos.id_portafolio_auditoria == "null") && (
+          <Tab.Screen
+            key={1}
+            name={"Sin Variables"}
+            component={WithOutData}
+            options={{
+              tabBarShowLabel: false,
+              tabBarButton: (props) => (
+                <TabButton
+                  {...props}
+                  item={{
+                    route: "Sin Variables",
+                    label: "Sin Variables",
+                    type: "material-icons",
+                    icon: "local-offer",
+                    component: WithOutData,
+                    color: theme.colors.modernaGreen,
+                  }}
+                  //param={branch}
+                />
+              ),
+            }}
+          />
+        )}
     </Tab.Navigator>
   );
 };
