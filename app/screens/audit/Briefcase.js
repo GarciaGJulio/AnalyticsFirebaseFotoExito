@@ -299,7 +299,11 @@ export const Briefcase = ({ navigation }) => {
           navigation.navigate("rack");
           //handleCurrentScreenPos();
         } else {
+          const totalVariables = await CountClientVariable()
           navigation.navigate("promos");
+          if (totalVariables == 3) {
+            handleCurrentScreenPos();
+          }
           //handleCurrentScreenPos();
         }
       };

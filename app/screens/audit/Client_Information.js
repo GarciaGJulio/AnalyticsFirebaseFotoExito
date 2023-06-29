@@ -289,20 +289,20 @@ export const Client_Information = ({ navigation }) => {
       return false;
     } else {
       let found = branchNames.some((item) => {
-        // //console.log(
-        //   "ITEM A COMPARAR - -- - BASE: ",
-        //   item.nombre_sucursal +
-        //     " " +
-        //     item.fecha_creacion +
-        //     " " +
-        //     item.id_cliente +
-        //     " ACTUAL:  " +
-        //     currentNameTemp +
-        //     " " +
-        //     tempFechaTemp +
-        //     " " +
-        //     clientIDTemp
-        // );
+        console.log(
+          "ITEM A COMPARAR - -- - BASE: ",
+          item.nombre_sucursal +
+            " " +
+            item.fecha_creacion +
+            " " +
+            item.id_cliente +
+            " ACTUAL:  " +
+            currentNameTemp +
+            " " +
+            tempFechaTemp +
+            " " +
+            clientIDTemp
+        );
         return (
           item.nombre_sucursal === currentNameTemp &&
           item.fecha_creacion === tempFechaTemp &&
