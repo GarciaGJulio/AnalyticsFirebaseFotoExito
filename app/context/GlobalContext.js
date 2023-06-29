@@ -109,10 +109,12 @@ export const GlobalProvider = ({ children }) => {
   const clearWorkFlow = async () => {
     console.warn("DELETED START");
     cleanCurrentScreenUser();
+    handleCleanStorage()
     handleCleanPosScreen();
     setHadSaveBriefCase(false);
     setHadSavePreciador(false);
     setHadSaveRack(false);
+  
   };
 
   const handleClearWorkFlow = () => {
