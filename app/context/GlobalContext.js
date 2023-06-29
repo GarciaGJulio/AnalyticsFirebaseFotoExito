@@ -67,7 +67,7 @@ export const GlobalProvider = ({ children }) => {
 
   const handleDoesClientHaveVariable = async (nombre_variable) => {
     const id_grupo_cliente = await AsyncStorage.getItem("idGroupClient");
-    const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME}`);
+    const variables = await realizarConsulta(`SELECT * from ${VARIABLE.NAME}  where estado_variable=1`);
     const index = variables.findIndex((variable) => {
       return (
         variable.id_grupo_cliente.toUpperCase() ===
