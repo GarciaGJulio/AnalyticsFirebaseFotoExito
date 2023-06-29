@@ -28,7 +28,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
     }
 
     setProducts((products) => {
-      const productosActualizados = [...products];
+      const productosActualizados = Object.assign([], [...products]);
       const producto = productosActualizados.find((p) => p.id === item.id);
       if (producto) {
         producto.images = newItemTemp.images
@@ -37,6 +37,8 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
     });
   }, [allImages])
   useEffect(() => {
+
+    console.log("/////////////////////////////", item)
     if (isUserScreen) {
       let itemTemps = []
       let tempKeys = Object.keys(item.images)
@@ -73,7 +75,7 @@ const TakeImage = ({ setProducts, item, isUserScreen, disabled }) => {
             key={index}
             disabled={disabled}
             onPress={() => {
-           //   setImageModal(image)
+              //   setImageModal(image)
             }}
             style={styles.imageContainer}
           >

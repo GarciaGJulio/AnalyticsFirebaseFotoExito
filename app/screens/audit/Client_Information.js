@@ -30,8 +30,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getLocation } from "../../services/GeolocationA";
 import { Dropdown, DropdownDavid } from "../../components/Dropdown";
 import {
-  cleanCurrentScreenUser,
-  deleteRegisterAudit,
   getCurrentScreenInformation,
   saveCurrentScreenUser,
 } from "../../utils/Utils";
@@ -475,19 +473,6 @@ export const Client_Information = ({ navigation }) => {
     // Agrega aquí las otras variantes de la fuente si las tienes (p. ej., Bold, Italic, etc.)
   });
 
-  const handleDeleteRegisterLocal = async () => {
-    deleteRegisterAudit({
-      tableName: "sucursal",
-      objectId: "id_sucursal",
-      valueId: `${
-        infoScreen && infoScreen.id_sucursal
-          ? infoScreen.id_sucursal
-          : sucursalInformation.id
-      }`,
-    });
-    setHadSave(false);
-    cleanCurrentScreenUser();
-  };
   if (!fontLoaded) return null;
   // return (<View>
   //   <Text>

@@ -107,38 +107,14 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const clearWorkFlow = async () => {
-    console.clear();
     console.warn("DELETED START");
-    //console.log(global?.userInfoScreen?.userInfo?.nombre_pantalla);
-    let response = await realizarConsulta(
-      `SELECT * FROM ${PERSISTENCIA.NAME} WHERE ${PERSISTENCIA.SCREEN_NAME} = '${global.userInfoScreen?.userInfo?.nombre_pantalla}'`
-    );
-
-    if (Array.isArray(response) && response.length > 0) {
-      response = response[0];
-    }
-
-    const nombre_pantalla = response?.nombre_pantalla;
+    cleanCurrentScreenUser();
+    handleCleanStorage()
+    handleCleanPosScreen();
     setHadSaveBriefCase(false);
     setHadSavePreciador(false);
     setHadSaveRack(false);
-    switch (nombre_pantalla?.toUpperCase()) {
-      case "BRIEFCASE": {
-        setHadSaveBriefCase(false);
-        break;
-      }
-      case "AUDIT": {
-        const request = await realizarConsulta(
-          `DELETE FROM ${response.nombre_tabla} WHERE ${response.campo_id} = '${response.id_registro}'`
-        );
-        break;
-      }
-    }
-    await realizarConsulta(
-      `DELETE FROM ${PERSISTENCIA.NAME} WHERE ${PERSISTENCIA.SCREEN_NAME} = '${global.userInfoScreen.userInfo.nombre_pantalla}'`
-    );
-    global.userInfoScreen.userInfo = {};
-    console.warn("DELETED");
+  
   };
 
   const handleClearWorkFlow = () => {
@@ -175,9 +151,9 @@ export const GlobalProvider = ({ children }) => {
         }
 
         if (posScreen >= variables.length || canSaveSpecial) {
-          onFinish();
           cleanCurrentScreenUser();
           handleCleanPosScreen();
+          onFinish();
           // handleCleanStorage()
           //  if(canSaveSpecial){
           // setIsModalSaveVisible(false)
@@ -300,8 +276,9 @@ export const GlobalProvider = ({ children }) => {
         // //console.log(
         //   "***********************************************************"
         // );
-        db_insertGlobalDataAudit(dataSave);
         cleanCurrentScreenUser();
+        db_insertGlobalDataAudit(dataSave);
+     
         handleCleanPosScreen();
         handleCleanStorage()
 
@@ -389,13 +366,13 @@ export const GlobalProvider = ({ children }) => {
         animationType="fade"
         transparent={true}
         style={{ flex: 1 }}
-        onDismiss={()=>{
+        onDismiss={() => {
           setImageModal(null)
         }}
-        onClose={()=>{
+        onClose={() => {
           setImageModal(null)
         }}
-        
+
       >
         <View style={
           {
@@ -408,7 +385,7 @@ export const GlobalProvider = ({ children }) => {
           {
             imageModal && <ImageModal
               key={imageModal}
-              source={{ uri: imageModal}}
+              source={{ uri: imageModal }}
               style={{
                 width: 250,
                 height: 180,

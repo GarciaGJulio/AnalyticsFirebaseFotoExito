@@ -81,9 +81,7 @@ export const Racks = ({ navigation }) => {
   } = useContext(GlobalContext);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  useEffect(() => {
-    console.log("category***********", category);
-  }, [category]);
+
   useEffect(() => {
     console.log("infoScreen***********", infoScreen);
   }, [infoScreen]);
