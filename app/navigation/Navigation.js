@@ -22,6 +22,7 @@ import { Promos } from "../screens/audit/Promos";
 import { ModernaContext } from "../context/ModernaProvider";
 import { Logs } from "expo";
 import { DebugScreen } from "../common/LogScreen";
+import { RackV2 } from "../screens/audit/RackV2";
 
 const Stack = createStackNavigator();
 
@@ -55,7 +56,7 @@ export const Navigation = () => {
         <Stack.Screen name="review" component={TabsNavigation} />
         <Stack.Screen name="briefcase" component={Briefcase} />
         <Stack.Screen name="prices" component={Prices} />
-        <Stack.Screen name="rack" component={Racks} />
+        <Stack.Screen name="rack" component={RackV2} />
         <Stack.Screen name="promos" component={Promos} />
         <Stack.Screen name="begin" component={LoginStack} />
       </Stack.Navigator>
