@@ -6,7 +6,90 @@ const STARTING_UII_KEY = "A000";
 const DATE_HOUR_SEPARATOR = "-";
 const HOUR_SEPARATOR = ":";
 const PROVINCE_COUNT = 24;
+const namePages = [
+  {
+    "index": 1,
+    "route": "briefcase",
+    "screen": "Portafolio"
+  },
+  {
+    "index": 2,
+    "route": "prices",
+    "screen": "Precio"
+  },
+  {
+    "index": 3,
+    "route": "rack",
+    "screen": "Percha"
+  },
+  {
+    "index": 4,
+    "route": "promos",
+    "screen": "Promoción"
+  }
+]
+export const getNameScreenVariable = (avaliableScreens) => {
+  for (let x = 0; x < namePages.length; x++) {
+    for (let y = 0; y < avaliableScreens.length; y++) {
+      if (avaliableScreens[y].nombre_variable.includes(namePages[x].screen)) {
+        return namePages[x]
+      }
+    }
+  }
+  return null
+}
 
+export const orderScreenVariable = (avaliableScreens) => {
+  let tempAllDate = avaliableScreens.map((itemNew) => {
+    const itemFound = namePages.filter(item => item.screen.includes(itemNew.nombre_variable))
+    if (itemFound.length > 0) {
+      return {
+        ...itemNew,
+        ...{
+          "index": itemFound[0].index,
+          "route": itemFound[0].route,
+        }
+      }
+    } else {
+      return {
+        ...itemNew,
+        ...{
+          "index": 0,
+          "route": "",
+        }
+      }
+    }
+  })
+  for (let x = 0; x < tempAllDate.length; x++) {
+
+  }
+
+  for (var i = 0; i < tempAllDate.length - 1; i++) {
+    for (var j = i + 1; j < tempAllDate.length; j++) {
+      if (tempAllDate[i].index > tempAllDate[j].index) {
+        var temp = tempAllDate[i];
+        tempAllDate[i] = tempAllDate[j];
+        tempAllDate[j] = temp;
+      }
+    }
+  }
+
+  return tempAllDate
+}
+
+function ordenarBurbuja(arreglo) {
+  var n = arreglo.length;
+  for (var i = 0; i < n - 1; i++) {
+    for (var j = i + 1; j < n; j++) {
+      if (arreglo[i] > arreglo[j]) {
+        var temp = arreglo[i];
+        arreglo[i] = arreglo[j];
+        arreglo[j] = temp;
+      }
+    }
+  }
+  return arreglo;
+}
 export function to2Decimals(value) {
   return (Math.round(value * 100) / 100).toFixed(2);
 }

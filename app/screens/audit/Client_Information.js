@@ -37,7 +37,7 @@ import {
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
-import { getActualDate, transfromrActualDateFormat } from "../../common/utils";
+import { getActualDate, getNameScreenVariable, orderScreenVariable, transfromrActualDateFormat } from "../../common/utils";
 import { lookForVariable } from "../../services/SeleccionesService";
 import StyledButton from "../../components/StyledButton";
 
@@ -250,12 +250,28 @@ export const Client_Information = ({ navigation }) => {
     let checkvariables = true;
     const checkForVariable = async () => {
       const response = await handleDoesClientHaveVariable("Portafolio");
+      const totalVariables = await CountClientVariable(true)
       checkvariables = response;
       //console.log("VARIABLE DE Portafolio EXISTE:", response);
       if (checkvariables === true) {
         navigation.navigate("briefcase");
       } else {
-        navigation.navigate("rack");
+        console.log("totalVariables----", totalVariables)
+        if (totalVariables.length == 1) {
+          const itemPage = getNameScreenVariable(totalVariables)
+          console.log("itemPage----", itemPage)
+
+          if (itemPage) {
+            navigation.navigate(itemPage.route)
+          }
+        } else {
+          const variablesOrders = orderScreenVariable(totalVariables);
+          console.log("variablesOrders-******---", variablesOrders)
+          if (variablesOrders.length > 0) {
+            navigation.navigate(variablesOrders[0].route)
+          }
+        }
+        //navigation.navigate("rack");
       }
     };
     checkForVariable();
@@ -293,23 +309,7 @@ export const Client_Information = ({ navigation }) => {
         /*if(item.nombre_sucursal === currentNameTemp &&
           item.fecha_creacion === tempFechaTemp &&
           item.id_cliente === clientIDTemp){*/
-        console.log(
-          "ITEM A COMPARAR - -- - BASE: ",
-          item.nombre_sucursal +
-          " " +
-          item.fecha_creacion +
-          " " +
-          item.id_cliente +
-          " ACTUAL:  " +
-          currentNameTemp +
-          " " +
-          tempFechaTemp +
-          " " +
-          clientIDTemp
-        );
-        /*  }else{
-            console.log("no hay")
-          }*/
+
         return (
           item.nombre_sucursal === currentNameTemp &&
           item.fecha_creacion === tempFechaTemp &&
@@ -487,8 +487,8 @@ export const Client_Information = ({ navigation }) => {
       tableName: "sucursal",
       objectId: "id_sucursal",
       valueId: `${infoScreen && infoScreen.id_sucursal
-          ? infoScreen.id_sucursal
-          : sucursalInformation.id
+        ? infoScreen.id_sucursal
+        : sucursalInformation.id
         }`,
     });
     setHadSave(false);
