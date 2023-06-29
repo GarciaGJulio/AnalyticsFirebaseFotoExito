@@ -274,7 +274,9 @@ export const Briefcase = ({ navigation }) => {
           if (response && totalVariables == 2) {
             navigation.navigate("promos");
           } else {
+            //handleCurrentScreenPos();
             navigation.navigate("rack");
+            
           }
           // handleCurrentScreenPos();
 
@@ -298,7 +300,7 @@ export const Briefcase = ({ navigation }) => {
         //console.log("VARIABLE DE PERCHAS EXISTE:", response);
         if (checkvariables === true) {
           navigation.navigate("rack");
-          if (totalVariables == 3) {
+          if (totalVariables >=3) {
             handleCurrentScreenPos();
           }
           //handleCurrentScreenPos();
