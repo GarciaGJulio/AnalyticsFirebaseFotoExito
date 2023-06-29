@@ -141,6 +141,9 @@ export const Prices = ({ navigation, route }) => {
   }, [newIdealPortfolio]);
   const getInfoDatBaseScreen = () => {
     try {
+      if (!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) {
+        return;
+      }
       //console.log("global.userInfoScreen en pricess", global.userInfoScreen);
       if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
         return;
@@ -254,17 +257,21 @@ export const Prices = ({ navigation, route }) => {
 
   useEffect(() => {
     const getNewArrays = async () => {
-      if (global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
-        setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
-        setNewIdealPortfolio([...idealPortfolioProducts]);
-        ////console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
-        //console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
-        //console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
-        // //console.log(
-        //   "PORTAFOLIO COMPLEMENTARIO: ",
-        //   JSON.stringify(newComplementaryPortfolio)
-        // );
+      if (global.userInfoScreen && global.userInfoScreen.userInfo && global.userInfoScreen.userInfo.nombre_pantalla) {
+        if ((!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) || global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
+          setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
+          setNewIdealPortfolio([...idealPortfolioProducts]);
+          ////console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
+          //console.log("ESTO LLEGA A LA PANTALLA PRECIO - - - - - -");
+          //console.log("PORTAFOLIO IDEAL: ", JSON.stringify(newIdealPortfolio));
+          // //console.log(
+          //   "PORTAFOLIO COMPLEMENTARIO: ",
+          //   JSON.stringify(newComplementaryPortfolio)
+          // );
+        }
       }
+
+
     };
     if (complementaryPortfolioProducts) {
       getNewArrays();
