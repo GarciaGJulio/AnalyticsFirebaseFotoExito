@@ -83,7 +83,9 @@ export const Racks = ({ navigation }) => {
 
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
+  useEffect(() => {
+    console.log("category***********", category)
+  }, [category])
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -165,6 +167,9 @@ export const Racks = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
+      if (!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) {
+        return;
+      }
       if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
         return;
       }
@@ -187,6 +192,8 @@ export const Racks = ({ navigation }) => {
         return JSON.parse(item);
       });
       // //console.log("tempItems-------------", tempItems)
+      console.log("*****2***")
+
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
       setHadSaveRack(true);
@@ -212,6 +219,8 @@ export const Racks = ({ navigation }) => {
       );
       AsyncStorage.setItem("id_percha", infoExtra.auditorias_id.id_percha);
     } catch (error) {
+      console.log("*****3r***")
+
       setCategory([]);
       setInfoScreen(null);
       setShowButton2(false);
@@ -301,15 +310,19 @@ export const Racks = ({ navigation }) => {
         if (!uniqueArray.some((item) => item.categoria === obj.categoria)) {
           uniqueArray.push(obj);
         }
+
         return uniqueArray;
       }, []);*/
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
+      if ((!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) || (global.userInfoScreen.userInfo.nombre_pantalla != "rack")) {
 
-      if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
         setCategory(newArrayEstado);
         setRack(planogramaFiltro);
       }
+
+
+
 
       // //console.log(
       //   "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
@@ -407,8 +420,8 @@ export const Racks = ({ navigation }) => {
           setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
         },
         () => {
-         // setIsModalVisible(false);
-         setIsModalSaveVisible(false)
+          // setIsModalVisible(false);
+          setIsModalSaveVisible(false)
 
           navigation.navigate("promos");
         }
@@ -529,8 +542,8 @@ export const Racks = ({ navigation }) => {
               // navigation.navigate("promos");rrrrrrrrrr
             });
             try {
-             // setIsModalVisible(false);
-            // setIsModalSaveVisible(false)
+              // setIsModalVisible(false);
+              // setIsModalSaveVisible(false)
 
               setHadSaveRack(true);
               handleCurrentScreenPos();
@@ -548,8 +561,8 @@ export const Racks = ({ navigation }) => {
             } catch (error) {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
               setHadSaveRack(false);
-             // setIsModalVisible(false);
-             setIsModalSaveVisible(false)
+              // setIsModalVisible(false);
+              setIsModalSaveVisible(false)
 
             }
             let tempDataScreen = category.map((item) => {
@@ -634,8 +647,8 @@ export const Racks = ({ navigation }) => {
               "Error antes de  insertar los datos",
               "Vuelva a intentarlo"
             );
-           // setIsModalVisible(false);
-           setIsModalSaveVisible(false)
+            // setIsModalVisible(false);
+            setIsModalSaveVisible(false)
 
             //setShowButton1(true);
             //setShowButton2(false);
@@ -681,7 +694,7 @@ export const Racks = ({ navigation }) => {
   if (!fontLoaded) return null;
   return (
     <View style={styles.container}>
-      <View style={{ flex:isKeyboardVisible? 2:1, width: "100%" }}>
+      <View style={{ flex: isKeyboardVisible ? 2 : 1, width: "100%" }}>
         <ModernaHeader />
       </View>
       <ConfirmationModal
@@ -742,7 +755,7 @@ export const Racks = ({ navigation }) => {
                   setErrorPerchaM={setErrorPerchaM}
                   setData={setCategory}
                   view={"audit"}
-                  
+
                 />
               )}
             </View>
@@ -771,16 +784,16 @@ export const Racks = ({ navigation }) => {
         // colorRigth={theme.colors.modernaRed}
         // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
         disableAction={hasVariable ? !validateData() : validateData()}
-        // showButton1={showButton1}
-        // showButton2={showButton2}
-        // titleRigthSecond={"Siguiente"}
-        // sizeRigthSecond={theme.buttonSize.df}
-        // colorRigthSecond={theme.colors.modernaRed}
-        // onPressRigthSecond={() => navigation.navigate("promos")}
-        // iconRigthSecond={"arrow-right-circle"}
-        // typeRigthSecond={"feather"}
-        // showButton1Second={showButton1}
-        // showButton2Second={showButton2}
+      // showButton1={showButton1}
+      // showButton2={showButton2}
+      // titleRigthSecond={"Siguiente"}
+      // sizeRigthSecond={theme.buttonSize.df}
+      // colorRigthSecond={theme.colors.modernaRed}
+      // onPressRigthSecond={() => navigation.navigate("promos")}
+      // iconRigthSecond={"arrow-right-circle"}
+      // typeRigthSecond={"feather"}
+      // showButton1Second={showButton1}
+      // showButton2Second={showButton2}
       />
     </View>
   );

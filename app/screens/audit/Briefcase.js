@@ -138,6 +138,9 @@ export const Briefcase = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
+      if (!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) {
+        return;
+      }
       if (global.userInfoScreen.userInfo.nombre_pantalla != "briefcase") {
         return;
       }
