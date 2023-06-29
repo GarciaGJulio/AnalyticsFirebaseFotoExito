@@ -293,13 +293,16 @@ export const Briefcase = ({ navigation }) => {
       let checkvariables = true;
       const checkForVariable = async () => {
         const response = await handleDoesClientHaveVariable("Percha");
+        const totalVariables = await CountClientVariable()
         checkvariables = response;
         //console.log("VARIABLE DE PERCHAS EXISTE:", response);
         if (checkvariables === true) {
           navigation.navigate("rack");
+          if (totalVariables == 3) {
+            handleCurrentScreenPos();
+          }
           //handleCurrentScreenPos();
         } else {
-          const totalVariables = await CountClientVariable()
           navigation.navigate("promos");
           if (totalVariables == 3) {
             handleCurrentScreenPos();
