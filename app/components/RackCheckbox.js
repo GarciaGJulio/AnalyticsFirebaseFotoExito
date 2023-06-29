@@ -46,21 +46,21 @@ export const RackCheckbox = ({
   const [extraImages, setExtraImages] = useState([]);
   const { hadSaveRack, setHadSaveRack } = useContext(GlobalContext);
 
-  // useEffect(() => {
-  //   // //console.log("------isUserScreen----------",isUserScreen)
-  //   if (isUserScreen) {
-  //     setCateGeneral(item.carasGeneral + "");
-  //     setCateModerna(item.carasModerna + "");
-  //     if (item.state == 1) {
-  //       setCheck1(true);
-  //       setOpenCamera(true);
-  //     } else {
-  //       setCheck2(true);
-  //     }
+  useEffect(() => {
+    // //console.log("------isUserScreen----------",isUserScreen)
+    if (isUserScreen) {
+      setCateGeneral(item.carasGeneral + "");
+      setCateModerna(item.carasModerna + "");
+      if (item.state == 1) {
+        setCheck1(true);
+        setOpenCamera(true);
+      } else {
+        setCheck2(true);
+      }
 
-  //     // //console.log("----------------",item)
-  //   }
-  // }, [isUserScreen]);
+      // //console.log("----------------",item)
+    }
+  }, [isUserScreen]);
 
   // useEffect(() => {
   //   if (CateGeneral < CateModerna) {
