@@ -8,6 +8,7 @@ import {
   Text,
   View,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import Logotipo from "../../../assets/moderna/Logotipo-espiga-amarilla-letras-blancas.png";
@@ -42,6 +43,8 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { KeyboardAvoidingView } from "react-native";
 import { transfromrActualDateFormat } from "../../common/utils";
 import { ClientInformation } from "../../components/ClientInformation";
+import { SimpleBody } from "../../common/SimpleBody";
+import { FlexContainer } from "../../common/FlexContainer";
 export const Prices = ({ navigation, route }) => {
   const [newComplementaryPortfolio, setNewComplementaryPortfolio] = useState(
     []
@@ -141,7 +144,11 @@ export const Prices = ({ navigation, route }) => {
   }, [newIdealPortfolio]);
   const getInfoDatBaseScreen = () => {
     try {
-      if (!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) {
+      if (
+        !global.userInfoScreen ||
+        !global.userInfoScreen.userInfo ||
+        !global.userInfoScreen.userInfo.nombre_pantalla
+      ) {
         return;
       }
       //console.log("global.userInfoScreen en pricess", global.userInfoScreen);
@@ -233,7 +240,7 @@ export const Prices = ({ navigation, route }) => {
   }, []);
 
   const HandleNavigationOfVariables = (item) => {
-    console.log("llamda desde --------------", item)
+    console.log("llamda desde --------------", item);
     const continueAudit = () => {
       let checkvariables = true;
       const checkForVariable = async () => {
@@ -257,8 +264,17 @@ export const Prices = ({ navigation, route }) => {
 
   useEffect(() => {
     const getNewArrays = async () => {
-      if (global.userInfoScreen && global.userInfoScreen.userInfo && global.userInfoScreen.userInfo.nombre_pantalla) {
-        if ((!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) || global.userInfoScreen.userInfo.nombre_pantalla != "prices") {
+      if (
+        global.userInfoScreen &&
+        global.userInfoScreen.userInfo &&
+        global.userInfoScreen.userInfo.nombre_pantalla
+      ) {
+        if (
+          !global.userInfoScreen ||
+          !global.userInfoScreen.userInfo ||
+          !global.userInfoScreen.userInfo.nombre_pantalla ||
+          global.userInfoScreen.userInfo.nombre_pantalla != "prices"
+        ) {
           setNewComplementaryPortfolio([...complementaryPortfolioProducts]);
           setNewIdealPortfolio([...idealPortfolioProducts]);
           ////console.log("NUEVO ARRAY FORMATEADO: ", filteredItems);
@@ -270,8 +286,6 @@ export const Prices = ({ navigation, route }) => {
           // );
         }
       }
-
-
     };
     if (complementaryPortfolioProducts) {
       getNewArrays();
@@ -342,7 +356,10 @@ export const Prices = ({ navigation, route }) => {
     const fullArrays = [...newIdealPortfolio, ...newComplementaryPortfolio];
     //console.log("LISTA COMPLETA DE ARRAYS:", fullArrays);
     if (fullArrays.length == 0) {
-      console.log("NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ", fullArrays);
+      console.log(
+        "NO TIENES DATOPS - - - - - - - - - - *- *- *- *- -*- *- ",
+        fullArrays
+      );
       handleCurrentScreenPos();
       handleCheckCanSaveAllDataLocal(
         () => {
@@ -350,7 +367,9 @@ export const Prices = ({ navigation, route }) => {
         },
         () => {
           HandleNavigationOfVariables(1);
-        }, null, 2
+        },
+        null,
+        2
       );
     } else {
       if (errorPrice != "") {
@@ -465,11 +484,13 @@ export const Prices = ({ navigation, route }) => {
               setTimeout(() => handleSaveAudit(userInfo, navigation), 1500);
             },
             () => {
-              setIsModalSaveVisible(false)
+              setIsModalSaveVisible(false);
               setShowButton1(false);
               setShowButton2(true);
               HandleNavigationOfVariables(2);
-            }, null, 3
+            },
+            null,
+            3
           );
           let tempDataScreen = newComplementaryPortfolio.map((item) => {
             return `**${JSON.stringify(item)}**`;
@@ -578,7 +599,9 @@ export const Prices = ({ navigation, route }) => {
       },
       () => {
         HandleNavigationOfVariables(3);
-      }, null, 1
+      },
+      null,
+      1
     );
   };
   const handleDeleteRegisterLocal = async () => {
@@ -610,167 +633,215 @@ export const Prices = ({ navigation, route }) => {
     //})
   };
   return (
-    <View style={styles.container}>
-      <LoaderModal
-        animation={SAVE_ANIMATION}
-        visible={false}
-        warning={"Guardando datos en la base, por favor espere . . "}
-      />
-      <ConfirmationModal
-        visible={isModalVisibleClose}
-        onClose={handleCloseModal}
-        onPress={() => {
-          // handleDeleteRegisterLocal();
-          handleClearWorkFlow();
-          navigation.navigate("menu");
-        }}
-        warning={"¿Está seguro de cancelar el progreso actual?"}
-      />
+    <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.headerContainer}>
-        <ModernaHeader />
-      </View>
-      <View
-        style={{
-          height: 180,
-          width: "100%",
-          marginTop: "8%",
-          alignContent: "space-around",
-        }}
-      >
-        <ClientInformation />
-        <View
-          style={{
-            marginVertical: "5%",
-            alignContent: "space-around",
+        <View style={{ width: "100%", height: 40 }}>
+          <ModernaHeader />
+        </View>
+        <ConfirmationModal
+          visible={isModalVisibleClose}
+          onClose={handleCloseModal}
+          onPress={() => {
+            // handleDeleteRegisterLocal();
+            handleClearWorkFlow();
+            navigation.navigate("menu");
           }}
-        >
+          warning={"¿Está seguro de cancelar el progreso actual?"}
+        />
+        <View style={{ height: 800 }}>
+          <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
-        </View>
-        <View></View>
-        <View
-          style={{
-            marginVertical: "0%",
-            height: "55%",
-            marginHorizontal: "5%",
-          }}
-        >
-          <ScreenInformation
-            title={"Preciador"}
-            text={
-              "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
-            }
-          />
+          <View style={{ alignItems: "center" }}>
+            {hasVariable ? (
+              <ScreenInformation
+                title={"Preciador"}
+                text={
+                  "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
+                }
+              />
+            ) : (
+              <ScreenInformation
+                title={"Preciador"}
+                text={
+                  "Selecciona los productos que poseen preciador, completando los campos respectivos de cada producto"
+                }
+                clean
+              />
+            )}
+          </View>
         </View>
       </View>
-      <View style={styles.contentContainer}>
-        <View
-          style={{
-            height:
-              activo2 === true && activo == true
-                ? "50%"
-                : activo2 === true && activo == false
-                  ? "10%"
-                  : activo2 === false && activo == true
+      <SimpleBody>
+        <FlexContainer>
+          <View style={styles.contentContainer}>
+            {infoScreen && (
+              <FlashListPrices
+                title={"Portafolio Ideal"}
+                products={newIdealPortfolio}
+                setProducts={setNewIdealPortfolio}
+                isUserScreen={true}
+                errorPrice={errorPrice}
+                setErrorPrice={setErrorPrice}
+                //idPreciador={idPreciadorPortafolioComplementario}
+                //idPortafolio={idPortafolioComplementario}
+                setActivoItem={setActivo}
+              />
+            )}
+            {!infoScreen && (
+              <FlashListPrices
+                title={"Portafolio Ideal"}
+                products={newIdealPortfolio}
+                setProducts={setNewIdealPortfolio}
+                isUserScreen={false}
+                errorPrice={errorPrice}
+                setErrorPrice={setErrorPrice}
+                setActivoItem={setActivo}
+
+                //idPreciador={idPreciadorPortafolioComplementario}
+                //idPortafolio={idPortafolioComplementario}
+              />
+            )}
+            <View
+              style={{
+                width: theme.dimensions.maxWidth / 1.1,
+                //marginVertical: 5,
+              }}
+            >
+              <Divider
+                width={2}
+                color={"#D9D9D9"}
+                style={{ backgroundColor: "blue" }}
+              />
+            </View>
+            {infoScreen && (
+              <FlashListPrices
+                title={"Portafolio Complementario"}
+                products={newComplementaryPortfolio}
+                setProducts={setNewComplementaryPortfolio}
+                isUserScreen={true}
+                errorPrice={errorPrice}
+                setErrorPrice={setErrorPrice}
+                setActivoItem={setActivo2}
+                //idPreciador={idPreciadorPortafolioComplementario}
+                //idPortafolio={idPortafolioComplementario}
+              />
+            )}
+            {!infoScreen && (
+              <FlashListPrices
+                title={"Portafolio Complementario"}
+                products={newComplementaryPortfolio}
+                setProducts={setNewComplementaryPortfolio}
+                isUserScreen={false}
+                errorPrice={errorPrice}
+                setErrorPrice={setErrorPrice}
+                setActivoItem={setActivo2}
+                //idPreciador={idPreciadorPortafolioComplementario}
+                //idPortafolio={idPortafolioComplementario}
+              />
+            )}
+
+            {/* <View
+              style={{
+                height:
+                  activo2 === true && activo == true
+                    ? "50%"
+                    : activo2 === true && activo == false
+                    ? "10%"
+                    : activo2 === false && activo == true
                     ? "90%"
                     : "10%",
-            width: "100%",
-            //backgroundColor: "blue",
-            marginVertical: 10,
-            alignItems: "center",
-          }}
-        >
-          {infoScreen && (
-            <FlashListPrices
-              title={"Portafolio Ideal"}
-              products={newIdealPortfolio}
-              setProducts={setNewIdealPortfolio}
-              isUserScreen={true}
-              errorPrice={errorPrice}
-              setErrorPrice={setErrorPrice}
-              //idPreciador={idPreciadorPortafolioComplementario}
-              //idPortafolio={idPortafolioComplementario}
-              setActivoItem={setActivo}
-            />
-          )}
-          {!infoScreen && (
-            <FlashListPrices
-              title={"Portafolio Ideal"}
-              products={newIdealPortfolio}
-              setProducts={setNewIdealPortfolio}
-              isUserScreen={false}
-              errorPrice={errorPrice}
-              setErrorPrice={setErrorPrice}
-              setActivoItem={setActivo}
+                width: "100%",
+                //backgroundColor: "blue",
+                marginVertical: 10,
+                alignItems: "center",
+              }}
+            >
+              {infoScreen && (
+                <FlashListPrices
+                  title={"Portafolio Ideal"}
+                  products={newIdealPortfolio}
+                  setProducts={setNewIdealPortfolio}
+                  isUserScreen={true}
+                  errorPrice={errorPrice}
+                  setErrorPrice={setErrorPrice}
+                  //idPreciador={idPreciadorPortafolioComplementario}
+                  //idPortafolio={idPortafolioComplementario}
+                  setActivoItem={setActivo}
+                />
+              )}
+              {!infoScreen && (
+                <FlashListPrices
+                  title={"Portafolio Ideal"}
+                  products={newIdealPortfolio}
+                  setProducts={setNewIdealPortfolio}
+                  isUserScreen={false}
+                  errorPrice={errorPrice}
+                  setErrorPrice={setErrorPrice}
+                  setActivoItem={setActivo}
 
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
-            />
-          )}
-        </View>
-        <View
-          style={{
-            width: theme.dimensions.maxWidth / 1.1,
-            //marginVertical: 5,
-          }}
-        >
-          <Divider
-            width={2}
-            color={"#D9D9D9"}
-            style={{ backgroundColor: "blue" }}
-          />
-        </View>
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            // backgroundColor:"red",
-            height:
-              activo2 === true && activo == true
-                ? "50%"
-                : activo2 === true && activo == false
-                  ? "87%"
-                  : activo2 === false && activo == true
+                  //idPreciador={idPreciadorPortafolioComplementario}
+                  //idPortafolio={idPortafolioComplementario}
+                />
+              )}
+            </View>
+            <View
+              style={{
+                width: theme.dimensions.maxWidth / 1.1,
+                //marginVertical: 5,
+              }}
+            >
+              <Divider
+                width={2}
+                color={"#D9D9D9"}
+                style={{ backgroundColor: "blue" }}
+              />
+            </View>
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center",
+                // backgroundColor:"red",
+                height:
+                  activo2 === true && activo == true
+                    ? "50%"
+                    : activo2 === true && activo == false
+                    ? "87%"
+                    : activo2 === false && activo == true
                     ? "10%"
                     : "10%",
-          }}
-        >
-          {infoScreen && (
-            <FlashListPrices
-              title={"Portafolio Complementario"}
-              products={newComplementaryPortfolio}
-              setProducts={setNewComplementaryPortfolio}
-              isUserScreen={true}
-              errorPrice={errorPrice}
-              setErrorPrice={setErrorPrice}
-              setActivoItem={setActivo2}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
-            />
-          )}
-          {!infoScreen && (
-            <FlashListPrices
-              title={"Portafolio Complementario"}
-              products={newComplementaryPortfolio}
-              setProducts={setNewComplementaryPortfolio}
-              isUserScreen={false}
-              errorPrice={errorPrice}
-              setErrorPrice={setErrorPrice}
-              setActivoItem={setActivo2}
-            //idPreciador={idPreciadorPortafolioComplementario}
-            //idPortafolio={idPortafolioComplementario}
-            />
-          )}
-        </View>
-      </View>
-
-      <View
-        style={{
-          flex: isKeyboardVisible ? 5 : 3,
-          width: "100%",
-          margin: 4,
-          // backgroundColor:"red"
-        }}
-      >
+              }}
+            >
+              {infoScreen && (
+                <FlashListPrices
+                  title={"Portafolio Complementario"}
+                  products={newComplementaryPortfolio}
+                  setProducts={setNewComplementaryPortfolio}
+                  isUserScreen={true}
+                  errorPrice={errorPrice}
+                  setErrorPrice={setErrorPrice}
+                  setActivoItem={setActivo2}
+                  //idPreciador={idPreciadorPortafolioComplementario}
+                  //idPortafolio={idPortafolioComplementario}
+                />
+              )}
+              {!infoScreen && (
+                <FlashListPrices
+                  title={"Portafolio Complementario"}
+                  products={newComplementaryPortfolio}
+                  setProducts={setNewComplementaryPortfolio}
+                  isUserScreen={false}
+                  errorPrice={errorPrice}
+                  setErrorPrice={setErrorPrice}
+                  setActivoItem={setActivo2}
+                  //idPreciador={idPreciadorPortafolioComplementario}
+                  //idPortafolio={idPortafolioComplementario}
+                />
+              )}
+            </View> */}
+          </View>
+        </FlexContainer>
+      </SimpleBody>
+      <View style={{ height: 50, width: "100%" }}>
         <DoubleDualStyledButton
           titleLeft={"Cancelar"}
           sizeLeft={theme.buttonSize.df}
@@ -797,29 +868,175 @@ export const Prices = ({ navigation, route }) => {
           //cambios del merge
           disableAction={!validateData()}
           showButton1={true}
-        // showButton2={showButton2}
-        // titleRigthSecond={"Siguiente"}
-        // sizeRigthSecond={theme.buttonSize.df}
-        // colorRigthSecond={theme.colors.modernaRed}
-        // onPressRigthSecond={() => navigation.navigate("rack")}
-        // showButton1Second={showButton1}
-        // showButton2Second={showButton2}
-        // iconRigthSecond={"arrow-right-circle"}
-        // typeRigthSecond={"feather"}
+          // showButton2={showButton2}
+          // titleRigthSecond={"Siguiente"}
+          // sizeRigthSecond={theme.buttonSize.df}
+          // colorRigthSecond={theme.colors.modernaRed}
+          // onPressRigthSecond={() => navigation.navigate("rack")}
+          // showButton1Second={showButton1}
+          // showButton2Second={showButton2}
+          // iconRigthSecond={"arrow-right-circle"}
+          // typeRigthSecond={"feather"}
         />
       </View>
-    </View>
+    </ScrollView>
+    // <View style={styles.container}>
+
+    //   <View style={styles.contentContainer}>
+    //     <View
+    //       style={{
+    //         height:
+    //           activo2 === true && activo == true
+    //             ? "50%"
+    //             : activo2 === true && activo == false
+    //             ? "10%"
+    //             : activo2 === false && activo == true
+    //             ? "90%"
+    //             : "10%",
+    //         width: "100%",
+    //         //backgroundColor: "blue",
+    //         marginVertical: 10,
+    //         alignItems: "center",
+    //       }}
+    //     >
+    //       {infoScreen && (
+    //         <FlashListPrices
+    //           title={"Portafolio Ideal"}
+    //           products={newIdealPortfolio}
+    //           setProducts={setNewIdealPortfolio}
+    //           isUserScreen={true}
+    //           errorPrice={errorPrice}
+    //           setErrorPrice={setErrorPrice}
+    //           //idPreciador={idPreciadorPortafolioComplementario}
+    //           //idPortafolio={idPortafolioComplementario}
+    //           setActivoItem={setActivo}
+    //         />
+    //       )}
+    //       {!infoScreen && (
+    //         <FlashListPrices
+    //           title={"Portafolio Ideal"}
+    //           products={newIdealPortfolio}
+    //           setProducts={setNewIdealPortfolio}
+    //           isUserScreen={false}
+    //           errorPrice={errorPrice}
+    //           setErrorPrice={setErrorPrice}
+    //           setActivoItem={setActivo}
+
+    //           //idPreciador={idPreciadorPortafolioComplementario}
+    //           //idPortafolio={idPortafolioComplementario}
+    //         />
+    //       )}
+    //     </View>
+    //     <View
+    //       style={{
+    //         width: theme.dimensions.maxWidth / 1.1,
+    //         //marginVertical: 5,
+    //       }}
+    //     >
+    //       <Divider
+    //         width={2}
+    //         color={"#D9D9D9"}
+    //         style={{ backgroundColor: "blue" }}
+    //       />
+    //     </View>
+    //     <View
+    //       style={{
+    //         width: "100%",
+    //         alignItems: "center",
+    //         // backgroundColor:"red",
+    //         height:
+    //           activo2 === true && activo == true
+    //             ? "50%"
+    //             : activo2 === true && activo == false
+    //             ? "87%"
+    //             : activo2 === false && activo == true
+    //             ? "10%"
+    //             : "10%",
+    //       }}
+    //     >
+    //       {infoScreen && (
+    //         <FlashListPrices
+    //           title={"Portafolio Complementario"}
+    //           products={newComplementaryPortfolio}
+    //           setProducts={setNewComplementaryPortfolio}
+    //           isUserScreen={true}
+    //           errorPrice={errorPrice}
+    //           setErrorPrice={setErrorPrice}
+    //           setActivoItem={setActivo2}
+    //           //idPreciador={idPreciadorPortafolioComplementario}
+    //           //idPortafolio={idPortafolioComplementario}
+    //         />
+    //       )}
+    //       {!infoScreen && (
+    //         <FlashListPrices
+    //           title={"Portafolio Complementario"}
+    //           products={newComplementaryPortfolio}
+    //           setProducts={setNewComplementaryPortfolio}
+    //           isUserScreen={false}
+    //           errorPrice={errorPrice}
+    //           setErrorPrice={setErrorPrice}
+    //           setActivoItem={setActivo2}
+    //           //idPreciador={idPreciadorPortafolioComplementario}
+    //           //idPortafolio={idPortafolioComplementario}
+    //         />
+    //       )}
+    //     </View>
+    //   </View>
+
+    //   <View
+    //     style={{
+    //       flex: isKeyboardVisible ? 5 : 3,
+    //       width: "100%",
+    //       margin: 4,
+    //       // backgroundColor:"red"
+    //     }}
+    //   >
+    //     <DoubleDualStyledButton
+    //       titleLeft={"Cancelar"}
+    //       sizeLeft={theme.buttonSize.df}
+    //       colorLeft={theme.colors.modernaYellow}
+    //       iconLeft={"cancel"}
+    //       typeLeft={"material-icon"}
+    //       onPressLeft={() => setIsModalVisibleClose(true)}
+    //       titleRigth={"Guardar"}
+    //       sizeRigth={theme.buttonSize.df}
+    //       iconRigth={"content-save-all-outline"}
+    //       typeRigth={"material-community"}
+    //       colorRigth={theme.colors.modernaRed}
+    //       onPressRigth={hadSavePreciador ? onlyNavigation : validateArrays}
+    //       // showButton1={false}
+    //       // showButton2={showButton2}
+    //       //titleRigthSecond={"Siguiente"}
+    //       //sizeRigthSecond={theme.buttonSize.df}
+    //       //colorRigthSecond={theme.colors.modernaRed}
+    //       // onPressRigthSecond={() => navigation.navigate("rack")}
+    //       // showButton1Second={showButton1}
+    //       // showButton2Second={showButton2}
+    //       // iconRigthSecond={"arrow-right-circle"}
+    //       // typeRigthSecond={"feather"}
+    //       //cambios del merge
+    //       disableAction={!validateData()}
+    //       showButton1={true}
+    //       // showButton2={showButton2}
+    //       // titleRigthSecond={"Siguiente"}
+    //       // sizeRigthSecond={theme.buttonSize.df}
+    //       // colorRigthSecond={theme.colors.modernaRed}
+    //       // onPressRigthSecond={() => navigation.navigate("rack")}
+    //       // showButton1Second={showButton1}
+    //       // showButton2Second={showButton2}
+    //       // iconRigthSecond={"arrow-right-circle"}
+    //       // typeRigthSecond={"feather"}
+    //     />
+    //   </View>
+    // </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
-    width: theme.dimensions.maxWidth,
-    //height:600,
-    backgroundColor: theme.colors.white,
-    alignItems: "center",
-    justifyContent: "center",
+    width: theme.dimensions.width,
+    height: theme.dimensions.heigth,
   },
   container: {
     flex: 1,
@@ -828,16 +1045,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerContainer: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "blue",
+    //flex: 0.3,
+    height: 250,
+    backgroundColor: "white",
   },
   contentContainer: {
-    flex: 30,
-    width: theme.dimensions.maxWidth,
-    //  backgroundColor:"blue"
+    flex: 1,
+    //height:500,
+    //backgroundColor: "blue",
+    width: "100%",
+    //height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
   },
-  // botonesContainer: {
-
-  // },
 });
