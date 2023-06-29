@@ -48,6 +48,8 @@ import { useFonts } from "expo-font";
 import { GlobalContext } from "../../context/GlobalContext";
 import { transfromrActualDateFormat } from "../../common/utils";
 import { ClientInformation } from "../../components/ClientInformation";
+import { SimpleBody } from "../../common/SimpleBody";
+import { FlexContainer } from "../../common/FlexContainer";
 export const Racks = ({ navigation }) => {
   const [valueGeneralValidate, setValueGeneralValidate] = useState();
   const [valueModerna, setValueModerna] = useState();
@@ -78,14 +80,10 @@ export const Racks = ({ navigation }) => {
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
-
-
-
-
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
-    console.log("category***********", category)
-  }, [category])
+    console.log("category***********", category);
+  }, [category]);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -106,14 +104,6 @@ export const Racks = ({ navigation }) => {
       keyboardDidShowListener.remove();
     };
   }, []);
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     const checkForVariable = async () => {
@@ -167,7 +157,11 @@ export const Racks = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
-      if (!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) {
+      if (
+        !global.userInfoScreen ||
+        !global.userInfoScreen.userInfo ||
+        !global.userInfoScreen.userInfo.nombre_pantalla
+      ) {
         return;
       }
       if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
@@ -192,8 +186,19 @@ export const Racks = ({ navigation }) => {
         return JSON.parse(item);
       });
       // //console.log("tempItems-------------", tempItems)
-      console.log("*****2***")
+      console.log("*****2***");
+      tempItems.sort((a, b) => {
+        const nombreA = a.name.toUpperCase();
+        const nombreB = b.name.toUpperCase();
 
+        if (nombreA < nombreB) {
+          return -1;
+        }
+        if (nombreA > nombreB) {
+          return 1;
+        }
+        return 0;
+      });
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
       setHadSaveRack(true);
@@ -219,7 +224,7 @@ export const Racks = ({ navigation }) => {
       );
       AsyncStorage.setItem("id_percha", infoExtra.auditorias_id.id_percha);
     } catch (error) {
-      console.log("*****3r***")
+      console.log("*****3r***");
 
       setCategory([]);
       setInfoScreen(null);
@@ -306,6 +311,18 @@ export const Racks = ({ navigation }) => {
         };
       });
 
+      newArrayEstado.sort((a, b) => {
+        const nombreA = a.name.toUpperCase();
+        const nombreB = b.name.toUpperCase();
+
+        if (nombreA < nombreB) {
+          return -1;
+        }
+        if (nombreA > nombreB) {
+          return 1;
+        }
+        return 0;
+      });
       /*const newArray = resultadoConsulta.reduce((uniqueArray, obj) => {
         if (!uniqueArray.some((item) => item.categoria === obj.categoria)) {
           uniqueArray.push(obj);
@@ -315,14 +332,15 @@ export const Racks = ({ navigation }) => {
       }, []);*/
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
-      if ((!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) || (global.userInfoScreen.userInfo.nombre_pantalla != "rack")) {
-
+      if (
+        !global.userInfoScreen ||
+        !global.userInfoScreen.userInfo ||
+        !global.userInfoScreen.userInfo.nombre_pantalla ||
+        global.userInfoScreen.userInfo.nombre_pantalla != "rack"
+      ) {
         setCategory(newArrayEstado);
         setRack(planogramaFiltro);
       }
-
-
-
 
       // //console.log(
       //   "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
@@ -421,7 +439,7 @@ export const Racks = ({ navigation }) => {
         },
         () => {
           // setIsModalVisible(false);
-          setIsModalSaveVisible(false)
+          setIsModalSaveVisible(false);
 
           navigation.navigate("promos");
         }
@@ -468,7 +486,7 @@ export const Racks = ({ navigation }) => {
           valueGeneralValidate === ""
         ) {
           //setIsModalVisible(true);
-          setIsModalSaveVisible(true)
+          setIsModalSaveVisible(true);
 
           try {
             //console.log("IDPERCHA21", idPercha);
@@ -552,7 +570,7 @@ export const Racks = ({ navigation }) => {
                   setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
                 },
                 () => {
-                  setIsModalSaveVisible(false)
+                  setIsModalSaveVisible(false);
                   setShowButton1(false);
                   setShowButton2(true);
                   navigation.navigate("promos");
@@ -562,8 +580,7 @@ export const Racks = ({ navigation }) => {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
               setHadSaveRack(false);
               // setIsModalVisible(false);
-              setIsModalSaveVisible(false)
-
+              setIsModalSaveVisible(false);
             }
             let tempDataScreen = category.map((item) => {
               return `**${JSON.stringify(item)}**`;
@@ -648,7 +665,7 @@ export const Racks = ({ navigation }) => {
               "Vuelva a intentarlo"
             );
             // setIsModalVisible(false);
-            setIsModalSaveVisible(false)
+            setIsModalSaveVisible(false);
 
             //setShowButton1(true);
             //setShowButton2(false);
@@ -693,129 +710,151 @@ export const Racks = ({ navigation }) => {
 
   if (!fontLoaded) return null;
   return (
-    <View style={styles.container}>
-      <View style={{ flex: isKeyboardVisible ? 2 : 1, width: "100%" }}>
-        <ModernaHeader />
-      </View>
-      <ConfirmationModal
-        visible={isModalVisibleClose}
-        onClose={handleCloseModal}
-        onPress={() => {
-          handleClearWorkFlow();
-          navigation.navigate("menu");
-          // handleDeleteRegisterLocal();
-        }}
-        warning={"¿Está seguro de cancelar el progreso actual?"}
-      />
-      <LoaderModal
-        animation={SAVE_ANIMATION}
-        visible={false}
-        warning={"Guardando datos, por favor espere"}
-      />
-
-      <View style={styles.contentContainer}>
-        <ClientInformation />
-        <ProgressBar currentStep={currentScreenPos} />
-        <View style={{ flex: 2 }}>
-          {hasVariable ? (
-            <ScreenInformation
-              title={"Perchas"}
-              text={
-                "Seleccion todas las perchas de los productos disponibles en el punto de venta actual"
-              }
-            />
-          ) : (
-            <ScreenInformation
-              title={"Perchas"}
-              text={`Perchas no está asignado a este cliente`}
-              clean
-            />
-          )}
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      <View style={styles.headerContainer}>
+        <View style={{ width: "100%", height: 40 }}>
+          <ModernaHeader />
         </View>
-        <View style={styles.cardContainer}>
-          {hasVariable && (
-            <View>
-              {category.length === 0 ? (
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <Text style={{ fontFamily: "Metropolis" }}>
-                    No hay perchas asignadas para este grupo de clientes
-                  </Text>
-                </View>
-              ) : (
-                <TarjPercha
-                  isUserScreen={infoScreen ? true : false}
-                  data={category}
-                  rack={rack}
-                  setValueGeneralValidate={setValueGeneralValidate}
-                  errorPerchaG={errorPerchaG}
-                  setErrorPerchaG={setErrorPerchaG}
-                  errorPerchaM={errorPerchaM}
-                  setErrorPerchaM={setErrorPerchaM}
-                  setData={setCategory}
-                  view={"audit"}
-
-                />
-              )}
-            </View>
-          )}
+        <ConfirmationModal
+          visible={isModalVisibleClose}
+          onClose={handleCloseModal}
+          onPress={() => {
+            handleClearWorkFlow();
+            navigation.navigate("menu");
+            // handleDeleteRegisterLocal();
+          }}
+          warning={"¿Está seguro de cancelar el progreso actual?"}
+        />
+        <View
+          style={{
+            height: 800,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ClientInformation />
+          <ProgressBar currentStep={currentScreenPos} />
+          <View style={{ flex: 2 }}>
+            {hasVariable ? (
+              <ScreenInformation
+                title={"Perchas"}
+                text={
+                  "Seleccion todas las perchas de los productos disponibles en el punto de venta actual"
+                }
+              />
+            ) : (
+              <ScreenInformation
+                title={"Perchas"}
+                text={`Perchas no está asignado a este cliente`}
+                clean
+              />
+            )}
+          </View>
         </View>
       </View>
-      <DoubleDualStyledButton
-        titleLeft={"Cancelar"}
-        sizeLeft={theme.buttonSize.df}
-        colorLeft={theme.colors.modernaYellow}
-        iconLeft={"cancel"}
-        typeLeft={"material-icon"}
-        onPressLeft={() => setIsModalVisibleClose(true)}
-        titleRigth={hasVariable ? "Guardar" : "Siguiente"}
-        sizeRigth={theme.buttonSize.df}
-        iconRigth={"content-save-all-outline"}
-        typeRigth={"material-community"}
-        colorRigth={
-          hasVariable ? theme.colors.modernaRed : theme.colors.modernaAqua
-        }
-        onPressRigth={
-          hadSaveRack || !hasVariable ? onlyNavigation : handleOpenModal
-        }
-        showButton1={true}
-        //antes del merge
-        // colorRigth={theme.colors.modernaRed}
-        // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
-        disableAction={hasVariable ? !validateData() : validateData()}
-      // showButton1={showButton1}
-      // showButton2={showButton2}
-      // titleRigthSecond={"Siguiente"}
-      // sizeRigthSecond={theme.buttonSize.df}
-      // colorRigthSecond={theme.colors.modernaRed}
-      // onPressRigthSecond={() => navigation.navigate("promos")}
-      // iconRigthSecond={"arrow-right-circle"}
-      // typeRigthSecond={"feather"}
-      // showButton1Second={showButton1}
-      // showButton2Second={showButton2}
-      />
-    </View>
+      <SimpleBody>
+        <FlexContainer>
+          <View style={styles.contentContainer}>
+            {hasVariable && (
+              <View>
+                {category.length === 0 ? (
+                  <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                  >
+                    <Text style={{ fontFamily: "Metropolis" }}>
+                      No hay perchas asignadas para este grupo de clientes
+                    </Text>
+                  </View>
+                ) : (
+                  <TarjPercha
+                    isUserScreen={infoScreen ? true : false}
+                    data={category}
+                    rack={rack}
+                    setValueGeneralValidate={setValueGeneralValidate}
+                    errorPerchaG={errorPerchaG}
+                    setErrorPerchaG={setErrorPerchaG}
+                    errorPerchaM={errorPerchaM}
+                    setErrorPerchaM={setErrorPerchaM}
+                    setData={setCategory}
+                    view={"audit"}
+                  />
+                )}
+              </View>
+            )}
+          </View>
+        </FlexContainer>
+      </SimpleBody>
+      <View style={{ height: 50, width: "100%" }}>
+        <DoubleDualStyledButton
+          titleLeft={"Cancelar"}
+          sizeLeft={theme.buttonSize.df}
+          colorLeft={theme.colors.modernaYellow}
+          iconLeft={"cancel"}
+          typeLeft={"material-icon"}
+          onPressLeft={() => setIsModalVisibleClose(true)}
+          titleRigth={hasVariable ? "Guardar" : "Siguiente"}
+          sizeRigth={theme.buttonSize.df}
+          iconRigth={"content-save-all-outline"}
+          typeRigth={"material-community"}
+          colorRigth={
+            hasVariable ? theme.colors.modernaRed : theme.colors.modernaAqua
+          }
+          onPressRigth={
+            hadSaveRack || !hasVariable ? onlyNavigation : handleOpenModal
+          }
+          showButton1={true}
+          //antes del merge
+          // colorRigth={theme.colors.modernaRed}
+          // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
+          disableAction={hasVariable ? !validateData() : validateData()}
+          // showButton1={showButton1}
+          // showButton2={showButton2}
+          // titleRigthSecond={"Siguiente"}
+          // sizeRigthSecond={theme.buttonSize.df}
+          // colorRigthSecond={theme.colors.modernaRed}
+          // onPressRigthSecond={() => navigation.navigate("promos")}
+          // iconRigthSecond={"arrow-right-circle"}
+          // typeRigthSecond={"feather"}
+          // showButton1Second={showButton1}
+          // showButton2Second={showButton2}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    //backgroundColor: theme.colors.pumpkin,
+  },
+  scrollView: {
+    flex: 1,
+    width: theme.dimensions.width,
+    height: theme.dimensions.heigth,
+  },
+  container: {
+    flex: 1,
     backgroundColor: theme.colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
-  contentContainer: {
-    flex: 14,
-    width: theme.dimensions.maxWidth,
+  headerContainer: {
+    //flex: 0.3,
+    height: 250,
     backgroundColor: "white",
-    alignItems: "center",
-    paddingVertical: 5,
   },
-  scrollViewContent: {
-    flexGrow: 1,
+  contentContainer: {
+    flex: 1,
+    //height:500,
+    //backgroundColor: 'blue',
+    width: "100%",
+    //height: 50,
+    justifyContent: "center",
     alignItems: "center",
+    //marginTop: 20
   },
   cardContainer: {
     //height: "auto",

@@ -188,6 +188,19 @@ export const RackV2 = ({ navigation }) => {
       // //console.log("tempItems-------------", tempItems)
       console.log("*****2***");
 
+      tempItems.sort((a, b) => {
+        const nombreA = a.name.toUpperCase();
+        const nombreB = b.name.toUpperCase();
+
+        if (nombreA < nombreB) {
+          return -1;
+        }
+        if (nombreA > nombreB) {
+          return 1;
+        }
+        return 0;
+      });
+
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
       setHadSaveRack(true);
@@ -300,6 +313,18 @@ export const RackV2 = ({ navigation }) => {
         };
       });
 
+      newArrayEstado.sort((a, b) => {
+        const nombreA = a.name.toUpperCase();
+        const nombreB = b.name.toUpperCase();
+
+        if (nombreA < nombreB) {
+          return -1;
+        }
+        if (nombreA > nombreB) {
+          return 1;
+        }
+        return 0;
+      });
       /*const newArray = resultadoConsulta.reduce((uniqueArray, obj) => {
         if (!uniqueArray.some((item) => item.categoria === obj.categoria)) {
           uniqueArray.push(obj);

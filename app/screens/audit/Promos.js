@@ -43,6 +43,8 @@ import {
 import { subidaBaseRemoteTodaAuditoria } from "../../services/SubidaBaseRemota";
 import { GlobalContext } from "../../context/GlobalContext";
 import { getActualDate, transfromrActualDateFormat } from "../../common/utils";
+import { SimpleBody } from "../../common/SimpleBody";
+import { FlexContainer } from "../../common/FlexContainer";
 
 export const Promos = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
@@ -423,61 +425,56 @@ export const Promos = ({ navigation }) => {
     //})
   };
   return (
-    <View style={styles.container}>
-      <LoaderModal
-        animation={SAVE_ANIMATION}
-        visible={false}
-        warning={"Guardando datos en la base, por favor espere . . "}
-      />
-      <ConfirmationModal
-        visible={isModalVisibleClose}
-        onClose={handleCloseModal}
-        onPress={() => {
-          handleClearWorkFlow();
-          navigation.navigate("menu");
-        }}
-        warning={"¿Está seguro de cancelar el progreso actual?"}
-      />
-      <ConfirmationModalBranch
-        visible={isModalVisibleCloseSucursal}
-        onClose={handleCloseModalBranch}
-        onPress={handleOpenModalFinishWithoutBranch}
-        warning={
-          "Al presionar 'Aceptar', el flujo de auditoría terminará ¿Desea confirmar este proceso?"
-        }
-      />
-
-      <View>
-        <View style={{ flex: 1, width: "100%" }}>
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      <View style={styles.headerContainer}>
+        <View style={{ width: "100%", height: 40 }}>
           <ModernaHeader />
         </View>
-        <View style={styles.contentContainer}>
+        <ConfirmationModal
+          visible={isModalVisibleClose}
+          onClose={handleCloseModal}
+          onPress={() => {
+            handleClearWorkFlow();
+            navigation.navigate("menu");
+          }}
+          warning={"¿Está seguro de cancelar el progreso actual?"}
+        />
+        <ConfirmationModalBranch
+          visible={isModalVisibleCloseSucursal}
+          onClose={handleCloseModalBranch}
+          onPress={handleOpenModalFinishWithoutBranch}
+          warning={
+            "Al presionar 'Aceptar', el flujo de auditoría terminará ¿Desea confirmar este proceso?"
+          }
+        />
+        <View style={{ height: 800 }}>
           <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ flex: 0.5 }}>
-            <ScreenInformation
-              title={"Promociones"}
-              text={"Selecciona la sucursal que aplica promociones"}
-            />
-          </View>
-          <View
-            style={{
-              //backgroundColor: "blue",
-              flex: 1.5,
-              width: "90%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <View style={{}}>
-              <DropdownPromos
-                nameTitle={"Sucursal"}
-                placeholder={"Seleccione una sucursal"}
-                setSelected={setSelected}
-                data={branch}
+          <View style={{ alignItems: "center" }}>
+            {hasVariable ? (
+              <ScreenInformation
+                title={"Promociones"}
+                text={"Selecciona la sucursal que aplica promociones"}
               />
-            </View>
-
+            ) : (
+              <ScreenInformation
+                title={"Promociones"}
+                text={`Selecciona la sucursal que aplica promociones`}
+                clean
+              />
+            )}
+          </View>
+        </View>
+      </View>
+      <SimpleBody>
+        <FlexContainer>
+          <View style={styles.contentContainer}>
+            <DropdownPromos
+              nameTitle={"Sucursal"}
+              placeholder={"Seleccione una sucursal"}
+              setSelected={setSelected}
+              data={branch}
+            />
             <View style={styles.promosContent}>
               {exhibidorSucursal.length > 0 ? (
                 <FlashListPromos data={exhibidorSucursal} setData={setPromos} />
@@ -495,7 +492,9 @@ export const Promos = ({ navigation }) => {
               )}
             </View>
           </View>
-        </View>
+        </FlexContainer>
+      </SimpleBody>
+      <View style={{ height: 50, width: "100%" }}>
         <DoubleDualStyledButton
           titleLeft={"Cancelar"}
           sizeLeft={theme.buttonSize.df}
@@ -511,18 +510,18 @@ export const Promos = ({ navigation }) => {
           disableAction={!validateData()}
           onPressRigth={initValidate}
           showButton1={true}
-        //showButton2={showButton2}
-        //titleRigthSecond={"Siguiente"}
-        //sizeRigthSecond={theme.buttonSize.df}
-        //colorRigthSecond={theme.colors.modernaRed}
-        //onPressRigthSecond={() => navigation.navigate("begin")}
-        //showButton1Second={showButton1}
-        //showButton2Second={showButton2}
-        //iconRigthSecond={"content-save-all-outline"}
-        //typeRigthSecond={"material-community"}
+          //showButton2={showButton2}
+          //titleRigthSecond={"Siguiente"}
+          //sizeRigthSecond={theme.buttonSize.df}
+          //colorRigthSecond={theme.colors.modernaRed}
+          //onPressRigthSecond={() => navigation.navigate("begin")}
+          //showButton1Second={showButton1}
+          //showButton2Second={showButton2}
+          //iconRigthSecond={"content-save-all-outline"}
+          //typeRigthSecond={"material-community"}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -533,12 +532,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  contentContainer: {
-    flex: 14,
-    width: theme.dimensions.maxWidth,
-    backgroundColor: "white",
+  scrollView: {
+    flex: 1,
+    width: theme.dimensions.width,
+    height: theme.dimensions.heigth,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.white,
     alignItems: "center",
-    paddingVertical: 5,
+    justifyContent: "center",
+  },
+  headerContainer: {
+    //flex: 0.3,
+    height: 250,
+    backgroundColor: "white",
+  },
+  contentContainer: {
+    flex: 1,
+    //height:500,
+    //backgroundColor: "blue",
+    width: "100%",
+    //height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
   },
   scrollView: {
     flex: 2,
