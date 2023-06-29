@@ -100,7 +100,7 @@ const StyledInput = ({
             textAlign: "justify",
           }}
         >
-          {error}
+          {error.message ? error.message : error}
         </Text>
       )}
       <Text

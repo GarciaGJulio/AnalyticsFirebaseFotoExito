@@ -47,7 +47,7 @@ export const TarjetaRack_Review = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "95%",
+    width: "92%",
     marginVertical: 10,
     alignItems: "center",
     //paddingHorizontal:100,

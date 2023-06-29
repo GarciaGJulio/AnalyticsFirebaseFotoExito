@@ -32,7 +32,6 @@ export const RackCheckbox = ({
   setErrorPerchaM,
   errorPerchaM,
   setValueGeneralValidate,
-
 }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
@@ -57,9 +56,15 @@ export const RackCheckbox = ({
       } else {
         setCheck2(true);
       }
-
-      // //console.log("----------------",item)
     }
+    console.log(
+      "--------///////////////////////////////////////////--------",
+      item
+    );
+    console.log(
+      "--------//////////////////errorPerchaG/////////////////////////--------",
+      errorPerchaG
+    );
   }, [isUserScreen]);
 
   // useEffect(() => {
@@ -109,7 +114,7 @@ export const RackCheckbox = ({
   const validateExtraImages = async (objeto) => {
     //console.log("****** esto llega de objeto********", objeto);
     //setExtraImages([]);
-    let itemsTemp = []
+    let itemsTemp = [];
     if (
       objeto.imagesPlanograma.url_imagen1 !== null &&
       objeto.imagesPlanograma.url_imagen1 !== undefined &&
@@ -121,7 +126,7 @@ export const RackCheckbox = ({
         `${objeto.id_planograma}1`
       );
       // setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
-      itemsTemp.push(imagenVerificada)
+      itemsTemp.push(imagenVerificada);
     }
 
     if (
@@ -135,7 +140,7 @@ export const RackCheckbox = ({
         `${objeto.id_planograma}2`
       );
       //  setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
-      itemsTemp.push(imagenVerificada)
+      itemsTemp.push(imagenVerificada);
     }
 
     if (
@@ -148,10 +153,10 @@ export const RackCheckbox = ({
         objeto.url_imagen3,
         `${objeto.id_planograma}3`
       );
-      itemsTemp.push(imagenVerificada)
+      itemsTemp.push(imagenVerificada);
       //setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }
-    setExtraImages(itemsTemp)
+    setExtraImages(itemsTemp);
     let img = extraImages.join(",");
     //console.log("IMAGENES EXTRAS: - - - - ", img);
   };
@@ -180,6 +185,9 @@ export const RackCheckbox = ({
       //   "El número de caras de la categoría Moderna no puedes ser mayor que el número de caras de la Categoría General"
       // );
       setverificacionCategoria(
+        "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
+      );
+      setValueGeneralValidate(
         "El número de caras de la categoría Moderna Alimentos no puede ser mayor que el número de caras de la Categoría General"
       );
       // setValueGeneralValidate(
@@ -273,7 +281,6 @@ export const RackCheckbox = ({
               borderColor: theme.colors.lightgray,
               fontFamily: "Metropolis",
               color: "white",
-
             }}
           >
             {categoryName}
@@ -313,7 +320,7 @@ export const RackCheckbox = ({
                     setCateGeneral(txt);
                     actualizarCantidad(item, "carasGeneral", txt);
                     validateNumbers(txt, item.carasModerna);
-                    validatePercha(txt, setErrorPerchaG);
+                    validatePercha(txt, setErrorPerchaG, item);
                   }}
                   label="Categoría General"
                   placeholder="Caras"
@@ -322,7 +329,15 @@ export const RackCheckbox = ({
                   editable={!hadSaveRack}
                   value={CateGeneral}
                   width={"100%"}
-                  error={errorPerchaG}
+                  error={
+                    (errorPerchaG &&
+                    errorPerchaG.item &&
+                    errorPerchaG.item.id &&
+                    errorPerchaG.item.id == item.id
+                      ? errorPerchaG
+                      : null) ||
+                    (errorPerchaG && !errorPerchaG.item && errorPerchaG)
+                  }
                   information={"Número de caras"}
                 />
               </TouchableWithoutFeedback>
@@ -333,7 +348,7 @@ export const RackCheckbox = ({
                   setCateModerna(txt);
                   actualizarCantidad(item, "carasModerna", txt);
                   validateNumbers(item.carasGeneral, txt);
-                  validatePercha(txt, setErrorPerchaM);
+                  validatePercha(txt, setErrorPerchaM, item);
                 }}
                 label="Categoría Moderna"
                 placeholder="Caras"
@@ -342,7 +357,15 @@ export const RackCheckbox = ({
                 editable={!hadSaveRack}
                 value={CateModerna}
                 width={"100%"}
-                error={errorPerchaM}
+                error={
+                  (errorPerchaM &&
+                  errorPerchaM.item &&
+                  errorPerchaM.item.id &&
+                  errorPerchaM.item.id == item.id
+                    ? errorPerchaM
+                    : null) ||
+                  (errorPerchaM && !errorPerchaM.item && errorPerchaM)
+                }
                 information={"Número de caras"}
               />
             </View>
