@@ -50,9 +50,6 @@ import { transfromrActualDateFormat } from "../../common/utils";
 import { ClientInformation } from "../../components/ClientInformation";
 import { SimpleBody } from "../../common/SimpleBody";
 import { FlexContainer } from "../../common/FlexContainer";
-
-
-
 export const RackV2 = ({ navigation }) => {
   const [valueGeneralValidate, setValueGeneralValidate] = useState();
   const [valueModerna, setValueModerna] = useState();
@@ -83,14 +80,10 @@ export const RackV2 = ({ navigation }) => {
     handleCheckCanSaveAllDataLocal,
   } = useContext(GlobalContext);
 
-
-
-
-
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
-    console.log("category***********", category)
-  }, [category])
+    console.log("category***********", category);
+  }, [category]);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -111,7 +104,6 @@ export const RackV2 = ({ navigation }) => {
       keyboardDidShowListener.remove();
     };
   }, []);
-
 
   useEffect(() => {
     const checkForVariable = async () => {
@@ -165,7 +157,11 @@ export const RackV2 = ({ navigation }) => {
 
   const getInfoDatBaseScreen = () => {
     try {
-      if (!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) {
+      if (
+        !global.userInfoScreen ||
+        !global.userInfoScreen.userInfo ||
+        !global.userInfoScreen.userInfo.nombre_pantalla
+      ) {
         return;
       }
       if (global.userInfoScreen.userInfo.nombre_pantalla != "rack") {
@@ -190,7 +186,7 @@ export const RackV2 = ({ navigation }) => {
         return JSON.parse(item);
       });
       // //console.log("tempItems-------------", tempItems)
-      console.log("*****2***")
+      console.log("*****2***");
 
       setCategory(Object.assign([], tempItems));
       setInfoScreen(Object.assign({}, newObj));
@@ -217,7 +213,7 @@ export const RackV2 = ({ navigation }) => {
       );
       AsyncStorage.setItem("id_percha", infoExtra.auditorias_id.id_percha);
     } catch (error) {
-      console.log("*****3r***")
+      console.log("*****3r***");
 
       setCategory([]);
       setInfoScreen(null);
@@ -313,14 +309,15 @@ export const RackV2 = ({ navigation }) => {
       }, []);*/
       // Copia el contenido después de la consulta
       //await copiarContenido(resultadoConsulta),
-      if ((!global.userInfoScreen || !global.userInfoScreen.userInfo || !global.userInfoScreen.userInfo.nombre_pantalla) || (global.userInfoScreen.userInfo.nombre_pantalla != "rack")) {
-
+      if (
+        !global.userInfoScreen ||
+        !global.userInfoScreen.userInfo ||
+        !global.userInfoScreen.userInfo.nombre_pantalla ||
+        global.userInfoScreen.userInfo.nombre_pantalla != "rack"
+      ) {
         setCategory(newArrayEstado);
         setRack(planogramaFiltro);
       }
-
-
-
 
       // //console.log(
       //   "CATEGORIAS EN EXISTENCIA:  -      ---------------------------",
@@ -419,7 +416,7 @@ export const RackV2 = ({ navigation }) => {
         },
         () => {
           // setIsModalVisible(false);
-          setIsModalSaveVisible(false)
+          setIsModalSaveVisible(false);
 
           navigation.navigate("promos");
         }
@@ -466,7 +463,7 @@ export const RackV2 = ({ navigation }) => {
           valueGeneralValidate === ""
         ) {
           //setIsModalVisible(true);
-          setIsModalSaveVisible(true)
+          setIsModalSaveVisible(true);
 
           try {
             //console.log("IDPERCHA21", idPercha);
@@ -550,7 +547,7 @@ export const RackV2 = ({ navigation }) => {
                   setTimeout(() => handleSaveAudit(userInfo, navigation), 3000);
                 },
                 () => {
-                  setIsModalSaveVisible(false)
+                  setIsModalSaveVisible(false);
                   setShowButton1(false);
                   setShowButton2(true);
                   navigation.navigate("promos");
@@ -560,8 +557,7 @@ export const RackV2 = ({ navigation }) => {
               Alert.alert("Error al insertar los datos", "Vuelva a intentarlo");
               setHadSaveRack(false);
               // setIsModalVisible(false);
-              setIsModalSaveVisible(false)
-
+              setIsModalSaveVisible(false);
             }
             let tempDataScreen = category.map((item) => {
               return `**${JSON.stringify(item)}**`;
@@ -646,7 +642,7 @@ export const RackV2 = ({ navigation }) => {
               "Vuelva a intentarlo"
             );
             // setIsModalVisible(false);
-            setIsModalSaveVisible(false)
+            setIsModalSaveVisible(false);
 
             //setShowButton1(true);
             //setShowButton2(false);
@@ -709,7 +705,7 @@ export const RackV2 = ({ navigation }) => {
         <View style={{ height: 800 }}>
           <ClientInformation />
           <ProgressBar currentStep={currentScreenPos} />
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             {hasVariable ? (
               <ScreenInformation
                 title={"Perchas"}
@@ -726,7 +722,6 @@ export const RackV2 = ({ navigation }) => {
             )}
           </View>
         </View>
-
       </View>
       <SimpleBody>
         <FlexContainer>
@@ -753,53 +748,49 @@ export const RackV2 = ({ navigation }) => {
                     setErrorPerchaM={setErrorPerchaM}
                     setData={setCategory}
                     view={"audit"}
-
                   />
                 )}
               </View>
             )}
-            <View style={{ height: 50, width: '100%' }}>
-              <DoubleDualStyledButton
-                titleLeft={"Cancelar"}
-                sizeLeft={theme.buttonSize.df}
-                colorLeft={theme.colors.modernaYellow}
-                iconLeft={"cancel"}
-                typeLeft={"material-icon"}
-                onPressLeft={() => setIsModalVisibleClose(true)}
-                titleRigth={hasVariable ? "Guardar" : "Siguiente"}
-                sizeRigth={theme.buttonSize.df}
-                iconRigth={"content-save-all-outline"}
-                typeRigth={"material-community"}
-                colorRigth={
-                  hasVariable ? theme.colors.modernaRed : theme.colors.modernaAqua
-                }
-                onPressRigth={
-                  hadSaveRack || !hasVariable ? onlyNavigation : handleOpenModal
-                }
-                showButton1={true}
-                //antes del merge
-                // colorRigth={theme.colors.modernaRed}
-                // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
-                disableAction={hasVariable ? !validateData() : validateData()}
-              // showButton1={showButton1}
-              // showButton2={showButton2}
-              // titleRigthSecond={"Siguiente"}
-              // sizeRigthSecond={theme.buttonSize.df}
-              // colorRigthSecond={theme.colors.modernaRed}
-              // onPressRigthSecond={() => navigation.navigate("promos")}
-              // iconRigthSecond={"arrow-right-circle"}
-              // typeRigthSecond={"feather"}
-              // showButton1Second={showButton1}
-              // showButton2Second={showButton2}
-              />
-            </View>
-
           </View>
-
         </FlexContainer>
       </SimpleBody>
-    </ScrollView >
-
+      <View style={{ height: 50, width: "100%" }}>
+        <DoubleDualStyledButton
+          titleLeft={"Cancelar"}
+          sizeLeft={theme.buttonSize.df}
+          colorLeft={theme.colors.modernaYellow}
+          iconLeft={"cancel"}
+          typeLeft={"material-icon"}
+          onPressLeft={() => setIsModalVisibleClose(true)}
+          titleRigth={hasVariable ? "Guardar" : "Siguiente"}
+          sizeRigth={theme.buttonSize.df}
+          iconRigth={"content-save-all-outline"}
+          typeRigth={"material-community"}
+          colorRigth={
+            hasVariable ? theme.colors.modernaRed : theme.colors.modernaAqua
+          }
+          onPressRigth={
+            hadSaveRack || !hasVariable ? onlyNavigation : handleOpenModal
+          }
+          showButton1={true}
+          //antes del merge
+          // colorRigth={theme.colors.modernaRed}
+          // onPressRigth={hadSaveRack ? onlyNavigation : handleOpenModal}
+          disableAction={hasVariable ? !validateData() : validateData()}
+          // showButton1={showButton1}
+          // showButton2={showButton2}
+          // titleRigthSecond={"Siguiente"}
+          // sizeRigthSecond={theme.buttonSize.df}
+          // colorRigthSecond={theme.colors.modernaRed}
+          // onPressRigthSecond={() => navigation.navigate("promos")}
+          // iconRigthSecond={"arrow-right-circle"}
+          // typeRigthSecond={"feather"}
+          // showButton1Second={showButton1}
+          // showButton2Second={showButton2}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -824,16 +815,16 @@ const styles = StyleSheet.create({
   headerContainer: {
     //flex: 0.3,
     height: 250,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   contentContainer: {
     flex: 1,
     //height:500,
     //backgroundColor: 'blue',
-    width: '100%',
+    width: "100%",
     //height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     //marginTop: 20
   },
   scrollViewContent: {
