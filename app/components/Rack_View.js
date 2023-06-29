@@ -416,6 +416,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     //marginHorizontal: 5,
     marginVertical: 5,
+    // backgroundColor:"yellow",
     borderRadius: 8,
     borderWidth: 2,
     borderColor: theme.colors.lightgray,

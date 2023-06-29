@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "90%",
     marginBottom: 5,
+    // backgroundColor:"red",
   },
   title: {
     fontWeight: theme.fontWeight.softbold,
