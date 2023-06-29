@@ -15,8 +15,18 @@ export function generateUIDD(start_key) {
     STARTING_UII_KEY + Math.random().toString(30).substring(6).toUpperCase()
   );
 }
-export function getActualDate() {
+export function getActualDate(isIsoData) {
   const date = new Date();
+  if (isIsoData) {
+    return (
+      date.getFullYear()
+      + DATE_HOUR_SEPARATOR +
+      String(date.getMonth() + 1).padStart(2, "0")
+      + DATE_HOUR_SEPARATOR +
+      String(date.getDate()).padStart(2, "0")
+
+    );
+  }
   return (
     String(date.getDate()).padStart(2, "0") +
     DATE_SEPARATOR +

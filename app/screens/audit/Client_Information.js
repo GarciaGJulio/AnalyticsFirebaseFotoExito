@@ -37,7 +37,7 @@ import {
 } from "../../utils/Utils";
 import { useIsFocused } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
-import { transfromrActualDateFormat } from "../../common/utils";
+import { getActualDate, transfromrActualDateFormat } from "../../common/utils";
 import { lookForVariable } from "../../services/SeleccionesService";
 import StyledButton from "../../components/StyledButton";
 
@@ -268,11 +268,11 @@ export const Client_Information = ({ navigation }) => {
   const validateBranchNameRepeat = async (currentName, error, newObj) => {
     //console.log("ENTRO A VALIDAR EL NOMBRE. . . . .");
 
-    let tempFecha;
+    let tempFecha = getActualDate(true)
     let clientID = await AsyncStorage.getItem("id_cliente");
-    tempFecha = new Date().toISOString();
-    tempFecha = tempFecha.split("T");
-    tempFecha = tempFecha[0];
+    // tempFecha = new Date().toISOString();
+    // tempFecha = tempFecha.split("T");
+    // tempFecha = tempFecha[0];
 
     let currentNameTemp = currentName;
     let tempFechaTemp = tempFecha;
@@ -290,26 +290,26 @@ export const Client_Information = ({ navigation }) => {
     } else {
       let found = branchNames.some((item) => {
 
-        if(item.nombre_sucursal === currentNameTemp &&
+        /*if(item.nombre_sucursal === currentNameTemp &&
           item.fecha_creacion === tempFechaTemp &&
-          item.id_cliente === clientIDTemp){
-            console.log(
-              "ITEM A COMPARAR - -- - BASE: ",
-              item.nombre_sucursal +
-                " " +
-                item.fecha_creacion +
-                " " +
-                item.id_cliente +
-                " ACTUAL:  " +
-                currentNameTemp +
-                " " +
-                tempFechaTemp +
-                " " +
-                clientIDTemp
-            );
-        }else{
-          console.log("no hay")
-        }
+          item.id_cliente === clientIDTemp){*/
+        console.log(
+          "ITEM A COMPARAR - -- - BASE: ",
+          item.nombre_sucursal +
+          " " +
+          item.fecha_creacion +
+          " " +
+          item.id_cliente +
+          " ACTUAL:  " +
+          currentNameTemp +
+          " " +
+          tempFechaTemp +
+          " " +
+          clientIDTemp
+        );
+        /*  }else{
+            console.log("no hay")
+          }*/
         return (
           item.nombre_sucursal === currentNameTemp &&
           item.fecha_creacion === tempFechaTemp &&
@@ -486,11 +486,10 @@ export const Client_Information = ({ navigation }) => {
     deleteRegisterAudit({
       tableName: "sucursal",
       objectId: "id_sucursal",
-      valueId: `${
-        infoScreen && infoScreen.id_sucursal
+      valueId: `${infoScreen && infoScreen.id_sucursal
           ? infoScreen.id_sucursal
           : sucursalInformation.id
-      }`,
+        }`,
     });
     setHadSave(false);
     cleanCurrentScreenUser();
@@ -694,9 +693,9 @@ export const Client_Information = ({ navigation }) => {
                       : sucursal
                   }
                   width={"90%"}
-                  // information={
-                  //   "* Solo se puede ingresar la misma sucursal una vez por día"
-                  // }
+                // information={
+                //   "* Solo se puede ingresar la misma sucursal una vez por día"
+                // }
                 />
               </View>
               <View
@@ -735,8 +734,8 @@ export const Client_Information = ({ navigation }) => {
                     //merge linea de abajo
                     disabled={!validarFormulario()}
                     newstyle
-                    // icon
-                    // iconLetkter
+                  // icon
+                  // iconLetkter
                   />
                 )}
                 {showButton2 && (
