@@ -106,10 +106,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       promocionData[i].url_imagen1 = await SubirAlonedrive(
         promocionData[i].url_imagen1,
         "" +
-          promocionData[i].id_promocion +
-          "-" +
-          promocionData[i].id_exhibidor +
-          "-1"
+        promocionData[i].id_promocion +
+        "-" +
+        promocionData[i].id_exhibidor +
+        "-1"
       );
     }
     // //console.log(
@@ -138,10 +138,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       promocionData[i].url_imagen2 = await SubirAlonedrive(
         promocionData[i].url_imagen2,
         "" +
-          promocionData[i].id_promocion +
-          "-" +
-          promocionData[i].id_exhibidor +
-          "-2"
+        promocionData[i].id_promocion +
+        "-" +
+        promocionData[i].id_exhibidor +
+        "-2"
       );
     }
     // //console.log(
@@ -170,10 +170,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       promocionData[i].url_imagen3 = await SubirAlonedrive(
         promocionData[i].url_imagen3,
         "" +
-          promocionData[i].id_promocion +
-          "-" +
-          promocionData[i].id_exhibidor +
-          "-3"
+        promocionData[i].id_promocion +
+        "-" +
+        promocionData[i].id_exhibidor +
+        "-3"
       );
     }
   }
@@ -344,10 +344,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       preciadorData[i].url_imagen1 = await SubirAlonedrive(
         preciadorData[i].url_imagen1,
         "" +
-          preciadorData[i].id_preciador +
-          "-" +
-          preciadorData[i].id_producto +
-          "-1"
+        preciadorData[i].id_preciador +
+        "-" +
+        preciadorData[i].id_producto +
+        "-1"
       );
     }
     // //console.log(
@@ -380,10 +380,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       preciadorData[i].url_imagen2 = await SubirAlonedrive(
         preciadorData[i].url_imagen2,
         "" +
-          preciadorData[i].id_preciador +
-          "-" +
-          preciadorData[i].id_producto +
-          "-2"
+        preciadorData[i].id_preciador +
+        "-" +
+        preciadorData[i].id_producto +
+        "-2"
       );
     }
     // //console.log(
@@ -416,10 +416,10 @@ export const subidaBaseRemoteTodaAuditoria = async (
       preciadorData[i].url_imagen3 = await SubirAlonedrive(
         preciadorData[i].url_imagen3,
         "" +
-          preciadorData[i].id_preciador +
-          "-" +
-          preciadorData[i].id_producto +
-          "-3"
+        preciadorData[i].id_preciador +
+        "-" +
+        preciadorData[i].id_producto +
+        "-3"
       );
     }
   }
@@ -462,19 +462,24 @@ export const subidaBaseRemoteTodaAuditoria = async (
     },
   };
 
-  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
-  //console.log("REQUEST BODY;: - - - ", requestBody);
-  //console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
+  console.log("REQUEST BODY;: - - - ", requestBody.data.sucursal);
+  console.log(" * **  ** *  ** * * * * * * * * * * * * * * * * * * ");
   try {
     const resp = await axios.post(url, requestBody, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    //console.log("-----------", resp.data);
+    // console.log("-----SUBIDA DE AUDITORIA QUE NO SE VA XD------", resp.data.data);
+    // console.log("-----SUBIDA DE AUDITORIA QUE NO SE VA XD------", resp.data.status);
+
+    // console.log("-----SUBIDA DE AUDITORIA QUE NO SE VA XD------", typeof resp);
+    // console.log("-----SUBIDA DE AUDITORIA QUE NO SE VA XD------", Object.keys(resp));
+
     fn(false);
     console.log("REGISTRO INGRESADO CON EXITO?: ", resp.data.result);
-    if (resp.data.result) {
+    if (resp.data.result || resp.status == 200) {
       console.log("CAMBIANDO ESTADO - - - -- - ");
       await realizarConsulta(
         `UPDATE auditoria SET sincronizada=1
@@ -494,7 +499,7 @@ export const subidaBaseRemoteTodaAuditoria = async (
       );
     }
   } catch (e) {
-    //console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
+   // console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     //console.log("ERROR DENTRO DE LA FUNCION: ", e.response);
     fn(false);
     /*Alert.alert(
