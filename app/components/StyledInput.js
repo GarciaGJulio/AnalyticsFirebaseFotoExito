@@ -24,6 +24,7 @@ const StyledInput = ({
   error,
   information,
   value,
+  height,
   ...props
 }) => {
   const [isFocused, setIsFocused] = React.useState(false);
@@ -36,7 +37,17 @@ const StyledInput = ({
   if (!fontLoaded) return null;
 
   return (
-    <View style={{ marginBottom: 1, width: width, flex: 1 }}>
+    <View
+      style={[
+        {
+          //marginBottom: 1,
+          width: width,
+          flex: 1,
+          //backgroundColor: "red",
+        },
+        { height: height },
+      ]}
+    >
       <View style={{ flexDirection: "row" }}>
         <View>
           <Text style={{ color: "red", textAlign: "left" }}>*</Text>
@@ -105,7 +116,7 @@ const StyledInput = ({
       )}
       <Text
         style={{
-          marginTop: 7,
+          marginTop: 2,
           fontSize: theme.fontSize.details,
           fontFamily: "Metropolis",
           fontWeight: "600",
