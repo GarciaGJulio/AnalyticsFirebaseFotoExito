@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 // import Login from '../screens/auth/Login';
 // import Menu from '../screens/auth/Menu';
@@ -22,12 +22,17 @@ import { Promos } from "../screens/audit/Promos";
 import { ModernaContext } from "../context/ModernaProvider";
 import { Logs } from "expo";
 import { DebugScreen } from "../common/LogScreen";
+import { Loader } from "../common/Loader";
 
 const Stack = createStackNavigator();
 
 export const Navigation = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(ModernaContext);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    recoverValue();
+  }, []); // Ejecuta la función solo una vez al montar el componente
   useEffect(() => {
     //console.log("VARIABLE DE VERIFICACION DE LOGIN: ", isAuthenticated);
   }, []);
@@ -39,13 +44,10 @@ export const Navigation = () => {
       // Verifica si el usuario no está autenticado antes de establecerlo
       setIsAuthenticated(true);
     }
+    setLoading(false);
   };
 
-  useEffect(() => {
-    recoverValue();
-  }, []); // Ejecuta la función solo una vez al montar el componente
-
-  const LoginStack = ({ isAuthenticated }) => {
+  const LoginStack = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="menu" component={Menu} />
@@ -63,13 +65,7 @@ export const Navigation = () => {
   };
   // getCurrentScreenInformation
   return (
-    <>
-      {isAuthenticated ? (
-        <LoginStack isAuthenticated={isAuthenticated} />
-      ) : (
-        <Login />
-      )}
-    </>
+    <>{loading ? <Loader /> : isAuthenticated ? <LoginStack /> : <Login />}</>
   );
 };
 
