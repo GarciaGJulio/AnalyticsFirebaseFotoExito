@@ -141,7 +141,7 @@ export const ModernaProvider = ({ children }) => {
               // );
               let deviceMacAdress = await DeviceInfo.getUniqueId();
               if (
-                userDataBase[0].usuario_dispositivo != "null" ||
+                userDataBase[0].usuario_dispositivo == "null" ||
                 userDataBase[0].usuario_dispositivo === null
               ) {
                 // //console.log(
@@ -274,9 +274,8 @@ export const ModernaProvider = ({ children }) => {
       const requestBody = {
         operation: "C",
         data: {
-          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${
-            mail === null ? userPrincipalName : mail
-          }'`,
+          sentence: `UPDATE usuario SET usuario_dispositivo='${deviceMac}'  WHERE correo='${mail === null ? userPrincipalName : mail
+            }'`,
         },
       };
 
