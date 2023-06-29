@@ -44,6 +44,7 @@ export const RackCheckbox = ({
   const [openCamera, setOpenCamera] = useState(false);
   const [extraImages, setExtraImages] = useState([]);
   const { hadSaveRack, setHadSaveRack } = useContext(GlobalContext);
+  const [isModalVisibleClose, setIsModalVisibleClose] = useState(false);
 
   useEffect(() => {
     // //console.log("------isUserScreen----------",isUserScreen)
@@ -261,6 +262,11 @@ export const RackCheckbox = ({
 
   if (!fontLoaded) return null;
 
+  
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       {/*<ConfirmationModal
@@ -271,7 +277,20 @@ export const RackCheckbox = ({
           "Al presionar el botón Aceptar se va a eliminar el registro ingresado."
         }
       />*/}
+      
       <View style={styles.header}>
+      <ConfirmationModal
+          visible={isModalVisible}
+          onClose={handleCloseModal}
+          onPress={() => {
+            // handleClearWorkFlow();
+            // navigation.navigate("menu");
+            // handleDeleteRegisterLocal();
+             setOpenCamera(false)
+             setIsModalVisible(false)
+          }}
+          warning={"¿Está seguro de continuar se borraran las imagenes?"}
+        /> 
         <View style={{ flex: 1 }}>
           <Text
             style={{
@@ -291,7 +310,23 @@ export const RackCheckbox = ({
         >
           <TouchableOpacity
             disabled={hadSaveRack}
-            onPress={() => setOpenCamera(!openCamera)}
+            onPress={() => 
+           { 
+            console.log("entrando al validador",openCamera)
+            if(openCamera===true){
+            
+              setIsModalVisible(true)
+              
+              console.log("entro if")
+
+            }else if (openCamera===false){
+              console.log("entro else")
+             setOpenCamera(true)
+
+            }else{
+              console.log("entro else def")
+            }
+            }}
           >
             <Icon name="camera" type="evilicon" size={40} color={"white"} />
           </TouchableOpacity>
