@@ -14,6 +14,7 @@ import { GlobalProvider } from "./app/context/GlobalContext";
 import { ModernaProvider } from "./app/context/ModernaProvider";
 import { DataProvider } from "./app/context/DataProvider";
 import theme from "./app/theme/theme";
+import { SafeAreaProvider } from "react-native-safe-area-context"
 
 export default function App() {
   useEffect(() => {
@@ -22,15 +23,18 @@ export default function App() {
   load_db_config();
 
   return (
-    <GlobalProvider>
-      <DataProvider>
-        <StatusBar backgroundColor={theme.colors.modernaRed} />
-        <ModernaProvider>
-          <NavigationContainer>
-            <Navigation />
-          </NavigationContainer>
-        </ModernaProvider>
-      </DataProvider>
-    </GlobalProvider>
+    <SafeAreaProvider>
+      <GlobalProvider>
+        <DataProvider>
+          <StatusBar backgroundColor={theme.colors.modernaRed} />
+          <ModernaProvider>
+            <NavigationContainer>
+              <Navigation />
+            </NavigationContainer>
+          </ModernaProvider>
+        </DataProvider>
+      </GlobalProvider>
+    </SafeAreaProvider>
+
   );
 }

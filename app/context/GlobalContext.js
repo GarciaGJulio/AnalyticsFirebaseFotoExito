@@ -11,8 +11,10 @@ import SAVE_ANIMATION from "../../assets/save.json";
 import { db_insertGlobalDataAudit } from "../services/SqliteService";
 import { subidaBaseRemoteTodaAuditoria } from "../services/SubidaBaseRemota";
 import { cleanCurrentScreenUser } from "../utils/Utils";
-import { Alert } from "react-native";
+import { Alert, Text, Modal, View, Dimensions } from "react-native";
 import LoaderModal from "../components/LoaderModal";
+import ImageModal from "react-native-image-modal";
+import theme from "../theme/theme";
 
 export const GlobalContext = createContext();
 
@@ -31,6 +33,7 @@ export const GlobalProvider = ({ children }) => {
   const [currentScreenPos, setCurrentScreenPos] = useState(0);
   const [isModalSaveVisible, setIsModalSaveVisible] = useState(false);
   const [messageModalSave, setMessageModalSave] = useState("Almacenando datos, por favor espere...");
+  const [imageModal, setImageModal] = useState(null);
 
 
   /*const [productsIdealPreciador, setProductsIdealPreciador] = useState([]);
@@ -149,8 +152,8 @@ export const GlobalProvider = ({ children }) => {
     initVariablesLocalStorage();
   };
   const handleCheckCanSaveAllDataLocal = useCallback(
-    async (onFinish, onContinue, canFinsih,item) => {
-      console.log("llamda para finalizar desde --------------",item)
+    async (onFinish, onContinue, canFinsih, item) => {
+      console.log("llamda para finalizar desde --------------", item)
       try {
         const variablesStrange = ["Precio", "Portafolio"];
 
@@ -175,7 +178,7 @@ export const GlobalProvider = ({ children }) => {
           onFinish();
           cleanCurrentScreenUser();
           handleCleanPosScreen();
-         // handleCleanStorage()
+          // handleCleanStorage()
           //  if(canSaveSpecial){
           // setIsModalSaveVisible(false)
           //}
@@ -368,6 +371,7 @@ export const GlobalProvider = ({ children }) => {
         handleCleanPosScreen,
         setIsModalSaveVisible,
         initVariablesLocalStorage,
+        setImageModal
       }}
     >
       <ModernaModal
@@ -376,6 +380,52 @@ export const GlobalProvider = ({ children }) => {
         title={modalTitle}
         onClose={() => setShowModal(!showModal)}
       />
+
+
+
+      <Modal
+        visible={imageModal ? true : false}
+        //visible={true}
+        animationType="fade"
+        transparent={true}
+        style={{ flex: 1 }}
+        onDismiss={()=>{
+          setImageModal(null)
+        }}
+        onClose={()=>{
+          setImageModal(null)
+        }}
+        
+      >
+        <View style={
+          {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }
+        }>
+          {
+            imageModal && <ImageModal
+              key={imageModal}
+              source={{ uri: imageModal}}
+              style={{
+                width: 250,
+                height: 180,
+                borderRadius: 10,
+                borderWidth: 1,
+                margin: 5,
+                borderColor: theme.colors.black,
+                padding: 1,
+                resizeMode: "stretch",
+              }}
+              resizeMode="stretch"
+            />
+          }
+        </View>
+
+
+      </Modal>
       <LoaderModal
         animation={SAVE_ANIMATION}
         visible={isModalSaveVisible}
