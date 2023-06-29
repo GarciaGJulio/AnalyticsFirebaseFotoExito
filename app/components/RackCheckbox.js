@@ -32,7 +32,7 @@ export const RackCheckbox = ({
   setErrorPerchaM,
   errorPerchaM,
   setValueGeneralValidate,
- 
+
 }) => {
   const [CateGeneral, setCateGeneral] = useState();
   const [CateModerna, setCateModerna] = useState();
@@ -108,8 +108,8 @@ export const RackCheckbox = ({
 
   const validateExtraImages = async (objeto) => {
     //console.log("****** esto llega de objeto********", objeto);
-    setExtraImages([]);
-
+    //setExtraImages([]);
+    let itemsTemp = []
     if (
       objeto.imagesPlanograma.url_imagen1 !== null &&
       objeto.imagesPlanograma.url_imagen1 !== undefined &&
@@ -120,7 +120,8 @@ export const RackCheckbox = ({
         objeto.url_imagen1,
         `${objeto.id_planograma}1`
       );
-      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
+      // setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
+      itemsTemp.push(imagenVerificada)
     }
 
     if (
@@ -133,7 +134,8 @@ export const RackCheckbox = ({
         objeto.url_imagen2,
         `${objeto.id_planograma}2`
       );
-      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
+      //  setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
+      itemsTemp.push(imagenVerificada)
     }
 
     if (
@@ -146,9 +148,10 @@ export const RackCheckbox = ({
         objeto.url_imagen3,
         `${objeto.id_planograma}3`
       );
-      setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
+      itemsTemp.push(imagenVerificada)
+      //setExtraImages((prevImagenes) => [...prevImagenes, imagenVerificada]);
     }
-
+    setExtraImages(itemsTemp)
     let img = extraImages.join(",");
     //console.log("IMAGENES EXTRAS: - - - - ", img);
   };
@@ -270,7 +273,7 @@ export const RackCheckbox = ({
               borderColor: theme.colors.lightgray,
               fontFamily: "Metropolis",
               color: "white",
-              
+
             }}
           >
             {categoryName}
@@ -303,7 +306,7 @@ export const RackCheckbox = ({
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.categoryContainer}>
-            <View style={  styles.category}>
+            <View style={styles.category}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <StyledInput
                   onChangeText={(txt) => {
@@ -527,7 +530,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     flex: 1,
     padding: 10,
-    paddingBottom:1,
+    paddingBottom: 1,
   },
   input: {
     fontWeight: theme.fontWeight.normal,
